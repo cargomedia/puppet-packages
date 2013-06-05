@@ -34,4 +34,22 @@ if (uname | grep -q 'Darwin'); then
 
 	install_dmg "Puppet" ${PUPPET_PACKAGE_URL}
 	install_dmg "Facter" ${FACTER_PACKAGE_URL}
+
+	# curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/com.puppetlabs.puppet.plist > /Library/LaunchDaemons/com.puppetlabs.puppet.plist
+	cp resources/com.puppetlabs.puppet.plist /Library/LaunchDaemons/com.puppetlabs.puppet.plist
+	chown root:wheel /Library/LaunchDaemons/com.puppetlabs.puppet.plist
+	chmod 644 /Library/LaunchDaemons/com.puppetlabs.puppet.plist
+	launchctl load -w /Library/LaunchDaemons/com.puppetlabs.puppet.plist
+fi
+
+
+CONFIG_FILE="$(puppet agent --configprint confdir)/puppet.conf"
+# curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/puppet.conf > $CONFIG_FILE
+cp resources/puppet.conf $CONFIG_FILE
+
+MASTER_SERVER=$1
+if [ "$MASTER_SERVER" != "" ]; then
+	echo "[agent]
+server = $MASTER_SERVER
+" >> $CONFIG_FILE
 fi
