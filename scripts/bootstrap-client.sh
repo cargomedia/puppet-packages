@@ -12,8 +12,6 @@ if ( uname -a | grep -q 'debian-6-' ); then
 fi
 
 if (uname | grep -q 'Darwin'); then
-	FACTER_PACKAGE_URL="http://downloads.puppetlabs.com/mac/facter-1.7.1.dmg"
-	PUPPET_PACKAGE_URL="http://downloads.puppetlabs.com/mac/puppet-3.2.1.dmg"
 
 	function install_dmg() {
 		local name="$1"
@@ -32,8 +30,8 @@ if (uname | grep -q 'Darwin'); then
 		hdiutil eject ${mount_point} >/dev/null
 	}
 
-	install_dmg "Puppet" ${PUPPET_PACKAGE_URL}
-	install_dmg "Facter" ${FACTER_PACKAGE_URL}
+	install_dmg "Facter" "http://downloads.puppetlabs.com/mac/facter-1.7.1.dmg"
+	install_dmg "Puppet" "http://downloads.puppetlabs.com/mac/puppet-3.2.1.dmg"
 
 	# curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/com.puppetlabs.puppet.plist > /Library/LaunchDaemons/com.puppetlabs.puppet.plist
 	cp resources/com.puppetlabs.puppet.plist /Library/LaunchDaemons/com.puppetlabs.puppet.plist
