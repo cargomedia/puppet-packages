@@ -4,7 +4,7 @@ if [ "$EUID" != "0" ]; then
 	exit 1;
 fi
 
-if ( uname -a | grep -q 'debian-6-' ); then
+if (uname -a | grep -q 'debian-6-'); then
 	wget -q http://apt.puppetlabs.com/puppetlabs-release-squeeze.deb
 	dpkg -i puppetlabs-release-squeeze.deb
 	apt-get update
@@ -12,7 +12,6 @@ if ( uname -a | grep -q 'debian-6-' ); then
 fi
 
 if (uname | grep -q 'Darwin'); then
-
 	function install_dmg() {
 		local name="$1"
 		local url="$2"
