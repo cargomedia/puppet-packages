@@ -17,5 +17,3 @@ bash <(curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts
 ```
 
 There needs to be `modules` directory in root of git repository.
-
-
