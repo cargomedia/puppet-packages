@@ -1,7 +1,6 @@
 #!/bin/bash -e
-
-if ! (which git); then
-	apt-get install git
+if ! (which git > /dev/null); then
+  apt-get install git
 fi
 
 REPO_URL=${1}
@@ -15,4 +14,4 @@ git clone "${REPO_URL}" "${REPO_PATH}"
 
 echo "* * * * * cd '${REPO_PATH}' && git pull --quiet" > "/etc/cron.d/puppet-repo-${NAME}"
 
-perl -pi -e "s/^modulepath = (.*)$/modulepath = \$1:${MODULE_PATH}/" ${CONFIG}
+perl -pi -e "\$modulePath = '${MODULE_PATH}'; s/^modulepath = (.*)$/modulepath = \$1:\$modulePath/" ${CONFIG}

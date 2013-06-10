@@ -13,9 +13,7 @@ bash <(curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts
 
 ### Add modules from git repository
 ```bash
-bash <(curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/puppet-set-server.sh) <git-url>
+bash <(curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/puppet-add-modules-git.sh) <git-url>
 ```
 
 There needs to be `modules` directory in root of git repository.
-
-
