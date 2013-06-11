@@ -9,11 +9,11 @@ if (which gem > /dev/null && gem list puppet | grep -q puppet); then
 	gem uninstall puppet
 fi
 
-if (test -e /etc/dpkg/origins/debian); then
+if (test -f /etc/debian_version && cat /etc/debian_version | grep '^6\.'); then
 	wget -q http://apt.puppetlabs.com/puppetlabs-release-squeeze.deb
 	dpkg -i puppetlabs-release-squeeze.deb
 	apt-get update
-	apt-get install -y puppet
+	apt-get install -qy puppet
 fi
 
 if (uname | grep -q 'Darwin'); then
