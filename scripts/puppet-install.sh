@@ -1,14 +1,20 @@
-#!/bin/bash -e
+#!/bin/bash
+set -e
 if [ "$EUID" != "0" ]; then
 	echo "This script must be run as root." 1>&2;
 	exit 1;
 fi
 
-if (uname -a | grep -q 'debian-6-'); then
+if (which gem > /dev/null && gem list puppet | grep -q puppet); then
+	gem cleanup
+	gem uninstall puppet
+fi
+
+if (test -f /etc/debian_version && cat /etc/debian_version | grep -q '^6\.'); then
 	wget -q http://apt.puppetlabs.com/puppetlabs-release-squeeze.deb
 	dpkg -i puppetlabs-release-squeeze.deb
 	apt-get update
-	apt-get install puppet
+	apt-get install -qy puppet
 fi
 
 if (uname | grep -q 'Darwin'); then
