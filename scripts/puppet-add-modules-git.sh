@@ -12,6 +12,7 @@ CONFIG="$(puppet agent --configprint confdir)/puppet.conf"
 mkdir -p /etc/puppet/repos/
 git clone "${REPO_URL}" "${REPO_PATH}"
 
-echo "* * * * * cd '${REPO_PATH}' && git pull --quiet" > "/etc/cron.d/puppet-repo-${NAME}"
-
-perl -pi -e "\$modulePath = '${MODULE_PATH}'; s/^modulepath = (.*)$/modulepath = \$1:\$modulePath/" ${CONFIG}
+if (test -d ${REPO_PATH}); then
+	echo "* * * * * cd '${REPO_PATH}' && git pull --quiet" > "/etc/cron.d/puppet-repo-${NAME}"
+	perl -pi -e "\$modulePath = '${MODULE_PATH}'; s/^modulepath = (.*)$/modulepath = \$1:\$modulePath/" ${CONFIG}
+fi
