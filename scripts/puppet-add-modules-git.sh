@@ -1,6 +1,6 @@
 #!/bin/bash -e
 if ! (which git > /dev/null); then
-  apt-get install git
+  apt-get install -y git
 fi
 
 REPO_URL=${1}
