@@ -1,4 +1,5 @@
-#!/bin/sh -e
+#!/bin/bash
+set -e
 MASTER_SERVER=$1
 CONFIG="$(puppet agent --configprint confdir)/puppet.conf"
 
