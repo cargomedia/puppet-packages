@@ -1,7 +1,6 @@
 class composer($version = '1.0.0-alpha7') {
 
-	package { 'curl': ensure => present }
-	package { 'php5-cli': ensure => present }
+	require debian::base
 
 	exec {'download':
 		command => "curl -sL http://getcomposer.org/download/${version}/composer.phar > /usr/local/lib/composer.phar",
@@ -15,6 +14,6 @@ class composer($version = '1.0.0-alpha7') {
 		path => '/usr/local/bin/composer',
 		mode => 0755,
 		ensure => present,
-		require => Exec['download']
+		require => [Exec['download'], Package['php5-cli']]
 	}
 }
