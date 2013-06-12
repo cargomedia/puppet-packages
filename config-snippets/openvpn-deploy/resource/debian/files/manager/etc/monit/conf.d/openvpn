@@ -1,0 +1,5 @@
+check process openvpn with pidfile /var/run/openvpn.openvpn-server.pid
+	start program = "/etc/init.d/openvpn start"
+	stop program = "/etc/init.d/openvpn stop"
+	if failed host %IP-PUBLIC% port 1194 type udp with timeout 5 seconds then restart
+	if 25 restarts within 50 cycles then timeout
