@@ -1,0 +1,8 @@
+check system <%= @hostname %>
+	if loadavg(1min) > 20 then alert
+	if loadavg(5min) > 10 then alert
+	if memory > 85% then alert
+
+check filesystem root with path /
+	if space usage > 80 % then alert
+	if inode usage > 80 % then alert
