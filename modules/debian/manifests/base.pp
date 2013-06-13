@@ -2,8 +2,15 @@ class debian::base {
 
 	require 'php53::cli'
 
-	file { '/etc/apt/sources.list':
-		source => 'puppet:///modules/debian/sources.list',
+	file { '/etc/apt/':
+		source => 'puppet:///modules/debian/etc/apt',
+		recurse => true,
+		ensure => present,
+	}
+
+	file { '/etc/cron-apt':
+		source => 'puppet:///modules/debian/etc/cron-apt',
+		recurse => true,
 		ensure => present,
 	}
 
