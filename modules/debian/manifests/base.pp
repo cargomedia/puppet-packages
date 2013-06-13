@@ -5,6 +5,7 @@ class debian::base {
 	$ipPrivate = hiera('ipPrivate')
 	$hostname = hiera('hostname')
 	$domain = hiera('domain')
+	$nameservers = hiera('nameservers')
 
 	file { '/etc/apt/':
 		source => 'puppet:///modules/debian/etc/apt',
@@ -32,6 +33,11 @@ class debian::base {
 
 	file { '/etc/hosts':
 		content => template('debian/hosts.erb'),
+		ensure => present,
+	}
+
+	file { '/etc/resolv.conf':
+		content => template('debian/resolv.conf.erb'),
 		ensure => present,
 	}
 
