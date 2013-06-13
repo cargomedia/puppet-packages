@@ -13,31 +13,25 @@ class debian::base {
 	copy { '/etc/ssh': module => 'debian' }
 	copy { '/etc/sysctl.d': module => 'debian' }
 
-	file { '/etc/hosts':
-		content => template('debian/hosts.erb'),
-		ensure => present,
-	}
-
-	file { '/etc/resolv.conf':
-		content => template('debian/resolv.conf.erb'),
-		ensure => present,
-	}
+	copy { '/etc/hosts': module => 'debian', template => true }
+	copy { '/etc/idmapd.conf': module => 'debian', template => true }
+	copy { '/etc/resolv.conf': module => 'debian', template => true }
 
 	monit::entry { 'monit cron':
 		name => 'cron',
-		content => template('debian/monits/cron.erb'),
+		content => template('debian/etc/monit/cron.erb'),
 		ensure => present
 	}
 
 	monit::entry { 'monit postfix':
 		name => 'postfix',
-		content => template('debian/monits/postfix.erb'),
+		content => template('debian/etc/monit/postfix.erb'),
 		ensure => present
 	}
 
 	monit::entry { 'monit system':
 		name => 'system',
-		content => template('debian/monits/system.erb'),
+		content => template('debian/etc/monit/system.erb'),
 		ensure => present
 	}
 
