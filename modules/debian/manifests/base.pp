@@ -2,6 +2,8 @@ class debian::base {
 
 	require 'php53::cli'
 	require 'monit'
+	require 'snmp::client'
+	require 'snmp::agent'
 
 	$ipPrivate = hiera('ipPrivate')
 	$hostname = hiera('hostname')
@@ -48,12 +50,6 @@ class debian::base {
 		ensure => present
 	}
 
-	monit::entry { 'monit snmpd':
-		name => 'snmpd',
-		content => template('debian/monits/snmpd.erb'),
-		ensure => present
-	}
-
 	monit::entry { 'monit system':
 		name => 'system',
 		content => template('debian/monits/system.erb'),
@@ -62,5 +58,4 @@ class debian::base {
 
 	$packages = split(template('debian/dpkg.list.erb'), "\n")
 	package { $packages: ensure => installed }
-
 }
