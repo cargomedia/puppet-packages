@@ -1,0 +1,4 @@
+if ! (mountpoint -q "<%= $name %>"); then
+	find "<%= $name %>" -type d -exec chmod 550 {} \;
+	find "<%= $name %>" -type f -exec chmod 440 {} \;
+fi
