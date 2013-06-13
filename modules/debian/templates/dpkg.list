@@ -201,6 +201,5 @@ libsasl2-modules
 monit
 strace
 parted
-php5-cli
 php-pear
 vim
