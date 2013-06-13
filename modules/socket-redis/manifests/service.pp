@@ -18,9 +18,13 @@ class socket-redis::service (
 
 	file {'/etc/init.d/socket-redis':
 		content => template('socket-redis/init.erb'),
+		ensure => present,
+		mode => 755,
 	}
 
-	file {'/etc/monit/conf.d/socket-redis':
-		content => template('socket-redis/monit.erb')
+	monit::entry { 'monit socket-redis':
+		name => 'socket-redis',
+		content => template('socket-redis/monit.erb'),
+		ensure => present,
 	}
 }
