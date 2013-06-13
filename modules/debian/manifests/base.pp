@@ -7,29 +7,10 @@ class debian::base {
 	$domain = hiera('domain')
 	$nameservers = hiera('nameservers')
 
-	file { '/etc/apt/':
-		source => 'puppet:///modules/debian/etc/apt',
-		recurse => true,
-		ensure => present,
-	}
-
-	file { '/etc/cron-apt':
-		source => 'puppet:///modules/debian/etc/cron-apt',
-		recurse => true,
-		ensure => present,
-	}
-
-	file { '/etc/security':
-		source => 'puppet:///modules/debian/etc/security',
-		recurse => true,
-		ensure => present,
-	}
-
-	file { '/etc/ssh':
-		source => 'puppet:///modules/debian/etc/ssh',
-		recurse => true,
-		ensure => present,
-	}
+	copy { '/etc/apt': module => 'debian' }
+	copy { '/etc/cron-apt': module => 'debian' }
+	copy { '/etc/security': module => 'debian' }
+	copy { '/etc/ssh': module => 'debian' }
 
 	file { '/etc/hosts':
 		content => template('debian/hosts.erb'),
