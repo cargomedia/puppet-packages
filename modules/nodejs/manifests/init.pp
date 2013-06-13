@@ -11,7 +11,7 @@ class nodejs ($version = '0.10.4') {
 	}
 	->
 
-	script {'install.sh':
+	script {'install nodejs':
 		content => template('nodejs/install.erb'),
 	}
 }
