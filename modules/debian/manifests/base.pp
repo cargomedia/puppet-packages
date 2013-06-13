@@ -1,6 +1,6 @@
 class debian::base {
 
-	require 'php53::cli', 'monit', 'snmp'
+	require 'php53::cli', 'monit', 'snmp', 'postfix'
 
 	$ipPrivate = hiera('ipPrivate')
 	$hostname = hiera('hostname')
