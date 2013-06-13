@@ -1,6 +1,6 @@
 class socket-redis::service (
 	$redisHost = undef,
-	$socketPorts = [],
+	$socketPorts = [8090],
 	$statusPort = undef,
 	$sslKeyFile = undef,
 	$sslCertFile = undef,
@@ -18,5 +18,9 @@ class socket-redis::service (
 
 	file {'/etc/init.d/socket-redis':
 		content => template('socket-redis/init.erb'),
+	}
+
+	file {'/etc/monit/conf.d/socket-redis':
+		content => template('socket-redis/monit.erb')
 	}
 }
