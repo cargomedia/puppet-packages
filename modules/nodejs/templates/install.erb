@@ -1,0 +1,10 @@
+#!/bin/bash
+if ! (test -x /usr/bin/node && /usr/bin/node -v | grep "^v<%= @version %>$"); then
+	curl -sL http://nodejs.org/dist/v<%= @version %>/node-v<%= @version %>.tar.gz > node.tar.gz
+	unp node.tar.gz
+	rm node.tar.gz
+	cd node-*
+	./configure --prefix=/usr/
+	make
+	make install
+fi
