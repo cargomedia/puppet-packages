@@ -4,6 +4,8 @@ class debian::base {
 	require 'monit'
 
 	$ipPrivate = hiera('ipPrivate')
+	$hostname = hiera('hostname')
+	$domain = hiera('domain')
 
 	file { '/etc/apt/':
 		source => 'puppet:///modules/debian/etc/apt',
@@ -26,6 +28,11 @@ class debian::base {
 	file { '/etc/ssh':
 		source => 'puppet:///modules/debian/etc/ssh',
 		recurse => true,
+		ensure => present,
+	}
+
+	file { '/etc/hosts':
+		content => template('debian/hosts.erb'),
 		ensure => present,
 	}
 
