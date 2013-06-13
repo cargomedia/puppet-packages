@@ -1,8 +1,8 @@
 class nodejs ($version = '0.10.4') {
 
-	require debian::base
+	require 'debian::base', 'python'
 
-	package { ['python', 'libevent-1.4-2', 'libssl-dev']: ensure => present }
+	package { ['libevent-1.4-2', 'libssl-dev']: ensure => present }
 
 	user {'nodejs':
 		ensure => present,
