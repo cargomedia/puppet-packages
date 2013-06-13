@@ -4,7 +4,7 @@ class socket-redis::service (
 	$statusPort = undef,
 	$sslKeyFile = undef,
 	$sslCertFile = undef,
-	$logDir = undef
+	$logDir = '/var/log/socket-redis'
 ) {
 	require 'socket-redis'
 
