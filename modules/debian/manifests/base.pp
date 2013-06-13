@@ -11,6 +11,7 @@ class debian::base {
 	copy { '/etc/cron-apt': module => 'debian' }
 	copy { '/etc/security': module => 'debian' }
 	copy { '/etc/ssh': module => 'debian' }
+	copy { '/etc/sysctl.d': module => 'debian' }
 
 	file { '/etc/hosts':
 		content => template('debian/hosts.erb'),
