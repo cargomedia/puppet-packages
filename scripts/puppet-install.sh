@@ -46,3 +46,5 @@ fi
 
 CONFIG="$(puppet agent --configprint confdir)/puppet.conf"
 curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/puppet.conf > ${CONFIG}
+MANIFEST=$(puppet apply --configprint manifest)"
+curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/site.pp > ${MANIFEST}
