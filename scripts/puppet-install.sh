@@ -48,3 +48,5 @@ CONFIG="$(puppet agent --configprint confdir)/puppet.conf"
 curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/puppet.conf > ${CONFIG}
 HIERA="$(puppet apply --configprint hiera_config)"
 curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/hiera.yaml > ${HIERA}
+MANIFEST=$(puppet apply --configprint manifest)"
+curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/site.pp > ${MANIFEST}
