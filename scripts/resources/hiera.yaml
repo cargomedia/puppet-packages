@@ -2,10 +2,9 @@
 :backends:
   - json
 :hierarchy:
-  - defaults
   - clientcert/%{::clientcert}
   - environment/%{::environment}
-  - global
+  - defaults
 
 :json:
   :datadir: /etc/puppet/hiera/data
