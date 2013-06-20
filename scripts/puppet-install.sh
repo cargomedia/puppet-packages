@@ -44,7 +44,6 @@ if (uname | grep -q 'Darwin'); then
 	launchctl load -w /Library/LaunchDaemons/com.puppetlabs.puppet.plist
 fi
 
-CONFIG="$(puppet agent --configprint confdir)/puppet.conf"
-curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/puppet.conf > ${CONFIG}
-MANIFEST=$(puppet apply --configprint manifest)"
-curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/site.pp > ${MANIFEST}
+curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/puppet.conf > $(puppet agent --configprint confdir)/puppet.conf
+curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/hiera.yaml > $(puppet apply --configprint hiera_config)
+curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/site.pp > $(puppet apply --configprint manifest)
