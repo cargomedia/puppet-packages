@@ -1,0 +1,13 @@
+---
+:backends:
+  - json
+:hierarchy:
+  - defaults
+  - hosting/%{::hosting}
+  - hostname/%{::hostname}
+  - clientcert/%{::clientcert}
+  - environment/%{::environment}
+  - global
+
+:json:
+  :datadir: /etc/puppet/hiera/data
