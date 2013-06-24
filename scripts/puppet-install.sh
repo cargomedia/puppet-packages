@@ -15,6 +15,7 @@ if (test -f /etc/debian_version && cat /etc/debian_version | grep -q '^6\.'); th
 	dpkg -i puppetlabs-release-squeeze.deb
 	apt-get update
 	apt-get install -qy puppet
+	touch /etc/default/puppet
 fi
 
 if (uname | grep -q 'Darwin'); then
