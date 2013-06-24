@@ -26,7 +26,7 @@ puppet agent --test
 ```
 
 
-On master list certificates, sign correct one:
+On master list certificates, then pick correct one and sign it:
 ```bash
 puppet cert list
 puppet cert sign <cert-name>
