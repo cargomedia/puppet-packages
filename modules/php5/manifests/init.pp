@@ -1,7 +1,7 @@
 class php5 {
 
 	package { ['php', 'php5-cli']:
-		ensure => installed,
+		ensure => present,
 	}
 
 	file { '/etc/php5/cli/php.ini':
