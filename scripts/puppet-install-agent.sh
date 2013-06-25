@@ -1,5 +1,6 @@
 #!/bin/bash
 set -e
+cd /tmp/
 if [ "$EUID" != "0" ]; then
 	echo "This script must be run as root." 1>&2;
 	exit 1;
@@ -15,7 +16,7 @@ if (test -f /etc/debian_version && cat /etc/debian_version | grep -q '^6\.'); th
 	dpkg -i puppetlabs-release-squeeze.deb
 	apt-get update
 	apt-get install -qy puppet
-
+	touch /etc/default/puppet
 elif (uname | grep -q 'Darwin'); then
 	function install_dmg() {
 		local name="$1"
