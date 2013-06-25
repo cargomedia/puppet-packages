@@ -17,9 +17,7 @@ if (test -f /etc/debian_version && cat /etc/debian_version | grep -q '^6\.'); th
 	apt-get update
 	apt-get install -qy puppet
 	touch /etc/default/puppet
-fi
-
-if (uname | grep -q 'Darwin'); then
+elif (uname | grep -q 'Darwin'); then
 	function install_dmg() {
 		local name="$1"
 		local url="$2"
@@ -44,6 +42,10 @@ if (uname | grep -q 'Darwin'); then
 	chown root:wheel /Library/LaunchDaemons/com.puppetlabs.puppet.plist
 	chmod 644 /Library/LaunchDaemons/com.puppetlabs.puppet.plist
 	launchctl load -w /Library/LaunchDaemons/com.puppetlabs.puppet.plist
+
+else
+	echo 'Your operating system is not supported' > 1>&2
+	exit 1
 fi
 
 curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/puppet.conf > $(puppet agent --configprint confdir)/puppet.conf
