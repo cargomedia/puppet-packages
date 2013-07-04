@@ -44,7 +44,7 @@ elif (uname | grep -q 'Darwin'); then
 	launchctl load -w /Library/LaunchDaemons/com.puppetlabs.puppet.plist
 
 else
-	echo 'Your operating system is not supported' > 1>&2
+	echo 'Your operating system is not supported' 1>&2
 	exit 1
 fi
 
