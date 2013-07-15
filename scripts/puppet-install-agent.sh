@@ -49,6 +49,6 @@ else
 fi
 
 
-curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/puppet.co
+curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/puppet.conf > $(puppet apply --configprint config)
 curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/hiera.yaml > $(puppet apply --configprint hiera_config)
 curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/site.pp > $(puppet apply --configprint manifest)
