@@ -16,7 +16,7 @@ if (test -f /etc/debian_version && cat /etc/debian_version | grep -q '^6\.'); th
 	dpkg -i puppetlabs-release-squeeze.deb
 	apt-get update
 	apt-get install -qy puppet
-	touch /etc/default/puppet
+	echo -e "START=yes\nDAEMON_OPTS=\"\"\n" > /etc/default/puppet
 elif (uname | grep -q 'Darwin'); then
 	function install_dmg() {
 		local name="$1"
@@ -48,6 +48,7 @@ else
 	exit 1
 fi
 
-curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/puppet.conf > $(puppet agent --configprint confdir)/puppet.conf
+
+curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/puppet.conf > $(puppet apply --configprint config)
 curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/hiera.yaml > $(puppet apply --configprint hiera_config)
 curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/site.pp > $(puppet apply --configprint manifest)
