@@ -1,6 +1,5 @@
 #!/bin/bash
 set -e
-PUPPET_REPO=$1
 cd /tmp/
 if [ "$EUID" != "0" ]; then
 	echo "This script must be run as root." 1>&2;
@@ -49,6 +48,7 @@ else
 	exit 1
 fi
 
-bash <(curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/puppet-get-config.sh ${PUPPET_REPO})
+
+curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/puppet.co
 curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/hiera.yaml > $(puppet apply --configprint hiera_config)
 curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/site.pp > $(puppet apply --configprint manifest)
