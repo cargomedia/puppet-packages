@@ -16,7 +16,7 @@ if (test -f /etc/debian_version && cat /etc/debian_version | grep -q '^6\.'); th
 	dpkg -i puppetlabs-release-squeeze.deb
 	apt-get update
 	apt-get install -qy puppet
-	touch /etc/default/puppet
+	echo -e "START=yes\nDAEMON_OPTS=\"\"\n" > /etc/default/puppet
 elif (uname | grep -q 'Darwin'); then
 	function install_dmg() {
 		local name="$1"
