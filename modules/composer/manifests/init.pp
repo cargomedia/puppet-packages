@@ -1,5 +1,7 @@
 class composer($version = '1.0.0-alpha7') {
 
+	require 'php5'
+
 	$phar = '/usr/local/lib/composer.phar'
 	$binary = '/usr/local/bin/composer'
 	$config = '/etc/php5/conf.d/composer.ini'
