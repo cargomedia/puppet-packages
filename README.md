@@ -1,14 +1,19 @@
 # puppet-packages
 
 
-## Install puppet
+## Install puppet agent
 ```bash
-bash <(curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/puppet-install.sh)
+bash <(curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/puppet-install-agent.sh)
 ```
 
 ### Set master server
 ```bash
 bash <(curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/puppet-set-server.sh) <server-hostname>
+```
+
+## Install puppet master
+```bash
+bash <(curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/puppet-install-master.sh)
 ```
 
 ### Add modules from git repository
