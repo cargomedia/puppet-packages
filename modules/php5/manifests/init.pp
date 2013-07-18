@@ -1,6 +1,6 @@
 class php5 {
 
-	package { ['php5', 'php5-cli']:
+	package { ['php5-common', 'php5-cli']:
 		ensure => present,
 	}
 
