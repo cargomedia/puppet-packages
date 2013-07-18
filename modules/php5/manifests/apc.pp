@@ -1,4 +1,7 @@
-class php5::apc ($version = '3.1.13') {
+class php5::apc (
+	$version = '3.1.13',
+	$configureParams = '--enable-apc-mmap --enable-apc-pthreadmutex --disable-apc-debug --disable-apc-filehits --disable-apc-spinlocks'
+) {
 
 	require 'php5'
 
