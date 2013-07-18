@@ -10,6 +10,7 @@ define helper::script ($content, $unless = false) {
 
 	exec {"exec ${title}":
 		command => "/tmp/script-${scriptName}",
+		cwd => "/tmp",
 		path => ['/usr/local/bin', '/usr/bin', '/bin'],
 		require => File[$scriptFilename],
 		unless => $unless,
