@@ -1,9 +1,18 @@
-define apache2::vhost ($name, $content, $ensure) {
+define apache2::vhost ($content, $enabled = true) {
 
 	require 'apache2'
 
-	file { "/etc/apache2/sites-available/${name}":
+	$vhostPath = "/etc/apache2/sites-available/${name}"
+
+	file { $vhostPath:
 		content => $content,
-		ensure => $ensure,
+		ensure => present,
+		owner => 0, group => 0, mode => 0644,
+	}
+
+	file { "/etc/apache2/sites-enabled/${name}":
+		ensure => $enabled ? { true => link, false => absent},
+		target => $vhostPath,s
+		owner => 0, group => 0, mode => 0644,
 	}
 }
