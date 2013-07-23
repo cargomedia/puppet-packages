@@ -1,6 +1,6 @@
 class php5::apache2 {
 
-	require '::apache2'
+	require '::apache2', 'php5'
 
 	package { 'libapache2-mod-php5':
 		ensure => present,
