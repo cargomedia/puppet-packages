@@ -13,7 +13,7 @@ define helper::script ($content, $unless = false) {
 		exec {"exec ${title}":
 			command => "/tmp/script-${scriptName}",
 			cwd => "/tmp",
-			path => ['/usr/local/bin', '/usr/bin', '/bin'],
+			path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
 			require => File[$scriptFilename],
 		}
 	}
