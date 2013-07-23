@@ -1,6 +1,6 @@
 class php5 {
 
-	package { ['php5', 'php5-cli', 'php5-dev', 'libpcre3-dev']:
+	package { ['php5-common', 'php5-cli', 'php5-dev', 'libpcre3-dev']:
 		ensure => present,
 	}
 
