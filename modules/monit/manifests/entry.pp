@@ -1,4 +1,4 @@
-define monit::entry ($content, $ensure) {
+define monit::entry ($content, $ensure = present) {
 
 	require 'monit'
 
