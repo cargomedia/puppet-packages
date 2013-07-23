@@ -18,7 +18,7 @@ define helper::script ($content, $unless = false) {
 		}
 
 		exec {"exec ${title}":
-			command => "${scriptFilename}",
+			command => "/bin/bash -ec '${scriptFilename}'",
 			cwd => "/tmp",
 			path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
 			require => File[$scriptFilename],
