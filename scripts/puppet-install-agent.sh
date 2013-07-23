@@ -23,7 +23,7 @@ elif (uname | grep -q 'Darwin'); then
 		local url="$2"
 		local dmg_path=$(mktemp -t ${name}-dmg)
 
-		curl -sLo ${dmg_path} ${url} 2>/dev/null
+		curl -sLo ${dmg_path} ${url}
 
 		local plist_path=$(mktemp -t puppet-bootstrap)
 		hdiutil attach -plist ${dmg_path} > ${plist_path}
