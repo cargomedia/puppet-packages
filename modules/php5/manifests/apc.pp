@@ -12,6 +12,7 @@ class php5::apc (
 
 	helper::script {'install php5::apc':
 		content => template('php5/apc-install.sh'),
-		unless => "php --re apc | grep 'apc version' | grep ' ${version} '",
+		unless => exec("php --re apc | grep 'apc version' | grep ' ${version} '"),
+		before => File['/etc/php5/conf.d/apc.ini'],
 	}
 }
