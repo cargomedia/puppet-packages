@@ -7,19 +7,20 @@ define helper::script ($content, $unless = false) {
 	unless $unless {
 
 		file { $scriptDirname:
-			content => $content,
-			group => 0, owner => 0, mode => 644
+			ensure => directory,
+			group => 0, owner => 0, mode => 644,
 		}
 
 		file { $scriptFilename:
 			content => $content,
+			ensure => present,
 			group => 0, owner => 0, mode => 755,
 			require => File[$scriptDirname],
 		}
 
 		exec {"exec ${title}":
 			command => "/bin/bash -ec '${scriptFilename}'",
-			cwd => "/tmp",
+			cwd => $scriptDirname,
 			path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
 			require => File[$scriptFilename],
 		}
