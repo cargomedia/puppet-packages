@@ -4,31 +4,19 @@ define helper::script ($content, $unless = false) {
 	$scriptDirname = "/tmp/${scriptName}"
 	$scriptFilename = "${scriptDirname}/${scriptName}"
 
-	unless $unless {
+	$contentQuoted = shellquote($content)
 
-		file { $scriptDirname:
-			ensure => directory,
-			group => 0, owner => 0, mode => 644,
-		}
+	exec {"exec ${title}":
+		command => "mkdir -p ${scriptDirname} && echo ${contentQuoted} > ${scriptFilename} && chmod +x ${scriptFilename} && cd ${scriptDirname} && /bin/bash -ec '${scriptFilename}'",
+		unless => $unless,
+		path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+		logoutput => on_failure,
+	}
 
-		file { $scriptFilename:
-			content => $content,
-			ensure => present,
-			group => 0, owner => 0, mode => 755,
-			require => File[$scriptDirname],
-		}
-
-		exec {"exec ${title}":
-			command => "/bin/bash -ec '${scriptFilename}'",
-			cwd => $scriptDirname,
-			path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-			require => File[$scriptFilename],
-		}
-
-		exec {"cleanup ${title}":
-			command => "rm -rf ${scriptDirname}",
-			path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-			require => Exec["exec ${title}"],
-		}
+	exec {"cleanup ${title}":
+		command => "rm -rf ${scriptDirname}",
+		onlyif => "test -d ${scriptDirname}",
+		path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+		require => Exec["exec ${title}"],
 	}
 }
