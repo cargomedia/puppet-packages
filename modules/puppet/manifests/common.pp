@@ -6,6 +6,11 @@ class puppet::common {
 	}
 	->
 
+	package {'puppet-common':
+		ensure => present,
+	}
+	->
+
 	file {'/etc/puppet/puppet.conf':
 		content => template('puppet/puppet.conf'),
 		ensure => present,
