@@ -4,4 +4,11 @@ class puppet::common {
 		content => template('puppet/install-apt-sources.sh'),
 		unless => "dpkg -l puppetlabs-release | grep '^ii '",
 	}
+	->
+
+	file {'/etc/puppet/puppet.conf':
+		content => template('puppet/puppet.conf'),
+		ensure => present,
+		group => 0, owner => 0, mode => 644,
+	}
 }
