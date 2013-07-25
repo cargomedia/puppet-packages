@@ -7,7 +7,7 @@ define helper::script ($content, $unless) {
 	$contentQuoted = shellquote($content)
 
 	exec {"exec ${title}":
-		command => "mkdir -p ${scriptDirname} && echo ${contentQuoted} > ${scriptFilename} && chmod +x ${scriptFilename} && cd ${scriptDirname} && /bin/bash -ec '${scriptFilename}'",
+		command => "mkdir -p ${scriptDirname} && echo ${contentQuoted} > ${scriptFilename} && chmod +x ${scriptFilename} && cd ${scriptDirname} && ${scriptFilename}",
 		unless => $unless,
 		path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
 		logoutput => on_failure,
