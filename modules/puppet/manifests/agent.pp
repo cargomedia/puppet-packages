@@ -12,14 +12,14 @@ class puppet::agent ($server = 'puppet') {
 	->
 
 	file {'/etc/puppet/puppet.conf':
-		content => template('puppet/puppet.conf'),
+		content => template('puppet/agent/puppet.conf'),
 		ensure => present,
 		group => 0, owner => 0, mode => 644,
 	}
 	->
 
 	file {'/etc/default/puppet':
-		content => "START=yes\nDAEMON_OPTS=\"\"\n",
+		content => template('puppet/agent/default'),
 		ensure => present,
 		group => 0, owner => 0, mode => 644,
 	}
