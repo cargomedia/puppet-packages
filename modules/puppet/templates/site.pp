@@ -1,7 +1,7 @@
 node default {
 
 	stage {'bootstrap':
-	before => Stage['main'],
+		before => Stage['main'],
 	}
 
 	class {'puppet::agent':
