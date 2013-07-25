@@ -1,10 +1,6 @@
 class puppet::agent ($server = 'puppet') {
 
-	helper::script {'install puppet apt sources':
-		content => template('puppet/install-apt-sources.sh'),
-		unless => "dpkg -l puppetlabs-release | grep '^ii '",
-	}
-	->
+	require 'puppet::common'
 
 	package {'puppet':
 		ensure => present,
