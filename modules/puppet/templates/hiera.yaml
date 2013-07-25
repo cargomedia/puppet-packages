@@ -1,0 +1,11 @@
+---
+:backends:
+  - json
+:hierarchy:
+  - fqdn/%{::fqdn}
+  - clientcert/%{::clientcert}
+  - environment/%{::environment}
+  - defaults
+
+:json:
+  :datadir: /etc/puppet/hiera/data
