@@ -5,5 +5,4 @@ class puppet::master ($certname) {
 	package {'puppetmaster':
 		ensure => present,
 	}
-
 }
