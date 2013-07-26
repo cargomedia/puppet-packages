@@ -6,8 +6,6 @@
 curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/puppet-install.sh | bash
 ```
 
-There needs to be `modules` directory in root of git repository.
-
 ## Initial puppet run
 ### On agent
 To make agent able to pull from master, master needs to accept agent's certificate.
