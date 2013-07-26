@@ -11,9 +11,14 @@ class puppet::common {
 	}
 	->
 
-	file {'/etc/puppet/puppet.conf':
-		content => template('puppet/puppet.conf'),
+	file {'/etc/puppet/config':
+		ensure => directory,
+		group => '0', owner => '0', mode => '0755',
+	}
+
+	file {'/etc/puppet/config/main':
+		content => template('puppet/config/main'),
 		ensure => present,
-		group => 0, owner => 0, mode => 644,
+		group => '0', owner => '0', mode => '0644',
 	}
 }

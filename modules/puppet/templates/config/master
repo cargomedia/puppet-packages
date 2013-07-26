@@ -1,0 +1,5 @@
+[master]
+ssldir = $vardir/ssl-master
+hiera_config = $confdir/hiera.yaml
+manifest = $confdir/manifests/site.pp
+<% if @certname %>certname = <%= @certname %><% end %>

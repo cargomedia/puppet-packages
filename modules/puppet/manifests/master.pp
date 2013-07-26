@@ -18,4 +18,10 @@ class puppet::master ($certname) {
 		ensure => present,
 		require => [File['/etc/puppet/manifests/site.pp'], File['/etc/puppet/hiera.yaml']],
 	}
+
+	file {'/etc/puppet/config/master':
+		content => template('puppet/config/master'),
+		ensure => present,
+		group => '0', owner => '0', mode => '0644',
+	}
 }
