@@ -6,11 +6,6 @@ if [ "$EUID" != "0" ]; then
 	exit 1;
 fi
 
-if (which gem > /dev/null && gem list puppet | grep -q puppet); then
-	gem cleanup
-	gem uninstall puppet
-fi
-
 if (test -f /etc/debian_version && cat /etc/debian_version | grep -q '^6\.'); then
 	wget -q http://apt.puppetlabs.com/puppetlabs-release-squeeze.deb
 	dpkg -i puppetlabs-release-squeeze.deb
