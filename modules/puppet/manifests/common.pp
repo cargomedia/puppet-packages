@@ -17,6 +17,7 @@ class puppet::common {
 		ensure => directory,
 		group => '0', owner => '0', mode => '0755',
 	}
+	->
 
 	file {'/etc/puppet/config/main':
 		content => template('puppet/config/main'),
