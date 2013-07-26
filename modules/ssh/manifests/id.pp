@@ -2,7 +2,7 @@ define ssh::id ($private, $public, $hosts = []) {
 
 	include 'ssh'
 
-	file {"/root/.ssh/${name}":
+	file {"/etc/ssh/ssh_id/${name}":
 		ensure => present,
 		content => $private,
 		group => '0',
@@ -10,7 +10,7 @@ define ssh::id ($private, $public, $hosts = []) {
 		mode => '0644',
 	}
 
-	file {"/root/.ssh/${name}.pub":
+	file {"/etc/ssh/ssh_id/${name}.pub":
 		ensure => present,
 		content => $public,
 		group => '0',
@@ -19,6 +19,6 @@ define ssh::id ($private, $public, $hosts = []) {
 	}
 
 	ssh::config-host {$hosts:
-		idFile => "/root/.ssh/${name}",
+		idFile => "/etc/ssh/ssh_id/${name}",
 	}
 }
