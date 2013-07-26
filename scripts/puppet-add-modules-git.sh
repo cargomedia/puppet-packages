@@ -13,12 +13,7 @@ CONFIG="$(puppet agent --configprint confdir)/puppet.conf"
 mkdir -p /etc/puppet/repos/
 HOST=$(echo "${REPO_URL}" | sed 's/.*@\(.*\):.*\.git$/\1/')
 SIG=$(ssh-keyscan -t rsa ${HOST} 2>/dev/null)
-SSHDIR="/root/.ssh"
-SIGSFILE="${SSHDIR}/known_hosts"
-mkdir -p "${SSHDIR}"
-if ! [ -e "${SIGSFILE}" ]; then
-        touch "${SIGSFILE}"
-fi
+SIGSFILE="/root/.ssh/known_hosts"
 grep -q "${SIG}" $SIGSFILE || echo "${SIG}" >> $SIGSFILE
 
 git clone "${REPO_URL}" "${REPO_PATH}"
