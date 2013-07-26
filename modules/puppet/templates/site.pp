@@ -1,12 +1,12 @@
 node default {
 
-	stage {'bootstrap':
-		before => Stage['main'],
-	}
+  stage {'bootstrap':
+    before => Stage['main'],
+  }
 
-	class {'puppet::agent':
-		stage => 'bootstrap',
-	}
+  class {'puppet::agent':
+    stage => 'bootstrap',
+  }
 
-	hiera_include('classes')
+  hiera_include('classes')
 }
