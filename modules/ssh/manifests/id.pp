@@ -1,6 +1,6 @@
 define ssh::id ($private, $public, $hosts = []) {
 
-	require 'ssh'
+	include 'ssh'
 
 	file {"/root/.ssh/${name}":
 		ensure => present,

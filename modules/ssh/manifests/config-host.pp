@@ -1,6 +1,6 @@
 define ssh::config-host ($host = $name, $idFile) {
 
-	require 'ssh'
+	include 'ssh'
 
 	file {"/root/.ssh/config.d/${host}":
 		ensure => present,
@@ -8,5 +8,7 @@ define ssh::config-host ($host = $name, $idFile) {
 		group => '0',
 		owner => '0',
 		mode => '0644',
+		require => File['/root/.ssh/config.d'],
+		notify => Exec['/root/.ssh/config'],
 	}
 }
