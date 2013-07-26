@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 if ! (which git > /dev/null); then
-  apt-get install -qy git
+	apt-get install -qy git
 fi
 
 REPO_URL=${1}
@@ -13,7 +13,12 @@ CONFIG="$(puppet agent --configprint confdir)/puppet.conf"
 mkdir -p /etc/puppet/repos/
 HOST=$(echo "${REPO_URL}" | sed 's/.*@\(.*\):.*\.git$/\1/')
 SIG=$(ssh-keyscan -t rsa ${HOST} 2>/dev/null)
-SIGSFILE="/root/.ssh/known_hosts"
+SSHDIR="/root/.ssh"
+SIGSFILE="${SSHDIR}/known_hosts"
+mkdir -p "${SSHDIR}"
+if ! [ -e "${SIGSFILE}" ]; then
+	touch "${SIGSFILE}"
+fi
 grep -q "${SIG}" $SIGSFILE || echo "${SIG}" >> $SIGSFILE
 
 git clone "${REPO_URL}" "${REPO_PATH}"
