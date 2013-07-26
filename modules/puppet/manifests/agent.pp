@@ -17,5 +17,6 @@ class puppet::agent ($server = 'puppet') {
 		content => template('puppet/config/agent'),
 		ensure => present,
 		group => '0', owner => '0', mode => '0644',
+		notify => Exec['/etc/puppet/puppet.conf'],
 	}
 }

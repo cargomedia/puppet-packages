@@ -23,5 +23,6 @@ class puppet::master ($certname) {
 		content => template('puppet/config/master'),
 		ensure => present,
 		group => '0', owner => '0', mode => '0644',
+		notify => Exec['/etc/puppet/puppet.conf'],
 	}
 }
