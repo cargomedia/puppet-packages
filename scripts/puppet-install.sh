@@ -16,7 +16,6 @@ if (test -f /etc/debian_version && cat /etc/debian_version | grep -q '^6\.'); th
 	dpkg -i puppetlabs-release-squeeze.deb
 	apt-get update
 	apt-get install -qy puppet
-	echo -e "START=yes\nDAEMON_OPTS=\"\"\n" > /etc/default/puppet
 elif (uname | grep -q 'Darwin'); then
 	function install_dmg() {
 		local name="$1"
@@ -38,17 +37,7 @@ elif (uname | grep -q 'Darwin'); then
 	install_dmg "Facter" "http://downloads.puppetlabs.com/mac/facter-1.7.1.dmg"
 	install_dmg "Puppet" "http://downloads.puppetlabs.com/mac/puppet-3.2.1.dmg"
 
-	curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/puppet-agent.plist > /Library/LaunchDaemons/com.puppetlabs.puppet.plist
-	chown root:wheel /Library/LaunchDaemons/com.puppetlabs.puppet.plist
-	chmod 644 /Library/LaunchDaemons/com.puppetlabs.puppet.plist
-	launchctl load -w /Library/LaunchDaemons/com.puppetlabs.puppet.plist
-
 else
 	echo 'Your operating system is not supported' 1>&2
 	exit 1
 fi
-
-
-curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/puppet.conf > $(puppet apply --configprint config)
-curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/hiera.yaml > $(puppet apply --configprint hiera_config)
-curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/resources/site.pp > $(puppet apply --configprint manifest)
