@@ -1,37 +1,22 @@
 # puppet-packages
 
 
-## Install puppet agent
+## Install puppet
 ```bash
-bash <(curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/puppet-install-agent.sh)
+curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/puppet-install.sh | bash
 ```
 
-### Set master server
-```bash
-bash <(curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/puppet-set-server.sh) <server-hostname>
-```
-
-## Install puppet master
-```bash
-bash <(curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/puppet-install-master.sh)
-```
-
-### Add modules from git repository
-```bash
-bash <(curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/puppet-add-modules-git.sh) <git-url>
-```
-
-There needs to be `modules` directory in root of git repository.
-
-## Connecting agent with master
+## Initial puppet run
+### On agent
 To make agent able to pull from master, master needs to accept agent's certificate.
 Send certificate accept request from agent node by running:
 ```bash
-puppet agent --test
+puppet agent --test --server <puppet-master> --waitforcert 10
 ```
 
 
-On master list certificates, then pick correct one and sign it:
+### On master
+List certificates, pick correct and sign it:
 ```bash
 puppet cert list
 puppet cert sign <cert-name>
