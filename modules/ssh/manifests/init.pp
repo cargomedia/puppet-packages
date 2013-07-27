@@ -17,7 +17,7 @@ class ssh {
 	$defaultConfig = shellquote(template('ssh/config-default'))
 
 	exec {'/etc/ssh/ssh_config':
-		command => "echo ${defaultConfig} > /etc/ssh/ssh_config && cat /etc/ssh/ssh_config.d/* >> /etc/ssh/ssh_config",
+		command => "cat /etc/ssh/ssh_config.d/* > /etc/ssh/ssh_config && echo ${defaultConfig} >> /etc/ssh/ssh_config",
 		path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
 		refreshonly => true,
 	}
