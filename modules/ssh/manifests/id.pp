@@ -7,7 +7,7 @@ define ssh::id ($private, $public, $hosts = []) {
 		content => $private,
 		group => '0',
 		owner => '0',
-		mode => '0644',
+		mode => '0600',
 	}
 
 	file {"/etc/ssh/ssh_id/${name}.pub":
