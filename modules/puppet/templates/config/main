@@ -5,4 +5,3 @@ rundir = /var/run/puppet
 ssldir = $vardir/ssl
 factpath = $vardir/lib/facter
 templatedir = $confdir/templates
-modulepath = /etc/puppet/modules:/usr/share/puppet/modules

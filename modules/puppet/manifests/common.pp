@@ -23,6 +23,6 @@ class puppet::common {
 		content => template('puppet/config/main'),
 		ensure => present,
 		group => '0', owner => '0', mode => '0644',
-		notify => Exec['/etc/puppet/puppet.conf'],
+		notify => Exec['/etc/puppet/config/main-modulepath'],
 	}
 }
