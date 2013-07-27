@@ -10,4 +10,10 @@ define puppet::git-modules ($cloneUrl) {
 		creates => $path,
 		notify => Exec['/etc/puppet/config/main-modulepath'],
 	}
+
+	$command = "cd '${path}' && git pull --quiet"
+	cron {"cron ${command}":
+		command => $command,
+		user    => root,
+	}
 }
