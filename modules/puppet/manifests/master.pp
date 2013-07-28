@@ -43,4 +43,9 @@ class puppet::master ($certname, $hieraDataDir = '/etc/puppet/hiera/data') {
 	service {'puppetmaster':
 		subscribe => Exec['/etc/puppet/puppet.conf'],
 	}
+	->
+
+	monit::entry {'puppetmaster':
+		content => template('puppet/monit/master')
+	}
 }
