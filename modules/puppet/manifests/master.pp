@@ -22,17 +22,17 @@ class puppet::master ($certname, $hieraDataDir = '/etc/puppet/hiera/data') {
 	}
 	->
 
-	file {'/etc/puppet/config/master':
-		content => template('puppet/config/master'),
+	file {'/etc/puppet/conf.d/master':
+		content => template('puppet/conf.d/master'),
 		ensure => present,
 		group => '0', owner => '0', mode => '0644',
-		require => File['/etc/puppet/config'],
+		require => File['/etc/puppet/conf.d'],
 		notify => Exec['/etc/puppet/puppet.conf'],
 	}
 	->
 
 	service {'puppetmaster':
-		require => File['/etc/puppet/config/main'],
+		require => File['/etc/puppet/conf.d/main'],
 		subscribe => Exec['/etc/puppet/puppet.conf'],
 	}
 }
