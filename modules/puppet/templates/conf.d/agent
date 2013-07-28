@@ -1,2 +1,3 @@
 [agent]
 server = <%= @server %>
+runinterval = 10m
