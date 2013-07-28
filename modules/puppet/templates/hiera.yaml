@@ -8,4 +8,4 @@
   - defaults
 
 :json:
-  :datadir: /etc/puppet/hiera/data
+  :datadir: <%= @hieraDataDir %>
