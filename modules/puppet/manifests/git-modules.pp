@@ -8,7 +8,7 @@ define puppet::git-modules ($cloneUrl) {
 		command => "git clone ${cloneUrl} ${path}",
 		path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
 		creates => $path,
-		notify => Exec['/etc/puppet/config/main-modulepath'],
+		notify => Exec['/etc/puppet/conf.d/main-modulepath'],
 	}
 
 	$command = "cd '${path}' && git pull --quiet"

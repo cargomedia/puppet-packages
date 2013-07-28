@@ -15,17 +15,17 @@ class puppet::agent ($server = 'puppet') {
 	}
 	->
 
-	file {'/etc/puppet/config/agent':
-		content => template('puppet/config/agent'),
+	file {'/etc/puppet/conf.d/agent':
+		content => template('puppet/conf.d/agent'),
 		ensure => present,
 		group => '0', owner => '0', mode => '0644',
-		require => File['/etc/puppet/config'],
+		require => File['/etc/puppet/conf.d'],
 		notify => Exec['/etc/puppet/puppet.conf'],
 	}
 	->
 
 	service {'puppet':
-		require => File['/etc/puppet/config/main'],
+		require => File['/etc/puppet/conf.d/main'],
 		subscribe => Exec['/etc/puppet/puppet.conf'],
 	}
 }
