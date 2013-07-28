@@ -5,6 +5,11 @@ class puppet::common {
 		unless => "dpkg -l puppetlabs-release | grep '^ii '",
 	}
 
+	file {'/etc/puppet':
+		ensure => directory,
+		group => '0', owner => '0', mode => '0755',
+	}
+
 	file {'/etc/puppet/conf.d':
 		ensure => directory,
 		group => '0', owner => '0', mode => '0755',
@@ -14,7 +19,6 @@ class puppet::common {
 		content => template('puppet/conf.d/main'),
 		ensure => present,
 		group => '0', owner => '0', mode => '0644',
-		require => File['/etc/puppet/conf.d'],
 		notify => Exec['/etc/puppet/conf.d/main-modulepath'],
 	}
 
@@ -31,5 +35,6 @@ class puppet::common {
 		command => "cat /etc/puppet/conf.d/* > /etc/puppet/puppet.conf",
 		path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
 		refreshonly => true,
+		require => File['/etc/puppet'],
 	}
 }
