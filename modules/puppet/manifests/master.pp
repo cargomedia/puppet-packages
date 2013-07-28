@@ -1,4 +1,4 @@
-class puppet::master ($certname) {
+class puppet::master ($certname, $hieraDataDir = '/etc/puppet/hiera/data') {
 
 	require 'puppet::common'
 
