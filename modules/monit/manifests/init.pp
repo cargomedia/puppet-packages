@@ -1,13 +1,33 @@
-class monit {
+class monit ($emailTo = 'root', $emailFrom = 'root', $allowedHosts = []) {
 
-	package { 'monit':
+	file { '/etc/default/monit':
+		content => template('monit/default'),
+		ensure => present,
+		group => '0', owner => '0', mode => '0644',
+		notify => Service['monit'],
+	}
+	->
+
+	file { '/etc/monit':
+		ensure => directory,
+		group => '0', owner => '0', mode => '0755',
+	}
+	->
+
+	file { '/etc/monit/monitrc':
+		content => template('monit/monitrc'),
+		ensure => present,
+		group => '0', owner => '0', mode => '0600',
+		notify => Service['monit'],
+	}
+	->
+
+	package {'monit':
 		ensure => present,
 	}
 	->
 
-	file { '/etc/default/monit':
-		content => 'startup=1',
-		ensure => present,
-		group => 0, owner => 0, mode => 644,
+	service {'monit':
+		hasstatus => false,
 	}
 }
