@@ -1,0 +1,4 @@
+check process puppet with pidfile /var/run/puppet/agent.pid
+	start program = "/etc/init.d/puppet start"
+	stop program = "/etc/init.d/puppet stop"
+	if 25 restarts within 50 cycles then timeout
