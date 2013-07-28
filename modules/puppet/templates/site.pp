@@ -4,5 +4,5 @@ node default {
 		tag => 'bootstrap',
 	}
 
-	hiera_include('classes')
+	include hiera_array('classes', [])
 }
