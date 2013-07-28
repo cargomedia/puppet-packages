@@ -2,6 +2,14 @@ class puppet::agent ($server = 'puppet') {
 
 	include 'puppet::common'
 
+	file {'/etc/puppet/conf.d/agent':
+		content => template('puppet/conf.d/agent'),
+		ensure => present,
+		group => '0', owner => '0', mode => '0644',
+		notify => Exec['/etc/puppet/puppet.conf'],
+	}
+	->
+
 	file {'/etc/default/puppet':
 		content => template('puppet/default'),
 		ensure => present,
@@ -11,21 +19,15 @@ class puppet::agent ($server = 'puppet') {
 
 	package {'puppet':
 		ensure => present,
-		require => Helper::Script['install puppet apt sources'],
-	}
-	->
-
-	file {'/etc/puppet/conf.d/agent':
-		content => template('puppet/conf.d/agent'),
-		ensure => present,
-		group => '0', owner => '0', mode => '0644',
-		require => File['/etc/puppet/conf.d'],
-		notify => Exec['/etc/puppet/puppet.conf'],
+		require => [
+			Helper::Script['install puppet apt sources'],
+			Exec['/etc/puppet/puppet.conf'],
+			File['/etc/puppet/conf.d/main']
+		]
 	}
 	->
 
 	service {'puppet':
-		require => File['/etc/puppet/conf.d/main'],
 		subscribe => Exec['/etc/puppet/puppet.conf'],
 	}
 }

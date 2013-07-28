@@ -2,9 +2,17 @@ class puppet::master ($certname, $hieraDataDir = '/etc/puppet/hiera/data') {
 
 	include 'puppet::common'
 
-	package {'puppetmaster':
+	file {'/etc/puppet/conf.d/master':
+		content => template('puppet/conf.d/master'),
 		ensure => present,
-		require => Helper::Script['install puppet apt sources'],
+		group => '0', owner => '0', mode => '0644',
+		notify => Exec['/etc/puppet/puppet.conf'],
+	}
+	->
+
+	file {'/etc/puppet/manifests':
+		ensure => directory,
+		group => '0', owner => '0', mode => '0755',
 	}
 	->
 
@@ -22,17 +30,17 @@ class puppet::master ($certname, $hieraDataDir = '/etc/puppet/hiera/data') {
 	}
 	->
 
-	file {'/etc/puppet/conf.d/master':
-		content => template('puppet/conf.d/master'),
+	package {'puppetmaster':
 		ensure => present,
-		group => '0', owner => '0', mode => '0644',
-		require => File['/etc/puppet/conf.d'],
-		notify => Exec['/etc/puppet/puppet.conf'],
+		require => [
+			Helper::Script['install puppet apt sources'],
+			Exec['/etc/puppet/puppet.conf'],
+			File['/etc/puppet/conf.d/main']
+		],
 	}
 	->
 
 	service {'puppetmaster':
-		require => File['/etc/puppet/conf.d/main'],
 		subscribe => Exec['/etc/puppet/puppet.conf'],
 	}
 }
