@@ -1,4 +1,4 @@
-class puppet::master ($certname, $hieraDataDir = '/etc/puppet/hiera/data') {
+class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data') {
 
 	include 'puppet::common'
 
