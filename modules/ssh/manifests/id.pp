@@ -1,5 +1,7 @@
 define ssh::id ($host, $user, $sshDir, $private, $public) {
 
+	require 'ssh'
+
 	file {"${sshDir}/${host}":
 		ensure => present,
 		content => $private,
