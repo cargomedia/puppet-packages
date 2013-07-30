@@ -1,6 +1,7 @@
 define puppet::git-modules ($cloneUrl) {
 
 	include 'puppet::common'
+	require 'git'
 
 	$path = "/etc/puppet/repos/${name}"
 
