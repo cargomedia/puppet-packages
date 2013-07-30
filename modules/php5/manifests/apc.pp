@@ -6,8 +6,11 @@ class php5::apc (
 	require 'php5'
 
 	file { '/etc/php5/conf.d/apc.ini':
-		source => 'puppet:///modules/php5/conf.d/apc.ini',
 		ensure => present,
+		source => 'puppet:///modules/php5/conf.d/apc.ini',
+		owner => '0',
+		group => '0',
+		mode => '0644',
 	}
 
 	helper::script {'install php5::apc':
