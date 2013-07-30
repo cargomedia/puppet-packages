@@ -10,7 +10,9 @@ define apache2::vhost ($content, $enabled = true) {
 		group => '0',
 		owner => '0',
 		mode => '0644',
+		notify => Service['apache2'],
 	}
+	->
 
 	file { "/etc/apache2/sites-enabled/${name}":
 		ensure => $enabled ? { true => link, false => absent},
@@ -18,5 +20,6 @@ define apache2::vhost ($content, $enabled = true) {
 		group => '0',
 		owner => '0',
 		mode => '0644',
+		notify => Service['apache2'],
 	}
 }
