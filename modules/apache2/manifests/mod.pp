@@ -1,6 +1,6 @@
 define apache2::mod ($enabled = true) {
 
-	require 'apache2'
+	include 'apache2::service'
 
 	file {"/etc/apache2/mods-enabled/${name}.load":
 		ensure => $enabled ? {true => link, false => absent},
@@ -8,5 +8,6 @@ define apache2::mod ($enabled = true) {
 		group => '0',
 		owner => '0',
 		mode => '0644',
+		notify => Service['apache2'],
 	}
 }
