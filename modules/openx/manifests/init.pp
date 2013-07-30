@@ -7,6 +7,7 @@ class openx (
 ) {
 
 	require 'php5::apache2'
+	require 'php5::gd'
 	require 'apache2::mod::ssl'
 	require 'mysql::server'
 
