@@ -8,6 +8,7 @@ class openx (
 
 	require 'php5::apache2'
 	require 'apache2::mod::ssl'
+	require 'mysql::server'
 
 	helper::script {'install openx':
 		content => template('openx/install.sh'),
@@ -16,16 +17,16 @@ class openx (
 
 	file {'/var/openx/ssl':
 		ensure => directory,
-		group => '0',
-		owner => '0',
+		group => 'www-data',
+		owner => 'www-data',
 		mode => '0755',
 		require => Helper::Script['install openx'],
 	}
 
 	file {'/var/openx/ssl-ca':
 		ensure => directory,
-		group => '0',
-		owner => '0',
+		group => 'www-data',
+		owner => 'www-data',
 		mode => '0755',
 		require => Helper::Script['install openx'],
 	}
@@ -34,8 +35,8 @@ class openx (
 	file {"/var/openx/ssl/${host}.pem":
 		ensure => present,
 		content => $certificatePem,
-		group => '0',
-		owner => '0',
+		group => 'www-data',
+		owner => 'www-data',
 		mode => '0644',
 		before => Apache2::Vhost[$host],
 	}
@@ -43,8 +44,8 @@ class openx (
 	file {"/var/openx/ssl/${host}.key":
 		ensure => present,
 		content => $certificateKey,
-		group => '0',
-		owner => '0',
+		group => 'www-data',
+		owner => 'www-data',
 		mode => '0644',
 		before => Apache2::Vhost[$host],
 	}
@@ -53,19 +54,29 @@ class openx (
 		file {"/var/openx/ssl-ca/${host}":
 			ensure => present,
 			content => $certificateCa,
-			group => '0',
-			owner => '0',
+			group => 'www-data',
+			owner => 'www-data',
 			mode => '0644',
 		}
 		~>
 
 		exec {"/var/openx/ssl-ca/ for ${host}":
 			provider => shell,
-			command => "ln -s ${host} $(openssl x509 -noout -hash -in ${host}).0",
+			command => "ln -ls ${host} $(openssl x509 -noout -hash -in ${host}).0",
 			cwd => '/var/openx/ssl-ca/',
 			refreshonly => true,
 			before => Apache2::Vhost[$host],
 		}
+	}
+
+
+	file {'/var/openx/www/delivery/ajs-proxy.php':
+		ensure => present,
+		content => template('openx/ajs-proxy.php'),
+		group => 'www-data',
+		owner => 'www-data',
+		mode => '0644',
+		require => Helper::Script['install openx'],
 	}
 
 	apache2::vhost {$host:
