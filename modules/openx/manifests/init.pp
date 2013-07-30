@@ -7,6 +7,7 @@ class openx (
 ) {
 
 	require 'php5::apache2'
+	require 'apache2::mod::ssl'
 
 	helper::script {'install openx':
 		content => template('openx/install.sh'),
