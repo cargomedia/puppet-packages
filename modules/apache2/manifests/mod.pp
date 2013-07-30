@@ -24,7 +24,7 @@ define apache2::mod ($enabled = true, $configuration = undef) {
 
 		file {"/etc/apache2/mods-enabled/${name}.conf":
 			ensure => $enabled ? {true => link, false => absent},
-			target => "/etc/apache2/mods-available/${name}.load",
+			target => "/etc/apache2/mods-available/${name}.conf",
 			group => '0',
 			owner => '0',
 			mode => '0644',
