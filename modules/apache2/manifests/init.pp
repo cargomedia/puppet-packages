@@ -13,6 +13,7 @@ class apache2 {
 		group => '0',
 		owner => '0',
 		mode => '0644',
+		notify => Service['apache2'],
 	}
 	->
 

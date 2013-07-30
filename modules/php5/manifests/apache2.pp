@@ -9,6 +9,7 @@ class php5::apache2 {
 		owner => '0',
 		group => '0',
 		mode => '0644',
+		notify => Service['apache2'],
 	}
 	->
 
