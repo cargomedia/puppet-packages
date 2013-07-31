@@ -1,0 +1,12 @@
+# See /usr/share/postfix/main.cf.dist for a commented, more complete version
+
+append_dot_mydomain = no
+myhostname = <%= @domain %>
+mydestination = localhost
+virtual_alias_maps = hash:/etc/postfix/virtual
+alias_database = hash:/etc/aliases
+alias_maps = hash:/etc/aliases
+
+inet_interfaces = 127.0.0.1
+biff = no
+mailbox_command = procmail -a "$EXTENSION"
