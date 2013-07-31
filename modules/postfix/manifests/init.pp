@@ -1,4 +1,4 @@
-class postfix {
+class postfix ($aliases = {}) {
 
 	file {'/etc/postfix':
 		ensure => directory,
