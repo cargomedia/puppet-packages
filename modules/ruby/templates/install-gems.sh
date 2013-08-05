@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-curl -sL "http://production.cf.rubygems.org/rubygems/rubygems-<%= version %>.zip" > gems.zip
+curl -sL "http://production.cf.rubygems.org/rubygems/rubygems-<%= @version %>.zip" > gems.zip
 unzip gems.zip
-cd rubygems-<%= version %>
+cd rubygems-<%= @version %>
 ruby setup.rb --no-format-executable
