@@ -1,4 +1,6 @@
 node default {
+	require 'puppet::agent'
+
 	if $bootstrapped == 'false' {
 		$bootstrapClasses = hiera_array('bootstrapClasses', [])
 		$bootstrapClasses.each {|$class| require $class }
