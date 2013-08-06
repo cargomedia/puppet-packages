@@ -1,3 +1,4 @@
+
 [master]
 hiera_config = $confdir/hiera.yaml
 manifest = $confdir/manifests/site.pp
