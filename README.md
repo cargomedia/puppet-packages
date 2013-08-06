@@ -21,4 +21,3 @@ List certificates, pick correct and sign it:
 puppet cert list
 puppet cert sign <cert-name>
 ```
-
