@@ -1,6 +1,8 @@
 node default {
 	if $bootstrapped == 'false' {
-		include hiera_array('bootstrapClasses', [])
+		$bootstrapClasses = hiera_array('bootstrapClasses', [])
+		$bootstrapClasses.each {|$class| require $class }
+
 		file {'/etc/bootstrapped':
 			ensure => present,
 			group => '0',
@@ -8,6 +10,7 @@ node default {
 			mode => '0644',
 		}
 	} else {
-		include hiera_array('classes', [])
+		$classes = hiera_array('classes', [])
+		$classes.each {|$class| require $class }
 	}
 }

@@ -2,3 +2,4 @@
 confdir = /etc/puppet
 logdir = /var/log/puppet
 rundir = /var/run/puppet
+parser = future
