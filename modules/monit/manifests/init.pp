@@ -1,4 +1,4 @@
-class monit ($emailTo = 'root', $emailFrom = 'root', $allowedHosts = []) {
+class monit ($emailTo = 'root@localhost', $emailFrom = 'root@localhost', $allowedHosts = []) {
 
 	file { '/etc/default/monit':
 		content => template('monit/default'),
