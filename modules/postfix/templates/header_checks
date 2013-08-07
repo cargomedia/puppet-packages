@@ -1,0 +1,3 @@
+<% @transports.each do |transport| -%>
+<%= transport['filter'] %> FILTER <%= transport['protocol'] %>:[<%= transport['host'] %>]:<%= transport['port'] %>
+<% end %>

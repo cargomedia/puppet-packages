@@ -1,4 +1,6 @@
-class postfix ($aliases = {}) {
+class postfix ($aliases = {}, $transports = []) {
+
+	include 'postfix::service'
 
 	file {'/etc/postfix':
 		ensure => directory,
@@ -17,6 +19,26 @@ class postfix ($aliases = {}) {
 		before => Package['postfix'],
 	}
 
+	file {'/etc/postfix/header_checks':
+		ensure => file,
+		content => template('postfix/header_checks'),
+		group => '0',
+		owner => '0',
+		mode => '0644',
+		notify => Service['postfix'],
+		before => Package['postfix'],
+	}
+
+	file {'/etc/postfix/sasl_passwd':
+		ensure => file,
+		content => template('postfix/sasl_passwd'),
+		group => '0',
+		owner => '0',
+		mode => '0644',
+		notify => Exec['postmap'],
+		before => Package['postfix'],
+	}
+
 
 	file {'/etc/postfix/virtual':
 		ensure => present,
@@ -24,16 +46,17 @@ class postfix ($aliases = {}) {
 		group => '0',
 		owner => '0',
 		mode => '0644',
-		notify => Service['postfix'],
+		notify => Exec['postmap'],
 		before => Package['postfix'],
 	}
-	~>
 
-	exec {'postmap /etc/postfix/virtual':
-		command => 'postmap /etc/postfix/virtual',
+	exec {'postmap':
+		provider => shell,
+		command => 'bash -c \'postmap /etc/postfix/{virtual,sasl_passwd}\'',
 		path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
 		refreshonly => true,
 		require => Package['postfix'],
+		notify => Service['postfix'],
 	}
 
 	package {'postfix':
