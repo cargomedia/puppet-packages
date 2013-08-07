@@ -1,4 +1,4 @@
-class php5::mysql {
+class php5::extension::mysql {
 
 	require 'php5'
 
