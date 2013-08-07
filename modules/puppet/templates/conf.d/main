@@ -1,3 +1,4 @@
+
 [main]
 confdir = /etc/puppet
 logdir = /var/log/puppet
