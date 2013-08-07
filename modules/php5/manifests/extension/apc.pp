@@ -1,4 +1,4 @@
-class php5::apc (
+class php5::extension::apc (
 	$version = '3.1.13',
 	$configureParams = '--enable-apc-mmap --enable-apc-pthreadmutex --disable-apc-debug --disable-apc-filehits --disable-apc-spinlocks'
 ) {
