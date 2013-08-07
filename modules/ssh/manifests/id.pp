@@ -12,7 +12,7 @@ define ssh::id ($host, $user, $sshDir, $private, $public, $type = 'ssh-rsa') {
 
 	file {"${sshDir}/${host}.pub":
 		ensure => present,
-		content => template('ssh/ssh-rsa.pub'),
+		content => template('ssh/public'),
 		group => '0',
 		owner => $user,
 		mode => '0644',
