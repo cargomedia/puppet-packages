@@ -1,6 +1,6 @@
 class postfix ($aliases = {}, $transports = []) {
 
-	require 'ca-certficates'
+	require 'ca-certificates'
 	include 'postfix::service'
 
 	file {'/etc/postfix':
@@ -62,5 +62,11 @@ class postfix ($aliases = {}, $transports = []) {
 
 	package {'postfix':
 		ensure => installed,
+	}
+
+	monit::entry {'postfix':
+		ensure => present,
+		content => template('postfix/monit'),
+		require => Package['postfix'],
 	}
 }
