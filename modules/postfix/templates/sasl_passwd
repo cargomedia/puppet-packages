@@ -1,0 +1,3 @@
+<% @transports.each do |transport| -%>
+<% if transport['credentials'] %><%= transport['host'] %> <%= transport['credentials'] %><% end %>
+<% end %>
