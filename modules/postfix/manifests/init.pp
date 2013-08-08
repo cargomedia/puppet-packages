@@ -1,5 +1,6 @@
 class postfix ($aliases = {}, $transports = []) {
 
+	require 'ca-certficates'
 	include 'postfix::service'
 
 	file {'/etc/postfix':

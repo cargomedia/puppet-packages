@@ -1,7 +1,7 @@
 # See /usr/share/postfix/main.cf.dist for a commented, more complete version
 
 append_dot_mydomain = no
-myhostname = fuckbook.com
+myhostname = <%= @domain %>
 mydestination = localhost
 virtual_alias_maps = hash:/etc/postfix/virtual
 alias_database = hash:/etc/aliases
