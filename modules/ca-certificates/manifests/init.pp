@@ -1,6 +1,6 @@
-class ca-certficates {
+class ca-certificates {
 
-	package {'ca-certficates':
+	package {'ca-certificates':
 		ensure => present,
 	}
 }
