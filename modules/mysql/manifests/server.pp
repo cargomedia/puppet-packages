@@ -43,6 +43,7 @@ class mysql::server ($rootPassword = undef) {
 		owner => 'root',
 		group => 'mysql',
 		mode => '0750',
+		require => User['mysql'],
 	}
 
 	file {'/etc/mysql/conf.d/init-file.cnf':
