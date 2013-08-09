@@ -2,11 +2,11 @@ class openx (
 	$host,
 	$certificatePem,
 	$certificateKey,
-	$certificateCa,
+	$certificateCa = undef,
 	$version = '2.8.11',
 	$dbName = 'openx',
 	$dbUser = 'openx',
-	$dbPassword,
+	$dbPassword = 'openx'
 ) {
 
 	require 'php5::apache2'
