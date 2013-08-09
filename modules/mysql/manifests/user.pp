@@ -6,5 +6,6 @@ define mysql::user ($password) {
 		ensure => present,
 		password_hash => mysql_password($password),
 		provider => mysql,
+		require => Service['mysql'],
 	}
 }
