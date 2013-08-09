@@ -16,8 +16,9 @@ class mysql::server ($rootPassword = undef) {
 	user {'mysql':
 		ensure => present,
 		system => true,
+		home => '/var/lib/mysql',
+		shell => '/bin/false',
 	}
-	->
 
 	file {'/etc/mysql':
 		ensure => directory,
@@ -25,17 +26,6 @@ class mysql::server ($rootPassword = undef) {
 		group => '0',
 		mode => '0755',
 	}
-	->
-
-	file {'/etc/mysql/init.sql':
-		ensure => file,
-		content => template('mysql/init.sql'),
-		owner => 'root',
-		group => 'mysql',
-		mode => '0640',
-		notify => Service['mysql'],
-	}
-	->
 
 	file {'/etc/mysql/my.cnf':
 		ensure => file,
@@ -43,9 +33,39 @@ class mysql::server ($rootPassword = undef) {
 		owner => 'root',
 		group => 'mysql',
 		mode => '0640',
+		require => User['mysql'],
+		before => Package['mysql-server'],
+		notify => Service['mysql'],
 	}
 
-	->
+	file {'/etc/mysql/conf.d':
+		ensure => directory,
+		owner => 'root',
+		group => 'mysql',
+		mode => '0750',
+	}
+
+	file {'/etc/mysql/conf.d/init-file.cnf':
+		ensure => file,
+		content => template('mysql/init-file.cnf'),
+		owner => 'root',
+		group => 'mysql',
+		mode => '0640',
+		require => User['mysql'],
+		before => Package['mysql-server'],
+		notify => Service['mysql'],
+	}
+
+	file {'/etc/mysql/init.sql':
+		ensure => file,
+		content => template('mysql/init.sql'),
+		owner => 'root',
+		group => 'mysql',
+		mode => '0640',
+		require => User['mysql'],
+		before => Package['mysql-server'],
+		notify => Service['mysql'],
+	}
 
 	package {'mysql-server':
 		ensure => present,
