@@ -2,7 +2,7 @@
 :backends:
   - json
 :hierarchy:
-  - fqdn/%{::fqdn}
+  - fqdn/%{::fqdn_reversed}
   - clientcert/%{::clientcert}
   - environment/%{::environment}
   - defaults
