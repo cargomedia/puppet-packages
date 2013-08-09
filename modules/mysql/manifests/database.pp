@@ -1,9 +1,16 @@
-define mysql::database {
+define mysql::database ($user = undef) {
 
 	require 'mysql::server'
 
 	database {$name:
 		ensure => present,
-		provider => 'mysql',
+		provider => mysql,
+	}
+
+	if $user {
+		database_grant {"${user}/${name}":
+			provider => 'mysql',
+			require => Mysql::User[$user],
+		}
 	}
 }
