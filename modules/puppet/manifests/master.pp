@@ -26,6 +26,7 @@ class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data
 		owner => '0',
 		mode => '0644',
 		before => Package['puppetmaster'],
+		notify => Service['puppetmaster'],
 	}
 
 	file {'/etc/puppet/hiera.yaml':
@@ -35,6 +36,7 @@ class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data
 		owner => '0',
 		mode => '0644',
 		before => Package['puppetmaster'],
+		notify => Service['puppetmaster'],
 	}
 
 	if $reportToEmail {
@@ -45,6 +47,7 @@ class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data
 			owner => '0',
 			mode => '0644',
 			before => Package['puppetmaster'],
+			notify => Service['puppetmaster'],
 		}
 	}
 
