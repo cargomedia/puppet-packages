@@ -1,3 +1,5 @@
 class base {
 
+	require 'postfix'
+
 }
