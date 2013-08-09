@@ -1,6 +1,12 @@
-define ssh::id ($host, $user, $sshDir, $private, $public) {
+define ssh::id ($host, $user, $sshDir, $private, $public, $type = 'ssh-rsa') {
 
 	require 'ssh'
+
+	exec {"${sshDir} for ${host}":
+		command => "mkdir -p ${sshDir}",
+		creates => $sshDir,
+		path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+	}
 
 	file {"${sshDir}/${host}":
 		ensure => present,
@@ -8,11 +14,12 @@ define ssh::id ($host, $user, $sshDir, $private, $public) {
 		group => '0',
 		owner => $user,
 		mode => '0600',
+		require => Exec["${sshDir} for ${host}"],
 	}
 
 	file {"${sshDir}/${host}.pub":
 		ensure => present,
-		content => $public,
+		content => template('ssh/public'),
 		group => '0',
 		owner => $user,
 		mode => '0644',

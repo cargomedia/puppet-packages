@@ -1,4 +1,4 @@
-class php5::gd {
+class php5::extension::gd {
 
 	require 'php5'
 
