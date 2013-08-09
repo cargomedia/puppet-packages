@@ -4,7 +4,14 @@ define mysql::database {
 
 	database {$name:
 		ensure => present,
-		provider => 'mysql',
+		provider => mysql,
 		require => Service['mysql'],
+	}
+
+	if $user {
+		database_grant {"${user}/${name}":
+			provider => 'mysql',
+			require => Mysql::User[$user],
+		}
 	}
 }
