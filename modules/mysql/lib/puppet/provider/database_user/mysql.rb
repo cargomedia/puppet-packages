@@ -4,8 +4,8 @@ Puppet::Type.type(:database_user).provide(:mysql) do
 
   defaultfor :kernel => 'Linux'
 
-  commands :mysql      => 'mysql'
-  commands :mysqladmin => 'mysqladmin'
+  optional_commands :mysql      => 'mysql'
+  optional_commands :mysqladmin => 'mysqladmin'
 
   def self.instances
     users = mysql([defaults_file, 'mysql', '-BNe' "select concat(User, '@',Host) as User from mysql.user"].compact).split("\n")

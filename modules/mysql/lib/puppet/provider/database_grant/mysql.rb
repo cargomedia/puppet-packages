@@ -13,11 +13,6 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
   optional_commands :mysql      => 'mysql'
   optional_commands :mysqladmin => 'mysqladmin'
 
-  def self.prefetch(resources)
-    @user_privs = query_user_privs
-    @db_privs = query_db_privs
-  end
-
   def self.user_privs
     @user_privs || query_user_privs
   end
