@@ -2,7 +2,6 @@ class mysql::server ($rootPassword = undef) {
 
 	include 'mysql::service'
 
-
 	file {'/root/.my.cnf':
 		ensure => $rootPassword ? {
 			undef => absent,
@@ -13,6 +12,12 @@ class mysql::server ($rootPassword = undef) {
 		group => '0',
 		mode => '0600',
 	}
+
+	user {'mysql':
+		ensure => present,
+		system => true,
+	}
+	->
 
 	file {'/etc/mysql':
 		ensure => directory,
