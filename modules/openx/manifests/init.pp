@@ -3,7 +3,10 @@ class openx (
 	$certificatePem,
 	$certificateKey,
 	$certificateCa,
-	$version = '2.8.11'
+	$version = '2.8.11',
+	$dbName = 'openx',
+	$dbUser = 'openx',
+	$dbPassword,
 ) {
 
 	require 'php5::apache2'
@@ -80,12 +83,12 @@ class openx (
 		require => Helper::Script['install openx'],
 	}
 
-	mysql::user {'openx@localhost':
-		password => $password,
+	mysql::user {"${dbUser}@localhost":
+		password => $dbPassword,
 	}
 
-	mysql::database {'openx':
-		user => 'openx@localhost',
+	mysql::database {$dbName:
+		user => "${dbUser}@localhost",
 	}
 
 	apache2::vhost {$host:
