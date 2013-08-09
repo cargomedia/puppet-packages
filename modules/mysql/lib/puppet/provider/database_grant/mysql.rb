@@ -93,7 +93,7 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
 
   def row_exists?
     name = split_name(@resource[:name])
-    fields = [:usner, :host]
+    fields = [:user, :host]
     if name[:type] == :db
       fields << :db
     end

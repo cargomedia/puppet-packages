@@ -1,4 +1,4 @@
-define mysql::database {
+define mysql::database ($user = undef) {
 
 	require 'mysql::server'
 
@@ -10,6 +10,7 @@ define mysql::database {
 
 	if $user {
 		database_grant {"${user}/${name}":
+			privileges => ['all'],
 			provider => 'mysql',
 			require => Mysql::User[$user],
 		}
