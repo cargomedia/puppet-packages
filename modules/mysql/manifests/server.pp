@@ -43,6 +43,7 @@ class mysql::server ($rootPassword = undef) {
 		owner => 'root',
 		group => 'mysql',
 		mode => '0640',
+		notify => Service['mysql'],
 	}
 
 	->
