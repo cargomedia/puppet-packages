@@ -3,7 +3,7 @@ class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data
 	include 'puppet::common'
 
 	file {'/etc/puppet/conf.d/master':
-		ensure => present,
+		ensure => file,
 		content => template('puppet/conf.d/master'),
 		group => '0',
 		owner => '0',
@@ -20,7 +20,7 @@ class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data
 	}
 
 	file {'/etc/puppet/manifests/site.pp':
-		ensure => present,
+		ensure => file,
 		content => template('puppet/site.pp'),
 		group => '0',
 		owner => '0',
@@ -29,7 +29,7 @@ class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data
 	}
 
 	file {'/etc/puppet/hiera.yaml':
-		ensure => present,
+		ensure => file,
 		content => template('puppet/hiera.yaml'),
 		group => '0',
 		owner => '0',
@@ -39,7 +39,7 @@ class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data
 
 	if $reportToEmail {
 		file {'/etc/puppet/tagmail.conf':
-			ensure => present,
+			ensure => file,
 			content => template('puppet/tagmail.conf'),
 			group => '0',
 			owner => '0',

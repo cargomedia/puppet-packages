@@ -5,7 +5,7 @@ class ssh {
 	}
 
 	file {'/etc/ssh/ssh_config':
-		ensure => present,
+		ensure => file,
 		content => template('ssh/ssh_config'),
 		owner => '0',
 		group => '0',
@@ -13,7 +13,7 @@ class ssh {
 	}
 
 	file {'/etc/ssh/sshd_config':
-		ensure => present,
+		ensure => file,
 		content => template('ssh/sshd_config'),
 		owner => '0',
 		group => '0',

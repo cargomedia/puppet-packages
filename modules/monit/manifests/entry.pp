@@ -1,4 +1,4 @@
-define monit::entry ($content, $ensure = present) {
+define monit::entry ($content, $ensure = file) {
 
 	include 'monit'
 

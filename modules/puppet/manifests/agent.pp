@@ -4,7 +4,7 @@ class puppet::agent ($server = 'puppet') {
 
 	file {'/etc/puppet/conf.d/agent':
 		content => template('puppet/conf.d/agent'),
-		ensure => present,
+		ensure => file,
 		group => '0', owner => '0', mode => '0644',
 		notify => Exec['/etc/puppet/puppet.conf'],
 	}
@@ -12,7 +12,7 @@ class puppet::agent ($server = 'puppet') {
 
 	file {'/etc/default/puppet':
 		content => template('puppet/default'),
-		ensure => present,
+		ensure => file,
 		group => '0', owner => '0', mode => '0644',
 	}
 	->

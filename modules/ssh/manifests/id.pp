@@ -3,7 +3,7 @@ define ssh::id ($host, $user, $sshDir, $private, $public, $type = 'ssh-rsa') {
 	require 'ssh'
 
 	file {"${sshDir}/${host}":
-		ensure => present,
+		ensure => file,
 		content => $private,
 		group => '0',
 		owner => $user,
@@ -11,7 +11,7 @@ define ssh::id ($host, $user, $sshDir, $private, $public, $type = 'ssh-rsa') {
 	}
 
 	file {"${sshDir}/${host}.pub":
-		ensure => present,
+		ensure => file,
 		content => template('ssh/public'),
 		group => '0',
 		owner => $user,
@@ -27,7 +27,7 @@ define ssh::id ($host, $user, $sshDir, $private, $public, $type = 'ssh-rsa') {
 	->
 
 	file {"${sshDir}/config.d/${host}":
-		ensure => present,
+		ensure => file,
 		content => template('ssh/config-host'),
 		group => '0',
 		owner => $user,
