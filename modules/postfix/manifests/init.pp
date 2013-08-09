@@ -60,7 +60,7 @@ class postfix ($aliases = {}, $transports = []) {
 		notify => Service['postfix'],
 	}
 
-	package {'postfix':
+	package {['postfix', 'libsasl2-modules']:
 		ensure => installed,
 	}
 
