@@ -1,6 +1,4 @@
 class mysql::service {
 
-	service {'mysql':
-		ensure => running,
-	}
+	service {'mysql':}
 }
