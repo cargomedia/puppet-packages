@@ -5,5 +5,6 @@ define mysql::database {
 	database {$name:
 		ensure => present,
 		provider => 'mysql',
+		require => Service['mysql'],
 	}
 }
