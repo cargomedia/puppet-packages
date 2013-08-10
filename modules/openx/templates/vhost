@@ -1,0 +1,27 @@
+<VirtualHost *:80>
+	ServerName <%= @host %>
+	DocumentRoot /var/openx/www
+
+	<Directory /var/openx/www>
+		Options FollowSymlinks
+		DirectoryIndex index.php
+		php_value include_path ".:/var/openx/lib/pear/"
+	</Directory>
+</VirtualHost>
+
+
+<VirtualHost *:443>
+	ServerName <%= @host %>
+	DocumentRoot /var/openx/www
+
+	SSLEngine on
+	SSLCertificateFile /var/openx/ssl/<%= @host %>.pem
+	SSLCertificateKeyFile /var/openx/ssl/<%= @host %>.key
+	SSLCACertificatePath /var/openx/ssl-ca/
+
+	<Directory /var/openx/www>
+		Options FollowSymlinks
+		DirectoryIndex index.php
+		php_value include_path ".:/var/openx/lib/pear/"
+	</Directory>
+</VirtualHost>
