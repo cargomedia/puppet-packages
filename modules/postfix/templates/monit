@@ -1,5 +1,5 @@
 check process postfix with pidfile /var/spool/postfix/pid/master.pid
 	start program = "/etc/init.d/postfix start"
 	stop  program = "/etc/init.d/postfix stop"
-	if failed port 25 protocol smtp with timeout 10 seconds then restart
+	if failed port 25 protocol smtp with timeout 10 seconds for 2 cycles then restart
 	if 25 restarts within 50 cycles then timeout
