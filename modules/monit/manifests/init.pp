@@ -1,5 +1,7 @@
 class monit ($emailTo = 'root@localhost', $emailFrom = 'root@localhost', $allowedHosts = []) {
 
+	include 'monit::service'
+
 	file { '/etc/default/monit':
 		content => template('monit/default'),
 		ensure => file,
@@ -24,10 +26,5 @@ class monit ($emailTo = 'root@localhost', $emailFrom = 'root@localhost', $allowe
 
 	package {'monit':
 		ensure => present,
-	}
-	->
-
-	service {'monit':
-		hasstatus => false,
 	}
 }
