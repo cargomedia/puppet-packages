@@ -16,11 +16,11 @@ class composer($version = '1.0.0-alpha7') {
 	file {$binary:
 		source => 'puppet:///modules/composer/composer.sh',
 		mode => 0755,
-		ensure => present,
+		ensure => file,
 	}
 
 	file {$config:
 		source => 'puppet:///modules/composer/composer.ini',
-		ensure => present,
+		ensure => file,
 	}
 }

@@ -11,7 +11,7 @@ class php5::apache2 {
 	}
 
 	file { '/etc/php5/apache2/php.ini':
-		ensure => present,
+		ensure => file,
 		source => 'puppet:///modules/php5/apache2/php.ini',
 		owner => '0',
 		group => '0',

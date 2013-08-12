@@ -11,7 +11,7 @@ class postfix ($aliases = {}, $transports = []) {
 	}
 
 	file {'/etc/postfix/main.cf':
-		ensure => present,
+		ensure => file,
 		content => template('postfix/main.cf'),
 		group => '0',
 		owner => '0',
@@ -42,7 +42,7 @@ class postfix ($aliases = {}, $transports = []) {
 
 
 	file {'/etc/postfix/virtual':
-		ensure => present,
+		ensure => file,
 		content => template('postfix/virtual'),
 		group => '0',
 		owner => '0',

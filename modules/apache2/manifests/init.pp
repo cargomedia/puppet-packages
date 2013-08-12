@@ -9,7 +9,7 @@ class apache2 {
 
 	file {'/etc/apache2/apache2.conf':
 		source => 'puppet:///modules/apache2/apache2.conf',
-		ensure => present,
+		ensure => file,
 		group => '0',
 		owner => '0',
 		mode => '0644',

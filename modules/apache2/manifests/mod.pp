@@ -13,7 +13,7 @@ define apache2::mod ($enabled = true, $configuration = undef) {
 
 	if $configuration {
 		file {"/etc/apache2/mods-available/${name}.conf":
-			ensure => present,
+			ensure => file,
 			content => $configuration,
 			group => '0',
 			owner => '0',

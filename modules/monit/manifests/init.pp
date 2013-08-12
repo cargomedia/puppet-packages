@@ -2,7 +2,7 @@ class monit ($emailTo = 'root@localhost', $emailFrom = 'root@localhost', $allowe
 
 	file { '/etc/default/monit':
 		content => template('monit/default'),
-		ensure => present,
+		ensure => file,
 		group => '0', owner => '0', mode => '0644',
 		notify => Service['monit'],
 	}
@@ -16,7 +16,7 @@ class monit ($emailTo = 'root@localhost', $emailFrom = 'root@localhost', $allowe
 
 	file { '/etc/monit/monitrc':
 		content => template('monit/monitrc'),
-		ensure => present,
+		ensure => file,
 		group => '0', owner => '0', mode => '0600',
 		notify => Service['monit'],
 	}

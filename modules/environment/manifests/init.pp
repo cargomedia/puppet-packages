@@ -1,7 +1,7 @@
 class environment {
 
 	file {'/etc/environment':
-		ensure => present,
+		ensure => file,
 		group => '0',
 		owner => '0',
 		mode => '0644',
