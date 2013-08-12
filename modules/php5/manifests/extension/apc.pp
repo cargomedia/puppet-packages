@@ -12,7 +12,7 @@ class php5::extension::apc (
 	->
 
 	file { '/etc/php5/conf.d/apc.ini':
-		ensure => present,
+		ensure => file,
 		source => 'puppet:///modules/php5/conf.d/apc.ini',
 		owner => '0',
 		group => '0',

@@ -4,7 +4,7 @@ define monit::entry ($content, $ensure = present) {
 
 	file { "/etc/monit/conf.d/${name}":
 		content => $content,
-		ensure => $ensure,
+		ensure => $ensure? { present => file, default => $ensure},
 		group => 0, owner => 0, mode => 644,
 		require => Package['monit'],
 		notify => Service['monit'],
