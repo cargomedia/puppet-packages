@@ -23,6 +23,7 @@ define ssh::id ($host, $user, $sshDir, $private, $public, $type = 'ssh-rsa') {
 		group => '0',
 		owner => $user,
 		mode => '0644',
+		require => Exec["${sshDir} for ${host}"],
 	}
 
 	exec {"mkdir ${sshDir}/config.d for ${host}":
@@ -30,6 +31,7 @@ define ssh::id ($host, $user, $sshDir, $private, $public, $type = 'ssh-rsa') {
 		command => "mkdir -p ${sshDir}/config.d",
 		creates => "${sshDir}/config.d",
 		user => $user,
+		require => Exec["${sshDir} for ${host}"],
 	}
 	->
 
@@ -47,5 +49,6 @@ define ssh::id ($host, $user, $sshDir, $private, $public, $type = 'ssh-rsa') {
 		path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
 		user => $user,
 		refreshonly => true,
+		require => Exec["${sshDir} for ${host}"],
 	}
 }

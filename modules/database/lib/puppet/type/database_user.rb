@@ -10,6 +10,9 @@ Puppet::Type.newtype(:database_user) do
       # Regex should problably be more like this: /^[`'"]?[^`'"]*[`'"]?@[`'"]?[\w%\.]+[`'"]?$/
       raise(ArgumentError, "Invalid database user #{value}") unless value =~ /[\w-]*@[\w%\.:]+/
       username = value.split('@')[0]
+      if username.size > 16
+        raise ArgumentError, 'Database usernames are limited to a maximum of 16 characters'
+      end
     end
   end
 
