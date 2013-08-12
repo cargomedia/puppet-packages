@@ -1,10 +1,10 @@
-define monit::entry ($content, $ensure = present) {
+define monit::entry ($content) {
 
 	include 'monit'
 
 	file { "/etc/monit/conf.d/${name}":
 		content => $content,
-		ensure => $ensure? { present => file, default => $ensure},
+		ensure => file,
 		group => 0, owner => 0, mode => 644,
 		require => Package['monit'],
 		notify => Service['monit'],
