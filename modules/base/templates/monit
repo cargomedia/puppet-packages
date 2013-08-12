@@ -2,7 +2,9 @@ check system <%= @hostname %>
 	if loadavg(1min) > <%= @alertOnLoad1 %> then alert
 	if loadavg(5min) > <%= @alertOnLoad5 %> then alert
 	if memory > 85% then alert
-
+<% @additionalChecks.each do |check| -%>
+	<%= check %>
+<% end %>
 check filesystem root with path /
 	if space usage > 80 % then alert
 	if inode usage > 80 % then alert
