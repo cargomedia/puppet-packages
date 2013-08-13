@@ -1,4 +1,4 @@
-class base::monit ($alertOnLoad1 = 20, $alertOnLoad5 = 10, $additionalChecks = []) {
+class base::monit ($alertOnLoad1 = 20, $alertOnLoad5 = 10) {
 
 	require '::monit'
 
