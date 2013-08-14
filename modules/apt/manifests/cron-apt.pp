@@ -15,7 +15,7 @@ class apt::cron-apt {
 
   file {'/etc/cron-apt/config':
     ensure => file,
-    content => template('apt/cron-apt-config'),
+    content => template("${module_name}/cron-apt-config"),
     owner => '0',
     group => '0',
     mode => '0644',
