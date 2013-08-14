@@ -1,4 +1,6 @@
-class cron-apt {
+class apt::cron-apt {
+
+  require 'apt'
 
   package {'cron-apt':
     ensure => present,
@@ -13,7 +15,7 @@ class cron-apt {
 
   file {'/etc/cron-apt/config':
     ensure => file,
-    content => template('cron-apt/config'),
+    content => template('apt/cron-apt-config'),
     owner => '0',
     group => '0',
     mode => '0644',

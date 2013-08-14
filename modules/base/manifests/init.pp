@@ -2,8 +2,8 @@ class base {
 
   case $operatingsystem {
     Debian: {
-      require 'cron-apt'
       require 'apt::sources'
+      require 'apt::cron-apt'
     }
   }
 
