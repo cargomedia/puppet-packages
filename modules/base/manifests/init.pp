@@ -6,7 +6,6 @@ class base {
       require 'apt::cron-apt'
     }
   }
-
   require 'bash'
   require 'ssh'
   require 'postfix'
