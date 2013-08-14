@@ -1,4 +1,6 @@
-class apt::sources {
+class apt::sources($lists = {}) {
+
+  include 'apt::update'
 
   file { '/etc/apt/sources.list':
     source => 'puppet:///modules/apt/sources',
@@ -6,12 +8,8 @@ class apt::sources {
     group => '0',
     owner => '0',
     mode => '0644',
+    notify => Exec['apt_update']
   }
 
-  exec { 'apt_update':
-    command     => "/usr/bin/apt-get update",
-    logoutput   => 'on_failure',
-    subscribe   => File["/etc/apt/sources.list"],
-    refreshonly => true,
-  }
+
 }
