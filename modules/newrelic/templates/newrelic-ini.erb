@@ -1,0 +1,10 @@
+; This file is going to be copied into newrelic.ini by the deployment script php-newrelic-postinstall.sh
+extension=newrelic.so
+newrelic.license = "<%= @licenseKey %>"
+newrelic.appname = "<%= @appname %>"
+newrelic.logfile = "/var/log/newrelic/php_agent.log"
+newrelic.daemon.logfile = "/var/log/newrelic/newrelic-daemon.log"
+newrelic.enabled = "<%= @enabled %>"
+newrelic.transaction_tracer.stack_trace_threshold = 500
+newrelic.transaction_tracer.explain_threshold = 500
+newrelic.browser_monitoring.auto_instrument = "<%= @browser_monitoring_enabled %>"
