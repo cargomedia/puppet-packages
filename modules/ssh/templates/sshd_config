@@ -78,3 +78,4 @@ UsePAM yes
 
 UseDNS no
 ClientAliveInterval 60
+ClientAliveCountMax 9999
