@@ -8,16 +8,16 @@ define apt::source(
 
   file { "/etc/apt/sources.list.d/":
     ensure => directory,
-    owner   => root,
-    group   => root,
+    owner   => '0',
+    group   => '0',
     mode    => '0755',
   }
 
   file { "${name}.list":
     ensure  => $ensure? { present => file, default => $ensure},
     path    => "/etc/apt/sources.list.d/${name}.list",
-    owner   => root,
-    group   => root,
+    owner   => '0',
+    group   => '0',
     mode    => '0644',
     content => template("${module_name}/source.list.erb"),
     require => File['/etc/apt/sources.list.d/'],
