@@ -1,4 +1,4 @@
-check system general
+check system base
 	if loadavg(1min) > <%= @alertOnLoad1 %> then alert
 	if loadavg(5min) > <%= @alertOnLoad5 %> then alert
 	if memory > 85% then alert
