@@ -1,4 +1,4 @@
-class base::monit ($alertOnLoad1 = 20, $alertOnLoad5 = 10) {
+class base::monit ($alertOnLoad1 = undef, $alertOnLoad5 = undef) {
 
 	require '::monit'
 
