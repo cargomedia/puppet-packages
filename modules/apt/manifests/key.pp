@@ -4,24 +4,25 @@ define apt::key (
   $key_url = undef,
 )
 {
+  require 'apt'
 
   case $ensure {
     present: {
       if !($key_url) {
         fail "[apt::key] key_url is needed for ensure => present"
       }
-
-      apt::key_add { "$name":
-        key => $key,
-        key_url => $key_url
+      exec { "Add deb signature key for $name":
+        command   => "wget -q '${key_url}' -O- | apt-key add -",
+        path      => ['/bin','/usr/bin'],
+        unless    => "apt-key list | grep '${key}'",
+        logoutput => 'on_failure',
       }
-
     }
 
     absent: {
       exec { "Remove deb signature key":
         command   => "apt-key del '${key}'",
-        path      => '/bin:/usr/bin',
+        path      => ['/bin','/usr/bin'],
         onlyif    => "apt-key list | grep '${key}'",
         logoutput => 'on_failure',
       }
