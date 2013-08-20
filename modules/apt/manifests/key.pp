@@ -20,7 +20,7 @@ define apt::key (
     }
 
     absent: {
-      exec { "Remove deb signature key":
+      exec { "Remove deb signature key for $name":
         command   => "apt-key del '${key}'",
         path      => ['/bin','/usr/bin'],
         onlyif    => "apt-key list | grep '${key}'",

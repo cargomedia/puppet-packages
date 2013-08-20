@@ -10,6 +10,4 @@ class apt::sources($lists = {}) {
     mode => '0644',
     notify => Exec['apt_update']
   }
-
-
 }
