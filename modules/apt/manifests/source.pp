@@ -19,7 +19,7 @@ define apt::source(
     owner   => '0',
     group   => '0',
     mode    => '0644',
-    content => template("${module_name}/source.list.erb"),
+    content => template("${module_name}/source.list"),
     require => File['/etc/apt/sources.list.d/'],
     notify  => Exec['apt_update'],
   }
