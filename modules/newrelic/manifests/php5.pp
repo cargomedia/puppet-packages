@@ -37,7 +37,7 @@ class newrelic::php5(
     owner   => '0',
     group   => '0',
     mode    => '0644',
-    content => template("${module_name}/newrelic-ini.erb"),
+    content => template("${module_name}/newrelic-ini"),
   }
 
 }
