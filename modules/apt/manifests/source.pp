@@ -6,13 +6,6 @@ define apt::source(
 
   include 'apt::update'
 
-  file { "/etc/apt/sources.list.d/":
-    ensure => directory,
-    owner   => '0',
-    group   => '0',
-    mode    => '0755',
-  }
-
   file { "${name}.list":
     ensure  => $ensure? { present => file, default => $ensure},
     path    => "/etc/apt/sources.list.d/${name}.list",

@@ -10,12 +10,12 @@ define apt::key (
       if !($key_url) {
         fail "[apt::key] key_url is needed for ensure => present"
       }
-      exec { "Add deb signature key":
-        command   => "wget -q '${key_url}' -O- | apt-key add -",
-        path      => '/bin:/usr/bin',
-        unless    => "/usr/bin/apt-key list | /bin/grep '${key}'",
-        logoutput => 'on_failure',
+
+      apt::key_add { "$name":
+        key => $key,
+        key_url => $key_url
       }
+
     }
 
     absent: {
