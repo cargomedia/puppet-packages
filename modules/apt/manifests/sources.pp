@@ -3,7 +3,7 @@ class apt::sources($lists = {}) {
   include 'apt::update'
 
   file { '/etc/apt/sources.list':
-    source => "puppet:///modules/${module_name}/sources",
+    source => "puppet:///modules/${module_name}/sources-squeeze",
     ensure => file,
     group => '0',
     owner => '0',
