@@ -5,6 +5,6 @@ class base::ulimit (
   file { "/etc/security/limits.conf":
     ensure  => file,
     group => '0', owner => '0', mode => '644',
-    content => template ('ulimit/limits'),
+    content => template ('base/ulimits'),
   }
 }
