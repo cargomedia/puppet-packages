@@ -75,7 +75,6 @@ class mysql::server ($rootPassword = undef) {
 	->
 
 	monit::entry {'mysql':
-		ensure => present,
 		content => template('mysql/monit'),
 	}
 }
