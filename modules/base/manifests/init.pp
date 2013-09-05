@@ -11,4 +11,5 @@ class base {
   require 'postfix'
   require 'vim'
   require 'monit'
+  require 'ulimit'
 }

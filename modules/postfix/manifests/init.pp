@@ -70,7 +70,6 @@ class postfix ($aliases = {}, $transports = []) {
 	}
 
 	monit::entry {'postfix':
-		ensure => present,
 		content => template('postfix/monit'),
 		require => Package['postfix'],
 	}

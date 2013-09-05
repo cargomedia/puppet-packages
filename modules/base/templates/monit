@@ -1,6 +1,6 @@
 check system base
-	if loadavg(1min) > <%= @alertOnLoad1 %> then alert
-	if loadavg(5min) > <%= @alertOnLoad5 %> then alert
+	if loadavg(1min) > <%= @alertOnLoad1 ? @alertOnLoad1 : (0.83 * @processorcount.to_f).ceil %> then alert
+	if loadavg(5min) > <%= @alertOnLoad5 ? @alertOnLoad5 : (0.58 * @processorcount.to_f).ceil %> then alert
 	if memory > 85% then alert
 
 check filesystem root with path /
