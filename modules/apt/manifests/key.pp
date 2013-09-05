@@ -6,6 +6,8 @@ define apt::key (
 {
   require 'apt'
 
+  $condition = "apt-key list | grep -E '^pub\s+\w+/${key}\s+'"
+
   case $ensure {
     present: {
       if !($key_url) {
@@ -14,7 +16,7 @@ define apt::key (
       exec { "Add deb signature key for $name":
         command   => "wget -q '${key_url}' -O- | apt-key add -",
         path      => ['/bin','/usr/bin'],
-        unless    => "apt-key list | grep '${key}'",
+        unless    => $condition,
         logoutput => 'on_failure',
       }
     }
@@ -23,7 +25,7 @@ define apt::key (
       exec { "Remove deb signature key for $name":
         command   => "apt-key del '${key}'",
         path      => ['/bin','/usr/bin'],
-        onlyif    => "apt-key list | grep '${key}'",
+        onlyif    => $condition,
         logoutput => 'on_failure',
       }
     }
