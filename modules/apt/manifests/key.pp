@@ -28,6 +28,7 @@ define apt::key (
         path      => ['/bin','/usr/bin'],
         onlyif    => $condition,
         logoutput => 'on_failure',
+        notify    => Exec['apt_update']
       }
     }
 
