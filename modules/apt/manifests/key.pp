@@ -4,26 +4,29 @@ define apt::key (
   $key_url = undef,
 )
 {
+  require 'apt'
+
+  $condition = "apt-key list | grep -E '^pub\s+\w+/${key}\s+'"
 
   case $ensure {
     present: {
       if !($key_url) {
         fail "[apt::key] key_url is needed for ensure => present"
       }
-      exec { "Add deb signature key":
+      exec { "Add deb signature key for $name":
         command   => "wget -q '${key_url}' -O- | apt-key add -",
-        path      => '/bin:/usr/bin',
-        unless    => "/usr/bin/apt-key list | /bin/grep '${key}'",
+        path      => ['/bin','/usr/bin'],
+        unless    => $condition,
         logoutput => 'on_failure',
         notify    => Exec['apt_update']
       }
     }
 
     absent: {
-      exec { "Remove deb signature key":
+      exec { "Remove deb signature key for $name":
         command   => "apt-key del '${key}'",
-        path      => '/bin:/usr/bin',
-        onlyif    => "apt-key list | grep '${key}'",
+        path      => ['/bin','/usr/bin'],
+        onlyif    => $condition,
         logoutput => 'on_failure',
       }
     }
