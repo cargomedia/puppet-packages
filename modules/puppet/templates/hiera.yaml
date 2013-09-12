@@ -2,10 +2,10 @@
 :backends:
   - json
 :hierarchy:
-  - fqdn/%{::fqdn}
+  - fqdn/%{::fqdn_reversed}
   - clientcert/%{::clientcert}
   - environment/%{::environment}
   - defaults
 
 :json:
-  :datadir: /etc/puppet/hiera/data
+  :datadir: <%= @hieraDataDir %>

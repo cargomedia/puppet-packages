@@ -1,0 +1,17 @@
+set daemon 10
+
+set logfile syslog facility log_daemon
+set mailserver localhost
+set alert <%= @emailTo %>
+set mail-format {
+	from: <%= @emailFrom %>
+	subject: monit $ACTION - $EVENT: $SERVICE on $HOST
+}
+
+include /etc/monit/conf.d/*
+
+set httpd port 2812 and
+allow localhost
+<% @allowedHosts.each do |host| -%>
+allow <%= host %>
+<% end %>

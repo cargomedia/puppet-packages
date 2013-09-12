@@ -1,0 +1,20 @@
+# See /usr/share/postfix/main.cf.dist for a commented, more complete version
+
+append_dot_mydomain = no
+myhostname = <%= @domain %>
+mydestination = localhost
+virtual_alias_maps = hash:/etc/postfix/virtual
+alias_database = hash:/etc/aliases
+alias_maps = hash:/etc/aliases
+
+inet_interfaces = 127.0.0.1
+biff = no
+mailbox_command = procmail -a "$EXTENSION"
+
+header_checks = regexp:/etc/postfix/header_checks
+
+smtp_sasl_auth_enable = yes
+smtp_sasl_security_options = noanonymous
+smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
+smtp_tls_security_level = may
+smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
