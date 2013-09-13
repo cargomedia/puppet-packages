@@ -1,9 +1,9 @@
 define ruby::gem ($ensure) {
 
-	require 'ruby::gems'
+  require 'ruby::gems'
 
-	package {$name:
-		ensure => $ensure,
-		provider => gem,
-	}
+  package {$name:
+    ensure => $ensure,
+    provider => gem,
+  }
 }

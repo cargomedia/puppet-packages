@@ -1,6 +1,6 @@
 class mysql::service {
 
-	require 'mysql::server'
+  require 'mysql::server'
 
-	service {'mysql':}
+  service {'mysql':}
 }

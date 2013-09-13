@@ -3,8 +3,8 @@ class monit ($emailTo = 'root@localhost', $emailFrom = 'root@localhost', $allowe
   include 'monit::service'
 
   file { '/etc/default/monit':
-    content => template('monit/default'),
     ensure => file,
+    content => template('monit/default'),
     group => '0',
     owner => '0',
     mode => '0644',
