@@ -1,6 +1,6 @@
 class apache2::service {
 
-	require 'apache2'
+  require 'apache2'
 
-	service {'apache2':}
+  service {'apache2':}
 }

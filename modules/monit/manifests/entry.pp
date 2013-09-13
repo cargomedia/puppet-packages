@@ -1,12 +1,14 @@
 define monit::entry ($content) {
 
-	include 'monit'
+  include 'monit'
 
-	file { "/etc/monit/conf.d/${name}":
-		content => $content,
-		ensure => file,
-		group => 0, owner => 0, mode => 644,
-		require => Package['monit'],
-		notify => Service['monit'],
-	}
+  file { "/etc/monit/conf.d/${name}":
+    ensure => file,
+    content => $content,
+    group => 0,
+    owner => 0,
+    mode => '0644',
+    require => Package['monit'],
+    notify => Service['monit'],
+  }
 }
