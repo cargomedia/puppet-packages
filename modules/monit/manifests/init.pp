@@ -20,9 +20,17 @@ class monit ($emailTo = 'root@localhost', $emailFrom = 'root@localhost', $allowe
   }
   ->
 
+  file { '/etc/monit/conf.d':
+    ensure => directory,
+    group => '0',
+    owner => '0',
+    mode => '0755',
+  }
+  ->
+
   file { '/etc/monit/monitrc':
-    ensure => file,
     content => template('monit/monitrc'),
+    ensure => file,
     group => '0',
     owner => '0',
     mode => '0600',
