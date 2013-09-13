@@ -5,7 +5,7 @@ class ulimit (
     ensure  => file,
     group => '0',
     owner => '0',
-    mode => '644',
+    mode => '0644',
     content => template ("${module_name}/limits"),
   }
 
@@ -13,6 +13,6 @@ class ulimit (
     ensure  => directory,
     group => '0',
     owner => '0',
-    mode => '644',
+    mode => '0644',
   }
 }

@@ -1,10 +1,10 @@
 define ulimit::entry ($content) {
 
   file { "/etc/security/limits.d/${name}":
-    content => $content,
     ensure => file,
+    content => $content,
     group => '0',
     owner => '0',
-    mode => '644',
+    mode => '0644',
   }
 }

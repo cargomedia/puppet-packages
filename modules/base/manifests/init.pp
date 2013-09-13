@@ -1,6 +1,6 @@
 class base {
 
-  case $operatingsystem {
+  case $::operatingsystem {
     Debian: {
       require 'apt'
       require 'apt::cron-apt'

@@ -1,8 +1,8 @@
 node default {
 
-	class {'puppet::agent':
-		tag => 'bootstrap',
-	}
+  class {'puppet::agent':
+    tag => 'bootstrap',
+  }
 
-	include hiera_array('classes', [])
+  include hiera_array('classes', [])
 }
