@@ -36,8 +36,9 @@ class puppet::agent ($server = 'puppet') {
   service {'puppet':
     subscribe => Exec['/etc/puppet/puppet.conf'],
   }
-#  ->
-#  monit::entry {'puppet':
-#    content => template('puppet/monit/agent')
-#  }
+  ->
+
+  monit::entry {'puppet':
+    content => template('puppet/monit/agent')
+  }
 }
