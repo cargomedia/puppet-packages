@@ -1,6 +1,6 @@
 define mount::entry ($source, $target, $type) {
 
-  include 'mount::client'
+  include 'mount::common'
 
   exec {"prepare ${target}":
     command => "mkdir -p ${target}; find '${target}' -type d -exec chmod -w {} \;; find '${target}' -type f -exec chmod -w {} \;;",

@@ -1,4 +1,4 @@
-class mount::client {
+class mount::common {
 
   exec {"mkdir /root/bin":
     provider => shell,
