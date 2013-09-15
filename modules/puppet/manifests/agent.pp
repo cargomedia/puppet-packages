@@ -19,11 +19,13 @@ class puppet::agent ($server = 'puppet') {
     owner => '0',
     mode => '0644',
   }
+
   ->
 
   package {'puppet':
-    ensure => present,
+    ensure => '3.2.4-1puppetlabs1',
     require => [
+      Package['puppet-common'],
       Helper::Script['install puppet apt sources'],
       Exec['/etc/puppet/puppet.conf'],
       File['/etc/puppet/conf.d/main']
@@ -34,9 +36,8 @@ class puppet::agent ($server = 'puppet') {
   service {'puppet':
     subscribe => Exec['/etc/puppet/puppet.conf'],
   }
-  ->
-
-  monit::entry {'puppet':
-    content => template('puppet/monit/agent')
-  }
+#  ->
+#  monit::entry {'puppet':
+#    content => template('puppet/monit/agent')
+#  }
 }
