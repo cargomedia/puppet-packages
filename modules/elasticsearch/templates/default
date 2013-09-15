@@ -1,0 +1,21 @@
+# Run ElasticSearch as this user ID and group ID
+ES_USER=elasticsearch
+ES_GROUP=elasticsearch
+
+# Heap memory - format NNNm or NNNg
+ES_HEAP_SIZE=%ELASTICSEARCH-HEAP-SIZE%
+
+# ElasticSearch log directory
+LOG_DIR=/var/log/elasticsearch
+
+# ElasticSearch data directory
+DATA_DIR=/var/lib/elasticsearch
+
+# ElasticSearch work directory
+WORK_DIR=/tmp/elasticsearch
+
+# ElasticSearch configuration directory
+CONF_DIR=/etc/elasticsearch
+
+# ElasticSearch configuration file (elasticsearch.yml)
+CONF_FILE=/etc/elasticsearch/elasticsearch.yml
