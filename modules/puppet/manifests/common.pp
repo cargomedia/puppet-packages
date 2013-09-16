@@ -21,7 +21,7 @@ class puppet::common {
 
   file {'/etc/puppet/conf.d/main':
     ensure => file,
-    content => template('puppet/conf.d/main'),
+    content => template('puppet/config'),
     group => '0',
     owner => '0',
     mode => '0644',

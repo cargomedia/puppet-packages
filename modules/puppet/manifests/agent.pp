@@ -4,7 +4,7 @@ class puppet::agent ($server = 'puppet') {
 
   file {'/etc/puppet/conf.d/agent':
     ensure => file,
-    content => template('puppet/conf.d/agent'),
+    content => template('puppet/agent/config'),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -14,7 +14,7 @@ class puppet::agent ($server = 'puppet') {
 
   file {'/etc/default/puppet':
     ensure => file,
-    content => template('puppet/default/agent'),
+    content => template('puppet/agent/default'),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -37,6 +37,6 @@ class puppet::agent ($server = 'puppet') {
   ->
 
   monit::entry {'puppet':
-    content => template('puppet/monit/agent')
+    content => template('puppet/agent/monit')
   }
 }

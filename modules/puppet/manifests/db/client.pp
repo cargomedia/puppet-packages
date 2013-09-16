@@ -1,10 +1,10 @@
-class puppet::db::client {
+class puppet::db::client ($host) {
 
   include 'puppet::master'
 
   file {'/etc/puppet/puppetdb.conf':
     ensure => file,
-    content => template('puppet/puppetdb.conf'),
+    content => template('puppet/master/puppetdb.conf'),
     owner => '0',
     group => '0',
     mode => '0644',
@@ -14,7 +14,7 @@ class puppet::db::client {
 
   file {'/etc/puppet/conf.d/puppetdb':
     ensure => file,
-    content => template('puppet/conf.d/puppetdb'),
+    content => template('puppet/master/conf.d/puppetdb'),
     group => '0',
     owner => '0',
     mode => '0644',
