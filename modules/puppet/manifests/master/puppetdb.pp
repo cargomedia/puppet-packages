@@ -22,6 +22,16 @@ class puppet::master::puppetdb ($host) {
     before => Package['puppetmaster'],
   }
 
+  file {'/etc/puppet/routes.yaml':
+    ensure => file,
+    content => template('puppet/master/routes.yaml'),
+    group => '0',
+    owner => '0',
+    mode => '0644',
+    notify => Service['puppetmaster'],
+    before => Package['puppetmaster'],
+  }
+
   package {'puppetdb-terminus':
     ensure => present,
   }
