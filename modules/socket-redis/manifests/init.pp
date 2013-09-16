@@ -82,6 +82,7 @@ class socket-redis (
     group => '0',
     mode => '0755',
   }
+  ->
 
   package {'socket-redis':
     ensure => $version,
