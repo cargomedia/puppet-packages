@@ -14,7 +14,7 @@ class nodejs ($version = '0.10.4') {
 
   helper::script {'install nodejs':
     content => template('nodejs/install.sh'),
-    unless => "test -x /usr/bin/node && /usr/bin/node -v | grep -q '^v${VERSION_NODE}$'",
+    unless => "test -x /usr/bin/node && /usr/bin/node -v | grep '^v${version}$'",
     require => User['nodejs'],
   }
 }
