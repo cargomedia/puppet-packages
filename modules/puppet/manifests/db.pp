@@ -26,5 +26,4 @@ class puppet::db ($host) {
   }
 
   service {'puppetdb':}
-
 }
