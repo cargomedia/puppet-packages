@@ -88,4 +88,8 @@ class socket-redis (
     ensure => $version,
     provider => 'npm',
   }
+
+  monit::entry {'socket-redis':
+    content => template('socket-redis/monit'),
+  }
 }
