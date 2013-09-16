@@ -12,6 +12,7 @@ class socket-redis (
 ) {
 
   require 'nodejs'
+  include 'socket-redis::service'
 
   file {'/etc/socket-redis':
     ensure => directory,
@@ -36,6 +37,7 @@ class socket-redis (
       group => '0',
       mode => '0640',
       before => File['/etc/init.d/socket-redis'],
+      notify => Service['socket-redis'],
     }
   }
 
@@ -48,6 +50,7 @@ class socket-redis (
       group => '0',
       mode => '0640',
       before => File['/etc/init.d/socket-redis'],
+      notify => Service['socket-redis'],
     }
   }
 
@@ -60,6 +63,7 @@ class socket-redis (
       group => '0',
       mode => '0640',
       before => File['/etc/init.d/socket-redis'],
+      notify => Service['socket-redis'],
     }
   }
 
@@ -72,6 +76,7 @@ class socket-redis (
       group => '0',
       mode => '0640',
       before => File['/etc/init.d/socket-redis'],
+      notify => Service['socket-redis'],
     }
   }
 
@@ -81,6 +86,7 @@ class socket-redis (
     owner => '0',
     group => '0',
     mode => '0755',
+    notify => Service['socket-redis'],
   }
   ->
 
