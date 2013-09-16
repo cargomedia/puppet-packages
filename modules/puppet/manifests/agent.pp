@@ -14,7 +14,7 @@ class puppet::agent ($server = 'puppet') {
 
   file {'/etc/default/puppet':
     ensure => file,
-    content => template('puppet/default'),
+    content => template('puppet/default/agent'),
     group => '0',
     owner => '0',
     mode => '0644',
