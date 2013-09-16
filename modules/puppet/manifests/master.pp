@@ -2,7 +2,7 @@ class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data
 
   include 'puppet::common'
   if $puppetdbHost {
-    class {'puppet::db::client':
+    class {'puppet::master::puppetdb':
       host => $puppetdbHost,
     }
   }

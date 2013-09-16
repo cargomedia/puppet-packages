@@ -1,4 +1,4 @@
-class puppet::db::client ($host) {
+class puppet::master::puppetdb ($host) {
 
   include 'puppet::master'
 
