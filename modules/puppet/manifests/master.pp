@@ -1,6 +1,9 @@
-class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data', $reportToEmail = 'root') {
+class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data', $reportToEmail = 'root', $puppetdbHost = undef) {
 
   include 'puppet::common'
+  if $puppetdbHost {
+    require 'puppet::db::terminus'
+  }
 
   file {'/etc/puppet/conf.d/master':
     ensure => file,
