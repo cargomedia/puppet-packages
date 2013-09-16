@@ -6,8 +6,9 @@ class puppet::db ($host) {
     group => '0',
     owner => '0',
     mode => '0644',
+    notify => Service['puppetdb'],
+    before => Package['puppetdb'],
   }
-  ->
 
   file {'/etc/puppetdb/conf.d/jetty.ini':
     ensure => file,
@@ -15,10 +16,15 @@ class puppet::db ($host) {
     group => '0',
     owner => '0',
     mode => '0644',
+    notify => Service['puppetdb'],
+    before => Package['puppetdb'],
   }
-  ->
 
   package {'puppetdb':
     ensure => present,
+    before => Service['puppetdb'],
   }
+
+  service {'puppetdb':}
+
 }
