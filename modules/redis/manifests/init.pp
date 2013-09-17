@@ -22,6 +22,21 @@ class redis ($version = '2.4.17') {
     group => '0',
     mode => '0644',
   }
+
+  ->
+  user {'redis':
+    ensure => present,
+    system => true,
+  }
+  ->
+
+  file {'/etc/init.d/redis':
+    ensure => file,
+    content => template('redis/init.sh'),
+    owner => '0',
+    group => '0',
+    mode => '0755',
+  }
   ->
 
   monit::entry {'redis':
