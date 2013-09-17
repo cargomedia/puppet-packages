@@ -5,7 +5,7 @@ module Puppet::Parser::Functions
     certname = args[0]
     key = args[1]
 
-   	uri = URI.parse('http://localhost:8080/v2/nodes/' + certname + /facts')
+   	uri = URI.parse('http://localhost:8080/v2/nodes/' + certname + '/facts')
     result = Net::HTTP.get(uri)
     puppetdbFacts = JSON.parse(result)
 
