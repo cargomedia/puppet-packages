@@ -28,6 +28,15 @@ class socket-redis (
     mode => '0755',
   }
 
+  File <<| title == 'socket-redis::redis config' |>> {
+    path => '/etc/socket-redis/config',
+    ensure => file,
+    owner => '0',
+    group => '0',
+    mode => '0644',
+    before => File['/etc/init.d/socket-redis'],
+  }
+
   if $sslKey {
     $sslKeyFile = '/etc/socket-redis/ssl/cert.key'
     file {$sslKeyFile:
