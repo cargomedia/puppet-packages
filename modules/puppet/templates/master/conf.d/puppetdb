@@ -1,0 +1,4 @@
+
+[master]
+storeconfigs = true
+storeconfigs_backend = puppetdb
