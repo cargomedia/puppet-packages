@@ -1,10 +1,8 @@
-class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data', $reportToEmail = 'root', $puppetdbHost = undef) {
+class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data', $reportToEmail = 'root', $puppetdb = false) {
 
   include 'puppet::common'
-  if $puppetdbHost {
-    class {'puppet::master::puppetdb':
-      host => $puppetdbHost,
-    }
+  if $puppetdb {
+    class {'puppet::master::puppetdb':}
   }
 
   file {'/etc/puppet/conf.d/master':
