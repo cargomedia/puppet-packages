@@ -1,4 +1,5 @@
 class socket-redis (
+  $name,
   $version = '0.1.1',
   $redisHost = 'localhost',
   $socketPorts = [8090],
@@ -28,7 +29,7 @@ class socket-redis (
     mode => '0755',
   }
 
-  File <<| title == 'socket-redis::redis config' |>> {
+  File <<| title == "socket-redis::redis config for ${name}" |>> {
     path => '/etc/socket-redis/config',
     ensure => file,
     owner => '0',
