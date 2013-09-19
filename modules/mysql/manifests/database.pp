@@ -1,4 +1,4 @@
-$define mysql::database ($user = undef) {
+define mysql::database ($user = undef) {
 
   require 'mysql::server'
 
