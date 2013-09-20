@@ -1,5 +1,4 @@
 class socket-redis (
-  $name,
   $version = '0.1.1',
   $redisHost = 'localhost',
   $socketPorts = [8090],
@@ -13,6 +12,9 @@ class socket-redis (
 ) {
 
   require 'nodejs'
+  if $redisHost == 'localhost' {
+    require 'redis'
+  }
   include 'socket-redis::service'
 
   file {'/etc/socket-redis':
@@ -27,15 +29,6 @@ class socket-redis (
     owner => '0',
     group => '0',
     mode => '0755',
-  }
-
-  File <<| title == "socket-redis::redis config for ${name}" |>> {
-    path => '/etc/socket-redis/config',
-    ensure => file,
-    owner => '0',
-    group => '0',
-    mode => '0644',
-    before => File['/etc/init.d/socket-redis'],
   }
 
   if $sslKey {

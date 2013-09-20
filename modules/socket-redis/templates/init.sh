@@ -9,7 +9,6 @@
 # Short-Description: Starts the socket-redis node script
 ### END INIT INFO
 
-. /etc/socket-redis/config
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
 NAME=socket-redis
 DESC=socket-redis
@@ -17,7 +16,7 @@ DAEMON=/usr/bin/node
 DAEMON_USER=nodejs:nodejs
 PIDFILE=/var/run/socket-redis.pid
 LOGDIR="<%= @logDir %>"
-DAEMON_ARGS="/usr/bin/socket-redis --log-dir=$LOGDIR --redis-host=$REDIS_HOST --socket-ports=<% @socketPorts.join(',') %> --ssl-key=<%= @sslKeyFile %> --ssl-cert=<%= @sslCertFile %> --ssl-pfx=<%= @sslPfxFile %> --ssl-passphrase=<%= @sslPassphraseFile %> --statusPort=<%= @statusPort %>"
+DAEMON_ARGS="/usr/bin/socket-redis --log-dir=$LOGDIR --redis-host=<%= @redisHost %> --socket-ports=<%= @socketPorts.join(',') %> --ssl-key=<%= @sslKeyFile %> --ssl-cert=<%= @sslCertFile %> --ssl-pfx=<%= @sslPfxFile %> --ssl-passphrase=<%= @sslPassphraseFile %> --statusPort=<%= @statusPort %>"
 
 test -x $DAEMON || exit 0
 set -e
