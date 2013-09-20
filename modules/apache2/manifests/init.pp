@@ -1,5 +1,7 @@
 class apache2 {
 
+  include 'apache2::service'
+
   file {'/etc/apache2':
     ensure => directory,
     owner => '0',
