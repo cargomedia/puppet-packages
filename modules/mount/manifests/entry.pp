@@ -21,8 +21,8 @@ define mount::entry ($source, $target, $type) {
   exec {}
 
   cron {"mount-check ${target}":
-    command => "/root/bin/mount-check.sh ${target}",
+    command => "/usr/sbin/mount-check.sh ${target}",
     user => 'root',
-    require => File['/root/bin/mount-check.sh'],
+    require => File['/usr/sbin/mount-check.sh'],
   }
 }

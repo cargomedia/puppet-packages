@@ -11,7 +11,7 @@ function runCommandWithTimeout {
 }
 
 if !(grep -q "[[:space:]]${mount}[[:space:]]" /proc/mounts); then
-	echo "NFS mountpoint not mounted: $mount - remounting..."
+	echo "Mountpoint not mounted: $mount - remounting..."
 	runCommandWithTimeout 5 "mount $mount"
 	if [ $? -gt 0 ]; then
 		echo "Failed to remount!"
@@ -21,7 +21,7 @@ if !(grep -q "[[:space:]]${mount}[[:space:]]" /proc/mounts); then
 fi
 runCommandWithTimeout 5 "testFile=$(mktemp --tmpdir=$mount) && rm -f \$testFile"
 if [ $? -gt 0 ]; then
-	echo "Cannot write to NFS mountpoint: $mount - remounting..."
+	echo "Cannot write to mountpoint: $mount - remounting..."
 	umount -l $mount
 	runCommandWithTimeout 5 "mount $mount"
 	if [ $? -gt 0 ]; then
