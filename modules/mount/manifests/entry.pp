@@ -1,4 +1,4 @@
-define mount::entry ($source, $target = $name, $type) {
+define mount::entry ($source, $target = $name, $type = 'none', $options = 'defaults') {
 
   include 'mount::common'
 
@@ -7,6 +7,7 @@ define mount::entry ($source, $target = $name, $type) {
     unless => "mountpoint -q ${target}",
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
+  ->
 
   mount {$target:
     ensure => present,
@@ -15,12 +16,22 @@ define mount::entry ($source, $target = $name, $type) {
     require => Exec["prepare ${target}"],
     dump => '0',
     pass => '0',
-    options => 'defaults',
+    options => $options,
   }
 
-  cron {"mount-check ${target}":
-    command => "/usr/sbin/mount-check.sh ${target}",
-    user => 'root',
-    require => File['/usr/sbin/mount-check.sh'],
+  unless $type == 'none' {
+    cron {"mount-check ${target}":
+      command => "/usr/sbin/mount-check.sh ${target}",
+      user => 'root',
+      require => [File['/usr/sbin/mount-check.sh'], Mount[$target]]
+
+    }
+
+    exec {"/usr/sbin/mount-check.sh ${target}":
+      command => "/usr/sbin/mount-check.sh ${target}",
+      refreshonly => true,
+      require => File['/usr/sbin/mount-check.sh'],
+      subscribe => Mount[$target],
+    }
   }
 }

@@ -1,4 +1,4 @@
-class nfs::server ($rootConfiguration = '*') {
+class nfs::server ($configuration = '*(ro)') {
 
   require 'nfs'
 
@@ -22,7 +22,7 @@ class nfs::server ($rootConfiguration = '*') {
 
   service {'nfs-kernel-server':}
 
-  $rootExports = shellquote("/nfsexport ${rootConfiguration}")
+  $rootExports = shellquote("/nfsexport ${$configuration}")
   exec {'/etc/exports':
     command => "echo ${rootExports} > /etc/exports; cat /etc/exports.d/* >> /etc/exports",
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
