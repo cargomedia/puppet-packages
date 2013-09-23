@@ -1,10 +1,10 @@
-class networking ($ipPrivate, $hosts = []) {
+class networking ($ipaddress, $hosts = []) {
 
   if $hosts {
     @@host {$hosts[0]:
       ensure => present,
       host_aliases => $hosts,
-      ip => $ipPrivate,
+      ip => $ipaddress,
       tag => $domain,
     }
   }
