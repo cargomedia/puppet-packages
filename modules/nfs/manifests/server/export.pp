@@ -1,13 +1,14 @@
-define nfs::server::export(
-  $client,
-  $options
-){
+define nfs::server::export($publicPath = $name, $localPath, $configuration) {
 
   include 'nfs::server'
 
-  exec {"add export $name":
-    command     => "/bin/echo \"/nfsexport/$name  $client($options)\" >> /etc/exports",
-    require     => Package['nfs-kernel-server'],
-    notify      => Exec['reload_nfs_srv']
+  $filename = md5($name)
+  file {"/etc/exports.d/${filename}":
+    ensure => file,
+    content => template('nfs/export'),
+    owner => '0',
+    group => '0',
+    mode => '644',
+    notify => Exec['/etc/exports'],
   }
 }

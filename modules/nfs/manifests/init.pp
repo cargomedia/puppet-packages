@@ -7,5 +7,4 @@ class nfs {
     owner => '0',
     mode => '0644',
   }
-
 }

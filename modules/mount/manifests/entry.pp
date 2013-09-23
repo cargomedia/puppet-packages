@@ -1,4 +1,4 @@
-define mount::entry ($source, $target, $type) {
+define mount::entry ($source, $target = $name, $type) {
 
   include 'mount::common'
 
@@ -17,8 +17,6 @@ define mount::entry ($source, $target, $type) {
     pass => '0',
     options => 'defaults',
   }
-
-  exec {}
 
   cron {"mount-check ${target}":
     command => "/usr/sbin/mount-check.sh ${target}",
