@@ -22,11 +22,9 @@ class nfs::server ($rootConfiguration = '*') {
 
   service {'nfs-kernel-server':}
 
-  $configuration = $rootConfiguration
-  $publicPath = ''
-  $rootExports = shellquote(template('nfs/export'))
+  $rootExports = shellquote("/nfsexport ${rootConfiguration}")
   exec {'/etc/exports':
-    command => "echo -n ${rootExports} > /etc/exports; cat /etc/exports.d/* >> /etc/exports",
+    command => "echo ${rootExports} > /etc/exports; cat /etc/exports.d/* >> /etc/exports",
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
     notify => Exec['/etc/init.d/nfs-kernel-server reload'],
