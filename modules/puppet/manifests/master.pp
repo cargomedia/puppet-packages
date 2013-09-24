@@ -3,6 +3,7 @@ class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data
   include 'puppet::common'
   if $puppetdb {
     class {'puppet::master::puppetdb':}
+    class {'puppetdb':}
   }
 
   file {'/etc/puppet/conf.d/master':
