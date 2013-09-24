@@ -10,14 +10,14 @@ class sysctl($entries = nil) {
     mode => '0644',
   }
 
-  exec { "sysctl -p":
-    path => "/sbin",
-    alias => "sysctl",
+  exec { 'sysctl -p':
+    path => '/sbin',
+    alias => 'sysctl',
     refreshonly => true,
-    subscribe => File["sysctl file"],
+    subscribe => File['sysctl file'],
   }
 
   if $entries != nil {
-    create_resources(sysctl::entry, $entries, {sysctlFile => "$sysctlFile"})
+    create_resources(sysctl::entry, $entries, { sysctlFile => $sysctlFile })
   }
 }
