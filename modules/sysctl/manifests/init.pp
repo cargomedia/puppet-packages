@@ -1,12 +1,9 @@
 class sysctl {
 
-  $sysctlFile = '/etc/sysctl.d/local.conf'
-
   $entries = hiera_hash('sysctl::entries')
 
-  file { $sysctlFile:
+  file { '/etc/sysctl.d/local.conf':
     ensure => file,
-    alias => 'sysctl file',
     owner => '0',
     group => '0',
     mode => '0644',
@@ -17,7 +14,6 @@ class sysctl {
     path => '/sbin',
     command => 'sysctl -p /etc/sysctl.d/*.conf',
     refreshonly => true,
-    subscribe => File['sysctl file'],
+    subscribe => File['/etc/sysctl.d/local.conf'],
   }
-
 }
