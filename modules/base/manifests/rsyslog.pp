@@ -1,5 +1,7 @@
 class base::rsyslog {
 
+  package { 'rsyslog': ensure => present }
+  ->
   file { '/etc/rsyslog.conf':
     ensure => file,
     owner => '0',
@@ -8,8 +10,6 @@ class base::rsyslog {
     content => template('base/rsyslog'),
     notify => Service['rsyslog']
   }
-
-  service { 'rsyslog': }
   ->
-  package { 'rsyslog': ensure => present }
+  service { 'rsyslog': }
 }
