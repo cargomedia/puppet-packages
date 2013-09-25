@@ -12,7 +12,7 @@ class sysctl {
 
   exec { 'sysctl reload':
     path => '/sbin',
-    command => 'sysctl -p /etc/sysctl.d/*.conf',
+    command => 'sysctl -p /etc/sysctl.d/local.conf',
     refreshonly => true,
     subscribe => File['/etc/sysctl.d/local.conf'],
   }
