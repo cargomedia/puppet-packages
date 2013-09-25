@@ -3,20 +3,29 @@ define mount::entry ($source, $target = $name, $type = 'none', $options = 'defau
   include 'mount::common'
 
   exec {"prepare ${target}":
-    command => "mkdir -p ${target}; find '${target}' -type d -exec chmod -w {} \;; find '${target}' -type f -exec chmod -w {} \;;",
-    unless => "mountpoint -q ${target}",
+    command => "mkdir -p ${target}",
+    creates => $target,
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
-  ->
+
+  unless $type == 'none' {
+    exec {"make ${target} read-only":
+      command => "find '${target}' -type d -exec chmod -w {} \;; find '${target}' -type f -exec chmod -w {} \;;",
+      unless => "mountpoint ${target}",
+      path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+      require => Exec["prepare ${target}"],
+      before => Mount[$target],
+    }
+  }
 
   mount {$target:
     ensure => present,
     fstype => $type,
     device => $source,
-    require => Exec["prepare ${target}"],
     dump => '0',
     pass => '0',
     options => $options,
+    require => Exec["prepare ${target}"],
   }
 
   cron {"mount-check ${target}":
