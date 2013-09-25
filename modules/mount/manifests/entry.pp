@@ -19,14 +19,13 @@ define mount::entry ($source, $target = $name, $type = 'none', $options = 'defau
     options => $options,
   }
 
-  unless $type == 'none' {
-    cron {"mount-check ${target}":
-      command => "/usr/sbin/mount-check.sh ${target}",
-      user => 'root',
-      require => [File['/usr/sbin/mount-check.sh'], Mount[$target]]
+  cron {"mount-check ${target}":
+    command => "/usr/sbin/mount-check.sh ${target}",
+    user => 'root',
+    require => [File['/usr/sbin/mount-check.sh'], Mount[$target]]
+  }
 
-    }
-
+  if $type == 'none' {
     exec {"/usr/sbin/mount-check.sh ${target}":
       command => "/usr/sbin/mount-check.sh ${target}",
       refreshonly => true,
