@@ -25,7 +25,6 @@ class apache2 {
   ->
 
   monit::entry {'apache2':
-    ensure => present,
     content => template('apache2/monit'),
   }
 }
