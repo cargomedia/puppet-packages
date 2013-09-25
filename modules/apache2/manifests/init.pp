@@ -11,7 +11,7 @@ class apache2 {
 
   file {'/etc/apache2/apache2.conf':
     ensure => file,
-    templates => 'apache2/apache2.conf',
+    content => template('apache2/apache2.conf'),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -25,7 +25,6 @@ class apache2 {
   ->
 
   monit::entry {'apache2':
-    ensure => present,
     content => template('apache2/monit'),
   }
 }
