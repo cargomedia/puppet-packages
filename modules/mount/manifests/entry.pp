@@ -1,4 +1,4 @@
-define mount::entry ($source, $target = $name, $type = 'none', $options = 'defaults') {
+define mount::entry ($source, $target = $name, $type = 'none', $options = 'defaults', $mount = false) {
 
   include 'mount::common'
 
@@ -25,7 +25,7 @@ define mount::entry ($source, $target = $name, $type = 'none', $options = 'defau
     require => [File['/usr/sbin/mount-check.sh'], Mount[$target]]
   }
 
-  if $type == 'none' {
+  if $mount {
     exec {"/usr/sbin/mount-check.sh ${target}":
       command => "/usr/sbin/mount-check.sh ${target}",
       refreshonly => true,
