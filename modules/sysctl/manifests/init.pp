@@ -1,6 +1,8 @@
-class sysctl($entries = nil) {
+class sysctl {
 
   $sysctlFile = '/etc/sysctl.d/local.conf'
+
+  $entries = hiera_hash('sysctl::entries')
 
   file { $sysctlFile:
     ensure => file,
@@ -8,16 +10,14 @@ class sysctl($entries = nil) {
     owner => '0',
     group => '0',
     mode => '0644',
+    content => template('sysctl/sysctl')
   }
 
-  exec { 'sysctl -p':
+  exec { 'sysctl reload':
     path => '/sbin',
-    alias => 'sysctl',
+    command => 'sysctl -p /etc/sysctl.d/*.conf',
     refreshonly => true,
     subscribe => File['sysctl file'],
   }
 
-  if $entries != nil {
-    create_resources(sysctl::entry, $entries, { sysctlFile => $sysctlFile })
-  }
 }
