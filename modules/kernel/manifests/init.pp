@@ -1,4 +1,4 @@
-class kernel($modules = {}) {
+class kernel($modules = []) {
 
   file { '/etc/modules':
     ensure => file,
