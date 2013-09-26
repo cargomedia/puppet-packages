@@ -1,0 +1,4 @@
+<?php
+ $mysql_user = '%cacti-sense-db-user%';
+ $mysql_pass = '%cacti-sense-db-passwd%';
+?>
