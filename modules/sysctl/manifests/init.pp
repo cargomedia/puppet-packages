@@ -1,6 +1,6 @@
-class sysctl {
+class sysctl ($entries = {}) {
 
-  $entries = hiera_hash('sysctl::entries')
+  $localEntries = hiera_hash('sysctl::entries', $entries)
 
   file { '/etc/sysctl.d/local.conf':
     ensure => file,

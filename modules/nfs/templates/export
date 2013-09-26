@@ -1,0 +1,1 @@
+/nfsexport<%= @publicPath %> <%= @configuration %>
