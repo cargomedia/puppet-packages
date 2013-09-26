@@ -19,11 +19,13 @@ class puppet::agent ($server = 'puppet') {
     owner => '0',
     mode => '0644',
   }
+
   ->
 
   package {'puppet':
-    ensure => present,
+    ensure => '3.2.4-1puppetlabs1',
     require => [
+      Package['puppet-common'],
       Helper::Script['install puppet apt sources'],
       Exec['/etc/puppet/puppet.conf'],
       File['/etc/puppet/conf.d/main']

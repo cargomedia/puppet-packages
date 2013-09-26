@@ -43,4 +43,13 @@ class puppet::common {
     refreshonly => true,
     require => File['/etc/puppet'],
   }
+
+  package {'puppet-common':
+    ensure => '3.2.4-1puppetlabs1',
+    require => [
+      Helper::Script['install puppet apt sources'],
+      Exec['/etc/puppet/puppet.conf'],
+      File['/etc/puppet/conf.d/main']
+    ]
+  }
 }
