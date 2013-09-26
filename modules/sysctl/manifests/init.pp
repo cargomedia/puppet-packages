@@ -2,7 +2,7 @@ class sysctl ($entries = {}) {
 
   $localEntries = hiera_hash('sysctl::entries', $entries)
 
-  file { '/etc/sysctl.d/local.conf':
+  file { '/etc/sysctl.conf':
     ensure => file,
     owner => '0',
     group => '0',
@@ -12,8 +12,8 @@ class sysctl ($entries = {}) {
 
   exec { 'sysctl reload':
     path => '/sbin',
-    command => 'sysctl -p /etc/sysctl.d/local.conf',
+    command => 'sysctl -p /etc/sysctl.conf',
     refreshonly => true,
-    subscribe => File['/etc/sysctl.d/local.conf'],
+    subscribe => File['/etc/sysctl.conf'],
   }
 }
