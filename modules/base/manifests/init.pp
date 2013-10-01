@@ -12,4 +12,5 @@ class base {
   require 'vim'
   require 'monit'
   require 'ulimit'
+  require 'rsyslog'
 }
