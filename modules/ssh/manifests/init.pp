@@ -24,5 +24,5 @@ class ssh {
     before => Service['ssh'],
   }
 
-  service {'sshd':}
+  service {'ssh':}
 }
