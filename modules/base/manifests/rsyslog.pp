@@ -9,7 +9,9 @@ class base::rsyslog {
     notify => Service['rsyslog']
   }
   ->
+
   package { 'rsyslog': }
+  ->
 
   service { 'rsyslog': }
 }
