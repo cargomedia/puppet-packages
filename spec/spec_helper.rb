@@ -22,10 +22,15 @@ RSpec.configure do |c|
     pwd = Pathname.new(file).dirname
     c.add_setting :pwd
     if c.pwd != pwd
-      c.ssh.close if c.ssh
       c.pwd = pwd
 
-      vagrant_up = `vagrant up`
+      if c.ssh
+        c.ssh.close
+        vagrant_snapshot_go = `vagrant snapshot go default default-test-snapshot`
+      else
+        vagrant_up = `vagrant up`
+        vagrant_snapshot_take = `vagrant snapshot take default default-test-snapshot`
+      end
 
       user = Etc.getlogin
       options = {}
@@ -43,7 +48,6 @@ RSpec.configure do |c|
         end
       end
       c.ssh = Net::SSH.start(c.host, user, options)
-
 
       manifest = File.join(Pathname.new(file).dirname, 'manifest.pp')
       manifest = manifest.sub(Dir.getwd, '/vagrant')
