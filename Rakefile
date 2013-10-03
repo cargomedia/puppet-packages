@@ -19,7 +19,7 @@ namespace :test do
 
   desc 'puppet validate and puppet-lint'
   task :lint do
-    sh 'puppet parser validate $(find . -name *.pp)'
+    sh 'puppet parser validate $(find modules/ -name *.pp)'
 
     PuppetLint.configuration.send("disable_arrow_alignment")
     Rake::Task['lint'].invoke
