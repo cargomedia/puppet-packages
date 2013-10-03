@@ -19,7 +19,7 @@ namespace :test do |ns|
   module_dirs.each do |module_dir|
     module_name = module_dir.basename
     RSpec::Core::RakeTask.new(module_name) do |t|
-      t.pattern = 'modules/#{module_name}/spec/*/*_spec.rb'
+      t.pattern = "modules/#{module_name}/spec/*/*_spec.rb"
     end
     task module_name => :prepare
   end
