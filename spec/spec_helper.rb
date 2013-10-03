@@ -19,35 +19,36 @@ RSpec.configure do |c|
     else
       file = block.source_location.first
     end
-    host  = File.basename(Pathname.new(file).dirname)
-    if c.host != host
+    pwd = Pathname.new(file).dirname
+    c.add_setting :pwd
+    if c.pwd != pwd
       c.ssh.close if c.ssh
-      c.host  = host
-      options = Net::SSH::Config.for(c.host)
-      user    = options[:user] || Etc.getlogin
-      vagrant_up = `vagrant up default`
+      c.pwd = pwd
+
+      vagrant_up = `vagrant up`
+
+      user = Etc.getlogin
+      options = {}
+      config = `vagrant ssh-config`
+      config.each_line do |line|
+        if match = /HostName (.*)/.match(line)
+          c.host = match[1]
+          options = Net::SSH::Config.for(c.host)
+        elsif  match = /User (.*)/.match(line)
+          user = match[1]
+        elsif match = /IdentityFile (.*)/.match(line)
+          options[:keys] = [match[1].gsub(/"/, '')]
+        elsif match = /Port (.*)/.match(line)
+          options[:port] = match[1]
+        end
+      end
+      c.ssh = Net::SSH.start(c.host, user, options)
+
 
       manifest = File.join(Pathname.new(file).dirname, 'manifest.pp')
       manifest = manifest.sub(Dir.getwd, '/vagrant')
       provisioner = "sudo puppet apply --detailed-exitcodes --verbose --modulepath '/vagrant/modules' #{manifest.shellescape} || [ $? -eq 2 ]"
-      puts provisioner
-      vagrant_provision = `vagrant ssh -c #{provisioner.shellescape}`
-
-      config = `vagrant ssh-config default`
-      if config != ''
-        config.each_line do |line|
-          if match = /HostName (.*)/.match(line)
-            c.host = match[1]
-          elsif  match = /User (.*)/.match(line)
-            user = match[1]
-          elsif match = /IdentityFile (.*)/.match(line)
-            options[:keys] =  [match[1].gsub(/"/,'')]
-          elsif match = /Port (.*)/.match(line)
-            options[:port] = match[1]
-          end
-        end
-      end
-      c.ssh   = Net::SSH.start(c.host, user, options)
+      c.ssh.exec!(provisioner)
     end
   end
 end
