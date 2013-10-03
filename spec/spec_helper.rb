@@ -26,10 +26,10 @@ RSpec.configure do |c|
 
       if c.ssh
         c.ssh.close
-        vagrant_snapshot_go = `vagrant snapshot go default default-test-snapshot`
+        `vagrant snapshot go default default-test-snapshot`
       else
-        vagrant_up = `vagrant up`
-        vagrant_snapshot_take = `vagrant snapshot take default default-test-snapshot`
+        `vagrant up`
+        `vagrant snapshot take default default-test-snapshot`
       end
 
       user = Etc.getlogin
