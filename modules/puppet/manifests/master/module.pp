@@ -1,4 +1,4 @@
-define puppet::master::module($version = '>0.0.0') {
+define puppet::master::module ($version = '>v0.0.0') {
 
   exec {"puppet module upgrade $name":
     command => "puppet module upgrade ${name}",
