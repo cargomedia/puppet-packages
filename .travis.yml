@@ -2,4 +2,8 @@ language: ruby
 rvm: 1.8.7
 env:
   - PUPPET_VERSION=3.3.0
-script: 'puppet parser validate $(find . -name *.pp);bundle exec rake'
+install:
+  - sudo vagrant plugin install vagrant-vbox-snapshot
+script:
+  - bundle exec rake validate
+  - bundle exec rake test:all
