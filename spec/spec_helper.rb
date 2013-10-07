@@ -24,7 +24,10 @@ RSpec.configure do |c|
     if c.pwd != pwd
       c.pwd = pwd
 
-      if c.ssh
+      vagrant_box_status = `vagrant status default`
+      vagrant_vm_status = /default (.*) /.match(vagrant_box_status)
+      vagrant_vm_state = vagrant_vm_status[1].strip
+      if vagrant_vm_state == 'running'
         c.ssh.close
         `vagrant snapshot go default default-test-snapshot`
       else
