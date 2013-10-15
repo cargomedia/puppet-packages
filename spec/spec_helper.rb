@@ -39,7 +39,6 @@ RSpec.configure do |c|
       end
       actions.push('snapshot go default default-test-snapshot')
       actions.each do |action|
-        puts action
         `vagrant #{action}`
       end
 
