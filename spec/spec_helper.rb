@@ -25,12 +25,21 @@ RSpec.configure do |c|
       c.pwd = pwd
       c.ssh.close if c.ssh
 
-      vm_actions = case `vagrant status`
-        when /The VM is running/ then ['snapshot go default default-test-snapshot']
-        when /To resume this VM/ then ['up', 'snapshot go default default-test-snapshot']
-        else ['up', 'snapshot take default default-test-snapshot']
+      vagrantIsRunning = `vagrant status`.match(/running/)
+      vagrantHasSnapshot = `vagrant snapshot list`.match(/Name: default-test-snapshot /)
+
+      actions = []
+      unless vagrantHasSnapshot
+        actions.push('destroy -f')
+        actions.push('up')
+        actions.push('snapshot take default default-test-snapshot')
       end
-      vm_actions.each do |action|
+      unless vagrantIsRunning
+        actions.push('up')
+      end
+      actions.push('snapshot go default default-test-snapshot')
+      actions.each do |action|
+        puts action
         `vagrant #{action}`
       end
 

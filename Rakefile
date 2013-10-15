@@ -8,7 +8,7 @@ PuppetLint.configuration.send("disable_arrow_alignment")
 namespace :test do |ns|
 
   task :prepare do
-    at_exit { Rake::Task['test:cleanup'].invoke }
+    # at_exit { Rake::Task['test:cleanup'].invoke }
   end
 
   task :cleanup do
