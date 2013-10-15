@@ -5,7 +5,7 @@ class adaptec-raid {
     content => template('adaptec-raid/install-arcconf.sh'),
     unless => 'which arcconf'
   }
-
+  ->
   helper::script {'set hard drive write cache off if adaptec raid':
     content => template('adaptec-raid/set-write-cache-off.sh')
     unless => 'which arcconf'
