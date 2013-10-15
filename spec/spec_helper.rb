@@ -26,18 +26,18 @@ RSpec.configure do |c|
       c.ssh.close if c.ssh
 
       vagrantIsRunning = `vagrant status`.match(/running/)
-      vagrantHasSnapshot = system('vagrant snapshot list 2>/dev/null | grep -q "Name: default-test-snapshot "')
+      vagrantHasSnapshot = system('vagrant snapshot list 2>/dev/null | grep -q "Name: default "')
 
       actions = []
       unless vagrantHasSnapshot
         actions.push('destroy -f')
         actions.push('up')
-        actions.push('snapshot take default default-test-snapshot')
+        actions.push('snapshot take default')
       end
       unless vagrantIsRunning
         actions.push('up')
       end
-      actions.push('snapshot go default default-test-snapshot')
+      actions.push('snapshot go default')
       actions.each do |action|
         `vagrant #{action}`
       end
