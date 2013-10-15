@@ -26,7 +26,7 @@ RSpec.configure do |c|
       c.ssh.close if c.ssh
 
       vagrantIsRunning = `vagrant status`.match(/running/)
-      vagrantHasSnapshot = `vagrant snapshot list`.match(/Name: default-test-snapshot /)
+      vagrantHasSnapshot = system('vagrant snapshot list 2>/dev/null | grep -q "Name: default-test-snapshot "')
 
       actions = []
       unless vagrantHasSnapshot
