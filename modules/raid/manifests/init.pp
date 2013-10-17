@@ -1,5 +1,9 @@
 class raid {
-  if $::raid =~ /adaptec-raid/        { include raid::adaptec }
-  if $::raid =~ /lsi-megasas/         { include raid::lsi-megasas }
-  if $::raid =~ /linux-software-raid/ { include raid::linux-md }
+
+  $raid_list = split($::raid, ',')
+  include $raid_list
+
+  unless size($raid_list) > 0 {
+    warning('Should not use `raid` class if no raid hardware present')
+  }
 }
