@@ -5,8 +5,6 @@ class snmp (
   $community  = 'public'
 ) {
 
-  require 'monit'
-
   file {'/etc/snmp/snmpd.conf':
     ensure => file,
     content => template('snmp/snmpd.conf'),
