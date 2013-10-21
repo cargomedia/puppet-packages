@@ -1,6 +1,6 @@
 node default {
 
   puppet::module {'puppetlabs-stdlib':
-    update => true,
+    version => '3.0.0'
   }
 }
