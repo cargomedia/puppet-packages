@@ -1,7 +1,8 @@
 class snmp (
   $views      = [],
   $disks      = [],
-  $ip         = '127.0.0.1',
+  $iphost     = '127.0.0.1',
+  $ipnetwork  = '127.0.0.0/24',
   $community  = 'public'
 ) {
 
