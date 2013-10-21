@@ -1,10 +1,14 @@
 class cacti::server (
-  $host       = $cacti::params::host,
-  $dbname     = $cacti::params::dbname,
-  $dbuser     = $cacti::params::dbuser,
-  $dbpassword = $cacti::params::dbpassword,
-  $username   = $cacti::params::username,
-  $groupname  = $cacti::params::groupname
+  $ipPrivateNetwork = $cacti::params::ipPrivateNetwork,
+  $dbName           = $cacti::params::dbName,
+  $dbUser           = $cacti::params::dbUser,
+  $dbPassword       = $cacti::params::dbPassword,
+  $dbSenseUser      = $cacti::params::dbSenseUser,
+  $dbSensePassword  = $cacti::params::dbSensePassword,
+  $sshPublicKey     = $cacti::params::sshPublicKey,
+  $storageLvmName   = $cacti::params::storageLvmName,
+  $username         = $cacti::params::username,
+  $groupname        = $cacti::params::groupname
 ) inherits cacti::params {
 
   validate_string($username)
