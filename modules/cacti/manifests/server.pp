@@ -10,12 +10,11 @@ class cacti::server (
   validate_string($username)
   validate_string($groupname)
 
-  incluse 'cacti'
-
+  include 'cacti'
   require 'snmp'
   require 'php5::extension::snmp'
 
-  package {"cacti":
+  package {'cacti':
     ensure => present,
   }
 }
