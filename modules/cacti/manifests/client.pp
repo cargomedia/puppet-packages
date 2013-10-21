@@ -27,7 +27,7 @@ class cacti::client(
 
   file{"/home/$username/.ssh/authorizated_keys":
     ensure  => file,
-    content => template("${module_name}/ssh/authorizated_keys"),
+    content => template("${module_name}/authorizated_keys"),
     group => $groupname,
     owner => $username,
     mode => '750',
