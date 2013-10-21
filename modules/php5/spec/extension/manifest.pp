@@ -1,5 +1,8 @@
 node default {
 
-  require 'apt::update'
+  class {'apt' :
+    before => Class['php5'],
+  }
+
   require 'php5::extension::snmp'
 }
