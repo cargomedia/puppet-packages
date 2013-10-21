@@ -11,6 +11,7 @@ define puppet::module ($version = '') {
     onlyif => "puppet module list | grep ${name}",
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
+  ->
 
   exec {"puppet module install $name":
     command => "puppet module install -f -v '${version_install}' ${name}",
