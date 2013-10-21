@@ -3,13 +3,13 @@ class cacti (
   $groupname  = $cacti::params::groupname
 ) inherits cacti::params {
 
-  group{$groupname:
+  group {$groupname:
     ensure => present,
     gid => 2001,
   }
   ->
 
-  user{$username:
+  user {$username:
     ensure => present,
     gid => $groupname,
     require => Group[$groupname],

@@ -1,23 +1,43 @@
 class cacti::params {
 
-  $host = $::host ? {
-    undef => 'localhost',
-    default => $::host,
-  }
-
-  $dbname = $::dbname ? {
-    undef => 'cacti',
-    default => $::dbname,
-  }
-
-  $dbuser = $::dbuser ? {
-    undef => 'cacti',
-    default => $::dbuser,
-  }
-
-  $dbpassword = $::dbpassword ? {
+  $ipPrivateNetwork = $::ipPrivateNetwork ? {
     undef => '',
-    default => $::dbpassword,
+    default => $::ipPrivateNetwork,
+  }
+
+  $dbName = $::dbName ? {
+    undef => 'cacti',
+    default => $::dbName,
+  }
+
+  $dbUser = $::dbUser ? {
+    undef => 'cacti',
+    default => $::dbUser,
+  }
+
+  $dbPassword = $::dbPassword ? {
+    undef => '',
+    default => $::dbPassword,
+  }
+
+  $dbSenseUser = $::dbSenseUser ? {
+    undef => '',
+    default => $::dbSenseUser,
+  }
+
+  $dbSensePassword = $::dbSensePassword ? {
+    undef => '',
+    default => $::dbSensePassword,
+  }
+
+  $sshPublicKey = $::sshPublicKey ? {
+    undef => 'No key defined',
+    default => $::sshPublicKey,
+  }
+
+  $storageLvmName = $::storageLvmName ? {
+    undef => '',
+    default => $::storageLvmName,
   }
 
   $username = $::username ? {
