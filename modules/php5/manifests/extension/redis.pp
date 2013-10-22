@@ -1,7 +1,7 @@
-class php::extension::redis {
+class php5::extension::redis {
 
   $version = '2.2.3'
-  require 'php53'
+  require 'php5'
 
   helper::script {'install php5-redis':
     content => template('php5/redis/install.sh'),
@@ -11,7 +11,7 @@ class php::extension::redis {
 
   file {'/etc/php5/conf.d/redis.ini':
     ensure => file,
-    content => template('php5/redis/conf,ini'),
+    content => template('php5/redis/conf.ini'),
     owner => '0',
     group => '0',
     mode => '0644',
