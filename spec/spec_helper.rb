@@ -1,11 +1,9 @@
 require 'serverspec'
 require 'pathname'
 require 'net/ssh'
-require 'term/ansicolor'
 
 include Serverspec::Helper::Ssh
 include Serverspec::Helper::DetectOS
-include Term::ANSIColor
 
 RSpec.configure do |c|
   if ENV['ASK_SUDO_PASSWORD']
@@ -88,12 +86,11 @@ RSpec.configure do |c|
         end
         channel.wait
         unless channel[:success]
-          puts
-          puts on_red white 'Puppet command failed!'
-          puts
-          puts channel[:output]
-          puts
-          exit
+          $stderr.puts
+          $stderr.puts 'Puppet command failed!'
+          $stderr.puts channel[:output]
+          $stderr.puts
+          exit 1
         end
       end
     end
