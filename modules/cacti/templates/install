@@ -1,11 +1,11 @@
-mysql -e 'update mysql.user set password=PASSWORD("%CACTI-DB-PASSWD%") where user="%CACTI-DB-USER%"; flush privileges;'
+mysql -e 'update mysql.user set password=PASSWORD("<%= @dbPassword %>") where user="<%= @dbUser %>"; flush privileges;'
 
 chown www-data: /etc/cacti/id_rsa
 chmod 600 /etc/cacti/id_rsa
 
 if ! (test -e /etc/apache2/ssl/cacti.pem); then
 	mkdir -p /etc/apache2/ssl
-	openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/apache2/ssl/cacti.pem -out /etc/apache2/ssl/cacti.pem -subj '/CN=cacti.%DOMAIN%'
+	openssl req -x509 -nodes -days 3650 -newkey rsa:2048 -keyout /etc/apache2/ssl/cacti.pem -out /etc/apache2/ssl/cacti.pem -subj '/CN=cacti.<%= @domain %>'
 	a2enmod ssl
 	apache2ctl restart
 fi
