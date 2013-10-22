@@ -39,7 +39,7 @@ RSpec.configure do |c|
       end
       actions.push('snapshot go default')
       actions.each do |action|
-        `vagrant #{action}`
+        #`vagrant #{action}`
       end
 
       user = Etc.getlogin
@@ -62,10 +62,10 @@ RSpec.configure do |c|
 
       manifests_dir = Dir.new Pathname.new(file).dirname
       vagrant_manifests_path = manifests_dir.to_path.sub(Dir.getwd, '/vagrant')
-      manifests_dir.sort.each do |manifest|
-        next unless File.extname(manifest) == '.pp'
-        manifest_path = vagrant_manifests_path + '/' + manifest
-        command = "sudo puppet apply --verbose --modulepath '/vagrant/modules' #{manifest_path.shellescape}"
+      manifests_dir.sort.each do |manifest_path|
+        next unless File.extname(manifest_path) == '.pp'
+        manifest = vagrant_manifests_path + '/' + manifest_path
+        command = "sudo puppet apply --verbose --modulepath '/vagrant/modules' #{manifest.shellescape}"
         channel = c.ssh.open_channel do |channel|
           channel.exec(command) do |ch, success|
             raise "could not execute command: #{command.inspect}" unless success
@@ -77,9 +77,7 @@ RSpec.configure do |c|
             end
 
             channel.on_extended_data do |ch2, type, data|
-              if data.match(/Error: /)
-                ch[:success] = false
-              end
+              ch[:success] = false
               ch[:output] << data
             end
           end
@@ -87,7 +85,7 @@ RSpec.configure do |c|
         channel.wait
         unless channel[:success]
           $stderr.puts
-          $stderr.puts 'Puppet: running `' + manifest + '` manifest failed!'
+          $stderr.puts 'Puppet command failed!'
           $stderr.puts channel[:output]
           $stderr.puts
           exit 1
