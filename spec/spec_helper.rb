@@ -1,9 +1,11 @@
 require 'serverspec'
 require 'pathname'
 require 'net/ssh'
+require 'term/ansicolor'
 
 include Serverspec::Helper::Ssh
 include Serverspec::Helper::DetectOS
+include Term::ANSIColor
 
 RSpec.configure do |c|
   if ENV['ASK_SUDO_PASSWORD']
@@ -39,7 +41,7 @@ RSpec.configure do |c|
       end
       actions.push('snapshot go default')
       actions.each do |action|
-        `vagrant #{action}`
+        #`vagrant #{action}`
       end
 
       user = Etc.getlogin
@@ -65,8 +67,34 @@ RSpec.configure do |c|
       manifests_dir.sort.each do |manifest_path|
         next unless File.extname(manifest_path) == '.pp'
         manifest = vagrant_manifests_path + '/' + manifest_path
-        command = "sudo puppet apply --detailed-exitcodes --verbose --modulepath '/vagrant/modules' #{manifest.shellescape} || [ $? -eq 2 ]"
-        c.ssh.exec! command
+        command = "sudo puppet apply --detailed-exitcodes --verbose --modulepath '/vagrant/modules' #{manifest.shellescape}"
+        channel = c.ssh.open_channel do |channel|
+          channel.exec(command) do |ch, success|
+            raise "could not execute command: #{command.inspect}" unless success
+            ch[:output] = ''
+
+            channel.on_data do |ch2, data|
+              ch[:output] << data
+            end
+
+            channel.on_extended_data do |ch2, type, data|
+              ch[:output] << data
+            end
+
+            channel.on_request "exit-status" do |ch, data|
+              ch[:success] = (data.read_long == 0)
+            end
+          end
+        end
+        channel.wait
+        unless channel[:success]
+          puts
+          puts on_red white 'Puppet command failed!'
+          puts
+          puts channel[:output]
+          puts
+          exit
+        end
       end
     end
   end
