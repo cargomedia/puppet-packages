@@ -7,7 +7,6 @@ if Facter.value(:kernel) == "Linux"
       raid_list = Set.new()
 
       mdstat_output = `cat /proc/mdstat 2>/dev/null`
-      mdstat_output = `cat /home/vagrant/procmdstatexample 2>/dev/null`
       if $?.success?
         mdstat_output.each_line do |l|
           if l =~ /^md.*: .*raid/
