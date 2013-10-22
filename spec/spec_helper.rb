@@ -39,7 +39,7 @@ RSpec.configure do |c|
       end
       actions.push('snapshot go default')
       actions.each do |action|
-        #`vagrant #{action}`
+        `vagrant #{action}`
       end
 
       user = Etc.getlogin
