@@ -7,16 +7,14 @@ define mount::entry ($source, $target = $name, $type = 'none', $options = 'defau
     creates => $target,
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
+  ->
 
-  unless $type == 'none' {
-    exec {"make ${target} read-only":
-      command => "find '${target}' -type d -exec chmod -w {} \;; find '${target}' -type f -exec chmod -w {} \;;",
-      unless => "mountpoint ${target}",
-      path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-      require => Exec["prepare ${target}"],
-      before => Mount[$target],
-    }
+  exec {"make ${target} read-only":
+    command => "find '${target}' -type d -exec chmod -w {} \;; find '${target}' -type f -exec chmod -w {} \;;",
+    unless => "mountpoint ${target}",
+    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
+  ->
 
   mount {$target:
     ensure => present,
@@ -27,11 +25,12 @@ define mount::entry ($source, $target = $name, $type = 'none', $options = 'defau
     options => $options,
     require => Exec["prepare ${target}"],
   }
+  ->
 
   cron {"mount-check ${target}":
     command => "/usr/sbin/mount-check.sh ${target}",
     user => 'root',
-    require => [File['/usr/sbin/mount-check.sh'], Mount[$target]]
+    require => [File['/usr/sbin/mount-check.sh']]
   }
 
   if $mount {
