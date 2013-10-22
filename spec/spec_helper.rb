@@ -66,7 +66,6 @@ RSpec.configure do |c|
         next unless File.extname(manifest_path) == '.pp'
         manifest = vagrant_manifests_path + '/' + manifest_path
         command = "sudo puppet apply --verbose --modulepath '/vagrant/modules' #{manifest.shellescape}"
-        puts command
         channel = c.ssh.open_channel do |channel|
           channel.exec(command) do |ch, success|
             raise "could not execute command: #{command.inspect}" unless success
