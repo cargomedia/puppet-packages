@@ -10,10 +10,10 @@
 ## you'll probably also want to edit the configuration file mentioned
 ## above too.
 ##
-$database_username='%CACTI-DB-USER%';
-$database_password='%CACTI-DB-PASSWD%';
+$database_username='<%= @dbUser %>';
+$database_password='<%= @dbPassword %>';
 $basepath='';
-$database_default='%CACTI-DB-NAME%';
-$database_hostname='localhost';
-$database_port='';
+$database_default='<%= @dbName %>';
+$database_hostname='<%= @dbHost %>';
+$database_port='<%= @dbPort %>';
 $dbtype='mysql';
