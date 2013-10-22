@@ -1,0 +1,4 @@
+check process mdadm-status with pidfile /var/run/mdadm/monitor.pid
+	start program = "/etc/init.d/mdadm start"
+	stop program = "/etc/init.d/mdadm stop"
+	if 25 restarts within 50 cycles then timeout
