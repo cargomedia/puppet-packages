@@ -7,6 +7,7 @@ if Facter.value(:kernel) == "Linux"
       raid_list = Set.new()
 
       mdstat_output = `cat /proc/mdstat 2>/dev/null`
+      mdstat_output = `cat /home/vagrant/procmdstatexample 2>/dev/null`
       if $?.success?
         mdstat_output.each_line do |l|
           if l =~ /^md.*: .*raid/
@@ -26,7 +27,7 @@ if Facter.value(:kernel) == "Linux"
         lspci_lsi_output.each_line do |l|
           raid_list << "lsi-mpt-fusion-u320" if l.include?("Fusion-MPT Dual Ultra320")
           raid_list << "lsi-megaraid" if l.include?("MegaRAID")
-          raid_list << "lsi-megasas" if l.include?("MegaRAID SAS") || l.include?("SAS1078 PCI-X Fusion-MPT SAS") || l.include?("LSI MegaSAS")
+          raid_list << "lsi-megaraidsas" if l.include?("MegaRAID SAS") || l.include?("SAS1078 PCI-X Fusion-MPT SAS") || l.include?("LSI MegaSAS")
         end
       end
 
