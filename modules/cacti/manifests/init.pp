@@ -1,17 +1,20 @@
 class cacti (
-  $username   = $cacti::params::username,
-  $groupname  = $cacti::params::groupname
+  $userName   = $cacti::params::userName,
+  $userId  = $cacti::params::userId,
+  $groupName  = $cacti::params::groupName,
+  $groupId  = $cacti::params::groupId
 ) inherits cacti::params {
 
-  group {$groupname:
+  group {$groupName:
     ensure => present,
-    gid => 2001,
+    gid => $groupId,
   }
   ->
 
-  user {$username:
-    ensure => present,
-    gid => $groupname,
-    require => Group[$groupname],
+  user {$userName:
+    ensure  => present,
+    gid     => $groupName,
+    uid     => $userId,
+    require => Group[$groupName],
   }
 }
