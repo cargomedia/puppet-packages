@@ -1,4 +1,6 @@
-class redis ($version = '2.4.17') {
+class redis {
+
+  $version = '2.4.17'
 
   helper::script {'install redis-server':
     content => template('redis/install.sh'),
