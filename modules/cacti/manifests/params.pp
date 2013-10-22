@@ -1,8 +1,28 @@
 class cacti::params {
 
+  $host = $::host ? {
+    undef => 'localhost',
+    default => $::host,
+  }
+
+  $domain = $::domain  ? {
+    undef => 'localhost',
+    default => $::domain,
+  }
+
   $ipPrivateNetwork = $::ipPrivateNetwork ? {
-    undef => '',
+    undef => '127.0.0.0/24',
     default => $::ipPrivateNetwork,
+  }
+
+  $dbHost = $::dbHost ? {
+    undef => 'localhost',
+    default => $::dbHost,
+  }
+
+  $dbPort = $::dbPort ? {
+    undef => '3306',
+    default => $::dbPort,
   }
 
   $dbName = $::dbName ? {
