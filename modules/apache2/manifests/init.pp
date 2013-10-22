@@ -1,5 +1,7 @@
 class apache2 {
 
+  include 'apache2::service'
+
   file {'/etc/apache2':
     ensure => directory,
     owner => '0',
@@ -9,7 +11,7 @@ class apache2 {
 
   file {'/etc/apache2/apache2.conf':
     ensure => file,
-    source => 'puppet:///modules/apache2/apache2.conf',
+    content => template('apache2/apache2.conf'),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -19,5 +21,10 @@ class apache2 {
 
   package {'apache2':
     ensure => present,
+  }
+  ->
+
+  monit::entry {'apache2':
+    content => template('apache2/monit'),
   }
 }
