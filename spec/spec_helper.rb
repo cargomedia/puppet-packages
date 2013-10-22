@@ -25,16 +25,16 @@ RSpec.configure do |c|
       c.pwd = pwd
       c.ssh.close if c.ssh
 
-      vagrantIsRunning = `vagrant status`.match(/running/)
-      vagrantHasSnapshot = system('vagrant snapshot list 2>/dev/null | grep -q "Name: default "')
+      vagrant_is_running = `vagrant status`.match(/running/)
+      vagrant_has_snapshot = system('vagrant snapshot list 2>/dev/null | grep -q "Name: default "')
 
       actions = []
-      unless vagrantHasSnapshot
+      unless vagrant_has_snapshot
         actions.push('destroy -f')
         actions.push('up')
         actions.push('snapshot take default')
       end
-      unless vagrantIsRunning
+      unless vagrant_is_running
         actions.push('up')
       end
       actions.push('snapshot go default')
@@ -59,10 +59,17 @@ RSpec.configure do |c|
       end
       c.ssh = Net::SSH.start(c.host, user, options)
 
-      manifest = File.join(Pathname.new(file).dirname, 'manifest.pp')
-      manifest = manifest.sub(Dir.getwd, '/vagrant')
-      provisioner = "sudo puppet apply --detailed-exitcodes --verbose --modulepath '/vagrant/modules' #{manifest.shellescape} || [ $? -eq 2 ]"
-      c.ssh.exec!(provisioner)
+
+      manifests_dir = Dir.new Pathname.new(file).dirname
+      vagrant_manifests_path = manifests_dir.to_path.sub(Dir.getwd, '/vagrant')
+      manifests_dir.sort.select do |manifest_path|
+        puts manifest_path
+        next unless File.extname(manifest_path) == '.pp'
+        manifest = vagrant_manifests_path + '/' + manifest_path
+        command = "sudo puppet apply --detailed-exitcodes --verbose --modulepath '/vagrant/modules' #{manifest.shellescape} || [ $? -eq 2 ]"
+        puts command
+        c.ssh.exec! command
+      end
     end
   end
 end
