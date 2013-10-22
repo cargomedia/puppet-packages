@@ -39,7 +39,7 @@ RSpec.configure do |c|
       end
       actions.push('snapshot go default')
       actions.each do |action|
-        `vagrant #{action}`
+        #`vagrant #{action}`
       end
 
       user = Etc.getlogin
@@ -65,22 +65,21 @@ RSpec.configure do |c|
       manifests_dir.sort.each do |manifest_path|
         next unless File.extname(manifest_path) == '.pp'
         manifest = vagrant_manifests_path + '/' + manifest_path
-        command = "sudo puppet apply --detailed-exitcodes --verbose --modulepath '/vagrant/modules' #{manifest.shellescape}"
+        command = "sudo puppet apply --verbose --modulepath '/vagrant/modules' #{manifest.shellescape}"
+        puts command
         channel = c.ssh.open_channel do |channel|
           channel.exec(command) do |ch, success|
             raise "could not execute command: #{command.inspect}" unless success
             ch[:output] = ''
+            ch[:success] = true
 
             channel.on_data do |ch2, data|
               ch[:output] << data
             end
 
             channel.on_extended_data do |ch2, type, data|
+              ch[:success] = false
               ch[:output] << data
-            end
-
-            channel.on_request "exit-status" do |ch, data|
-              ch[:success] = (data.read_long == 0)
             end
           end
         end
