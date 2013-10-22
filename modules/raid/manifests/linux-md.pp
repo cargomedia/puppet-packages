@@ -10,8 +10,16 @@ class raid::linux-md {
     before => Package['mdadm'],
   }
 
+  file { '/tmp/mdadm.preseed':
+    ensure => file,
+    content => template('raid/linux-md/mdadm.preseed'),
+    mode => '0644',
+  }
+
   package { 'mdadm':
-    ensure => present
+    ensure => present,
+    responsefile =>  '/tmp/mdadm.preseed',
+    require => File['/tmp/mdadm.preseed'],
   }
   ->
 

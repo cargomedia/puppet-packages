@@ -13,6 +13,7 @@ class raid::adaptec {
 
   file { '/usr/sbin/check-adaptec-raid-health.sh':
     content => template('raid/adaptec/check-adaptec-raid-health.sh'),
+    mode => '0755',
   }
   ->
 
