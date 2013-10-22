@@ -60,13 +60,23 @@ class cacti::params {
     default => $::storageLvmName,
   }
 
-  $username = $::username ? {
+  $userName = $::userName ? {
     undef => 'cacti',
-    default => $::username,
+    default => $::userName,
   }
 
-  $groupname = $::groupname ? {
+  $userId = $::userId ? {
+    undef => 2001,
+    default => $::userId,
+  }
+
+  $groupName = $::groupName ? {
     undef => 'cacti',
-    default => $::groupname,
+    default => $::groupName,
+  }
+
+  $groupId = $::groupId ? {
+    undef => 2001,
+    default => $::groupId,
   }
 }
