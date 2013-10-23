@@ -1,5 +1,7 @@
 class memcached ($port = 11211, $memory = 2048, $user = 'nobody') {
 
+  include 'memcached::service'
+
   file {'/etc/memcached.conf':
     ensure => file,
     content => template('memcached/memcached.conf'),
