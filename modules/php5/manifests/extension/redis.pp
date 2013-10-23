@@ -1,6 +1,7 @@
 class php5::extension::redis {
 
   $version = '2.2.3'
+  require 'build'
   require 'php5'
 
   helper::script {'install php5-redis':
