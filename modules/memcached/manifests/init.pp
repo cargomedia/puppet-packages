@@ -6,6 +6,7 @@ class memcached ($port = 11211, $memory = 2048, $user = 'nobody') {
     owner => '0',
     group => '0',
     mode => '0644',
+    notify => Service['memcached'],
   }
   ->
 
@@ -17,5 +18,4 @@ class memcached ($port = 11211, $memory = 2048, $user = 'nobody') {
   monit::entry {'memcached':
     content => template('memcached/monit')
   }
-
 }
