@@ -13,5 +13,5 @@ describe file('/etc/monit/conf.d/mdadm-status') do
 end
 
 describe file('/proc/mdstat') do
-  it { should be_readible }
+  it { should be_readable }
 end

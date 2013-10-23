@@ -1,6 +1,6 @@
 class raid::lsi-megaraidsas {
 
-  apt::source { 'hwraid_le-vert':
+  apt::source {'hwraid_le-vert':
     entries => ['deb http://hwraid.le-vert.net/debian squeeze main'],
       keys => { 'le-vert' => {
         key     => '23B3D3B4',
@@ -10,12 +10,12 @@ class raid::lsi-megaraidsas {
   }
   ->
 
-  package { 'megaraid-status':
+  package {'megaraid-status':
     ensure => present
   }
   ->
 
-  service { 'megaraidsas-statusd':
+  service {'megaraidsas-statusd':
     hasstatus => false,
   }
   ->

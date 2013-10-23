@@ -1,6 +1,13 @@
 class raid::linux-md {
 
-  file { '/etc/mdadm/mdadm.conf':
+  file {'/etc/mdadm':
+    ensure => directory,
+    group => '0',
+    owner => '0',
+    mode => '0755',
+  }
+
+  file {'/etc/mdadm/mdadm.conf':
     ensure => file,
     content => template('raid/linux-md/mdadm.conf'),
     group => '0',
@@ -10,7 +17,7 @@ class raid::linux-md {
     before => Package['mdadm'],
   }
 
-  file { '/tmp/mdadm.preseed':
+  file {'/tmp/mdadm.preseed':
     ensure => file,
     content => template('raid/linux-md/mdadm.preseed'),
     mode => '0644',
