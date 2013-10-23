@@ -3,6 +3,7 @@ class php5::extension::apc (
   $configureParams = '--enable-apc-mmap --enable-apc-pthreadmutex --disable-apc-debug --disable-apc-filehits --disable-apc-spinlocks'
 ) {
 
+  require 'build'
   require 'php5'
 
   helper::script {'install php5::apc':
