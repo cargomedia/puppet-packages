@@ -14,9 +14,13 @@ namespace :test do |ns|
   module_dirs = Pathname.new('modules/').children.select { |c| c.directory? }
   module_dirs.each do |module_dir|
     module_name = module_dir.basename
+    next if Dir.glob("#{module_dir}/spec/*/spec.rb").empty?
+
     RSpec::Core::RakeTask.new(module_name) do |t|
-      t.pattern = "modules/#{module_name}/spec/*/*_spec.rb"
+      t.pattern = "modules/#{module_name}/spec/*/spec.rb"
     end
+
+
   end
 
   RSpec::Core::RakeTask.new(:all) do |t|
