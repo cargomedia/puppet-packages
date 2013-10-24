@@ -1,0 +1,5 @@
+name    'puppet-network-cm'
+version '0.0.1'
+
+## Add dependencies, if any:
+dependency 'ripienaar/concat', '>= 0.1.0'
