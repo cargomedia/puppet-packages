@@ -15,7 +15,7 @@ class php5::extension::apc (
 
   file { '/etc/php5/conf.d/apc.ini':
     ensure => file,
-    content => 'php5/apc/conf.ini',
+    content => template('php5/apc/conf.ini'),
     owner => '0',
     group => '0',
     mode => '0644',
