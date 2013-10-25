@@ -25,7 +25,7 @@ puppet cert sign <cert-name>
 
 ## Module development
 It's recommended to write specs for newly developed modules and test them by running appropriate rake task.
-To test specific module run `rake test:<module-name>`. For more available tasks please run `rake --tasks`.
+To test specific module run `rake test:<module-name>`. To learn about other available tasks please run `rake --tasks`.
 Our test tasks intercept following options:
 - `verbose` verbose output
 - `debug` passing --debug flag to puppet apply
