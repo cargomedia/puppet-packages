@@ -1,5 +1,4 @@
 require 'serverspec'
-require 'pathname'
 require 'net/ssh'
 require 'vagrant_helper'
 
@@ -24,20 +23,19 @@ end
 
 RSpec.configure do |c|
 
-  development = ENV['development']
-  verbose = ENV['verbose'] || development
+  verbose = ENV['verbose']
   debug = ENV['debug']
   c.add_setting :before_files
   c.before_files = []
+  vagrant_helper = VagrantHelper.new(Dir.getwd, verbose)
 
   c.before :all do
     file = self.get_file
     unless c.before_files.include? file
-      c.ssh.close if c.ssh
       c.before_files.push file
+      c.ssh.close if c.ssh
 
-      vagrant_helper = VagrantHelper.new(Dir.getwd, verbose)
-      vagrant_helper.prepare unless development
+      vagrant_helper.reset
       c.ssh = vagrant_helper.connect
 
       manifests_dir = Dir.new File.dirname file
@@ -51,7 +49,8 @@ RSpec.configure do |c|
             puts
             puts 'Running `' + vagrant_manifest_path + '`'
           end
-          vagrant_helper.exec command
+          output = vagrant_helper.exec command
+          raise output if output.match(/Error: /)
         rescue Exception => e
           unless verbose
             $stderr.puts

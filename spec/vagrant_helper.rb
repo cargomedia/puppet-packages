@@ -6,25 +6,28 @@ class VagrantHelper
   end
 
   def command(subcommand)
+    puts 'Vagrant: ' + subcommand if @verbose
     `cd #{@working_dir} && vagrant #{subcommand}`
   end
 
-  def prepare
-    vagrant_is_running = `vagrant status`.match(/running/)
-    vagrant_has_snapshot = system('vagrant snapshot list 2>/dev/null | grep -q "Name: default "')
+  def is_running?
+    command('status').match(/running/)
+  end
+
+  def reset
+    has_snapshot = system('vagrant snapshot list 2>/dev/null | grep -q "Name: default "')
 
     actions = []
-    unless vagrant_has_snapshot
+    unless has_snapshot
       actions.push('destroy -f')
       actions.push('up')
       actions.push('snapshot take default')
     end
-    unless vagrant_is_running
+    unless is_running?
       actions.push('up')
     end
     actions.push('snapshot go default')
     actions.each do |action|
-      puts 'Vagrant: ' + action if @verbose
       command action
     end
   end
@@ -54,7 +57,6 @@ class VagrantHelper
       channel.exec(command) do |ch, success|
         raise "could not execute command: #{command.inspect}" unless success
         ch[:output] = ''
-        ch[:success] = true
 
         channel.on_data do |ch2, data|
           puts data if @verbose
@@ -63,17 +65,17 @@ class VagrantHelper
 
         channel.on_extended_data do |ch2, type, data|
           puts data if @verbose
-          if data.match(/Error: /)
-            ch[:success] = false
-          end
           ch[:output] << data
+        end
+
+        channel.on_request "exit-status" do |ch, data|
+          ch[:success] = (data.read_long == 0)
         end
       end
     end
     channel.wait
-    unless channel[:success]
-      raise channel[:output]
-    end
+    raise channel[:output] unless channel[:success]
+    channel[:output]
   end
 
   def get_path(real_path)
