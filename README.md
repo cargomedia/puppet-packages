@@ -25,8 +25,10 @@ puppet cert sign <cert-name>
 
 ## Module development
 It's recommended to write specs for newly developed modules and test them by running appropriate rake task.
+
 All specs should be placed in `modules/<module-name>/spec/<spec-name>/spec.rb`. This way they can be detected and form rake tasks.
 Spec helper will also automatically apply all puppet manifests from the same dir (`*.pp`).
+
 To test specific module run `rake test:<module-name>`. To learn about other available tasks please run `rake --tasks`.
 Our test tasks recognize following rake options:
 - `verbose=true` verbose output
