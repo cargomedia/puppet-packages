@@ -1,7 +1,12 @@
 class VagrantHelper
 
-  def initialize(verbose)
+  def initialize(working_dir, verbose)
+    @working_dir = working_dir
     @verbose = verbose
+  end
+
+  def command(subcommand)
+    `cd #{@working_dir} && vagrant #{subcommand}`
   end
 
   def prepare
@@ -20,7 +25,7 @@ class VagrantHelper
     actions.push('snapshot go default')
     actions.each do |action|
       puts 'Vagrant: ' + action if @verbose
-      `vagrant #{action}`
+      command action
     end
   end
 
@@ -28,7 +33,7 @@ class VagrantHelper
     user = Etc.getlogin
     options = {}
     host = ''
-    config = `vagrant ssh-config`
+    config = command 'ssh-config'
     config.each_line do |line|
       if match = /HostName (.*)/.match(line)
         host = match[1]
@@ -69,5 +74,9 @@ class VagrantHelper
     unless channel[:success]
       raise channel[:output]
     end
+  end
+
+  def get_path(real_path)
+    real_path.sub(@working_dir, '/vagrant')
   end
 end

@@ -27,8 +27,6 @@ RSpec.configure do |c|
   development = ENV['development']
   verbose = ENV['verbose'] || development
   debug = ENV['debug']
-  vagrant_helper = VagrantHelper.new(verbose)
-
   c.add_setting :before_files
   c.before_files = []
 
@@ -38,15 +36,15 @@ RSpec.configure do |c|
       c.ssh.close if c.ssh
       c.before_files.push file
 
+      vagrant_helper = VagrantHelper.new(Dir.getwd, verbose)
       vagrant_helper.prepare unless development
       c.ssh = vagrant_helper.connect
 
-      manifests_dir = Dir.new Pathname.new(file).dirname
-      vagrant_manifests_path = manifests_dir.to_path.sub(Dir.getwd, '/vagrant')
+      manifests_dir = Dir.new File.dirname file
       manifests_dir.sort.each do |manifest|
         next unless File.extname(manifest) == '.pp'
-        manifest_path = vagrant_manifests_path + '/' + manifest
-        command = "sudo puppet apply --verbose --modulepath '/vagrant/modules' #{manifest_path.shellescape}"
+        vagrant_manifest_path = vagrant_helper.get_path manifests_dir.to_path + '/' + manifest
+        command = "sudo puppet apply --verbose --modulepath '/vagrant/modules' #{vagrant_manifest_path.shellescape}"
         command += ' --debug' if debug
         begin
           vagrant_helper.exec command
