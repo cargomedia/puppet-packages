@@ -3,7 +3,7 @@ require 'rspec/core/rake_task'
 require 'puppet-lint/tasks/puppet-lint'
 require 'pathname'
 
-PuppetLint.configuration.send("disable_arrow_alignment")
+PuppetLint.configuration.send('disable_arrow_alignment')
 
 RSpec::Core::RakeTask.new(:test) do |t|
   t.pattern = 'modules/*/spec/*/spec.rb'
@@ -18,8 +18,8 @@ namespace :test do
   module_dirs.each do |module_dir|
     module_name = module_dir.basename
     specs = Dir.glob("#{module_dir}/spec/*/spec.rb")
-    next if specs.empty?
 
+    next if specs.empty?
     RSpec::Core::RakeTask.new(module_name) do |t|
       t.pattern = "modules/#{module_name}/spec/*/spec.rb"
     end
@@ -29,7 +29,7 @@ namespace :test do
       specs.each do |spec|
         spec_name = File.basename File.dirname spec
         RSpec::Core::RakeTask.new(spec_name) do |t|
-          t.pattern = 'modules/' + module_name + '/spec/' + spec_name + '/spec.rb'
+          puts t.pattern = "modules/#{module_name}/spec/#{spec_name}/spec.rb"
         end
       end
     end
