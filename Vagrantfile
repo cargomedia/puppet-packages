@@ -16,7 +16,7 @@ Vagrant.configure("2") do |config|
       'export no_proxy=.debian.org;',
       'export NO_PROXY=.debian.org;',
       'apt-get -yqq install polipo;',
-      'mount 10.10.20.1:/usr/local/var/cache/polipo /var/cache/polipo;',
+      "mount 10.10.20.1:#{cacheDirOnHost} /var/cache/polipo;",
   ]
   config.vm.provision :shell, :inline => commands.join
 
