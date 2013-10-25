@@ -47,6 +47,10 @@ RSpec.configure do |c|
         command = "sudo puppet apply --verbose --modulepath '/vagrant/modules' #{vagrant_manifest_path.shellescape}"
         command += ' --debug' if debug
         begin
+          if verbose
+            puts
+            puts 'Running `' + vagrant_manifest_path + '`'
+          end
           vagrant_helper.exec command
         rescue Exception => e
           unless verbose
