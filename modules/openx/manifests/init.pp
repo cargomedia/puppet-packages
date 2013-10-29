@@ -16,7 +16,7 @@ class openx (
   require 'openssl'
   require 'apache2::mod::ssl'
   require 'mysql::server'
-  include 'rsync'
+  require 'rsync'
 
   helper::script {'install openx':
     content => template('openx/install.sh'),
