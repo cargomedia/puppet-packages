@@ -9,16 +9,19 @@ class openx (
   $dbPassword = 'openx'
 ) {
 
+  require 'php5'
   require 'php5::apache2'
   require 'php5::extension::mysql'
   require 'php5::extension::gd'
   require 'openssl'
   require 'apache2::mod::ssl'
   require 'mysql::server'
+  include 'rsync'
 
   helper::script {'install openx':
     content => template('openx/install.sh'),
     unless => "test -e /var/openx/README.txt && grep -q 'Version ${version}$' /var/openx/README.txt",
+    require => Class['rsync'],
   }
 
   file {'/var/openx/ssl':
