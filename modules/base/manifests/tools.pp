@@ -2,15 +2,13 @@ class base::tools {
 
   require 'vim'
 
-  package {'upn': }
-  package {'screen': }
-  package {'systat': }
-  package {'parallel': }
-  package {'systat': }
-  package {'zip': }
-  package {'htop': }
-  package {'iftop': }
-  package {'iotop': }
-  package {'mytop': }
-  package {'tree': }
+  package {'unp': ensure => installed }
+  package {'screen': ensure => installed }
+  package {'parallel': ensure => installed }
+  package {'sysstat': ensure => installed }
+  package {'zip': ensure => installed }
+  package {'htop': ensure => installed }
+  package {'iftop': ensure => installed }
+  package {'iotop': ensure => installed }
+  package {'tree': ensure => installed }
 }
