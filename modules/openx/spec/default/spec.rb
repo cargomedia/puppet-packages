@@ -8,6 +8,10 @@ describe port(443) do
   it { should be_listening }
 end
 
-describe command('curl localhost/admin/install.php -L -H "Host: example.com"') do
+describe command('curl http://localhost -L') do
+  its(:stdout) { should match 'OpenX' }
+end
+
+describe command('curl https://localhost -Lk') do
   its(:stdout) { should match 'OpenX' }
 end
