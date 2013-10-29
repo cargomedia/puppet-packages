@@ -4,5 +4,6 @@ class php5::extension::mysql {
 
   package {'php5-mysql':
     ensure => present,
+    require => Class['php5'],
   }
 }
