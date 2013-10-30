@@ -11,6 +11,7 @@ class openx (
 
   require 'php5'
   require 'php5::apache2'
+  require 'php5::extension::apc'
   require 'php5::extension::mysql'
   require 'php5::extension::gd'
   require 'openssl'
@@ -24,57 +25,31 @@ class openx (
     require => Class['rsync'],
   }
 
-  file {'/var/openx/ssl':
-    ensure => directory,
-    group => 'www-data',
-    owner => 'www-data',
-    mode => '0755',
-    require => Helper::Script['install openx'],
-  }
-
-  file {'/var/openx/ssl-ca':
-    ensure => directory,
-    group => 'www-data',
-    owner => 'www-data',
-    mode => '0755',
-    require => Helper::Script['install openx'],
-  }
-
-  file {"/var/openx/ssl/${host}.pem":
+  file {"/etc/apache2/ssl/${host}.pem":
     ensure => present,
     content => $certificatePem,
     group => 'www-data',
     owner => 'www-data',
     mode => '0644',
+    require => Class['apache2::mod::ssl'],
     before => Apache2::Vhost[$host],
   }
 
-  file {"/var/openx/ssl/${host}.key":
+  file {"/etc/apache2/ssl/${host}.key":
     ensure => present,
     content => $certificateKey,
     group => 'www-data',
     owner => 'www-data',
     mode => '0644',
+    require => Class['apache2::mod::ssl'],
     before => Apache2::Vhost[$host],
   }
 
   if $certificateCa {
-  file {"/var/openx/ssl-ca/${host}":
-    ensure => present,
-    content => $certificateCa,
-    group => 'www-data',
-    owner => 'www-data',
-    mode => '0644',
-  }
-  ->
-
-  exec {"/var/openx/ssl-ca/ for ${host}":
-    provider => shell,
-    command => "ln -s ${host} $(openssl x509 -noout -hash -in ${host}).0",
-    unless => "test -L $(openssl x509 -noout -hash -in ${host}).0",
-    cwd => '/var/openx/ssl-ca/',
-    before => Apache2::Vhost[$host],
-  }
+    apache2::ssl-ca {$host:
+      content => $certificateCa,
+      before => Apache2::Vhost[$host],
+    }
   }
 
   file {'/var/openx/www/delivery/ajs-proxy.php':
