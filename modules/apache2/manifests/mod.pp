@@ -1,5 +1,6 @@
 define apache2::mod ($enabled = true, $configuration = undef) {
 
+  require 'apache2'
   include 'apache2::service'
 
   file {"/etc/apache2/mods-enabled/${name}.load":
@@ -8,6 +9,7 @@ define apache2::mod ($enabled = true, $configuration = undef) {
     group => '0',
     owner => '0',
     mode => '0644',
+    require => Class['apache2'],
     notify => Service['apache2'],
   }
 
@@ -18,6 +20,7 @@ define apache2::mod ($enabled = true, $configuration = undef) {
       group => '0',
       owner => '0',
       mode => '0644',
+      require => Class['apache2'],
       notify => Service['apache2'],
     }
     ->
@@ -28,6 +31,7 @@ define apache2::mod ($enabled = true, $configuration = undef) {
       group => '0',
       owner => '0',
       mode => '0644',
+      require => Class['apache2'],
       notify => Service['apache2'],
     }
   }
