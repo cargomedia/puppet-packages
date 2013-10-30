@@ -1,7 +1,7 @@
 class ssh {
 
   package {'ssh':
-    ensure => installed,
+    ensure => present,
   }
 
   file {'/etc/ssh/ssh_config':
