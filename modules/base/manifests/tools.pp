@@ -1,8 +1,9 @@
 class base::tools {
 
   require 'vim'
+  require 'rsync'
 
-  package {['unp', 'screen', 'parallel', 'sysstat', 'zip', 'htop', 'iftop', 'iotop', 'tree', 'rsync']:
-    ensure => installed
+  package {['unp', 'screen', 'parallel', 'sysstat', 'zip', 'htop', 'iftop', 'iotop', 'tree']:
+    ensure => present,
   }
 }

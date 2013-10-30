@@ -4,5 +4,6 @@ class php5::extension::intl {
 
   package {'php5-intl':
     ensure => present,
+    require => Class['php5'],
   }
 }
