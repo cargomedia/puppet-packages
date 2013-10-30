@@ -4,6 +4,8 @@ define network::if::static (
   $netmask      = undef,
   $gateway      = undef,
   $bonding_opt  = undef,
+  $route_opt    = undef,
 ) {
+
 
 }

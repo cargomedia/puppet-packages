@@ -1,0 +1,29 @@
+auto lo
+iface lo inet loopback
+
+auto bond0
+iface bond0 inet static
+address %IP-PRIVATE%
+netmask %NETMASK-PRIVATE%
+slaves eth0 eth2
+mtu 9000
+bond-mode 4
+bond-miimon 100
+bond-downdelay 0
+bond-updelay 0
+bond-lacp-rate fast
+bond-xmit_hash_policy 1
+up route add -net 10.0.0.0/8 gw 10.55.40.129
+
+auto bond1
+iface bond1 inet static
+address %IP-PUBLIC%
+netmask %NETMASK-PUBLIC%
+slaves eth1 eth3
+bond-mode 4
+bond-miimon 100
+bond-downdelay 0
+bond-updelay 0
+bond-lacp-rate fast
+bond-xmit_hash_policy 1
+gateway %GATEWAY-PUBLIC%
