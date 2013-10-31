@@ -1,0 +1,4 @@
+set auto[child::1 = '<%= @device %>']/1 <%= @device %>
+set iface[. = '<%= @device %>'] <%= @device %>
+set iface[. = '<%= @device %>']/family inet
+set iface[. = '<%= @device %>']/method dhcp

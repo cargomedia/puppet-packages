@@ -1,38 +1,37 @@
 node default {
 
-  network::if::static {'eth0':
-    ipaddress => '127.0.0.1',
-    bonding_opt => {
+  network::if::static {'static':
+    device => 'eth1',
+    ipaddr => '10.10.20.10',
+    netmask => '255.255.0.0',
+    gateway => '10.10.10.1',
+    slaves => 'eth2 eth3',
+    mtu => 9000,
+    bonding_opts => {
       'mode' => 4,
       'miimon' => 100,
       'downdelay' => 0,
       'updelay' => 0,
       'lacp-rate' => 'fast',
       'xmit_hash_policy' => 1
-    }
+    },
+    route_opts => 'route add -net 10.0.0.0/8 gw 10.55.40.129',
+    up => true,
   }
 
-  network::alias {'eth0:1'
-    ipaddress => '127.0.0.1',
-    netmask => '255.255.255.0',
+  network::if::dhcp {'dynamic':
+    device => 'eth2',
+    up => true,
   }
 
   network::host {'foo':
-    ipaddress => '10.10.10.100',
+    ipaddr  => '10.10.10.100',
     aliases => ['boo', 'moo']
   }
 
-  network::dns {'dns':
+  network::resolv {'resolvconf':
     search => ['example.local', 'example.com'],
-    nameserver => ['172.168.1.2', '8.8.8.8']
-  }
-
-  network::route {'10.0.0.0/8':
-    gateway => '10.55.40.129',
-    interface => 'bond0',
-    routing_opts => {
-      'irtt' => 24,
-      'MTU' => 3000
-    }
+    nameserver => ['172.168.1.2', '8.8.8.8'],
+    domain     => "example.com",
   }
 }
