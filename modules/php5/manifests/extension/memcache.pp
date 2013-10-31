@@ -4,5 +4,6 @@ class php5::extension::memcache {
 
   package {'php5-memcache':
     ensure => present,
+    require => Class['php5'],
   }
 }

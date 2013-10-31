@@ -1,7 +1,8 @@
-class php5::apache2 {
+class php5::apache2 ($displayErrors = true) {
 
-  include '::apache2::service'
   require 'php5'
+  require '::apache2'
+  include '::apache2::service'
 
   file { '/etc/php5/apache2':
     ensure => directory,
@@ -12,7 +13,7 @@ class php5::apache2 {
 
   file { '/etc/php5/apache2/php.ini':
     ensure => file,
-    source => 'puppet:///modules/php5/apache2/php.ini',
+    content => template('php5/apache2/php.ini'),
     owner => '0',
     group => '0',
     mode => '0644',
@@ -22,6 +23,7 @@ class php5::apache2 {
 
   package { 'libapache2-mod-php5':
     ensure => present,
-    notify => Service['apache2']
+    require => [Class['php5'], Class['::apache2']],
+    notify => Service['apache2'],
   }
 }
