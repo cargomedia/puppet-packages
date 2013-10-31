@@ -1,4 +1,4 @@
-class networking ($ipaddress, $hosts = []) {
+class networking ($ipaddress, $hosts = [], $interfaces = undef) {
 
   if $hosts {
     @@host {$hosts[0]:
@@ -10,4 +10,14 @@ class networking ($ipaddress, $hosts = []) {
   }
 
   Host <<| tag == $domain |>>
+
+  if $interfaces {
+    file {'/etc/network/interfaces':
+      ensure => file,
+      content => $interfaces,
+      owner => '0',
+      group => '0',
+      mode => '0644',
+    }
+  }
 }
