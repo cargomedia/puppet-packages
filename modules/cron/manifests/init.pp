@@ -10,6 +10,5 @@ class cron {
 
   monit::entry {'cron':
     content => template('cron/monit'),
-    require => [Package['cron'], Service['cron']],
   }
 }
