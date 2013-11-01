@@ -5,7 +5,7 @@ define network::host (
 
   host {$name:
     ensure => present,
-    host_aliases => $hosts,
+    host_aliases => $aliases,
     ip => $ipaddress,
   }
 }
