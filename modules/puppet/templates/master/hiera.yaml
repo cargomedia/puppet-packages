@@ -2,10 +2,12 @@
 :backends:
   - json
 :hierarchy:
-  - fqdn/%{::fqdn_reversed}
-  - clientcert/%{::clientcert}
-  - environment/%{::environment}
+  - datacenter/%{::datacenter}/%{::subnet}/%{::hostname}
+  - datacenter/%{::datacenter}/%{::subnet}
+  - datacenter/%{::datacenter}
   - defaults
 
 :json:
   :datadir: <%= @hieraDataDir %>
+
+:merge_behavior: deeper
