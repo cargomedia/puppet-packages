@@ -1,6 +1,6 @@
 node default {
 
-  network::if::static {'static':
+  network::interface::static {'static':
     device => 'eth1',
     ipaddr => '10.10.20.10',
     netmask => '255.255.0.0',
@@ -19,7 +19,7 @@ node default {
     up => true,
   }
 
-  network::if::dhcp {'dynamic':
+  network::interface::dhcp {'dynamic':
     device => 'eth2',
     up => true,
   }
