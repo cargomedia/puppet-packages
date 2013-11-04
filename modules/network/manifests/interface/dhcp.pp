@@ -1,11 +1,11 @@
-define network::if::dhcp (
+class network::interface::dhcp (
   $device,
   $up = undef,
 ) {
 
   augeas {"main-$device" :
     context => "/files/etc/network/interfaces",
-    changes => template('network/if/dhcp'),
+    changes => template('network/interface/dhcp'),
   }
 
   if $up {
