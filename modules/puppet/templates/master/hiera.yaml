@@ -2,8 +2,9 @@
 :backends:
   - json
 :hierarchy:
-  - datacenter/%{::datacenter}/%{::subnet}/%{::hostname}
-  - datacenter/%{::datacenter}/%{::subnet}
+  - fqdn/%{::fqdn_reversed}
+  - datacenter/%{::datacenter}/%{::network}/%{::hostname}
+  - datacenter/%{::datacenter}/%{::network}
   - datacenter/%{::datacenter}
   - defaults
 
