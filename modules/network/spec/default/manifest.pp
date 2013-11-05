@@ -1,7 +1,7 @@
 node default {
 
-  network::interface::static {'static':
-    device  => 'eth1',
+  network::interface {'eth1':
+    method  => 'static',
     ipaddr  => '10.10.20.10',
     netmask => '255.255.0.0',
     gateway => '10.10.10.1',
@@ -18,8 +18,8 @@ node default {
     route_opts => 'route add -net 10.0.0.0/8 gw 10.55.40.129',
   }
 
-  network::interface::dhcp {'dynamic':
-    device      => 'eth2',
+  network::interface {'eth2':
+    method      => 'dhcp',
     applyconfig => false
   }
 
