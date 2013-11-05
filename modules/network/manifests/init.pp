@@ -1,8 +1,10 @@
-class network {
+class network($config = undef) {
 
-  $network = hiera_hash('network', {})
+  if !$config {
+    $config = hiera_hash('network', {})
+  }
 
-  create_resources('network::interface::static', $network['interfaces'])
-  create_resources('network::host', $network['hosts'])
-  create_resources('network::resolv', $network['resolv'])
+  create_resources('network::interface::static', $config['interfaces'])
+  create_resources('network::host', $config['hosts'])
+  create_resources('network::resolv', $config['resolv'])
 }
