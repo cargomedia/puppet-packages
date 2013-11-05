@@ -6,7 +6,7 @@ define puppet::git-modules ($source, $version = 'master') {
   $path = "/etc/puppet/repos/${name}"
   $pathEscaped = shellquote($path)
   $versionEscaped = shellquote($version)
-  $updateCommand = "cd ${pathEscaped} && git fetch --quiet --tags origin && git checkout --quiet ${versionEscaped} && git merge --quiet --ff-only origin ${versionEscaped}"
+  $updateCommand = "cd ${pathEscaped} && git fetch --quiet origin && git fetch --quiet --tags origin && git checkout --quiet ${versionEscaped} && git merge --quiet --ff-only origin ${versionEscaped}"
 
   exec {"puppet repo ${name}":
     command => "git clone ${source} ${pathEscaped}",
