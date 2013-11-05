@@ -8,7 +8,6 @@ define puppet::git-modules ($source, $version = 'master') {
   $versionEscaped = shellquote($version)
   $versionCommand = "\$(git rev-list origin/${versionEscaped} -1 2>/dev/null || git rev-list ${versionEscaped} -1)"
   $updateCommand = "cd ${pathEscaped} && git fetch --quiet origin && git fetch --quiet --tags origin && git checkout --quiet ${versionCommand}"
-  notify{$updateCommand:}
 
   exec {"puppet repo ${name}":
     command => "git clone ${source} ${pathEscaped}",
