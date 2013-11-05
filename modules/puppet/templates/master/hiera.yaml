@@ -3,8 +3,8 @@
   - json
 :hierarchy:
   - fqdn/%{::fqdn_reversed}
-  - datacenter/%{::datacenter}/%{::network}/%{::hostname}
-  - datacenter/%{::datacenter}/%{::network}
+  - datacenter/%{::datacenter}/%{::nodegroup}/%{::nodename}
+  - datacenter/%{::datacenter}/%{::nodegroup}
   - datacenter/%{::datacenter}
   - defaults
 
