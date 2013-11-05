@@ -13,7 +13,7 @@ describe command('test -f /etc/puppet/repos/puppet-packages/modules/puppet/spec/
 end
 
 describe cron do
-  it { should have_entry '* * * * * cd /etc/puppet/repos/puppet-packages && git fetch --quiet origin && git fetch --quiet --tags origin && git checkout --quiet 6297f205d6e410c0d1b51d05af9f9f41394412be && git merge --quiet --ff-only origin 6297f205d6e410c0d1b51d05af9f9f41394412be' }
+  it { should have_entry '* * * * * cd /etc/puppet/repos/puppet-packages && git fetch --quiet origin && git fetch --quiet --tags origin && git checkout --quiet $(git rev-list 6297f205d6e410c0d1b51d05af9f9f41394412be -1)' }
 end
 
 describe command('puppet apply --configprint modulepath') do
