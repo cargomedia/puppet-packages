@@ -9,9 +9,6 @@ set iface[. = '<%= @device %>']/address <%= @ipaddr %>
 <% if @hwaddr and not @hwaddr.empty? -%>
   set iface[. = '<%= @device %>']/hwaddr <%= @hwaddr %>
 <% end -%>
-<% if @network and not @network.empty? -%>
-  set iface[. = '<%= @device %>']/network <%= @network %>
-<% end -%>
 <% if @gateway and not @gateway.empty? -%>
   set iface[. = '<%= @device %>']/gateway <%= @gateway %>
 <% end -%>
