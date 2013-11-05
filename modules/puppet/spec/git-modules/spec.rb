@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe command('cd /etc/puppet/repos/puppet-packages/ && test $(git rev-list origin/master -1) = $(git rev-list HEAD -1)') do
+describe command('WD="/etc/puppet/repos/puppet-packages"; test $(git --git-dir=${WD}/.git --work-tree=${WD} rev-list origin/master -1) = $(git --git-dir=${WD}/.git --work-tree=${WD} rev-list HEAD -1)') do
   it { should return_exit_status 0 }
 end
 
