@@ -6,6 +6,6 @@ define network::host (
   host {$name:
     ensure => present,
     host_aliases => $aliases,
-    ip => $ipaddress,
+    ip => $ipaddr,
   }
 }
