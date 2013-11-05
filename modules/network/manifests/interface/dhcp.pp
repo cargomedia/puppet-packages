@@ -1,6 +1,6 @@
-class network::interface::dhcp (
-  $device,
-  $up = undef,
+define network::interface::dhcp (
+  $device       = $name,
+  $applyconfig  = true,
 ) {
 
   augeas {"main-$device" :
@@ -8,15 +8,10 @@ class network::interface::dhcp (
     changes => template('network/interface/dhcp'),
   }
 
-  if $up {
+  if $applyconfig {
     exec {"/sbin/ifup $device":
       command => "/sbin/ifup $device",
       unless  => "/sbin/ifconfig | grep $device",
-    }
-  } else {
-    exec {"/sbin/ifdown $device":
-      command => "/sbin/ifconfig $device down",
-      onlyif  => "/sbin/ifconfig | grep $device",
     }
   }
 }
