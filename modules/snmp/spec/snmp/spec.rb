@@ -12,11 +12,11 @@ describe service('monit') do
   it { should be_enabled }
 end
 
-describe command('snmpwalk -v 2c -c fuckbook 127.0.0.1 .iso.3.6.1.2.1.1.1.0 | grep Linux') do
+describe command('snmpwalk -v 2c -c fuckbook localhost .iso.3.6.1.2.1.1.1.0 | grep Linux') do
 	it { should return_exit_status 0 }
 end
 
-describe command('snmpwalk -v 2c -c public 127.0.0.1 .iso.3.6.1.2.1.1.1.0 | grep Linux') do
+describe command('snmpwalk -v 2c -c public localhost .iso.3.6.1.2.1.1.1.0 | grep Linux') do
 	it { should return_exit_status 1 }
 end
 

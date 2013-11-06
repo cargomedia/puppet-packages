@@ -1,9 +1,8 @@
 class snmp (
   $views      = [],
   $disks      = [],
-  $iphost     = '127.0.0.1',
-  $ipnetwork  = '127.0.0.0/24',
-  $community  = 'public'
+  $communityNetwork   = '127.0.0.0/24',
+  $communityName      = 'public'
 ) {
 
   file {'/etc/snmp/snmpd.conf':
