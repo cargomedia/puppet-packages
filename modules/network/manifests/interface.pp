@@ -16,30 +16,24 @@ define network::interface (
 ) {
 
   case $method {
-
     'dhcp': {
       augeas {"main-$device" :
         context => "/files/etc/network/interfaces",
         changes => template('network/interface/dhcp'),
       }
     }
-
     'static': {
-
       if $ipaddr == undef {
         fail('no ip')
       }
-
       if $netmask == undef {
         fail('no netmask')
       }
-
       augeas {"main-$device" :
         context => "/files/etc/network/interfaces",
         changes => template('network/interface/static'),
       }
     }
-
     default: {
       fail("Unknown method ${method}")
     }
