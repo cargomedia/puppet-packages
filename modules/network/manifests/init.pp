@@ -1,8 +1,11 @@
 class network() {
 
-  $config = hiera_hash('network', {})
+  $interfaces = hiera_hash('network::interfaces', {})
+  create_resources('network::interface', $interfaces)
 
-  create_resources('network::interface', $config['interfaces'])
-  create_resources('network::host', $config['hosts'])
-  create_resources('network::resolv', $config['resolv'])
+  $hosts = hiera_hash('network::hosts', {})
+  create_resources('network::host', $hosts)
+
+  $resolv = hiera_hash('network::resolv', {})
+  create_resources('network::resolv', $resolv)
 }
