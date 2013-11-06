@@ -27,10 +27,10 @@ define network::interface (
     }
     'static': {
       if $ipaddr == undef {
-        fail('no ip')
+        fail ("IP address for interface ${device} must be specified for ${method} method!")
       }
       if $netmask == undef {
-        fail('no netmask')
+        fail ("Netmask for interface ${device} must be specified for ${method} method!")
       }
       augeas {"main-$device" :
         context => "/files/etc/network/interfaces",
@@ -39,7 +39,7 @@ define network::interface (
       }
     }
     default: {
-      fail("Unknown method ${method}")
+      fail ("Unknown method ${method} for interface ${device}!")
     }
   }
 
