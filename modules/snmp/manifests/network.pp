@@ -1,4 +1,4 @@
-class snmp::service($interface = undef) {
+class snmp::network($interface = undef) {
 
   $network = hiera_hash('network')
 
