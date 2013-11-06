@@ -1,6 +1,8 @@
 class mysql::service {
 
-  require 'mysql::server'
+  include 'mysql::server'
 
-  service {'mysql':}
+  service {'mysql':
+    require => Package['mysql-server'],
+  }
 }
