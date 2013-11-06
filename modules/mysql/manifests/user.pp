@@ -1,6 +1,6 @@
 define mysql::user ($password) {
 
-  require 'mysql::server'
+  require 'mysql::service'
 
   database_user {$name:
     ensure => present,
