@@ -65,6 +65,11 @@ class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data
   }
   ->
 
+  ruby::gem {'deep_merge':
+    ensure => present,
+  }
+  ->
+
   service {'puppetmaster':
     subscribe => Exec['/etc/puppet/puppet.conf'],
   }
