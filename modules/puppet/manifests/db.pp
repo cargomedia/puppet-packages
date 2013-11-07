@@ -16,9 +16,9 @@ class puppet::db {
   ->
 
   service {'puppetdb':}
-  ->
 
-  monit::entry {'puppetdb':
-    content => template('puppet/db/monit')
+  @monit::entry {'puppetdb':
+    content => template('puppet/db/monit'),
+    require => Service['puppetdb'],
   }
 }

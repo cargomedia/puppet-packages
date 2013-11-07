@@ -41,4 +41,6 @@ class monit ($emailTo = 'root@localhost', $emailFrom = 'root@localhost', $allowe
   package {'monit':
     ensure => present,
   }
+
+  Monit::Entry <||>
 }
