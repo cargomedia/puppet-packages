@@ -11,4 +11,5 @@ class base {
   require 'postfix'
   require 'ulimit'
   require 'rsyslog'
+  require 'cron'
 }
