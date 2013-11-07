@@ -100,5 +100,6 @@ class socket-redis (
 
   @monit::entry {'socket-redis':
     content => template('socket-redis/monit'),
+    require => Service['socket-redis'],
   }
 }
