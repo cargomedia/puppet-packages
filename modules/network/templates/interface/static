@@ -16,7 +16,7 @@ set iface[. = '<%= @device %>']/address <%= @ipaddr %>
   set iface[. = '<%= @device %>']/mtu <%= @mtu %>
 <% end -%>
 <% if @slaves and not @slaves.to_s.empty? -%>
-  set iface[. = '<%= @device %>']/slaves <%= @slaves %>
+  set iface[. = '<%= @device %>']/slaves "<%= @slaves %>"
 <% end -%>
 <% if @bonding_opts and not @bonding_opts.empty? -%>
   <% if @bonding_opts['mode'] and not @bonding_opts['mode'].to_s.empty? -%>
