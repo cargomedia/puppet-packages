@@ -1,4 +1,4 @@
-define network::resolv (
+class network::resolv (
   $nameserver,
   $search     = [],
   $domain     = '',
