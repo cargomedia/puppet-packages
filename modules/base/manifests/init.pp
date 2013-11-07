@@ -9,7 +9,6 @@ class base {
   require 'bash'
   require 'ssh'
   require 'postfix'
-  require 'monit'
   require 'ulimit'
   require 'rsyslog'
 }
