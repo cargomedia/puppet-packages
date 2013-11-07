@@ -22,9 +22,4 @@ class apache2 {
   package {'apache2':
     ensure => present,
   }
-
-  @monit::entry {'apache2':
-    content => template('apache2/monit'),
-    require => Service['apache2'],
-  }
 }
