@@ -1,4 +1,4 @@
-class bash ($prompt = '\u@\h:\w$ ') {
+class bash ($prompt = '\u@$(hostname -f):\w$ ') {
 
   $escapedPrompt = shellquote($prompt)
 
