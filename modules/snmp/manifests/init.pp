@@ -34,6 +34,6 @@ class snmp (
 
   @monit::entry {'snmpd':
     content => template('snmp/monit'),
-    require => Paclage['snmpd'],
+    require => Package['snmpd'],
   }
 }
