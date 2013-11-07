@@ -1,6 +1,6 @@
 define network::interface (
   $device       = $name,
-  $method       = undef,
+  $method,
   $ipaddr       = undef,
   $netmask      = undef,
   $gateway      = undef,
