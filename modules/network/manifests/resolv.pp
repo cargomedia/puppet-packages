@@ -1,5 +1,5 @@
 class network::resolv (
-  $nameserver,
+  $nameserver = [],
   $search     = [],
   $domain     = '',
 ) {
