@@ -1,5 +1,5 @@
 define network::host (
-  $ipaddr   = undef,
+  $ipaddr,
   $aliases  = [],
 ) {
 
