@@ -18,10 +18,9 @@ class raid::lsi-megaraidsas {
   service {'megaraidsas-statusd':
     hasstatus => false,
   }
-  ->
 
-  monit::entry {'megaraidsas-statusd':
-    content => template('raid/lsi-megaraidsas/monit')
+  @monit::entry {'megaraidsas-statusd':
+    content => template('raid/lsi-megaraidsas/monit'),
+    require => Service['megaraidsas-statusd'],
   }
-
 }

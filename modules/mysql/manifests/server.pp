@@ -89,9 +89,9 @@ class mysql::server ($rootPassword = undef, $debianSysMaintPassword = undef) {
     ensure => present,
     before => Service['mysql'],
   }
-  ->
 
-  monit::entry {'mysql':
+  @monit::entry {'mysql':
     content => template('mysql/monit'),
+    require => Service['mysql'],
   }
 }

@@ -69,7 +69,7 @@ class postfix ($aliases = {}, $transports = []) {
     require => Package['libsasl2-modules'],
   }
 
-  monit::entry {'postfix':
+  @monit::entry {'postfix':
     content => template('postfix/monit'),
     require => Package['postfix'],
   }

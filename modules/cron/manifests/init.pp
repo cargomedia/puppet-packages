@@ -6,9 +6,9 @@ class cron {
   ->
 
   service {'cron':}
-  ->
 
-  monit::entry {'cron':
+  @monit::entry {'cron':
     content => template('cron/monit'),
+    require => Service['cron'],
   }
 }
