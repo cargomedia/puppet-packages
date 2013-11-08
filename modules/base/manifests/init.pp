@@ -11,6 +11,7 @@ class base {
   require '::postfix'
   require '::ulimit'
   require '::cron'
+  require '::raid'
   require '::base::monit'
   require '::base::rsyslog'
   require '::base::tools'
