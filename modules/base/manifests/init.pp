@@ -6,10 +6,12 @@ class base {
       require 'apt::cron-apt'
     }
   }
-  require 'bash'
-  require 'ssh'
-  require 'postfix'
-  require 'ulimit'
-  require 'rsyslog'
-  require 'cron'
+  require '::bash'
+  require '::ssh'
+  require '::postfix'
+  require '::ulimit'
+  require '::cron'
+  require '::base::monit'
+  require '::base::rsyslog'
+  require '::base::tools'
 }
