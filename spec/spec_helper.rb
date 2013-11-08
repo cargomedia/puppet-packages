@@ -23,11 +23,10 @@ end
 
 RSpec.configure do |c|
 
-  verbose = ENV['verbose']
   debug = ENV['debug']
   c.add_setting :before_files
   c.before_files = []
-  vagrant_helper = VagrantHelper.new(Dir.getwd, verbose)
+  vagrant_helper = VagrantHelper.new(Dir.getwd, true)
 
   c.before :all do
     file = self.get_file
@@ -45,19 +44,11 @@ RSpec.configure do |c|
         command = "sudo puppet apply --verbose --modulepath '/vagrant/modules' #{vagrant_manifest_path.shellescape}"
         command += ' --debug' if debug
         begin
-          if verbose
-            puts
-            puts 'Running `' + vagrant_manifest_path + '`'
-          end
+          puts
+          puts 'Running `' + vagrant_manifest_path + '`'
           output = vagrant_helper.exec command
           raise output if output.match(/Error: /)
         rescue Exception => e
-          unless verbose
-            $stderr.puts
-            $stderr.puts 'Puppet: running manifest ' + manifest + ' failed!'
-            $stderr.puts e.message
-            $stderr.puts
-          end
           abort 'Puppet command failed'
         end
       end
