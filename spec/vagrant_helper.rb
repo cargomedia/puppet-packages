@@ -23,10 +23,19 @@ class VagrantHelper
       actions.push('up')
       actions.push('snapshot take default')
     end
+
+
     unless is_running?
       actions.push('up')
     end
     actions.push('snapshot go default')
+    #actions.push('provision')
+    actions.push("ssh -c 'sudo umount /var/cache/polipo;sudo mount 10.10.20.1:#{@working_dir}/var/cache/polipo /var/cache/polipo;'")
+=begin
+
+    actions.push("ssh -c '/etc/init.d/polipo restart'")
+=end
+
     actions.each do |action|
       command action
     end
