@@ -10,4 +10,6 @@ node default {
     communityNetwork  => '127.0.0.0/24',
     communityName     => 'fuckbook',
   }
+
+  require 'monit'
 }

@@ -41,7 +41,7 @@ RSpec.configure do |c|
       manifests_dir.sort.each do |manifest|
         next unless File.extname(manifest) == '.pp'
         vagrant_manifest_path = vagrant_helper.get_path manifests_dir.to_path + '/' + manifest
-        command = "sudo puppet apply --verbose --modulepath '/vagrant/modules' #{vagrant_manifest_path.shellescape}"
+        command = "sudo puppet apply --verbose --modulepath '/etc/puppet/modules:/vagrant/modules' #{vagrant_manifest_path.shellescape}"
         command += ' --debug' if debug
         begin
           puts
