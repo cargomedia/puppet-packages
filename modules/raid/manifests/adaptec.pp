@@ -9,7 +9,7 @@ class raid::adaptec {
 
   helper::script {'set hard drive write cache off if adaptec raid':
     content => template('raid/adaptec/set-write-cache-off.sh'),
-    unless => 'which arcconf',
+    unless => 'false',
   }
 
   file { '/usr/sbin/check-adaptec-raid-health.sh':
