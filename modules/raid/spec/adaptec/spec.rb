@@ -13,5 +13,5 @@ describe command('arcconf') do
 end
 
 describe command('monit summary') do
-  its(:stdout) { should match /Process 'aacraid-statusd' \s+ running/ }
+  its(:stdout) { should match /Process 'aacraid-statusd'/ }
 end

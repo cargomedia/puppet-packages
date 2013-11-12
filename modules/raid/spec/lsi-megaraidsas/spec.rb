@@ -4,6 +4,6 @@ describe package('megaraid-status') do
   it { should be_installed }
 end
 
-describe file('/etc/monit/conf.d/megaraidsas-statusd') do
-  it { should be_file }
+describe command('monit summary') do
+  its(:stdout) { should match /Process 'megaraidsas-statusd'/ }
 end
