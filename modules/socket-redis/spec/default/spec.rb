@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe command('npm list socket-redis -g') do
-  its(:stdout) { should match 'socket-redis@0.1.1' }
+describe package('socket-redis') do
+  it { should be_installed.by('npm') }
 end
 
 describe port(8085) do
