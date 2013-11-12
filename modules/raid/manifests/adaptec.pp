@@ -1,14 +1,15 @@
 class raid::adaptec {
 
+  $version = '7.31 (B18856)'
+
   helper::script {'download and install arcconf':
     content => template('raid/adaptec/install-arcconf.sh'),
-    unless => 'which arcconf',
+    unless => "which arcconf && arcconf | grep 'Version ${version}'",
   }
-  ->
 
   helper::script {'set hard drive write cache off if adaptec raid':
     content => template('raid/adaptec/set-write-cache-off.sh'),
-    unless => 'which arcconf',
+    unless => 'false',
   }
 
   file { '/usr/sbin/check-adaptec-raid-health.sh':
@@ -22,5 +23,4 @@ class raid::adaptec {
     user => 'root',
     minute  => '*/5',
   }
-
 }

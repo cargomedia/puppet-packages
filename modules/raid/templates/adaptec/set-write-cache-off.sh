@@ -2,10 +2,15 @@
 
 for i in $(seq $(arcconf getversion | awk '/^Controllers found:.*$/{print $3}'));
 do
-    DEVICES=$(arcconf getconfig $i PD | awk '/Device is a Hard drive/,/Reported Location/' | grep 'T:L' | awk '{print $4}' | cut -d '(' -f 1)
+	DEVICES=$(arcconf getconfig $i PD | perl -e '
+	foreach (join("", <STDIN>) =~ /(Device #\d+.+?MaxCache Assigned[^\n]*)/sg) {
+	  if ($_ !~ /Write Cache\s*:\s*Disabled/ && $_ =~ /Reported Channel,Device\(T:L\)\s*:\s*(\d+),(\d+)\(\d+:\d+\)/) {
+	  print "$1 $2\n";
+	  }
+	}')
     for DEVICE in $DEVICES; do
-        CHANNEL=$(echo $DEVICE | cut -d ',' -f1)
-        ID=$(echo $DEVICE | cut -d ',' -f2)
+        CHANNEL=$(echo $DEVICE | awk "{print $1}")
+        ID=$(echo $DEVICE | awk "{print $2}")
         set +e
         OUT=$(arcconf SETCACHE $i DEVICE ${CHANNEL} ${ID} wt)
         STATUS=$?
