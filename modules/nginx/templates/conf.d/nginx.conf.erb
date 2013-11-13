@@ -1,38 +1,40 @@
-user    <%= @daemon_user %>;
-worker_processes    <%= @worker_processes %>;
+user                    <%= @daemon_user %>;
+worker_processes        <%= @worker_processes %>;
 worker_rlimit_nofile    <%= @worker_rlimit_nofile %>;
-<% if @error_log == 'on' %>
-error_log   <%= scope.lookupvar('nginx::params::nx_logdir')%>/error.log;
-<% end %>
-pid <%= scope.lookupvar('nginx::params::nx_pid')%>;
+<% if @error_log == 'on'-%>
+error_log               <%= scope.lookupvar('nginx::params::nx_logdir')%>/error.log;
+<% end -%>
+pid                     <%= scope.lookupvar('nginx::params::nx_pid')%>;
 
 events {
-  worker_connections    <%= @worker_connections %>;
+  worker_connections        <%= @worker_connections %>;
   <% if scope.lookupvar('nginx::params::nx_multi_accept') == 'on'%>multi_accept on;<% end %>
 }
 
 http {
-  include       /etc/nginx/mime.types;
-  default_type  application/octet-stream;
-  server_tokens <%= @server_tokens %>;
+  include                   /etc/nginx/mime.types;
+  default_type              application/octet-stream;
+  server_tokens             <%= @server_tokens %>;
 
-  sendfile    <%= scope.lookupvar('nginx::params::nx_sendfile')%>;
+  sendfile                  <%= scope.lookupvar('nginx::params::nx_sendfile')%>;
   <% if scope.lookupvar('nginx::params::nx_gzip') == 'on'%>
-  gzip         on;
+  gzip                      on;
   <% end %>
-  client_max_body_size  <%= @client_max_body_size %>;
-  keepalive_timeout  <%= @keepalive_timeout %>;
+  client_max_body_size      <%= @client_max_body_size %>;
+  client_body_buffer_size   <%= scope.lookupvar('nginx::params::nx_client_body_buffer_size') %>;
+  keepalive_timeout         <%= @keepalive_timeout %>;
   <% if scope.lookupvar('nginx::params::nx_tcp_nopush') == 'on'%>
-  tcp_nopush  on;
+  tcp_nopush                on;
   <% end %>
-  client_body_timeout   <%= @client_body_timeout %>;
-  client_header_timeout <%= @client_header_timeout %>;
-  send_timeout  <%= @send_timeout %>;
-  limit_conn_zone   <%= @limit_conn_zone %>;
-  <% if @access_log == 'on' %>
-  access_log  <%= scope.lookupvar('nginx::params::nx_logdir')%>/access.log;
+  client_body_timeout       <%= @client_body_timeout %>;
+  client_header_timeout     <%= @client_header_timeout %>;
+  send_timeout              <%= @send_timeout %>;
+  limit_conn_zone           <%= @limit_conn_zone %>;
+  <% if @access_log == 'on'%>
+  access_log                <%= scope.lookupvar('nginx::params::nx_logdir')%>/access.log;
   <% else %>
-  access_log off;
-  <% end %>
+  access_log                off;
+  <% end -%>
+
   include /etc/nginx/conf.d/*.conf;
 }
