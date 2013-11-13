@@ -1,18 +1,3 @@
-# Class: nginx::params
-#
-# This module manages NGINX paramaters
-#
-# Parameters:
-#
-# There are no default parameters for this class.
-#
-# Actions:
-#
-# Requires:
-#
-# Sample Usage:
-#
-# This class file is not called directly
 class nginx::params {
   $nx_temp_dir = '/tmp'
   $nx_run_dir  = '/var/nginx'
@@ -66,8 +51,8 @@ class nginx::params {
   # Service restart after Nginx 0.7.53 could also be just "/path/to/nginx/bin -s HUP"
   # Some init scripts do a configtest, some don't. If configtest_enable it's true
   # then service restart will take $nx_service_restart value, forcing configtest.
-  $nx_configtest_enable	 = false
-  $nx_service_restart = "/etc/init.d/nginx configtest && /etc/init.d/nginx restart"
+  $nx_configtest_enable	  = false
+  $nx_service_restart     = "/etc/init.d/nginx configtest && /etc/init.d/nginx restart"
 
-  $nx_upstream_ip_hash        = false
+  $nx_upstream_ip_hash    = false
 }
