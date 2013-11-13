@@ -57,6 +57,11 @@ class nginx (
     service_restart => $service_restart,
   }
 
+  monit::entry {'nginx':
+    content => template('nginx/monit/nginx'),
+    require => Service['nginx'],
+  }
+
   # Allow the end user to establish relationships to the "main" class
   # and preserve the relationship to the implementation classes through
   # a transitive relationship to the composite class.
