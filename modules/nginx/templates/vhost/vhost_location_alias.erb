@@ -1,9 +1,9 @@
   location <%= @location %> {
-<% if @location_cfg_prepend -%><% @location_cfg_prepend.each do |key,value| -%>
-    <%= key %> <%= value %>;
+<% if @location_cfg_prepend -%><% @location_cfg_prepend.each do |option| -%>
+    <%= option %>;
 <% end -%><% end -%>
-    alias  <%= location_alias %>;
-<% if @location_cfg_append -%><% location_cfg_append.each do |key,value| -%>
-    <%= key %> <%= value %>;
+    alias  <%= @location_alias %>;
+<% if @location_cfg_append -%><% @location_cfg_append.each do |option| -%>
+    <%= option %>;
 <% end -%><% end -%>
   }
