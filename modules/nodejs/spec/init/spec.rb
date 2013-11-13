@@ -1,9 +1,9 @@
 require 'spec_helper'
 
-describe command('node -v') do
-  it { should return_stdout 'v0.10.4' }
+describe command('which node') do
+  it { should return_exit_status 0 }
 end
 
-describe command('npm -v') do
-  it { should return_stdout '1.2.18' }
+describe command('which npm') do
+  it { should return_exit_status 0 }
 end
