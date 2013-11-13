@@ -21,7 +21,6 @@ http {
   gzip                      on;
   <% end %>
   client_max_body_size      <%= @client_max_body_size %>;
-  client_body_buffer_size   <%= scope.lookupvar('nginx::params::nx_client_body_buffer_size') %>;
   keepalive_timeout         <%= @keepalive_timeout %>;
   <% if scope.lookupvar('nginx::params::nx_tcp_nopush') == 'on'%>
   tcp_nopush                on;
