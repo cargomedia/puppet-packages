@@ -25,16 +25,23 @@ class nginx::package {
       }
     }
     debian,ubuntu: {
-
-      # add apt-get sources.d
-
+      apt::source {'nginx':
+        entries => [
+          'deb http://nginx.org/packages/debian/ squeeze nginx',
+          'deb-src http://nginx.org/packages/debian/ squeeze nginx'
+        ],
+        keys => {
+          'nginx' => {
+            key     => '7BD9BF62',
+            key_url => 'http://nginx.org/keys/nginx_signing.key',
+          }
+        }
+      }
+      ->
       class { 'nginx::package::debian': 
         require => Anchor['nginx::package::begin'],
         before  => Anchor['nginx::package::end'],
       }
-
-      # monit::entry
-
     }
     opensuse,suse: {
       class { 'nginx::package::suse':
