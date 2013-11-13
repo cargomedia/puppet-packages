@@ -8,10 +8,10 @@ describe file('/etc/mdadm/mdadm.conf') do
   it { should be_file }
 end
 
-describe file('/etc/monit/conf.d/mdadm-status') do
-  it { should be_file }
-end
-
 describe file('/proc/mdstat') do
   it { should be_readable }
+end
+
+describe command('monit summary') do
+  its(:stdout) { should match /Process 'mdadm-status'/ }
 end

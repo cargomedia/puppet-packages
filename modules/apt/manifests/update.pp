@@ -8,4 +8,6 @@ class apt::update {
     logoutput   => 'on_failure',
     refreshonly => true,
   }
+
+  Exec['apt_update'] -> Package <| |>
 }
