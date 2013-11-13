@@ -35,8 +35,6 @@ class nginx (
   $worker_rlimit_nofile   = $nginx::params::nx_worker_rlimit_nofile,
   $proxy_set_header       = $nginx::params::nx_proxy_set_header,
   $keepalive_timeout      = $nginx::params::nx_keepalive_timeout,
-  $confd_purge            = $nginx::params::nx_confd_purge,
-  $configtest_enable      = $nginx::params::nx_configtest_enable,
   $server_tokens          = $nginx::params::nx_server_tokens,
   $send_timeout           = $nginx::params::nx_send_timeout,
   $limit_conn_zone        = $nginx::params::nx_limit_conn_zone,
@@ -46,7 +44,8 @@ class nginx (
   $error_log              = $nginx::params::nx_error_log,
   $access_log             = $nginx::params::nx_access_log,
   $service_restart        = $nginx::params::nx_service_restrart,
-
+  $confd_purge            = $nginx::params::nx_confd_purge,
+  $configtest_enable      = $nginx::params::nx_configtest_enable,
 ) inherits nginx::params {
 
   include stdlib

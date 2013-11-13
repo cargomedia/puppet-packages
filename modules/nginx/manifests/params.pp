@@ -69,5 +69,5 @@ class nginx::params {
   $nx_configtest_enable	 = false
   $nx_service_restart = "/etc/init.d/nginx configtest && /etc/init.d/nginx restart"
 
-  $nx_upstream_ip_hash        = off
+  $nx_upstream_ip_hash        = false
 }

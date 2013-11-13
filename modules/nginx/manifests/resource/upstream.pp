@@ -21,7 +21,8 @@
 #  }
 define nginx::resource::upstream (
   $ensure = 'present',
-  $members
+  $members,
+  $ip_hash = $nginx::params::nx_upstream_ip_hash,
 ) {
   File {
     owner => 'root',
