@@ -22,9 +22,18 @@ class raid::adaptec {
     require => Service['aacraid-statusd'],
   }
 
+  file {'/usr/local/sbin/arcconf-write-cache-on-devices.pl':
+    ensure => file,
+    content => template('raid/adaptec/arcconf-write-cache-on-devices.pl'),
+    owner => '0',
+    group => '0',
+    mode => '0755',
+  }
+  ->
+
   helper::script {'set hard drive write cache off if adaptec raid':
     content => template('raid/adaptec/set-write-cache-off.sh'),
-    unless => 'false',
+    unless => 'test "$(/usr/local/sbin/arcconf-write-cache-on-devices.pl)" = ""',
     require => Package['arcconf'],
   }
 }
