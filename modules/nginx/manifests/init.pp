@@ -44,15 +44,4 @@ class nginx (
     content => template('nginx/monit/nginx'),
     require => Service['nginx'],
   }
-
-  # Allow the end user to establish relationships to the "main" class
-  # and preserve the relationship to the implementation classes through
-  # a transitive relationship to the composite class.
-  anchor {'nginx::begin':
-    before => Class['nginx::package'],
-    notify => Class['nginx::service'],
-  }
-  anchor {'nginx::end':
-    require => Class['nginx::service'],
-  }
 }

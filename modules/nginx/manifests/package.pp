@@ -1,6 +1,4 @@
 class nginx::package {
-  anchor {'nginx::package::begin': }
-  anchor {'nginx::package::end': }
 
   apt::source {'nginx':
     entries => [
@@ -14,9 +12,9 @@ class nginx::package {
       }
     }
   }
+  ->
 
-  class {'nginx::package::debian':
-    require => Anchor['nginx::package::begin'],
-    before  => Anchor['nginx::package::end'],
+  package {'nginx':
+    ensure => present,
   }
 }
