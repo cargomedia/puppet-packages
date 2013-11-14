@@ -40,10 +40,12 @@ define nginx::resource::vhost(
       file {$ssl_cert_file:
         ensure  => file,
         content => $ssl_cert,
+        notify  => Class['nginx::service'],
       }
       file {$ssl_key_file:
         ensure  => file,
         content => $ssl_key,
+        notify  => Class['nginx::service'],
       }
     }
   }
