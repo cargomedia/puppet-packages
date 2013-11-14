@@ -1,15 +1,6 @@
 node default {
 
-  file {'/tmp/ssl':
-    ensure => directory,
-    owner => '0',
-    group => '0',
-    mode => '0755',
-  }
-
-  file {'/tmp/ssl/example.com.pem':
-    ensure  => file,
-    content => '-----BEGIN CERTIFICATE-----
+  $ssl_cert = '-----BEGIN CERTIFICATE-----
 MIIDZDCCAkygAwIBAgIJAJQrxIgzRNLSMA0GCSqGSIb3DQEBBQUAMCoxKDAmBgNV
 BAMUHyouc3RyZWFtLmZ1Y2tib29rLmNpLmNhcmdvbWVkaWEwHhcNMTMwNTI0MTYw
 NjA1WhcNMjMwNTIyMTYwNjA1WjAqMSgwJgYDVQQDFB8qLnN0cmVhbS5mdWNrYm9v
@@ -30,11 +21,8 @@ JbXrnFaNIAsqat/bZ4n9AK3g2kLHpSx3WAYeBJovfEQW3OT1RS6W7oikT0iYeGK+
 kH9u0sHmJN8ulmXs6qcfsVoehrno2IviVvwZpsgSTlJ7nALafDTXc1HbBc8NtoIj
 oX4YELeDBLA=
 -----END CERTIFICATE-----'
-  }
 
-  file {'/tmp/ssl/example.com.key':
-    ensure  => file,
-    content => '-----BEGIN RSA PRIVATE KEY-----
+  $ssl_key = '-----BEGIN RSA PRIVATE KEY-----
 MIIEpQIBAAKCAQEArVsHvygnfksSRWFVSULfqKo8+3RgXDMEY/QIRduP6dLcml8V
 VvoI+m0gBCLtw/ZDrVy8QBdo9CWfnppS4WHEtVrUBOolXc6bnSWIjRVEY54yCip0
 HgjUdrvOLkOWpwF/gxFTvH5sIcP0rQXMzml3C0kojuLQztfVnqK1csVxkSBI1Y7d
@@ -61,7 +49,6 @@ Lz6rjWUCgYEAvtoLmxjFfafuKoJsMFoMzzKJk92bosnQ+85c+3uD23tcjpNwaFbz
 UEmQgwSdfYTu5DLSuey9YMI6m3kSohQzpmHRZoGwFwBGh/hsrNjkYZHtzGbNfhg5
 z5jiDSPskspb8TxB7mD/QtGd/K2UAhECw0n+dET8t9mzsHp5aqYeyMs=
 -----END RSA PRIVATE KEY-----'
-  }
 
   class {'nginx':
     confd_purge           => true,
@@ -80,8 +67,8 @@ z5jiDSPskspb8TxB7mD/QtGd/K2UAhECw0n+dET8t9mzsHp5aqYeyMs=
     proxy             => 'http://backend-socketredis',
     ssl               => 'true',
     ssl_port          => '8090',
-    ssl_cert          => '/tmp/ssl/example.com.pem',
-    ssl_key           => '/tmp/ssl/example.com.key',
+    ssl_cert          => $ssl_cert,
+    ssl_key           => $ssl_key,
     location_cfg_append => [
       'proxy_set_header X-Real-IP $remote_addr',
       'proxy_set_header Host $host',

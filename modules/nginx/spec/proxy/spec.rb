@@ -16,7 +16,7 @@ describe file('/etc/nginx/conf.d/vhost_autogen.conf') do
   it { should be_file }
 end
 
-describe command('monit summary | grep nginx.*running') do
+describe command('monit summary | grep nginx') do
   it { should return_exit_status 0 }
 end
 

@@ -38,6 +38,24 @@ define nginx::resource::vhost(
   if ($ssl == 'true') {
     if ($ssl_cert == undef) or ($ssl_key == undef) {
       fail('nginx: SSL certificate/key (ssl_cert/ssl_cert) and/or SSL Private must be defined and exist on the target system(s)')
+    } else {
+      $ssl_dir = "${nginx::params::nx_conf_dir}/ssl"
+      $ssl_cert_file = "${ssl_dir}/${server_name}.pem"
+      $ssl_key_file = "${ssl_dir}/${server_name}.key"
+      file {$ssl_dir:
+        ensure => directory,
+        owner => '0',
+        group => '0',
+        mode => '0755',
+      }
+      file {$ssl_cert_file:
+        ensure  => file,
+        content => $ssl_cert,
+      }
+      file {$ssl_key_file:
+        ensure  => file,
+        content => $ssl_key,
+      }
     }
   }
 
