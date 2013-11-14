@@ -6,7 +6,7 @@ define nginx::resource::location(
   $proxy                = undef,
   $proxy_read_timeout   = $nginx::params::nx_proxy_read_timeout,
   $ssl                  = false,
-  $ssl_only		= false,
+  $ssl_only             = false,
   $location_alias       = undef,
   $option               = undef,
   $stub_status          = undef,
@@ -51,7 +51,7 @@ define nginx::resource::location(
   }
 
   ## Create stubs for vHost File Fragment Pattern
-  if ($ssl_only != 'true') {
+  if ($ssl_only != true) {
     file {"${nginx::config::nx_temp_dir}/nginx.d/${vhost}-500-${name}":
       ensure  => $ensure_real,
       content => $content_real,
@@ -59,7 +59,7 @@ define nginx::resource::location(
   }
 
   ## Only create SSL Specific locations if $ssl is true.
-  if ($ssl == 'true') {
+  if ($ssl == true) {
     file {"${nginx::config::nx_temp_dir}/nginx.d/${vhost}-800-${name}-ssl":
       ensure  => $ensure_real,
       content => $content_real,

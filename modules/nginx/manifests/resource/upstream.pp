@@ -10,9 +10,9 @@ define nginx::resource::upstream (
   }
 
   file {"/etc/nginx/conf.d/${name}-upstream.conf":
-    ensure   => $ensure ? {
-      'absent' => absent,
-      default  => 'file',
+    ensure => $ensure ? {
+      'absent'  => absent,
+      default   => 'file',
     },
     content  => template('nginx/conf.d/upstream.erb'),
     notify   => Class['nginx::service'],

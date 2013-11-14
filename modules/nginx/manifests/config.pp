@@ -19,7 +19,7 @@ class nginx::config(
     mode  => '0644',
   }
 
-  file {"${nginx::params::nx_conf_dir}":
+  file {$nginx::params::nx_conf_dir:
     ensure => directory,
   }
 
@@ -28,22 +28,22 @@ class nginx::config(
   }
   if $confd_purge == true {
     File["${nginx::params::nx_conf_dir}/conf.d"] {
-      ignore => "vhost_autogen.conf",
+      ignore => 'vhost_autogen.conf',
       purge => true,
       recurse => true,
     }
   }
 
-  file {"${nginx::config::nx_run_dir}":
+  file {$nginx::config::nx_run_dir:
     ensure => directory,
   }
 
-  file {"${nginx::config::nx_client_body_temp_path}":
+  file {$nginx::config::nx_client_body_temp_path:
     ensure => directory,
     owner  => $nginx::params::nx_daemon_user,
   }
 
-  file {"${nginx::config::nx_proxy_temp_path}":
+  file {$nginx::config::nx_proxy_temp_path:
     ensure => directory,
     owner  => $nginx::params::nx_daemon_user,
   }

@@ -6,7 +6,7 @@ define nginx::resource::vhost(
   $ssl                    = false,
   $ssl_cert               = undef,
   $ssl_key                = undef,
-  $ssl_port		          = '443',
+  $ssl_port               = '443',
   $proxy                  = undef,
   $proxy_read_timeout     = $nginx::params::nx_proxy_read_timeout,
   $index_files            = ['index.html', 'index.htm', 'index.php'],
@@ -25,7 +25,7 @@ define nginx::resource::vhost(
   }
 
   # Check to see if SSL Certificates are properly defined.
-  if ($ssl == 'true') {
+  if ($ssl == true) {
     if ($ssl_cert == undef) or ($ssl_key == undef) {
       fail('nginx: SSL certificate/key (ssl_cert/ssl_cert) and/or SSL Private must be defined and exist on the target system(s)')
     } else {
@@ -61,9 +61,8 @@ define nginx::resource::vhost(
       notify => Class['nginx::service'],
     }
   }
-  
-  if ($ssl == 'true') and ($ssl_port == $listen_port) {
-    $ssl_only = 'true'
+  if ($ssl == true) and ($ssl_port == $listen_port) {
+    $ssl_only = true
   }
 
   # Create the default location reference for the vHost
@@ -104,7 +103,7 @@ define nginx::resource::vhost(
   }
 
   # Create SSL File Stubs if SSL is enabled
-  if ($ssl == 'true') {
+  if ($ssl == true) {
     file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-700-ssl":
       ensure => $ensure ? {
         'absent' => absent,

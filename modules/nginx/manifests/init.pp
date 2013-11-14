@@ -22,11 +22,11 @@ class nginx (
 
   class {'nginx::config':
     daemon_user           => $daemon_user,
-    worker_processes 	  => $worker_processes,
-    worker_connections 	  => $worker_connections,
+    worker_processes      => $worker_processes,
+    worker_connections    => $worker_connections,
     worker_rlimit_nofile  => $worker_rlimit_nofile,
-    proxy_set_header 	  => $proxy_set_header,
-    keepalive_timeout 	  => $keepalive_timeout,
+    proxy_set_header      => $proxy_set_header,
+    keepalive_timeout     => $keepalive_timeout,
     confd_purge           => $confd_purge,
     server_tokens         => $server_tokens,
     send_timeout          => $send_timeout,
@@ -34,8 +34,8 @@ class nginx (
     client_body_timeout   => $client_body_timeout,
     client_header_timeout => $client_header_timeout,
     access_log            => $access_log,
-    require 		=> Class['nginx::package'],
-    notify  		=> Class['nginx::service'],
+    require               => Class['nginx::package'],
+    notify                => Class['nginx::service'],
   }
 
   class {'nginx::service': }
