@@ -1,8 +1,2 @@
 }
 
-<% if @rewrite_www_to_non_www %>
-server {
-  listen                <%= @listen_ip %>;
-  rewrite               ^ http://<%= @name.gsub(/^www\./, '') %>$uri permanent;
-}
-<% end %>
