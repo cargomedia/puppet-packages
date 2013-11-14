@@ -41,6 +41,5 @@ class nginx::params {
   }
 
   $nx_daemon_user = 'nginx'
-
   $nx_upstream_ip_hash    = false
 }

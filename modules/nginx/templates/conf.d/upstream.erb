@@ -1,9 +1,8 @@
 upstream <%= @name %> {
-    <% if @ip_hash == true%>
+<% if @ip_hash == true-%>
     ip_hash;
-    <% end -%>
-    <% @members.each do |i|%>
+<% end -%>
+<% @members.each do |i|-%>
     server <%= i %>;
-    <% end %>
-
+<% end -%>
 }

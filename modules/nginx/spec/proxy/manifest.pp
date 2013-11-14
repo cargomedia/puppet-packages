@@ -51,17 +51,14 @@ z5jiDSPskspb8TxB7mD/QtGd/K2UAhECw0n+dET8t9mzsHp5aqYeyMs=
 -----END RSA PRIVATE KEY-----'
 
   class {'nginx':
-    confd_purge           => true,
-    daemon_user           => 'nginx',
     worker_processes      => 6,
     worker_rlimit_nofile  => 20000,
     worker_connections    => 10000,
-    server_tokens         => off,
     keepalive_timeout     => 30,
-    access_log            => off,
+    access_log            => 'off',
   }
 
-  nginx::resource::vhost {'default':
+  nginx::resource::vhost {'staging.cargomedia.ch':
     ensure            => present,
     listen_port       => '8090',
     proxy             => 'http://backend-socketredis',
