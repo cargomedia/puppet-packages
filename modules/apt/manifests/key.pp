@@ -10,7 +10,7 @@ define apt::key (
 
   case $ensure {
     present: {
-      if (!$key_server || !$key_url) {
+      if !($key_server) and !($key_url) {
         fail "[apt::key] key_url or key_server is needed for ensure => present"
       }
       if ($key_url) {
