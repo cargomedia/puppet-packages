@@ -44,7 +44,5 @@ class nginx::params {
 
   $nx_daemon_user = 'nginx'
 
-  $nx_service_restart     = "/etc/init.d/nginx configtest && /etc/init.d/nginx restart"
-
   $nx_upstream_ip_hash    = false
 }

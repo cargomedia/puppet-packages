@@ -12,7 +12,6 @@ class nginx (
   $client_header_timeout  = $nginx::params::nx_client_header_timeout,
   $error_log              = $nginx::params::nx_error_log,
   $access_log             = $nginx::params::nx_access_log,
-  $service_restart        = $nginx::params::nx_service_restrart,
   $confd_purge            = $nginx::params::nx_confd_purge,
 ) inherits nginx::params {
 
@@ -41,9 +40,7 @@ class nginx (
     notify  		=> Class['nginx::service'],
   }
 
-  class {'nginx::service':
-    service_restart => $service_restart,
-  }
+  class {'nginx::service': }
 
   monit::entry {'nginx':
     content => template('nginx/monit/nginx'),
