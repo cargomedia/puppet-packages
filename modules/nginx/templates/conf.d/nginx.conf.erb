@@ -28,7 +28,6 @@ http {
   client_body_timeout       <%= @client_body_timeout %>;
   client_header_timeout     <%= @client_header_timeout %>;
   send_timeout              <%= @send_timeout %>;
-  limit_conn_zone           <%= @limit_conn_zone %>;
   <% if @access_log == 'on'%>
   access_log                <%= scope.lookupvar('nginx::params::nx_logdir')%>/access.log;
   <% else %>

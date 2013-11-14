@@ -7,7 +7,6 @@ class nginx::config(
   $keepalive_timeout      = $nginx::params::nx_keepalive_timeout,
   $server_tokens          = $nginx::params::nx_server_tokens,
   $send_timeout           = $nginx::params::nx_send_timeout,
-  $limit_conn_zone        = $nginx::params::nx_limit_conn_zone,
   $client_max_body_size   = $nginx::params::nx_client_max_body_size,
   $client_body_timeout    = $nginx::params::nx_client_body_timeout,
   $client_header_timeout  = $nginx::params::nx_client_header_timeout,
