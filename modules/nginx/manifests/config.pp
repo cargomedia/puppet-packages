@@ -38,16 +38,6 @@ class nginx::config(
     ensure => directory,
   }
 
-  file {$nginx::config::nx_client_body_temp_path:
-    ensure => directory,
-    owner  => $nginx::params::nx_daemon_user,
-  }
-
-  file {$nginx::config::nx_proxy_temp_path:
-    ensure => directory,
-    owner  => $nginx::params::nx_daemon_user,
-  }
-
   file {'/etc/nginx/sites-enabled/default':
     ensure => absent,
   }
