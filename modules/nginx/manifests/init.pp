@@ -14,7 +14,6 @@ class nginx (
   $access_log             = $nginx::params::nx_access_log,
   $service_restart        = $nginx::params::nx_service_restrart,
   $confd_purge            = $nginx::params::nx_confd_purge,
-  $configtest_enable      = $nginx::params::nx_configtest_enable,
 ) inherits nginx::params {
 
   include stdlib
@@ -43,7 +42,6 @@ class nginx (
   }
 
   class {'nginx::service':
-    configtest_enable => $configtest_enable,
     service_restart => $service_restart,
   }
 

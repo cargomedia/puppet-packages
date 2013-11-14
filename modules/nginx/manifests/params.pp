@@ -44,10 +44,6 @@ class nginx::params {
 
   $nx_daemon_user = 'nginx'
 
-  # Service restart after Nginx 0.7.53 could also be just "/path/to/nginx/bin -s HUP"
-  # Some init scripts do a configtest, some don't. If configtest_enable it's true
-  # then service restart will take $nx_service_restart value, forcing configtest.
-  $nx_configtest_enable	  = false
   $nx_service_restart     = "/etc/init.d/nginx configtest && /etc/init.d/nginx restart"
 
   $nx_upstream_ip_hash    = false

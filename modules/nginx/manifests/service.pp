@@ -1,5 +1,4 @@
 class nginx::service(
-  $configtest_enable   = $nginx::params::nx_configtest_enable,
   $service_restart     = $nginx::params::nx_service_restart
 ) {
   exec {'rebuild-nginx-vhosts':
@@ -14,10 +13,5 @@ class nginx::service(
     hasstatus  => true,
     hasrestart => true,
     subscribe  => Exec['rebuild-nginx-vhosts'],
-  }
-  if $configtest_enable == true {
-    Service["nginx"] {
-      restart => $service_restart,
-    }
   }
 }
