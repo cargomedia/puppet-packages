@@ -3,10 +3,6 @@ define nginx::resource::vhost(
   $listen_ip              = '*',
   $listen_port            = '80',
   $listen_options         = undef,
-  $ipv6_enable            = false,
-  $ipv6_listen_ip         = '::',
-  $ipv6_listen_port       = '80',
-  $ipv6_listen_options    = 'default',
   $ssl                    = false,
   $ssl_cert               = undef,
   $ssl_key                = undef,
@@ -26,12 +22,6 @@ define nginx::resource::vhost(
     owner => 'root',
     group => 'root',
     mode  => '0644',
-  }
-
-  # Add IPv6 Logic Check - Nginx service will not start if ipv6 is enabled
-  # and support does not exist for it in the kernel.
-  if ($ipv6_enable == 'true') and ($ipaddress6)  {
-    warning('nginx: IPv6 support is not enabled or configured properly')
   }
 
   # Check to see if SSL Certificates are properly defined.
