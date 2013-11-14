@@ -90,8 +90,15 @@ class socket-redis (
     group => '0',
     mode => '0755',
     notify => Service['socket-redis'],
+    before => Package['socket-redis'],
   }
-  ->
+  ~>
+
+  exec {'update-rc.d socket-redis defaults':
+    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    refreshonly => true,
+  }
+
 
   package {'socket-redis':
     ensure => $version,
