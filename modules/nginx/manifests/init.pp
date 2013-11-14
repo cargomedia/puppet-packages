@@ -14,8 +14,6 @@ class nginx (
   $confd_purge            = $nginx::params::nx_confd_purge,
 ) inherits nginx::params {
 
-  include stdlib
-
   class {'nginx::package':
     notify => Class['nginx::service'],
   }
