@@ -23,3 +23,7 @@ end
 describe port(8090) do
   it { should be_listening }
 end
+
+describe command('openssl s_client -connect localhost:8090 | grep "CONNECTED"') do
+  it { should return_exit_status 0 }
+end
