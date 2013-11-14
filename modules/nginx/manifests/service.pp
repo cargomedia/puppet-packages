@@ -6,7 +6,6 @@ class nginx::service {
     subscribe   => File["${nginx::params::nx_temp_dir}/nginx.d"],
   }
   service {'nginx':
-    ensure     => running,
     enable     => true,
     hasstatus  => true,
     hasrestart => true,
