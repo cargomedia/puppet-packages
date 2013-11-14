@@ -7,7 +7,6 @@ class nginx::params {
   $nx_worker_processes      = $::processorcount
   $nx_worker_connections    = 1024
   $nx_worker_rlimit_nofile  = 20000
-  $nx_multi_accept          = 'off'
   $nx_sendfile              = 'on'
   $nx_keepalive_timeout     = 65
   $nx_tcp_nodelay           = 'on'
