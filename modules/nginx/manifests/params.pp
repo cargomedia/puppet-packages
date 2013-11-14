@@ -42,10 +42,7 @@ class nginx::params {
     /(?i-mx:linux)/  => '/var/run/nginx.pid',
   }
 
-  $nx_daemon_user = $::operatingsystem ? {
-    /(?i-mx:debian|ubuntu)/                                      => 'www-data',
-    /(?i-mx:fedora|rhel|redhat|centos|scientific|suse|opensuse)/ => 'nginx',
-  }
+  $nx_daemon_user = 'nginx'
 
   # Service restart after Nginx 0.7.53 could also be just "/path/to/nginx/bin -s HUP"
   # Some init scripts do a configtest, some don't. If configtest_enable it's true
