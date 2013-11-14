@@ -10,7 +10,6 @@ class nginx (
   $client_max_body_size   = $nginx::params::nx_client_max_body_size,
   $client_body_timeout    = $nginx::params::nx_client_body_timeout,
   $client_header_timeout  = $nginx::params::nx_client_header_timeout,
-  $error_log              = $nginx::params::nx_error_log,
   $access_log             = $nginx::params::nx_access_log,
   $confd_purge            = $nginx::params::nx_confd_purge,
 ) inherits nginx::params {
@@ -34,7 +33,6 @@ class nginx (
     client_max_body_size  => $client_max_body_size,
     client_body_timeout   => $client_body_timeout,
     client_header_timeout => $client_header_timeout,
-    error_log             => $error_log,
     access_log            => $access_log,
     require 		=> Class['nginx::package'],
     notify  		=> Class['nginx::service'],

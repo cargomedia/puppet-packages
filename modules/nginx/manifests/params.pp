@@ -33,7 +33,6 @@ class nginx::params {
   $nx_proxy_buffers           = '32 4k'
 
   $nx_access_log              = 'off'
-  $nx_error_log               = 'on'
   $nx_logdir = $::kernel ? {
     /(?i-mx:linux)/ => '/var/log/nginx',
   }

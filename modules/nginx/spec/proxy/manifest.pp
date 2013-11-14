@@ -72,7 +72,6 @@ z5jiDSPskspb8TxB7mD/QtGd/K2UAhECw0n+dET8t9mzsHp5aqYeyMs=
     server_tokens         => off,
     keepalive_timeout     => 30,
     access_log            => off,
-    error_log             => on,
   }
 
   nginx::resource::vhost {'default':

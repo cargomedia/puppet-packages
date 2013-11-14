@@ -1,9 +1,7 @@
 user                    <%= @daemon_user %>;
 worker_processes        <%= @worker_processes %>;
 worker_rlimit_nofile    <%= @worker_rlimit_nofile %>;
-<% if @error_log == 'on'-%>
 error_log               <%= scope.lookupvar('nginx::params::nx_logdir')%>/error.log;
-<% end -%>
 pid                     <%= scope.lookupvar('nginx::params::nx_pid')%>;
 
 events {
