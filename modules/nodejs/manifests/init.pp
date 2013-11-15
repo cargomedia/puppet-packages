@@ -18,5 +18,6 @@ class nodejs {
     content => template('nodejs/install.sh'),
     unless => "test -x /usr/bin/node && /usr/bin/node -v | grep '^v${version}$'",
     require => User['nodejs'],
+    timeout => 900,
   }
 }
