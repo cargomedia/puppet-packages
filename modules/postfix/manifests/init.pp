@@ -54,7 +54,6 @@ class postfix ($aliases = {}, $transports = []) {
   exec {'postmap':
     provider => shell,
     command => 'bash -c \'postmap /etc/postfix/{virtual,sasl_passwd}\'',
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
     require => Package['postfix'],
     notify => Service['postfix'],

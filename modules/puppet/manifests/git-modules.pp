@@ -11,7 +11,6 @@ define puppet::git-modules ($source, $version = 'master') {
 
   exec {"puppet repo ${name}":
     command => "git clone ${source} ${pathEscaped}",
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     creates => $path,
     require => Package['git'],
     notify => Exec['/etc/puppet/conf.d/main-modulepath'],
@@ -19,7 +18,6 @@ define puppet::git-modules ($source, $version = 'master') {
   ->
 
   exec {$updateCommand:
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     provider => shell,
     cwd => $pathEscaped,
     unless => "git fetch origin && test $(git rev-list HEAD -1) = ${versionCommand}",

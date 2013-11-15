@@ -5,7 +5,6 @@ define ssh::id ($host, $user, $sshDir, $private, $public, $type = 'ssh-rsa') {
   exec {"${sshDir} for ${host}":
     command => "mkdir -p ${sshDir}",
     creates => $sshDir,
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
 
   file {"${sshDir}/${host}":
@@ -46,7 +45,6 @@ define ssh::id ($host, $user, $sshDir, $private, $public, $type = 'ssh-rsa') {
 
   exec {"${sshDir}/config by ${host}":
     command => "cat ${sshDir}/config.d/* > ${sshDir}/config",
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     user => $user,
     refreshonly => true,
     require => Exec["${sshDir} for ${host}"],

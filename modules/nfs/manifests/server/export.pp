@@ -8,7 +8,6 @@ define nfs::server::export($publicPath = $name, $localPath, $configuration) {
   exec {$path:
     command => "mkdir -p ${path}",
     creates => $path,
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
   ->
 

@@ -5,14 +5,12 @@ define mount::entry ($source, $target = $name, $type = 'none', $options = 'defau
   exec {"prepare ${target}":
     command => "mkdir -p ${target}",
     creates => $target,
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
   ->
 
   exec {"make ${target} read-only":
     command => "find '${target}' -type d -exec chmod -w {} \;; find '${target}' -type f -exec chmod -w {} \;;",
     unless => "mountpoint ${target}",
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
   ->
 
