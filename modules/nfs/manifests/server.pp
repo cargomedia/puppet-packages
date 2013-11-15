@@ -25,7 +25,6 @@ class nfs::server ($configuration = '*(ro)') {
   $rootExports = shellquote("/nfsexport ${$configuration}")
   exec {'/etc/exports':
     command => "echo ${rootExports} > /etc/exports; cat /etc/exports.d/* >> /etc/exports",
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
     notify => Exec['/etc/init.d/nfs-kernel-server reload'],
     require => Service['nfs-kernel-server'],

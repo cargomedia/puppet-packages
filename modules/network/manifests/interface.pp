@@ -47,7 +47,6 @@ define network::interface (
     exec {"/sbin/ifup $device":
       command => "/sbin/ifup $device",
       unless  => "/sbin/ifconfig | grep $device",
-      path => ['/usr/local/bin', '/usr/bin', '/bin', '/sbin'],
     }
   }
 }
