@@ -1,9 +1,10 @@
-class cacti::mysql::users (
-  $dbSenseUser   = $cacti::params::dbSenseUser,
+class cacti::mysql::user (
+  $dbHost           = $cacti::params::dbHost,
+  $dbSenseUser      = $cacti::params::dbSenseUser,
   $dbSensePassword  = $cacti::params::dbSensePassword
 ) inherits cacti::params {
 
-  mysql::user {$dbSenseUser:
+  mysql::user {"${dbSenseUser}@${dbHost}":
     password => $dbSensePassword,
   }
 }

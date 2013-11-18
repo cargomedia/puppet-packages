@@ -55,9 +55,9 @@ class cacti::params {
     default => $::sshPublicKey,
   }
 
-  $storageLvmName = $::storageLvmName ? {
-    undef => '',
-    default => $::storageLvmName,
+  $sslPem = $::sslPem ? {
+    undef => 'No ssl key',
+    default => $::sslPem,
   }
 
   $userName = $::userName ? {
