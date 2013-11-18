@@ -1,0 +1,5 @@
+check process nginx with pidfile /var/run/nginx.pid
+	start program = "/etc/init.d/nginx start"
+	stop program  = "/etc/init.d/nginx stop"
+	if failed host localhost port 8090 with timeout 10 seconds then restart
+ 	if 25 restarts within 50 cycles then timeout

@@ -1,10 +1,14 @@
-class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data', $reportToEmail = 'root') {
+class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data', $reportToEmail = 'root', $puppetdb = false) {
 
   include 'puppet::common'
+  if $puppetdb {
+    class {'puppet::master::puppetdb':}
+    class {'puppet::db':}
+  }
 
   file {'/etc/puppet/conf.d/master':
     ensure => file,
-    content => template('puppet/conf.d/master'),
+    content => template('puppet/master/conf.d/master'),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -21,7 +25,7 @@ class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data
 
   file {'/etc/puppet/manifests/site.pp':
     ensure => file,
-    content => template('puppet/site.pp'),
+    content => template('puppet/master/site.pp'),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -31,7 +35,7 @@ class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data
 
   file {'/etc/puppet/hiera.yaml':
     ensure => file,
-    content => template('puppet/hiera.yaml'),
+    content => template('puppet/master/hiera.yaml'),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -42,7 +46,7 @@ class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data
   if $reportToEmail {
     file {'/etc/puppet/tagmail.conf':
       ensure => file,
-      content => template('puppet/tagmail.conf'),
+      content => template('puppet/master/tagmail.conf'),
       group => '0',
       owner => '0',
       mode => '0644',
@@ -64,9 +68,9 @@ class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data
   service {'puppetmaster':
     subscribe => Exec['/etc/puppet/puppet.conf'],
   }
-  ->
 
-  monit::entry {'puppetmaster':
-    content => template('puppet/monit/master')
+  @monit::entry {'puppetmaster':
+    content => template('puppet/master/monit'),
+    require => Service['puppetmaster'],
   }
 }

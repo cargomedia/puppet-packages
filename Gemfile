@@ -1,5 +1,6 @@
-source :rubygems
+source 'https://rubygems.org'
 
 gem 'rake'
 gem 'puppet-lint'
-gem 'puppet', '3.2.3'
+gem 'puppet', '3.3.0'
+gem 'serverspec'

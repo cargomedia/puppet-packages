@@ -2,10 +2,6 @@ class apt {
 
   include 'apt::update'
 
-  package { 'apt':
-    ensure => present
-  }
-  ->
   file { "/etc/apt/sources.list.d/":
     ensure => directory,
     owner   => '0',

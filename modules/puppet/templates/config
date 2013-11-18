@@ -1,0 +1,6 @@
+[main]
+confdir = /etc/puppet
+ssldir = /etc/puppet/ssl
+logdir = /var/log/puppet
+rundir = /var/run/puppet
+certname = <%= @clientcert %>
