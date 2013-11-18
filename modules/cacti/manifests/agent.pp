@@ -13,27 +13,27 @@ class cacti::agent (
   }
   ->
 
-  file {"/home/$userName":
+  file {"/home/${userName}":
     ensure  => directory,
     group   => $groupName,
     owner   => $userName,
-    mode    => '750',
+    mode    => '0750',
   }
   ->
 
-  file {"/home/$userName/.ssh":
+  file {"/home/${userName}/.ssh":
     ensure  => directory,
     group   => $groupName,
     owner   => $userName,
-    mode    => '750',
+    mode    => '0750',
   }
   ->
 
-  file {"/home/$userName/.ssh/authorized_keys":
+  file {"/home/${userName}/.ssh/authorized_keys":
     ensure  => file,
     content => template("${module_name}/ssh/authorized_keys"),
     group   => $groupName,
     owner   => $userName,
-    mode    => '750',
+    mode    => '0750',
   }
 }
