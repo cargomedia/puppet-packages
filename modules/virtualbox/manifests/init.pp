@@ -5,7 +5,7 @@ class virtualbox {
       'deb http://download.virtualbox.org/virtualbox/debian squeeze contrib non-free',
     ],
     keys => {
-      'nginx' => {
+      'virtualbox' => {
         key     => '98AB5139',
         key_url => 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc',
       }
