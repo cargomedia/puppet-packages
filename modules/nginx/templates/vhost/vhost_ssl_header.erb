@@ -1,0 +1,10 @@
+server {
+  listen       <%= @ssl_port %>;
+
+  ssl on;
+  ssl_certificate      <%= @ssl_cert_file %>;
+  ssl_certificate_key  <%= @ssl_key_file %>;
+
+  ssl_session_timeout  5m;
+
+  ssl_prefer_server_ciphers   on;

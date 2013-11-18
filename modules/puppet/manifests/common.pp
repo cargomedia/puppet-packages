@@ -43,4 +43,10 @@ class puppet::common {
     refreshonly => true,
     require => File['/etc/puppet'],
   }
+
+  ruby::gem {'deep_merge':
+    ensure => present,
+  }
+
+  puppet::module {'puppetlabs-stdlib': }
 }
