@@ -1,5 +1,20 @@
 class cacti::params {
 
+  $resourceDir = $::resourceDir ? {
+    undef => '/usr/share/cacti',
+    default => $::resourceDir,
+  }
+
+  $scriptDir = $::scriptDir ? {
+    undef => "${resourceDir}/site/scripts/",
+    default => $::scriptDir,
+  }
+
+  $templateDir = $::templateDir ? {
+    undef => "${resourceDir}/templates/",
+    default => $::scriptDir,
+  }
+
   $host = $::host ? {
     undef => 'localhost',
     default => $::host,

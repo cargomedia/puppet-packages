@@ -28,25 +28,25 @@ class cacti::server (
     dbHost          => $dbHost,
     dbSenseUser     => $dbSenseUser,
     dbSensePassword => $dbSensePassword,
-    require         => [Class['cacti::package']],
+    require         => Class['cacti::package'],
   }
 
   file {'/etc/cacti/debian.php':
     ensure => file,
     content => template('cacti/etc/debian.php'),
-    require => [Class['cacti::package']],
+    require => Class['cacti::package'],
   }
 
   file {'/etc/cacti/htpasswd':
     ensure => file,
     content => template('cacti/etc/htpasswd'),
-    require => [Class['cacti::package']],
+    require => Class['cacti::package'],
   }
 
   file {'/etc/cacti/id_rsa':
     ensure => file,
     content => template('cacti/etc/id_rsa'),
-    require => [Class['cacti::package']],
+    require => Class['cacti::package'],
   }
 
   file {'/etc/apache2/ssl/cacti.pem':
@@ -58,7 +58,7 @@ class cacti::server (
   file {'/etc/apache2/conf.d/cacti.conf':
     ensure => file,
     content => template('cacti/vhost'),
-    require => [Class['cacti::package']],
+    require => Class['cacti::package'],
   }
 
 }
