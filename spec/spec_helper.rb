@@ -41,7 +41,7 @@ RSpec.configure do |c|
 
       if File.exists? spec_dir.to_path + '/facts.json'
         vagrant_facts_path = vagrant_helper.get_path spec_dir.to_path + '/facts.json'
-        vagrant_helper.exec("sudo mkdir -p /etc/facter/facts.d && sudo ln -sf #{vagrant_facts_path} /etc/facter/facts.d/")
+        vagrant_helper.exec("sudo mkdir -p /etc/facter/facts.d && sudo ln -sf #{vagrant_facts_path.shellescape} /etc/facter/facts.d/")
       end
 
       spec_dir.sort.each do |local_file|
