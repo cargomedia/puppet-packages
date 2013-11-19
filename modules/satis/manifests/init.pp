@@ -4,7 +4,7 @@ class satis($hostname) {
   require 'git'
   require 'github::knownhost'
 
-  $version = 'dev-master'
+  $version = '3d27252f3e3d5992b382a54f4911510048320b2a'
 
   user {'satis':
     ensure => present,
@@ -13,7 +13,7 @@ class satis($hostname) {
     home => '/var/lib/satis',
   }
 
-  exec {"composer --no-interaction create-project --keep-vcs composer/satis /var/lib/satis/satis ${version}":
+  exec {"composer --no-interaction create-project composer/satis --stability=dev --keep-vcs /var/lib/satis/satis":
     creates => '/var/lib/satis/satis',
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     user => 'satis',
@@ -21,8 +21,9 @@ class satis($hostname) {
   }
   ->
 
-  exec {'git pull && composer --no-interaction install':
+  exec {"git fetch && git checkout ${version} && composer --no-interaction install":
     cwd => '/var/lib/satis/satis',
+    unless => "test $(git rev-parse HEAD) = ${version}",
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     user => 'satis',
     environment => ['HOME=/var/lib/satis'],
