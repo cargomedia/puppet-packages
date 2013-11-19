@@ -2,7 +2,6 @@ class satis($hostname) {
 
   require 'composer'
   require 'git'
-  require 'github::knownhost'
 
   $version = '3d27252f3e3d5992b382a54f4911510048320b2a'
 
