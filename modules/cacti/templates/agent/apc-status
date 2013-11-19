@@ -2,5 +2,6 @@ Alias /apc-status /usr/local/bin/apc-status.php
 
 <Files "/usr/local/bin/apc-status.php">
 	Order deny,allow
-	Allow from all
+	Deny from all
+	Allow from <%= @ipPrivateNetwork %>
 </Files>

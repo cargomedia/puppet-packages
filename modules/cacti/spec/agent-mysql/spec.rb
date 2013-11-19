@@ -5,5 +5,5 @@ describe package('mysql-server') do
 end
 
 describe command("mysql -e 'select user from mysql.user'") do
-  its(:stdout) { should match /cacti-sense/ }
+  its(:stdout) { should match /sense-cacti/ }
 end

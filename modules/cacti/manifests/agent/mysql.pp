@@ -1,4 +1,4 @@
-class cacti::extension::mysql::grant (
+class cacti::agent::mysql (
   $dbHost           = $cacti::params::dbHost,
   $dbSenseUser      = $cacti::params::dbSenseUser,
   $dbSensePassword  = $cacti::params::dbSensePassword
@@ -11,8 +11,9 @@ class cacti::extension::mysql::grant (
   }
 
   class {'cacti::helper::mysql-grant':
-    host      => $dbHost,
-    user      => $dbSenseUser,
-    db        => '%'
+    host  => $dbHost,
+    user  => $dbSenseUser,
+    db    => '%'
   }
+
 }

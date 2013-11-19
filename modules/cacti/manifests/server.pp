@@ -1,5 +1,4 @@
 class cacti::server (
-  $host             = $cacti::params::host,
   $domain           = $cacti::params::domain,
   $ipPrivateNetwork = $cacti::params::ipPrivateNetwork,
   $dbHost           = $cacti::params::dbHost,
@@ -16,15 +15,15 @@ class cacti::server (
 ) inherits cacti::params {
 
   require 'snmp'
+  require 'cacti'
+  require 'apache2::mod::ssl'
   require 'php5::extension::snmp'
-  require 'php5::extension::apc'
-
-  include 'cacti::agent'
-  include 'apache2::mod::ssl'
 
   class {'cacti::package': }
 
-  class {'cacti::resource::bootstrap': }
+  class {'cacti::resource::bootstrap':
+    require   => Class['cacti::package'],
+  }
 
   class {'cacti::helper::mysql-user':
     host      => $dbHost,
@@ -35,8 +34,8 @@ class cacti::server (
 
   helper::script {'cacti post install':
     content => template('cacti/post-install.sh'),
-    unless  => 'true',
-    require => User['cacti'],
+    unless  => 'test -e /usr/share/cacti/lib || test -e /usr/share/cacti/include',
+    require => [User['cacti'], Class['cacti::package']],
     timeout => 900,
   }
 

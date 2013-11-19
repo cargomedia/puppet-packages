@@ -6,18 +6,13 @@ class cacti::params {
   }
 
   $scriptDir = $::scriptDir ? {
-    undef => "${resourceDir}/site/scripts/",
+    undef => "${resourceDir}/site/scripts",
     default => $::scriptDir,
   }
 
   $templateDir = $::templateDir ? {
-    undef => "${resourceDir}/templates/",
+    undef => "${resourceDir}/templates",
     default => $::scriptDir,
-  }
-
-  $host = $::host ? {
-    undef => 'localhost',
-    default => $::host,
   }
 
   $domain = $::domain  ? {

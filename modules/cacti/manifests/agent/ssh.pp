@@ -1,4 +1,4 @@
-class cacti::agent (
+class cacti::agent::ssh (
   $userName   = $cacti::params::userName,
   $userId     = $cacti::params::userId,
   $groupName  = $cacti::params::groupName,
@@ -31,9 +31,10 @@ class cacti::agent (
 
   file {"/home/${userName}/.ssh/authorized_keys":
     ensure  => file,
-    content => template("${module_name}/ssh/authorized_keys"),
+    content => template("${module_name}/agent/authorized_keys"),
     group   => $groupName,
     owner   => $userName,
     mode    => '0750',
   }
+
 }

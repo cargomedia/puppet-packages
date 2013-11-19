@@ -2,13 +2,13 @@ define mysql::database ($user = undef) {
 
   require 'mysql::server'
 
-  if $name != '%' {
-    database {$name:
-      ensure => present,
-      provider => mysql,
-      require => Service['mysql'],
-    }
+
+  database {$name:
+    ensure => present,
+    provider => mysql,
+    require => Service['mysql'],
   }
+
 
   if $user {
     database_grant {"${user}/${name}":
