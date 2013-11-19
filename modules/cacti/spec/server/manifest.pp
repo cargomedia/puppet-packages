@@ -65,16 +65,4 @@ WtvODylHjcsVkFABMu1O
     sshPublicKey      => template('cacti/etc/id_rsa'),
     sslPem            => $ssl_pem,
   }
-  ->
-
-  class {'cacti::resource::site::script':
-    name => 'curl_apc-status.sh',
-    content => template('cacti/data/site/scripts/curl_apc-status.sh'),
-  }
-  ->
-
-  class {'cacti::resource::template':
-    name => 'tcp_connection_status.xml',
-    content => template('cacti/data/templates-cargomedia/tcp_connection_status.xml'),
-  }
 }

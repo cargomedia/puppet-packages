@@ -51,22 +51,22 @@ class cacti::params {
   }
 
   $dbPassword = $::dbPassword ? {
-    undef => '',
+    undef => 'cacti',
     default => $::dbPassword,
   }
 
   $dbSenseUser = $::dbSenseUser ? {
-    undef => '',
+    undef => 'cacti-sense',
     default => $::dbSenseUser,
   }
 
   $dbSensePassword = $::dbSensePassword ? {
-    undef => '',
+    undef => 'cacti',
     default => $::dbSensePassword,
   }
 
   $sshPublicKey = $::sshPublicKey ? {
-    undef => 'No key defined',
+    undef => template('cacti/etc/id_rsa'),
     default => $::sshPublicKey,
   }
 

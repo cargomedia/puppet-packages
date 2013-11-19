@@ -1,12 +1,4 @@
-class cacti::resource::site::script (
-  $content    = undef,
-  $resourceDir  = $cacti::params::resourceDir,
-  $scriptDir  = $cacti::params::scriptDir
-) inherits cacti::params {
-
-  file {$scriptDir:
-    ensure => directory,
-  }
+define cacti::resource::site::script ($content, $scriptDir) {
 
   file {"${scriptDir}/${name}":
     ensure  => file,

@@ -1,4 +1,4 @@
-class cacti::extension::apache2::apc {
+class cacti::extension::apache2::apc-status {
 
   require 'php5::apache2'
 
