@@ -6,6 +6,13 @@ class satis($hostname) {
 
   $version = '3d27252f3e3d5992b382a54f4911510048320b2a'
 
+  file {'/etc/satis':
+    ensure => 'directory',
+    owner => '0',
+    group => '0',
+    mode => '0755',
+  }
+
   user {'satis':
     ensure => present,
     system => true,
@@ -13,8 +20,8 @@ class satis($hostname) {
     home => '/var/lib/satis',
   }
 
-  # Install satis
-  exec {"composer --no-interaction create-project composer/satis --stability=dev --keep-vcs /var/lib/satis/satis":
+  exec {'install satis'
+    command => "composer --no-interaction create-project composer/satis --stability=dev --keep-vcs /var/lib/satis/satis",
     creates => '/var/lib/satis/satis',
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     user => 'satis',
@@ -22,8 +29,8 @@ class satis($hostname) {
   }
   ->
 
-  # Upgrade satis
-  exec {"git fetch && git checkout ${version} && composer --no-interaction install":
+  exec {'upgrade satis'
+    command => "git fetch && git checkout ${version} && composer --no-interaction install",
     cwd => '/var/lib/satis/satis',
     unless => "test $(git rev-parse HEAD) = ${version}",
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
