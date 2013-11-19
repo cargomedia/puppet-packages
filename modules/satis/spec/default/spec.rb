@@ -9,3 +9,8 @@ describe file('/var/lib/satis/satis/.git') do
   it { should be_directory }
   it { should be_owned_by 'satis' }
 end
+
+describe port(80) do
+  it { should be_listening }
+end
+
