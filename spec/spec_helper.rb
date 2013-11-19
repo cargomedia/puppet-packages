@@ -37,10 +37,16 @@ RSpec.configure do |c|
       vagrant_helper.reset
       c.ssh = vagrant_helper.connect
 
-      manifests_dir = Dir.new File.dirname file
-      manifests_dir.sort.each do |manifest|
-        next unless File.extname(manifest) == '.pp'
-        vagrant_manifest_path = vagrant_helper.get_path manifests_dir.to_path + '/' + manifest
+      spec_dir = Dir.new File.dirname file
+
+      if File.exists? spec_dir.to_path + '/facts.json'
+        vagrant_facts_path = vagrant_helper.get_path spec_dir.to_path + '/facts.json'
+        vagrant_helper.exec("sudo mkdir -p /etc/facter/facts.d && sudo ln -sf #{vagrant_facts_path.shellescape} /etc/facter/facts.d/")
+      end
+
+      spec_dir.sort.each do |local_file|
+        next unless File.extname(local_file) == '.pp'
+        vagrant_manifest_path = vagrant_helper.get_path spec_dir.to_path + '/' + local_file
         command = "sudo puppet apply --verbose --modulepath '/etc/puppet/modules:/vagrant/modules' #{vagrant_manifest_path.shellescape}"
         command += ' --debug' if debug
         begin
