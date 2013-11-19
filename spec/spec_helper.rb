@@ -51,8 +51,7 @@ RSpec.configure do |c|
               :datadir => vagrant_helper.get_path(spec_dir.to_path)
           }
       }
-      hiera_config_content = hiera_config.to_yaml.gsub('!ruby/sym ', ':')
-      hiera_command = "echo #{hiera_config_content.shellescape} > /etc/hiera.yml"
+      hiera_command = "echo #{hiera_config.to_yaml.shellescape} > /etc/hiera.yml"
       vagrant_helper.exec("sudo bash -c #{hiera_command.shellescape}")
 
       spec_dir.sort.each do |local_file|
