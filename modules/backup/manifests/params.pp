@@ -5,6 +5,11 @@ class backup::params {
     default => $::type,
   }
 
+  $restoreList = $::restoreList ? {
+    undef => [],
+    default => $::restoreList,
+  }
+
   $host = $::host ? {
     undef => 'localhost',
     default => $::host,

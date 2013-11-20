@@ -8,6 +8,7 @@ class backup::agent::rdiff (
   $checkDestinations = $backup::params::checkDestinations
 ) inherits backup::params {
 
+  include 'backup'
   include 'backup::base::rdiff'
 
   if ($host == undef or $volume == undef or $source == undef or $destination == undef) {
@@ -18,9 +19,7 @@ class backup::agent::rdiff (
     fail("Please specify destination for check job!")
   }
 
-  file {'/root/bin':
-    ensure => directory,
-  }
+
 
   file {'/root/bin/backup.sh':
     ensure => file,
