@@ -1,5 +1,7 @@
 class jenkins {
 
+  include 'jenkins::service'
+
   apt::source {'jenkins':
     entries => [
       'deb http://pkg.jenkins-ci.org/debian binary/',
