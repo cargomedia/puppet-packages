@@ -1,0 +1,18 @@
+#!/bin/bash
+set -e
+
+PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
+HOST="<%= @host %>"
+RDIFF_DESTS='<%= @checkDestinations %>'
+LAST_24_HRS=$(($(date +'%s')-86400))
+STATUS=0
+
+for BACKUP_PATH in ${RDIFF_DESTS}; do
+	INCREMENTS=$(rdiff-backup --list-increments --parsable-output root@$HOST::${BACKUP_PATH})
+	LAST_BACKUP=$(echo "${INCREMENTS}" | tail -n1 | cut -d ' ' -f1)
+	if [ $((${LAST_BACKUP} - ${LAST_24_HRS})) -lt 0 ]; then
+		echo "Backup on ${BACKUP_PATH} is older than 24 hrs. Last one was on: $(date -d@${LAST_BACKUP})"
+		STATUS=1
+	fi
+done
+exit $STATUS

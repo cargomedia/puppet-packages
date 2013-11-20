@@ -1,0 +1,2 @@
+grep -q "%storage1:SSH-PUBLIC-KEY%" /root/.ssh/authorized_keys || echo "%storage1:SSH-PUBLIC-KEY%" >> /root/.ssh/authorized_keys
+grep -q "%db2:SSH-PUBLIC-KEY%" /root/.ssh/authorized_keys || echo "%db2:SSH-PUBLIC-KEY%" >> /root/.ssh/authorized_keys
