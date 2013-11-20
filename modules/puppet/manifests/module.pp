@@ -7,9 +7,8 @@ define puppet::module ($version = '>v0.0.0') {
   }
   ->
 
-  exec {"puppet module upgrade $name":
+  cron {"puppet module upgrade ${name}":
     command => "puppet module upgrade --force --version='${version}' ${name}",
-    onlyif => "puppet module list | grep ${name}",
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    user => 'root',
   }
 }
