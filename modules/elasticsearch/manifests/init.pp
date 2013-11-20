@@ -22,7 +22,7 @@ class elasticsearch ($publish_host, $heap_size = '256m', $cluster_name = undef) 
 
   file {'/etc/elasticsearch/elasticsearch.yml':
     ensure => file,
-    content =>template('elasticsearch/elasticsearch.yml'),
+    content => template('elasticsearch/elasticsearch.yml'),
     owner => '0',
     group => '0',
     mode => '0755',
