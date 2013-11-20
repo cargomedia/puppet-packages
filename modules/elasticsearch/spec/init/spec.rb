@@ -12,3 +12,7 @@ describe file('/etc/elasticsearch/elasticsearch.yml') do
   its(:content) { should match 'network.publish_host: localhost' }
   its(:content) { should match 'cluster.name: foo' }
 end
+
+describe command('monit summary') do
+  its(:stdout) { should match /Process 'elasticsearch'/ }
+end

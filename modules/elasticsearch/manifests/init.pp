@@ -1,4 +1,4 @@
-class elasticsearch ($publish_host, $heap_size = '256m', $cluster_name = undef) {
+class elasticsearch ($publish_host = undef, $heap_size = '256m', $cluster_name = undef) {
 
   require 'java'
 
@@ -31,7 +31,7 @@ class elasticsearch ($publish_host, $heap_size = '256m', $cluster_name = undef) 
 
   helper::script {'install elasticsearch':
     content => template('elasticsearch/install.sh'),
-    unless => "test -x /usr/share/elasticsearch/bin/elasticsearch && /usr/share/elasticsearch/bin/elasticsearch -v | grep -q '${version}'"
+    unless => "/usr/share/elasticsearch/bin/elasticsearch -v | grep -q '\s${version},'"
   }
 
   @monit::entry {'elasticsearch':
