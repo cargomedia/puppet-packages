@@ -12,8 +12,6 @@ function runCommandWithTimeout {
 
 if !(grep -q "[[:space:]]${mount}[[:space:]]" /proc/mounts); then
 	echo "Mountpoint not mounted: $mount - remounting..."
-	find ${mount} -type d -exec chmod -w {} \;
-	find ${mount} -type f -exec chmod -w {} \;
 	runCommandWithTimeout 5 "mount $mount"
 	if [ $? -gt 0 ]; then
 		echo "Failed to remount!"
