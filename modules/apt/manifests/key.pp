@@ -6,7 +6,7 @@ define apt::key (
 ) {
   require 'apt'
 
-  $condition = "apt-key list | grep -E '^pub\s+\w+/${key}\s+'"
+  $condition = "apt-key list | grep -E '^pub\\s+\\w+/${key}\\s+'"
 
   case $ensure {
     present: {
