@@ -1,5 +1,5 @@
 check process elasticsearch with pidfile /var/run/elasticsearch.pid
 	start program = "/etc/init.d/elasticsearch start"
 	stop program  = "/etc/init.d/elasticsearch stop"
-	if failed host <%= @publish_host %> port 9200 protocol http with timeout 10 seconds then restart
+	if failed port 9200 protocol http with timeout 10 seconds for 2 cycles then restart
 	if 25 restarts within 50 cycles then timeout
