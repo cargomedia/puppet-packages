@@ -9,13 +9,6 @@ define mount::entry ($source, $target = $name, $type = 'none', $options = 'defau
   }
   ->
 
-  exec {"make ${target} read-only":
-    command => "find '${target}' -type d -exec chmod -w {} \;; find '${target}' -type f -exec chmod -w {} \;;",
-    unless => "mountpoint ${target}",
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-  }
-  ->
-
   mount {$target:
     ensure => present,
     fstype => $type,
