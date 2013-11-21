@@ -19,8 +19,6 @@ class backup::agent::rdiff (
     fail("Please specify destination for check job!")
   }
 
-
-
   file {'/root/bin/backup.sh':
     ensure => file,
     content => template('backup/agent/pre-script')
