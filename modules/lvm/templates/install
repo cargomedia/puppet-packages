@@ -1,0 +1,18 @@
+LVM_NAME=/dev/<%= @volumeGroupName %>/<%= @logicalVolumeName %>
+LVM_NAME_SHORT=$(expr "${LVM_NAME}" : "/.*/\(.*\)$")
+
+if !(pvs | grep -q <%= @physicalDevices %>) then
+	pvcreate <%= @physicalDevices %> >/dev/null
+fi
+
+if !(vgs | grep -q <%= @volumeGroupName %>) then
+	vgcreate <%= @volumeGroupName %> <%= @physicalDevices %> >/dev/null
+fi
+
+if !(lvs | grep -q ${LVM_NAME_SHORT}) then
+	lvcreate -l <%= @logicalVolumeSize %>VG <%= @volumeGroupName %> --name ${LVM_NAME} >/dev/null
+fi
+
+if (mkfs.<%= @logicalVolumeFilesystem %> -N ${LVM_NAME} 2>/dev/null) then
+	mkfs.<%= @logicalVolumeFilesystem %> ${LVM_NAME} >/dev/null
+fi
