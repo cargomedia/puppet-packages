@@ -37,17 +37,26 @@ class lvm::install (
     class {'snmp':
       disks => ["disk ${logicalVolumeMountpoint}"],
     }
+
     file {$logicalVolumeMountpoint:
       ensure => directory,
     }
+
     mount::entry {'mount lvm':
       source => "/dev/${volumeGroupName}/${logicalVolumeName}",
       target => $logicalVolumeMountpoint,
       mount => true,
     }
+
+    $mountBasename = file_basename($logicalVolumeMountpoint)
+    monit::entry {"fs-check-${mountBasename}":
+      content => template('lvm/monit'),
+    }
+
     file {"${logicalVolumeMountpoint}/shared":
       ensure => directory,
     }
+
     if $logicalVolumeExportpoint != undef {
       nfs::server::export {$logicalVolumeExportpoint:
         localPath => "${logicalVolumeMountpoint}/shared",

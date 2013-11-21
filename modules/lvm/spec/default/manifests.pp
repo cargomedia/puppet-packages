@@ -9,5 +9,4 @@ node default {
 #    logicalVolumeExportpoint => '/shared',
     expandTools => ['lvm::expand::raid::adaptec'],
   }
-
 }

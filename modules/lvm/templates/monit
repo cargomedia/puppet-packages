@@ -1,0 +1,3 @@
+check filesystem <%= @mountBasename %> with path <%= @logicalVolumeMountpoint %>
+	if space usage > 90 % then alert
+	if inode usage > 80 % then alert
