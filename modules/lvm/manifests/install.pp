@@ -20,6 +20,14 @@ class lvm::install (
   case $logicalVolumeFilesystem {
     'xfs': {
       class {'lvm::base::xfs': }
+
+      cron {'xfs-maintenance':
+        command => '/usr/sbin/xfs_fsr >/dev/null',
+        user => 'root',
+        minute => 30,
+        hour => 2,
+        require => Class['lvm::base::xfs'],
+      }
     }
     default: {
       fail("Unknown filesystem ${logicalVolumeFilesystem}")
