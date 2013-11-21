@@ -21,7 +21,7 @@ class backup::agent::rdiff (
 
   file {'/root/bin/backup.sh':
     ensure => file,
-    content => template('backup/agent/pre-script')
+    content => template('backup/agent/rdiff-script')
   }
 
   cron {"backup":
