@@ -3,33 +3,56 @@ class lvm::install (
   $logicalVolumeName = undef,
   $volumeGroupName = $lvm::params::volumeGroupName,
   $logicalVolumeSize = $lvm::params::logicalVolumeSize,
-  $logicalVolumeFilesystem = $lvm::params::logicalVolumeFilesystem
+  $logicalVolumeFilesystem = $lvm::params::logicalVolumeFilesystem,
+  $logicalVolumeMountpoint = $lvm::params::logicalVolumeMountpoint,
+  $logicalVolumeExportpoint = $lvm::params::logicalVolumeExportpoint,
+  $expandTools = $lvm::params::expandTools
 )  inherits lvm::params {
 
   include 'lvm'
-  include 'nfs'
+  include $expandTools
 
   if size($physicalDevices) == 0 or $logicalVolumeName == undef {
     fail("Please specify required parameters like devices and logical volume name!")
   }
 
+  class {'lvm::package': }
+
   case $logicalVolumeFilesystem {
     'xfs': {
-      include 'lvm::base::xfs'
+      class {'lvm::base::xfs': }
     }
     default: {
       fail("Unknown filesystem ${logicalVolumeFilesystem}")
     }
   }
 
-  file {'/root/bin/lvm-install.sh':
-    ensure => file,
+  helper::script {'install lvm':
     content => template('lvm/install'),
+    unless => "pvs | grep -q ${physicalDevices}",
+    require => Class['lvm::package'],
   }
 
-  file {'/root/bin/lvm-mount.sh':
-    ensure => file,
-    content => template('lvm/mount'),
+  if $logicalVolumeMountpoint != undef {
+    class {'snmp':
+      disks => ["disk ${logicalVolumeMountpoint}"],
+    }
+    file {"${logicalVolumeMountpoint}":
+      ensure => directory,
+    }
+    mount::entry {"mount lvm":
+      source => "/dev/${volumeGroupName}/${logicalVolumeName}",
+      target => $logicalVolumeMountpoint,
+      mount => true,
+    }
+    file {"${logicalVolumeMountpoint}/shared":
+      ensure => directory,
+    }
+    if $logicalVolumeExportpoint != undef {
+      nfs::server::export {"${logicalVolumeExportpoint}":
+        localPath => "${logicalVolumeMountpoint}/shared",
+        configuration => '*(rw,async,no_root_squash,no_subtree_check,fsid=1)',
+      }
+    }
   }
-
 }
