@@ -13,7 +13,7 @@ class lvm::install (
   include $expandTools
 
   if size($physicalDevices) == 0 or $logicalVolumeName == undef {
-    fail("Please specify required parameters like devices and logical volume name!")
+    fail('Please specify required parameters like devices and logical volume name!')
   }
 
   class {'lvm::package': }
@@ -37,10 +37,10 @@ class lvm::install (
     class {'snmp':
       disks => ["disk ${logicalVolumeMountpoint}"],
     }
-    file {"${logicalVolumeMountpoint}":
+    file {$logicalVolumeMountpoint:
       ensure => directory,
     }
-    mount::entry {"mount lvm":
+    mount::entry {'mount lvm':
       source => "/dev/${volumeGroupName}/${logicalVolumeName}",
       target => $logicalVolumeMountpoint,
       mount => true,
@@ -49,7 +49,7 @@ class lvm::install (
       ensure => directory,
     }
     if $logicalVolumeExportpoint != undef {
-      nfs::server::export {"${logicalVolumeExportpoint}":
+      nfs::server::export {$logicalVolumeExportpoint:
         localPath => "${logicalVolumeMountpoint}/shared",
         configuration => '*(rw,async,no_root_squash,no_subtree_check,fsid=1)',
       }
