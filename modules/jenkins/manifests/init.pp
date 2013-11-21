@@ -18,4 +18,12 @@ class jenkins {
   package {'jenkins':
     ensure => present,
   }
+  ->
+
+  file {'/var/lib/jenkins/plugins':
+    ensure => 'directory',
+    owner => 'jenkins',
+    group => 'nogroup',
+    mode => '0755',
+  }
 }
