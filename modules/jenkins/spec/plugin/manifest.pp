@@ -2,11 +2,11 @@ node default {
 
   class {'jenkins':}
 
-  jenkins::plugin {'git':
-    version => '1.5.0',
+  jenkins::plugin {'ssh-agent':
+    version => '1.3',
   }
 
-  jenkins::plugin {'ghprb':
-    version => '1.9',
+  jenkins::plugin {'git-client':
+    version => '1.2.0',
   }
 }
