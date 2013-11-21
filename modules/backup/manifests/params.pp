@@ -5,6 +5,11 @@ class backup::params {
     default => $::type,
   }
 
+  $sourceType = $::sourceType ? {
+    undef => undef,
+    default => $::sourceType,
+  }
+
   $restoreList = $::restoreList ? {
     undef => [],
     default => $::restoreList,

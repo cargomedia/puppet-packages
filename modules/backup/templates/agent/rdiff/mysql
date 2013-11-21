@@ -1,0 +1,18 @@
+#!/bin/sh
+
+set -e
+
+HOST="%backup1:IP-PUBLIC%"
+
+rm -rf /tmp/backup-db
+/usr/sbin/monit unmonitor mysql
+/etc/init.d/mysql stop >/dev/null
+cp -a /var/lib/mysql /tmp/backup-db
+/etc/init.d/mysql start >/dev/null
+/usr/sbin/monit monitor mysql
+
+ssh root@$HOST "mkdir -p /home/backup/db"
+rdiff-backup /tmp/backup-db root@$HOST::/home/backup/db >/dev/null
+rdiff-backup --remove-older-than 4W --force root@$HOST::/home/backup/db >/dev/null
+
+rm -rf /tmp/backup-db

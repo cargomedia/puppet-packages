@@ -8,6 +8,6 @@ define backup::server::rdiff-restore ($host, $source, $destination, $key, $type 
 
   file {"/root/bin/restore-${source}.sh":
     ensure => file,
-    content => template('backup/server/rdiff-restore'),
+    content => template('backup/server/rdiff/restore'),
   }
 }

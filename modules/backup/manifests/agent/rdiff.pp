@@ -1,11 +1,10 @@
 class backup::agent::rdiff (
+  $sourceType = $backup::params::sourceType,
   $host = $backup::params::host,
   $volume = $backup::params::volume,
   $source = $backup::params::source,
   $destination = $backup::params::destination,
-  $options = $backup::params::options,
-  $checkEnable = $backup::params::checkEnable,
-  $checkDestinations = $backup::params::checkDestinations
+  $options = $backup::params::options
 ) inherits backup::params {
 
   include 'backup'
@@ -15,13 +14,21 @@ class backup::agent::rdiff (
     fail("Please specify all required params like host, volume, source and destination.")
   }
 
-  if ($checkEnable == true and $checkDestinations == undef) {
-    fail("Please specify destination for check job!")
+  case $sourceType {
+    'mysql': {
+      $content = template('backup/agent/rdiff/mysql')
+    }
+    'lvm': {
+      $content = template('backup/agent/rdiff/lvm')
+    }
+    default: {
+      fail("Unknown type ${sourceType}")
+    }
   }
 
   file {'/root/bin/backup.sh':
     ensure => file,
-    content => template('backup/agent/rdiff-script')
+    content => $content,
   }
 
   cron {"backup":
@@ -30,19 +37,4 @@ class backup::agent::rdiff (
     minute  => 0,
     hour    => 4,
   }
-
-  if $checkEnable {
-    file {'/root/bin/check-backup.sh':
-      ensure => file,
-      content => template('backup/agent/backup-check')
-    }
-
-    cron {"backup-check":
-      command => 'bash /root/bin/check-backups.sh',
-      user    => 'root',
-      minute  => 10,
-      hour    => 3,
-    }
-  }
-
 }
