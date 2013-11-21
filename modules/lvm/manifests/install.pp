@@ -5,7 +5,6 @@ class lvm::install (
   $logicalVolumeSize = $lvm::params::logicalVolumeSize,
   $logicalVolumeFilesystem = $lvm::params::logicalVolumeFilesystem,
   $logicalVolumeMountpoint = $lvm::params::logicalVolumeMountpoint,
-  $logicalVolumeExportpoint = $lvm::params::logicalVolumeExportpoint,
   $expandTools = $lvm::params::expandTools
 )  inherits lvm::params {
 
@@ -45,7 +44,7 @@ class lvm::install (
     mount::entry {'mount lvm':
       source => "/dev/${volumeGroupName}/${logicalVolumeName}",
       target => $logicalVolumeMountpoint,
-      mount => true,
+      mount => false,
     }
 
     $mountBasename = file_basename($logicalVolumeMountpoint)
@@ -55,13 +54,6 @@ class lvm::install (
 
     file {"${logicalVolumeMountpoint}/shared":
       ensure => directory,
-    }
-
-    if $logicalVolumeExportpoint != undef {
-      nfs::server::export {$logicalVolumeExportpoint:
-        localPath => "${logicalVolumeMountpoint}/shared",
-        configuration => '*(rw,async,no_root_squash,no_subtree_check,fsid=1)',
-      }
     }
   }
 }

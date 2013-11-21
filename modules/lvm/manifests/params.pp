@@ -20,11 +20,6 @@ class lvm::params {
     default => $::logicalVolumeMountpoint,
   }
 
-  $logicalVolumeExportpoint = $::logicalVolumeExportpoint ? {
-    undef => undef,
-    default => $::logicalVolumeMountpoint,
-  }
-
   $expandTools = $::expandTools ? {
     undef => [],
     default => $::expandTools,

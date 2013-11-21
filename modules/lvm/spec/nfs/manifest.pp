@@ -6,6 +6,11 @@ node default {
     logicalVolumeName => 'storage01',
     logicalVolumeSize => '50%',
     logicalVolumeMountpoint => '/raid',
-    expandTools => ['lvm::expand::raid::adaptec'],
+  }
+  ->
+
+  nfs::server::export {'/shared':
+    localPath => "/raid/shared",
+    configuration => '*(rw,async,no_root_squash,no_subtree_check,fsid=1)',
   }
 }
