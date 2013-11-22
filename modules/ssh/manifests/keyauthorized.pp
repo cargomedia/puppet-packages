@@ -1,11 +1,13 @@
-define ssh::keyauthorized($user, $homeDir = undef) {
+define ssh::keyauthorized(
+  $user,
+  $homeDir = undef
+) {
 
   if !$homeDir {
     $_homedir = $user ? { "root" => '/root', default => undef}
   }
 
-  sshkeys::set_authorized_keys{"$title":
-    keyname => $keyname,
+  ssh::sshkeys::set_authorized_keys{"$title":
     user    => $user,
     home    => $_homedir
   }

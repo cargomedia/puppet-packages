@@ -1,6 +1,6 @@
 define ssh::keycreate(
 ) {
-  @@sshkeys::create_key {"$title":
+  @@ssh::sshkeys::create_key {"$title":
 
   }
 }

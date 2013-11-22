@@ -1,4 +1,4 @@
 class ssh::keyserver {
-  include sshkeys::keymaster
-  Sshkeys::Create_key <<| |>>
+  include ssh::sshkeys::keymaster
+  Ssh::Sshkeys::Create_key <<| |>>
 }
