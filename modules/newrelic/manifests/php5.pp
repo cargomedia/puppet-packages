@@ -1,10 +1,8 @@
 class newrelic::php5 ($license_key, $appname = undef, $enabled = false, $browser_monitoring_enabled = false) {
 
-  $version = '3.6.5.178'
+  include '::php5'
 
-  include 'php5'
-
-  apt::source {'new-relic':
+  apt::source {'newrelic':
     entries => ['deb http://apt.newrelic.com/debian/ newrelic non-free'],
     keys => {'newrelic' => {
         key     => '548C16BF',
@@ -19,19 +17,20 @@ class newrelic::php5 ($license_key, $appname = undef, $enabled = false, $browser
   }
   ->
 
-  exec {'new-relic postinstall':
-    command => 'bash -c "NR_INSTALL_SILENT=yes, NR_INSTALL_KEY=$licenseKey newrelic-install install"',
-    unless => 
+  exec {'newrelic postinstall':
+    command => "bash -c 'NR_INSTALL_SILENT=yes, NR_INSTALL_KEY=${license_key} newrelic-install install'",
+    unless => 'newrelic-daemon -v',
     path => ['/usr/bin', '/bin'],
+    require => Package['php5-common'],
   }
   ->
 
   file { '/etc/php5/conf.d/newrelic.ini':
     ensure  => file,
-    content => template('newrelic/php/config'),
+    content => template('newrelic/php5/config'),
     owner   => '0',
     group   => '0',
     mode    => '0644',
-    before  => Package['php5-common'],
   }
 }
+
