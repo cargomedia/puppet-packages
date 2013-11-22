@@ -5,7 +5,7 @@ PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 HOST="<%= @host %>"
 ORIG_VOLUME="<%= @volume %>"
 KEEP=2
-BACKUP_MNT=<%= @source %>
+BACKUP_MNT=/raid-backup
 RDIFF_BACKUP_OPTS='<%= @options %>'
 RDIFF_DEST=<%= @destination %>
 VG_NAME=$(expr "$ORIG_VOLUME" : "^/.*/\(.*\)/.*$")
