@@ -1,17 +1,22 @@
 define ssh::keyinstall(
   $user,
-  $homedir = undef
+  $homeDir = undef
 ) {
 
-  if !$homedir {
-    $_homedir = $user ? { "root" => '/root', default => undef }
+  if !$homeDir {
+    $_homedir = $user ? { 'root' => '/root', default=> "/home/${user}" }
   } else {
-    $_homedir = $homedir
+    $_homedir = $homeDir
   }
 
-  ssh::sshkeys::set_client_key_pair {"$title":
+  user {$user:
+    ensure => present,
+    home => $_homedir,
+    managehome => true,
+  }
+
+  ssh::sshkeys::set_client_key_pair {$title:
       user => $user,
-      keyname => "$user@$hostname",
       home => $_homedir
   }
 }
