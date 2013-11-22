@@ -3,7 +3,7 @@ define nfs::server::export($publicPath = $name, $localPath, $configuration) {
   include 'nfs::server'
 
   $path = shellquote("/nfsexport${publicPath}")
-  $path = shellquote($localPath)
+  $lpath = shellquote($localPath)
 
   $filename = md5($name)
 
@@ -14,9 +14,9 @@ define nfs::server::export($publicPath = $name, $localPath, $configuration) {
   }
   ->
 
-  exec {$localPath:
-    command => "mkdir -p ${localPath}",
-    creates => $localPath,
+  exec {$lpath:
+    command => "mkdir -p ${lpath}",
+    creates => $lpath,
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
   ->
