@@ -1,4 +1,7 @@
-class lvm::expand::raid::adaptec {
+class lvm::expand::raid::adaptec (
+  $logicalVolumeName,
+  $volumeGroupName
+) {
 
   include '::raid::adaptec'
 

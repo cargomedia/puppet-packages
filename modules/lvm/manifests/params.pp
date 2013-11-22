@@ -21,7 +21,7 @@ class lvm::params {
   }
 
   $expandTools = $::expandTools ? {
-    undef => [],
+    undef => false,
     default => $::expandTools,
   }
 }

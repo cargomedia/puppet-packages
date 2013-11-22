@@ -38,10 +38,11 @@ while !(test -z "$PERCENT") do
 	sleep 4
 done
 echo 'Starting to expand lvm...'
+LVM_NAME=/dev/<%= @volumeGroupName %>/<%= @logicalVolumeName %>
 NEWDEVICE=$(parted -l | diff - ${DIFFFILE} | awk '/dev/{print substr($4,0,length($4))}')
 pvcreate ${NEWDEVICE}
 vgextend vg01 ${NEWDEVICE}
-lvextend -l 90%VG %STORAGE-LVM-NAME%
-xfs_growfs %STORAGE-LVM-NAME%
+lvextend -l 90%VG ${LVM_NAME}
+xfs_growfs ${LVM_NAME}
 rm ${DIFFFILE}
 echo 'Done.'

@@ -1,5 +1,5 @@
 class lvm::install (
-  $physicalDevices,
+  $physicalDevice,
   $logicalVolumeName,
   $volumeGroupName = $lvm::params::volumeGroupName,
   $logicalVolumeSize = $lvm::params::logicalVolumeSize,
@@ -9,7 +9,6 @@ class lvm::install (
 )  inherits lvm::params {
 
   include 'lvm'
-  include $expandTools
 
   class {'lvm::package': }
 
@@ -23,6 +22,13 @@ class lvm::install (
         minute => 30,
         hour => 2,
         require => Class['lvm::base::xfs'],
+      }
+
+      if $expandTools == true {
+        class {'lvm::expand::raid::adaptec':
+          logicalVolumeName => $logicalVolumeName,
+          volumeGroupName => $volumeGroupName,
+        }
       }
     }
     default: {
@@ -48,7 +54,6 @@ class lvm::install (
     mount::entry {'mount lvm':
       source => "/dev/${volumeGroupName}/${logicalVolumeName}",
       target => $logicalVolumeMountpoint,
-      mount => false,
     }
 
     $mountBasename = file_basename($logicalVolumeMountpoint)
