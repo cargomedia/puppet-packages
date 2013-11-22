@@ -1,5 +1,7 @@
 class newrelic::php5 ($license_key, $appname = undef, $enabled = false, $browser_monitoring_enabled = false) {
 
+  $version = '3.6.5.178'
+
   include 'php5'
 
   apt::source {'new-relic':
@@ -19,6 +21,7 @@ class newrelic::php5 ($license_key, $appname = undef, $enabled = false, $browser
 
   exec {'new-relic postinstall':
     command => 'bash -c "NR_INSTALL_SILENT=yes, NR_INSTALL_KEY=$licenseKey newrelic-install install"',
+    unless => 
     path => ['/usr/bin', '/bin'],
   }
   ->
