@@ -1,0 +1,5 @@
+# <domain> <type> <item> <value>
+#
+<% @limits.each do |limit| -%>
+<%= limit['domain'] %> <%= limit['type'] %> <%= limit['item'] %> <%= limit['value'] %>
+<% end %>

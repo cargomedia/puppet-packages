@@ -1,0 +1,13 @@
+set auto[child::1 = '<%= @device %>']/1 <%= @device %>
+set iface[. = '<%= @device %>'] <%= @device %>
+set iface[. = '<%= @device %>']/family inet
+set iface[. = '<%= @device %>']/method dhcp
+<% if @hwaddr and not @hwaddr.to_s.empty? -%>
+  set iface[. = '<%= @device %>']/hwaddr <%= @hwaddr %>
+<% end -%>
+<% if @wpa_ssid and not @wpa_ssid.to_s.empty? -%>
+  set iface[. = '<%= @device %>']/wpa-ssid <%= @wpa_ssid %>
+<% end -%>
+<% if @wpa_psk and not @wpa_psk.to_s.empty? -%>
+  set iface[. = '<%= @device %>']/wpa-psk <%= @wpa_psk %>
+<% end -%>

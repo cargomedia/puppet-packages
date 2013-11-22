@@ -1,0 +1,43 @@
+set auto[child::1 = '<%= @device %>']/1 <%= @device %>
+set iface[. = '<%= @device %>'] <%= @device %>
+set iface[. = '<%= @device %>']/family inet
+set iface[. = '<%= @device %>']/method static
+set iface[. = '<%= @device %>']/address <%= @ipaddr %>
+<% if @netmask and not @netmask.to_s.empty? -%>
+  set iface[. = '<%= @device %>']/netmask <%= @netmask %>
+<% end -%>
+<% if @hwaddr and not @hwaddr.to_s.empty? -%>
+  set iface[. = '<%= @device %>']/hwaddr <%= @hwaddr %>
+<% end -%>
+<% if @gateway and not @gateway.to_s.empty? -%>
+  set iface[. = '<%= @device %>']/gateway <%= @gateway %>
+<% end -%>
+<% if @mtu and not @mtu.to_s.empty? -%>
+  set iface[. = '<%= @device %>']/mtu <%= @mtu %>
+<% end -%>
+<% if @slaves and not @slaves.to_s.empty? -%>
+  set iface[. = '<%= @device %>']/slaves "<%= @slaves %>"
+<% end -%>
+<% if @bonding_opts and not @bonding_opts.empty? -%>
+  <% if @bonding_opts['mode'] and not @bonding_opts['mode'].to_s.empty? -%>
+    set iface[. = '<%= @device %>']/bond-mode <%= @bonding_opts['mode'] %>
+  <% end -%>
+  <% if @bonding_opts['miimon'] and not @bonding_opts['miimon'].to_s.empty? -%>
+    set iface[. = '<%= @device %>']/bond-miimon <%= @bonding_opts['miimon'] %>
+  <% end -%>
+  <% if @bonding_opts['downdelay'] and not @bonding_opts['downdelay'].to_s.empty? -%>
+    set iface[. = '<%= @device %>']/bond-downdelay <%= @bonding_opts['downdelay'] %>
+  <% end -%>
+  <% if @bonding_opts['updelay'] and not @bonding_opts['updelay'].to_s.empty? -%>
+    set iface[. = '<%= @device %>']/bond-updelay <%= @bonding_opts['updelay'] %>
+  <% end -%>
+  <% if @bonding_opts['lacp-rate'] and not @bonding_opts['lacp-rate'].to_s.empty? -%>
+    set iface[. = '<%= @device %>']/bond-lacp-rate <%= @bonding_opts['lacp-rate'] %>
+  <% end -%>
+  <% if @bonding_opts['xmit_hash_policy'] and not @bonding_opts['xmit_hash_policy'].to_s.empty? -%>
+    set iface[. = '<%= @device %>']/bond-xmit_hash_policy <%= @bonding_opts['xmit_hash_policy'] %>
+  <% end -%>
+<% end -%>
+<% if @route_opts and not @route_opts.to_s.empty? -%>
+	set iface[. = '<%= @device %>']/up "<%= @route_opts %>"
+<% end -%>

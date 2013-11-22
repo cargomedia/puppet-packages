@@ -1,6 +1,6 @@
 class capistrano {
 
-	ruby::gem {'capistrano':
-		ensure => present,
-	}
+  ruby::gem {'capistrano':
+    ensure => present,
+  }
 }

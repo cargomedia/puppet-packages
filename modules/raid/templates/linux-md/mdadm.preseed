@@ -1,0 +1,8 @@
+mdadm	mdadm/autostart	boolean	true
+# Should mdadm run monthly redundancy checks of the MD arrays?
+mdadm	mdadm/autocheck	boolean	true
+mdadm	mdadm/mail_to	string	root
+mdadm	mdadm/initrdstart	string	none
+# Start arrays not listed in mdadm.conf?
+mdadm	mdadm/initrdstart_notinconf	boolean	false
+mdadm	mdadm/start_daemon	boolean	true

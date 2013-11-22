@@ -1,6 +1,6 @@
 class ruby {
 
-	package {['ruby', 'ruby-dev', 'ri']:
-		ensure => present,
-	}
+  package {['ruby', 'ruby-dev', 'ri']:
+    ensure => present,
+  }
 }

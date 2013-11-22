@@ -1,0 +1,14 @@
+---
+:backends:
+  - json
+:hierarchy:
+  - fqdn/%{::fqdn_reversed}
+  - datacenter/%{::datacenter}/%{::nodegroup}/%{::nodename}
+  - datacenter/%{::datacenter}/%{::nodegroup}
+  - datacenter/%{::datacenter}
+  - defaults
+
+:json:
+  :datadir: <%= @hieraDataDir %>
+
+:merge_behavior: deeper

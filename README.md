@@ -1,5 +1,6 @@
 # puppet-packages
 
+[![Build Status](https://travis-ci.org/cargomedia/puppet-packages.png?branch=master)](https://travis-ci.org/cargomedia/puppet-packages)
 
 ## Install puppet
 ```bash
@@ -23,17 +24,12 @@ puppet cert sign <cert-name>
 ```
 
 ## Module development
-It's recommended to test newly developed modules by applying manifests on debian vagrant box. In order to do so, please up a box using following Vagrantfile:
-```ruby
-Vagrant.configure("2") do |config|
-    config.vm.box = "debian-6-amd64"
-    config.vm.box_url = "http://s3.cargomedia.ch/vagrant-boxes/debian-6-amd64.box"
-    config.vm.network :private_network, ip: "10.10.10.23"
+It's recommended to write specs for newly developed modules and test them by running appropriate rake task.
 
-    config.vm.synced_folder "<path-to-puppet-packages>", "/puppet/puppet-packages"
-end
-```
-Once vagrant box is up, you can ssh into and run following command:
-```
-puppet apply --modulepath="/puppet/puppet-packages/modules" --verbose -e "include <developed-module>"
-```
+All specs should be placed in `modules/<module-name>/spec/<spec-name>/spec.rb`. This way they can be detected and form rake tasks.
+Spec helper will also automatically apply all puppet manifests from the same dir (`*.pp`).
+
+To test specific module run `rake test:<module-name>`. To learn about other available tasks please run `rake --tasks`.
+Our test tasks recognize following rake options:
+- `verbose=true` verbose output
+- `debug=true` running puppet apply with `--debug` flag

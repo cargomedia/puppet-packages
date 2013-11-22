@@ -1,18 +1,18 @@
 define mysql::database ($user = undef) {
 
-	require 'mysql::server'
+  require 'mysql::server'
 
-	database {$name:
-		ensure => present,
-		provider => mysql,
-		require => Service['mysql'],
-	}
+  database {$name:
+    ensure => present,
+    provider => mysql,
+    require => Service['mysql'],
+  }
 
-	if $user {
-		database_grant {"${user}/${name}":
-			privileges => ['all'],
-			provider => 'mysql',
-			require => Mysql::User[$user],
-		}
-	}
+  if $user {
+    database_grant {"${user}/${name}":
+    privileges => ['all'],
+    provider => 'mysql',
+    require => Mysql::User[$user],
+    }
+  }
 }

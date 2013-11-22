@@ -1,8 +1,8 @@
 class monit::service {
 
-	require 'monit'
+  require 'monit'
 
-	service {'monit':
-		hasstatus => false,
-	}
+  service {'monit':
+    hasstatus => false,
+  }
 }
