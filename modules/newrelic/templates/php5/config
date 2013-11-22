@@ -1,5 +1,5 @@
 extension=newrelic.so
-newrelic.license = "<%= @licenseKey %>"
+newrelic.license = "<%= @license_key %>"
 newrelic.appname = "<%= @appname %>"
 newrelic.logfile = "/var/log/newrelic/php_agent.log"
 newrelic.daemon.logfile = "/var/log/newrelic/newrelic-daemon.log"
