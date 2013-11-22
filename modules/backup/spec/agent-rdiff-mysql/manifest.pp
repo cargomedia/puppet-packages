@@ -3,8 +3,8 @@ node default {
   class {'backup::agent::rdiff':
     sourceType => 'mysql',
     host => 'localhost',
-    source => '/raid-backup',
-    destination => '/home/backup/shared'
+    source => '/var/lib/mysql',
+    destination => '/home/backup/db',
+    options => '--no-eas --no-file-statistics --no-carbonfile --no-acls --no-compare-inode',
   }
-
 }

@@ -8,5 +8,4 @@ node default {
     destination => '/home/backup/shared',
     options => '--no-eas --no-file-statistics --no-carbonfile --no-acls --no-compare-inode',
   }
-
 }

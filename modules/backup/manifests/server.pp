@@ -1,15 +1,10 @@
 class backup::server (
   $type = $rdiff::params::type,
-  $restoreList = $rdiff::params::restoreList,
-  $checkEnable = $backup::params::checkEnable,
-  $checkDestinations = $backup::params::checkDestinations
+  $checkList = $backup::params::checkList,
+  $restoreList = $rdiff::params::restoreList
 ) inherits backup::params {
 
   include 'backup'
-
-  if ($checkEnable == true and $checkDestinations == undef) {
-    fail("Please specify destination for check job!")
-  }
 
   case $type {
     'rdiff': {
@@ -24,10 +19,10 @@ class backup::server (
     }
   }
 
-  if $checkEnable {
+  if $checkList != undef {
     file {'/root/bin/check-backup.sh':
       ensure => file,
-      content => template('backup/server/backup-check')
+      content => template('backup/server/rdiff/check')
     }
 
     cron {"backup-check":

@@ -3,7 +3,7 @@ set -e
 
 PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
 HOST="<%= @host %>"
-RDIFF_DESTS='<%= @checkDestinations %>'
+RDIFF_DESTS='<%= @checkList %>'
 LAST_24_HRS=$(($(date +'%s')-86400))
 STATUS=0
 

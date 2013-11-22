@@ -40,13 +40,8 @@ class backup::params {
     default => $::options,
   }
 
-  $checkEnable = $::checkEnable ? {
-    undef => true,
-    default => $::checkEnable,
-  }
-
-  $checkDestinations = $::checkDestination ? {
+  $checkList = $::checkList ? {
     undef => undef,
-    default => $::checkDestination,
+    default => $::checkList,
   }
 }

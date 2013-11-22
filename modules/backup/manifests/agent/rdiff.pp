@@ -10,8 +10,8 @@ class backup::agent::rdiff (
   include 'backup'
   include 'backup::base::rdiff'
 
-  if ($host == undef or $volume == undef or $source == undef or $destination == undef) {
-    fail("Please specify all required params like host, volume, source and destination.")
+  if ($host == undef or $source == undef or $destination == undef) {
+    fail('Please specify all required params like host, volume, source and destination.')
   }
 
   case $sourceType {
@@ -19,6 +19,9 @@ class backup::agent::rdiff (
       $content = template('backup/agent/rdiff/mysql')
     }
     'lvm': {
+      if ($volume == undef) {
+        fail('Please specify volume name for LVM agent.')
+      }
       $content = template('backup/agent/rdiff/lvm')
     }
     default: {
