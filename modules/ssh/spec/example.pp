@@ -3,14 +3,16 @@
 
 node keymaster {
   include 'ssh::keyserver'
+
+  ssh::keyinstall {"foo@foobar":
+    user => 'foo'
+  }
 }
 
 
 node default {
 
-  ssh::keycreate{"foo@foobar":  }
-
-  ssh::keyauthorized{"foo@foobar":
+  ssh::keyauthorized {"foo@foobar":
     user => 'root'
   }
 
