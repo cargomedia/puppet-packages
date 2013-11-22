@@ -1,6 +1,6 @@
 class lvm::install (
-  $physicalDevices = [],
-  $logicalVolumeName = undef,
+  $physicalDevices,
+  $logicalVolumeName,
   $volumeGroupName = $lvm::params::volumeGroupName,
   $logicalVolumeSize = $lvm::params::logicalVolumeSize,
   $logicalVolumeFilesystem = $lvm::params::logicalVolumeFilesystem,
@@ -10,10 +10,6 @@ class lvm::install (
 
   include 'lvm'
   include $expandTools
-
-  if size($physicalDevices) == 0 or $logicalVolumeName == undef {
-    fail('Please specify required parameters like devices and logical volume name!')
-  }
 
   class {'lvm::package': }
 
