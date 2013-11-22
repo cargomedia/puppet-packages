@@ -45,22 +45,20 @@ define ssh::sshkeys::setup_key_master (
       if $force {
         $reason = "force=true"
       }
-      if !$reason and $mindate and
-         generate("/usr/bin/find", $keyfile, "!", "-newermt", "${mindate}") {
+      if !$reason and $mindate and generate("/usr/bin/find", $keyfile, "!", "-newermt", "${mindate}") {
         $reason = "created before ${mindate}"
       }
-      if !$reason and $maxdays and
-         generate("/usr/bin/find", $keyfile, "-mtime", "+${maxdays}") {
+      if !$reason and $maxdays and generate("/usr/bin/find", $keyfile, "-mtime", "+${maxdays}") {
         $reason = "older than ${maxdays} days"
       }
       if !$reason and $keycontent =~ /^ssh-... [^ ]+ (...) (\d+)$/ {
         if $keytype != $1 {
-	  $reason = "keytype changed: $1 -> $keytype"
-	} else {
-	  if $length != $2 {
-	    $reason = "length changed: $2 -> $length"
-	  }
-	}
+          $reason = "keytype changed: $1 -> $keytype"
+        } else {
+          if $length != $2 {
+            $reason = "length changed: $2 -> $length"
+          }
+        }
       }
       if $reason {
         exec { "Revoke previous key ${title}: ${reason}":

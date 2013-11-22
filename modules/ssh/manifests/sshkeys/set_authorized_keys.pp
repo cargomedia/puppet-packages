@@ -34,24 +34,24 @@ define ssh::sshkeys::set_authorized_keys (
   } else {
     $key_src_content = file($key_src_file, "/dev/null")
     if ! $key_src_content {
-      notify {
-	"Public key file $key_src_file for key $_keyname not found on keymaster; skipping ensure => present":
-      }
-    } else {
+    notify {
+      "Public key file $key_src_file for key $_keyname not found on keymaster; skipping ensure => present":
+    }
+    }else {
       if $ensure == "present" and $key_src_content !~ /^(ssh-...) ([^ ]*)/ {
-	err("Can't parse public key file $key_src_file")
-	notify {
-	  "Can't parse public key file $key_src_file for key $_keyname on the keymaster: skipping ensure => $ensure":
-	}
+        err("Can't parse public key file $key_src_file")
+        notify {
+          "Can't parse public key file $key_src_file for key $_keyname on the keymaster: skipping ensure => $ensure":
+        }
       } else {
-	$keytype = $1
-	$modulus = $2
-	ssh_authorized_key { $title:
-	  ensure  => "present",
-	  type    => $keytype,
-	  key     => $modulus,
-	  options => $options ? { "" => undef, default => $options },
-	}
+        $keytype = $1
+        $modulus = $2
+        ssh_authorized_key { $title:
+          ensure  => "present",
+          type    => $keytype,
+          key     => $modulus,
+          options => $options ? { "" => undef, default => $options },
+        }
       }
     }
   }
