@@ -3,7 +3,7 @@ set -e
 
 PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 HOST="<%= @host %>"
-ORIG_VOLUME="<%= @volume %>"
+ORIG_VOLUME="<%= @source %>"
 KEEP=2
 BACKUP_MNT=/raid-backup
 RDIFF_BACKUP_OPTS='<%= @options %>'

@@ -20,7 +20,6 @@ class backup::agent::rdiff (
       $content = template('backup/agent/rdiff/mysql')
     }
     'lvm': {
-      $volume = $source
       $content = template('backup/agent/rdiff/lvm')
     }
     default: {
