@@ -9,8 +9,6 @@ define ssh::keyinstall(
     $_homedir = $homedir
   }
 
-  notify{$_homedir:}
-
   ssh::sshkeys::set_client_key_pair {"$title":
       user => $user,
       keyname => "$user@$hostname",
