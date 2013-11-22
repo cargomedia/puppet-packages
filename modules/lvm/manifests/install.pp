@@ -60,9 +60,6 @@ class lvm::install (
     monit::entry {"fs-check-${mountBasename}":
       content => template('lvm/monit'),
     }
-
-    file {"${logicalVolumeMountpoint}/shared":
-      ensure => directory,
-    }
   }
+
 }
