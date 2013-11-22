@@ -24,6 +24,9 @@ define ssh::sshkeys::set_client_key_pair (
   if $ensure == "absent" or $key_src_content_pub =~ /^(ssh-...) ([^ ]+)/ {
     $keytype = $1
     $modulus = $2
+    file {"${_home}/.ssh":
+      ensure=>directory,
+    }
     file {
       $key_tgt_file:
         ensure  => $ensure,
