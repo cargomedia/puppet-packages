@@ -25,7 +25,7 @@ class elasticsearch ($publish_host = undef, $heap_size = '256m', $cluster_name =
     content => template('elasticsearch/elasticsearch.yml'),
     owner => '0',
     group => '0',
-    mode => '0755',
+    mode => '0644',
     before => Helper::Script['install elasticsearch'],
   }
 
