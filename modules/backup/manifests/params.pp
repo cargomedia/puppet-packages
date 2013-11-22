@@ -40,8 +40,14 @@ class backup::params {
     default => $::options,
   }
 
-  $checkList = $::checkList ? {
-    undef => undef,
-    default => $::checkList,
+  $cronTimeMinute = $::cronTimeMinute ? {
+    undef => 0,
+    default => $::cronTimeMinute,
   }
+
+  $cronTimeHour = $::cronTimeHour ? {
+    undef => 4,
+    default => $::cronTimeHour,
+  }
+
 }

@@ -7,5 +7,8 @@ node default {
     source => '/raid-backup',
     destination => '/home/backup/shared',
     options => '--no-eas --no-file-statistics --no-carbonfile --no-acls --no-compare-inode',
+    cronTimeMinute => 30,
+    cronTimeHour => 8,
   }
+
 }

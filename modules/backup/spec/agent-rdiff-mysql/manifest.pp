@@ -6,5 +6,8 @@ node default {
     source => '/var/lib/mysql',
     destination => '/home/backup/db',
     options => '--no-eas --no-file-statistics --no-carbonfile --no-acls --no-compare-inode',
+    cronTimeMinute => 10,
+    cronTimeHour => 5,
   }
+
 }

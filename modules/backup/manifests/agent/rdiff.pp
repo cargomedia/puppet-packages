@@ -4,7 +4,9 @@ class backup::agent::rdiff (
   $volume = $backup::params::volume,
   $source = $backup::params::source,
   $destination = $backup::params::destination,
-  $options = $backup::params::options
+  $options = $backup::params::options,
+  $cronTimeHour = $backup::params::cronTimeHour,
+  $cronTimeMinute = $backup::params::cronTimeMinute
 ) inherits backup::params {
 
   include 'backup'
@@ -37,7 +39,19 @@ class backup::agent::rdiff (
   cron {"backup":
     command => 'bash /root/bin/backup.sh',
     user    => 'root',
-    minute  => 0,
-    hour    => 4,
+    minute  => $cronTimeMinute,
+    hour    => $cronTimeHour,
+  }
+
+  file {'/root/bin/check-backup.sh':
+    ensure => file,
+    content => template('backup/agent/rdiff/check')
+  }
+
+  cron {"backup-check":
+    command => 'bash /root/bin/check-backups.sh',
+    user    => 'root',
+    minute  => 10,
+    hour    => 3,
   }
 }
