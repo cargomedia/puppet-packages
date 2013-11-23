@@ -1,5 +1,4 @@
-#!/bin/bash
-set -e
+#!/bin/bash -e
 
 curl -sL "http://production.cf.rubygems.org/rubygems/rubygems-<%= @version %>.zip" > gems.zip
 unzip gems.zip

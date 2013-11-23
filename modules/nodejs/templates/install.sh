@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 curl -sL http://nodejs.org/dist/v<%= @version %>/node-v<%= @version %>.tar.gz > node.tar.gz
 tar -xvf node.tar.gz
