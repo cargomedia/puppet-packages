@@ -9,5 +9,5 @@ describe command('php --re newrelic') do
 end
 
 describe command('monit summary') do
-  its(:stdout) { should match /Process 'newrelic-daemon'/ }
+  its(:stdout) { should match /Process 'newrelic-php5'/ }
 end
