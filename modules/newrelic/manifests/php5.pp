@@ -33,9 +33,16 @@ class newrelic::php5 ($license_key, $appname = undef, $enabled = false, $browser
     group   => '0',
     mode    => '0644',
   }
+  ~>
 
-  @monit::entry {'newrelic-php5':
-    content => template('newrelic/php5/monit'),
-    require => File['/etc/php5/conf.d/newrelic.ini'],
+  service {'newrelic-daemon':
+    start => '/usr/bin/php -i',
+  }
+
+  if $enabled {
+    @monit::entry {'newrelic-php5':
+      content => template('newrelic/php5/monit'),
+      require => Service['newrelic-daemon'],
+    }
   }
 }
