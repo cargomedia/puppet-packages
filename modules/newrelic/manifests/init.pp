@@ -11,6 +11,11 @@ class newrelic {
   ->
 
   package {'newrelic-daemon':
-    ensure => present,
+      ensure => present,
+  }
+
+  @monit::entry {'newrelic-daemon':
+    content => template('newrelic/monit'),
+    require => Package['newrelic-daemon'],
   }
 }
