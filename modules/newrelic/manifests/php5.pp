@@ -18,9 +18,10 @@ class newrelic::php5 ($license_key, $appname = undef, $enabled = false, $browser
   ->
 
   exec {'newrelic postinstall':
-    command => "bash -c 'NR_INSTALL_SILENT=yes, NR_INSTALL_KEY=${license_key} newrelic-install install'",
-    unless => 'newrelic-daemon -v',
+    command => 'newrelic-install install',
+    environment => ['NR_INSTALL_SILENT=yes', "NR_INSTALL_KEY=${license_key}"],
     path => ['/usr/bin', '/bin'],
+    unless => 'newrelic-daemon -v',
     require => Package['php5-common'],
   }
   ->
