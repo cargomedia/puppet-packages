@@ -1,4 +1,4 @@
 check process newrelic-daemon with pidfile /var/run/newrelic-daemon/agent.pid
-	start program = "/etc/init.d/newrelic-daemon start"
+	start program = "php -i"
 	stop program = "/etc/init.d/newrelic-daemon stop"
 	if 25 restarts within 50 cycles then timeout
