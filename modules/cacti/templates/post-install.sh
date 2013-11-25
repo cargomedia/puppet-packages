@@ -1,4 +1,5 @@
-#!/bin/bash
+#!/bin/bash -e
+
 chown www-data: /etc/cacti/id_rsa
 chmod 600 /etc/cacti/id_rsa
 

@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -e
 
 # Percona templates
 PERCONA_VERSION='<%= @version %>'
