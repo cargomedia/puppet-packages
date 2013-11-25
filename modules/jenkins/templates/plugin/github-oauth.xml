@@ -1,0 +1,25 @@
+  <useSecurity>true</useSecurity>
+  <authorizationStrategy class="org.jenkinsci.plugins.GithubAuthorizationStrategy" plugin="github-oauth@0.14">
+  <rootACL>
+    <organizationNameList class="linked-list">
+      <% @organizationNameList.each do |organizationName| -%>
+      <string><%= organizationName %></string>
+      <% end %>
+    </organizationNameList>
+    <adminUserNameList class="linked-list">
+      <% @adminUserNameList.each do |adminUserName| -%>
+        <string><%= adminUserName %></string>
+      <% end %>
+    </adminUserNameList>
+    <authenticatedUserReadPermission>false</authenticatedUserReadPermission>
+    <allowGithubWebHookPermission>false</allowGithubWebHookPermission>
+    <allowCcTrayPermission>false</allowCcTrayPermission>
+    <allowAnonymousReadPermission>false</allowAnonymousReadPermission>
+  </rootACL>
+  </authorizationStrategy>
+  <securityRealm class="org.jenkinsci.plugins.GithubSecurityRealm">
+  <githubWebUri>https://github.com</githubWebUri>
+  <githubApiUri>https://api.github.com</githubApiUri>
+  <clientID><%= @clientId %></clientID>
+  <clientSecret><%= @clientSecret %></clientSecret>
+  </securityRealm>
