@@ -5,7 +5,8 @@ node default {
   }
 
   class {'php5::extension::apc':
-    shimSize => '64M',
+    shim_size => '64M',
     stat => false,
+    enable_cli => false,
   }
 }

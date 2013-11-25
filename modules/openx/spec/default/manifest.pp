@@ -1,10 +1,5 @@
 node default {
 
-
-  class {'php5::extension::apc':
-    shimSize => '64M',
-  }
-
   class {'apt::update':
     before => Class['php5'],
   }
