@@ -17,6 +17,4 @@ class jenkins(
     mode => '0755',
   }
 
-  class{'jenkins::plugin::build-name-setter':}
-
 }
