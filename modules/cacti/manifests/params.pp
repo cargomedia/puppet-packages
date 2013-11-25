@@ -20,9 +20,9 @@ class cacti::params {
     default => $::domain,
   }
 
-  $ipPrivateNetwork = $::ipPrivateNetwork ? {
-    undef => '127.0.0.0/24',
-    default => $::ipPrivateNetwork,
+  $deployDir = $::deployDir  ? {
+    undef => undef,
+    default => $::deployDir,
   }
 
   $dbHost = $::dbHost ? {
@@ -60,9 +60,14 @@ class cacti::params {
     default => $::dbSensePassword,
   }
 
-  $sshPublicKey = $::sshPublicKey ? {
-    undef => template('cacti/etc/id_rsa'),
-    default => $::sshPublicKey,
+  $htpasswd = $::htpasswd ? {
+    undef => undef,
+    default => $::htpasswd,
+  }
+
+  $sshPrivateKey = $::sshPrivateKey ? {
+    undef => 'No private key',
+    default => $::sshPrivateKey,
   }
 
   $sslPem = $::sslPem ? {

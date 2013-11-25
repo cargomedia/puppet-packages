@@ -1,9 +1,10 @@
 class cacti (
-  $userName   = $cacti::params::userName,
   $userId  = $cacti::params::userId,
-  $groupName  = $cacti::params::groupName,
   $groupId  = $cacti::params::groupId
 ) inherits cacti::params {
+
+  $userName = 'cacti'
+  $groupName = 'cacti'
 
   group {$groupName:
     ensure => present,

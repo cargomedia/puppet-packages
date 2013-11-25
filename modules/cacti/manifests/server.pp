@@ -1,6 +1,6 @@
 class cacti::server (
   $domain           = $cacti::params::domain,
-  $ipPrivateNetwork = $cacti::params::ipPrivateNetwork,
+  $deployDir        = $cacti::params::deployDir,
   $dbHost           = $cacti::params::dbHost,
   $dbPort           = $cacti::params::dbPort,
   $dbName           = $cacti::params::dbName,
@@ -8,10 +8,9 @@ class cacti::server (
   $dbPassword       = $cacti::params::dbPassword,
   $dbSenseUser      = $cacti::params::dbSenseUser,
   $dbSensePassword  = $cacti::params::dbSensePassword,
-  $sshPublicKey     = $cacti::params::sshPublicKey,
-  $sslPem           = $cacti::params::sslPem,
-  $username         = $cacti::params::username,
-  $groupname        = $cacti::params::groupname
+  $htpasswd         = $cacti::params::htpasswd,
+  $sshPrivateKey    = $cacti::params::sshPrivateKey,
+  $sslPem           = $cacti::params::sslPem
 ) inherits cacti::params {
 
   require 'snmp'
@@ -23,6 +22,9 @@ class cacti::server (
 
   class {'cacti::resource::bootstrap':
     require   => Class['cacti::package'],
+    deployDir => $deployDir,
+    dbSenseUser => $dbSenseUser,
+    dbSensePassword => $dbSensePassword,
   }
 
   class {'cacti::helper::mysql-user':
@@ -47,13 +49,13 @@ class cacti::server (
 
   file {'/etc/cacti/htpasswd':
     ensure => file,
-    content => template('cacti/etc/htpasswd'),
+    content => $htpasswd,
     require => Class['cacti::package'],
   }
 
   file {'/etc/cacti/id_rsa':
     ensure => file,
-    content => template('cacti/etc/id_rsa'),
+    content => $sshPrivateKey,
     require => Class['cacti::package'],
   }
 
