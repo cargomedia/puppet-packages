@@ -7,7 +7,6 @@ class jenkins(
   $port = 8080
 
   require 'jenkins::package'
-  require 'jenkins::plugin::build-name-setter'
   include 'jenkins::service'
   include 'jenkins::config'
 
@@ -17,5 +16,7 @@ class jenkins(
     group => 'nogroup',
     mode => '0755',
   }
+
+  class{'jenkins::plugin::build-name-setter':}
 
 }
