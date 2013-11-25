@@ -12,11 +12,12 @@ class java {
       }
     }
   }
-  ->
+  ~>
 
   exec {'debconf for java':
     command => 'echo debconf shared/accepted-oracle-license-v1-1 select true | debconf-set-selections && \
                 echo debconf shared/accepted-oracle-license-v1-1 seen true | debconf-set-selections',
+    refreshonly => true,
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
   ->
