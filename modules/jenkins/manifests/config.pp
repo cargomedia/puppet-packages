@@ -38,7 +38,16 @@ class jenkins::config {
     refreshonly => true,
     user        => 'jenkins',
     group       => 'nogroup',
-    subscribe   => File['/var/lib/jenkins/config.d'],
+    require     => [
+      File['/var/lib/jenkins/config.d'],
+      File['/var/lib/jenkins/config.d/_dummy.xml'],
+      File['/var/lib/jenkins/config.d-header.xml'],
+      File['/var/lib/jenkins/config.d-footer.xml']
+    ],
+    subscribe   => [
+      File['/var/lib/jenkins/config.d-header.xml'],
+      File['/var/lib/jenkins/config.d-footer.xml']
+    ],
     notify      => Service['jenkins'],
   }
 
