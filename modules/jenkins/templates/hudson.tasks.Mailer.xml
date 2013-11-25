@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <hudson.tasks.Mailer_-DescriptorImpl plugin="mailer@1.5">
   <defaultSuffix><%= @emailSuffix %></defaultSuffix>
-  <hudsonUrl>http://<%= @hostname %>:8080/</hudsonUrl>
+  <hudsonUrl>http://<%= @hostname %>:<%= @port %>/</hudsonUrl>
   <adminAddress><%= @emailAdmin %></adminAddress>
   <useSsl>false</useSsl>
   <charset>UTF-8</charset>
