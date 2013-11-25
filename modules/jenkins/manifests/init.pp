@@ -17,4 +17,11 @@ class jenkins(
     mode => '0755',
   }
 
+  file {'/var/lib/jenkins/jobs':
+    ensure => 'directory',
+    owner => 'jenkins',
+    group => 'nogroup',
+    mode => '0755',
+  }
+
 }
