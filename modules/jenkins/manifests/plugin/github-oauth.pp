@@ -7,10 +7,6 @@ class jenkins::plugin::github-oauth(
 
   require 'jenkins::plugin::github-api'
 
-  jenkins::plugin {'github-oauth':
-    version => '0.14',
-  }
-
   file {'/var/lib/jenkins/config.d/github-oauth.xml':
     ensure    => 'present',
     content   => template('jenkins/plugin/github-oauth.xml'),
@@ -18,6 +14,11 @@ class jenkins::plugin::github-oauth(
     group     => 'nogroup',
     mode      => '0644',
     notify    => Exec['/var/lib/jenkins/config.xml'],
+  }
+  ->
+
+  jenkins::plugin {'github-oauth':
+    version => '0.14',
   }
 
 }
