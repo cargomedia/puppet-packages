@@ -1,6 +1,5 @@
 #!/bin/bash -e
 
-# Percona templates
 PERCONA_VERSION='<%= @version %>'
 wget -q http://mysql-cacti-templates.googlecode.com/files/better-cacti-templates-${PERCONA_VERSION}.tar.gz
 tar -xf better-cacti-templates-${PERCONA_VERSION}.tar.gz

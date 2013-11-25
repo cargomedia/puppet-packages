@@ -1,8 +1,5 @@
 #!/bin/bash -e
 
-chown www-data: /etc/cacti/id_rsa
-chmod 600 /etc/cacti/id_rsa
-
 # Fix cli tools
 if !(test -e /usr/share/cacti/lib); then
 	ln -s /usr/share/cacti/site/lib /usr/share/cacti/lib

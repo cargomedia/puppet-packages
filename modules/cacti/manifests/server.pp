@@ -20,13 +20,6 @@ class cacti::server (
 
   class {'cacti::package': }
 
-  class {'cacti::resource::bootstrap':
-    require   => Class['cacti::package'],
-    deployDir => $deployDir,
-    dbSenseUser => $dbSenseUser,
-    dbSensePassword => $dbSensePassword,
-  }
-
   class {'cacti::helper::mysql-user':
     host      => $dbHost,
     user      => $dbUser,
@@ -34,11 +27,11 @@ class cacti::server (
     require   => Class['cacti::package'],
   }
 
-  helper::script {'cacti post install':
-    content => template('cacti/post-install.sh'),
-    unless  => 'test -e /usr/share/cacti/lib || test -e /usr/share/cacti/include',
-    require => [User['cacti'], Class['cacti::package']],
-    timeout => 900,
+  class {'cacti::resource::bootstrap':
+    deployDir       => $deployDir,
+    dbSenseUser     => $dbSenseUser,
+    dbSensePassword => $dbSensePassword,
+    require         => Class['cacti::package'],
   }
 
   file {'/etc/cacti/debian.php':
@@ -56,6 +49,8 @@ class cacti::server (
   file {'/etc/cacti/id_rsa':
     ensure => file,
     content => $sshPrivateKey,
+    mode => '0600',
+    owner => 'www-data',
     require => Class['cacti::package'],
   }
 

@@ -1,10 +1,10 @@
 <VirtualHost *:80>
-	ServerName cacti.<%= @domain %>
+	ServerName <%= @domain %>
 	Redirect permanent / https://%{HTTP_HOST}%{REQUEST_URI}
 </VirtualHost>
 
 <VirtualHost *:443>
-	ServerName cacti.<%= @domain %>
+	ServerName <%= @domain %>
 	DocumentRoot /usr/share/cacti/site
 
 	SSLEngine on
