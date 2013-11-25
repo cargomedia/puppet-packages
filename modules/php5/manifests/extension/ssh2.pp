@@ -4,6 +4,5 @@ class php5::extension::ssh2 {
 
   package {'libssh2-php':
     ensure => present,
-    require => Class['php5'],
   }
 }
