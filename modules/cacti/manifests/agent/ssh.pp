@@ -30,7 +30,7 @@ class cacti::agent::ssh (
 
   file {"/home/${userName}/.ssh/authorized_keys":
     ensure  => file,
-    content => template("cacti/agent/authorized_keys"),
+    content => template('cacti/agent/authorized_keys'),
     group   => $groupName,
     owner   => $userName,
     mode    => '0750',

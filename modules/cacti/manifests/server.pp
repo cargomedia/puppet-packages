@@ -35,33 +35,33 @@ class cacti::server (
   }
 
   file {'/etc/cacti/debian.php':
-    ensure => file,
+    ensure  => file,
     content => template('cacti/etc/debian.php'),
     require => Class['cacti::package'],
   }
 
   file {'/etc/cacti/htpasswd':
-    ensure => file,
+    ensure  => file,
     content => $htpasswd,
     require => Class['cacti::package'],
   }
 
   file {'/etc/cacti/id_rsa':
-    ensure => file,
+    ensure  => file,
     content => $sshPrivateKey,
-    mode => '0600',
-    owner => 'www-data',
+    mode    => '0600',
+    owner   => 'www-data',
     require => Class['cacti::package'],
   }
 
   file {'/etc/apache2/ssl/cacti.pem':
-    ensure => file,
+    ensure  => file,
     content => $sslPem,
     require => Class['cacti::package', 'apache2::mod::ssl'],
   }
 
   file {'/etc/apache2/conf.d/cacti.conf':
-    ensure => file,
+    ensure  => file,
     content => template('cacti/vhost'),
     require => Class['cacti::package'],
   }
