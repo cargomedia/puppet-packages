@@ -1,4 +1,4 @@
-class newrelic::php5 ($license_key, $appname = undef, $enabled = false, $browser_monitoring_enabled = true) {
+class newrelic::php5 ($license_key, $appname = undef, $enabled = true, $browser_monitoring_enabled = true) {
 
   include '::php5'
 
