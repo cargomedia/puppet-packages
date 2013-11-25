@@ -1,6 +1,6 @@
 class jenkins::service {
 
-  require 'jenkins'
+  require 'jenkins::package'
 
   service {'jenkins':}
 
