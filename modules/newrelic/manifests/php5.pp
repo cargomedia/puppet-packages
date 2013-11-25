@@ -1,4 +1,4 @@
-class newrelic::php5 ($license_key, $appname = undef, $enabled = false, $browser_monitoring_enabled = true) {
+class newrelic::php5 ($license_key = undef, $appname = undef, $enabled = false, $browser_monitoring_enabled = true) {
 
   include '::php5'
 
@@ -19,7 +19,7 @@ class newrelic::php5 ($license_key, $appname = undef, $enabled = false, $browser
 
   exec {'newrelic postinstall':
     command => 'newrelic-install install',
-    environment => ['NR_INSTALL_SILENT=yes', "NR_INSTALL_KEY=${license_key}"],
+    environment => ['NR_INSTALL_SILENT=yes'],
     path => ['/usr/bin', '/bin'],
     unless => 'newrelic-daemon -v',
     require => Package['php5-common'],
