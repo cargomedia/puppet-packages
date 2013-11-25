@@ -1,6 +1,7 @@
 class jenkins(
   $hostname,
-  $emailAdmin = 'root@localhost'
+  $emailAdmin = 'root@localhost',
+  $emailSuffix = '@localhost'
 ) {
 
   include 'jenkins::service'
