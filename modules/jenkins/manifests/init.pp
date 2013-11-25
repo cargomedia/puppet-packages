@@ -7,6 +7,7 @@ class jenkins(
   $port = 8080
 
   require 'jenkins::package'
+  require 'jenkins::plugin::build-name-setter'
   include 'jenkins::service'
   include 'jenkins::config'
 
