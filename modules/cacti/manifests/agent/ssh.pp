@@ -1,38 +1,38 @@
 class cacti::agent::ssh (
-  $userId     = $cacti::params::userId,
-  $groupId    = $cacti::params::groupId
+  $user_id  = $cacti::params::user_id,
+  $group_id = $cacti::params::group_id
 ) inherits cacti::params {
 
-  $userName = 'cacti'
-  $groupName = 'cacti'
+  $user_name = $cacti::params::user_name
+  $group_name = $cacti::params::group_name
 
   class {'cacti':
-    userId    => $userId,
-    groupId   => $groupId,
+    user_id    => $user_id,
+    group_id   => $group_id,
   }
   ->
 
-  file {"/home/${userName}":
+  file {"/home/${user_name}":
     ensure  => directory,
-    group   => $groupName,
-    owner   => $userName,
+    group   => $group_name,
+    owner   => $user_name,
     mode    => '0750',
   }
   ->
 
-  file {"/home/${userName}/.ssh":
+  file {"/home/${user_name}/.ssh":
     ensure  => directory,
-    group   => $groupName,
-    owner   => $userName,
+    group   => $group_name,
+    owner   => $user_name,
     mode    => '0750',
   }
   ->
 
-  file {"/home/${userName}/.ssh/authorized_keys":
+  file {"/home/${user_name}/.ssh/authorized_keys":
     ensure  => file,
-    content => template('cacti/agent/authorized_keys'),
-    group   => $groupName,
-    owner   => $userName,
+    content => template('cacti/agent/ssh/authorized_keys'),
+    group   => $group_name,
+    owner   => $user_name,
     mode    => '0750',
   }
 

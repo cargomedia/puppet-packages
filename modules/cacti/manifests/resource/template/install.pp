@@ -1,7 +1,8 @@
-define cacti::resource::template::install ($content, $templateDir) {
+define cacti::resource::template::install ($content, $template_dir) {
 
-  file {"${templateDir}/${name}":
+  file {"${template_dir}/${name}":
     ensure  => file,
     content => $content,
   }
+
 }

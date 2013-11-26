@@ -1,45 +1,44 @@
 class cacti::resource::site::bootstrap (
-  $scriptDir        = $cacti::params::scriptDir,
-  $deployDir        = $cacti::params::deployDir,
-  $dbSenseUser      = $cacti::params::dbSenseUser,
-  $dbSensePassword  = $cacti::params::dbSensePassword
+  $script_dir         = $cacti::params::script_dir,
+  $deploy_dir         = $cacti::params::deploy_dir,
+  $db_sense_user      = $cacti::params::db_sense_user,
+  $db_sense_password  = $cacti::params::db_sense_password
 ) inherits cacti::params {
 
-  if ($deployDir == undef) {
+  if ($deploy_dir == undef) {
     fail("Please specify deployDir param for scripts!")
   }
 
-  file {$scriptDir:
+  file {$script_dir:
     ensure => directory,
     require => Package['cacti'],
   }
-  ->
+
+  Cacti::Resource::Site::Script {
+    script_dir => $script_dir,
+    deploy_dir => $deploy_dir,
+    db_sense_user => $db_sense_user,
+    db_sense_password => $db_sense_password,
+  }
 
   cacti::resource::site::script {'curl_apc-status.sh':
     content => template('cacti/data/site/scripts/curl_apc-status.sh'),
-    scriptDir => $scriptDir,
   }
 
   cacti::resource::site::script {'ss_get_by_ssh.php.cnf':
     content => template('cacti/data/site/scripts/ss_get_by_ssh.php.cnf'),
-    scriptDir => $scriptDir,
   }
 
   cacti::resource::site::script {'ss_get_mysql_stats.php.cnf':
     content => template('cacti/data/site/scripts/ss_get_mysql_stats.php.cnf'),
-    scriptDir => $scriptDir,
-    dbSenseUser => $dbSenseUser,
-    dbSensePassword => $dbSensePassword,
   }
 
   cacti::resource::site::script {'ssh_cm.php.pl':
     content => template('cacti/data/site/scripts/ssh_cm.php.pl'),
-    scriptDir => $scriptDir,
-    deployDir => $deployDir,
   }
 
   cacti::resource::site::script {'ssh_netstat.pl':
     content => template('cacti/data/site/scripts/ssh_netstat.pl'),
-    scriptDir => $scriptDir,
   }
+
 }

@@ -1,7 +1,8 @@
 node default {
 
   class {'cacti::agent::ssh':
-    userId    => 3001,
-    groupId   => 3001,
+    user_id   => 3001,
+    group_id  => 3001,
   }
+
 }

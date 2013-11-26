@@ -5,6 +5,7 @@ node default {
   }
 
   class {'cacti::agent::apache::apc':
-    networkAddr => '10.10.10.0/24'
+    network_addr => '10.10.10.0/24'
   }
+
 }

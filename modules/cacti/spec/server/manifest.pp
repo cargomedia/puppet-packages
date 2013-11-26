@@ -2,7 +2,7 @@ node default {
 
   $htpasswd = 'user:{SHA}u8MqnSlLOFch2kn5EnyvXsO9Gmk='
 
-  $sshPrivateKey = '-----BEGIN RSA PRIVATE KEY-----
+  $ssh_private_key = '-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEAvU3gK16YBDsnBnHaTY2GMPKAOZkUBOP1KS0R5pZR/S8uuuv6
 RbfSN59gIi9DTGTxLJSinanrL/6pVJqmz9iSDBo6bujmHHjcnha7C4FKikeA/IIA
 Zuw50zwcal0aq5VxvT5O4XfB61WGudxC7TspAhiv47Ux7nBs5nplclw8j48RqLsD
@@ -30,7 +30,7 @@ mqPIdsyl2uoKsI0xNtlqLCWJx3gPMldDDlCQEUpKFd/+XxWtASBTlAyOJUIlYSaZ
 zOa1aAsrmCPuEWXoeH6bSvApsuMgeoaburK65tf2X94/ywcmK2VF
 -----END RSA PRIVATE KEY-----'
 
-  $sslPem = '-----BEGIN RSA PRIVATE KEY-----
+  $ssl_cert = '-----BEGIN RSA PRIVATE KEY-----
 MIIEpgIBAAKCAQEAsm4YmILMCcrwTq5zf0EoWtYvljEqGA/8iDaYJb82zA1gBIZw
 xqBI3Fqu7PUInjypVscRwB/0yTOEnPCD9D284OqVdjuO9ztH+Y3PuIJX259+Ztrv
 xuJNB035gPF9lNKipI2wBohvHx8z8xUuaT88nZEES2yYEIfKL1IoQ3ZPTQlADX5U
@@ -84,15 +84,17 @@ GlRKt+QNr/ePIOSy8nE=
   }
 
   class {'cacti::server':
-    domain            => 'fuckbook.staging.cargomedia',
-    deployDir         => '/home/fuckbook',
-    dbHost            => 'localhost',
-    dbPort            => '3306',
-    dbName            => 'cacti',
-    dbUser            => 'cacti',
-    dbPassword        => 'passwd',
-    sshPrivateKey     => $sshPrivateKey,
-    htpasswd          => $htpasswd,
-    sslPem            => $sslPem,
+    hostname    => 'fuckbook.staging.cargomedia',
+    db_host     => 'localhost',
+    db_password => 'passwd',
+    ssh_private => $ssh_private,
+    ssl_cert    => $ssl_cert,
+    htpasswd    => $htpasswd,
+  }
+
+  class {'cacti::resource::bootstrap':
+    deploy_dir        => '/home/fuckbook',
+    db_sense_user     => 'sense-cacti',
+    db_sense_password => 'sense-cacti',
   }
 }

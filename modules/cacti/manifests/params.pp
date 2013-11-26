@@ -1,87 +1,101 @@
 class cacti::params {
 
-  $resourceDir = $::resourceDir ? {
-    undef => '/usr/share/cacti',
-    default => $::resourceDir,
+  $user_name = 'cacti'
+  $group_name = 'cacti'
+
+  $user_id = $::user_id ? {
+    undef   => 2001,
+    default => $::user_id,
   }
 
-  $scriptDir = $::scriptDir ? {
-    undef => "${resourceDir}/site/scripts",
-    default => $::scriptDir,
+  $group_id = $::group_id ? {
+    undef   => 2001,
+    default => $::group_id,
   }
 
-  $templateDir = $::templateDir ? {
-    undef => "${resourceDir}/templates",
-    default => $::scriptDir,
+  $hostname = $::hostname  ? {
+    undef   => 'localhost',
+    default => $::hostname,
   }
 
-  $domain = $::domain  ? {
-    undef => 'localhost',
-    default => $::domain,
+  $port = $::port  ? {
+    undef   => 80,
+    default => $::port,
   }
 
-  $deployDir = $::deployDir  ? {
-    undef => undef,
-    default => $::deployDir,
+  $port_ssl = $::port_ssl  ? {
+    undef   => 443,
+    default => $::port_ssl,
   }
 
-  $dbHost = $::dbHost ? {
-    undef => 'localhost',
-    default => $::dbHost,
+  $resource_dir = $::resource_dir ? {
+    undef   => '/usr/share/cacti',
+    default => $::resource_dir,
   }
 
-  $dbPort = $::dbPort ? {
-    undef => '3306',
-    default => $::dbPort,
+  $script_dir = $::script_dir ? {
+    undef   => "${resource_dir}/site/scripts",
+    default => $::script_dir,
   }
 
-  $dbName = $::dbName ? {
-    undef => 'cacti',
-    default => $::dbName,
+  $template_dir = $::template_dir ? {
+    undef   => "${resource_dir}/templates",
+    default => $::script_dir,
   }
 
-  $dbUser = $::dbUser ? {
-    undef => 'cacti',
-    default => $::dbUser,
+  $deploy_dir = $::deploy_dir  ? {
+    undef   => undef,
+    default => $::deploy_dir,
   }
 
-  $dbPassword = $::dbPassword ? {
-    undef => 'cacti',
-    default => $::dbPassword,
+  $db_host = $::db_host ? {
+    undef   => 'localhost',
+    default => $::db_host,
   }
 
-  $dbSenseUser = $::dbSenseUser ? {
-    undef => 'cacti-sense',
-    default => $::dbSenseUser,
+  $db_port = $::db_port ? {
+    undef   => '3306',
+    default => $::db_port,
   }
 
-  $dbSensePassword = $::dbSensePassword ? {
-    undef => 'cacti',
-    default => $::dbSensePassword,
+  $db_name = $::db_name ? {
+    undef   => 'cacti',
+    default => $::db_name,
+  }
+
+  $db_user = $::db_user ? {
+    undef   => 'cacti',
+    default => $::db_user,
+  }
+
+  $db_password = $::db_password ? {
+    undef   => 'cacti',
+    default => $::db_password,
+  }
+
+  $db_sense_user = $::db_sense_user ? {
+    undef   => 'cacti-sense',
+    default => $::db_sense_user,
+  }
+
+  $db_sense_password = $::db_sense_password ? {
+    undef   => 'cacti',
+    default => $::db_sense_password,
   }
 
   $htpasswd = $::htpasswd ? {
-    undef => undef,
+    undef   => undef,
     default => $::htpasswd,
   }
 
-  $sshPrivateKey = $::sshPrivateKey ? {
-    undef => 'No private key',
-    default => $::sshPrivateKey,
+  $ssh_private = $::ssh_private ? {
+    undef   => 'No private key',
+    default => $::ssh_private,
   }
 
-  $sslPem = $::sslPem ? {
-    undef => 'No ssl key',
-    default => $::sslPem,
+  $ssl_cert = $::ssl_cert ? {
+    undef   => 'No ssl key',
+    default => $::ssl_cert,
   }
 
-  $userId = $::userId ? {
-    undef => 2001,
-    default => $::userId,
-  }
-
-  $groupId = $::groupId ? {
-    undef => 2001,
-    default => $::groupId,
-  }
 }

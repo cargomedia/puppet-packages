@@ -1,9 +1,10 @@
 node default {
 
   class {'cacti::agent::mysql':
-    dbHost => 'localhost',
-    dbSenseUser => 'sense-cacti',
-    dbSensePassword => 'sense-cacti',
-    require => Class['mysql::server'],
+    db_host           => 'localhost',
+    db_sense_user     => 'sense-cacti',
+    db_sense_password => 'sense-cacti',
+    require           => Class['mysql::server'],
   }
+
 }

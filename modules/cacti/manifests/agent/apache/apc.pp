@@ -1,4 +1,4 @@
-class cacti::agent::apache::apc ($networkAddr) {
+class cacti::agent::apache::apc ($network_addr) {
 
   include 'php5::apache2'
 

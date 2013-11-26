@@ -19,5 +19,5 @@ if ( ! defined $in_hostname || ! defined $in_cm_command ) {
 	exit 1;
 }
 
-$remote_cmd = "php <%= @deployDir %>/serve/scripts/cm.php $in_cm_command $in_cm_args";
+$remote_cmd = "php <%= @deploy_dir %>/serve/scripts/cm.php $in_cm_command $in_cm_args";
 print `ssh -qo StrictHostKeyChecking=no cacti\@$in_hostname -i /etc/cacti/id_rsa $remote_cmd`;

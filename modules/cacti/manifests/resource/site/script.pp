@@ -1,13 +1,14 @@
 define cacti::resource::site::script (
   $content,
-  $scriptDir,
-  $deployDir        = undef,
-  $dbSenseUser      = undef,
-  $dbSensePassword  = undef
+  $script_dir,
+  $deploy_dir         = undef,
+  $db_sense_user      = undef,
+  $db_sense_password  = undef
 ) {
 
-  file {"${scriptDir}/${name}":
+  file {"${script_dir}/${name}":
     ensure  => file,
     content => $content,
   }
+
 }

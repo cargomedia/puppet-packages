@@ -3,5 +3,5 @@ Alias /apc-status /usr/local/bin/apc-status.php
 <Files "/usr/local/bin/apc-status.php">
 	Order deny,allow
 	Deny from all
-	Allow from <%= @networkAddr %>
+	Allow from <%= @network_addr %>
 </Files>
