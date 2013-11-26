@@ -1,6 +1,6 @@
-define ssh::auth::grant ($name, $user) {
+define ssh::auth::grant ($user) {
 
-  Ssh::Authorized_key <<| name == $name |>> {
+  Ssh::Authorized_key <<| title == $title |>> {
     user => $user,
   }
 }

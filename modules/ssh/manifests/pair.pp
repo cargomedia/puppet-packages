@@ -1,22 +1,16 @@
-define ssh::pair ($user, $ssh_dir, $certname) {
+define ssh::pair ($user, $ssh_dir, $fqdn) {
 
-  $path = shellquote("/var/lib/ssh-repository/${certname}")
-  $keyfile = "${path}/id_rsa"
-
-  exec("if (test -f ${keyfile}); then ssh-keygen -t ssh-rsa -f ${keyfile}; fi")
-  exec("mkdir -p ${path}; ")
-
-  $key_private = file($keyfile)
-  $key_public = file("${keyfile}.pub")
+  $path = shellquote("/var/lib/puppet/ssh-repository/${fqdn}/id_rsa")
+  $keys = generate_sshkey($path)
 
   @@ssh::key {$name:
     user => $user,
     ssh_dir => $ssh_dir,
-    content => $key_private,
+    content => $keys[private],
   }
 
   @@ssh::authorized_key {$name:
     user => $user,
-    content => $key_public,
+    content => $keys[public],
   }
 }

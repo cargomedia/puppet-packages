@@ -1,10 +1,10 @@
-define ssh::auth::id ($name, $user, $ssh_dir) {
+define ssh::auth::id ($user, $ssh_dir) {
 
   @@ssh::pair {$name:
     user => $user,
     ssh_dir => $ssh_dir,
-    certname => $certname,
+    fqdn => $fqdn,
   }
 
-  Ssh::Key <<| name == $name |>>
+  Ssh::Key <<| title == $title |>>
 }
