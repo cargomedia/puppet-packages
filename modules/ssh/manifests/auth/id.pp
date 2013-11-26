@@ -6,5 +6,5 @@ define ssh::auth::id ($name, $user, $ssh_dir) {
     certname => $certname,
   }
 
-  realize Ssh::Key[$name]
+  Ssh::Key <<| name == $name |>>
 }
