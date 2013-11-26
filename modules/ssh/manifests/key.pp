@@ -1,4 +1,4 @@
-define ssh::key ($user, $ssh_dir, $content, $type = 'ssh-rsa') {
+define ssh::key ($user, $ssh_dir, $content) {
 
   require 'ssh'
 
