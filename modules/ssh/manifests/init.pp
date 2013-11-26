@@ -19,6 +19,14 @@ class ssh {
     notify => Service['ssh'],
   }
 
+  # Workaround for http://projects.puppetlabs.com/issues/2014
+  file {'/etc/ssh/ssh_known_hosts':
+    ensure => file,
+    owner  => 'root',
+    group  => 'root',
+    mode   => '0644',
+  }
+
   package {'ssh':
     ensure => installed,
     before => Service['ssh'],
