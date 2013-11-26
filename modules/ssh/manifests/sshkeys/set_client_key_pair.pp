@@ -37,6 +37,6 @@ define ssh::sshkeys::set_client_key_pair (
         mode    => 644;
     }
   } else {
-    notify { "Private key file $key_src_file for key $title not found on keymaster; skipping ensure => present": }
+    ssh::sshkeys::create_key{$_keyname: }
   }
 }
