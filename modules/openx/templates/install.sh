@@ -1,5 +1,4 @@
-#!/bin/bash
-set -e
+#!/bin/bash -e
 
 curl -sL http://download.openx.org/openx-<%= @version %>.tar.gz > openx.tar.gz
 tar -zxvf openx.tar.gz

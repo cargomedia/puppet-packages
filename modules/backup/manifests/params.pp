@@ -15,13 +15,8 @@ class backup::params {
     default => $::host,
   }
 
-  $volume = $::volume ? {
-    undef => undef,
-    default => $::volume,
-  }
-
   $source = $::source ? {
-    undef => '/raid-backup',
+    undef => undef,
     default => $::source,
   }
 
