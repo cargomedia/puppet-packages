@@ -9,6 +9,7 @@ define ssh::key ($user, $content) {
   exec {"${ssh_dir}/id.d for ${name}":
     command => "mkdir -p ${ssh_dir}/id.d",
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    unless => "test -d ${ssh_dir}/id.d",
     user => $user,
   }
   ->
