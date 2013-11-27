@@ -8,6 +8,12 @@ define ssh::pair ($user, $ssh_dir) {
     content => $keys[private],
   }
 
+  @@ssh::key {"${name}.pub":
+    user => $user,
+    ssh_dir => $ssh_dir,
+    content => $keys[public],
+  }
+
   @@ssh::authorized_key {$name:
     user => $user,
     content => $keys[public],
