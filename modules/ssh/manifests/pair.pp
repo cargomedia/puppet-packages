@@ -1,16 +1,14 @@
-define ssh::pair ($user, $ssh_dir) {
+define ssh::pair ($user) {
 
   $keys = generate_sshkey("/var/lib/puppet/ssh-repository/${name}")
 
   @@ssh::key {$name:
     user => $user,
-    ssh_dir => $ssh_dir,
     content => $keys[private],
   }
 
   @@ssh::key {"${name}.pub":
     user => $user,
-    ssh_dir => $ssh_dir,
     content => $keys[public],
   }
 
