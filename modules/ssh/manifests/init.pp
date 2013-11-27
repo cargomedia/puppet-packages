@@ -26,6 +26,11 @@ class ssh {
     group  => 'root',
     mode   => '0644',
   }
+  ->
+
+  class {'ssh::knownhosts':}
+
+  ->
 
   package {'ssh':
     ensure => installed,
