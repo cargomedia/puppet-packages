@@ -11,6 +11,7 @@ define ssh::key ($host = undef, $user, $ssh_dir, $content) {
     command => "mkdir -p ${ssh_dir}",
     creates => $ssh_dir,
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    user => $user,
   }
   ->
 
