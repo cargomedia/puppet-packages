@@ -4,6 +4,5 @@ class php5::extension::gd {
 
   package {'php5-gd':
     ensure => present,
-    require => Class['php5'],
   }
 }

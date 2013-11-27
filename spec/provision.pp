@@ -1,5 +1,6 @@
 node default {
 
-  class {'puppet::common':
-  }
+  require 'apt::update'
+
+  class {'puppet::common':}
 }

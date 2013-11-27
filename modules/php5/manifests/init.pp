@@ -29,8 +29,13 @@ class php5 {
     mode => '0644',
   }
 
-  package { ['php5-common', 'php5-cli', 'php5-dev', 'libpcre3-dev']:
+  package {'php5-common':
     ensure => present,
     require => [File['/etc/php5/cli/php.ini'], File['/etc/php5/conf.d']],
+  }
+  ->
+
+  package {['php5-cli', 'php5-dev', 'libpcre3-dev']:
+    ensure => present,
   }
 }

@@ -1,4 +1,5 @@
 #!/bin/bash -e
+
 DEVICES=$(/usr/local/sbin/arcconf-write-cache-on-devices.pl)
 for DEVICE in $DEVICES; do
 	CONTROLLER=$(echo ${DEVICE} | awk "{print $1}")
