@@ -1,6 +1,8 @@
 class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data', $reportToEmail = 'root', $puppetdb = false) {
 
+  require 'ssh::auth::keymaster'
   include 'puppet::common'
+
   if $puppetdb {
     class {'puppet::master::puppetdb':}
     class {'puppet::db':}
