@@ -1,4 +1,4 @@
-define ssh::pair ($user, $ssh_dir, $fqdn) {
+define ssh::pair ($user, $ssh_dir) {
 
   $keys = generate_sshkey("/var/lib/puppet/ssh-repository/${name}")
 
