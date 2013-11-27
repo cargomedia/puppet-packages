@@ -9,8 +9,19 @@ fi
 if (test -f /etc/debian_version && cat /etc/debian_version | grep -q '^6\.'); then
 	wget -q http://apt.puppetlabs.com/puppetlabs-release-squeeze.deb
 	dpkg -i puppetlabs-release-squeeze.deb
+	rm puppetlabs-release-squeeze.deb
 	apt-get update
-	apt-get install -qy puppet
+
+	apt-get install -qy puppet facter
+
+	cat > /etc/puppet/puppet.conf << EOF
+[main]
+confdir = /etc/puppet
+ssldir = /etc/puppet/ssl
+logdir = /var/log/puppet
+rundir = /var/run/puppet
+EOF
+
 elif (uname | grep -q 'Darwin'); then
 	function install_dmg() {
 		local name="$1"
