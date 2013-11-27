@@ -1,6 +1,6 @@
 define ssh::pair ($user, $ssh_dir) {
 
-  $keys = generate_sshkey("/var/lib/puppet/ssh-repository/${name}")
+  $keys = generate_sshkey("/var/lib/puppet/ssh-repository/${name}_rsa")
 
   @@ssh::key {$name:
     user => $user,
