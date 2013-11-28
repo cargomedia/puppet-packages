@@ -23,6 +23,5 @@ class nfs {
   }
 
   service {'nfs-common':
-    ensure => running,
   }
 }
