@@ -21,4 +21,8 @@ class nfs {
   package {'nfs-common':
     ensure => present,
   }
+
+  service {'nfs-common':
+    ensure => running,
+  }
 }
