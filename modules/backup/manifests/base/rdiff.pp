@@ -19,11 +19,12 @@ class backup::base::rdiff {
     mode => '644',
   }
   ->
-  # With wheezy, ditch the lines above and the referenced template
 
   package {'python':
     ensure => present,
   }
+
+  # With wheezy, ditch the lines above and the referenced template
 
   package {'rdiff-backup':
     ensure => installed,
