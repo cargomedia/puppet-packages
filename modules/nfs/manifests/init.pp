@@ -20,15 +20,14 @@ class nfs {
 
   package { 'nfs-common':
     ensure => present,
-    # Bug or feature? Nfs-common postinstall does not start service
+    # Bug or feature? Nfs-common install does not start service
     notify => Exec['Start nfs-common'],
   }
 
   exec { 'Start nfs-common':
     command   => '/etc/init.d/nfs-common start',
-    path      => ['/bin', '/sbin'],
-    unless    => '/etc/init.d/nfs-common status',
-    logoutput => 'on_failure',
+    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    unless=> '/etc/init.d/nfs-common status',
   }
 
   service { 'nfs-common':
