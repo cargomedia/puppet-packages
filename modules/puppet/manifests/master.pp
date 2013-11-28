@@ -2,10 +2,6 @@ class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data
 
   require 'ssh::auth::keyserver'
   include 'puppet::common'
-  if $puppetdb {
-    class {'puppet::master::puppetdb':}
-    class {'puppet::db':}
-  }
 
   file {'/etc/puppet/conf.d/master':
     ensure => file,
