@@ -1,4 +1,11 @@
-class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data', $reportToEmail = 'root', $puppetdb = false) {
+class puppet::master (
+  $dnsAltNames = [],
+  $hieraDataDir = '/etc/puppet/hiera/data',
+  $reportToEmail = 'root',
+  $puppetdb = false,
+  $puppetdb_port = 8080,
+  $puppetdb_port_ssl = 8081
+) {
 
   require 'ssh::auth::keyserver'
   include 'puppet::common'
@@ -67,10 +74,13 @@ class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data
   }
 
   if $puppetdb {
-    class {'puppet::db':}
-    class {'puppet::master::puppetdb':}
-
-    Package['puppetmaster'] ~> Exec['copy puppet certs to puppetdb']
+    class {'puppet::db':
+      port => $puppetdb_port,
+      port_ssl => $puppetdb_port_ssl,
+    }
+    class {'puppet::master::puppetdb':
+      port => $puppetdb_port_ssl,
+    }
   }
 
   @monit::entry {'puppetmaster':
