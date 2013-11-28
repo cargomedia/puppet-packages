@@ -20,6 +20,8 @@ class nfs {
 
   package {'nfs-common':
     ensure => present,
+    # Bug or feature? Nfs-common postinstall does not start service
+    notify => Service['nfs-common'],
   }
 
   service {'nfs-common':
