@@ -1,10 +1,6 @@
 class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data', $reportToEmail = 'root', $puppetdb = false) {
 
   include 'puppet::common'
-  if $puppetdb {
-    class {'puppet::master::puppetdb':}
-    class {'puppet::db':}
-  }
 
   file {'/etc/puppet/conf.d/master':
     ensure => file,
@@ -67,6 +63,13 @@ class puppet::master ($dnsAltNames = [], $hieraDataDir = '/etc/puppet/hiera/data
 
   service {'puppetmaster':
     subscribe => Exec['/etc/puppet/puppet.conf'],
+  }
+
+  if $puppetdb {
+    class {'puppet::db':}
+    class {'puppet::master::puppetdb':}
+
+    Package['puppetmaster'] ~> Exec['copy puppet certs to puppetdb']
   }
 
   @monit::entry {'puppetmaster':
