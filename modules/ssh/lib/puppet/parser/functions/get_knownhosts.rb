@@ -3,7 +3,9 @@ module Puppet::Parser::Functions
     aliases = []
     aliases.push lookupvar('hostname')
     lookupvar('interfaces').split(',').each do |interface|
-      aliases.push lookupvar('ipaddress_' + interface) unless interface == 'lo'
+      next if interface == 'lo'
+      ipaddress = lookupvar('ipaddress_' + interface)
+      aliases.push ipaddress if ipaddress
     end
     {'host' => lookupvar('fqdn'), 'aliases' => aliases}
   end
