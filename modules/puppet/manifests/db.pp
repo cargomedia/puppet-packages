@@ -15,6 +15,12 @@ class puppet::db {
   }
   ->
 
+  exec {'copy puppet certs to puppetdb':
+    command => '/usr/sbin/puppetdb-ssl-setup -f',
+    refreshonly => true,
+  }
+  ->
+
   service {'puppetdb':}
 
   @monit::entry {'puppetdb':

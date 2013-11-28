@@ -23,3 +23,9 @@ end
 describe command('monit summary | grep snmpd.*running') do
 	it { should return_exit_status 0 }
 end
+
+['/raid', '/foo'].each do |disk|
+	describe file('/etc/snmp/snmpd.conf') do
+		its(:content) { should match /disk #{disk}/ }
+	end
+end
