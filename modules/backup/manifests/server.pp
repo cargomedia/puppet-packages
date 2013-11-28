@@ -13,8 +13,4 @@ class backup::server (
     }
   }
 
-  monit::entry {'fs-check-home':
-    content => template('backup/server/monit'),
-  }
-
 }
