@@ -1,6 +1,7 @@
 class nodejs {
 
   require 'build'
+  require 'python'
 
   $version = '0.10.22'
 
