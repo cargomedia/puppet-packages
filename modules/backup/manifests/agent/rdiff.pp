@@ -27,25 +27,25 @@ class backup::agent::rdiff (
     }
   }
 
-  file {'/root/bin/backup.sh':
+  file {'/usr/local/bin/backup.sh':
     ensure => file,
     content => $content,
   }
 
   cron {"backup":
-    command => 'bash /root/bin/backup.sh',
+    command => 'bash /usr/local/bin/backup.sh',
     user    => 'root',
     minute  => $cronTimeMinute,
     hour    => $cronTimeHour,
   }
 
-  file {'/root/bin/check-backup.sh':
+  file {'/usr/local/bin/check-backup.sh':
     ensure => file,
     content => template('backup/agent/rdiff/check')
   }
 
   cron {"backup-check":
-    command => 'bash /root/bin/check-backups.sh',
+    command => 'bash /usr/local/bin/check-backups.sh',
     user    => 'root',
     minute  => 10,
     hour    => 3,
