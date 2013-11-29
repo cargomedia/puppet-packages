@@ -1,4 +1,6 @@
-class puppet::master::puppetdb {
+class puppet::master::puppetdb(
+  $port,
+) {
 
   include 'puppet::master'
 

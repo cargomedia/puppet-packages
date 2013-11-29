@@ -4,6 +4,10 @@ describe package('rdiff-backup') do
   it { should be_installed }
 end
 
-describe file('/etc/monit/conf.d/fs-check-home') do
+describe package('python') do
+  it { should be_installed }
+end
+
+describe file('/etc/python2.6/sitecustomize.py') do
   it {should be_file }
 end

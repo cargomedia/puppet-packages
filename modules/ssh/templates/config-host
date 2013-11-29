@@ -1,3 +1,0 @@
-Host <%= @host %>
-	IdentityFile <%= @sshDir %>/<%= @host %>
-	IdentitiesOnly yes

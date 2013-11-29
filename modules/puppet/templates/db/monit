@@ -1,5 +1,5 @@
 check process puppetdb with pidfile /var/run/puppetdb.pid
 	start program = "/etc/init.d/puppetdb start"
 	stop program = "/etc/init.d/puppetdb stop"
-	if failed port 8080 with timeout 10 seconds for 2 cycles then restart
+	if failed port 8080 with timeout 20 seconds for 2 cycles then restart
 	if 25 restarts within 50 cycles then timeout
