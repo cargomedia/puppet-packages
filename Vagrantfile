@@ -1,5 +1,5 @@
 require 'fileutils'
-#Vagrant.require_plugin 'vagrant-proxyconf'
+Vagrant.require_plugin 'vagrant-proxyconf'
 
 Vagrant.configure("2") do |config|
   config.vm.box = "debian-6-amd64"
@@ -9,9 +9,9 @@ Vagrant.configure("2") do |config|
   http_cache_dir = File.expand_path '.http-cache'
   FileUtils.mkdir_p http_cache_dir
   config.vm.synced_folder http_cache_dir, '/tmp/http-cache'
-  #config.proxy.https = "http://localhost:8123/"
-  #config.proxy.http = "http://localhost:8123/"
-  #config.proxy.no_proxy = "127.0.0.1,localhost,.nsa.gov"
+  config.proxy.https = 'http://localhost:8123/'
+  config.proxy.http = 'http://localhost:8123/'
+  config.proxy.no_proxy = "127.0.0.1,localhost,.nsa.gov"
   commands = [
     'no_proxy=.debian.org NO_PROXY=.debian.org apt-get -qy install polipo',
     'rm -rf /var/cache/polipo',
