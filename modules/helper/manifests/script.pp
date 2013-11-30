@@ -1,4 +1,4 @@
-define helper::script ($content, $unless) {
+define helper::script ($content, $unless, $timeout = 300, $user = undef) {
 
   $scriptName = md5($title)
   $scriptDirname = "/tmp/${scriptName}"

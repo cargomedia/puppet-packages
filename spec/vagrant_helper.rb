@@ -23,13 +23,10 @@ class VagrantHelper
       actions.push('up')
       actions.push('snapshot take default')
     end
-
-
     unless is_running?
       actions.push('up')
     end
     actions.push('snapshot go default')
-
     actions.each do |action|
       command action
     end
