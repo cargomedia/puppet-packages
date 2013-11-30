@@ -2,10 +2,11 @@ require 'fileutils'
 Vagrant.require_plugin 'vagrant-proxyconf'
 
 Vagrant.configure("2") do |config|
-  http_cache_dir = "#{Dir.pwd}/.http-cache"
-  FileUtils.mkdir_p(http_cache_dir) unless File.directory?(http_cache_dir)
   config.vm.box = "debian-6-amd64"
   config.vm.box_url = "http://s3.cargomedia.ch/vagrant-boxes/debian-6-amd64.box"
+
+  http_cache_dir = "#{Dir.pwd}/.http-cache"
+  FileUtils.mkdir_p http_cache_dir
   config.vm.network :private_network, ip: '10.10.20.2'
   config.vm.synced_folder http_cache_dir, '/var/cache/polipo', :nfs => true
   config.proxy.https = "http://localhost:8123/"
