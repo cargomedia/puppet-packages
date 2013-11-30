@@ -2,7 +2,6 @@ define helper::script ($content, $unless) {
 
   $scriptName = md5($title)
   $scriptDirname = "/tmp/${scriptName}"
-  $contentQuoted = shellquote($content)
 
   exec {"exec ${title}":
     provider => shell,
@@ -12,10 +11,12 @@ define helper::script ($content, $unless) {
       'HTTPS_PROXY=http://localhost:8123/',
       'https_proxy=http://localhost:8123/',
     ],
-    command => "mkdir -p ${scriptDirname} && cd ${scriptDirname} && echo ${contentQuoted} > ${scriptName} && chmod +x ${$scriptName} && ./${$scriptName}",
+    command => template('helper/script.sh'),
     unless => $unless,
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     logoutput => on_failure,
+    timeout => $timeout,
+    user => $user,
   }
   ~>
 

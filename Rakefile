@@ -17,19 +17,22 @@ namespace :test do
   module_dirs = Pathname.new('modules/').children.select { |c| c.directory? }
   module_dirs.each do |module_dir|
     module_name = module_dir.basename
-    specs = Dir.glob("#{module_dir}/spec/*/spec.rb")
+    specs = Dir.glob("#{module_dir}/spec/**/spec.rb")
 
     next if specs.empty?
     RSpec::Core::RakeTask.new(module_name) do |t|
-      t.pattern = "modules/#{module_name}/spec/*/spec.rb"
+      t.pattern = "modules/#{module_name}/spec/**/spec.rb"
     end
 
     next unless specs.count > 1
     namespace module_name.to_s do
       specs.each do |spec|
-        spec_name = File.basename File.dirname spec
+        specs_dir = "#{module_dir}/spec/"
+        spec_path_relative = File.dirname(spec).sub(Regexp.new(specs_dir), '')
+        spec_name = spec_path_relative.gsub('/', ':')
+
         RSpec::Core::RakeTask.new(spec_name) do |t|
-          puts t.pattern = "modules/#{module_name}/spec/#{spec_name}/spec.rb"
+          puts t.pattern = "modules/#{module_name}/spec/#{spec_path_relative}/spec.rb"
         end
       end
     end

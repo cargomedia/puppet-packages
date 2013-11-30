@@ -1,9 +1,8 @@
 class snmp (
   $views      = [],
   $disks      = [],
-  $iphost     = '127.0.0.1',
-  $ipnetwork  = '127.0.0.0/24',
-  $community  = 'public'
+  $communityNetwork   = '127.0.0.0/24',
+  $communityName      = 'public'
 ) {
 
   file {'/etc/snmp/snmpd.conf':
@@ -32,9 +31,9 @@ class snmp (
   package {'snmpd':
     ensure => present,
   }
-  ->
 
-  monit::entry {'snmpd':
-    content => template('snmp/monit')
+  @monit::entry {'snmpd':
+    content => template('snmp/monit'),
+    require => Package['snmpd'],
   }
 }

@@ -23,3 +23,11 @@ end
 describe package('tree') do
   it { should be_installed }
 end
+
+describe package('strace') do
+  it { should be_installed }
+end
+
+describe package('links') do
+  it { should be_installed }
+end

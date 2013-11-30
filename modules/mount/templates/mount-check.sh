@@ -1,4 +1,5 @@
 #!/bin/bash
+
 mount=$1
 function runCommandWithTimeout {
 	command=$2

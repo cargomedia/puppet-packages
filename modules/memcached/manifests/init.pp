@@ -15,9 +15,9 @@ class memcached ($port = 11211, $memory = 2048, $user = 'nobody') {
   package {'memcached':
     ensure => present,
   }
-  ->
 
-  monit::entry {'memcached':
-    content => template('memcached/monit')
+  @monit::entry {'memcached':
+    content => template('memcached/monit'),
+    require => Service['memcached'],
   }
 }

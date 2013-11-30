@@ -1,12 +1,10 @@
 class raid::lsi-megaraidsas {
 
-  apt::source {'hwraid_le-vert':
-    entries => ['deb http://hwraid.le-vert.net/debian squeeze main'],
-    keys => {'le-vert' => {
-      key     => '23B3D3B4',
-      key_url => 'http://hwraid.le-vert.net/debian/hwraid.le-vert.net.gpg.key',
-      }
-    }
+  require 'hwraid-le-vert'
+
+  package {'arcconf':
+    ensure => present,
+    require => Class['hwraid-le-vert'],
   }
   ->
 
@@ -18,10 +16,9 @@ class raid::lsi-megaraidsas {
   service {'megaraidsas-statusd':
     hasstatus => false,
   }
-  ->
 
-  monit::entry {'megaraidsas-statusd':
-    content => template('raid/lsi-megaraidsas/monit')
+  @monit::entry {'megaraidsas-statusd':
+    content => template('raid/lsi-megaraidsas/monit'),
+    require => Service['megaraidsas-statusd'],
   }
-
 }

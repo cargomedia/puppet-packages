@@ -1,18 +1,15 @@
 #!/bin/bash -e
 
-for i in $(seq $(arcconf getversion | awk '/^Controllers found:.*$/{print $3}'));
-do
-    DEVICES=$(arcconf getconfig $i PD | awk '/Device is a Hard drive/,/Reported Location/' | grep 'T:L' | awk '{print $4}' | cut -d '(' -f 1)
-    for DEVICE in $DEVICES; do
-        CHANNEL=$(echo $DEVICE | cut -d ',' -f1)
-        ID=$(echo $DEVICE | cut -d ',' -f2)
-        set +e
-        OUT=$(arcconf SETCACHE $i DEVICE ${CHANNEL} ${ID} wt)
-        STATUS=$?
-        set -e
-        if [ $STATUS -gt 0 ] && [ -z "$(echo $OUT | grep 'same as the old')" ]; then
-            echo $OUT
-            exit $STATUS
-        fi
-    done
+/usr/local/sbin/arcconf-write-cache-on-devices.pl | while read DEVICE; do
+	CONTROLLER=$(echo "${DEVICE}" | cut -f 1)
+	CHANNEL=$(echo "${DEVICE}" | cut -f 2)
+	ID=$(echo "${DEVICE}" | cut -f 3)
+	set +e
+	OUT=$(arcconf SETCACHE ${CONTROLLER} DEVICE ${CHANNEL} ${ID} wt)
+	STATUS=$?
+	set -e
+	if [ $STATUS -gt 0 ] && [ -z "$(echo $OUT | grep 'same as the old')" ]; then
+		echo $OUT
+		exit $STATUS
+	fi
 done

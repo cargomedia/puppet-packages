@@ -18,7 +18,20 @@ class nfs {
   }
   ->
 
-  package {'nfs-common':
+  package { 'nfs-common':
     ensure => present,
+    # Bug or feature? Nfs-common install does not start service
+    notify => Exec['Start nfs-common'],
+  }
+
+  exec { 'Start nfs-common':
+    command => '/etc/init.d/nfs-common start',
+    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    unless => '/etc/init.d/nfs-common status',
+    refreshonly => true,
+  }
+
+  service { 'nfs-common':
+    require => Package ['nfs-common'],
   }
 }

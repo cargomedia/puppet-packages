@@ -40,9 +40,9 @@ class redis {
     group => '0',
     mode => '0755',
   }
-  ->
 
-  monit::entry {'redis':
+  @monit::entry {'redis':
     content => template('redis/monit'),
+    require => File['/etc/init.d/redis'],
   }
 }

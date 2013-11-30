@@ -33,10 +33,10 @@ class raid::linux-md {
   service { 'mdadm':
     hasstatus => false,
   }
-  ->
 
-  monit::entry {'mdadm-status':
-    content => template('raid/linux-md/monit')
+  @monit::entry {'mdadm-status':
+    content => template('raid/linux-md/monit'),
+    require => Service['mdadm'],
   }
 
 }

@@ -13,9 +13,15 @@ Vagrant.configure("2") do |config|
   config.proxy.http = 'http://localhost:8123/'
   config.proxy.no_proxy = "127.0.0.1,localhost,.nsa.gov"
   commands = [
-    'no_proxy=.debian.org NO_PROXY=.debian.org apt-get -qy install polipo',
-    'rm -rf /var/cache/polipo',
-    'ln -s /tmp/http-cache /var/cache/polipo',
+      'no_proxy=.debian.org NO_PROXY=.debian.org apt-get -qy install polipo',
+      'rm -rf /var/cache/polipo',
+      'ln -s /tmp/http-cache /var/cache/polipo',
   ]
   config.vm.provision :shell, :inline => commands.join(' && ')
+
+  config.vm.provision "puppet" do |puppet|
+    puppet.manifests_path = "spec"
+    puppet.manifest_file = "provision.pp"
+    puppet.module_path = "modules"
+  end
 end

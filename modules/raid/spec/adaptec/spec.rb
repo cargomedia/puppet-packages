@@ -1,13 +1,17 @@
 require 'spec_helper'
 
-describe file('/usr/local/bin/arcconf') do
-  it { should be_executable }
+describe package('arcconf') do
+  it { should be_installed }
 end
 
-describe file('/usr/sbin/check-adaptec-raid-health.sh') do
-  it { should be_executable }
+describe package('aacraid-status') do
+  it { should be_installed }
 end
 
-describe cron do
-  it { should have_entry('*/5 * * * * /usr/sbin/check-adaptec-raid-health.sh').with_user('root') }
+describe command('arcconf') do
+  its(:stdout) { should match /Adaptec by PMC/ }
+end
+
+describe command('monit summary') do
+  its(:stdout) { should match /Process 'aacraid-statusd'/ }
 end

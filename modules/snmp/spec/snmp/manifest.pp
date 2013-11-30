@@ -5,10 +5,11 @@ node default {
   }
 
   class {'snmp':
-    views     => ['view system  included .iso.org.dod.internet.mgmt.mib-2.system'],
-    disks     => ['disk /raid'],
-    iphost    => '127.0.0.1',
-    ipnetwork => '127.0.0.0/24',
-    community => 'fuckbook',
+    views             => ['view system  included .iso.org.dod.internet.mgmt.mib-2.system'],
+    disks             => ['/raid', '/foo'],
+    communityNetwork  => '127.0.0.0/24',
+    communityName     => 'fuckbook',
   }
+
+  require 'monit'
 }

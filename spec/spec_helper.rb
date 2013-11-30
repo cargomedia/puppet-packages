@@ -1,6 +1,7 @@
 require 'serverspec'
 require 'net/ssh'
 require 'vagrant_helper'
+require 'yaml'
 
 include Serverspec::Helper::Ssh
 include Serverspec::Helper::DetectOS
@@ -23,11 +24,10 @@ end
 
 RSpec.configure do |c|
 
-  verbose = ENV['verbose']
   debug = ENV['debug']
   c.add_setting :before_files
   c.before_files = []
-  vagrant_helper = VagrantHelper.new(Dir.getwd, verbose)
+  vagrant_helper = VagrantHelper.new(Dir.getwd, true)
 
   c.before :all do
     file = self.get_file
@@ -37,27 +37,34 @@ RSpec.configure do |c|
 
       vagrant_helper.reset
       c.ssh = vagrant_helper.connect
+      spec_dir = Dir.new File.dirname file
 
-      manifests_dir = Dir.new File.dirname file
-      manifests_dir.sort.each do |manifest|
-        next unless File.extname(manifest) == '.pp'
-        vagrant_manifest_path = vagrant_helper.get_path manifests_dir.to_path + '/' + manifest
-        command = "sudo puppet apply --verbose --modulepath '/vagrant/modules' #{vagrant_manifest_path.shellescape}"
+      if File.exists? spec_dir.to_path + '/facts.json'
+        vagrant_facts_path = vagrant_helper.get_path spec_dir.to_path + '/facts.json'
+        vagrant_helper.exec("sudo mkdir -p /etc/facter/facts.d && sudo ln -sf #{vagrant_facts_path.shellescape} /etc/facter/facts.d/")
+      end
+
+      hiera_config = {
+          :backends => ['json'],
+          :hierarchy => ['hiera'],
+          :json => {
+              :datadir => vagrant_helper.get_path(spec_dir.to_path)
+          }
+      }
+      hiera_command = "echo #{hiera_config.to_yaml.shellescape} > /etc/hiera.yml"
+      vagrant_helper.exec("sudo bash -c #{hiera_command.shellescape}")
+
+      spec_dir.sort.each do |local_file|
+        next unless File.extname(local_file) == '.pp'
+        vagrant_manifest_path = vagrant_helper.get_path spec_dir.to_path + '/' + local_file
+        command = "sudo puppet apply --verbose --modulepath '/etc/puppet/modules:/vagrant/modules' #{vagrant_manifest_path.shellescape} --hiera_config=/etc/hiera.yml"
         command += ' --debug' if debug
         begin
-          if verbose
-            puts
-            puts 'Running `' + vagrant_manifest_path + '`'
-          end
+          puts
+          puts 'Running `' + vagrant_manifest_path + '`'
           output = vagrant_helper.exec command
           raise output if output.match(/Error: /)
         rescue Exception => e
-          unless verbose
-            $stderr.puts
-            $stderr.puts 'Puppet: running manifest ' + manifest + ' failed!'
-            $stderr.puts e.message
-            $stderr.puts
-          end
           abort 'Puppet command failed'
         end
       end

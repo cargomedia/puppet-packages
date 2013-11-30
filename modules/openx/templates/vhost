@@ -15,9 +15,9 @@
 	DocumentRoot /var/openx/www
 
 	SSLEngine on
-	SSLCertificateFile /var/openx/ssl/<%= @host %>.pem
-	SSLCertificateKeyFile /var/openx/ssl/<%= @host %>.key
-	SSLCACertificatePath /var/openx/ssl-ca/
+	SSLCertificateFile /etc/apache2/ssl/<%= @host %>.pem
+	SSLCertificateKeyFile /etc/apache2/ssl/<%= @host %>.key
+	SSLCACertificatePath /etc/apache2/ssl-ca/
 
 	<Directory /var/openx/www>
 		Options FollowSymlinks
