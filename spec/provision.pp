@@ -4,5 +4,6 @@ node default {
 
   class {'polipo':
     diskCacheRoot => '/tmp/proxy-cache',
+    idleTime => 0,
   }
 }

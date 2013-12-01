@@ -1,5 +1,6 @@
 class polipo(
-  $diskCacheRoot = '/var/cache/polipo'
+  $diskCacheRoot = '/var/cache/polipo',
+  $idleTime = 20
 ) {
 
   include 'polipo::service'

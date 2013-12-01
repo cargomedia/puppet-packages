@@ -79,6 +79,8 @@ diskCacheRoot = "<%= @diskCacheRoot %>"
 # disableIndexing = false
 # disableServersList = false
 
+idleTime = <%= @idleTime %>
+
 
 ### Domain Name System
 ### ******************
