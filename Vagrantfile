@@ -1,4 +1,3 @@
-require 'fileutils'
 Vagrant.require_plugin 'vagrant-proxyconf'
 
 Vagrant.configure("2") do |config|
