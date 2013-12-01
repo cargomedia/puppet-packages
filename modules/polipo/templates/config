@@ -68,9 +68,6 @@
 
 diskCacheRoot = "<%= @diskCacheRoot %>"
 
-diskCacheDirectoryPermissions = <%= @diskCacheDirectoryPermissions %>
-diskCacheFilePermissions = <%= @diskCacheFilePermissions %>
-
 # Uncomment this if you want to disable the local web server:
 
 # localDocumentRoot = ""

@@ -1,7 +1,5 @@
 class polipo(
-  $diskCacheRoot = '/var/cache/polipo',
-  $diskCacheDirectoryPermissions = '0700',
-  $diskCacheFilePermissions = '0600'
+  $diskCacheRoot = '/var/cache/polipo'
 ) {
 
   include 'polipo::service'
