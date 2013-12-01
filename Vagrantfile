@@ -6,9 +6,7 @@ Vagrant.configure("2") do |config|
   config.vm.box_url = "http://s3.cargomedia.ch/vagrant-boxes/debian-6-amd64.box"
   config.vm.network :private_network, ip: '10.10.10.54'
 
-  http_cache_dir = File.expand_path '.http-cache'
-  FileUtils.mkdir_p http_cache_dir
-  config.vm.synced_folder http_cache_dir, '/tmp/http-cache', :owner => 'proxy'
+  config.vm.synced_folder '.proxy-cache', '/tmp/proxy-cache', :owner => 'proxy', :create => true
   config.proxy.https = 'http://localhost:8123/'
   config.proxy.http = 'http://localhost:8123/'
   config.proxy.no_proxy = "127.0.0.1,localhost"
