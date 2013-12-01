@@ -5,9 +5,9 @@ class VagrantHelper
     @verbose = verbose
   end
 
-  def command(subcommand)
+  def command(subcommand, env = {})
     puts 'Vagrant: ' + subcommand if @verbose
-    `cd #{@working_dir} && vagrant #{subcommand}`
+    Dir.chdir(@working_dir){ IO.popen(env, "vagrant #{subcommand}").read }
   end
 
   def reset
@@ -16,7 +16,9 @@ class VagrantHelper
 
     unless has_snapshot
       command 'destroy -f'
-      command 'up'
+      command 'up --no-provision'
+      command 'provision', {'DISABLE_PROXY' => 'true'}
+      command 'provision'
       command 'snapshot take default'
     end
     unless is_running
