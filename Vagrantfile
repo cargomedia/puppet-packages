@@ -6,9 +6,14 @@ Vagrant.configure("2") do |config|
   config.vm.network :private_network, ip: '10.10.10.54'
 
   config.vm.synced_folder '.proxy-cache', '/tmp/proxy-cache', :owner => 'proxy', :create => true
-  config.proxy.https = ('true' == ENV['DISABLE_PROXY']) ? false : 'http://localhost:8123/'
-  config.proxy.http = ('true' == ENV['DISABLE_PROXY']) ? false : 'http://localhost:8123/'
-  config.proxy.no_proxy = "127.0.0.1,localhost"
+  if ['true', '1'].include?(ENV['DISABLE_PROXY'])
+    config.proxy.https = false
+    config.proxy.http = false
+  else
+    config.proxy.https = 'http://localhost:8123/'
+    config.proxy.http = 'http://localhost:8123/'
+    config.proxy.no_proxy = "127.0.0.1,localhost"
+  end
 
   config.vm.provision "puppet" do |puppet|
     puppet.manifests_path = "spec"
