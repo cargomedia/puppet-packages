@@ -9,7 +9,10 @@ class network::hostname(
 
   network::host {$fqdn:
     ipaddr => '127.0.0.1',
-    aliases => [$hostname, 'localhost']
+    aliases => $hostname ? {
+      $fqdn => ['localhost'],
+      default => [$hostname, 'localhost']
+    }
   }
 
   file {'/etc/mailname':
