@@ -12,7 +12,7 @@ class base {
   require '::ulimit'
   require '::cron'
   require '::raid'
-  require '::base::monit'
+  require '::monit::entry::system'
   require '::rsyslog'
   require '::base::tools'
 }
