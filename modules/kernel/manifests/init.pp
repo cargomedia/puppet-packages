@@ -1,4 +1,6 @@
-class kernel($modules = []) {
+class kernel(
+  $modules = ['loop']
+) {
 
   file { '/etc/modules':
     ensure => file,

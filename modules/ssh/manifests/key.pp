@@ -5,6 +5,7 @@ define ssh::key ($user, $content) {
   $ssh_dir = "~${user}/.ssh"
   $nameEscaped = shellquote($name)
   $keypath = "${ssh_dir}/id.d/${nameEscaped}"
+  $contentEscaped = shellquote($content)
 
   exec {"${ssh_dir}/id.d for ${name}":
     command => "mkdir -p ${ssh_dir}/id.d",
@@ -16,7 +17,7 @@ define ssh::key ($user, $content) {
 
   helper::script {$keypath:
     content => template('ssh/add-key.sh'),
-    unless => "test -f ${keypath}",
+    unless => "grep ^${contentEscaped}$ ${keypath}",
     user => $user
   }
 }
