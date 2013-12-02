@@ -1,4 +1,4 @@
-class base::rsyslog {
+class rsyslog {
 
   file { '/etc/rsyslog.conf':
     ensure => file,

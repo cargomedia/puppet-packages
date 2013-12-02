@@ -13,6 +13,6 @@ class base {
   require '::cron'
   require '::raid'
   require '::base::monit'
-  require '::base::rsyslog'
+  require '::rsyslog'
   require '::base::tools'
 }
