@@ -1,5 +1,5 @@
 #!/bin/sh
-FFMPEG_VERSION='<%= $version %>'
+FFMPEG_VERSION='<%= @version %>'
 if ! ((test -x /usr/local/bin/ffmpeg) && (ffmpeg -version 2>/dev/null |grep -q "^ffmpeg version $FFMPEG_VERSION$")); then
 	curl -sL http://www.tortall.net/projects/yasm/releases/yasm-1.2.0.tar.gz > yasm-1.2.0.tar.gz
 	tar -xvf yasm-1.2.0.tar.gz
