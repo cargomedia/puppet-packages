@@ -1,6 +1,4 @@
-class network(
-  $fqdn
-) {
+class network {
 
   $interfaces = hiera_hash('network::interfaces', {})
   create_resources('network::interface', $interfaces)
