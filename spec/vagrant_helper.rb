@@ -7,7 +7,7 @@ class VagrantHelper
 
   def command(subcommand, env = {})
     puts 'Vagrant: ' + subcommand if @verbose
-    Dir.chdir(@working_dir){ IO.popen(env, "vagrant #{subcommand}").read }
+    Dir.chdir(@working_dir){ IO.popen(env, "vagrant #{subcommand}", :err => [:child, :out]).read }
   end
 
   def reset
