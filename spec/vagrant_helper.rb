@@ -6,8 +6,11 @@ class VagrantHelper
   end
 
   def command(subcommand, env = {})
-    puts 'Vagrant: ' + subcommand if @verbose
-    Dir.chdir(@working_dir){ IO.popen(env, "vagrant #{subcommand}", :err => [:child, :out]).read }
+    if @verbose
+      puts 'Vagrant: ' + subcommand + (env.length > 0 ? ' (' + env.to_s + ')' : '')
+    end
+    env.each {|key, value| ENV[key] = value }
+    `cd #{@working_dir} && vagrant #{subcommand}`
   end
 
   def reset
