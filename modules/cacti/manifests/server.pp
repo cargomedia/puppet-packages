@@ -7,7 +7,6 @@ class cacti::server (
   $db_name      = $cacti::params::db_name,
   $db_user      = $cacti::params::db_user,
   $db_password  = $cacti::params::db_password,
-  $ssh_private  = $cacti::params::ssh_private,
   $ssl_cert     = $cacti::params::ssl_pem,
   $htpasswd     = $cacti::params::htpasswd
 ) inherits cacti::params {
@@ -36,14 +35,6 @@ class cacti::server (
   file {'/etc/cacti/htpasswd':
     ensure  => file,
     content => $htpasswd,
-    require => Class['cacti::package'],
-  }
-
-  file {'/etc/cacti/id_rsa':
-    ensure  => file,
-    content => $ssh_private,
-    mode    => '0600',
-    owner   => 'www-data',
     require => Class['cacti::package'],
   }
 

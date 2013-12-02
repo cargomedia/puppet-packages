@@ -1,5 +1,4 @@
 class cacti::resource::site::bootstrap (
-  $script_dir         = $cacti::params::script_dir,
   $deploy_dir         = $cacti::params::deploy_dir,
   $db_sense_user      = $cacti::params::db_sense_user,
   $db_sense_password  = $cacti::params::db_sense_password
@@ -9,13 +8,7 @@ class cacti::resource::site::bootstrap (
     fail("Please specify deployDir param for scripts!")
   }
 
-  file {$script_dir:
-    ensure => directory,
-    require => Package['cacti'],
-  }
-
   Cacti::Resource::Site::Script {
-    script_dir => $script_dir,
     deploy_dir => $deploy_dir,
     db_sense_user => $db_sense_user,
     db_sense_password => $db_sense_password,

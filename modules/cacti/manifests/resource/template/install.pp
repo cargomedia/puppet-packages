@@ -1,8 +1,9 @@
-define cacti::resource::template::install ($content, $template_dir) {
+define cacti::resource::template::install ($content) {
 
-  file {"${template_dir}/${name}":
+  file {"/usr/share/cacti/templates/${name}":
     ensure  => file,
     content => $content,
+    require => Package['cacti'],
   }
 
 }
