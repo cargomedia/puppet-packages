@@ -3,10 +3,6 @@ class network::hostname(
 ) {
   $hostname = regsubst($fqdn, '^([^.]*).*$', '\1')
 
-  resources {'host':
-    purge => true
-  }
-
   network::host {$fqdn:
     ipaddr => '127.0.0.1',
     aliases => $hostname ? {
