@@ -28,10 +28,6 @@ class ssh {
   }
   ->
 
-  class {'ssh::knownhosts':}
-
-  ->
-
   package {'ssh':
     ensure => installed,
     before => Service['ssh'],
