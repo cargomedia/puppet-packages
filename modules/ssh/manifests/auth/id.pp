@@ -1,6 +1,7 @@
 define ssh::auth::id ($user) {
 
-  @@ssh::pair {$name:
+  @@ssh::pair {"${name}@${fqdn}":
+    id => $name,
     user => $user,
   }
 

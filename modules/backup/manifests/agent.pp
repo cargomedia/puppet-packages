@@ -1,4 +1,5 @@
 define backup::agent (
+  $server_id,
   $sourceType,
   $host,
   $source,

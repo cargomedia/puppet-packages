@@ -1,4 +1,7 @@
-define ssh::pair ($user) {
+define ssh::pair (
+  $id,
+  $user
+) {
 
   $keys = generate_sshkey($name)
 
@@ -13,6 +16,7 @@ define ssh::pair ($user) {
   }
 
   @@ssh::authorized_key {$name:
+    id => $id,
     user => $user,
     content => $keys[public],
   }

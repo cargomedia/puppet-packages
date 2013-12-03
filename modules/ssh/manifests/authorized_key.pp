@@ -1,4 +1,8 @@
-define ssh::authorized_key ($user, $content) {
+define ssh::authorized_key (
+  $id = undef,
+  $user,
+  $content
+) {
 
   require 'ssh'
 
