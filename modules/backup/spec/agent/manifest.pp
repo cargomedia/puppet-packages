@@ -1,6 +1,6 @@
 node default {
 
-  backup::agent::rdiff {'my-lvm':
+  backup::agent {'my-lvm':
     sourceType => 'lvm',
     host => 'localhost',
     source => '/dev/vg01/storage01',
@@ -10,7 +10,7 @@ node default {
     cronTimeHour => 8,
   }
 
-  backup::agent::rdiff {'my-mysql':
+  backup::agent {'my-mysql':
     sourceType => 'mysql',
     host => 'localhost',
     source => '/var/lib/mysql',

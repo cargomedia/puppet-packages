@@ -1,4 +1,4 @@
-define backup::agent::rdiff (
+define backup::agent (
   $sourceType,
   $host,
   $source,
