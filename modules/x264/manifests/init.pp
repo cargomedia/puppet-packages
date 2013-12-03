@@ -5,7 +5,7 @@ class x264 {
 
   helper::script {'install x264':
     content => template('x264/install.sh'),
-    unless => 'test -x /usr/bin/x264',
+    unless => 'test -x /usr/local/bin/x264',
   }
 
 }
