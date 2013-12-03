@@ -1,6 +1,4 @@
-#!/bin/sh
-
-set -e
+#!/bin/bash -e
 
 HOST="<%= @host %>"
 RDIFF_BACKUP_OPTS='<%= @options %>'

@@ -1,16 +1,5 @@
-class backup::server (
-  $type = $rdiff::params::type
-) inherits backup::params {
+class backup::server {
 
-  include 'backup'
-
-  case $type {
-    'rdiff': {
-      include 'backup::base::rdiff'
-    }
-    default: {
-      fail ("Unknown backup type ${type}!")
-    }
-  }
+  require 'rdiff-backup'
 
 }
