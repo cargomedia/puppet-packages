@@ -1,5 +1,6 @@
 class x264 {
 
+  require 'build'
   require 'yasm'
 
   helper::script {'install x264':
