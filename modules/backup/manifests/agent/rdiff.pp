@@ -1,19 +1,15 @@
 class backup::agent::rdiff (
-  $sourceType = $backup::params::sourceType,
-  $host = $backup::params::host,
-  $source = $backup::params::source,
-  $destination = $backup::params::destination,
-  $options = $backup::params::rdiff_options,
-  $cronTimeHour = $backup::params::cronTimeHour,
-  $cronTimeMinute = $backup::params::cronTimeMinute
-) inherits backup::params {
+  $sourceType,
+  $host,
+  $source,
+  $destination,
+  $options = '--no-file-statistics --no-compare-inode',
+  $cronTimeHour = 4,
+  $cronTimeMinute = 0
+) {
 
   require 'rdiff-backup'
   include 'backup'
-
-  if ($host == undef or $source == undef or $destination == undef) {
-    fail('Please specify all required params like host, source and destination.')
-  }
 
   case $sourceType {
     'mysql': {

@@ -1,6 +1,6 @@
 class backup::server (
-  $type = $rdiff::params::type
-) inherits backup::params {
+  $type = 'rdiff'
+) {
 
   include 'backup'
 
