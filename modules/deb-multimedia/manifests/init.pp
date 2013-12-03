@@ -3,7 +3,7 @@ class deb-multimedia {
   apt::source {'deb-multimedia':
     entries => 'deb http://www.deb-multimedia.org squeeze main non-free',
     keys => {
-      'debian-multimedia-keyring.gpg' => {
+      'debian-multimedia' => {
         key => '1F41B907',
         key_content => template('deb-multimedia/debian-multimedia-keyring.gpg'),
       }

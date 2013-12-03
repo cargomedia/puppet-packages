@@ -48,5 +48,5 @@ class puppet::common {
     ensure => present,
   }
 
-  puppet::module {'puppetlabs/stdlib': }
+  class {'puppet::module::stdlib':}
 }
