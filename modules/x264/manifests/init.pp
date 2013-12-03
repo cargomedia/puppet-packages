@@ -1,4 +1,4 @@
-class x264 {
+class x264 ($version = '20131202-2245') {
 
   require 'build'
   require 'yasm'
