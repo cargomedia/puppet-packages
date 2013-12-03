@@ -1,4 +1,4 @@
-class backup::base::rdiff {
+class rdiff-backup {
 
   # This will not be needed anymore in wheezy
   # rdiff-backup will not have this bug anymore (http://bugs.debian.org/cgi-bin/bugreport.cgi?bug=587370)
@@ -13,7 +13,7 @@ class backup::base::rdiff {
 
   file {'/etc/python2.6/sitecustomize.py':
     ensure => file,
-    content => template('backup/rdiff/python-sitecustomize.py'),
+    content => template('rdiff-backup/python-sitecustomize.py'),
     owner => '0',
     group => '0',
     mode => '644',

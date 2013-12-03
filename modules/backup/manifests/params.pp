@@ -25,9 +25,9 @@ class backup::params {
     default => $::destination,
   }
 
-  $options = $::options ? {
+  $rdiff_options = $::rdiff_options ? {
     undef => '--no-eas --no-file-statistics --no-carbonfile --no-acls --no-compare-inode',
-    default => $::options,
+    default => $::rdiff_options,
   }
 
   $cronTimeMinute = $::cronTimeMinute ? {

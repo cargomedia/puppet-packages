@@ -9,5 +9,5 @@ describe package('python') do
 end
 
 describe file('/etc/python2.6/sitecustomize.py') do
-  it {should be_file }
+  its(:content) { should match /warnings.simplefilter\("ignore", DeprecationWarning\)/ }
 end

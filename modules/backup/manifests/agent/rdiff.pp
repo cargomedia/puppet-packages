@@ -3,13 +3,13 @@ class backup::agent::rdiff (
   $host = $backup::params::host,
   $source = $backup::params::source,
   $destination = $backup::params::destination,
-  $options = $backup::params::options,
+  $options = $backup::params::rdiff_options,
   $cronTimeHour = $backup::params::cronTimeHour,
   $cronTimeMinute = $backup::params::cronTimeMinute
 ) inherits backup::params {
 
+  require 'rdiff-backup'
   include 'backup'
-  include 'backup::base::rdiff'
 
   if ($host == undef or $source == undef or $destination == undef) {
     fail('Please specify all required params like host, source and destination.')

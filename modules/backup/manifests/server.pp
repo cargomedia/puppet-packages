@@ -6,7 +6,7 @@ class backup::server (
 
   case $type {
     'rdiff': {
-      include 'backup::base::rdiff'
+      require 'rdiff-backup'
     }
     default: {
       fail ("Unknown backup type ${type}!")
