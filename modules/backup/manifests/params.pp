@@ -26,7 +26,7 @@ class backup::params {
   }
 
   $rdiff_options = $::rdiff_options ? {
-    undef => '--no-eas --no-file-statistics --no-carbonfile --no-acls --no-compare-inode',
+    undef => '--no-file-statistics --no-compare-inode',
     default => $::rdiff_options,
   }
 
