@@ -14,6 +14,7 @@ class mysql::proxy ($host = 'localhost', $port = 4040, $backend_addresses) {
     group => '0',
     mode => '0644',
     before => Package['mysql-proxy'],
+    notify => Service['mysql-proxy']
   }
 
   file {'/etc/default/mysql-proxy':
