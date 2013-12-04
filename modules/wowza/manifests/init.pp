@@ -2,11 +2,11 @@ class wowza (
   $version = '3.5.0',
   $port = 1935,
   $port_rpc = 8086,
-  $licence = 'xxxxx-xxxxx-xxxxx-xxxxx-xxxxx-xxxxx',
-  $working_dir = '/usr/local/cargomedia/wowza'
+  $license = 'xxxxx-xxxxx-xxxxx-xxxxx-xxxxx-xxxxx'
 ) {
 
-#  require 'ffmpeg'
+  require 'java'
+  require 'ffmpeg'
 
   user {'wowza':
     ensure => present,
@@ -33,6 +33,9 @@ class wowza (
   @monit::entry {'wowza':
     content => template('wowza/monit'),
     require => Service['wowza'],
+  }
+
+  service {'wowza':
   }
 
 }

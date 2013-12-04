@@ -75,6 +75,7 @@
 				<Description>Client Logging</Description>
 				<Class>com.wowza.wms.module.ModuleClientLogging</Class>
 			</Module>
+
 			<Module>
 				<Name>Cargomedia ConnectionListener</Name>
 				<Description>Handler for connection-related events</Description>
@@ -86,12 +87,12 @@
 		<Properties>
 			<Property>
 				<Name>RPCUrl</Name>
-				<Value>%WOWZA-RPC-URL%</Value>
+				<Value><%= @rpc_url %></Value>
 				<Type>String</Type>
 			</Property>
 			<Property>
 				<Name>ThumbnailAndArchivePath</Name>
-				<Value>%WOWZA-ARCHIVE-DIR%</Value>
+				<Value><%= @archive_dir %></Value>
 				<Type>String</Type>
 			</Property>
 			<Property>

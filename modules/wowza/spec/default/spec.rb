@@ -15,3 +15,11 @@ end
 describe file('/usr/local/WowzaMediaServer/lib/ch.cargomedia.wms-0.0.1.jar') do
   it { should be_file }
 end
+
+describe port(1935) do
+  it { should be_listening }
+end
+
+describe port(8086) do
+  it { should be_listening }
+end
