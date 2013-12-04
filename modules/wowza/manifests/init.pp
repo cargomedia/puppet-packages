@@ -2,7 +2,7 @@ class wowza (
   $version = '3.5.0',
   $port = 1935,
   $port_rpc = 8086,
-  $license = 'xxxxx-xxxxx-xxxxx-xxxxx-xxxxx-xxxxx'
+  $license = 'SVRB3-44zj4-jCmwr-8PpPX-aYpxj-3Xdnw-6zcn6UfYy6N3'
 ) {
 
   require 'java'
@@ -24,18 +24,13 @@ class wowza (
     content => template('wowza/init.d'),
   }
 
-  cron {"cron ${name}":
-    command => "wowza find ${working_dir}/content -type f -mtime +1 -exec rm {}",
-    user    => 'root',
-    minute  => 30,
-  }
-
   @monit::entry {'wowza':
     content => template('wowza/monit'),
     require => Service['wowza'],
   }
 
   service {'wowza':
+    ensure => running,
   }
 
 }

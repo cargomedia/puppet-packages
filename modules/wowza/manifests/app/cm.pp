@@ -3,12 +3,13 @@ class wowza::app::cm (
   $dir = '/usr/local/cargomedia/wowza',
   $rpc_url = 'https://localhost/rpc/null',
   $archive_dir = '/home/fuckbook/shared/userfiles/streamChannels',
-  $wowza_conf_dir = '/usr/local/WowzaMediaServer/conf/',
+  $wowza_conf_dir = '/usr/local/WowzaMediaServer/conf',
   $cm_conf_dir = '/usr/local/cargomedia/wowza/conf',
   $jmxremote_access = undef,
   $jmxremote_passwd = undef
 ) {
 
+  require 'wowza'
   require 'wowza::jar::cm-wowza'
 
   File {
@@ -18,7 +19,7 @@ class wowza::app::cm (
   }
 
   exec {'install paths':
-    command => "mkdir -p ${dir} ${cm_conf_dir} ${dir}/content ${dir}/applications/videchat",
+    command => "mkdir -p ${dir} ${cm_conf_dir} ${dir}/content ${dir}/applications/videchat ${archive_dir}",
     creates => $dir,
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     require => Class['wowza::jar::cm-wowza'],
@@ -125,6 +126,13 @@ class wowza::app::cm (
 
   file {"${cm_conf_dir}/VHost.xml":
     content => template('wowza/app/cm/wowza/conf/VHost.xml'),
+  }
+  ->
+
+  cron {"cron ${name}":
+    command => "wowza find ${dir}/content -type f -mtime +1 -exec rm {}",
+    user    => 'root',
+    minute  => 30,
   }
 
 }
