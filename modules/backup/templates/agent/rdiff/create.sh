@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-usage() { echo "Usage: $0 -h <host> -s <source>] -d <destination> -o <rdiff-options> -t <mysql|lvm>" 1>&2; exit 1; }
+usage() { echo "Usage: $0 -h <host> -s <source> -d <destination> -o <rdiff-options> -t <mysql|lvm>" 1>&2; exit 1; }
 
 while getopts "h:s:d:o:t:" o; do
     case "${o}" in
