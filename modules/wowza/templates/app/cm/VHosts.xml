@@ -2,7 +2,7 @@
 	<VHosts>
 		<VHost>
 			<Name>videochat</Name>
-			<ConfigDir><%= @cm_conf_dir %></ConfigDir>
+			<ConfigDir><%= @dir %></ConfigDir>
 			<ConnectionLimit>0</ConnectionLimit>
 		</VHost>
 	</VHosts>
