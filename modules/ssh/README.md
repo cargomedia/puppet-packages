@@ -1,4 +1,6 @@
-Install private and public key for root@storage1:
+# SSH key management
+
+## Defining an Identity and granting login access
 
 ```puppet
 node storage1 {
@@ -19,6 +21,35 @@ node backup1 {
   ssh::auth::grant {'root@backup1.cargomedia.ch for root@storage1.cargomedia.ch':
     id => 'root@storage1.cargomedia.ch',
     user => 'root',
+  }
+}
+```
+
+## Custom Identity identifier
+You can define a custom identifier for an `ssh::auth::id`.
+This is useful if multiple machines and/or users should share a common identity (private key).
+
+```puppet
+node storage1 {
+  ssh::auth::id {'root@storage1.cargomedia.ch':
+    id => 'root@storage.cargomedia.ch',
+    user => 'root',
+  }
+}
+
+node storage2 {
+  ssh::auth::id {'root@storage1.cargomedia.ch':
+    id => 'root@storage.cargomedia.ch',
+    user => 'root',
+  }
+}
+```
+
+```puppet
+node backup1 {
+  ssh::auth::grant {'foo@backup1.cargomedia.ch for root@storage.cargomedia.ch':
+    id => 'root@storage.cargomedia.ch',
+    user => 'foo',
   }
 }
 ```
