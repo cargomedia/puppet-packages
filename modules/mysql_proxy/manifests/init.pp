@@ -1,4 +1,4 @@
-class mysql::proxy ($host = 'localhost', $port = 4040, $backend_addresses) {
+class mysql_proxy ($host = 'localhost', $port = 4040, $backend_addresses) {
 
   file {'/etc/mysql-proxy':
     ensure => directory,
@@ -9,7 +9,7 @@ class mysql::proxy ($host = 'localhost', $port = 4040, $backend_addresses) {
 
   file {'/etc/mysql-proxy/failover.lua':
     ensure => file,
-    content => template('mysql/proxy/failover.lua'),
+    content => template('mysql_proxy/failover.lua'),
     owner => '0',
     group => '0',
     mode => '0644',
@@ -19,7 +19,7 @@ class mysql::proxy ($host = 'localhost', $port = 4040, $backend_addresses) {
 
   file {'/etc/default/mysql-proxy':
     ensure => file,
-    content => template('mysql/proxy/default'),
+    content => template('mysql_proxy/default'),
     owner => '0',
     group => '0',
     mode => '0644',
@@ -35,7 +35,7 @@ class mysql::proxy ($host = 'localhost', $port = 4040, $backend_addresses) {
   service {'mysql-proxy':}
 
   @monit::entry {'mysql-proxy':
-    content => template('mysql/proxy/monit'),
+    content => template('mysql_proxy/monit'),
     require => Package['mysql-proxy'],
   }
 }
