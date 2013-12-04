@@ -4,7 +4,8 @@ class puppet::master (
   $reportToEmail = 'root',
   $puppetdb = false,
   $puppetdb_port = 8080,
-  $puppetdb_port_ssl = 8081
+  $puppetdb_port_ssl = 8081,
+  $site_content = template('puppet/master/site.pp')
 ) {
 
   require 'ssh::auth::keyserver'
@@ -29,7 +30,7 @@ class puppet::master (
 
   file {'/etc/puppet/manifests/site.pp':
     ensure => file,
-    content => template('puppet/master/site.pp'),
+    content => $site_content,
     group => '0',
     owner => '0',
     mode => '0644',
