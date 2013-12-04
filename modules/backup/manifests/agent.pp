@@ -21,7 +21,7 @@ define backup::agent (
   }
 
   cron {"backup-${name}":
-    command => "/usr/local/bin/backup.${sourceType}.sh -h '${host}' -s '${source}' -d '${destination}' -o '${options}' -t '${sourceType}'",
+    command => "/usr/local/bin/backup-create.sh -h '${host}' -s '${source}' -d '${destination}' -o '${options}' -t '${sourceType}'",
     user    => 'root',
     minute  => $cronTimeMinute,
     hour    => $cronTimeHour,
