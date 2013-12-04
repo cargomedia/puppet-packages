@@ -38,13 +38,14 @@ node storage1 {
 }
 
 node storage2 {
-  ssh::auth::id {'root@storage1.cargomedia.ch':
+  ssh::auth::id {'root@storage2.cargomedia.ch':
     id => 'root@storage.cargomedia.ch',
     user => 'root',
   }
 }
 ```
 
+Allow root on both storage1 and storage2 to login as foo to backup1:
 ```puppet
 node backup1 {
   ssh::auth::grant {'foo@backup1.cargomedia.ch for root@storage.cargomedia.ch':
