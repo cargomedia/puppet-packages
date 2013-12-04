@@ -9,50 +9,26 @@ define backup::agent (
   $cronTimeMinute = 0
 ) {
 
-  require 'rdiff-backup'
+  if ('lvm' != $sourceType and 'mysql' != $sourceType) {
+    fail("Unknown source type ${sourceType}")
+  }
+
+  require 'backup::agent_common'
 
   ssh::auth::id {$name:
     id => "backup-agent@${server_id}",
     user => 'root',
   }
 
-  case $sourceType {
-    'mysql': {
-      $content = template('backup/agent/rdiff/mysql.sh')
-    }
-    'lvm': {
-      $content = template('backup/agent/rdiff/lvm.sh')
-    }
-    default: {
-      fail("Unknown type ${sourceType}")
-    }
-  }
-
-  file {"/usr/local/bin/backup-${name}.sh":
-    ensure => file,
-    content => $content,
-    owner => '0',
-    group => '0',
-    mode => '0755',
-  }
-
   cron {"backup-${name}":
-    command => "/usr/local/bin/backup-${name}.sh",
+    command => "/usr/local/bin/backup.${sourceType}.sh -h '${host}' -s '${source}' -d '${destination}' -o '${options}' -t '${sourceType}'",
     user    => 'root',
     minute  => $cronTimeMinute,
     hour    => $cronTimeHour,
   }
 
-  file {"/usr/local/bin/backup-check-${name}.sh":
-    ensure => file,
-    content => template('backup/agent/rdiff/check.sh'),
-    owner => '0',
-    group => '0',
-    mode => '0755',
-  }
-
   cron {"backup-check-${name}":
-    command => "bash /usr/local/bin/backup-check-${name}.sh",
+    command => "/usr/local/bin/backup-check.sh -h '${host}' -d '${destination}'",
     user    => 'root',
     minute  => 10,
     hour    => 3,
