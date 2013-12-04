@@ -11,8 +11,9 @@ define backup::agent (
 
   require 'rdiff-backup'
 
-  backup::ssh::id {"backup-ssh-id-${name}":
-    id => $server_id,
+  ssh::auth::id {$name:
+    id => "backup-agent@${server_id}",
+    user => 'root',
   }
 
   case $sourceType {
