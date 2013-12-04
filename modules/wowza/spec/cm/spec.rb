@@ -20,6 +20,10 @@ describe file('/etc/monit/conf.d/wowza') do
   it { should be_file }
 end
 
+describe command('sleep 10') do
+  it { should return_exit_status 0 }
+end
+
 describe port(1935) do
   it { should be_listening }
 end
