@@ -1,6 +1,7 @@
 node default {
 
   backup::agent {'my-lvm':
+    server_id => 'my-backup-server',
     sourceType => 'lvm',
     host => 'localhost',
     source => '/dev/vg01/storage01',
@@ -11,6 +12,7 @@ node default {
   }
 
   backup::agent {'my-mysql':
+    server_id => 'my-backup-server',
     sourceType => 'mysql',
     host => 'localhost',
     source => '/var/lib/mysql',
