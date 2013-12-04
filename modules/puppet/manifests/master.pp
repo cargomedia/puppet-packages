@@ -5,7 +5,10 @@ class puppet::master (
   $puppetdb = false,
   $puppetdb_port = 8080,
   $puppetdb_port_ssl = 8081,
-  $site_content = template('puppet/master/site.pp')
+  $bootstrap_classes = [
+    'puppet::agent',
+    'monit' # See https://github.com/cargomedia/puppet-packages/issues/232
+  ]
 ) {
 
   require 'ssh::auth::keyserver'
@@ -30,7 +33,7 @@ class puppet::master (
 
   file {'/etc/puppet/manifests/site.pp':
     ensure => file,
-    content => $site_content,
+    content => template('puppet/master/site.pp'),
     group => '0',
     owner => '0',
     mode => '0644',
