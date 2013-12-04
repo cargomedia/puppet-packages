@@ -3,6 +3,7 @@ define backup::ssh::id(
 ) {
 
   ssh::auth::id {$name:
-    user => 'root'
+    id => $id,
+    user => 'root',
   }
 }

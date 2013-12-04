@@ -11,6 +11,10 @@ define backup::agent (
 
   require 'rdiff-backup'
 
+  backup::ssh::id {"backup-ssh-id ${name}@${fqdn}":
+    id => $server_id,
+  }
+
   case $sourceType {
     'mysql': {
       $content = template('backup/agent/rdiff/mysql.sh')

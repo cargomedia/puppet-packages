@@ -8,7 +8,7 @@ define ssh::authorized_key (
 
   $key = extract_public_key($content)
 
-  ssh_authorized_key {$name:
+  ssh_authorized_key {$title:
     ensure => present,
     user => $user,
     type => $key[type],

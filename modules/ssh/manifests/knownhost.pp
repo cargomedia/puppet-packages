@@ -1,6 +1,6 @@
 define ssh::knownhost ($key, $aliases = []) {
 
-  sshkey {$name:
+  sshkey {$title:
     host_aliases => $aliases,
     ensure => present,
     key => $key,
