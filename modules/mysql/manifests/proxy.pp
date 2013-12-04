@@ -23,11 +23,15 @@ class mysql::proxy ($host = 'localhost', $port = 4040, $backend_addresses) {
     group => '0',
     mode => '0644',
     before => Package['mysql-proxy'],
+    notify => Service['mysql-proxy'],
   }
 
   package {'mysql-proxy':
     ensure => present,
+    notify => Service['mysql-proxy'],
   }
+
+  service {'mysql-proxy':}
 
   @monit::entry {'mysql-proxy':
     content => template('mysql/proxy/monit'),
