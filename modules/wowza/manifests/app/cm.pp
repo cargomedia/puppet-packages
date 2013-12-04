@@ -1,10 +1,12 @@
 class wowza::app::cm (
   $ip = 'localhost',
+  $port = 1935,
+  $port_rpc = 8086,
   $dir = '/usr/local/cargomedia/wowza',
-  $rpc_url = 'https://localhost/rpc/null',
-  $archive_dir = '/home/fuckbook/shared/userfiles/streamChannels',
-  $wowza_conf_dir = '/usr/local/WowzaMediaServer/conf',
   $cm_conf_dir = '/usr/local/cargomedia/wowza/conf',
+  $wowza_conf_dir = '/usr/local/WowzaMediaServer/conf',
+  $archive_dir = '/home/fuckbook/shared/userfiles/streamChannels',
+  $rpc_url = 'https://localhost/rpc/null',
   $jmxremote_access = undef,
   $jmxremote_passwd = undef
 ) {
@@ -151,6 +153,10 @@ class wowza::app::cm (
     command => "wowza find ${dir}/content -type f -mtime +1 -exec rm {}",
     user    => 'root',
     minute  => 30,
+  }
+
+  @monit::entry {'wowza':
+    content => template('wowza/app/cm/monit'),
   }
 
 }

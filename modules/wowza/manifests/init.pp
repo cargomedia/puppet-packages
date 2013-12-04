@@ -1,7 +1,5 @@
 class wowza (
   $version = '3.5.0',
-  $port = 1935,
-  $port_rpc = 8086,
   $license = 'SVRB3-44zj4-jCmwr-8PpPX-aYpxj-3Xdnw-6zcn6UfYy6N3'
 ) {
 
