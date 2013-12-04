@@ -22,14 +22,3 @@ node backup1 {
   }
 }
 ```
-
-Allow root@storage1 to login as bar to backup2:
-
-```puppet
-node backup2 {
-  ssh::auth::grant {'bar@backup2.cargomedia.ch for root@storage1.cargomedia.ch':
-    id => 'root@storage1.cargomedia.ch',
-    user => 'bar',
-  }
-}
-```
