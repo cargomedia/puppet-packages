@@ -1,6 +1,0 @@
-check process wowza with pidfile /var/run/wowza.pid
-    start program = "/etc/init.d/wowza start"
-    stop program  = "/etc/init.d/wowza stop"
-    if failed port <%= @port %> with timeout 10 seconds then restart
-    if failed port <%= @port_rpc %> with timeout 10 seconds then restart
-    if 25 restarts within 50 cycles then timeout

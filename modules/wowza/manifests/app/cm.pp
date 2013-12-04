@@ -155,9 +155,4 @@ class wowza::app::cm (
     minute  => 30,
   }
 
-  @monit::entry {'wowza-cm-app':
-    name => 'wowza',
-    content => template('wowza/app/cm/monit'),
-  }
-
 }
