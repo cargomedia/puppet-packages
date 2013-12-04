@@ -7,3 +7,7 @@ end
 describe port(8140) do
   it { should be_listening }
 end
+
+describe file('/etc/puppet/manifests/site.pp') do
+  its(:content) { should match /'puppet::agent': tag => 'bootstrap'/ }
+end
