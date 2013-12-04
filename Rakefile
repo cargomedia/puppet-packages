@@ -41,5 +41,5 @@ end
 
 desc 'puppet validate'
 task :validate do
-  sh 'puppet parser validate $(find modules/ -name *.pp)'
+  sh 'puppet parser validate $(find modules -name "*.pp" -not -path "*/templates/*")'
 end
