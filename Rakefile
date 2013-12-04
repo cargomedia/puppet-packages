@@ -4,6 +4,7 @@ require 'puppet-lint/tasks/puppet-lint'
 require 'pathname'
 
 PuppetLint.configuration.send('disable_arrow_alignment')
+PuppetLint.configuration.ignore_paths = ["**/templates/**/*.pp"]
 
 RSpec::Core::RakeTask.new(:test) do |t|
   t.pattern = 'modules/*/spec/*/spec.rb'
