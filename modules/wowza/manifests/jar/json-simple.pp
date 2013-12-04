@@ -6,4 +6,5 @@ class wowza::jar::json-simple($version = '1.1.1') {
     content => template('wowza/jar/simple-json.sh'),
     unless => "test -f /usr/local/WowzaMediaServer/lib/json-simple-${version}.jar",
   }
+
 }

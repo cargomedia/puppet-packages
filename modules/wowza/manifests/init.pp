@@ -8,6 +8,8 @@ class wowza (
   require 'java'
   require 'ffmpeg'
 
+  include 'wowza::service'
+
   user {'wowza':
     ensure => present,
   }
@@ -26,11 +28,6 @@ class wowza (
 
   @monit::entry {'wowza':
     content => template('wowza/monit'),
-    require => Service['wowza'],
-  }
-
-  service {'wowza':
-    ensure => running,
   }
 
 }
