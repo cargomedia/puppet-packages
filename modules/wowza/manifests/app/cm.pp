@@ -1,5 +1,4 @@
 class wowza::app::cm (
-  $ip = 'localhost',
   $port = 1935,
   $port_rpc = 8086,
   $dir = '/usr/local/cargomedia/wowza',
