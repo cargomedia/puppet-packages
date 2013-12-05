@@ -12,7 +12,7 @@ class wowza::app::cm (
   require 'wowza'
   require 'wowza::jar::cm-wowza'
 
-  exec {'install paths':
+  exec {"${name} install paths":
     command => "mkdir -p ${dir}/conf ${dir}/content ${dir}/applications/videchat ${archive_dir}",
     creates => $dir,
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
