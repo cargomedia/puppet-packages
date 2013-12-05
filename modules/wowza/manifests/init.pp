@@ -14,7 +14,7 @@ class wowza (
 
   helper::script {'install wowza':
     content => template('wowza/install.sh'),
-    unless => "test -x /usr/bin/WowzaMediaServerd) && (dpkg -l | grep -q '^ii.* wowzamediaserver-${version}'",
+    unless => "(test -x /usr/bin/WowzaMediaServerd) && (dpkg -l | grep -q '^ii.* wowzamediaserver-${version}')",
     timeout => 900,
     require => User['wowza'],
   }
