@@ -1,0 +1,8 @@
+{
+    "helper::script::environment": [
+        "http_proxy=http://localhost:8123/",
+        "HTTP_PROXY=http://localhost:8123/",
+        "HTTPS_PROXY=http://localhost:8123/",
+        "https_proxy=http://localhost:8123/"
+    ]
+}
