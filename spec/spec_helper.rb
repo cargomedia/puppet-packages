@@ -26,6 +26,7 @@ end
 RSpec.configure do |c|
 
   debug = ENV['debug']
+  keep_box = ENV['keep_box']
   c.add_setting :before_files
   c.before_files = []
   root_dir = Dir.getwd
@@ -37,7 +38,7 @@ RSpec.configure do |c|
       c.before_files.push file
       c.ssh.close if c.ssh
 
-      vagrant_helper.reset
+      vagrant_helper.reset unless keep_box
       c.ssh = vagrant_helper.connect
       spec_dir = Dir.new File.dirname file
 
