@@ -1,8 +1,28 @@
 #!/bin/bash -e
 
+usage() { echo "Usage: $0 -h <host> -d <destination>" 1>&2; exit 1; }
+
+while getopts "h:d:" o; do
+    case "${o}" in
+        h)
+            HOST=${OPTARG}
+            ;;
+        d)
+            BACKUP_PATH=${OPTARG}
+            ;;
+        *)
+            usage
+            ;;
+    esac
+done
+shift $((OPTIND-1))
+
+if [ -z "${HOST}" ] || [ -z "${BACKUP_PATH}" ]; then
+    usage
+fi
+
+
 PATH='/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin'
-HOST="<%= @host %>"
-BACKUP_PATH='<%= @destination %>'
 LAST_24_HRS=$(($(date +'%s')-86400))
 STATUS=0
 
