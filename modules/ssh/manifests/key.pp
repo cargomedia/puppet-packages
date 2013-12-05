@@ -1,7 +1,8 @@
 define ssh::key (
-  $id = $title,
   $user,
-  $content
+  $content,
+  $id = $title,
+  $fqdn = undef
 ) {
 
   require 'ssh'

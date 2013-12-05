@@ -1,20 +1,23 @@
 define ssh::pair (
   $id,
-  $user
+  $user,
+  $fqdn
 ) {
 
   $keys = generate_sshkey($id)
 
   @@ssh::key {$title:
-    id => $id,
     user => $user,
     content => $keys[private],
+    id => $id,
+    fqdn => $fqdn,
   }
 
   @@ssh::key {"${title}.pub":
-    id => $id,
     user => $user,
     content => $keys[public],
+    id => $id,
+    fqdn => $fqdn,
   }
 
   @@ssh::authorized_key {$title:
