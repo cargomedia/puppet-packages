@@ -5,6 +5,3 @@ chmod +x WowzaMediaServer.deb.bin
 echo yes | ./WowzaMediaServer.deb.bin
 
 echo '<%= @license %>' > /usr/local/WowzaMediaServer/conf/Server.license
-
-chown -R wowza: /usr/local/WowzaMediaServer $(readlink /usr/local/WowzaMediaServer)
-chmod -R 755 $(readlink /usr/local/WowzaMediaServer)
