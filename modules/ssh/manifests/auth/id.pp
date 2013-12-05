@@ -6,8 +6,9 @@ define ssh::auth::id (
   @@ssh::pair {"${title}@${fqdn}":
     id => $id,
     user => $user,
+    fqdn => $fqdn,
   }
 
-  Ssh::Key <<| id == $id |>>
-  Ssh::Key <<| id == "${id}.pub" |>>
+  Ssh::Key <<| fqdn == $fqdn and id == $id |>>
+  Ssh::Key <<| fqdn == $fqdn and id == "${id}.pub" |>>
 }
