@@ -18,8 +18,8 @@
             <RMIConnectionPort>8084</RMIConnectionPort>
             <RMIRegistryPort>8085</RMIRegistryPort>
             <Authenticate>true</Authenticate>
-            <PasswordFile><%= @cm_conf_dir %>/jmxremote.password</PasswordFile>
-            <AccessFile><%= @cm_conf_dir %>/jmxremote.access</AccessFile>
+            <PasswordFile><%= @dir %>/conf/jmxremote.password</PasswordFile>
+            <AccessFile><%= @dir %>/conf/jmxremote.access</AccessFile>
             <SSLSecure>false</SSLSecure>
         </JMXRemoteConfiguration>
         <UserAgents>Shockwave Flash|CFNetwork|MacNetwork/1.0 (Macintosh)</UserAgents>

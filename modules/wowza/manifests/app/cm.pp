@@ -3,7 +3,6 @@ class wowza::app::cm (
   $port = 1935,
   $port_rpc = 8086,
   $dir = '/usr/local/cargomedia/wowza',
-  $cm_conf_dir = '/usr/local/cargomedia/wowza/conf',
   $wowza_conf_dir = '/usr/local/WowzaMediaServer/conf',
   $archive_dir = '/home/fuckbook/shared/userfiles/streamChannels',
   $rpc_url = 'https://localhost/rpc/null',
@@ -15,7 +14,7 @@ class wowza::app::cm (
   require 'wowza::jar::cm-wowza'
 
   exec {'install paths':
-    command => "mkdir -p ${dir} ${cm_conf_dir} ${dir}/content ${dir}/applications/videchat ${archive_dir}",
+    command => "mkdir -p ${dir}/conf ${dir}/content ${dir}/applications/videchat ${archive_dir}",
     creates => $dir,
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     user => 'wowza',
@@ -44,7 +43,7 @@ class wowza::app::cm (
   ->
 
   # video chat application
-  file {"${cm_conf_dir}/videochat":
+  file {"${dir}/conf/videochat":
     ensure => directory,
     owner => 'wowza',
     group => 'wowza',
@@ -52,7 +51,7 @@ class wowza::app::cm (
   }
   ->
 
-  file {"${cm_conf_dir}/videochat/Application.xml":
+  file {"${dir}/conf/videochat/Application.xml":
     ensure => file,
     content => template('wowza/app/cm/wowza/conf/videochat/Application.xml'),
     owner => 'wowza',
@@ -63,7 +62,7 @@ class wowza::app::cm (
   ->
 
   # cm application configuration
-  file {"${cm_conf_dir}/Authentication.xml":
+  file {"${dir}/conf/Authentication.xml":
     ensure => file,
     content => template('wowza/app/cm/wowza/conf/Authentication.xml'),
     owner => 'wowza',
@@ -73,7 +72,7 @@ class wowza::app::cm (
   }
   ->
 
-  file {"${cm_conf_dir}/DVR.xml":
+  file {"${dir}/conf/DVR.xml":
     ensure => file,
     content => template('wowza/app/cm/wowza/conf/DVR.xml'),
     owner => 'wowza',
@@ -83,7 +82,7 @@ class wowza::app::cm (
   }
   ->
 
-  file {"${cm_conf_dir}/HTTPStreamers.xml":
+  file {"${dir}/conf/HTTPStreamers.xml":
     ensure => file,
     content => template('wowza/app/cm/wowza/conf/HTTPStreamers.xml'),
     owner => 'wowza',
@@ -93,7 +92,7 @@ class wowza::app::cm (
   }
   ->
 
-  file {"${cm_conf_dir}/jmxremote.access":
+  file {"${dir}/conf/jmxremote.access":
     ensure => file,
     content => $jmxremote_access,
     owner => 'wowza',
@@ -103,7 +102,7 @@ class wowza::app::cm (
   }
   ->
 
-  file {"${cm_conf_dir}/jmxremote.password":
+  file {"${dir}/conf/jmxremote.password":
     ensure => file,
     content => $jmxremote_passwd,
     owner => 'wowza',
@@ -113,7 +112,7 @@ class wowza::app::cm (
   }
   ->
 
-  file {"${cm_conf_dir}/LiveStreamPacketizers.xml":
+  file {"${dir}/conf/LiveStreamPacketizers.xml":
     ensure => file,
     content => template('wowza/app/cm/wowza/conf/LiveStreamPacketizers.xml'),
     owner => 'wowza',
@@ -123,7 +122,7 @@ class wowza::app::cm (
   }
   ->
 
-  file {"${cm_conf_dir}/LiveStreamTranscoders.xml":
+  file {"${dir}/conf/LiveStreamTranscoders.xml":
     ensure => file,
     content => template('wowza/app/cm/wowza/conf/LiveStreamTranscoders.xml'),
     owner => 'wowza',
@@ -133,7 +132,7 @@ class wowza::app::cm (
   }
   ->
 
-  file {"${cm_conf_dir}/log4j.properties":
+  file {"${dir}/conf/log4j.properties":
     ensure => file,
     content => template('wowza/app/cm/wowza/conf/log4j.properties'),
     owner => 'wowza',
@@ -143,7 +142,7 @@ class wowza::app::cm (
   }
   ->
 
-  file {"${cm_conf_dir}/MediaCasters.xml":
+  file {"${dir}/conf/MediaCasters.xml":
     ensure => file,
     content => template('wowza/app/cm/wowza/conf/MediaCasters.xml'),
     owner => 'wowza',
@@ -153,7 +152,7 @@ class wowza::app::cm (
   }
   ->
 
-  file {"${cm_conf_dir}/MediaReaders.xml":
+  file {"${dir}/conf/MediaReaders.xml":
     ensure => file,
     content => template('wowza/app/cm/wowza/conf/MediaReaders.xml'),
     owner => 'wowza',
@@ -163,7 +162,7 @@ class wowza::app::cm (
   }
   ->
 
-  file {"${cm_conf_dir}/MediaWriters.xml":
+  file {"${dir}/conf/MediaWriters.xml":
     ensure => file,
     content => template('wowza/app/cm/wowza/conf/MediaWriters.xml'),
     owner => 'wowza',
@@ -173,7 +172,7 @@ class wowza::app::cm (
   }
   ->
 
-  file {"${cm_conf_dir}/MP3Tags.xml":
+  file {"${dir}/conf/MP3Tags.xml":
     ensure => file,
     content => template('wowza/app/cm/wowza/conf/MP3Tags.xml'),
     owner => 'wowza',
@@ -183,7 +182,7 @@ class wowza::app::cm (
   }
   ->
 
-  file {"${cm_conf_dir}/RTP.xml":
+  file {"${dir}/conf/RTP.xml":
     ensure => file,
     content => template('wowza/app/cm/wowza/conf/RTP.xml'),
     owner => 'wowza',
@@ -193,7 +192,7 @@ class wowza::app::cm (
   }
   ->
 
-  file {"${cm_conf_dir}/StartupStreams.xml":
+  file {"${dir}/conf/StartupStreams.xml":
     ensure => file,
     content => template('wowza/app/cm/wowza/conf/StartupStreams.xml'),
     owner => 'wowza',
@@ -203,7 +202,7 @@ class wowza::app::cm (
   }
   ->
 
-  file {"${cm_conf_dir}/Streams.xml":
+  file {"${dir}/conf/Streams.xml":
     ensure => file,
     content => template('wowza/app/cm/wowza/conf/Streams.xml'),
     owner => 'wowza',
@@ -213,7 +212,7 @@ class wowza::app::cm (
   }
   ->
 
-  file {"${cm_conf_dir}/VHost.xml":
+  file {"${dir}/conf/VHost.xml":
     ensure => file,
     content => template('wowza/app/cm/wowza/conf/VHost.xml'),
     owner => 'wowza',
