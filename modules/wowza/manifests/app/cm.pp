@@ -2,7 +2,6 @@ class wowza::app::cm (
   $port = 1935,
   $port_rpc = 8086,
   $dir = '/usr/local/cargomedia/wowza',
-  $wowza_conf_dir = '/usr/local/WowzaMediaServer/conf',
   $archive_dir = '/home/default/shared/userfiles/streamChannels',
   $rpc_url = 'https://localhost/rpc/null',
   $jmxremote_access = ['monitor readonly'],
@@ -21,7 +20,7 @@ class wowza::app::cm (
   ->
 
   # wowza configuration
-  file {"${wowza_conf_dir}/Server.xml":
+  file {"/usr/local/WowzaMediaServer/conf/Server.xml":
     ensure => file,
     content => template('wowza/app/cm/Server.xml'),
     owner => 'wowza',
@@ -31,7 +30,7 @@ class wowza::app::cm (
   }
   ->
 
-  file {"${wowza_conf_dir}/VHosts.xml":
+  file {"/usr/local/WowzaMediaServer/conf/VHosts.xml":
     ensure => file,
     content => template('wowza/app/cm/VHosts.xml'),
     owner => 'wowza',
