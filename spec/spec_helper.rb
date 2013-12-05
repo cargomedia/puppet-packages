@@ -52,7 +52,7 @@ RSpec.configure do |c|
               :datadir => '/vagrant'
           },
           :hierarchy => [
-              Pathname.new(File.join(spec_dir.to_path, 'hiera')).relative_path_from(Pathname.new(root_dir)),
+              Pathname.new(File.join(spec_dir.to_path, 'hiera')).relative_path_from(Pathname.new(root_dir)).to_s,
               'spec/hiera'
           ]
       }
