@@ -1,14 +1,14 @@
 class cacti::server (
-  $hostname     = $cacti::params::hostname,
-  $port         = $cacti::params::port,
-  $port_ssl     = $cacti::params::port_ssl,
-  $db_host      = $cacti::params::db_host,
-  $db_port      = $cacti::params::db_port,
-  $db_name      = $cacti::params::db_name,
-  $db_user      = $cacti::params::db_user,
-  $db_password  = $cacti::params::db_password,
-  $ssl_cert     = $cacti::params::ssl_pem,
-  $htpasswd     = $cacti::params::htpasswd
+  $hostname     = 'localhost',
+  $port         = 80,
+  $port_ssl     = 443,
+  $db_host      = '%',
+  $db_port      = 3306,
+  $db_name      = 'cacti',
+  $db_user      = 'cacti',
+  $db_password  = 'password',
+  $ssl_cert     = 'no key',
+  $htpasswd     = 'password'
 ) inherits cacti::params {
 
   require 'snmp'
@@ -19,10 +19,8 @@ class cacti::server (
   class {'cacti::package':
   }
 
-  class {'cacti::helper::mysql-user':
-    host      => $db_host,
-    user      => $db_user,
-    password  => $db_password,
+  mysql::user {"${db_user}@${db_host}":
+    password => $db_password,
     require   => Class['cacti::package'],
   }
 
