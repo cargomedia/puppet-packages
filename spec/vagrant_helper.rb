@@ -9,8 +9,11 @@ class VagrantHelper
     if @verbose
       puts 'Vagrant: ' + subcommand + (env.length > 0 ? ' (' + env.to_s + ')' : '')
     end
+    env_backup = ENV.to_hash
     env.each {|key, value| ENV[key] = value }
-    `cd #{@working_dir} && vagrant #{subcommand}`
+    output = `cd #{@working_dir} && vagrant #{subcommand}`
+    ENV.replace(env_backup)
+    output
   end
 
   def reset
