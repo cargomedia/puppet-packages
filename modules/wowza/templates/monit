@@ -1,0 +1,4 @@
+check process wowza with pidfile /var/run/wowza.pid
+    start program = "/etc/init.d/wowza start"
+    stop program  = "/etc/init.d/wowza stop"
+    if 25 restarts within 50 cycles then timeout

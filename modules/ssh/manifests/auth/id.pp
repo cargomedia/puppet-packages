@@ -1,9 +1,13 @@
-define ssh::auth::id ($user) {
+define ssh::auth::id (
+  $id = $title,
+  $user
+) {
 
-  @@ssh::pair {$name:
+  @@ssh::pair {"${title}@${fqdn}":
+    id => $id,
     user => $user,
   }
 
-  Ssh::Key <<| title == $title |>>
-  Ssh::Key <<| title == "${title}.pub" |>>
+  Ssh::Key <<| id == $id |>>
+  Ssh::Key <<| id == "${id}.pub" |>>
 }

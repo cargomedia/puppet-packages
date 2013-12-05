@@ -4,6 +4,9 @@ require 'puppet-lint/tasks/puppet-lint'
 require 'pathname'
 
 PuppetLint.configuration.send('disable_arrow_alignment')
+PuppetLint.configuration.send('disable_80chars')
+PuppetLint.configuration.send('disable_documentation')
+PuppetLint.configuration.ignore_paths = ["**/templates/**/*.pp"]
 
 RSpec::Core::RakeTask.new(:test) do |t|
   t.pattern = 'modules/*/spec/*/spec.rb'
@@ -41,5 +44,5 @@ end
 
 desc 'puppet validate'
 task :validate do
-  sh 'puppet parser validate $(find modules/ -name *.pp)'
+  sh 'puppet parser validate $(find modules -name "*.pp" -not -path "*/templates/*")'
 end

@@ -1,6 +1,9 @@
 class network::hostname(
-  $fqdn
+  $fqdn = $fqdn
 ) {
+
+  include 'network::host::purge'
+
   $hostname = regsubst($fqdn, '^([^.]*).*$', '\1')
 
   network::host {$fqdn:
@@ -8,7 +11,8 @@ class network::hostname(
     aliases => $hostname ? {
       $fqdn => ['localhost'],
       default => [$hostname, 'localhost']
-    }
+    },
+    before => Class['network::host::purge'],
   }
 
   file {'/etc/mailname':

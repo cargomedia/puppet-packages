@@ -1,0 +1,3 @@
+<% @jmxremote_access.each do |user_access| -%>
+<%= user_access %>
+<% end %>
