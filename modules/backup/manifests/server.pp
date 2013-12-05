@@ -1,16 +1,12 @@
-class backup::server (
-  $type = $rdiff::params::type
-) inherits backup::params {
+class backup::server(
+  $id
+) {
 
-  include 'backup'
+  require 'rdiff-backup'
 
-  case $type {
-    'rdiff': {
-      include 'backup::base::rdiff'
-    }
-    default: {
-      fail ("Unknown backup type ${type}!")
-    }
+  ssh::auth::grant {"root@${fqdn} for backup-agent@${id}":
+    id => "backup-agent@${id}",
+    user => 'root',
   }
 
 }

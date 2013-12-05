@@ -1,8 +1,8 @@
 node default {
 
-  class {'puppet::agent':
-    tag => 'bootstrap',
-  }
+<% @bootstrap_classes.each do |bootstrap_class| -%>
+  class {'<%= bootstrap_class %>': tag => 'bootstrap'}
+<% end %>
 
   include hiera_array('classes', [])
 }

@@ -3,6 +3,7 @@ define apt::key (
   $key,
   $key_url = undef,
   $key_server = undef,
+  $key_content = undef
 ) {
   require 'apt'
 
@@ -10,8 +11,8 @@ define apt::key (
 
   case $ensure {
     present: {
-      if !$key_server and !$key_url {
-        fail "[apt::key] key_url or key_server is needed for ensure => present"
+      if !$key_server and !$key_url and !$key_content {
+        fail "[apt::key] key_url or key_server or key_content is needed for ensure => present"
       }
       if ($key_url) {
         exec { "Add deb signature key for $name":
@@ -29,6 +30,16 @@ define apt::key (
           unless    => $condition,
           logoutput => 'on_failure',
           notify    => Exec['apt_update']
+        }
+      }
+      if ($key_content) {
+        file {"/etc/apt/trusted.gpg.d/${name}":
+          ensure => file,
+          content => $key_content,
+          owner  => 0,
+          group  => 0,
+          mode   => '0644',
+          notify => Exec['apt_update'],
         }
       }
     }

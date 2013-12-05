@@ -2,6 +2,7 @@ require 'serverspec'
 require 'net/ssh'
 require 'vagrant_helper'
 require 'yaml'
+require 'pathname'
 
 include Serverspec::Helper::Ssh
 include Serverspec::Helper::DetectOS
@@ -27,7 +28,8 @@ RSpec.configure do |c|
   debug = ENV['debug']
   c.add_setting :before_files
   c.before_files = []
-  vagrant_helper = VagrantHelper.new(Dir.getwd, true)
+  root_dir = Dir.getwd
+  vagrant_helper = VagrantHelper.new(root_dir, true)
 
   c.before :all do
     file = self.get_file
@@ -46,18 +48,21 @@ RSpec.configure do |c|
 
       hiera_config = {
           :backends => ['json'],
-          :hierarchy => ['hiera'],
           :json => {
-              :datadir => vagrant_helper.get_path(spec_dir.to_path)
-          }
+              :datadir => '/vagrant'
+          },
+          :hierarchy => [
+              Pathname.new(File.join(spec_dir.to_path, 'hiera')).relative_path_from(Pathname.new(root_dir)).to_s,
+              'spec/hiera'
+          ]
       }
-      hiera_command = "echo #{hiera_config.to_yaml.shellescape} > /etc/hiera.yml"
+      hiera_command = "echo #{hiera_config.to_yaml.shellescape} > /etc/hiera.yaml"
       vagrant_helper.exec("sudo bash -c #{hiera_command.shellescape}")
 
       spec_dir.sort.each do |local_file|
         next unless File.extname(local_file) == '.pp'
         vagrant_manifest_path = vagrant_helper.get_path spec_dir.to_path + '/' + local_file
-        command = "sudo puppet apply --verbose --modulepath '/etc/puppet/modules:/vagrant/modules' #{vagrant_manifest_path.shellescape} --hiera_config=/etc/hiera.yml"
+        command = "sudo puppet apply --verbose --modulepath '/etc/puppet/modules:/vagrant/modules' #{vagrant_manifest_path.shellescape} --hiera_config=/etc/hiera.yaml"
         command += ' --debug' if debug
         begin
           puts

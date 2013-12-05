@@ -4,7 +4,11 @@ class puppet::master (
   $reportToEmail = 'root',
   $puppetdb = false,
   $puppetdb_port = 8080,
-  $puppetdb_port_ssl = 8081
+  $puppetdb_port_ssl = 8081,
+  $bootstrap_classes = [
+    'puppet::agent',
+    'monit' # See https://github.com/cargomedia/puppet-packages/issues/232
+  ]
 ) {
 
   require 'ssh::auth::keyserver'
