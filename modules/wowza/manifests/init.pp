@@ -22,7 +22,7 @@ class wowza (
 
   file {'/etc/init.d/wowza':
     ensure => file,
-    content => template('wowza/init.d'),
+    content => template('wowza/init'),
     owner => 'wowza',
     group => 'wowza',
     mode => '0755',
