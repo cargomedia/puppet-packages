@@ -34,7 +34,7 @@ class cacti::server (
 
   file {'/etc/cacti/htpasswd':
     ensure  => file,
-    content => $htpasswd,
+    content => htpasswd($htpasswd),
     require => Class['cacti::package'],
   }
 

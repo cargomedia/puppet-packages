@@ -1,6 +1,6 @@
 node default {
 
-  $htpasswd = 'user:{SHA}u8MqnSlLOFch2kn5EnyvXsO9Gmk='
+  $htpasswd = 'mypassword'
 
   $ssl_cert = '-----BEGIN RSA PRIVATE KEY-----
 MIIEpgIBAAKCAQEAsm4YmILMCcrwTq5zf0EoWtYvljEqGA/8iDaYJb82zA1gBIZw

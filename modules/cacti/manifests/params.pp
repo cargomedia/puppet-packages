@@ -59,7 +59,7 @@ class cacti::params {
   }
 
   $htpasswd = $::htpasswd ? {
-    undef   => undef,
+    undef   => 'password',
     default => $::htpasswd,
   }
 
