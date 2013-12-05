@@ -234,8 +234,8 @@ class wowza::app::cm (
   }
 
   cron {"${name} cleanup content":
-    command => "wowza find ${dir}/content -type f -mtime +1 -exec rm {}",
-    user    => 'root',
+    command => "find ${dir}/content -type f -mtime +1 -exec rm {}",
+    user    => 'wowza',
     minute  => 30,
   }
 
