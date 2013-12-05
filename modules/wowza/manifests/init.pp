@@ -16,7 +16,6 @@ class wowza (
     content => template('wowza/install.sh'),
     unless => "(test -x /usr/bin/WowzaMediaServerd) && (dpkg -l | grep -q '^ii.* wowzamediaserver-${version}')",
     timeout => 900,
-    user => 'wowza',
     require => User['wowza'],
   }
 
