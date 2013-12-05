@@ -16,6 +16,10 @@ describe file('/usr/local/WowzaMediaServer/lib/ch.cargomedia.wms-0.0.1.jar') do
   it { should be_file }
 end
 
+describe command('jar tf /usr/local/WowzaMediaServer/lib/ch.cargomedia.wms-0.0.1.jar') do
+  it { should return_exit_status 0 }
+end
+
 describe file('/etc/monit/conf.d/wowza') do
   it { should be_file }
 end
