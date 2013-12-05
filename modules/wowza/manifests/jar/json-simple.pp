@@ -5,6 +5,7 @@ class wowza::jar::json-simple($version = '1.1.1') {
   helper::script {'install wowza:jar json-simple':
     content => template('wowza/jar/simple-json.sh'),
     unless => "test -f /usr/local/WowzaMediaServer/lib/json-simple-${version}.jar",
+    user => 'wowza',
   }
 
 }
