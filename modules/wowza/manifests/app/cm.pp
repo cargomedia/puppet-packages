@@ -6,8 +6,8 @@ class wowza::app::cm (
   $wowza_conf_dir = '/usr/local/WowzaMediaServer/conf',
   $archive_dir = '/home/default/shared/userfiles/streamChannels',
   $rpc_url = 'https://localhost/rpc/null',
-  $jmxremote_access = undef,
-  $jmxremote_passwd = undef
+  $jmxremote_access = ['monitor readonly'],
+  $jmxremote_passwd = ['monitor mypassword']
 ) {
 
   require 'wowza'
@@ -94,7 +94,7 @@ class wowza::app::cm (
 
   file {"${dir}/conf/jmxremote.access":
     ensure => file,
-    content => $jmxremote_access,
+    content => template('wowza/app/cm/wowza/conf/jmxremote.access'),
     owner => 'wowza',
     group => 'wowza',
     mode => '0755',
@@ -104,7 +104,7 @@ class wowza::app::cm (
 
   file {"${dir}/conf/jmxremote.password":
     ensure => file,
-    content => $jmxremote_passwd,
+    content => template('wowza/app/cm/wowza/conf/jmxremote.password'),
     owner => 'wowza',
     group => 'wowza',
     mode => '0755',
