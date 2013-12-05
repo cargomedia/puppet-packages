@@ -16,12 +16,16 @@ class wowza (
     content => template('wowza/install.sh'),
     unless => "(test -x /usr/bin/WowzaMediaServerd) && (dpkg -l | grep -q '^ii.* wowzamediaserver-${version}')",
     timeout => 900,
+    user => 'wowza',
     require => User['wowza'],
   }
 
   file {'/etc/init.d/wowza':
     ensure => file,
     content => template('wowza/init.d'),
+    owner => 'wowza',
+    group => 'wowza',
+    mode => '0755',
   }
 
   @monit::entry {'wowza':
