@@ -5,29 +5,28 @@ describe package('rdiff-backup') do
 end
 
 
-describe file('/usr/local/bin/backup-my-lvm.sh') do
+describe file('/usr/local/bin/backup-create.sh') do
   it { should be_file }
-  its(:content) { should match /ORIG_VOLUME=".*dev.*vg01.*storage01"/ }
 end
 
-describe file('/usr/local/bin/backup-check-my-lvm.sh') do
+describe file('/usr/local/bin/backup-check.sh') do
   it { should be_file }
+end
+
+
+describe cron do
+  it { should have_entry("30 8 * * * /usr/local/bin/backup-create.sh -h 'localhost' -s '/dev/vg01/storage01' -d '/home/backup/shared' -o '--no-eas --no-file-statistics --no-carbonfile --no-acls --no-compare-inode' -t 'lvm'").with_user('root') }
 end
 
 describe cron do
-  it { should have_entry('30 8 * * * /usr/local/bin/backup-my-lvm.sh').with_user('root') }
+  it { should have_entry("10 3 * * * /usr/local/bin/backup-check.sh -h 'localhost' -d '/home/backup/shared'").with_user('root') }
 end
 
 
-describe file('/usr/local/bin/backup-my-mysql.sh') do
-  it { should be_file }
-  its(:content) { should match /.*var.*lib.*mysql/ }
-end
-
-describe file('/usr/local/bin/backup-check-my-mysql.sh') do
-  it { should be_file }
+describe cron do
+  it { should have_entry("10 5 * * * /usr/local/bin/backup-create.sh -h 'localhost' -s '/var/lib/mysql' -d '/home/backup/db' -o '--no-eas --no-file-statistics --no-carbonfile --no-acls --no-compare-inode' -t 'mysql'").with_user('root') }
 end
 
 describe cron do
-  it { should have_entry('10 5 * * * /usr/local/bin/backup-my-mysql.sh').with_user('root') }
+  it { should have_entry("10 3 * * * /usr/local/bin/backup-check.sh -h 'localhost' -d '/home/backup/db'").with_user('root') }
 end
