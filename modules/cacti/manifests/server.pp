@@ -9,7 +9,7 @@ class cacti::server (
   $db_password  = 'password',
   $ssl_cert     = 'no key',
   $htpasswd     = 'password'
-) inherits cacti::params {
+) {
 
   require 'snmp'
   require 'cacti'

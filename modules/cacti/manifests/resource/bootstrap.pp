@@ -1,8 +1,8 @@
 class cacti::resource::bootstrap (
-  $deploy_dir = $cacti::params::deploy_dir,
-  $db_sense_user = $cacti::params::db_sense_user,
-  $db_sense_password = $cacti::params::db_sense_password
-) inherits cacti::params {
+  $deploy_dir = undef,
+  $db_sense_user = 'cacti-sense',
+  $db_sense_password = 'password'
+) {
 
   require 'cacti::resource::template::bootstrap'
 
