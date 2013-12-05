@@ -4,7 +4,7 @@ class wowza::app::cm (
   $port_rpc = 8086,
   $dir = '/usr/local/cargomedia/wowza',
   $wowza_conf_dir = '/usr/local/WowzaMediaServer/conf',
-  $archive_dir = '/home/fuckbook/shared/userfiles/streamChannels',
+  $archive_dir = '/home/default/shared/userfiles/streamChannels',
   $rpc_url = 'https://localhost/rpc/null',
   $jmxremote_access = undef,
   $jmxremote_passwd = undef
