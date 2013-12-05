@@ -5,31 +5,29 @@ class VagrantHelper
     @verbose = verbose
   end
 
-  def command(subcommand)
-    puts 'Vagrant: ' + subcommand if @verbose
+  def command(subcommand, env = {})
+    if @verbose
+      puts 'Vagrant: ' + subcommand + (env.length > 0 ? ' (' + env.to_s + ')' : '')
+    end
+    env.each {|key, value| ENV[key] = value }
     `cd #{@working_dir} && vagrant #{subcommand}`
-  end
-
-  def is_running?
-    command('status').match(/running/)
   end
 
   def reset
     has_snapshot = system('vagrant snapshot list 2>/dev/null | grep -q "Name: default "')
+    is_running = command('status').match(/running/)
 
-    actions = []
     unless has_snapshot
-      actions.push('destroy -f')
-      actions.push('up')
-      actions.push('snapshot take default')
+      command 'destroy -f'
+      command 'up --no-provision'
+      command 'provision', {'DISABLE_PROXY' => 'true'}
+      command 'provision'
+      command 'snapshot take default'
     end
-    unless is_running?
-      actions.push('up')
+    unless is_running
+      command 'up'
     end
-    actions.push('snapshot go default')
-    actions.each do |action|
-      command action
-    end
+    command 'snapshot go default'
   end
 
   def connect
