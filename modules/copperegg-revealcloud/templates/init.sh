@@ -1,4 +1,5 @@
 #!/bin/sh
+<% require 'shellwords' %>
 
 ### BEGIN INIT INFO
 # Provides:				revealcloud
@@ -16,7 +17,7 @@ DAEMON=<%= @dir %>/revealcloud
 PIDDIR=<%= @dir %>/run
 PIDFILE=$PIDDIR/revealcloud.pid
 DAEMON_ARGS="-d -a $API_HOST -k $API_KEY $PROXY_SETTING $OOM_SETTING $UUID_SETTING $REVEALCLOUD_COMPRESS $TAG_SETTING $LABEL_SETTING -P $REVEALCLOUD_RUNDIR $REVEALCLOUD_EXTRA_ARGS"
-DAEMON_ARGS="-d -a <%= @api_host %> -k <%= @api_key %> -P $PIDDIR"
+DAEMON_ARGS="-d -a <%= @api_host.shellescape %> -k <%= @api_key.shellescape %> -P $PIDDIR -l <%= @label.shellescape %>"
 USER=revealcloud
 
 test -x ${DAEMON} || exit 0
