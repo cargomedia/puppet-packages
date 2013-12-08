@@ -67,8 +67,16 @@ class copperegg-revealcloud(
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
+  ~>
+
+  exec {'revealcloud enable node':
+    command => "/etc/init.d/revealcloud stop && ${dir}/revealcloud -x -a ${api_host} -k ${api_key} -E && /etc/init.d/revealcloud start",
+    refreshonly => true,
+    user => 'revealcloud',
+    group => 'revealcloud',
+    before => Service['revealcloud'],
+  }
 
   service {'revealcloud':
-    hasstatus => false,
   }
 }
