@@ -5,14 +5,14 @@ class copperegg-revealcloud(
   $version = 'v3.3-9-g06271da'
 ) {
 
+  $dir = '/usr/local/revealcloud'
+  $api_host = 'api.copperegg.com'
+
   case $architecture {
     i386: { $url = "http://cdn.copperegg.com/revealcloud/${version}/linux-2.6/i386/revealcloud" }
     amd64: { $url = "http://cdn.copperegg.com/revealcloud/${version}/linux-2.6/x86_64/revealcloud" }
     default: { fail('Unrecognized architecture') }
   }
-
-  $dir = '/usr/local/revealcloud'
-  $api_host = 'api.copperegg.com'
 
   user {'revealcloud':
     ensure => present,
