@@ -13,7 +13,6 @@ class copperegg-revealcloud(
 
   $dir = '/usr/local/revealcloud'
   $api_host = 'api.copperegg.com'
-  $tagsString = join($tags, ',')
 
   user {'revealcloud':
     ensure => present,
