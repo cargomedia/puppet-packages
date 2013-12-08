@@ -48,6 +48,8 @@ class copperegg-revealcloud(
   exec {'download revealcloud':
     command => "curl -sL '${url}' > ${dir}/revealcloud && chmod 0755 ${dir}/revealcloud",
     unless => "test -x ${dir}/revealcloud && ${dir}/revealcloud -V 2>&1 | grep 'Version: ${version}$'",
+    user => 'revealcloud',
+    group => 'revealcloud',
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     notify => Service['revealcloud'],
   }
