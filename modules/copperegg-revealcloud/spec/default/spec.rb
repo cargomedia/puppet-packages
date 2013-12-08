@@ -1,5 +1,5 @@
 require 'spec_helper'
 
-describe file('/usr/local/revealcloud/revealcloud') do
-  it { should be_file }
+describe command('/usr/local/revealcloud/revealcloud -V') do
+  it { should return_exit_status 0 }
 end
