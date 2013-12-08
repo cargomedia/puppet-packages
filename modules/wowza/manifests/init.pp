@@ -25,6 +25,13 @@ class wowza (
     owner => 'wowza',
     group => 'wowza',
     mode => '0755',
+    notify => Service['wowza'],
+  }
+  ~>
+
+  exec {'update-rc.d wowza defaults':
+    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    refreshonly => true,
   }
 
   @monit::entry {'wowza':
