@@ -6,8 +6,6 @@ class copperegg-revealcloud(
   $enable_node = true
 ) {
 
-  include 'copperegg-revealcloud::manage_node'
-
   $dir = '/usr/local/revealcloud'
   $api_host = 'api.copperegg.com'
 
@@ -72,6 +70,15 @@ class copperegg-revealcloud(
   }
 
   if $enable_node {
+    exec {'enable revealcloud node':
+      command => "/etc/init.d/revealcloud stop && ${dir}/revealcloud -x -a ${api_host} -k ${api_key} -E && /etc/init.d/revealcloud start",
+      refreshonly => true,
+      user => 'revealcloud',
+      group => 'revealcloud',
+      require => File['/etc/init.d/revealcloud'],
+      before => Service['revealcloud'],
+    }
+
     Exec['update-rc.d revealcloud defaults'] ~> Exec['enable revealcloud node']
   }
 
