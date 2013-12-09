@@ -4,7 +4,7 @@ class apt::update(
 
   require 'apt'
 
-  $arguments = join(prefix($options, '-o '), ' ')
+  $arguments = parse_apt_opts($options)
 
   exec { 'apt_update':
     path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
