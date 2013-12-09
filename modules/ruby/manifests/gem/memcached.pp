@@ -1,11 +1,11 @@
-class ruby::gem::memcache {
+class ruby::gem::memcached {
 
   package {'libsasl2-dev':
     ensure => present
   }
   ->
 
-  ruby::gem {'memcache':
+  ruby::gem {'memcached':
     ensure => present,
   }
 }
