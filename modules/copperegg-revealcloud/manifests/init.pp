@@ -2,8 +2,11 @@ class copperegg-revealcloud(
   $api_key,
   $label = $fqdn,
   $tags = [],
-  $version = 'v3.3-9-g06271da'
+  $version = 'v3.3-9-g06271da',
+  $enable_node = true
 ) {
+
+  include 'copperegg-revealcloud::manage_node'
 
   $dir = '/usr/local/revealcloud'
   $api_host = 'api.copperegg.com'
@@ -67,14 +70,9 @@ class copperegg-revealcloud(
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
-  ~>
 
-  exec {'revealcloud enable node':
-    command => "/etc/init.d/revealcloud stop && ${dir}/revealcloud -x -a ${api_host} -k ${api_key} -E && /etc/init.d/revealcloud start",
-    refreshonly => true,
-    user => 'revealcloud',
-    group => 'revealcloud',
-    before => Service['revealcloud'],
+  if $enable_node {
+    Exec['update-rc.d revealcloud defaults'] ~> Exec['enable revealcloud node']
   }
 
   service {'revealcloud':
