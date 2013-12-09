@@ -1,7 +1,7 @@
 node default {
 
-  class {'copperegg-agents':
-    api_key => 'my_key',
+  class {'copperegg_agents':
+    api_key => 'mykey',
     frequency => 5,
     services => {
       "memcached" => {

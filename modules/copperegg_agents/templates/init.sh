@@ -13,9 +13,9 @@
 NAME=copperegg_agents
 DESC=copperegg_agents
 DAEMON=/usr/bin/copperegg_agents
-PIDFILE=/var/run/copperegg-agent.pid
-DAEMON_ARGS="-c /etc/copperegg-agents.yml"
-USER=root
+PIDFILE=/var/run/copperegg_agent.pid
+DAEMON_ARGS="-c /etc/copperegg_agents.yml"
+USER=copperegg_agents
 
 test -x ${DAEMON} || exit 0
 set -e
@@ -25,7 +25,7 @@ set -e
 case "${1}" in
 	start)
 		log_daemon_msg "Starting ${DESC}" "${NAME}"
-		if (start-stop-daemon --start --startas $DAEMON --pidfile $PIDFILE --chuid $USER -- $DAEMON_ARGS > /var/log/copperegg-agents.log 2>&1 ); then
+		if (start-stop-daemon --start --startas $DAEMON --pidfile $PIDFILE --make-pidfile --chuid $USER -- $DAEMON_ARGS > /var/log/copperegg_agents.log 2>&1 ); then
 			log_end_msg 0
 		else
 			log_end_msg 1
