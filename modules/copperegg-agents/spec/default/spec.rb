@@ -4,11 +4,12 @@ describe command('/usr/bin/copperegg_agents -v') do
   it { should return_exit_status 0 }
 end
 
-describe command('/etc/init.d/copperegg_agents') do
+describe file('/etc/init.d/copperegg-agents') do
   it { should be_file }
 end
 
-describe file('/etc/copperegg_agents.yml') do
+describe file('/etc/copperegg-agents.yml') do
   it { should be_file }
-  its(:stdout) { should match /services:(.*)memcached:(.*)servers:(.*)hostname/ }
+  its(:content) { should match 'memcached:' }
+  its(:content) { should match 'apache:' }
 end

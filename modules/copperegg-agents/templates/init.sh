@@ -10,12 +10,12 @@
 # Description:			Copperegg Agent Plugin for CopperEgg RevealCloud collector
 ### END INIT INFO
 
-NAME=copperegg_agent
-DESC=copperegg_agent
-DAEMON=/usr/bin/copperegg_agent
-PIDFILE=/var/run/copperegg_agent.pid
-DAEMON_ARGS="-c /etc/copperegg_agent.yml"
-USER=revealcloud
+NAME=copperegg_agents
+DESC=copperegg_agents
+DAEMON=/usr/bin/copperegg_agents
+PIDFILE=/var/run/copperegg-agent.pid
+DAEMON_ARGS="-c /etc/copperegg-agents.yml"
+USER=root
 
 test -x ${DAEMON} || exit 0
 set -e

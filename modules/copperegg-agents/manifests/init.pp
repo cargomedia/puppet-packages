@@ -1,11 +1,11 @@
 class copperegg-agents (
-  $api_key,
+  $api_key = 'mykey',
   $frequency = 5,
   $services = {}
 ){
 
   $config = {
-    'loglevel' => "INFO",
+    'loglevel' => 'INFO',
     'copperegg' => {
       'api_key' => $api_key,
       'frequency' => $frequency,
@@ -23,12 +23,13 @@ class copperegg-agents (
   }
   ->
 
-  file {'/etc/copperegg_agents.yml':
+  file {'/etc/copperegg-agents.yml':
     ensure => file,
     content => hash_to_yml($config),
   }
 
   file {'/etc/init.d/copperegg-agents':
+    ensure => file,
     content => template('copperegg-agents/init.sh'),
     owner => '0',
     group => '0',
