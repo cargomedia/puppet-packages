@@ -1,4 +1,4 @@
-define bipbip::service::entry (
+define bipbip::entry (
   $plugin,
   $options
 ){

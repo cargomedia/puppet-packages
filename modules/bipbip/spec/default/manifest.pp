@@ -5,7 +5,7 @@ node default {
     frequency => 5,
   }
 
-  bipbip::service::entry {'memcache':
+  bipbip::entry {'memcache':
     plugin => 'Memcached',
     options => {
       "hostname" => "localhost",
