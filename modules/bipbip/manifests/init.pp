@@ -21,16 +21,16 @@ class bipbip (
 
   file {'/etc/bipbip':
     ensure => directory,
-    owner => 'bipbip',
-    group => 'bipbip',
+    owner => '0',
+    group => '0',
     mode => '0755',
   }
   ->
 
   file {'/etc/bipbip/services.d':
     ensure => directory,
-    owner => 'bipbip',
-    group => 'bipbip',
+    owner => '0',
+    group => '0',
     mode => '0755',
   }
   ->
@@ -38,8 +38,8 @@ class bipbip (
   file {'/etc/bipbip/config.yml':
     ensure => file,
     content => template('bipbip/config.yml'),
-    owner => 'bipbip',
-    group => 'bipbip',
+    owner => '0',
+    group => '0',
     mode => '0755',
     notify => Service['bipbip'],
   }
