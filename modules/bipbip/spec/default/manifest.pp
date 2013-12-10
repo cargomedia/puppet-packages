@@ -5,11 +5,11 @@ node default {
     frequency => 5,
   }
 
-  bipbip::entry {'memcache':
+  @bipbip::entry {'memcache':
     plugin => 'Memcached',
     options => {
-      "hostname" => "localhost",
-      "port" => "6379"
+      'hostname' => 'localhost',
+      'port' => '6379'
     }
   }
 }

@@ -1,11 +1,17 @@
 class bipbip (
   $api_key,
+  $version = 'present',
   $frequency = 5,
-  $log = 'INFO'
+  $log_file = '/var/log/bipbip.log',
+  $log_level = 'INFO'
 ){
 
-  require 'ruby::gem::bipbip'
   include 'bipbip::service'
+
+  class {'ruby::gem::bipbip':
+    version => $version,
+  }
+  ->
 
   user {'bipbip':
     ensure => present,
@@ -29,9 +35,9 @@ class bipbip (
   }
   ->
 
-  file {'/etc/bipbip/bipbip.yml':
+  file {'/etc/bipbip/config.yml':
     ensure => file,
-    content => template('bipbip/bipbip.yml'),
+    content => template('bipbip/config.yml'),
     owner => 'bipbip',
     group => 'bipbip',
     mode => '0755',
@@ -50,8 +56,8 @@ class bipbip (
   file {'/etc/init.d/bipbip':
     ensure => file,
     content => template('bipbip/init.sh'),
-    owner => 'bipbip',
-    group => 'bipbip',
+    owner => '0',
+    group => '0',
     mode => '0755',
     notify => Service['bipbip'],
   }
@@ -61,5 +67,7 @@ class bipbip (
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
+
+  Bipbip::Entry <||>
 
 }

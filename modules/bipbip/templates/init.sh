@@ -14,7 +14,7 @@ NAME=bipbip
 DESC=bipbip
 DAEMON=/usr/bin/bipbip
 PIDFILE=/var/run/bipbip.pid
-DAEMON_ARGS="-c /etc/bipbip/bipbip.yml"
+DAEMON_ARGS="-c /etc/bipbip/config.yml"
 USER=bipbip
 
 test -x ${DAEMON} || exit 0
@@ -25,7 +25,7 @@ set -e
 case "${1}" in
 	start)
 		log_daemon_msg "Starting ${DESC}" "${NAME}"
-		if (start-stop-daemon --start --startas $DAEMON --pidfile $PIDFILE --make-pidfile --chuid $USER -- $DAEMON_ARGS > /var/log/bipbip.log 2>&1 ); then
+		if (start-stop-daemon --start --startas $DAEMON --pidfile $PIDFILE --make-pidfile --background --chuid $USER -- $DAEMON_ARGS); then
 			log_end_msg 0
 		else
 			log_end_msg 1

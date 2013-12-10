@@ -16,7 +16,7 @@ describe file('/etc/init.d/bipbip') do
   it { should be_file }
 end
 
-describe file('/etc/bipbip/bipbip.yml') do
+describe file('/etc/bipbip/config.yml') do
   it { should be_file }
   its(:content) { should match /include:.*services.d/ }
 end
