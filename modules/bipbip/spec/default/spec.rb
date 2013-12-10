@@ -12,10 +12,6 @@ describe service('bipbip') do
   it { should be_enabled }
 end
 
-describe service('bipbip') do
-  it { should be_running }
-end
-
 describe file('/etc/monit/conf.d/bipbip') do
   it { should be_file }
 end
