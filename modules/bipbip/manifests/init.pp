@@ -39,6 +39,14 @@ class bipbip (
   }
   ->
 
+  file {'/var/log/bipbip.log':
+    ensure => file,
+    owner => 'bipbip',
+    group => 'bipbip',
+    mode => '0755',
+  }
+  ->
+
   file {'/etc/init.d/bipbip':
     ensure => file,
     content => template('bipbip/init.sh'),
