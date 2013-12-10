@@ -8,7 +8,7 @@ node default {
   }
 
   @bipbip::entry {'memcache':
-    plugin => 'Memcached',
+    plugin => 'memcached',
     options => {
       'hostname' => 'localhost',
       'port' => '6379'

@@ -31,7 +31,7 @@ end
 
 describe file('/etc/bipbip/services.d/memcache.yml') do
   it { should be_file }
-  its(:content) { should match /plugin:.*Memcached/ }
+  its(:content) { should match /plugin:.*memcached/ }
   its(:content) { should match /hostname:.*localhost/ }
   its(:content) { should match /port:.*6379/ }
 end
