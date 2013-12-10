@@ -10,7 +10,7 @@ define bipbip::entry (
     content => template('bipbip/service'),
     owner => 'bipbip',
     group => 'bipbip',
-    mode => '0755',
+    mode => '0644',
     notify => Service['bipbip'],
   }
 

@@ -34,7 +34,7 @@ case "${1}" in
 	stop)
 		log_daemon_msg "Stopping ${DESC}" "${NAME}"
 		if (start-stop-daemon --stop --oknodo --retry 20 --pidfile $PIDFILE --user $USER); then
-		    rm -f $PIDFILE
+			rm -f $PIDFILE
 			log_end_msg 0
 		else
 			log_end_msg 1

@@ -23,7 +23,7 @@ class bipbip (
     ensure => directory,
     owner => '0',
     group => '0',
-    mode => '0755',
+    mode => '0644',
   }
   ->
 
@@ -31,7 +31,7 @@ class bipbip (
     ensure => directory,
     owner => '0',
     group => '0',
-    mode => '0755',
+    mode => '0644',
   }
   ->
 
@@ -40,7 +40,7 @@ class bipbip (
     content => template('bipbip/config.yml'),
     owner => '0',
     group => '0',
-    mode => '0755',
+    mode => '0644',
     notify => Service['bipbip'],
   }
   ->
@@ -49,7 +49,7 @@ class bipbip (
     ensure => file,
     owner => 'bipbip',
     group => 'bipbip',
-    mode => '0755',
+    mode => '0644',
   }
   ->
 
@@ -63,7 +63,7 @@ class bipbip (
   }
   ~>
 
-  exec {'update-rc.d bipbip defaults':
+  exec {'update-rc.d bipbip defaults && /etc/init.d/bipbip start':
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
