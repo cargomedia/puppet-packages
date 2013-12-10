@@ -1,0 +1,7 @@
+logfile: <%= @log_file %>
+loglevel: <%= @log_level %>
+frequency: <%= @frequency %>
+include: services.d/
+
+copperegg:
+  apikey: <%= @api_key %>

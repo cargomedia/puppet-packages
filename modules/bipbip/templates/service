@@ -1,0 +1,4 @@
+plugin: <%= @plugin %>
+<% @options.each do |option, value| -%>
+<%= option %>: <%= value %>
+<% end %>
