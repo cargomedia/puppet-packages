@@ -1,9 +1,9 @@
-class ruby::gem::copperegg_agents {
+class ruby::gem::bipbip {
 
   require 'ruby::gem::mysql2'
   require 'ruby::gem::memcached'
 
-  ruby::gem {'copperegg_agents':
+  ruby::gem {'bipbip':
     ensure => present,
   }
 }

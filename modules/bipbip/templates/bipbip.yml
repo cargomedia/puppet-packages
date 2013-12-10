@@ -1,0 +1,6 @@
+loglevel: <%= @log %>
+include: services.d/
+
+copperegg:
+  apikey: <%= @api_key %>
+  frequency: <%= @frequency %>

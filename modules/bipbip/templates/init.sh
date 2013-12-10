@@ -1,21 +1,21 @@
 #!/bin/sh
 
 ### BEGIN INIT INFO
-# Provides:				copperegg_agents
+# Provides:				bipbip
 # Required-Start:		$syslog
 # Required-Stop:		$syslog
 # Default-Start:		2 3 4 5
 # Default-Stop:			0 1 6
-# Short-Description:	Copperegg Agent Plugin for CopperEgg RevealCloud collector
-# Description:			Copperegg Agent Plugin for CopperEgg RevealCloud collector
+# Short-Description:	Agent for CopperEgg RevealCloud collector
+# Description:			Agent for CopperEgg RevealCloud collector
 ### END INIT INFO
 
-NAME=copperegg_agents
-DESC=copperegg_agents
-DAEMON=/usr/bin/copperegg_agents
-PIDFILE=/var/run/copperegg_agent.pid
-DAEMON_ARGS="-c /etc/copperegg_agents.yml"
-USER=copperegg_agents
+NAME=bipbip
+DESC=bipbip
+DAEMON=/usr/bin/bipbip
+PIDFILE=/var/run/bipbip.pid
+DAEMON_ARGS="-c /etc/bipbip/bipbip.yml"
+USER=bipbip
 
 test -x ${DAEMON} || exit 0
 set -e
@@ -25,7 +25,7 @@ set -e
 case "${1}" in
 	start)
 		log_daemon_msg "Starting ${DESC}" "${NAME}"
-		if (start-stop-daemon --start --startas $DAEMON --pidfile $PIDFILE --make-pidfile --chuid $USER -- $DAEMON_ARGS > /var/log/copperegg_agents.log 2>&1 ); then
+		if (start-stop-daemon --start --startas $DAEMON --pidfile $PIDFILE --make-pidfile --chuid $USER -- $DAEMON_ARGS > /var/log/bipbip.log 2>&1 ); then
 			log_end_msg 0
 		else
 			log_end_msg 1
