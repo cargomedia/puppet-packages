@@ -15,32 +15,26 @@ class copperegg-revealcloud(
     default: { fail('Unrecognized architecture') }
   }
 
-  user {'revealcloud':
-    ensure => present,
-    system => true,
-  }
-  ->
-
   file {$dir:
     ensure => directory,
-    owner => 'revealcloud',
-    group => 'revealcloud',
+    owner => '0',
+    group => '0',
     mode => '0644',
   }
   ->
 
   file {"${dir}/run":
     ensure => directory,
-    owner => 'revealcloud',
-    group => 'revealcloud',
+    owner => '0',
+    group => '0',
     mode => '0644',
   }
   ->
 
   file {"${dir}/log":
     ensure => directory,
-    owner => 'revealcloud',
-    group => 'revealcloud',
+    owner => '0',
+    group => '0',
     mode => '0644',
   }
   ->
@@ -48,8 +42,8 @@ class copperegg-revealcloud(
   exec {'download revealcloud':
     command => "curl -sL '${url}' > ${dir}/revealcloud && chmod 0755 ${dir}/revealcloud",
     unless => "test -x ${dir}/revealcloud && ${dir}/revealcloud -V 2>&1 | grep 'Version: ${version}$'",
-    user => 'revealcloud',
-    group => 'revealcloud',
+    user => '0',
+    group => '0',
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     notify => Service['revealcloud'],
   }
@@ -73,8 +67,8 @@ class copperegg-revealcloud(
     exec {'enable revealcloud node':
       command => "/etc/init.d/revealcloud stop && ${dir}/revealcloud -x -a ${api_host} -k ${api_key} -E && /etc/init.d/revealcloud start",
       refreshonly => true,
-      user => 'revealcloud',
-      group => 'revealcloud',
+      user => '0',
+      group => '0',
       require => File['/etc/init.d/revealcloud'],
       before => Service['revealcloud'],
     }
