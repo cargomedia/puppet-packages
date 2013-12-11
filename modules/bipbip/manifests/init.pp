@@ -10,6 +10,7 @@ class bipbip (
 
   class {'ruby::gem::bipbip':
     version => $version,
+    notify => Service['bipbip'],
   }
   ->
 
