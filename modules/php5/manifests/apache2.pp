@@ -1,4 +1,4 @@
-class php5::apache2 ($displayErrors = false) {
+class php5::apache2 {
 
   require 'php5'
   require '::apache2'
