@@ -21,12 +21,8 @@ class php5 {
     mode => '0755',
   }
 
-  file { '/etc/php5/cli/php.ini':
-    ensure => file,
-    content => template('php5/php.ini'),
-    owner => '0',
-    group => '0',
-    mode => '0644',
+  php5::config { '/etc/php5/cli/php.ini':
+    before => Package['php5-cli'],
   }
 
   package {'php5-common':
