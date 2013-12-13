@@ -1,4 +1,7 @@
-define php5::config() {
+define php5::config(
+  $memory_limit = '512M',
+  $display_errors = false
+) {
 
   file {$name:
     ensure => file,

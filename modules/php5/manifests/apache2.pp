@@ -8,18 +8,13 @@ class php5::apache2 ($displayErrors = false) {
     ensure => directory,
     owner => '0',
     group => '0',
-    mode => '0755',
+    mode => '0644',
   }
 
-  file { '/etc/php5/apache2/php.ini':
-    ensure => file,
-    content => template('php5/apache2/php.ini'),
-    owner => '0',
-    group => '0',
-    mode => '0644',
+  php5::config {'/etc/php5/apache2/php.ini':
+    before => Package['libapache2-mod-php5'],
     notify => Service['apache2'],
   }
-  ->
 
   package { 'libapache2-mod-php5':
     ensure => present,
