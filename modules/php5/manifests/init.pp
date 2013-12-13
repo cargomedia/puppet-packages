@@ -23,7 +23,7 @@ class php5 {
 
   file { '/etc/php5/cli/php.ini':
     ensure => file,
-    source => 'puppet:///modules/php5/cli/php.ini',
+    content => template('php5/php.ini'),
     owner => '0',
     group => '0',
     mode => '0644',
