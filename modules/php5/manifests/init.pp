@@ -23,6 +23,7 @@ class php5 {
 
   php5::config { '/etc/php5/cli/php.ini':
     memory_limit => '8G',
+    display_errors => true,
     before => Package['php5-cli'],
   }
 
