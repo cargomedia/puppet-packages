@@ -38,7 +38,10 @@ class nginx::config(
     ensure => directory,
   }
 
-  file {'/etc/nginx/sites-enabled/default':
+  file {"${nginx::params::nx_conf_dir}/sites-enabled/default":
+    ensure => absent,
+  }
+  file {"${nginx::params::nx_conf_dir}/fastcgi_params":
     ensure => absent,
   }
 
