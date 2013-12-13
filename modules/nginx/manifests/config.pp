@@ -47,6 +47,11 @@ class nginx::config(
     content => template('nginx/conf.d/nginx.conf.erb'),
   }
 
+  file {"${nginx::params::nx_conf_dir}/conf.d/fastcgi_params.conf":
+    ensure  => file,
+    content => template('nginx/conf.d/fastcgi_params.conf'),
+  }
+
   file {"${nginx::params::nx_conf_dir}/conf.d/proxy.conf":
     ensure  => file,
     content => template('nginx/conf.d/proxy.conf.erb'),
