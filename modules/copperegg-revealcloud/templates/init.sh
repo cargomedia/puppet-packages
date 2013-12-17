@@ -17,7 +17,6 @@ DAEMON=<%= @dir %>/revealcloud
 PIDDIR=<%= @dir %>/run
 PIDFILE=$PIDDIR/revealcloud.pid
 DAEMON_ARGS="-d -x -a <%= @api_host.shellescape %> -k <%= @api_key.shellescape %> -P $PIDDIR -l <%= @label.shellescape %> <%= @tags.map { |t| "-t #{t.shellescape}" }.join(' ') %>"
-USER=revealcloud
 
 test -x ${DAEMON} || exit 0
 set -e
@@ -27,7 +26,7 @@ set -e
 case "${1}" in
 	start)
 		log_daemon_msg "Starting ${DESC}" "${NAME}"
-		if (start-stop-daemon --start --startas $DAEMON --pidfile $PIDFILE --chuid $USER -- $DAEMON_ARGS); then
+		if (start-stop-daemon --start --startas $DAEMON --pidfile $PIDFILE -- $DAEMON_ARGS); then
 			log_end_msg 0
 		else
 			log_end_msg 1
@@ -35,7 +34,7 @@ case "${1}" in
 	;;
 	stop)
 		log_daemon_msg "Stopping ${DESC}" "${NAME}"
-		if (start-stop-daemon --stop --oknodo --retry 20 --pidfile $PIDFILE --user $USER); then
+		if (start-stop-daemon --stop --oknodo --retry 20 --pidfile $PIDFILE); then
 		    rm -f $PIDFILE
 			log_end_msg 0
 		else
