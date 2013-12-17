@@ -6,4 +6,4 @@ include: services.d/
 storages:
   -
     name: copperegg
-    apikey: <%= @api_key %>
+    api_key: <%= @api_key %>
