@@ -36,4 +36,10 @@ class nfs::server ($configuration = '*(ro)') {
     onlyif      => '/etc/init.d/nfs-kernel-server status',
     refreshonly => true,
   }
+
+  @monit::entry {'nfs-kernel-server':
+    content => template('nfs/monit'),
+    require => Service['nfs-kernel-server'],
+  }
+
 }

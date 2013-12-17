@@ -1,0 +1,5 @@
+check host nfs-server with address localhost
+	start = "/etc/init.d/nfs-kernel-server start"
+	stop = "/etc/init.d/nfs-kernel-server stop"
+	if failed port 2049 with timeout 10 seconds for 2 cycles then restart
+	if 25 restarts within 50 cycles then timeout
