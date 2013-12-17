@@ -1,7 +1,4 @@
-class nfs::server (
-  $configuration = '*(ro)',
-  $ip_addr = '127.0.0.1'
-) {
+class nfs::server ($configuration = '*(ro)') {
 
   require 'nfs'
 
