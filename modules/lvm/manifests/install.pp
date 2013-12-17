@@ -45,7 +45,7 @@ class lvm::install (
 
   helper::script {'install lvm':
     content => template('lvm/install'),
-    unless => "lvs | grep -q ${logicaVolumeName}",
+    unless => "lvs | grep -q ${logicalVolumeName}",
     require => Class['lvm::package'],
   }
 
