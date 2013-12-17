@@ -1,7 +1,11 @@
 node default {
 
   require 'monit'
-  require 'wowza::app::cm'
+
+  class {'wowza::app::cm':
+    archive_dir => '/tmp/archive',
+    rpc_url => 'http://example.com/rpc',
+  }
 
   exec {'start wowza':
     command => '/etc/init.d/wowza start',

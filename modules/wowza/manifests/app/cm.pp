@@ -1,9 +1,9 @@
 class wowza::app::cm (
+  $archive_dir,
+  $rpc_url,
   $port = 1935,
   $port_rpc = 8086,
   $dir = '/usr/local/wowza-cm',
-  $archive_dir = '/home/default/shared/userfiles/streamChannels',
-  $rpc_url = 'https://localhost/rpc/null',
   $jmxremote_access = ['monitor readonly'],
   $jmxremote_passwd = ['monitor mypassword']
 ) {
