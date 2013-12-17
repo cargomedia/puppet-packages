@@ -1,4 +1,4 @@
-class mysql::server::master ($server_id, $replicationUserPassword) {
+class mysql::server::master ($server_id, $replication_user_password) {
 
   class {'mysql::server':}
 
@@ -14,6 +14,6 @@ class mysql::server::master ($server_id, $replicationUserPassword) {
   }
 
   mysql::user {'replication@%':
-    password => $replicationUserPassword,
+    password => $replication_user_password,
   }
 }
