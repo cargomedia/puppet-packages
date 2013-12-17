@@ -4,8 +4,8 @@ class mysql::server ($rootPassword = undef, $debianSysMaintPassword = undef) {
 
   file {'/root/.my.cnf':
     ensure => $rootPassword ? {
-    undef => absent,
-    default => file,
+      undef => absent,
+      default => file,
     },
     content => template('mysql/client-config.cnf'),
     owner => '0',
