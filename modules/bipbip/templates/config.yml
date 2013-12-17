@@ -3,5 +3,7 @@ loglevel: <%= @log_level %>
 frequency: <%= @frequency %>
 include: services.d/
 
-copperegg:
-  apikey: <%= @api_key %>
+storages:
+  -
+    name: copperegg
+    apikey: <%= @api_key %>
