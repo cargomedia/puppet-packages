@@ -1,9 +1,9 @@
   location <%= @location %> {
 <% if @location_cfg_prepend -%><% @location_cfg_prepend.each do |option| -%>
-    <%= option %>;
+    <%= option %>
 <% end -%><% end -%>
     proxy_pass <%= @proxy %>;
 <% if @location_cfg_append -%><% @location_cfg_append.each do |option| -%>
-    <%= option %>;
+    <%= option %>
 <% end -%><% end -%>
   }
