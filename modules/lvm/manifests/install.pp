@@ -43,10 +43,6 @@ class lvm::install (
   }
 
   if $logicalVolumeMountpoint != undef {
-    class {'snmp':
-      disks => [$logicalVolumeMountpoint],
-    }
-
     file {$logicalVolumeMountpoint:
       ensure => directory,
     }
