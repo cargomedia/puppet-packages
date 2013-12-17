@@ -4,6 +4,10 @@ describe file('/tmp/source/foo') do
   it { should be_file }
 end
 
+describe command('monit summary | grep nfs-server') do
+  it { should return_exit_status 0 }
+end
+
 describe file('/tmp/source/bar') do
   it { should be_file }
 end

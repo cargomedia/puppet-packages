@@ -1,5 +1,7 @@
 node default {
 
+  require 'monit'
+
   class {'nfs::server':
     configuration => '*(ro,sync,insecure,root_squash,no_subtree_check,fsid=0)'
   }
