@@ -1,4 +1,4 @@
-class mysql::server::master ($server_id) {
+class mysql::server::master ($server_id, $replicationUserPassword) {
 
   class {'mysql::server':}
 
@@ -11,5 +11,9 @@ class mysql::server::master ($server_id) {
     require => User['mysql'],
     before => Package['mysql-server'],
     notify => Service['mysql'],
+  }
+
+  mysql::user {'replication@%':
+    password => $replicationUserPassword,
   }
 }
