@@ -38,13 +38,21 @@ class nginx::config(
     ensure => directory,
   }
 
-  file {'/etc/nginx/sites-enabled/default':
+  file {"${nginx::params::nx_conf_dir}/sites-enabled/default":
+    ensure => absent,
+  }
+  file {"${nginx::params::nx_conf_dir}/fastcgi_params":
     ensure => absent,
   }
 
   file {"${nginx::params::nx_conf_dir}/nginx.conf":
     ensure  => file,
     content => template('nginx/conf.d/nginx.conf.erb'),
+  }
+
+  file {"${nginx::params::nx_conf_dir}/conf.d/fastcgi_params.conf":
+    ensure  => file,
+    content => template('nginx/conf.d/fastcgi_params.conf.erb'),
   }
 
   file {"${nginx::params::nx_conf_dir}/conf.d/proxy.conf":
