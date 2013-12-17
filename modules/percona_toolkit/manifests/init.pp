@@ -5,6 +5,6 @@ class percona_toolkit {
 
   helper::script {'install percona-toolkit':
     content => template('percona_toolkit/install.sh'),
-    unless => "pt-online-schema-change --version | grep ${version_nobuild}"
+    unless => "pt-online-schema-change --version | grep -w ${version_nobuild}"
   }
 }
