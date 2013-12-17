@@ -5,6 +5,7 @@ class lvm::install (
   $logicalVolumeSize = $lvm::params::logicalVolumeSize,
   $logicalVolumeFilesystem = $lvm::params::logicalVolumeFilesystem,
   $logicalVolumeMountpoint = $lvm::params::logicalVolumeMountpoint,
+  $logicalVolumeMountOptions = $lvm::params::logicalVolumeMountOptions,
   $expandTools = $lvm::params::expandTools
 )  inherits lvm::params {
 
@@ -30,10 +31,16 @@ class lvm::install (
           volumeGroupName => $volumeGroupName,
         }
       }
+
+      $mount_options = 'inode64,nobarrier'
     }
     default: {
       fail("Unknown filesystem ${logicalVolumeFilesystem}")
     }
+  }
+
+  if !$mount_options {
+    $mount_options = $logicalVolumeMountOptions
   }
 
   helper::script {'install lvm':
@@ -50,6 +57,8 @@ class lvm::install (
     mount::entry {'mount lvm':
       source => "/dev/${volumeGroupName}/${logicalVolumeName}",
       target => $logicalVolumeMountpoint,
+      type => $logicalVolumeFilesystem,
+      options => $mount_options ? { undef => $logicalVolumeMountOptions,  default => $mount_options }
     }
 
     $mountBasename = file_basename($logicalVolumeMountpoint)

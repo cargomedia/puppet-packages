@@ -20,6 +20,11 @@ class lvm::params {
     default => $::logicalVolumeMountpoint,
   }
 
+  $logicalVolumeMountOptions = $::logicalVolumeMountOptions ? {
+    undef => 'defaults',
+    default => $::logicalVolumeMountOptions,
+  }
+
   $expandTools = $::expandTools ? {
     undef => false,
     default => $::expandTools,
