@@ -1,4 +1,4 @@
-class nfs::server ($configuration = '*(ro)') {
+class nfs::server ($configuration = '*(ro,fsid=0)') {
 
   require 'nfs'
 
