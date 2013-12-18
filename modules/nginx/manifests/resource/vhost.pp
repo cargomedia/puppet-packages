@@ -10,7 +10,7 @@ define nginx::resource::vhost(
   $proxy                  = undef,
   $proxy_read_timeout     = $nginx::params::nx_proxy_read_timeout,
   $index_files            = ['index.html', 'index.htm', 'index.php'],
-  $server_name            = [$name],
+  $server_name            = [],
   $www_root               = undef,
   $location_cfg_prepend   = undef,
   $location_cfg_append    = undef,
@@ -29,8 +29,8 @@ define nginx::resource::vhost(
       fail('nginx: SSL certificate/key (ssl_cert/ssl_cert) and/or SSL Private must be defined')
     } else {
       $ssl_dir = "${nginx::params::nx_conf_dir}/ssl"
-      $ssl_cert_file = "${ssl_dir}/${server_name}.pem"
-      $ssl_key_file = "${ssl_dir}/${server_name}.key"
+      $ssl_cert_file = "${ssl_dir}/${name}.pem"
+      $ssl_key_file = "${ssl_dir}/${name}.key"
       file {$ssl_dir:
         ensure => directory,
         owner => '0',

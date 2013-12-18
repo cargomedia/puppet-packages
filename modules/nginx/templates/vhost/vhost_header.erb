@@ -1,5 +1,8 @@
 server {
   listen                <%= @listen_ip %>:<%= @listen_port %> <% if @listen_options %><%= @listen_options %><% end %>;
-  <% if scope.lookupvar('nginx::params::nx_access_log') == 'on' %>
+<% unless @server_name.empty? %>
+  server_name           <%= @server_name.join(" ") %>;
+<% end %>
+<% if scope.lookupvar('nginx::params::nx_access_log') == 'on' %>
   access_log            <%= scope.lookupvar('nginx::params::nx_logdir')%>/<%= @name %>.access.log;
-  <% end %>
+<% end %>

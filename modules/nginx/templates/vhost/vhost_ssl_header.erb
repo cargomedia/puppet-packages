@@ -1,5 +1,8 @@
 server {
   listen       <%= @ssl_port %>;
+<% unless @server_name.empty? %>
+  server_name           <%= @server_name.join(" ") %>;
+<% end %>
 
   ssl on;
   ssl_certificate      <%= @ssl_cert_file %>;
