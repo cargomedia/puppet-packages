@@ -41,18 +41,15 @@ class nginx::config(
   file {"${nginx::params::nx_conf_dir}/sites-enabled/default":
     ensure => absent,
   }
-  file {"${nginx::params::nx_conf_dir}/fastcgi_params":
-    ensure => absent,
-  }
 
   file {"${nginx::params::nx_conf_dir}/nginx.conf":
     ensure  => file,
     content => template('nginx/conf.d/nginx.conf.erb'),
   }
 
-  file {"${nginx::params::nx_conf_dir}/conf.d/fastcgi_params.conf":
+  file {"${nginx::params::nx_conf_dir}/fastcgi_params":
     ensure  => file,
-    content => template('nginx/conf.d/fastcgi_params.conf.erb'),
+    content => template('nginx/fastcgi_params.erb'),
   }
 
   file {"${nginx::params::nx_conf_dir}/conf.d/proxy.conf":
