@@ -11,9 +11,7 @@ define sysctl::entry ($entries) {
   }
   ~>
 
-  exec {'sysctl reload':
-    path => '/sbin',
-    command => "sysctl -p /etc/sysctl.d/${name}",
+  exec {"/sbin/sysctl -p /etc/sysctl.d/${name}":
     refreshonly => true,
   }
 }
