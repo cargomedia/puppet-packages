@@ -1,10 +1,10 @@
-class mysql::server::master ($cluster_name, $server_id, $replication_password = undef, $root_password = undef, $debian_sys_maint_password = undef) {
+class mysql::server::master ($replication_id, $server_id, $replication_password = undef, $root_password = undef, $debian_sys_maint_password = undef) {
 
-  @@mysql::server::instance {$cluster_name:
+  @@mysql::server::instance {$replication_id:
     root_password => $root_password,
     debian_sys_maint_password => $debian_sys_maint_password,
   }
-  Mysql::Server::Instance <<| title == $cluster_name |>>
+  Mysql::Server::Instance <<| title == $replication_id |>>
 
   file {'/etc/mysql/conf.d/master.cnf':
     ensure => file,
