@@ -90,6 +90,25 @@ class mysql::server ($root_password = undef, $debian_sys_maint_password = undef)
     before => Service['mysql'],
   }
 
+  sysctl::entry {'mysql':
+    entries => {
+      'net.core.somaxconn' => 1536,
+      'net.ipv4.tcp_max_syn_backlog' => 8192,
+      'net.core.netdev_max_backlog' => 2048,
+    }
+  }
+
+  ulimit::entry {'mysql':
+    limits => [
+      {
+      'domain' => 'mysql',
+      'type' => '-',
+      'item' => 'nofile',
+      'value' => 16384,
+      }
+    ]
+  }
+
   @monit::entry {'mysql':
     content => template('mysql/monit'),
     require => Service['mysql'],
