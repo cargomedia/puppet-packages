@@ -20,4 +20,10 @@ class mysql::server::master ($replication_id, $server_id, $replication_password 
   mysql::user {'replication@%':
     password => $replication_password,
   }
+  ->
+
+  database_grant {'replication@%':
+    privileges => ['repl_slave_priv'],
+    provider => 'mysql',
+  }
 }
