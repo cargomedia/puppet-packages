@@ -22,8 +22,8 @@ class wowza (
   file {'/etc/init.d/wowza':
     ensure => file,
     content => template('wowza/init'),
-    owner => 'wowza',
-    group => 'wowza',
+    owner => '0',
+    group => '0',
     mode => '0755',
     notify => Service['wowza'],
   }
