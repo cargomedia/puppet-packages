@@ -1,2 +1,2 @@
-UPDATE mysql.user SET Password=PASSWORD('<%= @rootPassword %>') WHERE User='root';
+UPDATE mysql.user SET Password=PASSWORD('<%= @root_password %>') WHERE User='root';
 FLUSH PRIVILEGES;
