@@ -1,0 +1,8 @@
+  location <%= @location %> {
+<% if @location_cfg_prepend -%><% @location_cfg_prepend.each do |option| -%>
+    <%= option %>
+<% end -%><% end -%>
+<% if @location_cfg_append -%><% @location_cfg_append.each do |option| -%>
+    <%= option %>
+<% end -%><% end -%>
+  }
