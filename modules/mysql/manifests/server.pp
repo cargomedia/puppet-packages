@@ -94,4 +94,14 @@ class mysql::server ($rootPassword = undef, $debianSysMaintPassword = undef) {
     content => template('mysql/monit'),
     require => Service['mysql'],
   }
+
+  @bipbip::entry {'mysql':
+    plugin => 'mysql',
+    options => {
+      'hostname' => 'localhost',
+      'port' => '3306',
+      'username' => 'debian-sys-maint',
+      'password' => $debianSysMaintPassword,
+    }
+  }
 }
