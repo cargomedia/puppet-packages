@@ -1,8 +1,10 @@
-define ulimit::entry ($content) {
+define ulimit::entry ($limits) {
+
+  require 'ulimit'
 
   file { "/etc/security/limits.d/${name}":
     ensure => file,
-    content => $content,
+    content => template ('ulimit/limits'),
     group => '0',
     owner => '0',
     mode => '0644',
