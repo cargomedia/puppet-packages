@@ -1,4 +1,4 @@
-class mysql::server::master ($cluster_name, $server_id, $root_password = undef, $debian_sys_maint_password = undef) {
+class mysql::server::master ($cluster_name, $server_id, $replication_password = undef, $root_password = undef, $debian_sys_maint_password = undef) {
 
   @@mysql::server::instance {$cluster_name:
     root_password => $root_password,
@@ -15,5 +15,9 @@ class mysql::server::master ($cluster_name, $server_id, $root_password = undef, 
     require => User['mysql'],
     before => Package['mysql-server'],
     notify => Service['mysql'],
+  }
+
+  mysql::user {'replication@%':
+    password => $replication_password,
   }
 }
