@@ -1,7 +1,7 @@
 define nginx::resource::upstream (
   $ensure = 'present',
   $members,
-  $ip_hash = $nginx::params::nx_upstream_ip_hash,
+  $upstream_cfg_append = undef
 ) {
   File {
     owner => 'root',
