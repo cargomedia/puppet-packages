@@ -86,6 +86,8 @@ z5jiDSPskspb8TxB7mD/QtGd/K2UAhECw0n+dET8t9mzsHp5aqYeyMs=
       'localhost:8098',
       'localhost:8099',
     ],
-    ip_hash => true,
+    upstream_cfg_append => [
+      'ip_hash;',
+    ],
   }
 }

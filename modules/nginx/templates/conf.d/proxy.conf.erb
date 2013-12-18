@@ -1,6 +1,11 @@
 proxy_connect_timeout   <%= scope.lookupvar('nginx::params::nx_proxy_connect_timeout') %>;
 proxy_send_timeout      <%= scope.lookupvar('nginx::params::nx_proxy_send_timeout') %>;
 proxy_read_timeout      <%= scope.lookupvar('nginx::params::nx_proxy_read_timeout') %>;
+
+# Needed for proxy keepalive connection
+proxy_http_version      1.1;
+proxy_set_header        Connection "";
+
 <% @proxy_set_header.each do |header| -%>
 proxy_set_header        <%= header %>;
 <% end %>
