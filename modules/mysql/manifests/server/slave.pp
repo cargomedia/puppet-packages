@@ -1,6 +1,6 @@
 class mysql::server::slave ($server_id) {
 
-  class {'mysql::server':}
+  Mysql::Server <<| tag == "mysql_server_id-${server_id}" |>>
 
   file {'/etc/mysql/conf.d/slave.cnf':
     ensure => file,
