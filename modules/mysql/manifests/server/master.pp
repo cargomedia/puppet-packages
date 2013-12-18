@@ -1,12 +1,10 @@
-class mysql::server::master ($server_id) {
+class mysql::server::master ($cluster_name, $server_id, $root_password = undef, $debian_sys_maint_password = undef) {
 
-  $tag = "mysql_server_id-${server_id}"
-
-  @@class {'mysql::server':
-    tag => $tag,
+  @@mysql::server::instance {$cluster_name:
+    root_password => $root_password,
+    debian_sys_maint_password => $debian_sys_maint_password,
   }
-
-  Mysql::Server <<| tag == $tag |>>
+  Mysql::Server::Instance <<| title == $cluster_name |>>
 
   file {'/etc/mysql/conf.d/master.cnf':
     ensure => file,

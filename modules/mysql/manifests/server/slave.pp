@@ -1,6 +1,6 @@
-class mysql::server::slave ($server_id) {
+class mysql::server::slave ($cluster_name, $server_id) {
 
-  Mysql::Server <<| tag == "mysql_server_id-${server_id}" |>>
+  Mysql::Server::Instance <<| title == $cluster_name |>>
 
   file {'/etc/mysql/conf.d/slave.cnf':
     ensure => file,
