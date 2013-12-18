@@ -14,7 +14,8 @@ define nginx::resource::vhost(
   $www_root               = undef,
   $location_cfg_prepend   = undef,
   $location_cfg_append    = undef,
-  $try_files              = undef
+  $try_files              = undef,
+  $vhost_cfg_prepend      = undef
 ) {
 
   File {
@@ -105,7 +106,7 @@ define nginx::resource::vhost(
 
   # Create SSL File Stubs if SSL is enabled
   if ($ssl == true) {
-    file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-700-ssl":
+    file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-001-ssl":
       ensure => $ensure ? {
         'absent' => absent,
         default  => 'file',

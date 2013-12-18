@@ -6,3 +6,6 @@ server {
 <% if scope.lookupvar('nginx::params::nx_access_log') == 'on' %>
   access_log            <%= scope.lookupvar('nginx::params::nx_logdir')%>/<%= @name %>.access.log;
 <% end %>
+<% if @vhost_cfg_prepend -%><% @vhost_cfg_prepend.each do |option| -%>
+  <%= option %>
+<% end -%><% end -%>
