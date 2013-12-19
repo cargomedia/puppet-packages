@@ -1,5 +1,5 @@
 #!/bin/bash -e
-if ! (/usr/sbin/monit summary | grep mysql | grep -q running); then
+if ! (/etc/init.d/mysql status); then
 	exit 0
 fi
 if ! (mysql -e "show global status like 'Slave_running';"  | grep -q ON ); then
