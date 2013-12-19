@@ -12,4 +12,19 @@ class mysql::server::slave ($replication_id, $server_id) {
     before => Package['mysql-server'],
     notify => Service['mysql'],
   }
+
+  file {'/usr/local/bin/mysql-replication-check':
+    ensure => file,
+    content => template('mysql/replication-check.sh'),
+    owner => '0',
+    group => '0',
+    mode => '755',
+    require => Service['mysql'],
+  }
+  ->
+
+  cron {'check-mysql':
+    command => '/usr/local/bin/mysql-replication-check',
+    user    => 'root',
+  }
 }
