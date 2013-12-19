@@ -1,4 +1,10 @@
-class mysql::server::master ($replication_id, $server_id, $replication_password = undef, $root_password = undef, $debian_sys_maint_password = undef) {
+class mysql::server::master (
+  $replication_id,
+  $server_id,
+  $replication_password = undef,
+  $root_password = undef,
+  $debian_sys_maint_password = undef
+) {
 
   @@mysql::server::instance {$replication_id:
     root_password => $root_password,
