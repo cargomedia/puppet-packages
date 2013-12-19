@@ -38,6 +38,10 @@ class nginx::config(
     ensure => directory,
   }
 
+  file {"${nginx::params::nx_conf_dir}/ssl":
+    ensure => directory,
+  }
+
   file {"${nginx::params::nx_conf_dir}/sites-enabled/default":
     ensure => absent,
   }

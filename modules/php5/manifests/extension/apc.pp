@@ -23,4 +23,6 @@ class php5::extension::apc (
     group => '0',
     mode => '0644',
   }
+
+  Php5::Fpm::With-apc <||>
 }
