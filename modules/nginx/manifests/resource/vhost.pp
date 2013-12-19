@@ -29,15 +29,8 @@ define nginx::resource::vhost(
     if ($ssl_cert == undef) or ($ssl_key == undef) {
       fail('nginx: SSL certificate/key (ssl_cert/ssl_cert) and/or SSL Private must be defined')
     } else {
-      $ssl_dir = "${nginx::params::nx_conf_dir}/ssl"
-      $ssl_cert_file = "${ssl_dir}/${name}.pem"
-      $ssl_key_file = "${ssl_dir}/${name}.key"
-      file {$ssl_dir:
-        ensure => directory,
-        owner => '0',
-        group => '0',
-        mode => '0755',
-      }
+      $ssl_cert_file = "${nginx::params::nx_conf_dir}/ssl/${name}.pem"
+      $ssl_key_file = "${nginx::params::nx_conf_dir}/ssl/${name}.key"
       file {$ssl_cert_file:
         ensure  => file,
         content => $ssl_cert,
