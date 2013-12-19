@@ -54,4 +54,14 @@ class php5::fpm {
     content => template('php5/fpm/monit'),
     require => Service['php5-fpm'],
   }
+
+  @bipbip::entry {'php-fpm':
+    plugin => 'php-fpm',
+    options => {
+      'host' => 'localhost',
+      'port' => 9000,
+      'path' => '/fpm-status',
+    }
+  }
+
 }
