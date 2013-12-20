@@ -1,4 +1,4 @@
-class gearman ($server_version = '1.1.2', $server_series = '1.2') {
+class gearmand ($server_version = '1.1.2', $server_series = '1.2') {
 
   package {['libboost-all-dev', 'libevent-dev']:
     ensure => present,
