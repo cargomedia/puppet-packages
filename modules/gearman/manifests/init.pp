@@ -1,4 +1,4 @@
-class gearman ($version = '1.1.2') {
+class gearman ($server_version = '1.1.2', $server_series = '1.2') {
 
   include 'gearman::service'
 
@@ -13,8 +13,7 @@ class gearman ($version = '1.1.2') {
 
   helper::script {'install gearman':
     content => template('gearman/install'),
-    unless => "test -x /usr/local/sbin/gearmand  && /usr/local/sbin/gearmand --version | grep -q '${version}')",
-    timeout => 900,
+    unless => "test -x /usr/local/sbin/gearmand  && /usr/local/sbin/gearmand --version | grep -q '${server_version}')",
     require => User['gearman'],
   }
 
