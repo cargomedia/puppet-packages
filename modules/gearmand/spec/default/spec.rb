@@ -1,5 +1,9 @@
 require 'spec_helper'
 
+describe group('gearmand') do
+  it { should exist }
+end
+
 describe command('/usr/local/sbin/gearmand --version') do
   its(:stdout) { should match('1.1.2') }
 end
