@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-curl -sL https://launchpad.net/gearmand/<%= @server_series %>/<%= @server_version %>/+download/gearmand-<%= @server_version %>.tar.gz | tar -xzf -
+curl -sL https://launchpad.net/gearmand/<%= @series %>/<%= @version %>/+download/gearmand-<%= @version %>.tar.gz | tar -xzf -
 cd gearmand-*
 ./configure
 make

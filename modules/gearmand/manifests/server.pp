@@ -25,6 +25,14 @@ class gearmand::server {
     content => template('gearmand/monit'),
   }
 
+  @bipbip::entry {'gearman':
+    plugin => 'gearman',
+    options => {
+      'hostname' => 'localhost',
+      'port' => '4730',
+    }
+  }
+
   service {'gearman-job-server':
   }
 

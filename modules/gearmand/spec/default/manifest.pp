@@ -1,7 +1,6 @@
 node default {
 
-  require 'monit'
-  require 'gearmand'
+  require 'gearmand::server'
 
   exec {'start gearman-job-server':
     command => '/etc/init.d/gearman-job-server start',
