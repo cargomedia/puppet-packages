@@ -1,8 +1,8 @@
 upstream <%= @name %> {
-<% if @ip_hash == true-%>
-    ip_hash;
-<% end -%>
 <% @members.each do |i|-%>
     server <%= i %>;
 <% end -%>
+<% if @upstream_cfg_append -%><% @upstream_cfg_append.each do |option| -%>
+    <%= option %>
+<% end -%><% end -%>
 }

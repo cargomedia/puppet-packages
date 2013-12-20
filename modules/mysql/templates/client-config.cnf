@@ -1,2 +1,2 @@
 [client]
-password = <%= @rootPassword %>
+password = <%= @root_password %>

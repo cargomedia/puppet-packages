@@ -1,11 +1,12 @@
 class bipbip (
   $api_key,
-  $version = '0.2.2',
+  $version = '0.2.5',
   $frequency = 5,
   $log_file = '/var/log/bipbip.log',
   $log_level = 'INFO'
 ){
 
+  require 'cgi-fcgi'
   include 'bipbip::service'
 
   class {'ruby::gem::bipbip':
@@ -33,6 +34,8 @@ class bipbip (
     owner => '0',
     group => '0',
     mode => '0644',
+    purge => true,
+    recurse => true,
   }
   ->
 

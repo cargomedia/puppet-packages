@@ -29,6 +29,4 @@ class nginx::params {
   $nx_proxy_connect_timeout   = '60'
   $nx_proxy_send_timeout      = '60'
   $nx_proxy_read_timeout      = '60'
-
-  $nx_upstream_ip_hash        = false
 }

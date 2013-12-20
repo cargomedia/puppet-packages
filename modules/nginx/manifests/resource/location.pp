@@ -35,16 +35,15 @@ define nginx::resource::location(
     $content_real = template('nginx/vhost/vhost_location_alias.erb')
   } elsif ($stub_status != undef) {
     $content_real = template('nginx/vhost/vhost_location_stub_status.erb')
-  } else {
+  } elsif ($www_root != undef) {
     $content_real = template('nginx/vhost/vhost_location_directory.erb')
+  } else {
+    $content_real = template('nginx/vhost/vhost_location.erb')
   }
 
-  ## Check for various error condtiions
+  ## Check for various error conditions
   if ($vhost == undef) {
     fail('Cannot create a location reference without attaching to a virtual host')
-  }
-  if (($www_root == undef) and ($proxy == undef) and ($location_alias == undef) and ($stub_status == undef) ) {
-    fail('Cannot create a location reference without a www_root, proxy, location_alias or stub_status defined')
   }
   if (($www_root != undef) and ($proxy != undef)) {
     fail('Cannot define both directory and proxy in a virtual host')

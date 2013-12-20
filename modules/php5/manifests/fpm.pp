@@ -50,8 +50,23 @@ class php5::fpm {
     require => Package['php5-fpm'],
   }
 
-  @monit::entry {'apache2':
+  @monit::entry {'php5-fpm':
     content => template('php5/fpm/monit'),
     require => Service['php5-fpm'],
   }
+
+  @bipbip::entry {'php5-fpm':
+    plugin => 'fastcgi-php-fpm',
+    options => {
+      'host' => 'localhost',
+      'port' => 9000,
+      'path' => '/fpm-status',
+    }
+  }
+
+  @php5::fpm::with-apc {'php5-fpm':
+    host => 'localhost',
+    port => 9000,
+  }
+
 }

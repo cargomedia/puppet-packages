@@ -1,9 +1,9 @@
-class mysql::server ($rootPassword = undef, $debianSysMaintPassword = undef) {
+class mysql::server ($root_password = undef, $debian_sys_maint_password = undef) {
 
   include 'mysql::service'
 
   file {'/root/.my.cnf':
-    ensure => $rootPassword ? {
+    ensure => $root_password ? {
       undef => absent,
       default => file,
     },
@@ -68,7 +68,7 @@ class mysql::server ($rootPassword = undef, $debianSysMaintPassword = undef) {
     notify => Service['mysql'],
   }
 
-  if ($debianSysMaintPassword) {
+  if ($debian_sys_maint_password) {
     file {'/etc/mysql/debian.cnf':
       ensure => file,
       content => template('mysql/debian.cnf'),
@@ -81,7 +81,7 @@ class mysql::server ($rootPassword = undef, $debianSysMaintPassword = undef) {
     }
 
     mysql::user {'debian-sys-maint@localhost':
-      password => $debianSysMaintPassword,
+      password => $debian_sys_maint_password,
     }
   }
 
@@ -90,8 +90,37 @@ class mysql::server ($rootPassword = undef, $debianSysMaintPassword = undef) {
     before => Service['mysql'],
   }
 
+  sysctl::entry {'mysql':
+    entries => {
+      'net.core.somaxconn' => 1536,
+      'net.ipv4.tcp_max_syn_backlog' => 8192,
+      'net.core.netdev_max_backlog' => 2048,
+    }
+  }
+
+  ulimit::entry {'mysql':
+    limits => [
+      {
+      'domain' => 'mysql',
+      'type' => '-',
+      'item' => 'nofile',
+      'value' => 16384,
+      }
+    ]
+  }
+
   @monit::entry {'mysql':
     content => template('mysql/monit'),
     require => Service['mysql'],
+  }
+
+  @bipbip::entry {'mysql':
+    plugin => 'mysql',
+    options => {
+    'hostname' => 'localhost',
+    'port' => '3306',
+    'username' => 'debian-sys-maint',
+    'password' => $debian_sys_maint_password,
+    }
   }
 }

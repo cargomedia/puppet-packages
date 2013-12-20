@@ -1,6 +1,6 @@
-class mysql::server::slave ($server_id) {
+class mysql::server::slave ($replication_id, $server_id) {
 
-  class {'mysql::server':}
+  Mysql::Server::Instance <<| title == $replication_id |>>
 
   file {'/etc/mysql/conf.d/slave.cnf':
     ensure => file,
@@ -11,5 +11,20 @@ class mysql::server::slave ($server_id) {
     require => User['mysql'],
     before => Package['mysql-server'],
     notify => Service['mysql'],
+  }
+
+  file {'/usr/local/bin/mysql-replication-check':
+    ensure => file,
+    content => template('mysql/replication-check.sh'),
+    owner => '0',
+    group => '0',
+    mode => '755',
+    require => Service['mysql'],
+  }
+  ->
+
+  cron {'check-mysql':
+    command => '/usr/local/bin/mysql-replication-check',
+    user    => 'root',
   }
 }
