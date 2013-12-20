@@ -6,7 +6,6 @@ class bipbip (
   $log_level = 'INFO'
 ){
 
-  require 'cgi-fcgi'
   include 'bipbip::service'
 
   class {'ruby::gem::bipbip':
