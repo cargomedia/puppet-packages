@@ -25,8 +25,6 @@ class monit ($emailTo = 'root@localhost', $emailFrom = 'root@localhost', $allowe
     group => '0',
     owner => '0',
     mode => '0755',
-    purge => true,
-    recurse => true,
   }
   ->
 
