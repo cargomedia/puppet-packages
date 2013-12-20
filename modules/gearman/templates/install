@@ -1,0 +1,5 @@
+curl -sL https://launchpad.net/gearmand/1.2/1.1.2/+download/gearmand-<%= @version %>.tar.gz | tar -xzf -
+cd gearmand-*
+./configure
+make
+make install

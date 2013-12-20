@@ -1,0 +1,5 @@
+check process gearmand with pidfile /var/run/gearman-job-server/gearman-job-server.pid
+	start program = "/etc/init.d/gearman-job-server start"
+	stop  program = "/etc/init.d/gearman-job-server stop"
+	if failed port 4730 with timeout 10 seconds for 2 cycles then restart
+	if 25 restarts within 50 cycles then timeout

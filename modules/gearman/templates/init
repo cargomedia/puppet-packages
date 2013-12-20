@@ -1,0 +1,57 @@
+#!/bin/sh
+
+### BEGIN INIT INFO
+# Provides:          gearman-job-server
+# Required-Start:    $network $remote_fs $syslog
+# Required-Stop:     $network $remote_fs $syslog
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Starts the gearman-job-server
+### END INIT INFO
+
+NAME=gearman-job-server
+DESC=gearman-job-server
+DAEMON=/usr/local/sbin/gearmand
+DAEMON_USER=gearman
+PIDDIR=/var/run/gearman-job-server
+PIDFILE=${PIDDIR}/gearman-job-server.pid
+LOGDIR=/var/log/gearman-job-server
+DAEMON_ARGS="--pid-file=${PIDFILE} --user=${DAEMON_USER} --daemon --log-file=${LOGDIR}/gearman.log"
+
+test -x ${DAEMON} || exit 0
+set -e
+. /lib/lsb/init-functions
+
+
+case "${1}" in
+	start)
+		log_daemon_msg "Starting ${DESC}" "${NAME}"
+		mkdir -p ${LOGDIR} ${PIDDIR}
+		chown ${DAEMON_USER} ${LOGDIR} ${PIDDIR}
+		if (start-stop-daemon --start --exec $DAEMON -- $DAEMON_ARGS); then
+			log_end_msg 0
+		else
+			log_end_msg 1
+		fi
+	;;
+	stop)
+		log_daemon_msg "Stopping ${DESC}" "${NAME}"
+		if (start-stop-daemon --stop --pidfile $PIDFILE --exec $DAEMON); then
+			log_end_msg 0
+		else
+			log_end_msg 1
+		fi
+	;;
+	status)
+		status_of_proc -p ${PIDFILE} ${DAEMON} ${NAME}
+	;;
+	restart)
+		${0} stop
+		${0} start
+	;;
+	*)
+		echo "Usage: ${0} {start|stop|status|restart}" >&2
+	;;
+esac
+
+exit 0
