@@ -20,4 +20,12 @@ class memcached ($port = 11211, $memory = 2048, $user = 'nobody') {
     content => template('memcached/monit'),
     require => Service['memcached'],
   }
+
+  @bipbip::entry {'memcached':
+    plugin => 'memcached',
+    options => {
+      'hostname' => 'localhost',
+      'port' => $port,
+    }
+  }
 }
