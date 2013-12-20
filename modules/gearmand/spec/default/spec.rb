@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe user('gearmand') do
+describe user('gearman') do
   it { should exist }
 end
 

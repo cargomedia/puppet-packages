@@ -2,7 +2,7 @@ class gearmand::server {
 
   require 'gearmand'
 
-  user {'gearmand':
+  user {'gearman':
     ensure => present,
   }
 
