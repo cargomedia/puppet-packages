@@ -45,4 +45,12 @@ class redis {
     content => template('redis/monit'),
     require => File['/etc/init.d/redis'],
   }
+
+  @bipbip::entry {'redis':
+    plugin => 'redis',
+    options => {
+      'hostname' => 'localhost',
+      'port' => '6379',
+    }
+  }
 }
