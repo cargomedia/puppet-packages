@@ -54,6 +54,15 @@ class puppet::db(
   }
   ->
 
+  file {'/etc/puppetdb/conf.d/config.ini':
+    ensure => file,
+    content => template('puppet/db/config.ini'),
+    owner => 'puppetdb',
+    group => 'puppetdb',
+    mode => '0640',
+    notify => Service['puppetdb'],
+  }
+
   file {'/etc/puppetdb/conf.d/jetty.ini':
     ensure => file,
     content => template('puppet/db/jetty.ini'),
