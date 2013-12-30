@@ -1,9 +1,9 @@
 mod 'monit',
   :git => 'git@github.com:njam/puppet-packages.git',
-  :spec => 'deps',
+  :ref => 'deps',
   :path => 'modules/monit'
 
 mod 'bipbip',
   :git => 'git@github.com:njam/puppet-packages.git',
-  :spec => 'deps',
+  :ref => 'deps',
   :path => 'modules/bipbip'
