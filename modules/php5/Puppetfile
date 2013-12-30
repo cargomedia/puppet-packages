@@ -1,0 +1,34 @@
+mod 'apt',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :spec => 'deps',
+  :path => 'modules/apt'
+
+mod 'apache2',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :spec => 'deps',
+  :path => 'modules/apache2'
+
+mod 'build',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :spec => 'deps',
+  :path => 'modules/build'
+
+mod 'helper',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :spec => 'deps',
+  :path => 'modules/helper'
+
+mod 'gearmand',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :spec => 'deps',
+  :path => 'modules/gearmand'
+
+mod 'monit',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :spec => 'deps',
+  :path => 'modules/monit'
+
+mod 'bipbip',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :spec => 'deps',
+  :path => 'modules/bipbip'

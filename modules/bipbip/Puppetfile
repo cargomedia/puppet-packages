@@ -1,0 +1,9 @@
+mod 'monit',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :spec => 'deps',
+  :path => 'modules/monit'
+
+mod 'ruby',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :spec => 'deps',
+  :path => 'modules/ruby'

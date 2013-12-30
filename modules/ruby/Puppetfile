@@ -1,0 +1,14 @@
+mod 'unzip',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :spec => 'deps',
+  :path => 'modules/unzip'
+
+mod 'helper',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :spec => 'deps',
+  :path => 'modules/helper'
+
+mod 'cgi-fcgi',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :spec => 'deps',
+  :path => 'modules/cgi-fcgi'

@@ -1,0 +1,4 @@
+mod 'php5',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :spec => 'deps',
+  :path => 'modules/php5'
