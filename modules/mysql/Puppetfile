@@ -1,0 +1,19 @@
+mod 'sysctl',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :spec => 'deps',
+  :path => 'modules/sysctl'
+
+mod 'ulimit',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :spec => 'deps',
+  :path => 'modules/ulimit'
+
+mod 'monit',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :spec => 'deps',
+  :path => 'modules/monit'
+
+mod 'bipbip',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :spec => 'deps',
+  :path => 'modules/bipbip'
