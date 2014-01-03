@@ -1,0 +1,4 @@
+mod 'apt',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :ref => 'deps',
+  :path => 'modules/apt'
