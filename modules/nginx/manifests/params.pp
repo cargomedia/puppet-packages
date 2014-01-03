@@ -19,7 +19,7 @@ class nginx::params {
 
   $nx_client_body_timeout     = '10'
   $nx_client_header_timeout   = '10'
-  $nx_client_max_body_size    = '10M'
+  $nx_client_max_body_size    = '100M'
 
   $nx_proxy_set_header        = [
     'Host $host', 'X-Real-IP $remote_addr',
