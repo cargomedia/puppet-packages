@@ -38,7 +38,7 @@ class nginx (
 
   class {'nginx::service': }
 
-  monit::entry {'nginx':
+  @monit::entry {'nginx':
     content => template('nginx/monit/nginx'),
     require => Service['nginx'],
   }
