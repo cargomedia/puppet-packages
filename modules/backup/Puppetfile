@@ -1,0 +1,9 @@
+mod 'rdiff-backup',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :ref => 'deps',
+  :path => 'modules/rdiff-backup'
+
+mod 'ssh',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :ref => 'deps',
+  :path => 'modules/ssh'

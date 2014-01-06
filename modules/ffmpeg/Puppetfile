@@ -1,0 +1,19 @@
+mod 'deb-multimedia',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :ref => 'deps',
+  :path => 'modules/deb-multimedia'
+
+mod 'yasm',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :ref => 'deps',
+  :path => 'modules/yasm'
+
+mod 'x264',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :ref => 'deps',
+  :path => 'modules/x264'
+
+mod 'helper',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :ref => 'deps',
+  :path => 'modules/helper'

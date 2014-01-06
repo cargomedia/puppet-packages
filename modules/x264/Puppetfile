@@ -1,0 +1,14 @@
+mod 'build',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :ref => 'deps',
+  :path => 'modules/build'
+
+mod 'helper',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :ref => 'deps',
+  :path => 'modules/helper'
+
+mod 'yasm',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :ref => 'deps',
+  :path => 'modules/yasm'

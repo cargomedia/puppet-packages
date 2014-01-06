@@ -1,0 +1,9 @@
+mod 'nodejs',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :ref => 'deps',
+  :path => 'modules/nodejs'
+
+mod 'monit',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :ref => 'deps',
+  :path => 'modules/monit'

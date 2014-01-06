@@ -1,0 +1,9 @@
+mod 'apache2',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :ref => 'deps',
+  :path => 'modules/apache2'
+
+mod 'php5',
+  :git => 'git@github.com:njam/puppet-packages.git',
+  :ref => 'deps',
+  :path => 'modules/php5'
