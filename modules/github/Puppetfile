@@ -1,4 +1,3 @@
 mod 'ssh',
-  :git => 'git@github.com:njam/puppet-packages.git',
-  :ref => 'deps',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/ssh'
