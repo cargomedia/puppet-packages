@@ -62,7 +62,7 @@ class lvm::install (
     }
 
     $mountBasename = file_basename($logicalVolumeMountpoint)
-    monit::entry {"fs-check-${mountBasename}":
+    @monit::entry {"fs-check-${mountBasename}":
       content => template('lvm/monit'),
     }
   }
