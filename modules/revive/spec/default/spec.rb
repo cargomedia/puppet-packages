@@ -8,7 +8,7 @@ describe port(443) do
   it { should be_listening }
 end
 
-describe command('env no_proxy=example.com curl http://example -L') do
+describe command('env no_proxy=example.com curl http://example.com -L') do
   its(:stdout) { should match 'Revive Adserver' }
 end
 
