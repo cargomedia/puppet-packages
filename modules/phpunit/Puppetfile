@@ -1,0 +1,3 @@
+mod 'php5',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/php5'
