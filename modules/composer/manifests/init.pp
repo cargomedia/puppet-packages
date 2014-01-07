@@ -4,12 +4,13 @@ class composer($version = '1.0.0-alpha7') {
 
   $phar = '/usr/local/lib/composer.phar'
   $binary = '/usr/local/bin/composer'
+  $config = '/etc/php5/conf.d/composer.ini'
 
   exec {"curl ${phar}":
     command => "curl -sL http://getcomposer.org/download/${version}/composer.phar > ${phar}",
     path => ['/usr/local/bin', '/usr/bin', '/bin'],
     unless => "test -f ${phar} && ${binary} --version | grep -w '${version}'",
-    require => [File[$binary], Php5::Extension::Config['suhosin'], Class['php5']],
+    require => [File[$binary], File[$config], Class['php5']],
   }
 
   file {$binary:
@@ -18,10 +19,8 @@ class composer($version = '1.0.0-alpha7') {
     mode => '0755',
   }
 
-  php5::extension::config {'suhosin':
-    settings => {
-      'suhosin.executor.include.whitelist' => 'phar'
-    }
+  file {$config:
+    ensure => file,
+    source => 'puppet:///modules/composer/composer.ini',
   }
-
 }
