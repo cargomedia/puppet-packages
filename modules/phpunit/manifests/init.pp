@@ -8,19 +8,24 @@ class phpunit($version = '3.7.28') {
 
   exec {"curl ${phar}":
     command => "curl -sL https://github.com/sebastianbergmann/phpunit/releases/download/${version}/phpunit.phar > ${phar}",
-    path => ['/usr/local/bin', '/usr/bin', '/bin'],
-    unless => "test -f ${phar} && ${binary} --version | grep -w '${version}'",
-    require => [File[$binary], File[$config], Class['php5']],
+    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    unless => "${binary} --version | grep -w '${version}'",
+    require => [File[$binary], File[$config]],
   }
 
   file {$binary:
     ensure => file,
-    source => 'puppet:///modules/phpunit/phpunit.sh',
+    content => template('phpunit/phpunit.sh'),
+    owner => '0',
+    group => '0',
     mode => '0755',
   }
 
   file {$config:
     ensure => file,
-    source => 'puppet:///modules/phpunit/phpunit.ini',
+    content => template('phpunit/phpunit.ini'),
+    owner => '0',
+    group => '0',
+    mode => '0644',
   }
 }
