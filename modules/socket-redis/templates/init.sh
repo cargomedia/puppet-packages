@@ -16,7 +16,7 @@ DAEMON=/usr/bin/node
 DAEMON_USER=nodejs:nodejs
 PIDFILE=/var/run/socket-redis.pid
 LOGDIR="<%= @logDir %>"
-DAEMON_ARGS="/usr/bin/socket-redis --log-dir=$LOGDIR --redis-host=<%= @redisHost %> --socket-ports=<%= @socketPorts.join(',') %> --statusPort=<%= @statusPort %><%= ' --ssl-key=' + @sslKeyFile if @sslKeyFile %><%= ' --ssl-cert=' + @sslCertFile if @sslCertFile %><%= ' --ssl-pfx=' + @sslPfxFile if @sslPfxFile %><%= ' --ssl-passphrase=' + @sslPassphraseFile if @sslPassphraseFile %>"
+DAEMON_ARGS="/usr/bin/socket-redis --log-dir=$LOGDIR --redis-host=<%= @redisHost %> --socket-ports=<%= @socketPorts.join(',') %> --status-port=<%= @statusPort %><%= ' --ssl-key=' + @sslKeyFile if @sslKeyFile %><%= ' --ssl-cert=' + @sslCertFile if @sslCertFile %><%= ' --ssl-pfx=' + @sslPfxFile if @sslPfxFile %><%= ' --ssl-passphrase=' + @sslPassphraseFile if @sslPassphraseFile %>"
 
 test -x $DAEMON || exit 0
 set -e
