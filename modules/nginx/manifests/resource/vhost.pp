@@ -44,9 +44,11 @@ define nginx::resource::vhost(
     }
   }
 
+  $ssl_only = ($ssl == true) and ($ssl_port == $listen_port)
+
   # Use the File Fragment Pattern to construct the configuration files.
   # Create the base configuration file reference.
-  if ($listen_port != $ssl_port or $ssl == false) {
+  if (!$ssl_only) {
     file { "${nginx::config::nx_temp_dir}/nginx.d/${name}-001":
       ensure  => $ensure ? {
         'absent' => absent,
@@ -56,9 +58,7 @@ define nginx::resource::vhost(
       notify => Class['nginx::service'],
     }
   }
-  if ($ssl == true) and ($ssl_port == $listen_port) {
-    $ssl_only = true
-  }
+
 
   # Create the default location reference for the vHost
   nginx::resource::location {"${name}-default":
@@ -86,7 +86,7 @@ define nginx::resource::vhost(
     }
   }
   # Create a proper file close stub.
-  if ($listen_port != $ssl_port or $ssl == false) {
+  if (!$ssl_only) {
     file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-699":
       ensure  => $ensure ? {
         'absent' => absent,
