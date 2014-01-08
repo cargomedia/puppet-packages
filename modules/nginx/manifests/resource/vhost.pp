@@ -46,7 +46,7 @@ define nginx::resource::vhost(
 
   # Use the File Fragment Pattern to construct the configuration files.
   # Create the base configuration file reference.
-  if ($listen_port != $ssl_port) {
+  if ($listen_port != $ssl_port or $ssl == false) {
     file { "${nginx::config::nx_temp_dir}/nginx.d/${name}-001":
       ensure  => $ensure ? {
         'absent' => absent,
@@ -86,7 +86,7 @@ define nginx::resource::vhost(
     }
   }
   # Create a proper file close stub.
-  if ($listen_port != $ssl_port) {
+  if ($listen_port != $ssl_port or $ssl == false) {
     file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-699":
       ensure  => $ensure ? {
         'absent' => absent,
