@@ -19,11 +19,9 @@ class revive (
   require 'mysql::server'
   require 'rsync'
 
-  $version_escaped = regsubst($version, '\.', '\\.', G)
-
   helper::script {'install revive':
     content => template('revive/install.sh'),
-    unless => "grep -qE 'VERSION.+\'${version_escaped}\'' /var/revive/constants.php",
+    unless => "grep -w \"define('VERSION', '${version}')\" /var/revive/constants.php",
     require => Class['rsync'],
   }
 
