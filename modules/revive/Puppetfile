@@ -1,0 +1,23 @@
+mod 'php5',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/php5'
+
+mod 'openssl',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/openssl'
+
+mod 'apache2',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/apache2'
+
+mod 'mysql',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/mysql'
+
+mod 'rsync',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/rsync'
+
+mod 'helper',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/helper'
