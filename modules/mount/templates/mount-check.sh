@@ -20,7 +20,8 @@ if !(grep -q "[[:space:]]${mount}[[:space:]]" /proc/mounts); then
 	fi
 	echo "Done."
 fi
-runCommandWithTimeout 5 "mktemp --tmpdir=$mount >/tmp/t && rm -f $(cat /tmp/t)"
+
+out=$(timeout --kill-after=1 --signal=9 5 sh -c 'm=$(mktemp --tmpdir=${mount}) && rm -f ${m}')
 if [ $? -gt 0 ]; then
 	echo "Cannot write to mountpoint: $mount - remounting..."
 	umount -l $mount
