@@ -20,8 +20,8 @@ describe command('snmpwalk -v 2c -c public localhost .iso.3.6.1.2.1.1.1.0 | grep
 	it { should return_exit_status 1 }
 end
 
-describe command('monit summary | grep snmpd.*running') do
-	it { should return_exit_status 0 }
+describe command('monit summary') do
+  its(:stdout) { should match /Process 'snmpd'/ }
 end
 
 ['/raid', '/foo'].each do |disk|
