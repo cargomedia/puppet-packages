@@ -1,6 +1,6 @@
 class apt::source::dotdeb {
 
-  helper::fail_on_os() { "OS Version check $title": }
+  helper::fail_on_os { "OS Version check $title": }
 
   apt::source {'dotdeb':
     entries => [
