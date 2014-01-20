@@ -1,5 +1,5 @@
 #!/bin/bash -e
 
-curl -Ls http://apt.puppetlabs.com/puppetlabs-release-squeeze.deb > puppetlabs-release-squeeze.deb
-dpkg -i puppetlabs-release-squeeze.deb
+curl -Ls http://apt.puppetlabs.com/puppetlabs-release-<%= @lsbdistcodename %>.deb > puppetlabs-release-<%= @lsbdistcodename %>.deb
+dpkg -i puppetlabs-release-<%= @lsbdistcodename %>.deb
 apt-get update
