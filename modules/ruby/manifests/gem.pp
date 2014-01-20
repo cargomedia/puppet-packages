@@ -1,6 +1,8 @@
 define ruby::gem ($ensure) {
 
-  require 'ruby::gems'
+  if $lsbdistid == 'Debian' and $lsbdistcode == 'squeeze' {
+    require 'ruby::gems'
+  }
 
   package {$name:
     ensure => $ensure,
