@@ -2,8 +2,6 @@ class apt {
 
   include 'apt::update'
 
-  helper::fail_on_os { "OS Version check $title": }
-
   file { "/etc/apt/sources.list.d/":
     ensure => directory,
     owner   => '0',
@@ -17,7 +15,6 @@ class apt {
     owner => '0',
     mode => '0644',
     content => template("${module_name}/sources-${lsbdistcodename}"),
-    require => Helper::Fail_on_os[ "OS Version check $title" ],
     notify => Exec['apt_update']
   }
 }
