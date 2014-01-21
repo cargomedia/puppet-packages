@@ -1,11 +1,8 @@
 class puppet::common {
 
-  helper::fail_on_os{"OS Version check $title": }
-
   helper::script {'install puppet apt sources':
     content => template('puppet/install-apt-sources.sh'),
     unless => "dpkg -l puppetlabs-release | grep '^ii '",
-    require => Helper::Fail_on_os["OS Version check $title"],
   }
 
   file {'/etc/puppet':
