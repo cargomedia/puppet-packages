@@ -11,6 +11,5 @@ class apt::source::dotdeb {
         'key_url' => 'http://www.dotdeb.org/dotdeb.gpg',
       }
     },
-    require => Helper::Fail_on_os[ "OS Version check $title" ],
   }
 }
