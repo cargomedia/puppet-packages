@@ -1,10 +1,10 @@
-define ruby::gem ($ensure) {
+define ruby::gem ($ensure = present) {
 
-  if $lsbdistid == 'Debian' and $lsbdistcode == 'squeeze' {
-    require 'ruby::gems'
+  class { 'ruby::gems':
+    before => Package[ $name ],
   }
 
-  package {$name:
+  package { $name:
     ensure => $ensure,
     provider => gem,
   }
