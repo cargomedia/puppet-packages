@@ -3,7 +3,7 @@
 mount=$1
 function runCommandWithTimeout {
 	command=$2
-	timeout --kill-after=1 --signal=9 $1 sh -c "$command"
+	timeout --signal=9 $1 sh -c "$command"
 	if [ $? -eq 0 ]; then
 		return 0
 	else
