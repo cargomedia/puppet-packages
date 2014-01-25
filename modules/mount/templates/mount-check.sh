@@ -3,8 +3,8 @@
 mount=$1
 function runCommandWithTimeout {
 	command=$2
-	read -t$1 result < <(sh -c "($command)>/dev/null && echo ok")
-	if [ $? -eq 0 ] && [ $result == "ok" ]; then
+	timeout --signal=9 $1 sh -c "$command"
+	if [ $? -eq 0 ]; then
 		return 0
 	else
 		return 1
@@ -20,7 +20,7 @@ if !(grep -q "[[:space:]]${mount}[[:space:]]" /proc/mounts); then
 	fi
 	echo "Done."
 fi
-runCommandWithTimeout 5 "testFile=$(mktemp --tmpdir=$mount) && rm -f \$testFile"
+runCommandWithTimeout 5 "testFile=\$(mktemp --tmpdir=${mount}) && rm -f \$testFile"
 if [ $? -gt 0 ]; then
 	echo "Cannot write to mountpoint: $mount - remounting..."
 	umount -l $mount
