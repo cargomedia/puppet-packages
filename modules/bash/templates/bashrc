@@ -49,3 +49,6 @@ if [ -x /usr/lib/command-not-found -o -x /usr/share/command-not-found ]; then
                 fi
         }
 fi
+
+# Start an ssh-agent
+eval `ssh-agent` >/dev/null
