@@ -2,7 +2,7 @@ class virtualbox {
 
   apt::source {'virtualbox':
     entries => [
-      'deb http://download.virtualbox.org/virtualbox/debian squeeze contrib non-free',
+      "deb http://download.virtualbox.org/virtualbox/debian ${::lsbdistcodename} contrib non-free",
     ],
     keys => {
       'virtualbox' => {
