@@ -1,7 +1,7 @@
 class raid::hwraid-le-vert {
 
   apt::source {'hwraid-le-vert':
-    entries => ['deb http://hwraid.le-vert.net/debian squeeze main'],
+    entries => [ "deb http://hwraid.le-vert.net/debian ${::lsbdistcodename} main" ],
     keys => {
       'le-vert' => {
         key     => '23B3D3B4',
