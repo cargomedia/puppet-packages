@@ -1,8 +1,10 @@
-define ruby::gem ($ensure) {
+define ruby::gem ($ensure = present) {
 
-  require 'ruby::gems'
+  class { 'ruby::gems':
+    before => Package[ $name ],
+  }
 
-  package {$name:
+  package { $name:
     ensure => $ensure,
     provider => gem,
   }

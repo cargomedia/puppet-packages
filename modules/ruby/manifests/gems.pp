@@ -1,10 +1,19 @@
-class ruby::gems ($version = '1.6.2') {
+class ruby::gems  {
 
   require 'ruby'
-  require 'unzip'
 
-  helper::script {'install gems':
-    content => template('ruby/install-gems.sh'),
-    unless => "which gem && gem --version | grep -P '^\\Q${version}\\E$'",
+  if $::lsbdistid == 'Debian' and $::lsbmajdistrelease <= 6 {
+
+    require 'unzip'
+    $version = '1.6.2'
+
+    helper::script { 'install gems':
+      content => template('ruby/install-gems.sh'),
+      unless => "which gem && gem --version | grep -P '^\\Q${version}\\E$'",
+    }
+  } else {
+    package { 'rubygems':
+      ensure => present,
+    }
   }
 }
