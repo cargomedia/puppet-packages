@@ -2,8 +2,8 @@ class nginx::package {
 
   apt::source {'nginx':
     entries => [
-      'deb http://nginx.org/packages/debian/ squeeze nginx',
-      'deb-src http://nginx.org/packages/debian/ squeeze nginx'
+      "deb http://nginx.org/packages/debian/ ${::lsbdistcodename} nginx",
+      "deb-src http://nginx.org/packages/debian/ ${::lsbdistcodename} nginx"
     ],
     keys => {
       'nginx' => {
