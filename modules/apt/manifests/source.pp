@@ -1,6 +1,6 @@
 define apt::source(
   $ensure = present,
-  $entries = {},
+  $entries = [],
   $keys  = [],
 ) {
 

@@ -1,7 +1,7 @@
 class deb-multimedia {
 
   apt::source {'deb-multimedia':
-    entries => 'deb http://www.deb-multimedia.org squeeze main non-free',
+    entries => [ "deb http://www.deb-multimedia.org ${::lsbdistcodename} main non-free" ],
     keys => {
       'debian-multimedia' => {
         key => '1F41B907',
