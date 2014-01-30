@@ -1,8 +1,8 @@
 #!/bin/sh -e
 
-curl -sL http://www.tortall.net/projects/yasm/releases/yasm-<%= @version %>.tar.gz > yasm-<%= @version %>.tar.gz
-tar -xvf yasm-<%= @version %>.tar.gz
+curl -sL https://github.com/yasm/yasm/archive/v<%= @version %>.zip > yasm-<%= @version %>.zip
+unzip yasm-<%= @version %>.zip
 cd yasm-<%= @version %>
-./configure
+./autogen.sh
 make
 make install
