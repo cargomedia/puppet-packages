@@ -3,7 +3,7 @@ class satis($hostname) {
   require 'composer'
   require 'git'
 
-  $version = '3d27252f3e3d5992b382a54f4911510048320b2a'
+  $version = '3a63f6e591324d24e96dc4722c4735bd988668d5'
 
   file {'/etc/satis':
     ensure => 'directory',
