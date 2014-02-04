@@ -11,12 +11,18 @@ function runCommandWithTimeout {
 	fi
 }
 
+function failAndRestart {
+	message=$1
+	echo $1
+	if [ -x /etc/init.d/nfs-kernel-server ] && (which monit >/dev/null); then monit restart nfs-kernel-server; fi
+	exit 1
+}
+
 if !(grep -q "[[:space:]]${mount}[[:space:]]" /proc/mounts); then
 	echo "Mountpoint not mounted: $mount - remounting..."
 	runCommandWithTimeout 5 "mount $mount"
 	if [ $? -gt 0 ]; then
-		echo "Failed to remount!"
-		exit 1
+		failAndRestart
 	fi
 	echo "Done."
 fi
@@ -26,8 +32,7 @@ if [ $? -gt 0 ]; then
 	umount -l $mount
 	runCommandWithTimeout 5 "mount $mount"
 	if [ $? -gt 0 ]; then
-		echo "Failed to remount!"
-		exit 1
+		failAndRestart
 	fi
 	echo "Done."
 fi
