@@ -14,7 +14,7 @@ function runCommandWithTimeout {
 #Fix for https://github.com/cargomedia/puppet-cargomedia/issues/229
 function failAndRestart {
 	echo $1
-	if [ -x /etc/init.d/nfs-kernel-server ] && (which monit >/dev/null); then monit restart nfs-server; fi
+	if (test -x /etc/init.d/nfs-kernel-server && which monit >/dev/null); then monit restart nfs-server; fi
 	exit 1
 }
 
