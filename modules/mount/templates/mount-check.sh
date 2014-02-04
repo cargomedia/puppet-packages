@@ -21,7 +21,7 @@ if !(grep -q "[[:space:]]${mount}[[:space:]]" /proc/mounts); then
 	echo "Mountpoint not mounted: $mount - remounting..."
 	runCommandWithTimeout 5 "mount $mount"
 	if [ $? -gt 0 ]; then
-		failAndRestart
+		failAndRestart "Failed to remount!"
 	fi
 	echo "Done."
 fi
@@ -31,7 +31,7 @@ if [ $? -gt 0 ]; then
 	umount -l $mount
 	runCommandWithTimeout 5 "mount $mount"
 	if [ $? -gt 0 ]; then
-		failAndRestart
+		failAndRestart "Failed to remount!"
 	fi
 	echo "Done."
 fi
