@@ -10,7 +10,8 @@ function runCommandWithTimeout {
 		return 1
 	fi
 }
-
+#TODO: Move this check to monit once on wheezy
+#Fix for https://github.com/cargomedia/puppet-cargomedia/issues/229
 function failAndRestart {
 	echo $1
 	if [ -x /etc/init.d/nfs-kernel-server ] && (which monit >/dev/null); then monit restart nfs-server; fi
