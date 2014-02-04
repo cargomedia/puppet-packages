@@ -14,7 +14,7 @@ function runCommandWithTimeout {
 function failAndRestart {
 	message=$1
 	echo $1
-	if [ -x /etc/init.d/nfs-kernel-server ] && (which monit >/dev/null); then monit restart nfs-kernel-server; fi
+	if [ -x /etc/init.d/nfs-kernel-server ] && (which monit >/dev/null); then monit restart nfs-server; fi
 	exit 1
 }
 
