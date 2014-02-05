@@ -3,8 +3,9 @@ define mount::entry ($source, $target = $name, $type = 'none', $options = 'defau
   include 'mount::common'
 
   exec {"prepare ${target}":
-    command => "mkdir -p ${target}; find '${target}' -type d -exec chmod -w {} \\;; find '${target}' -type f -exec chmod -w {} \\;;",
+    command => "mkdir -p ${target}",
     creates => $target,
+    unless => "test -d ${target}",
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
   ->
@@ -16,7 +17,6 @@ define mount::entry ($source, $target = $name, $type = 'none', $options = 'defau
     dump => '0',
     pass => '0',
     options => $options,
-    require => Exec["prepare ${target}"],
   }
   ->
 
