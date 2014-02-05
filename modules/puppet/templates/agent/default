@@ -1,2 +1,3 @@
 START=yes
 DAEMON_OPTS=""
+export LC_CTYPE="en_US.UTF-8"
