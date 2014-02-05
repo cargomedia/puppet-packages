@@ -1,9 +1,9 @@
-define mount::entry ($source, $target = $name, $type = 'none', $options = 'defaults', $mount = false) {
+define mount::entry ($target = $name, $source, $type = 'none', $options = 'defaults', $mount = false) {
 
   include 'mount::common'
 
   exec {"prepare ${target}":
-    command => "mkdir -p ${target}",
+    command => "mkdir -p ${target}; find '${target}' -type d -exec chmod -w {} \\;; find '${target}' -type f -exec chmod -w {} \\;;",
     creates => $target,
     unless => "test -d ${target}",
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
