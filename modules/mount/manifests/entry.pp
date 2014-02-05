@@ -5,7 +5,6 @@ define mount::entry ($target = $name, $source, $type = 'none', $options = 'defau
   exec {"prepare ${target}":
     command => "mkdir -p ${target}; find '${target}' -type d -exec chmod -w {} \\;; find '${target}' -type f -exec chmod -w {} \\;;",
     creates => $target,
-    unless => "test -d ${target}",
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
   ->
