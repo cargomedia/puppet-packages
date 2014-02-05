@@ -7,6 +7,13 @@ define nfs::server::export($publicPath = $name, $localPath, $configuration, $own
 
   $filename = md5($name)
 
+  exec {$lpath:
+    command => "mkdir -p ${lpath}",
+    creates => $lpath,
+    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+  }
+  ->
+
   mount::entry {$path:
     source => $localPath,
     options => 'bind',
