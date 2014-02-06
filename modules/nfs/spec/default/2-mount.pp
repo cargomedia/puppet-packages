@@ -1,8 +1,8 @@
 node default {
 
-  exec {'be_kind_and_relax_just_5_sec':
+  exec {'wait_5_sec_for_nfs_export_to_become_ready':
     command => "sleep 5",
-    path => "/usr/bin:/bin",
+    path  => ['/bin','/usr/bin'],
   }
   ->
 
