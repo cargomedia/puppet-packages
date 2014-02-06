@@ -1,4 +1,4 @@
-define mount::entry ($source, $target = $name, $type = 'none', $options = 'defaults', $mount = false) {
+define mount::entry ($target = $name, $source, $type = 'none', $options = 'defaults', $mount = false) {
 
   include 'mount::common'
 
@@ -16,7 +16,6 @@ define mount::entry ($source, $target = $name, $type = 'none', $options = 'defau
     dump => '0',
     pass => '0',
     options => $options,
-    require => Exec["prepare ${target}"],
   }
   ->
 
