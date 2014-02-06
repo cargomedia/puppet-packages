@@ -2,7 +2,7 @@ node default {
 
   exec {'wait_5_sec_for_nfs_export_to_become_ready':
     command => "sleep 5",
-    path  => ['/bin','/usr/bin'],
+    path  => ['/bin', '/usr/bin'],
   }
   ->
 
