@@ -14,7 +14,7 @@ if !(lvs | grep -q ${LVM_NAME_SHORT}) then
 fi
 
 if (mkfs.<%= @logicalVolumeFilesystem %> -N ${LVM_NAME} 2>/dev/null) then
-	mkfs.<2%= @logicalVolumeFilesystem %> ${LVM_NAME} >/dev/null
+	mkfs.<%= @logicalVolumeFilesystem %> ${LVM_NAME} >/dev/null
 else
 	exit 1
 fi
