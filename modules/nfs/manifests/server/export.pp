@@ -23,6 +23,7 @@ define nfs::server::export($publicPath = $name, $localPath, $configuration, $own
 
   exec {$path:
     command => "chown ${owner}:${group} ${path} && chmod ${permissions} ${path}",
+    creates => $path,
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
   ->
