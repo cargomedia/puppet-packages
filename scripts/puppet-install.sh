@@ -6,7 +6,7 @@ if [ "$EUID" != "0" ]; then
 	exit 1;
 fi
 
-if (1>/dev/null which lsb_release && lsb_release --id | grep -q "Debian$"); then
+if (which lsb_release >/dev/null && lsb_release --id | grep -q "Debian$"); then
 	LSB_CODENAME=$(lsb_release --codename | sed 's/Codename:\t//')
 	wget -q http://apt.puppetlabs.com/puppetlabs-release-${LSB_CODENAME}.deb
 	dpkg -i puppetlabs-release-${LSB_CODENAME}.deb
