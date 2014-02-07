@@ -13,6 +13,6 @@ if !(lvs | grep -q ${LVM_NAME_SHORT}) then
 	lvcreate -l <%= @logicalVolumeSize %>VG <%= @volumeGroupName %> --name ${LVM_NAME} >/dev/null
 fi
 
-if (mkfs.<%= @logicalVolumeFilesystem %> -N ${LVM_NAME} 2>/dev/null) then
+if !(mkfs.<%= @logicalVolumeFilesystem %> -N ${LVM_NAME} 2>/dev/null) then
 	mkfs.<%= @logicalVolumeFilesystem %> ${LVM_NAME} >/dev/null
 fi
