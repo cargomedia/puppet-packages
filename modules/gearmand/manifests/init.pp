@@ -1,6 +1,14 @@
 class gearmand ($version = '1.1.2', $series = '1.2') {
 
-  package {['libboost-all-dev', 'libevent-dev']:
+  if $::lsbdistcodename == 'squeeze' {
+    $packages = ['libboost-all-dev', 'libevent-dev']
+  }
+
+  if $::lsbdistcodename == 'wheezy' {
+    $packages = ['libboost-all-dev', 'libevent-dev', 'libcloog-ppl0']
+  }
+
+  package {$packages:
     ensure => present,
   }
   ->
