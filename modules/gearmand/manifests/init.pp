@@ -1,17 +1,13 @@
 class gearmand ($version = '1.1.2', $series = '1.2') {
 
-  if $::lsbdistcodename == 'squeeze' {
-    $packages = ['libboost-all-dev', 'libevent-dev']
+  case $::lsbdistcodename {
+    'squeeze': {
+      require 'gearmand::deps::debian_squeeze'
+    }
+    'wheezy': {
+      require 'gearmand::deps::debian_wheezy'
+    }
   }
-
-  if $::lsbdistcodename == 'wheezy' {
-    $packages = ['libboost-all-dev', 'libevent-dev', 'libcloog-ppl0']
-  }
-
-  package {$packages:
-    ensure => present,
-  }
-  ->
 
   helper::script {'install gearman':
     content => template('gearmand/install.sh'),
