@@ -1,10 +1,8 @@
 node default {
 
-  class {'foreman::initd':
-  }
+  class {'foreman::initd':}
 
   file {'/tmp/Procfile':
     ensure => file,
   }
-
 }
