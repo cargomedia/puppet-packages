@@ -4,8 +4,10 @@ class nodejs {
 
   $version = '0.10.22'
 
-  package {['libevent-1.4-2', 'libssl-dev']:
-    ensure => present
+  if $::lsbdistcodename == 'squeeze' {
+    package {['libevent-1.4-2', 'libssl-dev']:
+      ensure => present
+    }
   }
 
   user {'nodejs':
