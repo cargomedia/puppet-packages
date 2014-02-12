@@ -1,11 +1,14 @@
 class gearmand ($version = '1.1.2', $series = '1.2') {
 
-  case $::lsbdistcodename {
-    'squeeze': {
-      require 'gearmand::deps::debian_squeeze'
+  if $::lsbdistcodename == 'squeeze' {
+    package {['libboost-all-dev', 'libevent-dev']:
+      ensure => present,
     }
-    'wheezy': {
-      require 'gearmand::deps::debian_wheezy'
+  }
+
+  if $::lsbdistcodename == 'wheezy' {
+    package {['libboost-all-dev', 'libevent-dev', 'libcloog-ppl0']:
+      ensure => present,
     }
   }
 
