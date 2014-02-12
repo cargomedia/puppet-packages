@@ -18,7 +18,7 @@ class VagrantHelper
   end
 
   def reset
-    has_snapshot = system('vagrant snapshot list 2>/dev/null | grep -q "Name: default "')
+    has_snapshot = system('vagrant snapshot list ' + @box + ' 2>/dev/null | grep -q "Name: default "')
     is_running = command('status').match(/running/)
 
     unless has_snapshot
@@ -26,12 +26,12 @@ class VagrantHelper
       command 'up --no-provision'
       command 'provision', {'DISABLE_PROXY' => 'true'}
       command 'provision'
-      command 'snapshot take default'
+      system('vagrant snapshot take ' + @box + ' default')
     end
     unless is_running
       command 'up'
     end
-    command 'snapshot go default'
+    system('vagrant snapshot go ' + @box + ' default')
   end
 
   def connect
