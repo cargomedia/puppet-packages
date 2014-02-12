@@ -9,6 +9,14 @@ class apache2 {
     mode => '0755',
   }
 
+  file {'/etc/apache2/httpd.conf':
+    ensure => file,
+    group => '0',
+    owner => '0',
+    mode => '0644',
+    notify => Service['apache2'],
+  }
+
   file {'/etc/apache2/apache2.conf':
     ensure => file,
     content => template('apache2/apache2.conf'),
