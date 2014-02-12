@@ -10,6 +10,12 @@ class nodejs {
     }
   }
 
+  if $::lsbdistcodename == 'wheezy' {
+    package {['libevent-2.0-5', 'libssl-dev']:
+      ensure => present
+    }
+  }
+
   user {'nodejs':
     ensure => present,
     system => true,
