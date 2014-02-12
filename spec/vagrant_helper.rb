@@ -2,7 +2,7 @@ class VagrantHelper
 
   def initialize(working_dir, box, verbose)
     @working_dir = working_dir
-    @box = box || 'wheezy'
+    @box = box
     @verbose = verbose
   end
 

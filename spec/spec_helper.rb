@@ -27,7 +27,7 @@ RSpec.configure do |c|
 
   debug = ENV['debug']
   keep_box = ENV['keep_box']
-  box = ENV['box']
+  box = ENV['box'] || 'wheezy'
   c.add_setting :before_files
   c.before_files = []
   root_dir = Dir.getwd
