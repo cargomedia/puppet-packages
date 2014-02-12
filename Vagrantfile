@@ -18,7 +18,7 @@ Vagrant.configure("2") do |config|
     puppet.module_path = "modules"
   end
 
-  config.vm.define :wheezy do |wheezy|
+  config.vm.define 'wheezy', primary: true do |wheezy|
     wheezy.vm.box = "debian-7-amd64"
     wheezy.vm.box_url = "http://s3.cargomedia.ch/vagrant-boxes/debian-7-amd64.box"
   end
