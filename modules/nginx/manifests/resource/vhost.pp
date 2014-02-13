@@ -7,6 +7,7 @@ define nginx::resource::vhost(
   $ssl_cert               = undef,
   $ssl_key                = undef,
   $ssl_port               = '443',
+  $ssl_session_cache      = 'shared:SSL:10m',
   $proxy                  = undef,
   $proxy_read_timeout     = $nginx::params::nx_proxy_read_timeout,
   $index_files            = ['index.html', 'index.htm', 'index.php'],
