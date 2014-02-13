@@ -22,7 +22,7 @@ end
 
 describe file('/tmp/mounted') do
   it { should be_directory }
-  it { should be_mode 607 }
+  it { should be_mode 703 }
   it { should be_owned_by 'nobody' }
   it { should be_grouped_into 'nogroup' }
 end
@@ -33,7 +33,7 @@ end
 
 describe file('/nfsexport/shared') do
   it { should be_directory }
-  it { should be_mode 607 }
+  it { should be_mode 703 }
   it { should be_owned_by 'nobody' }
   it { should be_grouped_into 'nogroup' }
 end
