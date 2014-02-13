@@ -1,4 +1,4 @@
-define nfs::server::export($publicPath = $name, $localPath, $configuration, $owner = 'root', $group = 'root', $permissions = '640') {
+define nfs::server::export($publicPath = $name, $localPath, $configuration, $owner = 'root', $group = 'root', $permissions = '0640') {
 
   include 'nfs::server'
 
@@ -21,10 +21,11 @@ define nfs::server::export($publicPath = $name, $localPath, $configuration, $own
   }
   ->
 
-  exec {$path:
-    command => "chown ${owner}:${group} ${path} && chmod ${permissions} ${path}",
-    creates => $path,
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+  file {$path:
+    ensure => directory,
+    owner => $owner,
+    group => $group,
+    mode => $permissions,
   }
   ->
 

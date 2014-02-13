@@ -21,6 +21,6 @@ node default {
       configuration => '*(rw,async,no_root_squash,no_subtree_check,fsid=1)',
       owner => 'nobody',
       group => 'nogroup',
-      permissions => '607',
+      permissions => '0703',
   }
 }
