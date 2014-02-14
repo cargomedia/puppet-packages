@@ -29,7 +29,7 @@ class wowza (
   }
   ~>
 
-  exec {'update-rc.d wowza defaults':
+  exec {'update-rc.d wowza defaults  && /etc/init.d/wowza start':
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
