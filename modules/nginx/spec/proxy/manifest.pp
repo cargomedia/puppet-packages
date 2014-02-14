@@ -2,6 +2,10 @@ node default {
 
   require 'monit'
 
+  package{'gnutls-bin':
+    ensure => present,
+  }
+
   $ssl_cert = '-----BEGIN CERTIFICATE-----
 MIIDZDCCAkygAwIBAgIJAJQrxIgzRNLSMA0GCSqGSIb3DQEBBQUAMCoxKDAmBgNV
 BAMUHyouc3RyZWFtLmZ1Y2tib29rLmNpLmNhcmdvbWVkaWEwHhcNMTMwNTI0MTYw

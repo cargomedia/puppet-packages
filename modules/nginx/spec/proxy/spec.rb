@@ -36,6 +36,7 @@ describe port(8090) do
   it { should be_listening }
 end
 
-describe command('openssl s_client -connect localhost:8090 | grep "CONNECTED"') do
+describe command('gnutls-cli -p 8090 --noticket -r --insecure 127.0.0.1') do
+  its(:stdout) { should match /This is a resumed connection/ }
   it { should return_exit_status 0 }
 end
