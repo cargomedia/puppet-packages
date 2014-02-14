@@ -47,8 +47,8 @@
 # Uncomment this if you want Polipo to use a ridiculously small amount
 # of memory (a hundred C-64 worth or so):
 
-# chunkHighMark = 819200
-# objectHighMark = 128
+chunkHighMark = <%= @chunkHighMark %>
+objectHighMark = <%= @objectHighMark %>
 
 # Uncomment this if you've got plenty of memory:
 
