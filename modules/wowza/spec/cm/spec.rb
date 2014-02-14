@@ -16,8 +16,8 @@ describe file('/usr/local/WowzaMediaServer/lib/ch.cargomedia.wms-0.0.1.jar') do
   it { should be_file }
 end
 
-describe command('jar tf /usr/local/WowzaMediaServer/lib/ch.cargomedia.wms-0.0.1.jar') do
-  let(:pre_command) { 'apt-get install -qy openjdk-6-jdk' }
+describe command('/usr/bin/unzip -tl /usr/local/WowzaMediaServer/lib/ch.cargomedia.wms-0.0.1.jar') do
+  let(:pre_command) { 'apt-get install -qy unzip' }
   it { should return_exit_status 0 }
 end
 
