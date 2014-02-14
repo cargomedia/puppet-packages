@@ -37,6 +37,6 @@ describe port(8090) do
 end
 
 describe command('gnutls-cli -p 8090 --noticket -r --insecure 127.0.0.1') do
-  its(:stdout) { should match /This is a resumed connection/ }
+  its(:stdout) { should match /This is a resumed session/ }
   it { should return_exit_status 0 }
 end
