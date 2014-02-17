@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 git clone https://github.com/zenovich/runkit.git && cd runkit
-git fetch && git checkout <%= @commit %>
+git checkout <%= @commit %>
 
 phpize
 ./configure
