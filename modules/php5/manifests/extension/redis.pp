@@ -5,7 +5,7 @@ class php5::extension::redis {
   require 'php5'
 
   helper::script {'install php5-redis':
-    content => template('php5/redis/install.sh'),
+    content => template('php5/extension/redis/install.sh'),
     unless => "php --ri redis | grep '^Redis Version => ${version}$'",
     require => Class['php5'],
   }
