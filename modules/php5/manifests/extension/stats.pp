@@ -12,12 +12,8 @@ class php5::extension::stats (
   }
   ->
 
-  file { '/etc/php5/conf.d/stats.ini':
-    ensure => file,
+  php5::config_extension {'stats':
     content => template('php5/extension/stats/conf.ini'),
-    owner => '0',
-    group => '0',
-    mode => '0644',
   }
 
 }
