@@ -18,6 +18,8 @@ class php5::extension::svm (
   }
   ->
 
-  php5::config_extension {'svm':}
+  php5::config_extension {'svm':
+    content => template('php5/extension/svm/conf.ini'),
+  }
 
 }
