@@ -14,7 +14,6 @@ define php5::config_extension (
     owner => '0',
     group => '0',
     mode => '0644',
-    before => Exec['exec php5enmod']
   }
 
   if $::lsbdistcodename != 'squeeze' {
