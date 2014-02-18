@@ -20,3 +20,7 @@ mod 'git',
 mod 'ruby',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/ruby'
+
+mod 'librarian_puppet',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/librarian_puppet'
