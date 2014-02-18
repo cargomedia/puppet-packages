@@ -8,7 +8,8 @@ class puppet::master (
   $bootstrap_classes = [
     'puppet::agent',
     'monit' # See https://github.com/cargomedia/puppet-packages/issues/232
-  ]
+  ],
+  $puppetfile = undef
 ) {
 
   require 'ssh::auth::keyserver'
@@ -84,6 +85,13 @@ class puppet::master (
     }
     class {'puppet::master::puppetdb':
       port => $puppetdb_port_ssl,
+    }
+  }
+
+  if $puppetfile {
+    notify{'puppetfile':}
+    class {'puppet::master::puppetfile':
+      content => $puppetfile,
     }
   }
 
