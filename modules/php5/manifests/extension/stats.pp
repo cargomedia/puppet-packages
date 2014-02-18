@@ -12,6 +12,8 @@ class php5::extension::stats (
   }
   ->
 
-  php5::config_extension {'stats':}
+  php5::config_extension {'stats':
+    content => template('php5/extension/stats/conf.ini'),
+  }
 
 }

@@ -11,6 +11,8 @@ class php5::extension::redis {
   }
   ->
 
-  php5::config_extension {'redis':}
+  php5::config_extension {'redis':
+    content => template('php5/extension/redis/conf.ini'),
+  }
 
 }

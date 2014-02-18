@@ -13,6 +13,8 @@ class php5::extension::gearman (
   }
   ->
 
-  php5::config_extension {'gearman':}
+  php5::config_extension {'gearman':
+    content => template('php5/extension/gearman/conf.ini'),
+  }
 
 }

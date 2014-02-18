@@ -16,7 +16,9 @@ class php5::extension::apc (
   }
   ->
 
-  php5::config_extension {'apc':}
+  php5::config_extension {'apc':
+    content => template('php5/extension/apc/conf.ini'),
+  }
 
   Php5::Fpm::With-apc <||>
 }

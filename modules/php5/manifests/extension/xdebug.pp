@@ -9,6 +9,7 @@ class php5::extension::xdebug {
   ->
 
   # Original config "/etc/php5/conf.d/xdebug.ini" contains absolute path to "xdebug.so", so we don't touch it
-  php5::config_extension {'xdebug-options':}
-
+  php5::config_extension {'xdebug-options':
+    content => template('php5/extension/xdebug-options/conf.ini'),
+  }
 }

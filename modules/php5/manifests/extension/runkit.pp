@@ -13,6 +13,8 @@ class php5::extension::runkit (
   }
   ->
 
-  php5::config_extension {'runkit':}
+  php5::config_extension {'runkit':
+    content => template('php5/extension/runkit/conf.ini'),
+  }
 
 }
