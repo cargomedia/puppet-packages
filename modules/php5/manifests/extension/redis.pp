@@ -11,11 +11,6 @@ class php5::extension::redis {
   }
   ->
 
-  file {'/etc/php5/conf.d/redis.ini':
-    ensure => file,
-    content => template('php5/redis/conf.ini'),
-    owner => '0',
-    group => '0',
-    mode => '0644',
-  }
+  php5::config_extension {'redis':}
+
 }
