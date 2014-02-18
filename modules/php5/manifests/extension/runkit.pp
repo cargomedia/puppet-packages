@@ -13,12 +13,6 @@ class php5::extension::runkit (
   }
   ->
 
-  file { '/etc/php5/conf.d/runkit.ini':
-    ensure => file,
-    content => template('php5/extension/runkit/conf.ini'),
-    owner => '0',
-    group => '0',
-    mode => '0644',
-  }
+  php5::config_extension {'runkit':}
 
 }
