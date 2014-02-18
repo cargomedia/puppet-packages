@@ -10,7 +10,7 @@ class php5::extension::apc (
   require 'php5'
 
   helper::script {'install php5::apc':
-    content => template('php5/apc/install.sh'),
+    content => template('php5/extension/apc/install.sh'),
     unless => "php --re apc | grep 'apc version' | grep ' ${version} '",
     require => Class['php5'],
   }
