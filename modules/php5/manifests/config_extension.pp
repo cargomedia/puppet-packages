@@ -1,5 +1,6 @@
 define php5::config_extension (
-  $extension = $name
+  $extension = $name,
+  $content = ''
 ) {
 
   if $::lsbdistcodename == 'squeeze' {
@@ -10,7 +11,7 @@ define php5::config_extension (
 
   file {"/etc/php5/${conf_dir}/${extension}.ini":
     ensure => file,
-    content => template("php5/extension/${extension}/conf.ini"),
+    content => $content,
     owner => '0',
     group => '0',
     mode => '0644',
