@@ -89,7 +89,6 @@ class puppet::master (
   }
 
   if $puppetfile {
-    notify{'puppetfile':}
     class {'puppet::master::puppetfile':
       content => $puppetfile,
     }
