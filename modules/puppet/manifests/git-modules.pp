@@ -14,7 +14,6 @@ define puppet::git-modules ($source, $version = 'master') {
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     creates => $path,
     require => Package['git'],
-    notify => Exec['/etc/puppet/conf.d/main-modulepath'],
   }
   ->
 

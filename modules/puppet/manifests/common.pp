@@ -17,6 +17,8 @@ class puppet::common {
     group => '0',
     owner => '0',
     mode => '0755',
+    purge => true,
+    recurse => true,
   }
 
   file {'/etc/puppet/conf.d/main':
@@ -25,16 +27,6 @@ class puppet::common {
     group => '0',
     owner => '0',
     mode => '0644',
-    notify => Exec['/etc/puppet/conf.d/main-modulepath'],
-  }
-
-  exec {'/etc/puppet/conf.d/main-modulepath':
-    command => 'MODULEPATH=$(ls -d -1 /etc/puppet/repos/* | perl -pe \'s/(.*)\n/:$1\/modules/\'); echo "modulepath = /etc/puppet/modules:/usr/share/puppet/modules$MODULEPATH" > /etc/puppet/conf.d/main-modulepath',
-    provider => 'shell',
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    refreshonly => true,
-    require => File['/etc/puppet/conf.d'],
-    notify => Exec['/etc/puppet/puppet.conf'],
   }
 
   exec {'/etc/puppet/puppet.conf':
@@ -47,6 +39,4 @@ class puppet::common {
   ruby::gem {'deep_merge':
     ensure => present,
   }
-
-  class {'puppet::module::stdlib':}
 }
