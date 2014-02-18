@@ -7,7 +7,7 @@ mod 'ssh',
 
 mod 'helper',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/monit'
+  :path => 'modules/helper'
 
 mod 'monit',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
