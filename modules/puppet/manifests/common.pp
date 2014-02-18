@@ -27,6 +27,7 @@ class puppet::common {
     group => '0',
     owner => '0',
     mode => '0644',
+    notify => Exec['/etc/puppet/puppet.conf'],
   }
 
   exec {'/etc/puppet/puppet.conf':
