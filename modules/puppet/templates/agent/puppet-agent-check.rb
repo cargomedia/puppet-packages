@@ -1,4 +1,4 @@
-#/us/bin/env ruby
+#/usr/bin/env ruby
 require 'pathname'
 
 last_summary = Pathname.new('/var/lib/puppet/state/last_run_summary.yaml')
