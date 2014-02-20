@@ -1,4 +1,6 @@
-class puppet::common {
+class puppet::common(
+  $modulepath = '/etc/puppet/modules'
+) {
 
   helper::script {'install puppet apt sources':
     content => template('puppet/install-apt-sources.sh'),

@@ -3,5 +3,5 @@ confdir = /etc/puppet
 ssldir = /etc/puppet/ssl
 logdir = /var/log/puppet
 rundir = /var/run/puppet
-modulepath = /etc/puppet/modules
+modulepath = <%= @modulepath %>
 certname = <%= @clientcert %>
