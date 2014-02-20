@@ -1,12 +1,14 @@
 class php5::extension::xdebug(
   $remote_host = 'localhost',
   $remote_port = 9000,
+  $remote_connect_back = true,
   $remote_autostart = false
 ) {
 
   require 'php5'
 
   $remote_autostart_int = $remote_autostart ? {true => 1, false => 0}
+  $remote_connect_back_int = $remote_connect_back ? {true => 1, false => 0}
 
   package {'php5-xdebug':
     ensure => present,
