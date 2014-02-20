@@ -54,6 +54,13 @@ class puppet::db(
   }
   ->
 
+  file {'/etc/puppetdb/conf.d':
+    ensure => directory,
+    owner => 'puppetdb',
+    group => 'puppetdb',
+    mode => '0640',
+  }
+
   file {'/etc/puppetdb/conf.d/config.ini':
     ensure => file,
     content => template('puppet/db/config.ini'),
