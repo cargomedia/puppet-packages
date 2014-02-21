@@ -1,5 +1,6 @@
 puppet-packages [![Build Status](https://travis-ci.org/cargomedia/puppet-packages.png?branch=master)](https://travis-ci.org/cargomedia/puppet-packages)
 ===============
+Reusable puppet modules for Debian Squeeze and Wheezy.
 
 Install puppet
 --------------
