@@ -1,29 +1,32 @@
-# puppet-packages
+puppet-packages [![Build Status](https://travis-ci.org/cargomedia/puppet-packages.png?branch=master)](https://travis-ci.org/cargomedia/puppet-packages)
+===============
 
-[![Build Status](https://travis-ci.org/cargomedia/puppet-packages.png?branch=master)](https://travis-ci.org/cargomedia/puppet-packages)
-
-## Install puppet
-```bash
+Install puppet
+--------------
+```sh
 curl -Ls https://raw.github.com/cargomedia/puppet-packages/master/scripts/puppet-install.sh | bash
 ```
 
-## Initial puppet run
-### On agent
+Initial puppet run
+------------------
+On agent:
+
 To make agent able to pull from master, master needs to accept agent's certificate.
 Send certificate accept request from agent node by running:
-```bash
+```sh
 puppet agent --test --server <puppet-master> --waitforcert 10 --tags bootstrap
 ```
 
 
-### On master
+On master:
 List certificates, pick correct and sign it:
-```bash
+```sh
 puppet cert list
 puppet cert sign <cert-name>
 ```
 
-## Module development
+Module development
+------------------
 It's recommended to write specs for newly developed modules and test them by running appropriate rake task.
 
 All specs should be placed in `modules/<module-name>/spec/<spec-name>/spec.rb`. This way they can be detected and form rake tasks.
