@@ -7,7 +7,7 @@ if [ "$EUID" != "0" ]; then
 fi
 
 if ! (dpkg -l lsb-release); then
-	apt-get update && apt-get install lsb-release
+	apt-get update && apt-get -y install lsb-release
 fi
 
 if (which lsb_release >/dev/null && lsb_release --id | grep -q "Debian$"); then
