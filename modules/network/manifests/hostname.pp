@@ -1,5 +1,5 @@
 class network::hostname(
-  $fqdn = $fqdn
+  $fqdn
 ) {
 
   include 'network::host::purge'
