@@ -6,6 +6,10 @@ if [ "$EUID" != "0" ]; then
 	exit 1;
 fi
 
+if ! (dpkg -l lsb-release); then
+	apt-get update && apt-get -y install lsb-release
+fi
+
 if (which lsb_release >/dev/null && lsb_release --id | grep -q "Debian$"); then
 	LSB_CODENAME=$(lsb_release --codename | sed 's/Codename:\t//')
 	wget -q http://apt.puppetlabs.com/puppetlabs-release-${LSB_CODENAME}.deb
