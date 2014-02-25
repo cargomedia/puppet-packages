@@ -40,7 +40,7 @@ class redis {
     group => '0',
     mode => '0755',
   }
-  ->
+  ~>
 
   exec {'update-rc.d redis defaults  && /etc/init.d/redis start':
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
