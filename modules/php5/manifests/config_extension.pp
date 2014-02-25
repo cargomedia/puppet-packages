@@ -3,6 +3,8 @@ define php5::config_extension (
   $content = ''
 ) {
 
+  include 'php5::config_extension_change'
+
   if $::lsbdistcodename == 'squeeze' {
     $conf_dir = 'conf.d'
   } else {
@@ -15,6 +17,7 @@ define php5::config_extension (
     owner => '0',
     group => '0',
     mode => '0644',
+    notify => Class['php5::config_extension_change'],
   }
 
   if $::lsbdistcodename != 'squeeze' {
@@ -23,6 +26,7 @@ define php5::config_extension (
       path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
       subscribe => File["/etc/php5/${conf_dir}/${extension}.ini"],
       refreshonly => true,
+      notify => Class['php5::config_extension_change'],
     }
   }
 }
