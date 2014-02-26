@@ -13,3 +13,7 @@ describe file('/etc/default/mysql-proxy') do
   its(:content) { should match '--proxy-backend-addresses=10.10.10.13:3306' }
   its(:content) { should match '--plugins=proxy' }
 end
+
+describe port(4040) do
+  it { should be_listening }
+end
