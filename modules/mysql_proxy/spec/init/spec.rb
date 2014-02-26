@@ -11,4 +11,5 @@ end
 describe file('/etc/default/mysql-proxy') do
   its(:content) { should match '--proxy-backend-addresses=10.10.10.12:3306' }
   its(:content) { should match '--proxy-backend-addresses=10.10.10.13:3306' }
+  its(:content) { should match '--plugins=proxy' }
 end
