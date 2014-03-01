@@ -36,7 +36,7 @@ PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 case "${TYPE}" in
 "mysql")
     MONIT='monit'
-    if ! (which monit); then MONIT='true'; fi
+    if ! (which monit >/dev/null); then MONIT='true'; fi
     rm -rf /tmp/backup-db
     ${MONIT} unmonitor mysql
     /etc/init.d/mysql stop >/dev/null
