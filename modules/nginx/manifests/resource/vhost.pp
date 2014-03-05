@@ -68,7 +68,7 @@ define nginx::resource::vhost(
 
   if ($ssl == true) {
     # HTTPS server
-    file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-001-ssl":
+    file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-700-ssl":
       ensure => $ensure ? {
       'absent' => absent,
       default  => 'file',
