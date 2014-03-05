@@ -46,15 +46,42 @@ define nginx::resource::vhost(
 
   $ssl_only = ($ssl == true) and ($ssl_port == $listen_port)
 
-  # Use the File Fragment Pattern to construct the configuration files.
-  # Create the base configuration file reference.
   if (!$ssl_only) {
+    # HTTP server
     file { "${nginx::config::nx_temp_dir}/nginx.d/${name}-001":
       ensure  => $ensure ? {
-        'absent' => absent,
-        default  => 'file',
+      'absent' => absent,
+      default  => 'file',
       },
       content => template('nginx/vhost/vhost_header.erb'),
+      notify => Class['nginx::service'],
+    }
+    file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-699":
+      ensure  => $ensure ? {
+      'absent' => absent,
+      default  => 'file',
+      },
+      content => template('nginx/vhost/vhost_footer.erb'),
+      notify  => Class['nginx::service'],
+    }
+  }
+
+  if ($ssl == true) {
+    # HTTPS server
+    file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-001-ssl":
+      ensure => $ensure ? {
+      'absent' => absent,
+      default  => 'file',
+      },
+      content => template('nginx/vhost/vhost_ssl_header.erb'),
+      notify => Class['nginx::service'],
+    }
+    file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-999-ssl":
+      ensure => $ensure ? {
+      'absent' => absent,
+      default  => 'file',
+      },
+      content => template('nginx/vhost/vhost_footer.erb'),
       notify => Class['nginx::service'],
     }
   }
@@ -83,37 +110,6 @@ define nginx::resource::vhost(
   if $location_cfg_append {
     Nginx::Resource::Location["${name}-default"] {
       location_cfg_append => $location_cfg_append
-    }
-  }
-  # Create a proper file close stub.
-  if (!$ssl_only) {
-    file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-699":
-      ensure  => $ensure ? {
-        'absent' => absent,
-        default  => 'file',
-      },
-      content => template('nginx/vhost/vhost_footer.erb'),
-      notify  => Class['nginx::service'],
-    }
-  }
-
-  # Create SSL File Stubs if SSL is enabled
-  if ($ssl == true) {
-    file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-001-ssl":
-      ensure => $ensure ? {
-        'absent' => absent,
-        default  => 'file',
-      },
-      content => template('nginx/vhost/vhost_ssl_header.erb'),
-      notify => Class['nginx::service'],
-    }
-    file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-999-ssl":
-      ensure => $ensure ? {
-        'absent' => absent,
-        default  => 'file',
-      },
-      content => template('nginx/vhost/vhost_footer.erb'),
-      notify => Class['nginx::service'],
     }
   }
 }
