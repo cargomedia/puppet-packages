@@ -1,5 +1,5 @@
 server {
-  listen       <%= @ssl_port %>;
+  listen       <%= @listen_ip %>:<%= @ssl_port %>;
 <% unless @server_name.empty? %>
   server_name           <%= @server_name.join(" ") %>;
 <% end %>
