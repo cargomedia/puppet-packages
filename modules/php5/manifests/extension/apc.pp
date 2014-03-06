@@ -3,6 +3,7 @@ class php5::extension::apc (
   $stat = true,
   $shim_size = '256M',
   $enable_cli = true,
+  $cache_by_default = true,
   $configureParams = '--enable-apc-mmap --enable-apc-pthreadmutex --disable-apc-debug --disable-apc-filehits --disable-apc-spinlocks'
 ) {
 
