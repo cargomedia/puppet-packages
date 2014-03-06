@@ -4,5 +4,6 @@ node default {
     shim_size => '64M',
     stat => false,
     enable_cli => false,
+    cache_by_default => false,
   }
 }
