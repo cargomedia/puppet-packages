@@ -21,3 +21,7 @@ mod 'rsync',
 mod 'helper',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/helper'
+
+mod 'patch',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/patch'
