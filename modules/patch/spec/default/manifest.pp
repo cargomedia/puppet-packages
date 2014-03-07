@@ -20,8 +20,9 @@ index fa58e34..5526998 100644
  line two
 -line three
 \ No newline at end of file
-+line two and a half
-+line three'
++line "two and a half"
++line three
+'
 
   file {'/tmp/foo':
     content => "line one\nline two\nline three",

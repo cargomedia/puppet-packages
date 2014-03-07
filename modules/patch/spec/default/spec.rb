@@ -9,7 +9,7 @@ describe file('/tmp/bar') do
 end
 
 describe file('/tmp/foo') do
-  its(:content) {should match /two and a half/}
+  its(:content) {should match /"two and a half"/}
 end
 
 describe file('/tmp/bar') do
