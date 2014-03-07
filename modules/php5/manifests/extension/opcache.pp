@@ -21,4 +21,6 @@ class php5::extension::opcache (
   php5::config_extension {'opcache':
     content => template('php5/extension/opcache/conf.ini'),
   }
+
+  Php5::Fpm::With-opcache <||>
 }
