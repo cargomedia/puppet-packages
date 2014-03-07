@@ -33,7 +33,7 @@ index 9175e39..60b5578 100644
      {
 -        parent::prepare(&$aParams);
 +        parent::prepare($aParams);
-
+         
          // Set the span requirements
          // Disable this for now, since these queries can be very slow
 diff --git a/lib/OA/Admin/Statistics/Factory.php b/lib/OA/Admin/Statistics/Factory.php
