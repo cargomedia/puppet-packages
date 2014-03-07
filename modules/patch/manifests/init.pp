@@ -17,6 +17,7 @@ define patch(
 
   exec {"patch ${pwd}":
     command => "cd ${pwd} && patch --strip=${strip_level} --forward < ${patch_file}",
+    returns => [ '0', '1' ],
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     provider => shell,
   }
