@@ -73,4 +73,9 @@ class php5::fpm {
     port => 9000,
   }
 
+  @php5::fpm::with-opcache {'php5-fpm':
+    host => 'localhost',
+    port => 9000,
+  }
+
 }
