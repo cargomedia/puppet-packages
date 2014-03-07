@@ -1,5 +1,6 @@
 class php5::extension::opcache (
-  $version = '7.0.3'
+  $version = '7.0.3',
+  $version_output = '7.0.3FE'
 ) {
 
   require 'build'
@@ -7,7 +8,7 @@ class php5::extension::opcache (
 
   helper::script {'install php5::extension::opcache':
     content => template('php5/extension/opcache/install.sh'),
-    unless => "php --re opcache | grep 'opcache version' | grep ' ${version} '",
+    unless => "php --re 'Zend OPcache' | grep 'Zend OPcache version ${version_output} '",
     require => Class['php5'],
   }
   ->
