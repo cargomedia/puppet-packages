@@ -7,7 +7,7 @@ define patch(
   $patch_file_name = md5($content)
   $patch_file = "/tmp/${patch_file_name}"
 
-  file {"${patch_file}":
+  file {$patch_file:
     content => $content,
     group => '0',
     owner => '0',
@@ -16,7 +16,7 @@ define patch(
   ->
 
   exec {"patch ${pwd}":
-    command => "cd ${pwd} && patch --strip=${strip_level} --forward <${patch_file}",
+    command => "cd ${pwd} && patch --strip=${strip_level} --forward < ${patch_file}",
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     provider => shell,
   }
