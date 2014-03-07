@@ -5,7 +5,8 @@ class php5::extension::opcache (
   $memory_consumption = 256, # in Mbytes
   $interned_strings_buffer = 8, # in Mbytes
   $max_accelerated_files = 4000,
-  $fast_shutdown = true
+  $fast_shutdown = true,
+  $validate_timestamps = false
 ) {
 
   require 'build'
