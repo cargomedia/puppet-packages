@@ -1,5 +1,7 @@
 class php5::extension::apcu (
   $version = '4.0.4',
+  $shm_size = '256M',
+  $enable_cli = true,
   $configureParams = ''
 ) {
 
