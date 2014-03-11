@@ -13,3 +13,13 @@ describe file('/etc/mysql/debian.cnf') do
   it { should be_file }
   it { should contain 'password = bar' }
 end
+
+describe command('/etc/init.d/mysql status') do
+  it { should return_exit_status 0 }
+  its(:stdout) { should match 'Uptime' }
+end
+
+describe command('mysql -e "show status"') do
+  it { should return_exit_status 0 }
+  its(:stdout) { should match 'Uptime' }
+end
