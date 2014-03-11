@@ -1,5 +1,3 @@
-Vagrant.require_plugin 'vagrant-proxyconf'
-
 Vagrant.configure("2") do |config|
 
   config.vm.synced_folder '.proxy-cache', '/tmp/proxy-cache', :owner => 'proxy', :create => true
