@@ -35,12 +35,14 @@ PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 case "${TYPE}" in
 "mysql")
+    MONIT='monit'
+    if ! (which monit >/dev/null); then MONIT='true'; fi
     rm -rf /tmp/backup-db
-    /usr/sbin/monit unmonitor mysql
+    ${MONIT} unmonitor mysql
     /etc/init.d/mysql stop >/dev/null
     cp -a ${SOURCE_PATH} /tmp/backup-db
     /etc/init.d/mysql start >/dev/null
-    /usr/sbin/monit monitor mysql
+    ${MONIT} monitor mysql
 
     ssh root@${HOST} "mkdir -p ${DEST_PATH}"
     rdiff-backup ${RDIFF_OPTIONS} /tmp/backup-db root@${HOST}::${DEST_PATH} >/dev/null

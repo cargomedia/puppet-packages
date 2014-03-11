@@ -12,5 +12,8 @@ node default {
   nfs::server::export {'/shared':
     localPath => '/raid/shared',
     configuration => '*(rw,async,no_root_squash,no_subtree_check,fsid=1)',
+    owner => 'nobody',
+    group => 'nogroup',
+    permissions => '747'
   }
 }

@@ -6,10 +6,15 @@ if [ "$EUID" != "0" ]; then
 	exit 1;
 fi
 
-if (test -f /etc/debian_version && cat /etc/debian_version | grep -q '^6\.'); then
-	wget -q http://apt.puppetlabs.com/puppetlabs-release-squeeze.deb
-	dpkg -i puppetlabs-release-squeeze.deb
-	rm puppetlabs-release-squeeze.deb
+if ! (dpkg -l lsb-release); then
+	apt-get update && apt-get -y install lsb-release
+fi
+
+if (which lsb_release >/dev/null && lsb_release --id | grep -q "Debian$"); then
+	LSB_CODENAME=$(lsb_release --codename | sed 's/Codename:\t//')
+	wget -q http://apt.puppetlabs.com/puppetlabs-release-${LSB_CODENAME}.deb
+	dpkg -i puppetlabs-release-${LSB_CODENAME}.deb
+	rm puppetlabs-release-${LSB_CODENAME}.deb
 	apt-get update
 
 	apt-get install -qy puppet facter

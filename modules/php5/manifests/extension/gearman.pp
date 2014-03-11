@@ -13,12 +13,8 @@ class php5::extension::gearman (
   }
   ->
 
-  file { '/etc/php5/conf.d/gearman.ini':
-    ensure => file,
+  php5::config_extension {'gearman':
     content => template('php5/extension/gearman/conf.ini'),
-    owner => '0',
-    group => '0',
-    mode => '0644',
   }
 
 }

@@ -1,23 +1,24 @@
 class VagrantHelper
 
-  def initialize(working_dir, verbose)
+  def initialize(working_dir, box, verbose)
     @working_dir = working_dir
+    @box = box
     @verbose = verbose
   end
 
   def command(subcommand, env = {})
     if @verbose
-      puts 'Vagrant: ' + subcommand + (env.length > 0 ? ' (' + env.to_s + ')' : '')
+      puts "Vagrant(#{@box}) : " + subcommand + (env.length > 0 ? ' (' + env.to_s + ')' : '')
     end
     env_backup = ENV.to_hash
     env.each {|key, value| ENV[key] = value }
-    output = `cd #{@working_dir} && vagrant #{subcommand}`
+    output = `cd #{@working_dir} && vagrant #{subcommand} #{@box}`
     ENV.replace(env_backup)
     output
   end
 
   def reset
-    has_snapshot = system('vagrant snapshot list 2>/dev/null | grep -q "Name: default "')
+    has_snapshot = system('vagrant snapshot list ' + @box + ' 2>/dev/null | grep -q "Name: default "')
     is_running = command('status').match(/running/)
 
     unless has_snapshot
@@ -25,12 +26,12 @@ class VagrantHelper
       command 'up --no-provision'
       command 'provision', {'DISABLE_PROXY' => 'true'}
       command 'provision'
-      command 'snapshot take default'
+      system('vagrant snapshot take ' + @box + ' default')
     end
     unless is_running
       command 'up'
     end
-    command 'snapshot go default'
+    system('vagrant snapshot go ' + @box + ' default')
   end
 
   def connect

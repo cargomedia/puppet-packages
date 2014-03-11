@@ -1,0 +1,3 @@
+mod 'ruby',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/ruby'

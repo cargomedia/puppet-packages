@@ -1,7 +1,8 @@
 #!/bin/bash -e
 
-curl -sL https://github.com/downloads/zenovich/runkit/runkit-<%= @version %>.tgz | tar -xzf -
-cd runkit-<%= @version %>
+git clone https://github.com/zenovich/runkit.git && cd runkit
+git checkout <%= @commit %>
+
 phpize
 ./configure
 make

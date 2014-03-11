@@ -1,8 +1,9 @@
 ENABLED="true"
 OPTIONS="--proxy-address=<%= @host %>:<%= @port %>
-	--proxy-skip-profiling=true
+  --proxy-skip-profiling=true
 <% @backend_addresses.each do |address| -%>
-	--proxy-backend-addresses=<%= address %>
+  --proxy-backend-addresses=<%= address %>
 <% end -%>
-	--proxy-lua-script=/etc/mysql-proxy/failover.lua"
+  --proxy-lua-script=/etc/mysql-proxy/failover.lua
+  --plugins=proxy"
 

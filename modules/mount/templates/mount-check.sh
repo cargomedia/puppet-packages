@@ -25,6 +25,14 @@ if [ $? -gt 0 ]; then
 	echo "Cannot write to mountpoint: $mount - remounting..."
 	umount -l $mount
 	runCommandWithTimeout 5 "mount $mount"
+
+	#TODO: Move this check to monit once on wheezy
+	#Fix for https://github.com/cargomedia/puppet-cargomedia/issues/229
+	if (test -x /etc/init.d/nfs-kernel-server && which monit >/dev/null && test $(hostname) = 'storage1'); then
+		echo "Restarting nfs-server..."
+		monit restart nfs-server
+	fi
+
 	if [ $? -gt 0 ]; then
 		echo "Failed to remount!"
 		exit 1

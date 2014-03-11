@@ -1,10 +1,11 @@
 class vagrant {
 
-  $version = '1.3.5'
-  $url = 'http://files.vagrantup.com/packages/a40522f5fabccb9ddabad03d836e120ff5d14093/vagrant_1.3.5_x86_64.deb'
+  $version = '1.5.0'
+  $url = 'https://dl.bintray.com/mitchellh/vagrant/vagrant_1.5.0_x86_64.deb'
 
   helper::script {'install vagrant':
     content => template('vagrant/install.sh'),
-    unless => "test -e /opt/vagrant/bin/vagrant && /opt/vagrant/bin/vagrant --version | grep -q '^Vagrant ${version}$'",
+    unless => "vagrant --version | grep '^Vagrant ${version}$'",
+    environment => ['HOME=/tmp'],   # Vagrant needs $HOME (https://github.com/mitchellh/vagrant/issues/2215)
   }
 }

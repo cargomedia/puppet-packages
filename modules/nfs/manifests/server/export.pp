@@ -1,4 +1,4 @@
-define nfs::server::export($publicPath = $name, $localPath, $configuration, $permissions = '777') {
+define nfs::server::export($publicPath = $name, $localPath, $configuration, $owner = 'root', $group = 'root', $permissions = '0640') {
 
   include 'nfs::server'
 
@@ -6,13 +6,6 @@ define nfs::server::export($publicPath = $name, $localPath, $configuration, $per
   $lpath = shellquote($localPath)
 
   $filename = md5($name)
-
-  exec {$path:
-    command => "mkdir -p ${path} && chmod ${permissions} ${path}",
-    creates => $path,
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-  }
-  ->
 
   exec {$lpath:
     command => "mkdir -p ${lpath}",
@@ -27,6 +20,15 @@ define nfs::server::export($publicPath = $name, $localPath, $configuration, $per
     mount => true,
   }
   ->
+
+  file {$path:
+    ensure => directory,
+    owner => $owner,
+    group => $group,
+    mode => $permissions,
+  }
+  ->
+
 
   file {"/etc/exports.d/${filename}":
     ensure => file,

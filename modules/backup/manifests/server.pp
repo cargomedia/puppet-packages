@@ -4,7 +4,7 @@ class backup::server(
 
   require 'rdiff-backup'
 
-  ssh::auth::grant {"root@${fqdn} for backup-agent@${id}":
+  ssh::auth::grant {"root@${clientcert} for backup-agent@${id}":
     id => "backup-agent@${id}",
     user => 'root',
   }

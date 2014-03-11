@@ -20,10 +20,20 @@ describe file('/nfsexport/shared/bar') do
   it { should be_file }
 end
 
-describe file('/tmp/mounted/foo') do
-  it { should be_file }
+describe file('/tmp/mounted') do
+  it { should be_directory }
+  it { should be_mode 703 }
+  it { should be_owned_by 'nobody' }
+  it { should be_grouped_into 'nogroup' }
 end
 
 describe file('/tmp/mounted/bar') do
   it { should be_file }
+end
+
+describe file('/nfsexport/shared') do
+  it { should be_directory }
+  it { should be_mode 703 }
+  it { should be_owned_by 'nobody' }
+  it { should be_grouped_into 'nogroup' }
 end

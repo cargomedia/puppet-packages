@@ -21,6 +21,13 @@ class php5 {
     mode => '0755',
   }
 
+  file {'/var/log/php':
+    ensure => directory,
+    owner => '0',
+    group => '0',
+    mode => '0777',
+  }
+
   php5::config { '/etc/php5/cli/php.ini':
     memory_limit => '8G',
     display_errors => true,
@@ -35,5 +42,13 @@ class php5 {
 
   package {['php5-cli', 'php5-dev', 'libpcre3-dev']:
     ensure => present,
+  }
+  ->
+
+  exec {'/usr/lib/php5/extensions':
+    command => 'ln -s $(php -r "echo ini_get(\"extension_dir\");") /usr/lib/php5/extensions',
+    provider => shell,
+    creates => '/usr/lib/php5/extensions',
+    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
 }

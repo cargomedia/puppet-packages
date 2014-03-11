@@ -15,4 +15,6 @@ fi
 
 if (mkfs.<%= @logicalVolumeFilesystem %> -N ${LVM_NAME} 2>/dev/null) then
 	mkfs.<%= @logicalVolumeFilesystem %> ${LVM_NAME} >/dev/null
+else
+	exit 1
 fi

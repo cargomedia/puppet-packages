@@ -12,7 +12,7 @@
 
 NAME=bipbip
 DESC=bipbip
-DAEMON=/usr/bin/bipbip
+DAEMON=$(which bipbip)
 PIDFILE=/var/run/bipbip.pid
 DAEMON_ARGS="-c /etc/bipbip/config.yml"
 USER=bipbip

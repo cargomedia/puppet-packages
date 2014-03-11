@@ -1,6 +1,7 @@
 class php5::fpm {
 
   require 'php5'
+  include 'php5::config_extension_change'
   if $::lsbdistid == 'Debian' and $::lsbmajdistrelease <= 6 {
     require 'apt::source::dotdeb' # Required in squeeze
   }
@@ -50,6 +51,7 @@ class php5::fpm {
 
   service {'php5-fpm':
     require => Package['php5-fpm'],
+    subscribe => Class['php5::config_extension_change'],
   }
 
   @monit::entry {'php5-fpm':
@@ -67,6 +69,11 @@ class php5::fpm {
   }
 
   @php5::fpm::with-apc {'php5-fpm':
+    host => 'localhost',
+    port => 9000,
+  }
+
+  @php5::fpm::with-opcache {'php5-fpm':
     host => 'localhost',
     port => 9000,
   }

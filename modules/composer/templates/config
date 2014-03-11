@@ -1,0 +1,9 @@
+{
+   "config":{
+      <% if @github_oauth and not @github_oauth.empty? %>
+      "github-oauth":{
+         "github.com":"<%= @github_oauth %>"
+      }
+      <% end %>
+   }
+}

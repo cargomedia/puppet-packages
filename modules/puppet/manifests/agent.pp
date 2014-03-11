@@ -1,4 +1,7 @@
-class puppet::agent ($server = 'puppet') {
+class puppet::agent (
+  $server = 'puppet',
+  $runinterval = '10m'
+) {
 
   include 'puppet::common'
 

@@ -1,0 +1,58 @@
+diff --git a/lib/OA/Admin/Statistics/Delivery/CommonEntity.php b/lib/OA/Admin/Statistics/Delivery/CommonEntity.php
+index 565d5f1..2262fc4 100644
+--- a/lib/OA/Admin/Statistics/Delivery/CommonEntity.php
++++ b/lib/OA/Admin/Statistics/Delivery/CommonEntity.php
+@@ -289,7 +289,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
+                 $this->childrendata['ad_id'] = Admin_DA::fromCache('getAds', $aParams);
+                 // Plugins can set their own ads in the array
+                 foreach ($this->aPlugins as $oPlugin) {
+-                    $oPlugin->mergeAds(&$this->childrendata['ad_id']);
++                    $oPlugin->mergeAds($this->childrendata['ad_id']);
+                 }
+             }
+             if (array_search('placement_id', $aggregates) !== false) {
+@@ -315,7 +315,7 @@ class OA_Admin_Statistics_Delivery_CommonEntity extends OA_Admin_Statistics_Deli
+                 $this->childrendata['zone_id'] = Admin_DA::fromCache('getZones', $aParams);
+                 // Plugins can set their own zones in the array
+                 foreach ($this->aPlugins as $oPlugin) {
+-                    $oPlugin->mergeZones(&$this->childrendata['zone_id']);
++                    $oPlugin->mergeZones($this->childrendata['zone_id']);
+                 }
+             }
+             if (array_search('publisher_id', $aggregates) !== false) {
+diff --git a/lib/OA/Admin/Statistics/Delivery/CommonHistory.php b/lib/OA/Admin/Statistics/Delivery/CommonHistory.php
+index 9175e39..60b5578 100644
+--- a/lib/OA/Admin/Statistics/Delivery/CommonHistory.php
++++ b/lib/OA/Admin/Statistics/Delivery/CommonHistory.php
+@@ -155,9 +155,9 @@ class OA_Admin_Statistics_Delivery_CommonHistory extends OA_Admin_Statistics_Del
+      * @param array  $aParams Query parameters
+      * @param string $link    Optional link for the leftmost column content
+      */
+-    function prepare(&$aParams, $link = '')
++    function prepare($aParams, $link = '')
+     {
+-        parent::prepare(&$aParams);
++        parent::prepare($aParams);
+         
+         // Set the span requirements
+         // Disable this for now, since these queries can be very slow
+diff --git a/lib/OA/Admin/Statistics/Factory.php b/lib/OA/Admin/Statistics/Factory.php
+index 12e0b1a..2af2807 100644
+--- a/lib/OA/Admin/Statistics/Factory.php
++++ b/lib/OA/Admin/Statistics/Factory.php
+@@ -69,7 +69,7 @@ class OA_Admin_Statistics_Factory
+
+     function _instantiateController($file, $class, $aParams = null)
+     {
+-        if (!@include_once $file)
++        if (!include_once $file)
+         {
+             $errMsg = "OA_Admin_Statistics_Factory::_instantiateController() Unable to locate " . basename($file);
+             return MAX::raiseError($errMsg, MAX_ERROR_INVALIDARGS);
+@@ -124,4 +124,4 @@ class OA_Admin_Statistics_Factory
+
+ }
+
+-?>
+\ No newline at end of file
++?>

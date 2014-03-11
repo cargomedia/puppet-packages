@@ -5,17 +5,14 @@ class php5::extension::redis {
   require 'php5'
 
   helper::script {'install php5-redis':
-    content => template('php5/redis/install.sh'),
+    content => template('php5/extension/redis/install.sh'),
     unless => "php --ri redis | grep '^Redis Version => ${version}$'",
     require => Class['php5'],
   }
   ->
 
-  file {'/etc/php5/conf.d/redis.ini':
-    ensure => file,
-    content => template('php5/redis/conf.ini'),
-    owner => '0',
-    group => '0',
-    mode => '0644',
+  php5::config_extension {'redis':
+    content => template('php5/extension/redis/conf.ini'),
   }
+
 }
