@@ -1,4 +1,6 @@
 define vagrant::plugin(
+  $user,
+  $user_home,
   $version = undef
 ) {
 
@@ -6,14 +8,17 @@ define vagrant::plugin(
 
   if ($version) {
     $listOutput = "${name} (${version})"
+    $installCommand = "vagrant plugin install '${name}' --plugin-version '${version}'"
   } else {
     $listOutput = "${name}"
+    $installCommand = "vagrant plugin install '${name}'"
   }
 
   exec {"install vagrant plugin ${name}":
     command => "vagrant plugin install '${name}'",
+    user => $user,
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     unless => "vagrant plugin list | grep -w '${listOutput}'",
-    environment => ['HOME=/root'],   # Vagrant needs $HOME (https://github.com/mitchellh/vagrant/issues/2215)
+    environment => ["HOME=${user_home}"],   # Vagrant needs $HOME (https://github.com/mitchellh/vagrant/issues/2215)
   }
 }
