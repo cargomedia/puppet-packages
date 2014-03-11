@@ -1,16 +1,14 @@
-class mysql::server ($root_password = undef, $debian_sys_maint_password = undef) {
+class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
 
   include 'mysql::service'
 
   file {'/root/.my.cnf':
-    ensure => $root_password ? {
-      undef => absent,
-      default => file,
-    },
+    ensure => file,
     content => template('mysql/client-config.cnf'),
     owner => '0',
     group => '0',
     mode => '0600',
+    before => Package['mysql-server'],
   }
 
   user {'mysql':
@@ -27,6 +25,14 @@ class mysql::server ($root_password = undef, $debian_sys_maint_password = undef)
     mode => '0755',
   }
 
+  file {'/etc/mysql/conf.d':
+    ensure => directory,
+    owner => 'root',
+    group => 'mysql',
+    mode => '0750',
+    require => User['mysql'],
+  }
+
   file {'/etc/mysql/my.cnf':
     ensure => file,
     content => template('mysql/my.cnf'),
@@ -36,14 +42,6 @@ class mysql::server ($root_password = undef, $debian_sys_maint_password = undef)
     require => User['mysql'],
     before => Package['mysql-server'],
     notify => Service['mysql'],
-  }
-
-  file {'/etc/mysql/conf.d':
-    ensure => directory,
-    owner => 'root',
-    group => 'mysql',
-    mode => '0750',
-    require => User['mysql'],
   }
 
   file {'/etc/mysql/conf.d/init-file.cnf':
@@ -68,21 +66,23 @@ class mysql::server ($root_password = undef, $debian_sys_maint_password = undef)
     notify => Service['mysql'],
   }
 
-  if ($debian_sys_maint_password) {
-    file {'/etc/mysql/debian.cnf':
-      ensure => file,
-      content => template('mysql/debian.cnf'),
-      owner => 'root',
-      group => 'mysql',
-      mode => '0640',
-      require => User['mysql'],
-      before => Package['mysql-server'],
-      notify => Service['mysql'],
-    }
+  file {'/etc/mysql/debian.cnf':
+    ensure => file,
+    content => template('mysql/debian.cnf'),
+    owner => 'root',
+    group => 'root',
+    mode => '0600',
+    require => User['mysql'],
+    before => Package['mysql-server'],
+    notify => Service['mysql'],
+  }
 
-    mysql::user {'debian-sys-maint@localhost':
-      password => $debian_sys_maint_password,
-    }
+  mysql::user {'debian-sys-maint@localhost':
+    password => $debian_sys_maint_password,
+  }
+
+  mysql::user {'root@localhost':
+    password => $root_password,
   }
 
   package {'mysql-server':
