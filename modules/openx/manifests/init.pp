@@ -61,11 +61,6 @@ class openx (
     require => Helper::Script['install openx'],
   }
 
-  patch {'/var/openx':
-    content => template('openx/php54.patch'),
-    require => Helper::Script['install openx'],
-  }
-
   mysql::user {"${dbUser}@localhost":
     password => $dbPassword,
   }
