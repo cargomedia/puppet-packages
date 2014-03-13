@@ -26,5 +26,6 @@ class puppet::master::puppetfile(
   cron {'Update puppet master Puppetfile':
     command => $update_command,
     user    => 'root',
+    environment => ['PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin'],
   }
 }
