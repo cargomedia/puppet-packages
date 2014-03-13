@@ -11,9 +11,5 @@ class ruby::gems  {
       content => template('ruby/install-gems.sh'),
       unless => "which gem && gem --version | grep -P '^\\Q${version}\\E$'",
     }
-  } else {
-    package { 'rubygems':
-      ensure => present,
-    }
   }
 }
