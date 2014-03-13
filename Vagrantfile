@@ -17,12 +17,12 @@ Vagrant.configure("2") do |config|
   end
 
   config.vm.define 'wheezy', primary: true do |wheezy|
-    wheezy.vm.box = "debian-7-amd64"
-    wheezy.vm.box_url = "http://s3.cargomedia.ch/vagrant-boxes/debian-7-amd64.box"
+    wheezy.vm.box = "debian-7-amd64-default"
+    wheezy.vm.box_url = "http://vagrant-boxes.cargomedia.ch/virtualbox/debian-7-amd64-default.box"
   end
 
   config.vm.define :squeeze do |squeeze|
-    squeeze.vm.box = "debian-6-amd64"
-    squeeze.vm.box_url = "http://s3.cargomedia.ch/vagrant-boxes/debian-6-amd64.box"
+    squeeze.vm.box = "debian-6-amd64-default"
+    squeeze.vm.box_url = "http://vagrant-boxes.cargomedia.ch/virtualbox/debian-6-amd64-default.box"
   end
 end
