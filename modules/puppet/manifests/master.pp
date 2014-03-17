@@ -71,15 +71,6 @@ class puppet::master (
     }
   }
 
-  package {'puppetmaster':
-    ensure => present,
-    require => [
-      Helper::Script['install puppet apt sources'],
-      Exec['/etc/puppet/puppet.conf'],
-      File['/etc/puppet/conf.d/main'],
-    ],
-  }
-
   class {'puppet::master::server':
     engine => $server_engine
   }
