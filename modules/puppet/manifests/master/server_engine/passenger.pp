@@ -1,7 +1,8 @@
 class puppet::master::server_engine::passenger {
 
-  require 'passenger'
+  require '::passenger'
   require 'apache2::mod::ssl'
+  require 'apache2::mod::headers'
 
   file {
     ['/usr/share/puppet', '/usr/share/puppet/rack/', '/usr/share/puppet/rack/puppetmasterd']:
