@@ -9,11 +9,18 @@ class puppet::master (
     'puppet::agent',
     'monit' # See https://github.com/cargomedia/puppet-packages/issues/232
   ],
-  $puppetfile = undef
+  $puppetfile = undef,
+  $server_engine = 'webrick' # or 'passenger'
 ) {
 
   require 'ssh::auth::keyserver'
   include 'puppet::common'
+
+  if $server_engine == 'passenger' {
+    $service_name = 'apache2'
+  } else {
+    $service_name = 'puppetmaster'
+  }
 
   file {'/etc/puppet/conf.d/master':
     ensure => file,
@@ -22,7 +29,7 @@ class puppet::master (
     owner => '0',
     mode => '0644',
     notify => Exec['/etc/puppet/puppet.conf'],
-    before => Package['puppetmaster'],
+    before => Class['puppet::master::server'],
   }
 
   file {'/etc/puppet/manifests':
@@ -38,8 +45,8 @@ class puppet::master (
     group => '0',
     owner => '0',
     mode => '0644',
-    before => Package['puppetmaster'],
-    notify => Service['puppetmaster'],
+    before => Class['puppet::master::server'],
+    notify => Service[$service_name],
   }
 
   file {'/etc/puppet/hiera.yaml':
@@ -48,8 +55,8 @@ class puppet::master (
     group => '0',
     owner => '0',
     mode => '0644',
-    before => Package['puppetmaster'],
-    notify => Service['puppetmaster'],
+    before => Class['puppet::master::server'],
+    notify => Service[$service_name],
   }
 
   if $reportToEmail {
@@ -59,8 +66,8 @@ class puppet::master (
       group => '0',
       owner => '0',
       mode => '0644',
-      before => Package['puppetmaster'],
-      notify => Service['puppetmaster'],
+      before => Class['puppet::master::server'],
+      notify => Service[$service_name],
     }
   }
 
@@ -69,13 +76,12 @@ class puppet::master (
     require => [
       Helper::Script['install puppet apt sources'],
       Exec['/etc/puppet/puppet.conf'],
-      File['/etc/puppet/conf.d/main']
+      File['/etc/puppet/conf.d/main'],
     ],
   }
-  ->
 
-  service {'puppetmaster':
-    subscribe => Exec['/etc/puppet/puppet.conf'],
+  class {'puppet::master::server':
+    engine => $server_engine
   }
 
   if $puppetdb {
@@ -94,8 +100,5 @@ class puppet::master (
     }
   }
 
-  @monit::entry {'puppetmaster':
-    content => template('puppet/master/monit'),
-    require => Service['puppetmaster'],
-  }
+
 }

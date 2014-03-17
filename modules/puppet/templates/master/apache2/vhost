@@ -1,0 +1,55 @@
+# Debian/Ubuntu:
+#LoadModule passenger_module /usr/lib/ruby/gems/1.9.1/gems/passenger-4.0.38/buildout/apache2/mod_passenger.so
+#PassengerRoot /usr/lib/ruby/gems/1.9.1/gems/passenger-4.0.38
+#PassengerRuby /usr/bin/ruby1.9.1
+#PassengerDefaultRuby /usr/bin/ruby1.9.1
+
+# And the passenger performance tuning settings:
+#PassengerHighPerformance On
+# Set this to about 1.5 times the number of CPU cores in your master:
+#PassengerMaxPoolSize 12
+# Recycle master processes after they service 1000 requests
+#PassengerMaxRequests 1000
+# Stop processes if they sit idle for 10 minutes
+#PassengerPoolIdleTime 600
+
+Listen 8140
+<VirtualHost *:8140>
+    SSLEngine On
+
+    # Only allow high security cryptography. Alter if needed for compatibility.
+    SSLProtocol             All -SSLv2
+    SSLCipherSuite          HIGH:!ADH:RC4+RSA:-MEDIUM:-LOW:-EXP
+    SSLCertificateFile      /etc/puppet/ssl/certs/<%= @fqdn %>.pem
+    SSLCertificateKeyFile   /etc/puppet/ssl/private_keys/<%= @fqdn %>.pem
+    SSLCertificateChainFile /etc/puppet/ssl/ca/ca_crt.pem
+    SSLCACertificateFile    /etc/puppet/ssl/ca/ca_crt.pem
+    SSLCARevocationFile     /etc/puppet/ssl/ca/ca_crl.pem
+    SSLVerifyClient         optional
+    SSLVerifyDepth          1
+    SSLOptions              +StdEnvVars +ExportCertData
+
+    # These request headers are used to pass the client certificate
+    # authentication information on to the puppet master process
+    RequestHeader set X-SSL-Subject %{SSL_CLIENT_S_DN}e
+    RequestHeader set X-Client-DN %{SSL_CLIENT_S_DN}e
+    RequestHeader set X-Client-Verify %{SSL_CLIENT_VERIFY}e
+
+    DocumentRoot /usr/share/puppet/rack/puppetmasterd/public
+
+    <Directory /usr/share/puppet/rack/puppetmasterd/>
+      Options None
+      AllowOverride None
+      # Apply the right behavior depending on Apache version.
+      <IfVersion < 2.4>
+        Order allow,deny
+        Allow from all
+      </IfVersion>
+      <IfVersion >= 2.4>
+        Require all granted
+      </IfVersion>
+    </Directory>
+
+    ErrorLog /var/log/apache2/puppet-server.example.com_ssl_error.log
+    CustomLog /var/log/apache2/puppet-server.example.com_ssl_access.log combined
+</VirtualHost>
