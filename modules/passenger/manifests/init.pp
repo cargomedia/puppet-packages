@@ -8,7 +8,6 @@ class passenger (
   require 'apache2'
   require 'apache2::dev'
 
-  $gem_binary_path = "${gem_home}/bin"
   $passenger_root = "${gem_home}/gems/passenger-${version}"
   $mod_passenger_location = "${gem_home}/gems/passenger-${version}/buildout/apache2/mod_passenger.so"
 
@@ -62,7 +61,7 @@ class passenger (
   ->
 
   exec {'compile-passenger':
-    path      => [ $gem_binary_path, '/usr/bin', '/bin', '/usr/local/bin' ],
+    path      => [ '/usr/bin', '/bin', '/usr/local/bin' ],
     command   => 'passenger-install-apache2-module -a',
     logoutput => on_failure,
     creates   => $mod_passenger_location,
