@@ -4,9 +4,9 @@ class passenger (
   $gem_home = '/var/lib/gems/1.9.1'
 ){
 
-  include 'build'
-  include 'apache2::dev'
-  include 'apache2'
+  require 'build'
+  require 'apache2'
+  require 'apache2::dev'
 
   $gem_binary_path = "${gem_home}/bin"
   $passenger_root = "${gem_home}/gems/passenger-${version}"
