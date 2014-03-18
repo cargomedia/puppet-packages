@@ -8,6 +8,10 @@ describe package('apache2') do
   it { should be_installed }
 end
 
-describe port(8140) do
+describe port(8139) do
+  it { should be_listening }
+end
+
+describe port(8141) do
   it { should be_listening }
 end

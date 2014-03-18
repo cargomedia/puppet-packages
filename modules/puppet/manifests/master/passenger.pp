@@ -1,4 +1,6 @@
-class puppet::master::server_engine::passenger {
+class puppet::master::passenger (
+  $port = 8140
+){
 
   require '::passenger'
   require 'apache2::mod::ssl'

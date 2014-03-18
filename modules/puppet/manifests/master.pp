@@ -10,17 +10,12 @@ class puppet::master (
     'monit' # See https://github.com/cargomedia/puppet-packages/issues/232
   ],
   $puppetfile = undef,
-  $server_engine = 'webrick' # or 'passenger'
+  $port_webrick = 8140,
+  $port_passenger = undef
 ) {
 
   require 'ssh::auth::keyserver'
   include 'puppet::common'
-
-  if $server_engine == 'passenger' {
-    $service_name = 'apache2'
-  } else {
-    $service_name = 'puppetmaster'
-  }
 
   file {'/etc/puppet/conf.d/master':
     ensure => file,
@@ -29,7 +24,7 @@ class puppet::master (
     owner => '0',
     mode => '0644',
     notify => Exec['/etc/puppet/puppet.conf'],
-    before => Class['puppet::master::server'],
+    before => Package['puppetmaster'],
   }
 
   file {'/etc/puppet/manifests':
@@ -45,8 +40,8 @@ class puppet::master (
     group => '0',
     owner => '0',
     mode => '0644',
-    before => Class['puppet::master::server'],
-    notify => Service[$service_name],
+    before => Package['puppetmaster'],
+    notify => Service['puppetmaster'],
   }
 
   file {'/etc/puppet/hiera.yaml':
@@ -55,8 +50,18 @@ class puppet::master (
     group => '0',
     owner => '0',
     mode => '0644',
-    before => Class['puppet::master::server'],
-    notify => Service[$service_name],
+    before => Package['puppetmaster'],
+    notify => Service['puppetmaster'],
+  }
+
+  file {'/etc/default/puppetmaster':
+    ensure => file,
+    content => template('puppet/master/etc/default'),
+    group => '0',
+    owner => '0',
+    mode => '0644',
+    before => Package['puppetmaster'],
+    notify => Service['puppetmaster'],
   }
 
   if $reportToEmail {
@@ -66,13 +71,23 @@ class puppet::master (
       group => '0',
       owner => '0',
       mode => '0644',
-      before => Class['puppet::master::server'],
-      notify => Service[$service_name],
+      before => Package['puppetmaster'],
+      notify => Service['puppetmaster'],
     }
   }
 
-  class {'puppet::master::server':
-    engine => $server_engine
+  package {'puppetmaster':
+    ensure => present,
+    require => [
+      Helper::Script['install puppet apt sources'],
+      Exec['/etc/puppet/puppet.conf'],
+      File['/etc/puppet/conf.d/main'],
+    ],
+  }
+  ->
+
+  service {'puppetmaster':
+    subscribe => Exec['/etc/puppet/puppet.conf'],
   }
 
   if $puppetdb {
@@ -91,5 +106,16 @@ class puppet::master (
     }
   }
 
+  if $port_passenger {
+    class {'puppet::master::passenger':
+      port => $port_passenger,
+      require => [Package['puppetmaster'], Service['puppetmaster']],
+    }
+  }
+
+  @monit::entry {'puppetmaster':
+    content => template('puppet/master/monit'),
+    require => Service['puppetmaster'],
+  }
 
 }
