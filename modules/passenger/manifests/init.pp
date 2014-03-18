@@ -65,7 +65,7 @@ class passenger (
     command   => 'passenger-install-apache2-module -a',
     logoutput => on_failure,
     creates   => $mod_passenger_location,
-    require => [ Package['passenger'], Class['apache2::dev', 'build'] ],
+    require   => Package['passenger'],
   }
 
 }
