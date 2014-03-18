@@ -35,3 +35,7 @@ describe file('/etc/bipbip/services.d/memcache.yml') do
   its(:content) { should match /hostname:.*localhost/ }
   its(:content) { should match /port:.*6379/ }
 end
+
+describe command('/etc/init.d/bipbip status') do
+  it { should return_exit_status 0 }
+end
