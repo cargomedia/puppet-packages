@@ -7,7 +7,3 @@ end
 describe package('python') do
   it { should be_installed }
 end
-
-describe file('/etc/python2.6/sitecustomize.py') do
-  its(:content) { should match /warnings.simplefilter\("ignore", DeprecationWarning\)/ }
-end

@@ -2,9 +2,6 @@ class php5::fpm {
 
   require 'php5'
   include 'php5::config_extension_change'
-  if $::lsbdistid == 'Debian' and $::lsbmajdistrelease <= 6 {
-    require 'apt::source::dotdeb' # Required in squeeze
-  }
 
   file {'/etc/php5/fpm':
     ensure => directory,

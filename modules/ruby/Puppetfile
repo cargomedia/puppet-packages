@@ -1,11 +1,3 @@
-mod 'unzip',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/unzip'
-
-mod 'helper',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/helper'
-
 mod 'cgi-fcgi',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/cgi-fcgi'

@@ -20,9 +20,4 @@ Vagrant.configure("2") do |config|
     wheezy.vm.box = "debian-7-amd64-default"
     wheezy.vm.box_url = "http://vagrant-boxes.cargomedia.ch/virtualbox/debian-7-amd64-default.box"
   end
-
-  config.vm.define :squeeze do |squeeze|
-    squeeze.vm.box = "debian-6-amd64-default"
-    squeeze.vm.box_url = "http://vagrant-boxes.cargomedia.ch/virtualbox/debian-6-amd64-default.box"
-  end
 end

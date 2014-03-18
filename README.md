@@ -1,6 +1,6 @@
 puppet-packages [![Build Status](https://travis-ci.org/cargomedia/puppet-packages.png?branch=master)](https://travis-ci.org/cargomedia/puppet-packages)
 ===============
-Reusable puppet modules for Debian Squeeze and Wheezy.
+Reusable puppet modules for Debian Wheezy.
 
 Install puppet
 --------------
@@ -36,6 +36,5 @@ Spec helper will also automatically apply all puppet manifests from the same dir
 To test specific module run `rake test:<module-name>`. To learn about other available tasks please run `rake --tasks`.
 Our test tasks recognize following rake options:
 - `verbose=true` verbose output
-- `box='squeeze'` use a squeeze-based virtual box (debian-6-amd64) - The default is 'wheezy' (debian-7-amd64)
 - `debug=true` running puppet apply with `--debug` flag
 - `keep_box=true` do not roll back the vm to a clean state
