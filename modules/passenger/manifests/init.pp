@@ -12,7 +12,7 @@ class passenger (
   $passenger_root = "${gem_home}/gems/passenger-${version}"
   $mod_passenger_location = "${gem_home}/gems/passenger-${version}/buildout/apache2/mod_passenger.so"
 
-  file { '/etc/apache2/mods-available/passenger.load':
+  file {'/etc/apache2/mods-available/passenger.load':
     ensure  => present,
     content => template('passenger/passenger-load'),
     owner   => '0',
@@ -21,7 +21,7 @@ class passenger (
     notify  => Service['apache2'],
   }
 
-  file { '/etc/apache2/mods-available/passenger.conf':
+  file {'/etc/apache2/mods-available/passenger.conf':
     ensure  => present,
     content => template('passenger/passenger-enabled'),
     owner   => '0',
@@ -30,7 +30,7 @@ class passenger (
     notify  => Service['apache2'],
   }
 
-  file { '/etc/apache2/mods-enabled/passenger.load':
+  file {'/etc/apache2/mods-enabled/passenger.load':
     ensure  => 'link',
     target  => '/etc/apache2/mods-available/passenger.load',
     owner   => '0',
@@ -40,7 +40,7 @@ class passenger (
     notify  => Service['apache2'],
   }
 
-  file { '/etc/apache2/mods-enabled/passenger.conf':
+  file {'/etc/apache2/mods-enabled/passenger.conf':
     ensure  => 'link',
     target  => '/etc/apache2/mods-available/passenger.conf',
     owner   => '0',
@@ -55,7 +55,7 @@ class passenger (
   }
   ->
 
-  package { 'passenger':
+  package {'passenger':
     ensure   => $version,
     provider => 'gem',
   }
