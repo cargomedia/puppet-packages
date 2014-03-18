@@ -1,5 +1,6 @@
 class puppet::agent (
   $server = 'puppet',
+  $port = 8140,
   $runinterval = '10m'
 ) {
 
