@@ -1,0 +1,11 @@
+mod 'build',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/build'
+
+mod 'apache2',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/apache2'
+
+mod 'ruby',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/ruby'
