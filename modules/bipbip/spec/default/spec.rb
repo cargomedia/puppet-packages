@@ -4,7 +4,7 @@ describe user('bipbip') do
   it { should exist }
 end
 
-describe command('/usr/bin/bipbip -v') do
+describe command('/usr/local/bin/bipbip -v') do
   it { should return_exit_status 0 }
 end
 
@@ -34,4 +34,8 @@ describe file('/etc/bipbip/services.d/memcache.yml') do
   its(:content) { should match /plugin:.*memcached/ }
   its(:content) { should match /hostname:.*localhost/ }
   its(:content) { should match /port:.*6379/ }
+end
+
+describe command('/etc/init.d/bipbip status') do
+  it { should return_exit_status 0 }
 end
