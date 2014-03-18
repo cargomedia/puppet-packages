@@ -5,3 +5,7 @@ mod 'build',
 mod 'helper',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/helper'
+
+mod 'unzip',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/unzip'
