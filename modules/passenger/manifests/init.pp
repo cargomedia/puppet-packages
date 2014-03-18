@@ -12,12 +12,6 @@ class passenger (
   $passenger_root = "${gem_home}/gems/passenger-${version}"
   $mod_passenger_location = "${gem_home}/gems/passenger-${version}/buildout/apache2/mod_passenger.so"
 
-  if $::lsbdistcodename == 'squeeze' {
-    $package_dependencies   = [ 'libopenssl-ruby', 'libcurl4-openssl-dev' ]
-  } else {
-    $package_dependencies   = [ 'libruby', 'libcurl4-openssl-dev' ]
-  }
-
   file { '/etc/apache2/mods-available/passenger.load':
     ensure  => present,
     content => template('passenger/passenger-load'),
@@ -56,14 +50,14 @@ class passenger (
     notify  => Service['apache2'],
   }
 
-  package {$package_dependencies:
+  package {['libruby', 'libcurl4-openssl-dev']:
     ensure => present,
   }
+  ->
 
   package { 'passenger':
     ensure   => $version,
     provider => 'gem',
-    require => Package[$package_dependencies],
   }
   ->
 
