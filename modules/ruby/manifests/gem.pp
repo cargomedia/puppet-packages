@@ -1,6 +1,6 @@
 define ruby::gem ($ensure = present) {
 
-  require 'ruby::gems'
+  require 'ruby'
 
   package { $name:
     ensure => $ensure,
