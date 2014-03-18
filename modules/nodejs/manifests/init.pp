@@ -4,13 +4,6 @@ class nodejs {
 
   $version = '0.10.22'
 
-  if $::lsbdistcodename == 'squeeze' {
-    package {['libevent-1.4-2', 'libssl-dev']:
-      ensure => present,
-      before => Helper::Script['install nodejs'],
-    }
-  }
-
   if $::lsbdistcodename == 'wheezy' {
     package {['libevent-2.0-5', 'libssl-dev']:
       ensure => present,
