@@ -4,6 +4,7 @@ class passenger (
   $gem_home = '/var/lib/gems/1.9.1'
 ){
 
+  require 'ruby'
   require 'build'
   require 'apache2'
   require 'apache2::dev'
@@ -18,50 +19,27 @@ class passenger (
     group   => '0',
     mode    => '0644',
     notify  => Service['apache2'],
+    require => Exec['compile-passenger'],
   }
 
-  file {'/etc/apache2/mods-available/passenger.conf':
-    ensure  => present,
-    content => template('passenger/passenger-enabled'),
-    owner   => '0',
-    group   => '0',
-    mode    => '0644',
+  apache2::mod {'passenger':
+    configuration => template('passenger/passenger-enabled'),
     notify  => Service['apache2'],
+    require => Exec['compile-passenger']
   }
 
-  file {'/etc/apache2/mods-enabled/passenger.load':
-    ensure  => 'link',
-    target  => '/etc/apache2/mods-available/passenger.load',
-    owner   => '0',
-    group   => '0',
-    mode    => '0777',
-    require => [ File['/etc/apache2/mods-available/passenger.load'], Exec['compile-passenger'] ],
-    notify  => Service['apache2'],
-  }
-
-  file {'/etc/apache2/mods-enabled/passenger.conf':
-    ensure  => 'link',
-    target  => '/etc/apache2/mods-available/passenger.conf',
-    owner   => '0',
-    group   => '0',
-    mode    => '0777',
-    require => File['/etc/apache2/mods-available/passenger.conf'],
-    notify  => Service['apache2'],
-  }
-
-  package {['libruby', 'libcurl4-openssl-dev']:
+  package {['libcurl4-openssl-dev']:
     ensure => present,
   }
   ->
 
-  package {'passenger':
-    ensure   => $version,
-    provider => 'gem',
+  ruby::gem {'passenger':
+    ensure => $version,
   }
   ->
 
   exec {'compile-passenger':
-    path      => [ '/usr/bin', '/bin', '/usr/local/bin' ],
+    path      => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     command   => 'passenger-install-apache2-module -a',
     logoutput => on_failure,
     creates   => $mod_passenger_location,
