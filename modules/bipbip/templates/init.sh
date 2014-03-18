@@ -6,8 +6,8 @@
 # Required-Stop:		$syslog
 # Default-Start:		2 3 4 5
 # Default-Stop:			0 1 6
-# Short-Description:	Agent for CopperEgg RevealCloud collector
-# Description:			Agent for CopperEgg RevealCloud collector
+# Short-Description:	Bipbip
+# Description:			Gather services data and store in CopperEgg
 ### END INIT INFO
 
 NAME=bipbip

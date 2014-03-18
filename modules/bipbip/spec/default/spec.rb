@@ -4,7 +4,7 @@ describe user('bipbip') do
   it { should exist }
 end
 
-describe command('/usr/bin/bipbip -v') do
+describe command('/usr/local/bin/bipbip -v') do
   it { should return_exit_status 0 }
 end
 
