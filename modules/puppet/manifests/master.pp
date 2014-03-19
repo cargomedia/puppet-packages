@@ -9,7 +9,9 @@ class puppet::master (
     'puppet::agent',
     'monit' # See https://github.com/cargomedia/puppet-packages/issues/232
   ],
-  $puppetfile = undef
+  $puppetfile = undef,
+  $port_webrick = 8140,
+  $port_passenger = undef
 ) {
 
   require 'ssh::auth::keyserver'
@@ -52,6 +54,16 @@ class puppet::master (
     notify => Service['puppetmaster'],
   }
 
+  file {'/etc/default/puppetmaster':
+    ensure => file,
+    content => template('puppet/master/etc/default'),
+    group => '0',
+    owner => '0',
+    mode => '0644',
+    before => Package['puppetmaster'],
+    notify => Service['puppetmaster'],
+  }
+
   if $reportToEmail {
     file {'/etc/puppet/tagmail.conf':
       ensure => file,
@@ -69,7 +81,7 @@ class puppet::master (
     require => [
       Helper::Script['install puppet apt sources'],
       Exec['/etc/puppet/puppet.conf'],
-      File['/etc/puppet/conf.d/main']
+      File['/etc/puppet/conf.d/main'],
     ],
   }
   ->
@@ -94,8 +106,16 @@ class puppet::master (
     }
   }
 
+  if $port_passenger {
+    class {'puppet::master::passenger':
+      port => $port_passenger,
+      require => [Package['puppetmaster'], Service['puppetmaster']],
+    }
+  }
+
   @monit::entry {'puppetmaster':
     content => template('puppet/master/monit'),
     require => Service['puppetmaster'],
   }
+
 }

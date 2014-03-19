@@ -1,4 +1,6 @@
 
+[main]
+masterport = <%= @masterport %>
 [agent]
 server = <%= @server %>
 runinterval = <%= @runinterval %>

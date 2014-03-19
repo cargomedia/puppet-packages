@@ -7,3 +7,7 @@ end
 describe command('puppet agent --configprint runinterval') do
   its(:stdout) { should match /^120$/ }
 end
+
+describe command('puppet agent --configprint masterport') do
+  its(:stdout) { should match /^8141$/ }
+end
