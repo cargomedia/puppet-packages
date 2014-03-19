@@ -18,17 +18,19 @@ class puppet::master::passenger (
       owner => 'puppet',
       group => 'puppet',
       mode => 0755;
+
+    '/usr/share/puppet/rack/puppetmasterd/config.ru':
+      ensure => present,
+      source => '/usr/share/puppet/ext/rack/config.ru',
+      owner => 'puppet',
+      group => 'puppet',
+      mode => 0755;
   }
   ->
 
-  exec {
-    'copy puppet rack config file':
-      command => 'sudo cp /usr/share/puppet/ext/rack/config.ru /usr/share/puppet/rack/puppetmasterd/',
-      path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'];
-
-    'chown config file by puppet:puppet':
-      command => 'sudo chown puppet:puppet /usr/share/puppet/rack/puppetmasterd/config.ru',
-      path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'];
+  exec {'chown config file by puppet:puppet':
+    command => 'sudo chown puppet:puppet /usr/share/puppet/rack/puppetmasterd/config.ru',
+    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
 
   apache2::vhost {'puppetmaster':
