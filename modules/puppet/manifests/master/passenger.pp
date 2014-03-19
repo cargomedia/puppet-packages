@@ -33,7 +33,6 @@ class puppet::master::passenger (
 
   apache2::vhost {'puppetmaster':
     content => template('puppet/master/apache2/vhost'),
-    notify => Service['apache2'],
   }
 
 }
