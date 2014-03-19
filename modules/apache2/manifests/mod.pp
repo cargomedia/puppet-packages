@@ -1,4 +1,8 @@
-define apache2::mod ($enabled = true, $configuration = undef) {
+define apache2::mod (
+  $enabled = true,
+  $configuration = undef,
+  $load_configuration = undef
+) {
 
   require 'apache2'
   include 'apache2::service'
@@ -11,6 +15,18 @@ define apache2::mod ($enabled = true, $configuration = undef) {
     mode => '0644',
     require => Class['apache2'],
     notify => Service['apache2'],
+  }
+
+  if $load_configuration {
+    file {"/etc/apache2/mods-available/${name}.load":
+      ensure  => file,
+      content => $load_configuration,
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
+      require => Class['apache2'],
+      notify => Service['apache2'],
+    }
   }
 
   if $configuration {
