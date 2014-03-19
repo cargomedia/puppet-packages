@@ -2,6 +2,10 @@ node default {
 
   require 'monit'
 
+  package{'gnutls-bin':
+    ensure => present,
+  }
+
   $ssl_cert = '-----BEGIN CERTIFICATE-----
 MIIDZDCCAkygAwIBAgIJAJQrxIgzRNLSMA0GCSqGSIb3DQEBBQUAMCoxKDAmBgNV
 BAMUHyouc3RyZWFtLmZ1Y2tib29rLmNpLmNhcmdvbWVkaWEwHhcNMTMwNTI0MTYw
@@ -68,6 +72,7 @@ z5jiDSPskspb8TxB7mD/QtGd/K2UAhECw0n+dET8t9mzsHp5aqYeyMs=
     ssl_port          => '8090',
     ssl_cert          => $ssl_cert,
     ssl_key           => $ssl_key,
+    ssl_session_cache => 'shared:SSL:10m',
     location_cfg_append => [
       'proxy_set_header X-Real-IP $remote_addr;',
       'proxy_set_header Host $host;',
