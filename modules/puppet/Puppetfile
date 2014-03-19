@@ -24,3 +24,11 @@ mod 'ruby',
 mod 'librarian_puppet',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/librarian_puppet'
+
+mod 'passenger',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/passenger'
+
+mod 'apache2',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/apache2'
