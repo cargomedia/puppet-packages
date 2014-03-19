@@ -28,11 +28,6 @@ class puppet::master::passenger (
   }
   ->
 
-  exec {'chown config file by puppet:puppet':
-    command => 'sudo chown puppet:puppet /usr/share/puppet/rack/puppetmasterd/config.ru',
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-  }
-
   apache2::vhost {'puppetmaster':
     content => template('puppet/master/apache2/vhost'),
   }
