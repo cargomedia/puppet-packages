@@ -43,4 +43,9 @@ class puppet::agent (
     content => template('puppet/agent/monit'),
     require => Service['puppet'],
   }
+
+  @monit::entry {'puppet-report':
+    content => template('puppet/agent/monit-puppet-report'),
+    require => Service['puppet'],
+  }
 }
