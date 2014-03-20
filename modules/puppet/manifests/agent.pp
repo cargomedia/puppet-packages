@@ -50,7 +50,7 @@ class puppet::agent (
   ->
 
   cron {'puppet agent check':
-    exec => '/usr/local/bin/puppet-agent-check.rb',
+    command => '/usr/local/bin/puppet-agent-check.rb',
   }
 
   @monit::entry {'puppet':
