@@ -1,0 +1,73 @@
+Certificate:
+    Data:
+        Version: 3 (0x2)
+        Serial Number: 1 (0x1)
+        Signature Algorithm: sha1WithRSAEncryption
+        Issuer: C=CH, ST=BS, L=Basel, O=FuBoo, CN=FuBoo CA/emailAddress=sysadmin@cargomedia.ch
+        Validity
+            Not Before: Jun  6 17:58:36 2013 GMT
+            Not After : Jun  4 17:58:36 2023 GMT
+        Subject: C=CH, ST=BS, L=Basel, O=FuBoo, CN=cargomedia/emailAddress=sysadmin@cargomedia.ch
+        Subject Public Key Info:
+            Public Key Algorithm: rsaEncryption
+            RSA Public Key: (1024 bit)
+                Modulus (1024 bit):
+                    00:be:3a:4e:0a:46:57:62:de:04:d9:7d:ed:30:f5:
+                    4c:92:5e:dc:fd:6b:37:d5:2f:d6:33:ef:93:2d:4f:
+                    f5:be:54:6f:b6:9c:6e:b3:db:b4:b9:2f:1b:7a:69:
+                    b1:c3:ad:67:1a:a3:c8:58:60:ae:9c:0f:da:42:26:
+                    f6:07:ac:37:1e:57:71:de:f4:3e:30:ad:ec:44:57:
+                    8b:ee:dd:a7:19:b4:b4:6e:38:12:c7:6c:bb:aa:a9:
+                    33:f8:3c:b2:9b:b6:dc:2d:30:5c:d8:a2:dd:9d:14:
+                    6c:1f:3b:d4:3b:b3:6c:8d:52:b5:96:a7:2c:c6:09:
+                    c5:8b:9e:9f:94:78:be:fe:5d
+                Exponent: 65537 (0x10001)
+        X509v3 extensions:
+            X509v3 Basic Constraints: 
+                CA:FALSE
+            Netscape Cert Type: 
+                SSL Server
+            Netscape Comment: 
+                Easy-RSA Generated Server Certificate
+            X509v3 Subject Key Identifier: 
+                9A:FD:76:D2:4C:B5:E3:36:31:E7:BF:2F:41:41:3C:42:13:5F:F6:47
+            X509v3 Authority Key Identifier: 
+                keyid:B3:59:FC:C8:75:BB:D6:58:C9:06:0E:33:42:E2:6A:61:0E:9F:E3:FE
+                DirName:/C=CH/ST=BS/L=Basel/O=FuBoo/CN=FuBoo CA/emailAddress=sysadmin@cargomedia.ch
+                serial:8A:38:FB:5B:68:2C:4C:CF
+
+            X509v3 Extended Key Usage: 
+                TLS Web Server Authentication
+            X509v3 Key Usage: 
+                Digital Signature, Key Encipherment
+    Signature Algorithm: sha1WithRSAEncryption
+        57:c0:14:3e:fd:08:4b:b7:ed:a5:d9:fa:fc:39:73:44:79:70:
+        d2:8d:13:1f:f2:3d:9e:bb:58:a2:f6:ab:01:ff:95:d2:60:7b:
+        71:7c:f0:23:9c:22:7b:7a:bb:0c:97:9d:96:8f:1f:d5:bc:54:
+        48:ba:eb:99:8c:34:b8:33:e2:27:ac:bb:22:3b:44:4e:6f:d6:
+        f9:93:7f:e3:3b:ae:21:8d:78:a4:66:50:6e:70:2e:a3:34:06:
+        bc:65:d1:18:e1:1b:5e:ad:be:54:f4:a4:e9:ae:ce:57:a1:9c:
+        6d:20:b1:2a:1d:3d:4b:b7:0d:57:de:27:44:8c:6f:c2:fb:ec:
+        27:f4
+-----BEGIN CERTIFICATE-----
+MIIDpDCCAw2gAwIBAgIBATANBgkqhkiG9w0BAQUFADB0MQswCQYDVQQGEwJDSDEL
+MAkGA1UECBMCQlMxDjAMBgNVBAcTBUJhc2VsMQ4wDAYDVQQKEwVGdUJvbzERMA8G
+A1UEAxMIRnVCb28gQ0ExJTAjBgkqhkiG9w0BCQEWFnN5c2FkbWluQGNhcmdvbWVk
+aWEuY2gwHhcNMTMwNjA2MTc1ODM2WhcNMjMwNjA0MTc1ODM2WjB2MQswCQYDVQQG
+EwJDSDELMAkGA1UECBMCQlMxDjAMBgNVBAcTBUJhc2VsMQ4wDAYDVQQKEwVGdUJv
+bzETMBEGA1UEAxMKY2FyZ29tZWRpYTElMCMGCSqGSIb3DQEJARYWc3lzYWRtaW5A
+Y2FyZ29tZWRpYS5jaDCBnzANBgkqhkiG9w0BAQEFAAOBjQAwgYkCgYEAvjpOCkZX
+Yt4E2X3tMPVMkl7c/Ws31S/WM++TLU/1vlRvtpxus9u0uS8bemmxw61nGqPIWGCu
+nA/aQib2B6w3Hldx3vQ+MK3sRFeL7t2nGbS0bjgSx2y7qqkz+Dyym7bcLTBc2KLd
+nRRsHzvUO7NsjVK1lqcsxgnFi56flHi+/l0CAwEAAaOCAUIwggE+MAkGA1UdEwQC
+MAAwEQYJYIZIAYb4QgEBBAQDAgZAMDQGCWCGSAGG+EIBDQQnFiVFYXN5LVJTQSBH
+ZW5lcmF0ZWQgU2VydmVyIENlcnRpZmljYXRlMB0GA1UdDgQWBBSa/XbSTLXjNjHn
+vy9BQTxCE1/2RzCBpgYDVR0jBIGeMIGbgBSzWfzIdbvWWMkGDjNC4mphDp/j/qF4
+pHYwdDELMAkGA1UEBhMCQ0gxCzAJBgNVBAgTAkJTMQ4wDAYDVQQHEwVCYXNlbDEO
+MAwGA1UEChMFRnVCb28xETAPBgNVBAMTCEZ1Qm9vIENBMSUwIwYJKoZIhvcNAQkB
+FhZzeXNhZG1pbkBjYXJnb21lZGlhLmNoggkAijj7W2gsTM8wEwYDVR0lBAwwCgYI
+KwYBBQUHAwEwCwYDVR0PBAQDAgWgMA0GCSqGSIb3DQEBBQUAA4GBAFfAFD79CEu3
+7aXZ+vw5c0R5cNKNEx/yPZ67WKL2qwH/ldJge3F88COcInt6uwyXnZaPH9W8VEi6
+65mMNLgz4iesuyI7RE5v1vmTf+M7riGNeKRmUG5wLqM0Brxl0RjhG16tvlT0pOmu
+zlehnG0gsSodPUu3DVfeJ0SMb8L77Cf0
+-----END CERTIFICATE-----

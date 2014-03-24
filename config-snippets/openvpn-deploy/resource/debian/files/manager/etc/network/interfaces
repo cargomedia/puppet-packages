@@ -1,0 +1,19 @@
+auto lo
+iface lo inet loopback
+
+iface br0 inet static
+	address %IP-PRIVATE%
+	netmask %NETMASK-PRIVATE%
+	bridge_ports eth1
+
+allow-hotplug eth0
+iface eth0 inet static
+	address %IP-PUBLIC%
+	netmask %NETMASK-PUBLIC%
+	gateway %GATEWAY-PUBLIC%
+	mtu 9000
+
+iface eth1 inet static
+	up ip link set $IFACE up promisc on
+	down ip link set $IFACE down promisc off
+	mtu 9000
