@@ -11,6 +11,7 @@ events {
 http {
   include                   /etc/nginx/mime.types;
   default_type              application/octet-stream;
+  charset                   utf-8;
   server_tokens             <%= @server_tokens %>;
 
   sendfile                  <%= scope.lookupvar('nginx::params::nx_sendfile')%>;
