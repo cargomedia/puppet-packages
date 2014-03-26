@@ -1,2 +1,3 @@
 check program puppet-agent-run with path /usr/local/bin/puppet-agent-check.rb with timeout 10 seconds
-       if status != 0 then alert
+  if status != 0 then alert
+  if status != 0 for 5 cycles then unmonitor
