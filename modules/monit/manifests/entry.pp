@@ -8,7 +8,7 @@ define monit::entry ($content) {
     group => 0,
     owner => 0,
     mode => '0644',
-    require => Package['monit'],
+    require => Helper::Script['install monit'],
     notify => Service['monit'],
   }
 }
