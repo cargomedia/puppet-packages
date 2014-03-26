@@ -35,10 +35,10 @@ node default {
 
   backup::agent {'my-file-system':
     server_id => 'my-backup-file',
-    sourceType => 'fs',
+    sourceType => 'dir',
     host => 'localhost',
     source => '/tmp',
-    destination => '/home/backup/fs',
+    destination => '/home/backup/dir',
     options => '--no-eas --no-file-statistics --no-carbonfile --no-acls --no-compare-inode',
     cronTimeMinute => 5,
     cronTimeHour => 1,

@@ -39,9 +39,9 @@ describe cron do
 end
 
 describe cron do
-  it { should have_entry("5 1 * * * /usr/local/bin/backup-create.sh -h 'localhost' -s '/tmp' -d '/home/backup/fs' -o '--no-eas --no-file-statistics --no-carbonfile --no-acls --no-compare-inode' -t 'fs'").with_user('root') }
+  it { should have_entry("5 1 * * * /usr/local/bin/backup-create.sh -h 'localhost' -s '/tmp' -d '/home/backup/dir' -o '--no-eas --no-file-statistics --no-carbonfile --no-acls --no-compare-inode' -t 'dir'").with_user('root') }
 end
 
 describe cron do
-  it { should have_entry("10 3 * * * /usr/local/bin/backup-check.sh -h 'localhost' -d '/home/backup/fs'").with_user('root') }
+  it { should have_entry("10 3 * * * /usr/local/bin/backup-check.sh -h 'localhost' -d '/home/backup/dir'").with_user('root') }
 end
