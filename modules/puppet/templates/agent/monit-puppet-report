@@ -1,3 +1,0 @@
-check file puppetreport with path /var/lib/puppet/state/last_run_summary.yaml
-  if timestamp > 60 minute then alert
-  if timestamp > 60 minute for 5 cycles then unmonitor
