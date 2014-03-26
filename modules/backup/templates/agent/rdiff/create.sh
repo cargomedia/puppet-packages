@@ -51,13 +51,14 @@ case "${TYPE}" in
 
     ;;
 "mysql-dump")
-    rm -rf /tmp/backup-db
-    mysqldump ${SOURCE_PATH} > /tmp/backup-db/sql-dump
+    rm -rf /tmp/backup-db-dump
+    mkdir -p /tmp/backup-db-dump
 
+    mysqldump ${SOURCE_PATH} > /tmp/backup-db-dump/sql
     ssh root@${HOST} "mkdir -p ${DEST_PATH}"
-    rdiff-backup ${RDIFF_OPTIONS} /tmp/backup-db/sql-dump root@${HOST}::${DEST_PATH} >/dev/null
+    rdiff-backup ${RDIFF_OPTIONS} /tmp/backup-db-dump root@${HOST}::${DEST_PATH} >/dev/null
 
-    rm -rf /tmp/backup-db
+    rm -rf /tmp/backup-db-dump
 
     ;;
 "lvm")
