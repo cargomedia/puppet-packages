@@ -54,7 +54,7 @@ case "${TYPE}" in
     rm -rf /tmp/backup-db-dump
     mkdir -p /tmp/backup-db-dump
 
-    mysqldump ${SOURCE_PATH} > /tmp/backup-db-dump/sql
+    mysqldump ${SOURCE_PATH} > /tmp/backup-db-dump/dump.sql
     ssh root@${HOST} "mkdir -p ${DEST_PATH}"
     rdiff-backup ${RDIFF_OPTIONS} /tmp/backup-db-dump root@${HOST}::${DEST_PATH} >/dev/null
 
