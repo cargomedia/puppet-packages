@@ -50,6 +50,16 @@ case "${TYPE}" in
     rm -rf /tmp/backup-db
 
     ;;
+"mysql-dump")
+    rm -rf /tmp/backup-db-dump
+    mysqldump ${SOURCE_PATH} > /tmp/backup-db-dump
+
+    ssh root@${HOST} "mkdir -p ${DEST_PATH}"
+    rdiff-backup ${RDIFF_OPTIONS} /tmp/backup-db-dump root@${HOST}::${DEST_PATH} >/dev/null
+
+    rm -rf /tmp/backup-db-dump
+
+    ;;
 "lvm")
     KEEP=2
     BACKUP_MNT=/raid-backup
@@ -77,6 +87,15 @@ case "${TYPE}" in
     ssh root@${HOST} "mkdir -p ${DEST_PATH}"
     rdiff-backup ${RDIFF_OPTIONS} ${BACKUP_MNT} root@${HOST}::${DEST_PATH} >/dev/null
     umount ${BACKUP_MNT}
+
+    ;;
+"file-snapshot")
+    rm -rf /tmp/file-snapshot
+    cp -a ${SOURCE_PATH} /tmp/file-snapshot
+    ssh root@${HOST} "mkdir -p ${DEST_PATH}"
+    rdiff-backup ${RDIFF_OPTIONS} /tmp/file-snapshot root@${HOST}::${DEST_PATH} >/dev/null
+
+    rm -rf /tmp/file-snapshot
 
     ;;
 *)
