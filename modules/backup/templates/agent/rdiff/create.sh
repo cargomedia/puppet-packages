@@ -89,13 +89,9 @@ case "${TYPE}" in
     umount ${BACKUP_MNT}
 
     ;;
-"fs")
-    rm -rf /tmp/fs-snapshot
-    cp -a ${SOURCE_PATH} /tmp/fs-snapshot
+"dir")
     ssh root@${HOST} "mkdir -p ${DEST_PATH}"
-    rdiff-backup ${RDIFF_OPTIONS} /tmp/fs-snapshot root@${HOST}::${DEST_PATH} >/dev/null
-
-    rm -rf /tmp/fs-snapshot
+    rdiff-backup ${RDIFF_OPTIONS} ${SOURCE_PATH} root@${HOST}::${DEST_PATH} >/dev/null
 
     ;;
 *)
