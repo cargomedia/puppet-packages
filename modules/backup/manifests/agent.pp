@@ -9,7 +9,7 @@ define backup::agent (
   $cronTimeMinute = 0
 ) {
 
-  if ('lvm' != $sourceType and 'mysql' != $sourceType) {
+  if ('lvm' != $sourceType and 'mysql' != $sourceType and 'mysql-dump' != $sourceType and 'dir' != $sourceType) {
     fail("Unknown source type ${sourceType}")
   }
 
