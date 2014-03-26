@@ -22,26 +22,26 @@ node default {
     cronTimeHour => 5,
   }
 
-  backup::agent {'my-mysql':
+  backup::agent {'my-mysql-dump':
     server_id => 'my-backup-server',
     sourceType => 'mysql-dump',
     host => 'localhost',
-    source => 'skadate',
+    source => 'mysql',
     destination => '/home/backup/db-dump',
     options => '--no-eas --no-file-statistics --no-carbonfile --no-acls --no-compare-inode',
-    cronTimeMinute => 10,
-    cronTimeHour => 5,
+    cronTimeMinute => 30,
+    cronTimeHour => 7,
   }
 
-  backup::agent {'my-mysql':
-    server_id => 'my-backup-server',
-    sourceType => 'file-snapshot',
+  backup::agent {'my-file-system':
+    server_id => 'my-backup-file',
+    sourceType => 'fs',
     host => 'localhost',
     source => '/tmp',
-    destination => '/home/backup/file-tmp',
+    destination => '/home/backup/fs',
     options => '--no-eas --no-file-statistics --no-carbonfile --no-acls --no-compare-inode',
-    cronTimeMinute => 10,
-    cronTimeHour => 5,
+    cronTimeMinute => 5,
+    cronTimeHour => 1,
   }
 
 }
