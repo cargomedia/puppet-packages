@@ -53,8 +53,8 @@ class puppet::agent (
     require => Service['puppet'],
   }
 
-  @monit::entry {'puppet-run-check':
-    content => template('puppet/agent/monit-puppet-run-check'),
+  @monit::entry {'puppet-agent-check':
+    content => template('puppet/agent/monit-agent-check'),
     require => Service['puppet'],
   }
 }
