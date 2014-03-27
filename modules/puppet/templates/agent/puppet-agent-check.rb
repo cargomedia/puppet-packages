@@ -1,11 +1,21 @@
 #!/usr/bin/env ruby
+require 'pathname'
 require 'yaml'
 
-puppet_last_run_summary = "/var/lib/puppet/state/last_run_summary.yaml"
-if File.exist?(puppet_last_run_summary) then
+agent_catalog_run = Pathname.new('/var/lib/puppet/state/agent_catalog_run.lock')
+puppet_last_run_summary = Pathname.new('/var/lib/puppet/state/last_run_summary.yaml')
+
+if agent_catalog_run.exist? then
+  if Time.new - agent_catalog_run.mtime > 3600
+    raise 'Puppet process is blocked for over an hour'
+  end
+  exit 0
+end
+
+if puppet_last_run_summary.exist? then
   puppet_report = YAML.load_file(puppet_last_run_summary)
 else
-  raise "#{puppet_last_run_summary} does not exist!"
+  raise "#{puppet_last_run_summary.to_s} does not exist!"
 end
 
 report_age = Time.new.to_i - puppet_report['time']['last_run'].to_i
