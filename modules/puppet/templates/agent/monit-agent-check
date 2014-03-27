@@ -1,0 +1,4 @@
+check program puppet-agent-check with path /usr/local/bin/puppet-agent-check.rb
+  if status != 0 then alert
+  if status != 0 for 10 cycles then exec "/etc/init.d/puppet restart"
+  if status != 0 for 50 cycles then unmonitor

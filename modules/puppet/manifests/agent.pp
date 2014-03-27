@@ -38,9 +38,23 @@ class puppet::agent (
   service {'puppet':
     subscribe => Exec['/etc/puppet/puppet.conf'],
   }
+  ->
+
+  file {'/usr/local/bin/puppet-agent-check.rb':
+    ensure => file,
+    content => template('puppet/agent/puppet-agent-check.rb'),
+    group => '0',
+    owner => '0',
+    mode => '0755',
+  }
 
   @monit::entry {'puppet':
     content => template('puppet/agent/monit'),
+    require => Service['puppet'],
+  }
+
+  @monit::entry {'puppet-agent-check':
+    content => template('puppet/agent/monit-agent-check'),
     require => Service['puppet'],
   }
 }
