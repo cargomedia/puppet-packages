@@ -1,4 +1,4 @@
-class ssh {
+class ssh ($permit_root_login = 'without-password') {
 
   file {'/etc/ssh/ssh_config':
     ensure => file,
