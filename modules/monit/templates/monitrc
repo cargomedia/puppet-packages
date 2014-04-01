@@ -2,7 +2,6 @@ set daemon 10
 
 set logfile syslog facility log_daemon
 set mailserver localhost
-set alert <%= @emailTo %>
 set mail-format {
 	from: <%= @emailFrom %>
 	subject: monit $ACTION - $EVENT: $SERVICE on $HOST
