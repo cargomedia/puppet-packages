@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe file('/etc/monit/conf.d/alert') do
-  its(:content) { should match /^set alert root@localhost$/ }
+  its(:content) { should match /set alert/ }
 end
 
 describe command('monit-alert foobar') do
@@ -13,7 +13,7 @@ describe command('monit-alert none') do
 end
 
 describe file('/etc/monit/conf.d/alert') do
-  its(:content) { should match /^set alert root@localhost only on { instance }$/ }
+  its(:content) { should_not match /set alert/ }
 end
 
 describe command('monit-alert default') do
@@ -21,5 +21,5 @@ describe command('monit-alert default') do
 end
 
 describe file('/etc/monit/conf.d/alert') do
-  its(:content) { should match /^set alert root@localhost$/ }
+  its(:content) { should match /set alert/ }
 end
