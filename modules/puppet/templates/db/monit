@@ -2,4 +2,3 @@ check process puppetdb with pidfile /var/run/puppetdb.pid
 	start program = "/etc/init.d/puppetdb start"
 	stop program = "/etc/init.d/puppetdb stop"
 	if failed port <%= @port %> with timeout 45 seconds for 2 cycles then restart
-	if 25 restarts within 50 cycles then timeout

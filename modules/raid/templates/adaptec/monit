@@ -1,4 +1,3 @@
 check process aacraid-statusd with pidfile /var/run/aacraid-statusd.pid
 	start program = "/etc/init.d/aacraid-statusd start"
 	stop program = "/etc/init.d/aacraid-statusd stop"
-	if 25 restarts within 50 cycles then timeout

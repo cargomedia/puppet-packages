@@ -5,4 +5,3 @@ check process socket-redis with pidfile /var/run/socket-redis.pid
 	if failed port <%= port %> with timeout 10 seconds for 2 cycles then restart
 <% end -%>
 	if failed port <%= @statusPort %> protocol http with timeout 10 seconds for 2 cycles then restart
-	if 25 restarts within 50 cycles then timeout

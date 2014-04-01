@@ -1,4 +1,3 @@
 check process megaraidsas-statusd with pidfile /var/run/megaraidsas-statusd.pid
 	start program = "/etc/init.d/megaraidsas-statusd start"
 	stop program = "/etc/init.d/megaraidsas-statusd stop"
-	if 25 restarts within 50 cycles then timeout
