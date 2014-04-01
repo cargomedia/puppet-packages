@@ -39,7 +39,7 @@ class puppet::common(
     require => File['/etc/puppet'],
   }
 
-  ruby::gem {'deep_merge':
+  ruby::gem {['deep_merge', 'hiera-file']:
     ensure => present,
   }
 }
