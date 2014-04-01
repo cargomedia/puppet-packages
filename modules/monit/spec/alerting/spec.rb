@@ -16,7 +16,7 @@ describe file('/etc/monit/conf.d/alert') do
   its(:content) { should match /^set alert root@localhost only on { instance }$/ }
 end
 
-describe command('monit-alert all') do
+describe command('monit-alert default') do
   it { should return_exit_status 0 }
 end
 

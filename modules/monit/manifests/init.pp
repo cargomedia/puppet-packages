@@ -35,8 +35,8 @@ class monit ($emailTo = 'root@localhost', $emailFrom = 'root@localhost', $allowe
       owner => '0',
       mode => '0755';
 
-    '/etc/monit/templates/alert-all':
-      content => template('monit/templates/alert-all'),
+    '/etc/monit/templates/alert-default':
+      content => template('monit/templates/alert-default'),
       ensure => file,
       group => '0',
       owner => '0',
@@ -61,7 +61,7 @@ class monit ($emailTo = 'root@localhost', $emailFrom = 'root@localhost', $allowe
   ->
 
   exec {'/etc/monit/conf.d/alert':
-    command => 'ln -s /etc/monit/templates/alert-all /etc/monit/conf.d/alert',
+    command => 'ln -s /etc/monit/templates/alert-default /etc/monit/conf.d/alert',
     user => 'root',
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     creates => '/etc/monit/conf.d/alert',
