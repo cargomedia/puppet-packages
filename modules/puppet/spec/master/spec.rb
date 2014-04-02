@@ -9,7 +9,7 @@ describe package('deep_merge') do
 end
 
 describe package('hiera-file') do
-  it { should be_installed.by('gem') }
+  it { should be_installed.by('gem').with_version('1.1.0') }
 end
 
 describe port(8140) do
