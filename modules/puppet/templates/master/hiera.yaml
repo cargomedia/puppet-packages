@@ -8,7 +8,7 @@
   - datacenter/%{::datacenter}/%{::nodegroup}/%{::nodename}
   - datacenter/%{::datacenter}/%{::nodegroup}
   - datacenter/%{::datacenter}
-  - config
+  - files
   - defaults
 
 :json:
