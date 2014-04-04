@@ -1,11 +1,11 @@
-mod 'composer',
+mod 'cargomedia/composer',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/composer'
 
-mod 'git',
+mod 'cargomedia/git',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/git'
 
-mod 'apache2',
+mod 'cargomedia/apache2',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/apache2'

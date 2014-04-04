@@ -1,34 +1,34 @@
-mod 'stdlib',
+mod 'cargomedia/stdlib',
   :git => 'git://github.com/puppetlabs/puppetlabs-stdlib.git'
 
-mod 'ssh',
+mod 'cargomedia/ssh',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/ssh'
 
-mod 'helper',
+mod 'cargomedia/helper',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/helper'
 
-mod 'monit',
+mod 'cargomedia/monit',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/monit'
 
-mod 'git',
+mod 'cargomedia/git',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/git'
 
-mod 'ruby',
+mod 'cargomedia/ruby',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/ruby'
 
-mod 'librarian_puppet',
+mod 'cargomedia/librarian_puppet',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/librarian_puppet'
 
-mod 'passenger',
+mod 'cargomedia/passenger',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/passenger'
 
-mod 'apache2',
+mod 'cargomedia/apache2',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/apache2'
