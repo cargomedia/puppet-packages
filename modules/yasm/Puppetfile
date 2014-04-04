@@ -1,11 +1,11 @@
-mod 'build',
+mod 'cargomedia/build',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/build'
 
-mod 'helper',
+mod 'cargomedia/helper',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/helper'
 
-mod 'unzip',
+mod 'cargomedia/unzip',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/unzip'

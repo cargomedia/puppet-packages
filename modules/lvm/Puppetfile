@@ -1,15 +1,15 @@
-mod 'mount',
+mod 'cargomedia/mount',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/mount'
 
-mod 'raid',
+mod 'cargomedia/raid',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/raid'
 
-mod 'monit',
+mod 'cargomedia/monit',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/monit'
 
-mod 'helper',
+mod 'cargomedia/helper',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/helper'

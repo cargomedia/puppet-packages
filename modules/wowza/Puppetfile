@@ -1,15 +1,15 @@
-mod 'java',
+mod 'cargomedia/java',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/java'
 
-mod 'ffmpeg',
+mod 'cargomedia/ffmpeg',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/ffmpeg'
 
-mod 'helper',
+mod 'cargomedia/helper',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/helper'
 
-mod 'monit',
+mod 'cargomedia/monit',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/monit'

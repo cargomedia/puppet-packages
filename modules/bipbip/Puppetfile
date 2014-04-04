@@ -1,7 +1,7 @@
-mod 'monit',
+mod 'cargomedia/monit',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/monit'
 
-mod 'ruby',
+mod 'cargomedia/ruby',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/ruby'

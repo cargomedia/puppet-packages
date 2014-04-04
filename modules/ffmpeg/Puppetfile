@@ -1,15 +1,15 @@
-mod 'deb-multimedia',
+mod 'cargomedia/deb-multimedia',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/deb-multimedia'
 
-mod 'yasm',
+mod 'cargomedia/yasm',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/yasm'
 
-mod 'x264',
+mod 'cargomedia/x264',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/x264'
 
-mod 'helper',
+mod 'cargomedia/helper',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/helper'

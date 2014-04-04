@@ -1,7 +1,7 @@
-mod 'ca-certificates',
+mod 'cargomedia/ca-certificates',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/ca-certificates'
 
-mod 'monit',
+mod 'cargomedia/monit',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/monit'
