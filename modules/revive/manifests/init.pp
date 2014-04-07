@@ -73,4 +73,11 @@ class revive (
   apache2::vhost {$host:
     content => template('revive/vhost'),
   }
+
+  cron {"cron revive maintenance ${host}":
+    command => "/usr/bin/php /var/revive/scripts/maintenance/maintenance.php ${host}",
+    user    => 'root',
+    minute  => 10,
+  }
+
 }
