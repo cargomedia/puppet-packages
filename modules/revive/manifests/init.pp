@@ -75,7 +75,7 @@ class revive (
   }
 
   cron {"cron revive maintenance ${host}":
-    command => "/usr/bin/php /var/revive/scripts/maintenance/maintenance.php ${host}",
+    command => "php /var/revive/scripts/maintenance/maintenance.php ${host}",
     user    => 'root',
     minute  => 10,
   }
