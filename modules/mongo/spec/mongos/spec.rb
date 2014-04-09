@@ -9,6 +9,11 @@ describe user('mongodb') do
   it { should belong_to_group 'mongodb' }
 end
 
+# start mongos service manually
+describe command('sudo monit start mongos') do
+  it { should return_exit_status 0 }
+end
+
 # just waiting for mongod start up
 describe command('sleep 15') do
   it { should return_exit_status 0 }
@@ -16,7 +21,6 @@ end
 
 describe service('mongos') do
   it { should be_enabled }
-  it { should be_running }
   it { should be_monitored_by('monit') }
 end
 
