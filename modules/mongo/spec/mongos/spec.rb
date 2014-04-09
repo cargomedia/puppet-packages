@@ -14,7 +14,7 @@ describe command('sudo monit start mongos') do
   it { should return_exit_status 0 }
 end
 
-# just waiting for mongod start up
+# just waiting for mongos and mongod start up
 describe command('sleep 15') do
   it { should return_exit_status 0 }
 end
