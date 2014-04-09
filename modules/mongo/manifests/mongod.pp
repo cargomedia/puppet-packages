@@ -15,7 +15,7 @@ class mongo::mongod (
   include 'mongo'
 
   file {
-    "/etc/mongod.conf":
+    '/etc/mongod.conf':
       ensure  => file,
       content => template('mongo/mongod/conf'),
       mode    => '0755',
@@ -23,7 +23,7 @@ class mongo::mongod (
       group   => 'mongodb',
       require => Service['mongod'];
 
-    "/etc/init.d/mongod":
+    '/etc/init.d/mongod':
       ensure  => file,
       content => template('mongo/mongod/init'),
       mode    => '0755',
@@ -44,9 +44,9 @@ class mongo::mongod (
     version => $version,
   }
 
-  @monit::entry {"mongod":
+  @monit::entry {'mongod':
     content => template('mongo/mongod/monit'),
-    require => Service["mongod"],
+    require => Service['mongod'],
   }
 
 }

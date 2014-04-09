@@ -39,10 +39,10 @@ class mongo::mongos (
   ->
 
   service {'mongos':
-    enable      => true,
-    hasstatus   => true,
-    hasrestart  => true,
-    require     => File['/etc/mongos.conf', '/etc/init.d/mongos'],
+    enable  => true,
+    hasrestart => true,
+    hasstatus => true,
+    require => File['/etc/mongos.conf', '/etc/init.d/mongos'],
   }
 
   @monit::entry {'mongos':
