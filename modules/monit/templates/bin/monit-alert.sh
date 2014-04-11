@@ -16,7 +16,7 @@ ln -s ${SOURCE} ${DEST}
 
 function checkMonitHasReloaded { monit summary | grep -q 'uptime: 0m'; }
 export -f checkMonitHasReloaded
-RELOAD_CHECK_BEFORE=$(checkMonitHasReloaded)$?
+RELOAD_CHECK_BEFORE=$(checkMonitHasReloaded)$? || true
 
 monit reload
 
