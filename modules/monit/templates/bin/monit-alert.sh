@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 set -e
 
 fail() { echo "Error: ${1}" 1>&2; exit 1; }
