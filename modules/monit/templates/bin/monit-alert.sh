@@ -22,7 +22,7 @@ RELOAD_CHECK_BEFORE=$(checkMonitHasReloaded)$?
 monit reload
 
 if [[ 0 != ${RELOAD_CHECK_BEFORE} ]]; then
-  while ! (checkMonitHasReloaded); do sleep 0.05; done
+  timeout --signal=9 1 bash -c "while ! (checkMonitHasReloaded); do sleep 0.05; done"
 else
   sleep 1
 fi
