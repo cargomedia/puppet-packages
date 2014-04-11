@@ -14,7 +14,7 @@ fi
 rm -f ${DEST}
 ln -s ${SOURCE} ${DEST}
 
-function checkMonitHasReloaded { monit summary | grep -q 'uptime: 0m' }
+function checkMonitHasReloaded { monit summary | grep -q 'uptime: 0m'; }
 export -f checkMonitHasReloaded
 RELOAD_CHECK_BEFORE=$(checkMonitHasReloaded)$?
 
@@ -23,5 +23,6 @@ monit reload
 if [[ 0 != ${RELOAD_CHECK_BEFORE} ]]; then
   timeout --signal=9 1 bash -c "while ! (checkMonitHasReloaded); do sleep 0.05; done"
 else
+  echo 'Cannot check whether monit properly reloaded, sleeping for 1 second...'
   sleep 1
 fi
