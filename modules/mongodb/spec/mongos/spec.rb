@@ -1,5 +1,10 @@
 require 'spec_helper'
 
+# just waiting for mongos start up
+describe command('sleep 15') do
+  it { should return_exit_status 0 }
+end
+
 describe package('mongodb-org-server') do
   it { should be_installed.by('apt').with_version('2.6.0') }
 end
@@ -9,17 +14,7 @@ describe user('mongodb') do
   it { should belong_to_group 'mongodb' }
 end
 
-# start mongos service manually
-describe command('sudo monit start mongos') do
-  it { should return_exit_status 0 }
-end
-
-# just waiting for mongos and mongod start up
-describe command('sleep 15') do
-  it { should return_exit_status 0 }
-end
-
-describe service('mongos') do
+describe service('mongos_router') do
   it { should be_enabled }
   it { should be_monitored_by('monit') }
 end
