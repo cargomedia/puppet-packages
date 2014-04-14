@@ -20,7 +20,7 @@
 # Suite 330, Boston, MA 02111-1307 USA
 #
 ### BEGIN INIT INFO
-# Provides:          mongod
+# Provides:          <%= @instance_name %>
 # Required-Start:    $network $local_fs $remote_fs
 # Required-Stop:     $network $local_fs $remote_fs
 # Should-Start:      $named
@@ -47,15 +47,15 @@
 ### END INIT INFO
 
 PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin
-DAEMON=/usr/bin/mongod
+DAEMON=/usr/bin/<%= @daemon %>
 DESC=database
 
-NAME=mongod
+NAME=<%= @instance_name %>
 # Defaults.  Can be overridden by the /etc/default/$NAME
 # Other configuration options are located in $CONF file. See here for more:
 # http://dochub.mongodb.org/core/configurationoptions
-CONF=/etc/mongod.conf
-PIDFILE=/var/run/mongod.pid
+CONF=/etc/<%= @instance_name %>.conf
+PIDFILE=/var/run/<%= @instance_name %>.pid
 ENABLE_MONGOD=yes
 
 # Include mongodb defaults if available
