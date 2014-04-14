@@ -1,8 +1,15 @@
-class mongo {
+class mongodb {
 
   user {'mongodb':
     ensure => present,
     system => true,
+  }
+
+  file {'/var/lib/mongodb':
+    ensure  => directory,
+    mode    => '0655',
+    owner   => 'mongodb',
+    group   => 'mongodb';
   }
 
   apt::source {'mongodb':
