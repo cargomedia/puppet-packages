@@ -38,6 +38,12 @@ define mongodb::core::mongos (
     hasrestart  => true,
     hasstatus   => true,
   }
+  ->
+
+  exec {"update-rc.d ${instance_name} defaults  && /etc/init.d/${instance_name} start":
+    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    refreshonly => true,
+  }
 
   @monit::entry {$instance_name:
     content => template('mongodb/monit'),
