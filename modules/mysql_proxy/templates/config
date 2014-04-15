@@ -1,0 +1,8 @@
+[mysql-proxy]
+plugins=proxy
+proxy-skip-profiling=true
+proxy-lua-script=/etc/mysql-proxy/failover.lua
+proxy-address=<%= @host %>:<%= @port %>
+<% @backend_addresses.each do |address| -%>
+proxy-backend-addresses=<%= address %>
+<% end -%>

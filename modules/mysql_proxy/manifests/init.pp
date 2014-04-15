@@ -7,6 +7,16 @@ class mysql_proxy ($host = 'localhost', $port = 4040, $backend_addresses) {
     mode => '0644',
   }
 
+  file {'/etc/mysql-proxy/config':
+    ensure => file,
+    content => template('mysql_proxy/config'),
+    owner => '0',
+    group => '0',
+    mode => '0640',
+    before => Package['mysql-proxy'],
+    notify => Service['mysql-proxy'],
+  }
+
   file {'/etc/mysql-proxy/failover.lua':
     ensure => file,
     content => template('mysql_proxy/failover.lua'),
