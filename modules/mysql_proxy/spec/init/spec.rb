@@ -9,11 +9,15 @@ describe command('monit summary') do
 end
 
 describe file('/etc/default/mysql-proxy') do
-  its(:content) { should match '--proxy-backend-addresses=10.10.10.12:3306' }
-  its(:content) { should match '--proxy-backend-addresses=10.10.10.13:3306' }
+  its(:content) { should match '--proxy-backend-addresses=127.0.0.1:3306' }
+  its(:content) { should match '--proxy-backend-addresses=127.0.0.2:3306' }
   its(:content) { should match '--plugins=proxy' }
 end
 
 describe port(4040) do
   it { should be_listening }
+end
+
+describe command('mysql --host=127.0.0.1 --port=4040 -e "SHOW DATABASES;"') do
+  its(:stdout) { should match /example_db/ }
 end
