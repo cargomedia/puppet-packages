@@ -1,15 +1,8 @@
 node default {
 
-  cgroups::cgconfig::group {'puppet':
-    controllers => {
-      'cpuset' => {
-        'cpuset.cpus' => 0,
-        'cpuset.mems' => 0
-      }
-    }
-  }
+  cgroups::group {'puppet': }
 
-  cgroups::cgconfig::group {'vagrant':
+  cgroups::group {'vagrant':
     perm_task_uid => 'vagrant',
     perm_task_gid => 'vagrant',
     perm_admin_uid => 'vagrant',
@@ -20,7 +13,7 @@ node default {
       },
       'cpuset' => {
         'cpuset.cpus' => 0,
-        'cpuset.mems' => 0
+        'cpuset.mems' => 0,
       }
     }
   }

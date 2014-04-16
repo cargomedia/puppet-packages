@@ -1,4 +1,4 @@
-define cgroups::cgconfig::mount ($path) {
+define cgroups::mount ($path) {
 
   require 'cgroups'
 
@@ -10,7 +10,7 @@ define cgroups::cgconfig::mount ($path) {
 
   augeas {"$name" :
     context => "/files/etc/cgconfig.conf",
-    changes => template('cgroups/cgconfig/mount'),
+    changes => template('cgroups/mount'),
   }
 
 }
