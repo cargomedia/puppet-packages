@@ -9,8 +9,7 @@ describe command('monit summary') do
 end
 
 describe file('/etc/mysql-proxy/config') do
-  its(:content) { should match 'proxy-backend-addresses=127.0.0.1:3306' }
-  its(:content) { should match 'proxy-backend-addresses=127.0.0.2:3306' }
+  its(:content) { should match 'proxy-backend-addresses=127.0.0.1:3306,127.0.0.2:3306' }
   its(:content) { should match 'plugins=proxy' }
 end
 
