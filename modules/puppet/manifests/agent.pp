@@ -2,27 +2,25 @@ class puppet::agent (
   $server = 'puppet',
   $masterport = 8140,
   $runinterval = '10m',
-  $cpu_limit = 1024
+  $cpu_shares = 1024
 ) {
 
   include 'puppet::common'
 
-  if $cpu_limit < 1 or $cpu_limit > 1025 {
-    fail "CPU limit must be in range 1 to 1024"
+  if $cpu_shares < 1 or $cpu_shares > 1025 {
+    fail "CPU shares must be in range 1 to 1024"
   }
 
-  if $cpu_limit != 1024 {
+  if $cpu_shares != 1024 {
     $cgroup_enabled = true
   }
 
   if $cgroup_enabled {
-
     include 'cgroups'
-
     cgroups::group {'puppet':
       controllers => {
         'cpu' => {
-          'cpu.shares' => $cpu_limit
+          'cpu.shares' => $cpu_shares
         },
         'cpuset' => {
           'cpuset.cpus' => 0,
