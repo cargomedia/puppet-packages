@@ -7,6 +7,6 @@ max-open-files=10000
 proxy-skip-profiling=true
 proxy-lua-script=/etc/mysql-proxy/failover.lua
 proxy-address=<%= @host %>:<%= @port %>
-<% @backend_addresses.each do |address| -%>
-proxy-backend-addresses=<%= address %>
+<% if !@backend_addresses.empty? -%>
+proxy-backend-addresses=<%= @backend_addresses.join(',') %>
 <% end -%>
