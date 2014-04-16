@@ -1,0 +1,12 @@
+[mysql-proxy]
+plugins=proxy
+log-file=/var/log/mysql-proxy.log
+log-level=info
+max-open-files=10000
+
+proxy-skip-profiling=true
+proxy-lua-script=/etc/mysql-proxy/failover.lua
+proxy-address=<%= @host %>:<%= @port %>
+<% @backend_addresses.each do |address| -%>
+proxy-backend-addresses=<%= address %>
+<% end -%>
