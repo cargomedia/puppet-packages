@@ -28,7 +28,7 @@ define mongodb::core::mongod (
     "/etc/${instance_name}.conf":
       ensure  => file,
       content => template('mongodb/mongod/conf'),
-      mode    => '0755',
+      mode    => '0655',
       owner   => 'mongodb',
       group   => 'mongodb',
       require => Class['mongodb::install'];
