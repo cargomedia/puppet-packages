@@ -1,7 +1,8 @@
 node default {
 
   class {'puppet::agent':
-    cpu_limit => 50,
+    cpu_shares => 50,
   }
 
 }
+Update
