@@ -1,9 +1,5 @@
 require 'spec_helper'
 
-describe package('cgroup-bin') do
-  it { should be_installed }
-end
-
 describe file('/sys/fs/cgroup/cpu') do
   it { should be_directory }
 end
