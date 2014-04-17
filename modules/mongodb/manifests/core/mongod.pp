@@ -30,7 +30,7 @@ define mongodb::core::mongod (
       mode    => '0655',
       owner   => 'mongodb',
       group   => 'mongodb',
-      notify  => Exec["${instance_name} rc.d"],
+      notify  => Service[$instance_name],
       require => Class['mongodb'];
 
     "/etc/init.d/${instance_name}":
@@ -39,23 +39,17 @@ define mongodb::core::mongod (
       mode    => '0755',
       owner   => 'mongodb',
       group   => 'mongodb',
-      notify  => Exec["${instance_name} rc.d"],
+      notify  => Service[$instance_name],
       require => Class['mongodb'];
   }
-  ->
+  ~>
 
-  service {$instance_name:
-    enable     => true,
-    hasstatus  => true,
-    hasrestart => true,
-  }
-
-  exec {"${instance_name} rc.d":
-    command => "update-rc.d ${instance_name} defaults && /etc/init.d/${instance_name} start",
+  exec {"update-rc.d ${instance_name} defaults && /etc/init.d/${instance_name} start":
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
-    require => Service[$instance_name]
   }
+
+  service {$instance_name: }
 
   @monit::entry {$instance_name:
     content => template('mongodb/monit'),

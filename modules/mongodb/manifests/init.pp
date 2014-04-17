@@ -30,8 +30,13 @@ class mongodb ($version = '2.6.0') {
     mode    => '0755',
     owner   => 0,
     group   => 0,
-    notify  => Exec['mongod rc.d'],
-    require => Service['mongod'],
+    notify  => Service['mongod'],
+  }
+  ~>
+
+  exec {'/etc/init.d/mongod stop && update-rc.d -f mongod remove':
+    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    refreshonly => true,
   }
 
   package {'mongodb-org':
@@ -39,19 +44,6 @@ class mongodb ($version = '2.6.0') {
     require => [ Apt::Source['mongodb'] ]
   }
 
-  service {'mongod':
-    ensure     => stopped,
-    enable     => false,
-    hasstatus  => true,
-    hasrestart => true,
-    require => Package['mongodb-org']
-  }
-
-  exec {'mongod rc.d':
-    command => '/etc/init.d/mongod stop && update-rc.d -f mongod remove',
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    refreshonly => true,
-    require => Service['mongod'],
-  }
+  service {'mongod': }
 
 }
