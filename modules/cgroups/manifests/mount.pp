@@ -17,6 +17,7 @@ define cgroups::mount ($path) {
   exec {"cgroup apply ${name}":
     command => "cgconfigparser -l /etc/cgconfig.conf",
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    returns => [0, 101], # if already mounted then error code is 101
   }
 
 }
