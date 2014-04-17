@@ -12,7 +12,6 @@ define mongodb::core::mongod (
 ) {
 
   include 'mongodb'
-  include 'mongodb::install'
 
   $daemon = 'mongod'
   $instance_name = "${daemon}_${name}"
@@ -23,7 +22,7 @@ define mongodb::core::mongod (
       mode    => '0655',
       owner   => 'mongodb',
       group   => 'mongodb',
-      require => Class['mongodb::install'];
+      require => Class['mongodb'];
 
     "/etc/${instance_name}.conf":
       ensure  => file,
@@ -31,7 +30,8 @@ define mongodb::core::mongod (
       mode    => '0655',
       owner   => 'mongodb',
       group   => 'mongodb',
-      require => Class['mongodb::install'];
+      notify  => Exec["${instance_name} rc.d"],
+      require => Class['mongodb'];
 
     "/etc/init.d/${instance_name}":
       ensure  => file,
@@ -39,7 +39,8 @@ define mongodb::core::mongod (
       mode    => '0755',
       owner   => 'mongodb',
       group   => 'mongodb',
-      require => Class['mongodb::install'];
+      notify  => Exec["${instance_name} rc.d"],
+      require => Class['mongodb'];
   }
   ->
 
@@ -48,11 +49,12 @@ define mongodb::core::mongod (
     hasstatus  => true,
     hasrestart => true,
   }
-  ->
 
-  exec {"update-rc.d ${instance_name} defaults  && /etc/init.d/${instance_name} start":
+  exec {"${instance_name} rc.d":
+    command => "update-rc.d ${instance_name} defaults && /etc/init.d/${instance_name} start",
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
+    require => Service[$instance_name]
   }
 
   @monit::entry {$instance_name:
