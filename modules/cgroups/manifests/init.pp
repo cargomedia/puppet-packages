@@ -28,4 +28,12 @@ class cgroups {
     source => 'puppet:///modules/cgroups/cgconfig.aug',
   }
 
+  file{'/etc/init.d/cgconfig-apply':
+    ensure => file,
+    content => template('cgroups/init'),
+    mode => 0755,
+    owner => 0,
+    group => 0,
+  }
+
 }
