@@ -12,5 +12,11 @@ define cgroups::mount ($path) {
     context => "/files/etc/cgconfig.conf",
     changes => template('cgroups/mount'),
   }
+  ~>
+
+  exec {"cgroup apply ${name}":
+    command => "cgconfigparser -l /etc/cgconfig.conf",
+    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+  }
 
 }
