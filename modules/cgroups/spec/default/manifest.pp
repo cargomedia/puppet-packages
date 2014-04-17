@@ -1,5 +1,5 @@
 node default {
 
-  class {'cgorups': }
+  class {'cgroups': }
 
 }
