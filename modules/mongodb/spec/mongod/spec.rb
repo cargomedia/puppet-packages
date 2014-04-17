@@ -21,7 +21,10 @@ end
 describe service('mongod_server') do
   it { should be_enabled }
   it { should be_running }
-  it { should be_monitored_by('monit') }
+end
+
+describe service('mongod$') do
+  it { should_not be_enabled }
 end
 
 describe port(28017) do
