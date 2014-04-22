@@ -1,1 +1,0 @@
-set mount/<%= @name %> <%= @path %>
