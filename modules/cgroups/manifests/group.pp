@@ -13,14 +13,14 @@ define cgroups::group (
 
   require 'cgroups'
 
-  augeas {"$name" :
-    context => "/files/etc/cgconfig.conf",
+  augeas {$name:
+    context => '/files/etc/cgconfig.conf',
     changes => template('cgroups/group'),
   }
   ~>
 
   exec {"cgroup apply ${name}":
-    command => "cgconfigparser -l /etc/cgconfig.conf",
+    command => 'cgconfigparser -l /etc/cgconfig.conf',
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
 

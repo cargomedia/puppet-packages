@@ -7,10 +7,10 @@ class cgroups {
   }
 
   mount::entry {'mount cgroup':
-    source => "cgroup",
+    source => 'cgroup',
     target => '/sys/fs/cgroup',
-    type => "cgroup",
-    options => "defaults",
+    type => 'cgroup',
+    options => 'defaults',
     mount => true,
     require => Package['cgroup-bin'],
   }
@@ -38,7 +38,7 @@ class cgroups {
   }
   ~>
 
-  exec {"update-rc.d cgconfig-apply defaults":
+  exec {'update-rc.d cgconfig-apply defaults':
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }

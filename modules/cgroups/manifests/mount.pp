@@ -8,14 +8,14 @@ define cgroups::mount ($path) {
   }
   ->
 
-  augeas {"$name" :
-    context => "/files/etc/cgconfig.conf",
+  augeas {$name:
+    context => '/files/etc/cgconfig.conf',
     changes => template('cgroups/mount'),
   }
   ~>
 
   exec {"cgroup apply ${name}":
-    command => "cgconfigparser -l /etc/cgconfig.conf",
+    command => 'cgconfigparser -l /etc/cgconfig.conf',
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     returns => [0, 101], # if already mounted then error code is 101
   }
