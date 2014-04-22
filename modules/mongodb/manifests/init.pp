@@ -45,18 +45,16 @@ class mongodb ($version = '2.6.0') {
       owner   => 0,
       group   => 0;
   }
-  ~>
-
-  exec {'/etc/init.d/mongod stop && update-rc.d -f mongod remove':
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    refreshonly => true,
-  }
 
   package {'mongodb-org':
     ensure => $version,
     require => [ Apt::Source['mongodb'] ]
   }
+  ->
 
-  service {'mongod': }
+  service {'mongod':
+    ensure => stopped,
+    enable => false,
+  }
 
 }
