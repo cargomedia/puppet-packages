@@ -26,8 +26,9 @@ do_start()
 
 case "$1" in
 	start|apply|reload)
-	  log_daemon_msg "Starting $DESC" "$NAME"
+	  log_daemon_msg "Applying $DESC" "$NAME"
 	  do_start
+	  log_end_msg 1
 	;;
   *)
 	echo "Usage: ${0} {start|apply|reload}" >&2
