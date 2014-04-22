@@ -19,14 +19,14 @@ define mongodb::core::mongod (
   file {
     "${db_dir}/${instance_name}":
       ensure => directory,
-      mode    => '0655',
+      mode    => '0644',
       owner   => 'mongodb',
       group   => 'mongodb';
 
     "/etc/${instance_name}.conf":
       ensure  => file,
       content => template('mongodb/mongod/conf'),
-      mode    => '0655',
+      mode    => '0644',
       owner   => 'mongodb',
       group   => 'mongodb',
       notify  => Service[$instance_name];
