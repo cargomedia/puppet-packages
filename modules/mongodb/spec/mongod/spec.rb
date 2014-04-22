@@ -31,6 +31,10 @@ describe file('/etc/mongodb/mongod_server.conf') do
   its(:content) { should_not match /bind_ip/ }
 end
 
+describe file('/etc/mongod.conf') do
+  it { should_not be_file }
+end
+
 describe port(28017) do
   it { should be_listening.with('tcp') }
 end

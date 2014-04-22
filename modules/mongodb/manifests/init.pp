@@ -29,15 +29,17 @@ class mongodb ($version = '2.6.0') {
       mode    => '0644',
       owner   => 'mongodb',
       group   => 'mongodb';
-  }
 
-  file {'/etc/init.d/mongod':
-    ensure  => file,
-    content => template('mongodb/init-replacement'),
-    mode    => '0755',
-    owner   => 0,
-    group   => 0,
-    notify  => Service['mongod'],
+    '/etc/init.d/mongod':
+      ensure  => file,
+      content => template('mongodb/init-replacement'),
+      mode    => '0755',
+      owner   => 0,
+      group   => 0,
+      notify  => Service['mongod'];
+
+    '/etc/mongod.conf':
+      ensure => absent;
   }
   ~>
 
