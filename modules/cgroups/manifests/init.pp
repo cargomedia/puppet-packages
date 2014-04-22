@@ -34,14 +34,14 @@ class cgroups {
     mode => 0755,
     owner => 0,
     group => 0,
+    notify => Service['cgconfig-apply']
   }
-  ->
+  ~>
 
   exec {"update-rc.d cgconfig-apply defaults":
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
-  ->
 
   service {'cgconfig-apply':
     enable => true,
