@@ -16,8 +16,7 @@ class puppet::agent (
   }
 
   if $cgroup_enabled {
-    include 'cgroups'
-    cgroups::group {'puppet':
+    cgroups::group {'puppet-agent-daemon':
       controllers => {
         'cpu' => {
           'cpu.shares' => $cpu_shares
