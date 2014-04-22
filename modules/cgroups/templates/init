@@ -9,22 +9,14 @@
 # Description:       Cgroups configuration apply tool
 ### END INIT INFO
 
+NAME=cgconfig-apply
+DESC=cgconfig-apply
+DAEMON=/usr/sbin/cgconfigparser
 PATH=/sbin:/usr/sbin:/bin:/usr/bin
-DESC="Cgroups configuration apply"
-NAME=cgconfigparser
-DAEMON=/usr/sbin/$NAME
 DAEMON_ARGS="-l /etc/cgconfig.conf"
-SCRIPTNAME=/etc/init.d/$NAME
 
-# Exit if the package is not installed
-[ -x "$DAEMON" ] || exit 0
-
-# Read configuration variable file if it is present
-[ -r /etc/default/$NAME ] && . /etc/default/$NAME
-
-# Load the VERBOSE setting and other rcS variables
-. /lib/init/vars.sh
-
+test -x ${DAEMON} || exit 0
+set -e
 . /lib/lsb/init-functions
 
 do_start()
@@ -33,16 +25,11 @@ do_start()
 }
 
 case "$1" in
-  start|apply|reload)
-	[ "$VERBOSE" != no ] && log_daemon_msg "Starting $DESC" "$NAME"
-	do_start
-	case "$?" in
-		0|1) [ "$VERBOSE" != no ] && log_end_msg 0 ;;
-		2) [ "$VERBOSE" != no ] && log_end_msg 1 ;;
-	esac
+	start|apply|reload)
+	  log_daemon_msg "Starting $DESC" "$NAME"
+	  do_start
 	;;
   *)
-	echo "Usage: $SCRIPTNAME {start|apply|reload}" >&2
-	exit 3
+	echo "Usage: ${0} {start|apply|reload}" >&2
 	;;
 esac
