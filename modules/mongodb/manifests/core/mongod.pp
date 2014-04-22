@@ -11,7 +11,7 @@ define mongodb::core::mongod (
   $options = []
 ) {
 
-  include 'mongodb'
+  require 'mongodb'
 
   $daemon = 'mongod'
   $instance_name = "${daemon}_${name}"
@@ -21,8 +21,7 @@ define mongodb::core::mongod (
       ensure => directory,
       mode    => '0655',
       owner   => 'mongodb',
-      group   => 'mongodb',
-      require => Class['mongodb'];
+      group   => 'mongodb';
 
     "/etc/${instance_name}.conf":
       ensure  => file,
@@ -30,8 +29,7 @@ define mongodb::core::mongod (
       mode    => '0655',
       owner   => 'mongodb',
       group   => 'mongodb',
-      notify  => Service[$instance_name],
-      require => Class['mongodb'];
+      notify  => Service[$instance_name];
 
     "/etc/init.d/${instance_name}":
       ensure  => file,
@@ -39,8 +37,7 @@ define mongodb::core::mongod (
       mode    => '0755',
       owner   => 'mongodb',
       group   => 'mongodb',
-      notify  => Service[$instance_name],
-      require => Class['mongodb'];
+      notify  => Service[$instance_name];
   }
   ~>
 
