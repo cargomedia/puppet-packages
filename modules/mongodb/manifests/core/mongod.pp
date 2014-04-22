@@ -42,12 +42,13 @@ define mongodb::core::mongod (
   }
   ~>
 
-  exec {"update-rc.d ${instance_name} defaults && /etc/init.d/${instance_name} start":
+  exec {"/etc/init.d/${instance_name} start":
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
 
   service {$instance_name:
+    enable => true,
     hasrestart => false,
   }
 
