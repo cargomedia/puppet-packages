@@ -19,7 +19,7 @@ define mongodb::core::mongod (
 
   file {
     "${db_dir}/${instance_name}":
-      ensure => directory,
+      ensure  => directory,
       mode    => '0644',
       owner   => 'mongodb',
       group   => 'mongodb';
