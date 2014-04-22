@@ -38,7 +38,7 @@ class cgroups {
   }
   ~>
 
-  exec {'update-rc.d cgconfig-apply defaults':
+  exec {'update-rc.d cgconfig-apply defaults && /etc/init.d/cgconfig-apply start':
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
