@@ -47,7 +47,9 @@ define mongodb::core::mongod (
     refreshonly => true,
   }
 
-  service {$instance_name: }
+  service {$instance_name:
+    hasrestart => false,
+  }
 
   @monit::entry {$instance_name:
     content => template('mongodb/monit'),
