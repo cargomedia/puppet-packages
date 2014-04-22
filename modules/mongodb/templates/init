@@ -54,7 +54,7 @@ NAME=<%= @instance_name %>
 # Defaults.  Can be overridden by the /etc/default/$NAME
 # Other configuration options are located in $CONF file. See here for more:
 # http://dochub.mongodb.org/core/configurationoptions
-CONF=/etc/<%= @instance_name %>.conf
+CONF=<%= @conf_dir %>/<%= @instance_name %>.conf
 PIDFILE=/var/run/<%= @instance_name %>.pid
 ENABLE_MONGOD=yes
 

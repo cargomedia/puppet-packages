@@ -8,6 +8,7 @@ define mongodb::core::mongod (
   $fork = false,
   $log_dir = '/var/log/mongodb',
   $db_dir = '/var/lib/mongodb',
+  $conf_dir = '/etc/mongodb',
   $options = []
 ) {
 
@@ -23,7 +24,7 @@ define mongodb::core::mongod (
       owner   => 'mongodb',
       group   => 'mongodb';
 
-    "/etc/${instance_name}.conf":
+    "${conf_dir}/${instance_name}.conf":
       ensure  => file,
       content => template('mongodb/mongod/conf'),
       mode    => '0644',

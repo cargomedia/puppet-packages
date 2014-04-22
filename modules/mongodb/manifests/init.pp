@@ -17,11 +17,18 @@ class mongodb ($version = '2.6.0') {
     system => true,
   }
 
-  file {'/var/lib/mongodb':
-    ensure  => directory,
-    mode    => '0644',
-    owner   => 'mongodb',
-    group   => 'mongodb';
+  file {
+    '/var/lib/mongodb':
+      ensure  => directory,
+      mode    => '0644',
+      owner   => 'mongodb',
+      group   => 'mongodb';
+
+    '/etc/mongodb':
+      ensure  => directory,
+      mode    => '0644',
+      owner   => 'mongodb',
+      group   => 'mongodb';
   }
 
   file {'/etc/init.d/mongod':
