@@ -39,7 +39,11 @@ class mongodb ($version = '2.6.0') {
       notify  => Service['mongod'];
 
     '/etc/mongod.conf':
-      ensure => absent;
+      ensure => file,
+      content => template('mongodb/conf-replacement'),
+      mode    => '0644',
+      owner   => 0,
+      group   => 0;
   }
   ~>
 

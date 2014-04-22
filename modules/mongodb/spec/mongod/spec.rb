@@ -32,7 +32,7 @@ describe file('/etc/mongodb/mongod_server.conf') do
 end
 
 describe file('/etc/mongod.conf') do
-  it { should_not be_file }
+  its(:content) { should match /replacement file/ }
 end
 
 describe port(28017) do
