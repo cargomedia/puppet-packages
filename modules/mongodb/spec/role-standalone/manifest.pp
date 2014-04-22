@@ -1,7 +1,7 @@
 node default {
 
-  include 'monit'
-
-  class {'mongodb::role::standalone': }
+  class {'mongodb::role::standalone':
+    bind_ip => '127.0.0.1',
+  }
 
 }

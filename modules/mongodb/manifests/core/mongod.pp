@@ -1,6 +1,6 @@
 define mongodb::core::mongod (
   $port = 27017,
-  $bind_ip = '127.0.0.1',
+  $bind_ip = undef,
   $repl_set = '',
   $config_server = false,
   $shard_server = false,

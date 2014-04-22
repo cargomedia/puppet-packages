@@ -21,7 +21,10 @@ end
 describe service('mongod_standalone') do
   it { should be_enabled }
   it { should be_running }
-  it { should be_monitored_by('monit') }
+end
+
+describe file('/etc/mongodb/mongod_standalone.conf') do
+  its(:content) { should match /bind_ip = 127.0.0.1/ }
 end
 
 describe port(27017) do

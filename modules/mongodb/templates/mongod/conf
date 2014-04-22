@@ -27,7 +27,9 @@ configsvr=<%= @config_server %>
 port = <%= @port %>
 
 # Listen to local interface only. Comment out to listen on all interfaces. 
+<% if @bind_ip and !@bind_ip.empty? -%>
 bind_ip = <%= @bind_ip %>
+<% end %>
 
 # Disables write-ahead journaling
 # nojournal = true
