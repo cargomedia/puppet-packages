@@ -22,4 +22,4 @@ export -f monitCheckHasReloaded
 
 monit reload
 
-timeout --signal=9 1 bash -c "while ! (monitCheckHasReloaded); do sleep 0.05; done"
+timeout --signal=9 5 bash -c "while ! (monitCheckHasReloaded); do sleep 0.05; done"
