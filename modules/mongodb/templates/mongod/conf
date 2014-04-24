@@ -5,10 +5,10 @@
 # Note: if you run mongodb as a non-root user (recommended) you may
 # need to create and set permissions for this directory manually,
 # e.g., if the parent directory isn't mutable by the mongodb user.
-dbpath=<%= @db_dir %>/<%= @instance_name %>
+dbpath=/var/lib/mongodb/<%= @instance_name %>
 
 #where to log
-logpath=<%= @log_dir %>/<%= @instance_name %>.log
+logpath=/var/log/mongodb/<%= @instance_name %>.log
 
 logappend=true
 

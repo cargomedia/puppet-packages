@@ -6,9 +6,6 @@ define mongodb::core::mongod (
   $shard_server = false,
   $rest = false,
   $fork = false,
-  $log_dir = '/var/log/mongodb',
-  $db_dir = '/var/lib/mongodb',
-  $conf_dir = '/etc/mongodb',
   $options = []
 ) {
 
@@ -18,13 +15,13 @@ define mongodb::core::mongod (
   $instance_name = "${daemon}_${name}"
 
   file {
-    "${db_dir}/${instance_name}":
+    "/var/lib/mongodb/${instance_name}":
       ensure  => directory,
       mode    => '0644',
       owner   => 'mongodb',
       group   => 'mongodb';
 
-    "${conf_dir}/${instance_name}.conf":
+    "/etc/mongodb/${instance_name}.conf":
       ensure  => file,
       content => template('mongodb/mongod/conf'),
       mode    => '0644',
