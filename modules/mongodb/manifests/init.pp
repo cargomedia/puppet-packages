@@ -35,8 +35,7 @@ class mongodb ($version = '2.6.0') {
       content => template('mongodb/init-replacement'),
       mode    => '0755',
       owner   => 0,
-      group   => 0,
-      notify  => Service['mongod'];
+      group   => 0;
 
     '/etc/mongod.conf':
       ensure => file,
@@ -45,6 +44,7 @@ class mongodb ($version = '2.6.0') {
       owner   => 0,
       group   => 0;
   }
+  ->
 
   package {'mongodb-org':
     ensure => $version,
