@@ -36,13 +36,6 @@ class mongodb ($version = '2.6.0') {
       mode    => '0755',
       owner   => 0,
       group   => 0;
-
-    '/etc/mongod.conf':
-      ensure => file,
-      content => template('mongodb/conf-replacement'),
-      mode    => '0644',
-      owner   => 0,
-      group   => 0;
   }
   ->
 
@@ -55,6 +48,11 @@ class mongodb ($version = '2.6.0') {
   service {'mongod':
     ensure => stopped,
     enable => false,
+  }
+  ->
+
+  file {'/etc/mongod.conf':
+    ensure => absent,
   }
 
 }

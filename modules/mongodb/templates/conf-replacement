@@ -1,2 +1,0 @@
-# mongod - Should no longer use this config file. Puppet will use this replacement file to confirm it has replaced the
-# default package configuration file. Please find configuration files in /etc/mongodb/.
