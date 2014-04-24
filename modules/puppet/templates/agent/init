@@ -38,7 +38,7 @@ start_puppet_agent() {
         start-stop-daemon --start --quiet --pidfile $PIDFILE \
           --startas $DAEMON -- $NAME $DAEMON_OPTS
 <% if @cgroup_enabled -%>
-        echo $(cat $PIDFILE) > /sys/fs/cgroup/puppet/tasks
+        echo $(cat $PIDFILE) > /sys/fs/cgroup/puppet-agent-daemon/tasks
 <% end -%>
     else
         echo ""
