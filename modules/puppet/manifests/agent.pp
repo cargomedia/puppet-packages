@@ -1,27 +1,58 @@
 class puppet::agent (
   $server = 'puppet',
   $masterport = 8140,
-  $runinterval = '10m'
+  $runinterval = '10m',
+  $cpu_shares = 1024
 ) {
 
   include 'puppet::common'
 
-  file {'/etc/puppet/conf.d/agent':
-    ensure => file,
-    content => template('puppet/agent/config'),
-    group => '0',
-    owner => '0',
-    mode => '0644',
-    notify => Exec['/etc/puppet/puppet.conf'],
+  if $cpu_shares < 1 or $cpu_shares > 1025 {
+    fail "CPU shares must be in range 1 to 1024"
   }
-  ->
 
-  file {'/etc/default/puppet':
-    ensure => file,
-    content => template('puppet/agent/default'),
-    group => '0',
-    owner => '0',
-    mode => '0644',
+  if $cpu_shares != 1024 {
+    $cgroup_enabled = true
+  }
+
+  if $cgroup_enabled {
+    cgroups::group {'puppet-agent-daemon':
+      controllers => {
+        'cpu' => {
+          'cpu.shares' => $cpu_shares
+        },
+        'cpuset' => {
+          'cpuset.cpus' => 0,
+          'cpuset.mems' => 0,
+        }
+      }
+    }
+  }
+
+  file {
+    '/etc/puppet/conf.d/agent':
+      ensure => file,
+      content => template('puppet/agent/config'),
+      group => '0',
+      owner => '0',
+      mode => '0644',
+      notify => Exec['/etc/puppet/puppet.conf'];
+
+    '/etc/default/puppet':
+      ensure => file,
+      content => template('puppet/agent/default'),
+      group => '0',
+      owner => '0',
+      mode => '0644',
+      notify => Service['puppet'];
+
+    '/etc/init.d/puppet':
+      ensure => file,
+      content => template('puppet/agent/init'),
+      group => '0',
+      owner => '0',
+      mode => '0755',
+      notify => Service['puppet'];
   }
   ->
 
@@ -39,6 +70,12 @@ class puppet::agent (
     subscribe => Exec['/etc/puppet/puppet.conf'],
   }
   ->
+
+  exec {'update-rc.d puppet defaults && /etc/init.d/puppet start':
+    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    subscribe => [ File['/etc/init.d/puppet'], File['/etc/default/puppet'] ],
+    refreshonly => true,
+  }
 
   file {'/usr/local/bin/puppet-agent-check.rb':
     ensure => file,
