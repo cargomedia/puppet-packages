@@ -18,6 +18,7 @@ define nfs::server::export($publicPath = $name, $localPath, $configuration, $own
     source => $localPath,
     options => 'bind',
     mount => true,
+    mount_check => true,
   }
   ->
 
