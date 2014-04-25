@@ -43,14 +43,16 @@ class puppet::agent (
       content => template('puppet/agent/default'),
       group => '0',
       owner => '0',
-      mode => '0644';
+      mode => '0644',
+      notify => Service['puppet'];
 
     '/etc/init.d/puppet':
       ensure => file,
       content => template('puppet/agent/init'),
       group => '0',
       owner => '0',
-      mode => '0755';
+      mode => '0755',
+      notify => Service['puppet'];
   }
   ->
 
@@ -69,7 +71,7 @@ class puppet::agent (
   }
   ->
 
-  exec {'update-rc.d puppet defaults && /etc/init.d/puppet restart':
+  exec {'update-rc.d puppet defaults && /etc/init.d/puppet start':
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     subscribe => [ File['/etc/init.d/puppet'], File['/etc/default/puppet'] ],
     refreshonly => true,
