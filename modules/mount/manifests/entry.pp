@@ -1,4 +1,11 @@
-define mount::entry ($target = $name, $source, $type = 'none', $options = 'defaults', $mount = false) {
+define mount::entry (
+  $target = $name,
+  $source,
+  $type = 'none',
+  $options = 'defaults',
+  $mount = false,
+  $mount_check = false
+) {
 
   include 'mount::common'
 
@@ -20,9 +27,10 @@ define mount::entry ($target = $name, $source, $type = 'none', $options = 'defau
   ->
 
   cron {"mount-check ${target}":
+    ensure => $mount_check ? {true => present, false => absent},
     command => "/usr/sbin/mount-check.sh ${target}",
     user => 'root',
-    require => [File['/usr/sbin/mount-check.sh']]
+    require => File['/usr/sbin/mount-check.sh'],
   }
 
   if $mount {
