@@ -29,30 +29,28 @@ class puppet::agent (
     }
   }
 
-  file {'/etc/puppet/conf.d/agent':
-    ensure => file,
-    content => template('puppet/agent/config'),
-    group => '0',
-    owner => '0',
-    mode => '0644',
-    notify => Exec['/etc/puppet/puppet.conf'],
-  }
-  ->
+  file {
+    '/etc/puppet/conf.d/agent':
+      ensure => file,
+      content => template('puppet/agent/config'),
+      group => '0',
+      owner => '0',
+      mode => '0644',
+      notify => Exec['/etc/puppet/puppet.conf'];
 
-  file {'/etc/default/puppet':
-    ensure => file,
-    content => template('puppet/agent/default'),
-    group => '0',
-    owner => '0',
-    mode => '0644',
-  }
-  ->
-  file {'/etc/init.d/puppet':
-    ensure => file,
-    content => template('puppet/agent/init'),
-    group => '0',
-    owner => '0',
-    mode => '0755',
+    '/etc/default/puppet':
+      ensure => file,
+      content => template('puppet/agent/default'),
+      group => '0',
+      owner => '0',
+      mode => '0644';
+
+    '/etc/init.d/puppet':
+      ensure => file,
+      content => template('puppet/agent/init'),
+      group => '0',
+      owner => '0',
+      mode => '0755';
   }
   ->
 
@@ -70,6 +68,12 @@ class puppet::agent (
     subscribe => Exec['/etc/puppet/puppet.conf'],
   }
   ->
+
+  exec {'update-rc.d puppet defaults && /etc/init.d/puppet restart':
+    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    subscribe => [ File['/etc/init.d/puppet'], File['/etc/default/puppet'] ],
+    refreshonly => true,
+  }
 
   file {'/usr/local/bin/puppet-agent-check.rb':
     ensure => file,
