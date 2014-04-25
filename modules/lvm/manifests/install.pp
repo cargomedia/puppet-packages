@@ -58,7 +58,8 @@ class lvm::install (
       source => "/dev/${volumeGroupName}/${logicalVolumeName}",
       target => $logicalVolumeMountpoint,
       type => $logicalVolumeFilesystem,
-      options => $mount_options ? { undef => $logicalVolumeMountOptions,  default => $mount_options }
+      options => $mount_options ? { undef => $logicalVolumeMountOptions,  default => $mount_options },
+      mount_check => true,
     }
 
     $mountBasename = file_basename($logicalVolumeMountpoint)

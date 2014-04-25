@@ -1,4 +1,4 @@
-define nfs::mount ($target = $name, $source, $mount = false) {
+define nfs::mount ($target = $name, $source, $mount = false, $mount_check = true) {
 
   require 'nfs'
 
@@ -6,5 +6,6 @@ define nfs::mount ($target = $name, $source, $mount = false) {
     source => $source,
     type => 'nfs4',
     mount => $mount,
+    mount_check => $mount_check,
   }
 }
