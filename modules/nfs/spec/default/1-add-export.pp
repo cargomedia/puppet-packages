@@ -3,7 +3,8 @@ node default {
   require 'monit'
 
   class {'nfs::server':
-    configuration => '*(ro,sync,insecure,root_squash,no_subtree_check,fsid=0)'
+    configuration => '*(ro,sync,insecure,root_squash,no_subtree_check,fsid=0)',
+    nfsd_count => 32,
   }
 
   file {'/tmp/source':
