@@ -1,4 +1,7 @@
-class nfs::server ($configuration = '*(ro,fsid=0)') {
+class nfs::server (
+  $configuration = '*(ro,fsid=0)',
+  $nfsd_count = 8
+) {
 
   require 'nfs'
 
@@ -14,6 +17,16 @@ class nfs::server ($configuration = '*(ro,fsid=0)') {
     mode => '755',
     before => Package['nfs-kernel-server'],
   }
+
+  file {'/etc/default/nfs-kernel-server':
+    ensure => file,
+    content => template('nfs/server/default'),
+    owner => '0',
+    group => '0',
+    mode => '644',
+    notify => Service['nfs-kernel-server'],
+  }
+  ->
 
   package {'nfs-kernel-server':
     ensure => present
