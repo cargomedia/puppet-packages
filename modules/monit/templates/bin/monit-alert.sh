@@ -22,4 +22,7 @@ export -f monitCheckHasReloaded
 
 monit reload
 
-timeout --signal=9 5 bash -c "while ! (monitCheckHasReloaded); do sleep 0.05; done"
+if ! (timeout --signal=9 5 bash -c "while ! (monitCheckHasReloaded); do sleep 0.05; done"); then
+  # Hard-restart monit in case it cannot reload
+  /etc/init.d/monit restart
+fi
