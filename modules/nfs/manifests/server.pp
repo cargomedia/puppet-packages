@@ -1,6 +1,6 @@
 class nfs::server (
   $configuration = '*(ro,fsid=0)',
-  $nfsd_count = 8
+  $nfsd_count = 32
 ) {
 
   require 'nfs'
