@@ -8,6 +8,3 @@ echo $RESPONSES | ./WowzaStreamingEngine.deb.bin
 
 chown -R wowza: /usr/local/WowzaStreamingEngine $(readlink /usr/local/WowzaStreamingEngine)
 chmod -R 755 $(readlink /usr/local/WowzaStreamingEngine)
-
-/etc/init.d/WowzaStreamingEngine stop
-/etc/init.d/WowzaStreamingEngineManager stop
