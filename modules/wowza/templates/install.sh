@@ -1,10 +1,13 @@
 #!/bin/sh -e
 
-curl -sL http://www.wowza.com/downloads/WowzaMediaServer-$(echo '<%= @version %>' | tr '.' '-')/WowzaMediaServer-<%= @version %>.deb.bin > WowzaMediaServer.deb.bin
-chmod +x WowzaMediaServer.deb.bin
-echo yes | ./WowzaMediaServer.deb.bin
+RESPONSES="yes\\n<%= @admin_user %>\\n<%= @admin_password %>\\n<%= @admin_password %>\\n<%= @license %>\\nno"
 
-echo '<%= @license %>' > /usr/local/WowzaMediaServer/conf/Server.license
+curl -sL http://www.wowza.com/downloads/WowzaStreamingEngine-$(echo '<%= @version %>' | tr '.' '-')/WowzaStreamingEngine-<%= @version %>.deb.bin > WowzaStreamingEngine.deb.bin
+chmod +x WowzaStreamingEngine.deb.bin
+echo $RESPONSES | ./WowzaStreamingEngine.deb.bin
 
-chown -R wowza: /usr/local/WowzaMediaServer $(readlink /usr/local/WowzaMediaServer)
-chmod -R 755 $(readlink /usr/local/WowzaMediaServer)
+chown -R wowza: /usr/local/WowzaStreamingEngine $(readlink /usr/local/WowzaStreamingEngine)
+chmod -R 755 $(readlink /usr/local/WowzaStreamingEngine)
+
+/etc/init.d/WowzaStreamingEngine stop
+/etc/init.d/WowzaStreamingEngineManager stop
