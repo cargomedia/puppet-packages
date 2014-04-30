@@ -16,7 +16,7 @@ class wowza (
 
   helper::script {'install wowza':
     content => template('wowza/install.sh'),
-    unless => "(test -x /usr/bin/WowzaStreamingEngined) && (dpkg -l | grep -q '^ii.* wowzastreamingengine-${version}')",
+    unless => "dpkg -l | grep -q '^ii.* wowzastreamingengine-${version}'",
     timeout => 900,
     require => User['wowza'],
   }
@@ -28,7 +28,7 @@ class wowza (
       content => template('wowza/admin.password'),
       owner => '0',
       group => '0',
-      mode => '0755',
+      mode => '0644',
       notify => Service['wowza'];
 
     '/usr/local/WowzaStreamingEngine/conf/Server.license':
@@ -36,7 +36,7 @@ class wowza (
       content => $license,
       owner => '0',
       group => '0',
-      mode => '0755',
+      mode => '0644',
       notify => Service['wowza'];
 
     '/etc/init.d/wowza':
