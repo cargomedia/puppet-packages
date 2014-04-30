@@ -2,7 +2,7 @@ class elasticsearch ($publish_host = undef, $heap_size = '256m', $cluster_name =
 
   require 'java'
 
-  $version = '0.90.5'
+  $version = '1.1.1'
 
   file {'/etc/default/elasticsearch':
     ensure => file,
