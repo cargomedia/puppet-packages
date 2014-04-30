@@ -6,4 +6,9 @@ node default {
     ensure => installed,
     provider => 'pear',
   }
+
+  package {'mongo':
+    ensure => installed,
+    provider => 'pecl',
+  }
 }
