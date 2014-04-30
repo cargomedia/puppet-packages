@@ -13,6 +13,6 @@ describe file('/etc/elasticsearch/elasticsearch.yml') do
   its(:content) { should match 'cluster.name: foo' }
 end
 
-describe command('monit summary') do
-  its(:stdout) { should match /Process 'elasticsearch'/ }
+describe command('pgrep java | wc -l') do
+  its(:stdout) { should match /^1$/ }
 end
