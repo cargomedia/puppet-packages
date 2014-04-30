@@ -22,6 +22,7 @@ class lvm::install (
         user => 'root',
         minute => 30,
         hour => 2,
+        ensure => absent,
         require => Class['lvm::base::xfs'],
       }
 
