@@ -1,22 +1,22 @@
 require 'spec_helper'
 
-describe package('wowzamediaserver-3.5.0') do
+describe package('wowzastreamingengine-4.0.3') do
   it { should be_installed }
 end
 
-describe file('/usr/local/WowzaMediaServer/lib/json-simple-1.1.1.jar') do
+describe file('/usr/local/WowzaStreamingEngine/lib/json-simple-1.1.1.jar') do
   it { should be_file }
 end
 
-describe file('/usr/local/WowzaMediaServer/lib/flexjson-2.1.jar') do
+describe file('/usr/local/WowzaStreamingEngine/lib/flexjson-2.1.jar') do
   it { should be_file }
 end
 
-describe file('/usr/local/WowzaMediaServer/lib/ch.cargomedia.wms-0.0.1.jar') do
+describe file('/usr/local/WowzaStreamingEngine/lib/ch.cargomedia.wms-0.0.1.jar') do
   it { should be_file }
 end
 
-describe command('/usr/bin/unzip -tl /usr/local/WowzaMediaServer/lib/ch.cargomedia.wms-0.0.1.jar') do
+describe command('/usr/bin/unzip -tl /usr/local/WowzaStreamingEngine/lib/ch.cargomedia.wms-0.0.1.jar') do
   let(:pre_command) { 'apt-get install -qy unzip' }
   it { should return_exit_status 0 }
 end
@@ -35,4 +35,8 @@ end
 
 describe port(8086) do
   it { should be_listening }
+end
+
+describe command('curl http://localhost:8086/status') do
+  its(:stdout) { should match /{}/ }
 end
