@@ -1,6 +1,6 @@
 class java {
 
-  package {'openjdk-6-jre-headless':
+  package {'openjdk-7-jre-headless':
     ensure => present,
   }
 }
