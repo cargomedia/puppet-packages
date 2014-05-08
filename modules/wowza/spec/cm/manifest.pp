@@ -3,7 +3,7 @@ node default {
   require 'monit'
 
   class {'wowza::app::cm':
-    archive_dir => '/tmp/archive',
+    cm_bin_path => '/tmp/my-bin',
     rpc_url => 'http://example.com/rpc',
   }
 }
