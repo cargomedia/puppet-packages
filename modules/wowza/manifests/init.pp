@@ -26,7 +26,7 @@ class wowza (
     '/usr/local/WowzaStreamingEngine/lib/lib-versions':
       owner => 'wowza',
       group => 'wowza',
-      mode => '0655',
+      mode => '0755',
       ensure => directory;
 
     '/usr/local/WowzaStreamingEngine/conf/admin.password':
