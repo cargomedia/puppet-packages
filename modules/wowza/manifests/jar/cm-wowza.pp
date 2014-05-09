@@ -4,10 +4,8 @@ class wowza::jar::cm-wowza($version = '0.0.1') {
   require 'wowza::jar::flexjson'
   require 'wowza::jar::json-simple'
 
-  helper::script {'install wowza:jar cm-wowza':
-    content => template('wowza/jar/cm-wowza.sh'),
-    unless => "test -f /usr/local/WowzaStreamingEngine/lib/lib-versions/ch.cargomedia.wms-${version}.jar",
-    user => 'wowza',
+  wowza::jar {'ch.cargomedia.wms':
+    get_command => "curl -sL https://github.com/cargomedia/CM-wowza/releases/download/v${version}/ch.cargomedia.wms.jar",
+    version => $version,
   }
-
 }
