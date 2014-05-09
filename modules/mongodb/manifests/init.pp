@@ -1,4 +1,4 @@
-class mongodb ($version = '2.6.0') {
+class mongodb {
 
   apt::source {'mongodb':
     entries => [
@@ -40,7 +40,6 @@ class mongodb ($version = '2.6.0') {
   ->
 
   package {'mongodb-org':
-    ensure => $version,
     require => [ Apt::Source['mongodb'] ]
   }
   ->

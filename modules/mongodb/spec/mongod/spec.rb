@@ -6,11 +6,11 @@ describe command('sleep 15') do
 end
 
 describe package('mongodb-org-server') do
-  it { should be_installed.by('apt').with_version('2.6.0') }
+  it { should be_installed.by('apt') }
 end
 
 describe package('mongodb-org-shell') do
-  it { should be_installed.by('apt').with_version('2.6.0') }
+  it { should be_installed.by('apt') }
 end
 
 describe user('mongodb') do
@@ -37,8 +37,4 @@ end
 
 describe port(28017) do
   it { should be_listening.with('tcp') }
-end
-
-describe command('mongo --version') do
-  its(:stdout) { should match /version.*2.6.0/ }
 end
