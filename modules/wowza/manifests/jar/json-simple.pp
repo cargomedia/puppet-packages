@@ -2,10 +2,8 @@ class wowza::jar::json-simple($version = '1.1.1') {
 
   require 'wowza'
 
-  helper::script {'install wowza:jar json-simple':
-    content => template('wowza/jar/simple-json.sh'),
-    unless => "test -f /usr/local/WowzaStreamingEngine/lib/json-simple-${version}.jar",
-    user => 'wowza',
+  wowza::jar {'json-simple':
+    get_command => "curl -sL http://json-simple.googlecode.com/files/json-simple-${version}.jar",
+    version => $version,
   }
-
 }

@@ -23,6 +23,12 @@ class wowza (
   ->
 
   file {
+    '/usr/local/WowzaStreamingEngine/lib/lib-versions':
+      owner => 'wowza',
+      group => 'wowza',
+      mode => '0755',
+      ensure => directory;
+
     '/usr/local/WowzaStreamingEngine/conf/admin.password':
       ensure =>file,
       content => template('wowza/admin.password'),
