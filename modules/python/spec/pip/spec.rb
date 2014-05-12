@@ -13,7 +13,7 @@ describe command('which pip') do
 end
 
 describe command('pip freeze') do
-  its(:stdout) { should match 'aws-ec2-assign-elastic-ip' }
+  its(:stdout) { should match 'aws-ec2-assign-elastic-ip==0.1.0' }
 end
 
 describe command('which aws-ec2-assign-elastic-ip') do
