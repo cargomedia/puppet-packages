@@ -1,13 +1,7 @@
 class awscli ($version = '1.3.9') {
 
-  package {'python-pip':
-    ensure => installed,
-  }
-  ->
-
-  package {'awscli':
+  python::pip {'awscli':
     ensure => $version,
-    provider => pip,
   }
 
 }
