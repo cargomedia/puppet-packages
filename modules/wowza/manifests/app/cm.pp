@@ -1,5 +1,5 @@
 class wowza::app::cm (
-  $archive_dir,
+  $cm_bin_path,
   $rpc_url,
   $port = 1935,
   $port_rpc = 8086,
