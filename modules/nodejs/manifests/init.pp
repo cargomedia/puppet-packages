@@ -1,25 +1,17 @@
 class nodejs {
 
-  require 'build'
-
-  $version = '0.10.22'
-
-  if $::lsbdistcodename == 'wheezy' {
-    package {['libevent-2.0-5', 'libssl-dev']:
-      ensure => present,
-      before => Helper::Script['install nodejs'],
-    }
-  }
-
-  user {'nodejs':
+  package {'nodejs':
     ensure => present,
-    system => true,
+  }
+  package {'nodejs-legacy':
+    ensure => present
   }
 
-  helper::script {'install nodejs':
-    content => template('nodejs/install.sh'),
-    unless => "test -x /usr/bin/node && /usr/bin/node -v | grep '^v${version}$'",
-    require => User['nodejs'],
-    timeout => 900,
+  exec {'install npm':
+    command => 'curl https://www.npmjs.org/install.sh | clean=yes sh',
+    unless => 'test -x /usr/bin/npm && /usr/bin/npm -v',
+    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    require => Package['nodejs-legacy'],
   }
+
 }
