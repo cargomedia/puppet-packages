@@ -83,6 +83,11 @@ class socket-redis (
     }
   }
 
+  user {'socket-redis':
+    ensure => present,
+    system => true,
+  }
+
   file {'/etc/init.d/socket-redis':
     ensure => file,
     content => template('socket-redis/init.sh'),
@@ -91,6 +96,7 @@ class socket-redis (
     mode => '0755',
     notify => Service['socket-redis'],
     before => Package['socket-redis'],
+    require => User['socket-redis'],
   }
   ~>
 

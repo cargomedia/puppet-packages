@@ -13,7 +13,7 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
 NAME=socket-redis
 DESC=socket-redis
 DAEMON=/usr/bin/node
-DAEMON_USER=nodejs:nodejs
+DAEMON_USER=socket-redis:socket-redis
 PIDFILE=/var/run/socket-redis.pid
 LOGDIR="<%= @logDir %>"
 DAEMON_ARGS="/usr/bin/socket-redis --log-dir=$LOGDIR --redis-host=<%= @redisHost %> --socket-ports=<%= @socketPorts.join(',') %> --status-port=<%= @statusPort %><%= ' --ssl-key=' + @sslKeyFile if @sslKeyFile %><%= ' --ssl-cert=' + @sslCertFile if @sslCertFile %><%= ' --ssl-pfx=' + @sslPfxFile if @sslPfxFile %><%= ' --ssl-passphrase=' + @sslPassphraseFile if @sslPassphraseFile %>"
