@@ -16,7 +16,6 @@ end
 
 describe file('/usr/local/WowzaStreamingEngine/lib/ch.cargomedia.wms.jar') do
   it { should be_file }
-  it { should be_linked_to '/usr/local/WowzaStreamingEngine/lib/lib-versions/ch.cargomedia.wms-0.0.2.jar' }
 end
 
 describe command('/usr/bin/unzip -tl /usr/local/WowzaStreamingEngine/lib/ch.cargomedia.wms.jar') do
