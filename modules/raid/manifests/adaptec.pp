@@ -1,4 +1,7 @@
-class raid::adaptec {
+class raid::adaptec(
+  $version = '1.5',
+  $revision = '20942'
+) {
 
   require 'hwraid-le-vert'
   require 'unzip'
@@ -15,9 +18,8 @@ class raid::adaptec {
   ->
 
   helper::script {'download current arcconf binary from adaptec':
-    content => template('raid/adaptec/wget-arcconf-binary.sh'),
-    unless => 'arcconf --version | grep -q 1.5',
-    require => Package['arcconf'],
+    content => template('raid/adaptec/install-arcconf-binary.sh'),
+    unless => "arcconf --version | grep -q '${version} (B${revision})'",
   }
   ->
 
