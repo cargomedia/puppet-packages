@@ -1,6 +1,7 @@
 class raid::adaptec {
 
   require 'hwraid-le-vert'
+  require 'unzip'
 
   package {'arcconf':
     ensure => present,
@@ -10,6 +11,13 @@ class raid::adaptec {
 
   package {'aacraid-status':
     ensure => present
+  }
+  ->
+
+  helper::script {'download current arcconf binary from adaptec':
+    content => template('raid/adaptec/wget-arcconf-binary.sh'),
+    unless => 'arcconf --version | grep -q 1.5',
+    require => Package['arcconf'],
   }
   ->
 
