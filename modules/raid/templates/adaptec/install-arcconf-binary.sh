@@ -1,5 +1,6 @@
 #!/bin/bash -e
 
-wget -q http://download.adaptec.com/raid/storage_manager/arcconf_v<%= @version.gsub(/\./, "_") %>_<%= @revision %>.zip
-unzip arcconf_v1_5_20942.zip
+ARCCONF_ZIPFILE='arcconf_v<%= @version.gsub(/\./, "_") %>_<%= @revision %>.zip'
+wget -q http://download.adaptec.com/raid/storage_manager/$ARCCONF_ZIPFILE
+unzip $ARCCONF_ZIPFILE
 cp linux_x64/cmdline/arcconf /usr/sbin/arcconf
