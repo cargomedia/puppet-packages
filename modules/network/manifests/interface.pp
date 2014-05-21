@@ -13,6 +13,7 @@ define network::interface (
   $wpa_ssid     = undef,
   $wpa_psk      = undef,
   $applyconfig  = true,
+  $aliases      = undef,
 ) {
 
   include 'augeas'
@@ -49,5 +50,13 @@ define network::interface (
       unless  => "/sbin/ifconfig | grep $device",
       path => ['/usr/local/bin', '/usr/bin', '/bin', '/sbin'],
     }
+  }
+
+  $aliases_list = $aliases? {
+    undef => $::fqdn,
+  }
+  @@network::host{"$::fqdn.":
+    ipaddr => $ipaddr,
+    aliases => $aliases_list
   }
 }
