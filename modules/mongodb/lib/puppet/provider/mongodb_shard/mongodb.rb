@@ -6,27 +6,61 @@ Puppet::Type.type(:mongodb_shard).provide(:mongodb) do
 
   commands :mongo => 'mongo'
 
-  def block_until_mongodb(tries = 10)
-    begin
-      mongo('--quiet', '--eval', 'db.getMongo()')
-    rescue
-      debug('MongoDB server not ready, retrying')
-      sleep 2
-      retry unless (tries -= 1) <= 0
-    end
-  end
-
   def create
-    mongo(@resource[:database], '--eval', "db.system.users.insert({user:\"#{@resource[:name]}\", pwd:\"#{@resource[:password_hash]}\", roles: #{@resource[:roles].inspect}})")
   end
 
   def destroy
-    mongo(@resource[:database], '--quiet', '--eval', "db.removeUser(\"#{@resource[:name]}\")")
   end
 
   def exists?
-    block_until_mongodb(@resource[:tries])
-    mongo(@resource[:database], '--quiet', '--eval', "db.system.users.find({user:\"#{@resource[:name]}\"}).count()").strip.eql?('1')
+  end
+
+  def collections_rules
+  end
+
+  def collections_rules(settings)
+    if settings.empty? then
+      # apply default sharding for all
+    end
+  end
+
+  def mongo_command(command, host, retries=4)
+    # Allow waiting for mongod to become ready
+    # Wait for 2 seconds initially and double the delay at each retry
+    wait = 2
+    begin
+      output = self.mongo('--quiet', '--host', host, '--eval', "printjson(#{command})")
+    rescue Puppet::ExecutionFailure => e
+      if e =~ /Error: couldn't connect to server/ and wait <= 2**max_wait
+        info("Waiting #{wait} seconds for mongod to become available")
+        sleep wait
+        wait *= 2
+        retry
+      else
+        raise
+      end
+    end
+
+    # Dirty hack to remove JavaScript objects
+    output.gsub!(/ISODate\((.+?)\)/, '\1 ')
+    output.gsub!(/Timestamp\((.+?)\)/, '[\1]')
+    JSON.parse(output)
+  end
+
+  def sh_status(master)
+    return self.mongo_command("rs.status()", master)
+  end
+
+  def sh_add(host, master)
+    self.mongo_command("sh.addShard(\"#{host}\")", master)
+  end
+
+  def sh_enable(dbname, master)
+    self.mongo_command("sh.enableSharding(#{dbname})", master)
+  end
+
+  def sh_collection_add(collection, dbname, key, unique, master)
+    self.mongo_command("sh.shardCollection(\"#{dbname}.#{collection}\", \"#{key}\", \"#{unique}\")", master)
   end
 
 end
