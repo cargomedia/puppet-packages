@@ -13,7 +13,6 @@ define network::interface (
   $wpa_ssid     = undef,
   $wpa_psk      = undef,
   $applyconfig  = true,
-  $aliases      = undef,
 ) {
 
   include 'augeas'
@@ -49,16 +48,6 @@ define network::interface (
       command => "/sbin/ifup $device",
       unless  => "/sbin/ifconfig | grep $device",
       path => ['/usr/local/bin', '/usr/bin', '/bin', '/sbin'],
-    }
-  }
-
-  if $aliases {
-    if $method != static {
-      fail ("Method must be static for aliases to be assigned to interface!")
-    }
-    @@network::host{"$ipaddr-$::fqdn":
-        ipaddr => $ipaddr,
-        aliases => $aliases
     }
   }
 }
