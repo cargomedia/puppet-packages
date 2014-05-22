@@ -52,11 +52,13 @@ define network::interface (
     }
   }
 
-  $aliases_list = $aliases? {
-    undef => $::fqdn,
-  }
-  @@network::host{"$::fqdn.":
-    ipaddr => $ipaddr,
-    aliases => $aliases_list
+  if $aliases {
+    if $method != static {
+      fail ("Method must be static for aliases to be assigned to interface!")
+    }
+    @@network::host{"$ipaddr-$::fqdn":
+        ipaddr => $ipaddr,
+        aliases => $aliases
+    }
   }
 }
