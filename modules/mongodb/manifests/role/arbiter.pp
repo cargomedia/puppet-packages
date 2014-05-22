@@ -11,4 +11,8 @@ class mongodb::role::arbiter (
     repl_set => $repl_set,
   }
 
+  mongodb_replset {$repl_set:
+    ensure => present
+  }
+
 }

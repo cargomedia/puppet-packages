@@ -1,7 +1,8 @@
 class mongodb::role::shard (
   $port = 27018,
   $bind_ip = '127.0.0.1',
-  $repl_set = ''
+  $repl_set = undef,
+  $gate_router = undef
 ) {
 
   mongodb::core::mongod {'shard':
@@ -9,6 +10,17 @@ class mongodb::role::shard (
     bind_ip => $bind_ip,
     shard_server => true,
     repl_set => $repl_set,
+  }
+
+  if $repl_set {
+    mongodb_replset {$repl_set:
+      ensure => present,
+      members => ["${bind_ip}:${port}"]
+    }
+  }
+
+  if $gate_router {
+    # register shard or replica/sahrd
   }
 
 }
