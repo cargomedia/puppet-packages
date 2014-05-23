@@ -1,5 +1,7 @@
 class gearmand ($version = '1.1.2', $series = '1.2') {
 
+  require 'build'
+
   if $::lsbdistcodename == 'wheezy' {
     package {['libboost-all-dev', 'libevent-dev', 'libcloog-ppl0']:
       ensure => present,
