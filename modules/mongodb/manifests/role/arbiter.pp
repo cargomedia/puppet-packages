@@ -1,7 +1,8 @@
 class mongodb::role::arbiter (
   $repl_set,
   $port = 27018,
-  $bind_ip = '127.0.0.1'
+  $bind_ip = '127.0.0.1',
+  $repl_members = undef
 ) {
 
   mongodb::core::mongod {'arbiter':
@@ -12,7 +13,10 @@ class mongodb::role::arbiter (
   }
 
   mongodb_replset {$repl_set:
-    ensure => present
+    ensure => present,
+    arbiter => "${bind_ip}:${port}",
+    members => $repl_members,
+    require => Mongodb::Core::Mongod['arbiter'],
   }
 
 }

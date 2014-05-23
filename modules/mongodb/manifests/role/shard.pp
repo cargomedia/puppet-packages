@@ -2,6 +2,7 @@ class mongodb::role::shard (
   $port = 27018,
   $bind_ip = '127.0.0.1',
   $repl_set = undef,
+  $repl_members = undef,
   $gate_router = undef
 ) {
 
@@ -15,7 +16,8 @@ class mongodb::role::shard (
   if $repl_set {
     mongodb_replset {$repl_set:
       ensure => present,
-      members => ["${bind_ip}:${port}"]
+      members => $repl_members,
+      require => Mongodb::Core::Mongod['shard'],
     }
   }
 
