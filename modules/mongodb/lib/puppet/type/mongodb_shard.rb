@@ -17,12 +17,16 @@ Puppet::Type.newtype(:mongodb_shard) do
     desc "The name of the shard database."
   end
 
-  newparam(:router, :namevar=>true) do
-    desc "The cluster mongos/router instance."
+  newparam(:collection) do
+    desc "The collection name to enable partitioning"
   end
 
-  newparam(:collections_rules, :array_matching => :all) do
-    desc "The database collections to shard"
+  newparam(:rules, :array_matching => :all) do
+    desc "The collection partitioning rules"
+  end
+
+  newparam(:router) do
+    desc "The cluster mongos/router instance"
   end
 
 end

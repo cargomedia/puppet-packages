@@ -53,4 +53,8 @@ Puppet::Type.newtype(:mongodb_user) do
     newvalue(/^\w+$/)
   end
 
+  newparam(:router) do
+    desc "The cluster mongos/router instance"
+  end
+
 end

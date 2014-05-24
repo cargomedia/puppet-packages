@@ -17,4 +17,8 @@ Puppet::Type.newtype(:mongodb_database) do
     end
   end
 
+  newparam(:router) do
+    desc "The cluster mongos/router instance"
+  end
+
 end

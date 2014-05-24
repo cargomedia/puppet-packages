@@ -19,7 +19,7 @@ Puppet::Type.newtype(:mongodb_replset) do
 
   newparam(:tries) do
     desc "The maximum amount of two second tries to wait MongoDB startup."
-    defaultto 2
+    defaultto 10
     newvalues(/^\d+$/)
     munge do |value|
       Integer(value)
@@ -32,10 +32,6 @@ Puppet::Type.newtype(:mongodb_replset) do
     def insync?(is)
       is.sort == should.sort
     end
-  end
-
-  newparam(:member) do
-    desc "Host:port of member which run this command"
   end
 
   newparam(:arbiter) do
