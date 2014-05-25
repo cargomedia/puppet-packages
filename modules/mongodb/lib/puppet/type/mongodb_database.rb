@@ -19,6 +19,12 @@ Puppet::Type.newtype(:mongodb_database) do
 
   newparam(:router) do
     desc "The cluster mongos/router instance"
+    defaultto false
+  end
+
+  newparam(:shard) do
+    desc "Enable sharding for database."
+    defaultto false
   end
 
 end

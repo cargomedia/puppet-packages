@@ -17,16 +17,18 @@ Puppet::Type.newtype(:mongodb_shard) do
     desc "The name of the shard database."
   end
 
-  newparam(:collection) do
-    desc "The collection name to enable partitioning"
-  end
-
-  newparam(:rules, :array_matching => :all) do
-    desc "The collection partitioning rules"
+  newparam(:tries) do
+    desc "The maximum amount of two second tries to wait MongoDB startup."
+    defaultto 10
+    newvalues(/^\d+$/)
+    munge do |value|
+      Integer(value)
+    end
   end
 
   newparam(:router) do
     desc "The cluster mongos/router instance"
+    defaultto false
   end
 
 end

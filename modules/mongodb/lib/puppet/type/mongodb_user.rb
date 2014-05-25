@@ -55,6 +55,7 @@ Puppet::Type.newtype(:mongodb_user) do
 
   newparam(:router) do
     desc "The cluster mongos/router instance"
+    defaultto false
   end
 
 end
