@@ -2,7 +2,8 @@ class mongodb::role::shard (
   $port = 27018,
   $bind_ip = '127.0.0.1',
   $repl_set = undef,
-  $repl_members = undef
+  $repl_members = undef,
+  $router
 ) {
 
   mongodb::core::mongod {'shard':
@@ -18,6 +19,12 @@ class mongodb::role::shard (
       members => $repl_members,
       require => Mongodb::Core::Mongod['shard'],
     }
+  }
+
+  # only replica PRIMARY is able to add itself as shard to mongos
+  mongodb_shard {"${host}:${port}":
+    ensure => present,
+    router => $router
   }
 
 }
