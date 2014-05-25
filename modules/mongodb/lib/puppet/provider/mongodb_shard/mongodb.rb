@@ -6,6 +6,16 @@ Puppet::Type.type(:mongodb_shard).provide(:mongodb) do
 
   commands :mongo => 'mongo'
 
+  def block_until_mongodb(tries = 10)
+    begin
+      mongo('--quiet', '--eval', 'db.getMongo()')
+    rescue
+      debug('MongoDB server not ready, retrying')
+      sleep 2
+      retry unless (tries -= 1) <= 0
+    end
+  end
+
   def create
   end
 
@@ -13,15 +23,6 @@ Puppet::Type.type(:mongodb_shard).provide(:mongodb) do
   end
 
   def exists?
-  end
-
-  def collections_rules
-  end
-
-  def collections_rules(settings)
-    if settings.empty? then
-      # apply default sharding for all
-    end
   end
 
   def mongo_command(command, host, retries=4)
@@ -53,14 +54,6 @@ Puppet::Type.type(:mongodb_shard).provide(:mongodb) do
 
   def sh_add(host, master)
     self.mongo_command("sh.addShard(\"#{host}\")", master)
-  end
-
-  def sh_enable(dbname, master)
-    self.mongo_command("sh.enableSharding(#{dbname})", master)
-  end
-
-  def sh_collection_add(collection, dbname, key, unique, master)
-    self.mongo_command("sh.shardCollection(\"#{dbname}.#{collection}\", \"#{key}\", \"#{unique}\")", master)
   end
 
 end
