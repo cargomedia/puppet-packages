@@ -26,14 +26,38 @@ Puppet::Type.newtype(:mongodb_collection) do
     defaultto false
   end
 
-  newproperty(:shard_rules, :array_matching => :all) do
-    desc "The collection sharding rules"
-    defaultto []
+  newproperty(:shard_key) do
+    desc "The collection sharding key"
+    defaultto do
+      {:_id => 1}
+    end
   end
 
   newparam(:router) do
     desc "The cluster mongos/router instance"
-    defaultto false
+
+    validate do |value|
+      parts = value.split(':')
+      host = parts[0]
+      port = parts[1]
+
+      host.split('.').each do |hostpart|
+        unless hostpart =~ /^([\d\w]+|[\d\w][\d\w\-]+[\d\w])$/
+          raise Puppet::Error, "Invalid host name for router"
+        end
+      end
+
+      if port.nil?
+        raise Puppet::Error, "Invalid port number for router"
+      end
+    end
+
+    defaultto do
+      if @resources[:shard_enabled]
+        fail("Property 'router' must be set to enable and setup sharding for collections")
+      end
+      false
+    end
   end
 
 end
