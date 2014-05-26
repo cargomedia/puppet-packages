@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe file('/etc/hosts') do
   it { should be_file }
-  it { should contain '127.0.0.1	foo	localhost' }
+  its(:content) { should match('127.0.0.1	foo	localhost') }
 end
 
 describe file('/etc/hostname') do
