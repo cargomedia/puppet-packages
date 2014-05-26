@@ -12,13 +12,8 @@ class network::host::advertise (
     undef => [$::fqdn],
     default => [$aliases, $::fqdn]
   }
-
-  if $ipaddr {
-    @@network::host{"advertised.$::fqdn":
-      ipaddr => $ipaddr,
-      aliases => $aliases_list
-    }
-  } else {
-    warning("Class $title included for $::fqdn, but no ip address was found")
+  @@network::host{"advertised.$::fqdn":
+    ipaddr => $ipaddr,
+    aliases => $aliases_list
   }
 }
