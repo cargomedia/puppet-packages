@@ -52,6 +52,15 @@ Puppet::Type.type(:mongodb_shard).provide(:mongodb) do
     return self.mongo_command("rs.status()", master)
   end
 
+  def rs_ismember
+    # is member of replica set?
+  end
+
+  def rs_isprimary
+    # check if is member of replica?
+    # if member then check if primary?
+  end
+
   def sh_add(host, master)
     self.mongo_command("sh.addShard(\"#{host}\")", master)
   end
