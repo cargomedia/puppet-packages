@@ -3,11 +3,7 @@ class network::host::advertise (
   $aliases = undef
 ) {
 
-  if $interface {
-    $ipaddr = get_ipaddress($interface)
-  } else {
-    $ipaddr = get_ipaddress()
-  }
+  $ipaddr = get_ipaddress($interface)
   $aliases_list = $aliases? {
     undef => [$::fqdn],
     default => [$aliases, $::fqdn]
