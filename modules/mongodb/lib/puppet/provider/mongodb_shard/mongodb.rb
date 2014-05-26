@@ -49,7 +49,7 @@ Puppet::Type.type(:mongodb_shard).provide(:mongodb) do
   end
 
   def sh_status(master)
-    return self.mongo_command("rs.status()", master)
+    self.mongo_command("rs.status()", master)
   end
 
   def rs_ismember
