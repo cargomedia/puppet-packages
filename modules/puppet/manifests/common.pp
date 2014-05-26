@@ -1,5 +1,5 @@
 class puppet::common(
-  $modulepath = '/etc/puppet/modules'
+  $basemodulepath = '/etc/puppet/modules'
 ) {
 
   helper::script {'install puppet apt sources':
