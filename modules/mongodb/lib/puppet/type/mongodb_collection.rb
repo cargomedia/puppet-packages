@@ -26,11 +26,9 @@ Puppet::Type.newtype(:mongodb_collection) do
     defaultto false
   end
 
-  newproperty(:shard_key) do
+  newparam(:shard_key) do
     desc "The collection sharding key"
-    defaultto do
-      {:_id => 1}
-    end
+    defaultto '_id'
   end
 
   newparam(:router) do
