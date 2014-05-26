@@ -1,6 +1,7 @@
 class mongodb::role::standalone (
   $port = 27017,
-  $bind_ip = undef,
+  $bind_ip = '127.0.0.1',
+  $hostname = 'localhost',
   $rest = true,
   $options = []
 ) {
