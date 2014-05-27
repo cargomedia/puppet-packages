@@ -8,7 +8,7 @@ Puppet::Type.type(:mongodb_shard).provide(:mongodb) do
 
   def block_until_mongodb(tries = 10)
     begin
-      mongo('--quiet', '--eval', 'db.getMongo()')
+      mongo('--quiet', '--host', @resource[:router], '--eval', 'db.getMongo()')
     rescue
       debug('MongoDB server not ready, retrying')
       sleep 2
@@ -17,12 +17,18 @@ Puppet::Type.type(:mongodb_shard).provide(:mongodb) do
   end
 
   def create
+    repl_set = ''
+    if @resource[:repl_set].to_s.length
+      repl_set = @resource[:repl_set] + '/'
+    end
+    sh_add("#{repl_set}#{@resource[:name]}", @resource[:router])
   end
 
   def destroy
   end
 
   def exists?
+    sh_isshard(@resource[:name], @resource[:router])
   end
 
   def mongo_command(command, host, retries=4)
@@ -48,17 +54,9 @@ Puppet::Type.type(:mongodb_shard).provide(:mongodb) do
     JSON.parse(output)
   end
 
-  def sh_status(master)
-    self.mongo_command("rs.status()", master)
-  end
-
-  def rs_ismember
-    # is member of replica set?
-  end
-
-  def rs_isprimary
-    # check if is member of replica?
-    # if member then check if primary?
+  def sh_isshard(host, master)
+    output = self.mongo('config', '--quiet', '--host', master, '--eval', "printjson(db.shards.find({\"host\": /#{host}/}).count())")
+    output.to_i > 0
   end
 
   def sh_add(host, master)

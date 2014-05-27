@@ -1,11 +1,9 @@
-#
-# Author: Cargomedia <hello@cargomedia.ch>
-#
-
 Puppet::Type.newtype(:mongodb_shard) do
   @doc = 'Manage a MongoDB shards.'
 
-  newparam(:name, :namevar=>true) do
+  ensurable
+
+  newparam(:name, :namevar => true) do
     desc "The name of the shard database."
   end
 
@@ -16,6 +14,12 @@ Puppet::Type.newtype(:mongodb_shard) do
     munge do |value|
       Integer(value)
     end
+  end
+
+  newparam(:repl_set) do
+    desc "The shard replica set"
+
+    defaultto ''
   end
 
   newparam(:router) do
