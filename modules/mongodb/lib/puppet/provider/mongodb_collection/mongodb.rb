@@ -9,9 +9,12 @@ Puppet::Type.type(:mongodb_collection).provide(:mongodb) do
   def create
     if @resource[:name] == '__all__'
       if @resource[:shard_enabled]
-        # dont create collection
-        # get list of collections
-        # loop over collection and enable sharding if needed
+        collections = db_collections(@resource[:database], @resource[:router])
+        collections.each do |collection|
+          if !sh_issharded(collection, @resource[:database], @resource[:router])
+            sh_shard(collection, @resource[:database], @resource[:shard_key], @resource[:router])
+          end
+        end
       end
     else
       mongo(@resource[:database], '--quiet', '--eval', "db.createCollection('#{@resource[:name]}')")
@@ -32,7 +35,7 @@ Puppet::Type.type(:mongodb_collection).provide(:mongodb) do
       return false
     end
     col_exists = mongo("--quiet", "--eval", "db.getMongo().getDB('#{@resource[:database]}').getCollectionNames()").split(",").include?(@resource[:name])
-    if @resource[:shard_enabled] and col_exists
+    if @resource[:ensure].to_s != 'absent' and @resource[:shard_enabled] and col_exists
       return sh_issharded(@resource[:name], @resource[:database], @resource[:router])
     end
     col_exists
@@ -63,7 +66,7 @@ Puppet::Type.type(:mongodb_collection).provide(:mongodb) do
     JSON.parse(output)
   end
 
-  def db_collections
+  def db_collections(dbname, master)
     self.mongo_command("db.getMongo().getDB('#{@resource[:database]}').getCollectionNames()", master)
   end
 
