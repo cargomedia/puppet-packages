@@ -72,7 +72,7 @@ Puppet::Type.newtype(:mongodb_user) do
       end
     end
 
-    defaultto false
+    defaultto 'localhost'
   end
 
 end
