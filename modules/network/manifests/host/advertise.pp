@@ -4,12 +4,21 @@ class network::host::advertise (
 ) {
 
   $ipaddr = get_ipaddress($interface)
-  $aliases_list = $aliases? {
-    undef => [$::fqdn],
-    default => [$aliases, $::fqdn]
-  }
-  @@network::host{"advertised.$::fqdn":
-    ipaddr => $ipaddr,
-    aliases => $aliases_list
+
+  if $ipaddr {
+    $name_to_export = $::certname? {
+      undef => $::fqdn,
+      default => $::certname
+    }
+    $aliases_list = $aliases? {
+      undef => [$name_to_export],
+      default => [$aliases, $name_to_export]
+    }
+    @@network::host{"advertised.$name_to_export":
+      ipaddr => $ipaddr,
+      aliases => $aliases_list
+    }
+  } else {
+    warning("Unable to figure out an ip address for the hostname to be advertised")
   }
 }
