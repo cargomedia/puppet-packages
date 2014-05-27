@@ -6,6 +6,16 @@ Puppet::Type.type(:mongodb_collection).provide(:mongodb) do
 
   commands :mongo => 'mongo'
 
+  def block_until_mongodb(tries = 10)
+    begin
+      mongo('--quiet', '--host', @resource[:router], '--eval', 'db.getMongo()')
+    rescue
+      debug('MongoDB server not ready, retrying')
+      sleep 2
+      retry unless (tries -= 1) <= 0
+    end
+  end
+
   def create
     if @resource[:name] == '__all__'
       if @resource[:shard_enabled]
@@ -34,6 +44,8 @@ Puppet::Type.type(:mongodb_collection).provide(:mongodb) do
     if @resource[:name] == '__all__'
       return false
     end
+
+    block_until_mongodb(@resource[:tries])
     col_exists = mongo('--quiet', '--host', @resource[:router],
                        '--eval', "db.getMongo().getDB('#{@resource[:database]}').getCollectionNames()").split(",").include?(@resource[:name])
     if @resource[:ensure].to_s != 'absent' and @resource[:shard_enabled] and col_exists
