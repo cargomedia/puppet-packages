@@ -6,16 +6,6 @@ Puppet::Type.type(:mongodb_shard).provide(:mongodb) do
 
   commands :mongo => 'mongo'
 
-  def block_until_mongodb(tries = 10)
-    begin
-      mongo('--quiet', '--host', @resource[:router], '--eval', 'db.getMongo()')
-    rescue
-      debug('MongoDB server not ready, retrying')
-      sleep 2
-      retry unless (tries -= 1) <= 0
-    end
-  end
-
   def create
     repl_set = ''
     if @resource[:repl_set].to_s.length
