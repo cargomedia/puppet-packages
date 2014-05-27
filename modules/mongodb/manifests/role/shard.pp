@@ -24,8 +24,9 @@ class mongodb::role::shard (
 
   # only replica PRIMARY is able to add itself as shard to mongos
   if $router {
-    mongodb_shard {"${host}:${port}":
+    mongodb_shard {"${hostname}:${port}":
       ensure => present,
+      repl_set => $repl_set,
       router => $router
     }
   }
