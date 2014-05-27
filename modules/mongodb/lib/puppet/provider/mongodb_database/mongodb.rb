@@ -8,7 +8,7 @@ Puppet::Type.type(:mongodb_database).provide(:mongodb) do
 
   def block_until_mongodb(tries = 10)
     begin
-      mongo('--quiet', '--eval', 'db.getMongo()')
+      mongo('--quiet', '--host', @resource[:router], '--eval', 'db.getMongo()')
     rescue
       debug('MongoDB server not ready, retrying')
       sleep 2
@@ -17,7 +17,7 @@ Puppet::Type.type(:mongodb_database).provide(:mongodb) do
   end
 
   def create
-    mongo(@resource[:name], '--quiet', '--eval', "db.dummyData.insert({\"created_by_puppet\": 1})")
+    mongo(@resource[:name], '--quiet', '--host', @resource[:router], '--eval', "db.dummyData.insert({\"created_by_puppet\": 1})")
     if @resource[:shard] and !self.sh_issharded(@resource[:name], @resource[:router])
       self.sh_enable(@resource[:name], @resource[:router])
     end
@@ -29,7 +29,7 @@ Puppet::Type.type(:mongodb_database).provide(:mongodb) do
 
   def exists?
     block_until_mongodb(@resource[:tries])
-    db_exists = mongo("--quiet", "--eval", 'db.getMongo().getDBNames()').split(",").include?(@resource[:name])
+    db_exists = mongo('--quiet', '--host', @resource[:router], '--eval', 'db.getMongo().getDBNames()').split(",").include?(@resource[:name])
     if @resource[:ensure].to_s != 'absent' and @resource[:shard] and db_exists
       return self.sh_issharded(@resource[:name], @resource[:router])
     end

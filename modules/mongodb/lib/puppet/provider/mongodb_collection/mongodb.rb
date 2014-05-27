@@ -17,7 +17,7 @@ Puppet::Type.type(:mongodb_collection).provide(:mongodb) do
         end
       end
     else
-      mongo(@resource[:database], '--quiet', '--eval', "db.createCollection('#{@resource[:name]}')")
+      mongo(@resource[:database], '--quiet', '--host', @resource[:router], '--eval', "db.createCollection('#{@resource[:name]}')")
       if @resource[:shard_enabled]
         if !sh_issharded(@resource[:name], @resource[:database], @resource[:router])
           sh_shard(@resource[:name], @resource[:database], @resource[:shard_key], @resource[:router])
@@ -27,14 +27,15 @@ Puppet::Type.type(:mongodb_collection).provide(:mongodb) do
   end
 
   def destroy
-    mongo(@resource[:database], '--quiet', '--eval', "db.#{@resource[:name]}.drop()")
+    mongo(@resource[:database], '--quiet', '--host', @resource[:router], '--eval', "db.#{@resource[:name]}.drop()")
   end
 
   def exists?
     if @resource[:name] == '__all__'
       return false
     end
-    col_exists = mongo("--quiet", "--eval", "db.getMongo().getDB('#{@resource[:database]}').getCollectionNames()").split(",").include?(@resource[:name])
+    col_exists = mongo('--quiet', '--host', @resource[:router],
+                       '--eval', "db.getMongo().getDB('#{@resource[:database]}').getCollectionNames()").split(",").include?(@resource[:name])
     if @resource[:ensure].to_s != 'absent' and @resource[:shard_enabled] and col_exists
       return sh_issharded(@resource[:name], @resource[:database], @resource[:router])
     end
