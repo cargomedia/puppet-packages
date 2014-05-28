@@ -6,15 +6,11 @@ class network::host::advertise (
   $ipaddr = get_ipaddress($interface)
 
   if $ipaddr {
-    $name_to_export = $::certname? {
-      undef => $::fqdn,
-      default => $::certname
-    }
     $aliases_list = $aliases? {
-      undef => [$name_to_export],
-      default => [$aliases, $name_to_export]
+      undef => [$::clientcert],
+      default => [$aliases, $::clientcert]
     }
-    @@network::host{"advertised.$name_to_export":
+    @@network::host{"advertised.$::clientcert":
       ipaddr => $ipaddr,
       aliases => $aliases_list
     }
