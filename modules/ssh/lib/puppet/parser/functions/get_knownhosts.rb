@@ -4,9 +4,9 @@ module Puppet::Parser::Functions
     hostname = fqdn.split('.').shift
     aliases = []
     aliases.push hostname
-    lookupvar('interfaces').split(',').each do |interface|
+    lookupvar('::interfaces').split(',').each do |interface|
       next if interface == 'lo'
-      ipaddress = lookupvar('ipaddress_' + interface)
+      ipaddress = lookupvar('::ipaddress_' + interface)
       aliases.push ipaddress if ipaddress
     end
     aliases
