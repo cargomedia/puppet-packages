@@ -26,7 +26,7 @@ Puppet::Type.type(:mongodb_user).provide(:mongodb) do
 
   def exists?
     block_until_mongodb(@resource[:tries])
-    if self.db_isprimary(@resource[:router]) == false
+    if !self.db_ismaster(@resource[:router])
       warn ('Cannot add user on not primary/master member!')
       return true
     end
@@ -34,7 +34,7 @@ Puppet::Type.type(:mongodb_user).provide(:mongodb) do
   end
 
   def password_hash
-    if !self.db_isprimary(@resource[:router])
+    if !self.db_ismaster(@resource[:router])
       return @resource[:password_hash]
     end
     mongo(@resource[:database], '--quiet', '--host', @resource[:router], '--eval', "db.system.users.findOne({user:\"#{@resource[:name]}\"})[\"pwd\"]").strip
@@ -45,7 +45,7 @@ Puppet::Type.type(:mongodb_user).provide(:mongodb) do
   end
 
   def roles
-    if !self.db_isprimary(@resource[:router])
+    if !self.db_ismaster(@resource[:router])
       return @resource[:roles]
     end
     mongo(@resource[:database], '--quiet', '--host', @resource[:router], '--eval', "db.system.users.findOne({user:\"#{@resource[:name]}\"})[\"roles\"]").strip.split(",").sort
@@ -81,11 +81,6 @@ Puppet::Type.type(:mongodb_user).provide(:mongodb) do
   def db_ismaster(host)
     status = self.mongo_command("db.isMaster()", host)
     status['ismaster'] == true
-  end
-
-  def db_isprimary(host)
-    status = self.mongo_command("db.isMaster()", host)
-    status['ismaster'] == true and status['secondary'] == false
   end
 
 end
