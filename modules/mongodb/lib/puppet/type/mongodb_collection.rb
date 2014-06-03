@@ -54,7 +54,7 @@ Puppet::Type.newtype(:mongodb_collection) do
       if @resources[:shard_enabled]
         fail("Property 'router' must be set to enable and setup sharding for collections")
       end
-      'localhost'
+      'localhost:27017'
     end
   end
 

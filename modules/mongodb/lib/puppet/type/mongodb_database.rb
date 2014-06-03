@@ -42,7 +42,7 @@ Puppet::Type.newtype(:mongodb_database) do
       if @resource[:shard]
         fail("Property 'router' must be set to setup sharding for database `#{@resource[:name]}`")
       end
-      'localhost'
+      'localhost:27017'
     end
   end
 

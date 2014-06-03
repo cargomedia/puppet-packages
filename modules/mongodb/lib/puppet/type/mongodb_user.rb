@@ -71,7 +71,7 @@ Puppet::Type.newtype(:mongodb_user) do
       end
     end
 
-    defaultto 'localhost'
+    defaultto 'localhost:27017'
   end
 
 end
