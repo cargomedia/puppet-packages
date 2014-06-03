@@ -52,6 +52,13 @@ node default {
   }
   ->
 
+  exec {"waiting for cluster to be wired":
+    command => 'sleep 30',
+    provider => shell,
+    path => ['/bin']
+  }
+  ->
+
   mongodb_shard {'localhost:27001':
     ensure => present,
     repl_set => 'rep1',

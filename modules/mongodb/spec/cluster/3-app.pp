@@ -11,7 +11,6 @@ node default {
     database => 'testdb',
     password_hash => 'password',
     roles => [ {"role" => "dbAdmin", "db"=> "testdb"} ],
-    router => 'localhost:27017',
   }
   ->
 
