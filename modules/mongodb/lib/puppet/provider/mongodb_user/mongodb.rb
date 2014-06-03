@@ -22,7 +22,7 @@ Puppet::Type.type(:mongodb_user).provide(:mongodb) do
   end
 
   def destroy
-    mongo(@resource[:database], '--quiet', '--host', @resource[:router], '--eval', "db.removeUser(\"#{@resource[:name]}\")")
+    mongo(@resource[:database], '--quiet', '--host', @resource[:router], '--eval', "db.dropUser(\"#{@resource[:name]}\")")
   end
 
   def exists?
@@ -31,31 +31,31 @@ Puppet::Type.type(:mongodb_user).provide(:mongodb) do
       warn ('Cannot add user on not primary/master member!')
       return true
     end
-    mongo(@resource[:database], '--quiet', '--host', @resource[:router], '--eval', "db.system.users.find({user:\"#{@resource[:name]}\"}).count()").strip.eql?('1')
+    mongo('admin', '--quiet', '--host', @resource[:router], '--eval', "db.system.users.find({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"}).count()").strip.eql?('1')
   end
 
   def password_hash
     if !self.db_ismaster(@resource[:router])
       return @resource[:password_hash]
     end
-    mongo(@resource[:database], '--quiet', '--host', @resource[:router], '--eval', "db.system.users.findOne({user:\"#{@resource[:name]}\"})[\"pwd\"]").strip
+    mongo('admin', '--quiet', '--host', @resource[:router], '--eval', "db.system.users.findOne({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"})[\"pwd\"]").strip
   end
 
   def password_hash=(value)
-    mongo(@resource[:database], '--quiet', '--host', @resource[:router], '--eval', "db.system.users.update({user:\"#{@resource[:name]}\"}, { $set: {pwd:\"#{value}\"}})")
+    mongo('admin', '--quiet', '--host', @resource[:router], '--eval', "db.system.users.update({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"}, { $set: {pwd:\"#{value}\"}})")
   end
 
   def roles
     if !self.db_ismaster(@resource[:router])
       return @resource[:roles]
     end
-    user = self.mongo_command("db.getMongo().getDB('#{@resource[:database]}').getCollection('system.users').findOne({user:\"#{@resource[:name]}\"})", @resource[:router])
+    user = self.mongo_command("db.getMongo().getDB('admin').getCollection('system.users').findOne({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"})", @resource[:router])
     user['roles']
   end
 
   def roles=(value)
     roles = JSON.dump @resource[:roles]
-    mongo(@resource[:database], '--quiet', '--host', @resource[:router], '--eval', "db.system.users.update({user:\"#{@resource[:name]}\"}, { $set: {roles: #{roles}}})")
+    mongo('admin', '--quiet', '--host', @resource[:router], '--eval', "db.system.users.update({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"}, { $set: {roles: #{roles}}})")
   end
 
   def mongo_command(command, host, retries=4)
