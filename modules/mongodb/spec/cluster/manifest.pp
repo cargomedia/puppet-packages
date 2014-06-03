@@ -37,8 +37,15 @@ node default {
   }
   ->
 
+  mongodb_shard {['localhost:27000', 'localhost:27001']:
+    ensure => present,
+    router => 'localhost:27017'
+  }
+  ->
+
   mongodb_database {'testdb':
     ensure => present,
+    shard => true,
     router => 'localhost:27017',
   }
   ->
@@ -46,15 +53,17 @@ node default {
   mongodb_user {'testuser':
     database => 'testdb',
     password_hash => 'password',
+    roles => [ {"role" => "dbAdmin", "db"=> "testdb"} ],
     router => 'localhost:27017',
   }
   ->
 
-  mongodb_shard {'testdb':
+  mongodb_collection {'__all__':
     ensure => present,
-    collections => '*',
-    rules => {},
-    router => 'localhost:27017',
+    database => 'testdb',
+    shard_enabled => true,
+    shard_key => '_id',
+    router => 'localhost:27017'
   }
 
 }
