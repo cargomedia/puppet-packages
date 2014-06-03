@@ -17,7 +17,7 @@ Puppet::Type.type(:mongodb_user).provide(:mongodb) do
   end
 
   def create
-    mongo(@resource[:database], '--host', @resource[:router], '--eval', "db.system.users.insert({user:\"#{@resource[:name]}\", pwd:\"#{@resource[:password_hash]}\", roles: #{@resource[:roles].inspect}})")
+    mongo(@resource[:database], '--host', @resource[:router], '--eval', "db.addUser({user:\"#{@resource[:name]}\", pwd:\"#{@resource[:password_hash]}\", roles: #{@resource[:roles].inspect}})")
   end
 
   def destroy
