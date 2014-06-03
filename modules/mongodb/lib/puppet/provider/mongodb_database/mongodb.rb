@@ -29,6 +29,11 @@ Puppet::Type.type(:mongodb_database).provide(:mongodb) do
 
   def exists?
     block_until_mongodb(@resource[:tries])
+    if !self.db_ismaster(@resource[:router])
+      warn ('Cannot add database on not primary/master member!')
+      return true
+    end
+
     db_exists = mongo('--quiet', '--host', @resource[:router], '--eval', 'db.getMongo().getDBNames()').split(",").include?(@resource[:name])
     if @resource[:ensure].to_s != 'absent' and @resource[:shard] and db_exists
       return self.sh_issharded(@resource[:name], @resource[:router])
@@ -66,6 +71,11 @@ Puppet::Type.type(:mongodb_database).provide(:mongodb) do
   def sh_issharded(dbname, master)
     output = self.mongo('config', '--quiet', '--host', master, '--eval', "printjson(db.databases.find({\"_id\": \"#{dbname}\", \"partitioned\": true}).count())")
     1 == output.to_i
+  end
+
+  def db_ismaster(host)
+    status = self.mongo_command("db.isMaster()", host)
+    status['ismaster'] == true
   end
 
 end
