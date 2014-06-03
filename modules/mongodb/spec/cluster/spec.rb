@@ -20,6 +20,10 @@ describe port(27001) do
   it { should be_listening.with('tcp') }
 end
 
+describe port(27002) do
+  it { should be_listening.with('tcp') }
+end
+
 describe port(27017) do
   it { should be_listening.with('tcp') }
 end
@@ -31,7 +35,6 @@ end
 
 # get status
 describe command('echo "sh.status();" | mongo --host localhost --port 27017') do
-  its(:stdout) { should match /"host" : "localhost:27000"/ }
-  its(:stdout) { should match /"host" : "localhost:27001"/ }
+  its(:stdout) { should match /"host" : "rep1\/localhost:27001,localhost:27002"/ }
   its(:stdout) { should match /"testdb"/ }
 end
