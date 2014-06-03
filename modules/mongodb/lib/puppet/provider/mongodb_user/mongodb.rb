@@ -17,7 +17,8 @@ Puppet::Type.type(:mongodb_user).provide(:mongodb) do
   end
 
   def create
-    mongo(@resource[:database], '--host', @resource[:router], '--eval', "db.addUser({user:\"#{@resource[:name]}\", pwd:\"#{@resource[:password_hash]}\", roles: #{@resource[:roles].inspect}})")
+    roles = JSON.dump @resource[:roles]
+    mongo(@resource[:database], '--host', @resource[:router], '--eval', "db.createUser({user:\"#{@resource[:name]}\", pwd:\"#{@resource[:password_hash]}\", roles: #{roles}})")
   end
 
   def destroy
@@ -48,11 +49,13 @@ Puppet::Type.type(:mongodb_user).provide(:mongodb) do
     if !self.db_ismaster(@resource[:router])
       return @resource[:roles]
     end
-    mongo(@resource[:database], '--quiet', '--host', @resource[:router], '--eval', "db.system.users.findOne({user:\"#{@resource[:name]}\"})[\"roles\"]").strip.split(",").sort
+    user = self.mongo_command("db.getMongo().getDB('#{@resource[:database]}').getCollection('system.users').findOne({user:\"#{@resource[:name]}\"})", @resource[:router])
+    user['roles']
   end
 
   def roles=(value)
-    mongo(@resource[:database], '--quiet', '--host', @resource[:router], '--eval', "db.system.users.update({user:\"#{@resource[:name]}\"}, { $set: {roles: #{@resource[:roles].inspect}}})")
+    roles = JSON.dump @resource[:roles]
+    mongo(@resource[:database], '--quiet', '--host', @resource[:router], '--eval', "db.system.users.update({user:\"#{@resource[:name]}\"}, { $set: {roles: #{roles}}})")
   end
 
   def mongo_command(command, host, retries=4)
