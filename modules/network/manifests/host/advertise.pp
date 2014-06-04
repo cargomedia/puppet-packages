@@ -7,12 +7,12 @@ class network::host::advertise (
 
   if $ipaddr {
     $aliases_list = $aliases? {
-      undef => $::clientcert,
-      default => "${aliases} ${::clientcert}",
+      undef => [$::clientcert],
+      default => [$aliases, $::clientcert]
     }
-    @@network::host{"advertised.${::clientcert}":
+    @@network::host{"advertised.$::clientcert":
       ipaddr => $ipaddr,
-      aliases => split($aliases_list, " "),
+      aliases => $aliases_list
     }
   } else {
     warning("Unable to figure out an ip address for the hostname to be advertised")
