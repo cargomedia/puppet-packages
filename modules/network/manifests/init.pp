@@ -5,4 +5,6 @@ class network {
 
   $hosts = hiera_hash('network::hosts', {})
   create_resources('network::host', $hosts)
+
+  Network::Host <<| |>>
 }
