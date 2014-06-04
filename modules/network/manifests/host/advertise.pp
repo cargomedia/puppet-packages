@@ -10,7 +10,7 @@ class network::host::advertise (
       undef => [$::clientcert],
       default => [$aliases, $::clientcert]
     }
-    @@network::host{"advertised.$::clientcert":
+    @@network::host{"advertised.${::clientcert}":
       ipaddr => $ipaddr,
       aliases => $aliases_list
     }
