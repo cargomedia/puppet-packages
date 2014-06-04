@@ -3,8 +3,6 @@ define mongodb::core::mongos (
   $port = 27017,
   $bind_ip = undef,
   $fork = false,
-  $log_dir = '/var/log/mongodb',
-  $log_append = true,
   $options = []
 ) {
 
