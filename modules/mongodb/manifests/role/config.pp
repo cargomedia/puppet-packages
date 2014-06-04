@@ -1,6 +1,6 @@
 class mongodb::role::config (
   $port = 27019,
-  $bind_ip = '127.0.0.1',
+  $bind_ip = '0.0.0.0',
   $hostname = 'localhost'
 ) {
 

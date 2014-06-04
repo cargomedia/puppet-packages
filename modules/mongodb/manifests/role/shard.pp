@@ -1,6 +1,6 @@
 class mongodb::role::shard (
   $port = 27018,
-  $bind_ip = '127.0.0.1',
+  $bind_ip = '0.0.0.0',
   $hostname = 'localhost',
   $repl_set = undef,
   $repl_members = undef,
