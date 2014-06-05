@@ -12,6 +12,7 @@ class mongodb::role::arbiter (
     bind_ip => $bind_ip,
     shard_server => true,
     repl_set => $repl_set,
+    journal => false,
     options => $options,
   }
 

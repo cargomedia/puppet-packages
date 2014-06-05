@@ -32,7 +32,7 @@ bind_ip = <%= @bind_ip %>
 <% end %>
 
 # Disables write-ahead journaling
-# nojournal = true
+nojournal=<%= !@journal %>
 
 # Enables periodic logging of CPU utilization and I/O wait
 #cpu = true
