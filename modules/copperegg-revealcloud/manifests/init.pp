@@ -8,6 +8,7 @@ class copperegg-revealcloud(
 
   $dir = '/usr/local/revealcloud'
   $api_host = 'api.copperegg.com'
+  $tag_list = hiera_array('copperegg-revealcloud::tags', $tags)
 
   case $architecture {
     i386: { $url = "http://cdn.copperegg.com/revealcloud/${version}/linux-2.6/i386/revealcloud" }

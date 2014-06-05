@@ -16,7 +16,7 @@ DESC=revealcloud
 DAEMON=<%= @dir %>/revealcloud
 PIDDIR=<%= @dir %>/run
 PIDFILE=$PIDDIR/revealcloud.pid
-DAEMON_ARGS="-d -x -a <%= @api_host.shellescape %> -k <%= @api_key.shellescape %> -P $PIDDIR -l <%= @label.shellescape %> <%= @tags.map { |t| "-t #{t.shellescape}" }.join(' ') %>"
+DAEMON_ARGS="-d -x -a <%= @api_host.shellescape %> -k <%= @api_key.shellescape %> -P $PIDDIR -l <%= @label.shellescape %> <%= @tag_list.map { |t| "-t #{t.shellescape}" }.join(' ') %>"
 
 test -x ${DAEMON} || exit 0
 set -e
