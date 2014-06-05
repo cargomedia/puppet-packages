@@ -42,6 +42,7 @@ node default {
   ->
 
   mongodb::core::mongos {'router1':
+    port => 27017,
     config_servers => ['127.0.0.1:28000', '127.0.0.1:28001', '127.0.0.1:28002'],
   }
   ->
