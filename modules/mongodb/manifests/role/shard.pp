@@ -4,7 +4,8 @@ class mongodb::role::shard (
   $hostname = 'localhost',
   $repl_set = undef,
   $repl_members = undef,
-  $router = undef
+  $router = undef,
+  $options = []
 ) {
 
   mongodb::core::mongod {'shard':
@@ -12,6 +13,7 @@ class mongodb::role::shard (
     bind_ip => $bind_ip,
     shard_server => true,
     repl_set => $repl_set,
+    options => $options,
   }
 
   if $repl_set {

@@ -1,9 +1,10 @@
 class mongodb::role::arbiter (
-  $repl_set,
   $port = 27018,
   $bind_ip = '0.0.0.0',
   $hostname = 'localhost',
-  $repl_members = undef
+  $repl_set,
+  $repl_members = undef,
+  $options = []
 ) {
 
   mongodb::core::mongod {'arbiter':
@@ -11,6 +12,7 @@ class mongodb::role::arbiter (
     bind_ip => $bind_ip,
     shard_server => true,
     repl_set => $repl_set,
+    options => $options,
   }
 
   mongodb_replset {$repl_set:
