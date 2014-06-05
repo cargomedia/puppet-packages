@@ -20,24 +20,45 @@ node default {
   }
   ->
 
-  mongodb::core::mongod {'arbiter':
+  mongodb::core::mongod {'rep1_arbiter':
     port => 27000,
     shard_server => true,
     repl_set => 'rep1'
   }
   ->
 
-  mongodb::core::mongod {'db1':
+  mongodb::core::mongod {'rep1_db1':
     port => 27001,
     shard_server => true,
     repl_set => 'rep1'
   }
   ->
 
-  mongodb::core::mongod {'db2':
+  mongodb::core::mongod {'rep1_db2':
     port => 27002,
     shard_server => true,
     repl_set => 'rep1'
+  }
+  ->
+
+  mongodb::core::mongod {'rep2_arbiter':
+    port => 27005,
+    shard_server => true,
+    repl_set => 'rep2'
+  }
+  ->
+
+  mongodb::core::mongod {'rep2_db1':
+    port => 27006,
+    shard_server => true,
+    repl_set => 'rep2'
+  }
+  ->
+
+  mongodb::core::mongod {'rep2_db2':
+    port => 27007,
+    shard_server => true,
+    repl_set => 'rep2'
   }
   ->
 
@@ -53,6 +74,12 @@ node default {
   }
   ->
 
+  mongodb_replset {'rep2':
+    ensure => present,
+    members => ['localhost:27006', 'localhost:27007'],
+  }
+  ->
+
   exec {"waiting for cluster to be wired":
     command => 'sleep 30',
     provider => shell,
@@ -63,6 +90,13 @@ node default {
   mongodb_shard {'localhost:27001':
     ensure => present,
     repl_set => 'rep1',
+    router => 'localhost:27017'
+  }
+  ->
+
+  mongodb_shard {'localhost:27006':
+    ensure => present,
+    repl_set => 'rep2',
     router => 'localhost:27017'
   }
 
