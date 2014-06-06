@@ -3,12 +3,6 @@ Puppet::Type.newtype(:mongodb_user) do
 
   ensurable
 
-  def initialize(*args)
-    super
-    # Sort roles array before comparison.
-    self[:roles] = Array(self[:roles]).sort!
-  end
-
   newparam(:name, :namevar=>true) do
     desc "The name of the user."
   end
@@ -25,7 +19,10 @@ Puppet::Type.newtype(:mongodb_user) do
     desc "The user's roles."
     defaultto ['dbAdmin']
 
-    # Pretty output for arrays.
+    def insync?(is)
+      is.sort!
+    end
+
     def should_to_s(value)
       value.inspect
     end
