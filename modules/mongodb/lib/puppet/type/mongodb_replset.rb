@@ -1,17 +1,7 @@
-#
-# Author: François Charlier <francois.charlier@enovance.com>
-#
-
 Puppet::Type.newtype(:mongodb_replset) do
   @doc = "Manage a MongoDB replicaSet"
 
-  ensurable do
-    defaultto :present
-
-    newvalue(:present) do
-      provider.create
-    end
-  end
+  ensurable
 
   newparam(:name) do
     desc "The name of the replicaSet"

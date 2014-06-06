@@ -1,7 +1,3 @@
-#
-# Author: François Charlier <francois.charlier@enovance.com>
-#
-
 require 'json'
 
 Puppet::Type.type(:mongodb_replset).provide(:mongo) do
