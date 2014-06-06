@@ -14,7 +14,14 @@ node default {
   }
   ->
 
-  mongodb_collection {'__all__':
+  mongodb_collection {'foo':
+    ensure => present,
+    database => 'testdb',
+    router => 'localhost:27017'
+  }
+  ->
+
+  mongodb_collection {'testdb.all':
     ensure => present,
     database => 'testdb',
     shard_enabled => true,

@@ -9,7 +9,7 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
   commands :mongo => 'mongo'
 
   def create
-    if @resource[:name] == '__all__'
+    if @resource[:name] == "#{@resource[:database]}.all"
       if @resource[:shard_enabled]
         collections = db_collections(@resource[:database], @resource[:router])
         collections.each do |collection|
@@ -35,7 +35,7 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
   def exists?
     block_until_mongodb
 
-    if @resource[:name] == '__all__'
+    if @resource[:name] == "#{@resource[:database]}.all"
       return false
     end
 
