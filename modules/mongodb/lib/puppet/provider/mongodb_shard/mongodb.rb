@@ -17,7 +17,7 @@ Puppet::Type.type(:mongodb_shard).provide :mongodb, :parent => Puppet::Provider:
   end
 
   def destroy
-    fail('Not implemented')
+    raise('Not implemented')
   end
 
   def exists?

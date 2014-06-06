@@ -25,6 +25,7 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   end
 
   def destroy
+    raise('Not implemented')
   end
 
   def exists?
