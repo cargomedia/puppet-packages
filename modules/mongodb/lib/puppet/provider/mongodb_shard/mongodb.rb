@@ -27,6 +27,7 @@ Puppet::Type.type(:mongodb_shard).provide(:mongodb) do
   end
 
   def destroy
+    fail('Not implemented')
   end
 
   def exists?
