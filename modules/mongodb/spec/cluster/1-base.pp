@@ -68,20 +68,29 @@ node default {
   }
   ->
 
+  exec {"waiting for cluster to be wired":
+    command => 'sleep 20',
+    provider => shell,
+    path => ['/bin']
+  }
+  ->
+
   mongodb_replset {'rep1':
     ensure => present,
-    members => ['localhost:27001', 'localhost:27002'],
+    arbiter => 'localhost:27000',
+    members => ['localhost:27000', 'localhost:27001', 'localhost:27002'],
   }
   ->
 
   mongodb_replset {'rep2':
     ensure => present,
-    members => ['localhost:27006', 'localhost:27007'],
+    arbiter => 'localhost:27005',
+    members => ['localhost:27005', 'localhost:27006', 'localhost:27007'],
   }
   ->
 
-  exec {"waiting for cluster to be wired":
-    command => 'sleep 30',
+  exec {"waiting for replica-sets to be wired":
+    command => 'sleep 20',
     provider => shell,
     path => ['/bin']
   }

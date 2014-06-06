@@ -17,7 +17,7 @@ Puppet::Type.newtype(:mongodb_replset) do
 
   newparam(:arbiter) do
     desc "Set if host is an arbiter of replicaset"
-    defaultto false
+    defaultto ''
   end
 
   autorequire(:package) do
