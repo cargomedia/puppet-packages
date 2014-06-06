@@ -29,7 +29,7 @@ Puppet::Type.type(:mongodb_shard).provide(:mongodb) do
   end
 
   def exists?
-    block_until_mongodb(@resource[:tries])
+    block_until_mongodb
     sh_isshard(@resource[:name], @resource[:router])
   end
 

@@ -6,7 +6,7 @@ Puppet::Type.type(:mongodb_replset).provide(:mongo) do
 
   commands :mongo => 'mongo'
 
-  def block_until_mongodb(tries = 10, host = '')
+  def block_until_mongodb(host = '', tries = 10)
     begin
       mongo('--quiet', '--host', host, '--eval', 'db.getMongo()')
     rescue
@@ -18,7 +18,7 @@ Puppet::Type.type(:mongodb_replset).provide(:mongo) do
 
   def create
     if @resource[:arbiter]
-      if master = master_host()
+      if master = master_host
         self.rs_addArb(@resource[:arbiter], master)
       end
     else
@@ -42,7 +42,7 @@ Puppet::Type.type(:mongodb_replset).provide(:mongo) do
     is_configured = false
     @resource[:members].each do |host|
       begin
-        block_until_mongodb(@resource[:tries], host)
+        block_until_mongodb(host)
         debug "Checking replicaset member #{host} ..."
         status = self.rs_status(host)
         if status.has_key?('errmsg') and status['errmsg'] == 'not running with --replSet'

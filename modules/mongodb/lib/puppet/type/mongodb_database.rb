@@ -10,15 +10,6 @@ Puppet::Type.newtype(:mongodb_database) do
     newvalues(/^\w+$/)
   end
 
-  newparam(:tries) do
-    desc "The maximum amount of two second tries to wait MongoDB startup."
-    defaultto 10
-    newvalues(/^\d+$/)
-    munge do |value|
-      Integer(value)
-    end
-  end
-
   newparam(:router) do
     desc "The cluster mongos/router instance"
 

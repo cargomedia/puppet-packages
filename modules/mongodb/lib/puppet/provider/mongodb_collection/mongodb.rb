@@ -45,7 +45,7 @@ Puppet::Type.type(:mongodb_collection).provide(:mongodb) do
       return false
     end
 
-    block_until_mongodb(@resource[:tries])
+    block_until_mongodb
     col_exists = mongo('--quiet', '--host', @resource[:router],
                        '--eval', "db.getMongo().getDB('#{@resource[:database]}').getCollectionNames()").split(",").include?(@resource[:name])
     if @resource[:ensure].to_s != 'absent' and @resource[:shard_enabled] and col_exists

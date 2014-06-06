@@ -8,15 +8,6 @@ Puppet::Type.newtype(:mongodb_collection) do
     newvalues(/^\w+$/)
   end
 
-  newparam(:tries) do
-    desc "The maximum amount of two second tries to wait MongoDB startup."
-    defaultto 10
-    newvalues(/^\d+$/)
-    munge do |value|
-      Integer(value)
-    end
-  end
-
   newparam(:database) do
     desc "The database where collection belongs to"
   end

@@ -7,15 +7,6 @@ Puppet::Type.newtype(:mongodb_shard) do
     desc "The name of the shard database."
   end
 
-  newparam(:tries) do
-    desc "The maximum amount of two second tries to wait MongoDB startup."
-    defaultto 10
-    newvalues(/^\d+$/)
-    munge do |value|
-      Integer(value)
-    end
-  end
-
   newparam(:repl_set) do
     desc "The shard replica set"
 

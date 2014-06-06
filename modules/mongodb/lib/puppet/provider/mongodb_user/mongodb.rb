@@ -26,7 +26,7 @@ Puppet::Type.type(:mongodb_user).provide(:mongodb) do
   end
 
   def exists?
-    block_until_mongodb(@resource[:tries])
+    block_until_mongodb
     if !self.db_ismaster(@resource[:router])
       warn ('Cannot add user on not primary/master member!')
       return true
