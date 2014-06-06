@@ -20,7 +20,7 @@ Puppet::Type.newtype(:mongodb_user) do
     defaultto ['dbAdmin']
 
     def insync?(is)
-      is.sort!
+      is.sort == should.sort
     end
 
     def should_to_s(value)
