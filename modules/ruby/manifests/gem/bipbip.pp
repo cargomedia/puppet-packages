@@ -1,5 +1,6 @@
 class ruby::gem::bipbip ($version = 'present') {
 
+  require 'build'
   include 'cgi-fcgi'
 
   package {'libsasl2-dev':
