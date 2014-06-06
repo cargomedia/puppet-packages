@@ -12,7 +12,8 @@ Puppet::Type.type(:mongodb_collection).provide(:mongodb) do
     rescue
       debug('MongoDB server not ready, retrying')
       sleep 2
-      retry unless (tries -= 1) <= 0
+      raise("Cannot connect to MongoDB router instance #{@resource[:router]}") if (tries -= 1) <= 0
+      retry
     end
   end
 
@@ -41,11 +42,12 @@ Puppet::Type.type(:mongodb_collection).provide(:mongodb) do
   end
 
   def exists?
+    block_until_mongodb
+
     if @resource[:name] == '__all__'
       return false
     end
 
-    block_until_mongodb
     col_exists = mongo('--quiet', '--host', @resource[:router],
                        '--eval', "db.getMongo().getDB('#{@resource[:database]}').getCollectionNames()").split(",").include?(@resource[:name])
     if @resource[:ensure].to_s != 'absent' and @resource[:shard_enabled] and col_exists

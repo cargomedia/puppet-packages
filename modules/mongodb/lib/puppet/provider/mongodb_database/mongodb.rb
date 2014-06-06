@@ -12,7 +12,8 @@ Puppet::Type.type(:mongodb_database).provide(:mongodb) do
     rescue
       debug('MongoDB server not ready, retrying')
       sleep 2
-      retry unless (tries -= 1) <= 0
+      raise("Cannot connect to MongoDB router instance #{@resource[:router]}") if (tries -= 1) <= 0
+      retry
     end
   end
 
