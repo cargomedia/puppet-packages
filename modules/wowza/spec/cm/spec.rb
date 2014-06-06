@@ -31,12 +31,16 @@ describe command('sleep 10') do
   it { should return_exit_status 0 }
 end
 
-describe port(1935) do
-  it { should be_listening }
+[1935,8083,8086].each do |port|
+  describe port(port) do
+    it { should be_listening }
+  end
 end
 
-describe port(8086) do
-  it { should be_listening }
+[8084,8085].each do |port|
+  describe port(port) do
+    it { should_not be_listening }
+  end
 end
 
 describe command('curl http://localhost:8086/status') do
