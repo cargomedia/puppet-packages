@@ -1,22 +1,12 @@
-Puppet::Type.type(:mongodb_shard).provide(:mongodb) do
+require 'puppet/provider/mongodb'
+
+Puppet::Type.type(:mongodb_shard).provide :mongodb, :parent => Puppet::Provider::Mongodb do
 
   desc "Manage shards for a MongoDB cluster."
 
   defaultfor :kernel => 'Linux'
 
   commands :mongo => 'mongo'
-
-  def block_until_mongodb(tries = 10)
-    begin
-      mongo('--quiet', '--host', @resource[:name], '--eval', 'db.getMongo()')
-      mongo('--quiet', '--host', @resource[:router], '--eval', 'db.getMongo()')
-    rescue
-      debug('MongoDB server not ready, retrying')
-      sleep 2
-      raise("Cannot connect to MongoDB router instance #{@resource[:router]} or host @resource[:name]") if (tries -= 1) <= 0
-      retry
-    end
-  end
 
   def create
     repl_set = ''
@@ -31,31 +21,9 @@ Puppet::Type.type(:mongodb_shard).provide(:mongodb) do
   end
 
   def exists?
-    block_until_mongodb
+    block_until_mongodb @resource[:name]
+    block_until_mongodb @resource[:router]
     sh_isshard(@resource[:name], @resource[:router])
-  end
-
-  def mongo_command(command, host, retries=4)
-    # Allow waiting for mongod to become ready
-    # Wait for 2 seconds initially and double the delay at each retry
-    wait = 2
-    begin
-      output = self.mongo('--quiet', '--host', host, '--eval', "printjson(#{command})")
-    rescue Puppet::ExecutionFailure => e
-      if e =~ /Error: couldn't connect to server/ and wait <= 2**max_wait
-        info("Waiting #{wait} seconds for mongod to become available")
-        sleep wait
-        wait *= 2
-        retry
-      else
-        raise
-      end
-    end
-
-    # Dirty hack to remove JavaScript objects
-    output.gsub!(/ISODate\((.+?)\)/, '\1 ')
-    output.gsub!(/Timestamp\((.+?)\)/, '[\1]')
-    JSON.parse(output)
   end
 
   def sh_isshard(host, master)

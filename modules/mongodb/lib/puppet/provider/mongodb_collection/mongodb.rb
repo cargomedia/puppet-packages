@@ -1,21 +1,12 @@
-Puppet::Type.type(:mongodb_collection).provide(:mongodb) do
+require 'puppet/provider/mongodb'
+
+Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Provider::Mongodb do
 
   desc "Manages MongoDB collections."
 
   defaultfor :kernel => 'Linux'
 
   commands :mongo => 'mongo'
-
-  def block_until_mongodb(tries = 10)
-    begin
-      mongo('--quiet', '--host', @resource[:router], '--eval', 'db.getMongo()')
-    rescue
-      debug('MongoDB server not ready, retrying')
-      sleep 2
-      raise("Cannot connect to MongoDB router instance #{@resource[:router]}") if (tries -= 1) <= 0
-      retry
-    end
-  end
 
   def create
     if @resource[:name] == '__all__'
@@ -54,31 +45,6 @@ Puppet::Type.type(:mongodb_collection).provide(:mongodb) do
       return sh_issharded(@resource[:name], @resource[:database], @resource[:router])
     end
     col_exists
-  end
-
-  def mongo_command(command, host, retries=4)
-    # Allow waiting for mongod to become ready
-    # Wait for 2 seconds initially and double the delay at each retry
-    wait = 2
-    begin
-      output = self.mongo('--quiet', '--host', host, '--eval', "printjson(#{command})")
-    rescue Puppet::ExecutionFailure => e
-      if e =~ /Error: couldn't connect to server/ and wait <= 2**max_wait
-        info("Waiting #{wait} seconds for mongod to become available")
-        sleep wait
-        wait *= 2
-        retry
-      else
-        raise
-      end
-    end
-
-    # Dirty hack to remove JavaScript objects
-    output.gsub!(/ISODate\((.+?)\)/, '\1 ')
-    output.gsub!(/Timestamp\((.+?)\)/, '[\1]')
-    output.gsub!(/ObjectId\((.+?)\)/, '1')
-
-    JSON.parse(output)
   end
 
   def db_collections(dbname, master)
