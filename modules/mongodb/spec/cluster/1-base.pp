@@ -87,14 +87,14 @@ node default {
   }
   ->
 
-  mongodb_shard {'localhost:27001':
+  mongodb_shard {'localhost:27002':
     ensure => present,
     repl_set => 'rep1',
     router => 'localhost:27017'
   }
   ->
 
-  mongodb_shard {'localhost:27006':
+  mongodb_shard {'localhost:27007':
     ensure => present,
     repl_set => 'rep2',
     router => 'localhost:27017'
