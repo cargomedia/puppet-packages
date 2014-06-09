@@ -71,9 +71,11 @@ RSpec.configure do |c|
           puts
           puts 'Running `' + vagrant_manifest_path + '`'
           output = vagrant_helper.exec command
-          raise output if output.match(/Error: /)
+          if match = output.match(/^Error: .*$/)
+            raise "Command output contains error: `#{match[0]}`"
+          end
         rescue Exception => e
-          abort 'Puppet command failed'
+          abort "Puppet command failed: #{e.message}"
         end
       end
     end
