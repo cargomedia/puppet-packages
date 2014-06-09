@@ -1,0 +1,4 @@
+check process <%= @instance_name %> with pidfile /var/run/<%= @instance_name %>.pid
+	start program = "/etc/init.d/<%= @instance_name %> start"
+	stop  program = "/etc/init.d/<%= @instance_name %> stop"
+	if failed port <%= @port %> with timeout 45 seconds for 2 cycles then restart
