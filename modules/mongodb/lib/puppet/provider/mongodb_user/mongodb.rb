@@ -18,7 +18,7 @@ Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::
   end
 
   def exists?
-    block_until_mongodb
+    block_until_command
     if !self.db_ismaster(@resource[:router])
       warn ('Cannot add user on not primary/master member!')
       return true
@@ -41,7 +41,7 @@ Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::
     if !self.db_ismaster(@resource[:router])
       return @resource[:roles]
     end
-    user = self.mongo_command("db.getMongo().getDB('admin').getCollection('system.users').findOne({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"})", @resource[:router])
+    user = self.mongo_command_json("db.getMongo().getDB('admin').getCollection('system.users').findOne({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"})", @resource[:router])
     user['roles']
   end
 
@@ -51,7 +51,7 @@ Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::
   end
 
   def db_ismaster(host)
-    status = self.mongo_command("db.isMaster()", host)
+    status = self.mongo_command_json("db.isMaster()", host)
     status['ismaster'] == true
   end
 

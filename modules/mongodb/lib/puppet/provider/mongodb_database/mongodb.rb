@@ -20,7 +20,7 @@ Puppet::Type.type(:mongodb_database).provide :mongodb, :parent => Puppet::Provid
   end
 
   def exists?
-    block_until_mongodb
+    block_until_command
     if !self.db_ismaster(@resource[:router])
       warn ('Cannot add database on not primary/master member!')
       return true
@@ -34,7 +34,7 @@ Puppet::Type.type(:mongodb_database).provide :mongodb, :parent => Puppet::Provid
   end
 
   def sh_enable(dbname, master)
-    self.mongo_command("sh.enableSharding('#{dbname}')", master)
+    self.mongo_command_json("sh.enableSharding('#{dbname}')", master)
   end
 
   def sh_issharded(dbname, master)
@@ -43,7 +43,7 @@ Puppet::Type.type(:mongodb_database).provide :mongodb, :parent => Puppet::Provid
   end
 
   def db_ismaster(host)
-    status = self.mongo_command("db.isMaster()", host)
+    status = self.mongo_command_json("db.isMaster()", host)
     status['ismaster'] == true
   end
 

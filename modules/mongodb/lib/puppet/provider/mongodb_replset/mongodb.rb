@@ -22,7 +22,7 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
     end
 
     block_until(lambda {
-      status = mongo_command('db.isMaster()', alive_members[0])
+      status = mongo_command_json('db.isMaster()', alive_members[0])
       unless status.has_key?('primary')
         raise "No primary detected for replica `#{@resource[:name]}`"
       end
@@ -38,7 +38,7 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
     is_configured = false
     @resource[:members].each do |host|
       begin
-        block_until_mongodb host
+        block_until_command host
         debug "Checking replicaset member #{host} ..."
         status = self.rs_status(host)
         if status.has_key?('errmsg') and status['errmsg'] == 'not running with --replSet'
@@ -138,27 +138,27 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   end
 
   def db_ismaster(host)
-    self.mongo_command("db.isMaster()", host)
+    self.mongo_command_json("db.isMaster()", host)
   end
 
   def rs_initiate(conf, host)
-    return self.mongo_command("rs.initiate(#{conf})", host)
+    return self.mongo_command_json("rs.initiate(#{conf})", host)
   end
 
   def rs_status(host)
-    self.mongo_command("rs.status()", host)
+    self.mongo_command_json("rs.status()", host)
   end
 
   def rs_add(host, master)
-    self.mongo_command("rs.add(\"#{host}\")", master)
+    self.mongo_command_json("rs.add(\"#{host}\")", master)
   end
 
   def rs_addArb(host, master)
-    self.mongo_command("rs.addArb(\"#{host}\")", master)
+    self.mongo_command_json("rs.addArb(\"#{host}\")", master)
   end
 
   def rs_remove(host, master)
-    self.mongo_command("rs.remove(\"#{host}\")", master)
+    self.mongo_command_json("rs.remove(\"#{host}\")", master)
   end
 
 end

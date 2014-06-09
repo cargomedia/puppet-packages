@@ -1,8 +1,8 @@
 class Puppet::Provider::Mongodb < Puppet::Provider
 
-  def block_until_mongodb(host = @resource[:router], tries = 10, command = '{}')
+  def block_until_command(host = @resource[:router], tries = 10, command = '{}')
     check = lambda {
-      data = self.mongo_command(command, host)
+      data = self.mongo_command_json(command, host)
       if data.has_key?('ok') and data['ok'] == 0
         raise("Result's `ok` is `#{data['ok']}`")
       end
@@ -21,8 +21,8 @@ class Puppet::Provider::Mongodb < Puppet::Provider
     end
   end
 
-  def mongo_command(command, host)
-    output = self.mongo('--quiet', '--host', host, '--eval', "printjson(#{command})")
+  def mongo_command_json(command, host, database = nil)
+    output = self.mongo_command(command, host, database)
 
     # Dirty hack to remove JavaScript objects
     output.gsub!(/ISODate\((.+?)\)/, '\1 ')
@@ -30,6 +30,14 @@ class Puppet::Provider::Mongodb < Puppet::Provider
     output.gsub!(/ObjectId\((.+?)\)/, '1')
 
     JSON.parse(output)
+  end
+
+  def mongo_command(command, host, database = nil)
+    args = ['--quiet', '--host', host, '--eval', "printjson(#{command})"]
+    unless database.nil?
+      args.unshift(database)
+    end
+    self.mongo(*args)
   end
 
 end

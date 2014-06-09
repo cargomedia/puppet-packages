@@ -33,7 +33,7 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
   end
 
   def exists?
-    block_until_mongodb
+    block_until_command
 
     if @resource[:name] == "#{@resource[:database]}.all"
       return false
@@ -48,15 +48,15 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
   end
 
   def db_collections(dbname, master)
-    self.mongo_command("db.getMongo().getDB('#{@resource[:database]}').getCollectionNames()", master)
+    self.mongo_command_json("db.getMongo().getDB('#{@resource[:database]}').getCollectionNames()", master)
   end
 
   def sh_shard(collection, dbname, key, master)
-    self.mongo_command("sh.shardCollection(\"#{dbname}.#{collection}\", {'#{key}': 1})", master)
+    self.mongo_command_json("sh.shardCollection(\"#{dbname}.#{collection}\", {'#{key}': 1})", master)
   end
 
   def sh_status(collection, dbname, master)
-    self.mongo_command("db.getMongo().getDB('#{dbname}').getCollection('#{collection}').stats()", master)
+    self.mongo_command_json("db.getMongo().getDB('#{dbname}').getCollection('#{collection}').stats()", master)
   end
 
   def sh_issharded(collection, dbname, master)
