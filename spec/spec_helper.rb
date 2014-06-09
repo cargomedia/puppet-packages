@@ -65,7 +65,7 @@ RSpec.configure do |c|
         next unless File.extname(local_file) == '.pp'
         vagrant_manifest_path = vagrant_helper.get_path spec_dir.to_path + '/' + local_file
         command = "sudo puppet apply --verbose --modulepath '/etc/puppet/modules:/vagrant/modules' #{vagrant_manifest_path.shellescape} --hiera_config=/etc/hiera.yaml"
-        command += ' --debug' if debug
+        command += ' --debug --trace' if debug
         begin
           puts
           puts 'Running `' + vagrant_manifest_path + '`'
