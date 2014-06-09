@@ -10,19 +10,24 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
     return true if master_host
 
     alive_members = members_present
-    alive_members -= [@resource[:arbiter]] unless @resource[:arbiter].empty?
-    hostsconf = alive_members.each_with_index.map do |host, id|
-      "{ _id: #{id}, host: \"#{host}\" }"
-    end.join(',')
+    members = alive_members.each_with_index.map do |host, id|
+      is_arbiter = (host == @resource[:arbiter])
+      {'_id' => id, 'host' => host, 'arbiterOnly' => is_arbiter}
+    end
 
-    conf = "{ _id: \"#{@resource[:name]}\", members: [ #{hostsconf} ] }"
-    output = self.rs_initiate(conf, alive_members[0])
+    members_non_arbiter = members.select { |host| !host['arbiterOnly'] }
+
+    if 0 == members_non_arbiter.count
+      raise Puppet::Error, 'Cannot initialize replica-set without alive non-arbiter nodes'
+    end
+
+    output = self.rs_initiate({'_id' => @resource[:name], 'members' => members}, members_non_arbiter.first['host'])
     if output['ok'] == 0
       raise Puppet::Error, "rs.initiate() failed for replicaset #{@resource[:name]}: #{output['errmsg']}"
     end
 
     block_until(lambda {
-      status = mongo_command_json('db.isMaster()', alive_members[0])
+      status = mongo_command_json('db.isMaster()', members_non_arbiter.first['host'])
       unless status.has_key?('primary')
         raise "No primary detected for replica `#{@resource[:name]}`"
       end
@@ -141,7 +146,7 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   end
 
   def rs_initiate(conf, host)
-    return self.mongo_command_json("rs.initiate(#{conf})", host)
+    return self.mongo_command_json("rs.initiate(#{JSON.dump(conf)})", host)
   end
 
   def rs_status(host)
