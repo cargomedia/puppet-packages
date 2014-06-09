@@ -3,6 +3,7 @@ require 'net/ssh'
 require 'vagrant_helper'
 require 'yaml'
 require 'pathname'
+require 'rspec/its'
 
 include Serverspec::Helper::Ssh
 include Serverspec::Helper::DetectOS
