@@ -4,7 +4,7 @@ class mongodb::role::shard (
   $hostname = 'localhost',
   $repl_set = undef,
   $repl_members = undef,
-  $router = undef,
+  $router,
   $options = []
 ) {
 
@@ -21,15 +21,15 @@ class mongodb::role::shard (
       ensure => present,
       members => $repl_members,
       require => Mongodb::Core::Mongod['shard'],
+      before => Mongodb_shard["${hostname}:${port}"]
     }
   }
 
-  if $router {
-    mongodb_shard {"${hostname}:${port}":
-      ensure => present,
-      repl_set => $repl_set,
-      router => $router
-    }
+  mongodb_shard {"${hostname}:${port}":
+    ensure => present,
+    repl_set => $repl_set,
+    router => $router,
+    require => Mongodb::Core::Mongod['shard'],
   }
 
 }

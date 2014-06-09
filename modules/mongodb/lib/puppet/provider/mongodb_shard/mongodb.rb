@@ -32,7 +32,10 @@ Puppet::Type.type(:mongodb_shard).provide :mongodb, :parent => Puppet::Provider:
   end
 
   def sh_add(host, master)
-    self.mongo_command("sh.addShard(\"#{host}\")", master)
+    output = self.mongo_command("sh.addShard(\"#{host}\")", master)
+    if output['ok'] == 0
+      raise Puppet::Error, "sh.addShard() failed for #{@resource[:name]}: #{output['errmsg']}"
+    end
   end
 
 end

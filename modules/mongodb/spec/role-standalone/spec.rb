@@ -1,10 +1,5 @@
 require 'spec_helper'
 
-# just waiting for mongod start up
-describe command('sleep 15') do
-  it { should return_exit_status 0 }
-end
-
 describe package('mongodb-org-server') do
   it { should be_installed.by('apt') }
 end
@@ -28,9 +23,5 @@ describe file('/etc/mongodb/mongod_standalone.conf') do
 end
 
 describe port(27017) do
-  it { should be_listening.with('tcp') }
-end
-
-describe port(28017) do
   it { should be_listening.with('tcp') }
 end

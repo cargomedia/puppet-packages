@@ -1,8 +1,8 @@
 node default {
 
   mongodb::core::mongod {'config':
-    port => 27019,
     config_server => true,
+    port => 27019
   }
   ->
 
@@ -19,10 +19,11 @@ node default {
   }
   ->
 
-  exec {'wait for router server up':
-    command => 'while ! (mongo --quiet --host localhost:27017 --eval \'db.getMongo()\'); do sleep 0.5; done',
-    provider => shell,
-    timeout => 30,
+  class {'mongodb::role::shard':
+    port => 27018,
+    repl_set => 'rep1',
+    repl_members => ['localhost:27018'],
+    router => 'localhost:27017'
   }
 
 }

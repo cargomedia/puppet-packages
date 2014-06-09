@@ -20,6 +20,13 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
     if output['ok'] == 0
       raise Puppet::Error, "rs.initiate() failed for replicaset #{@resource[:name]}: #{output['errmsg']}"
     end
+
+    block_until(lambda {
+      status = mongo_command('db.isMaster()', alive_members[0])
+      unless status.has_key?('primary')
+        raise "No primary detected for replica `#{@resource[:name]}`"
+      end
+    })
   end
 
   def destroy
@@ -73,12 +80,15 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   end
 
   def members
-    if master = self.master_host()
+    master = self.master_host
+    if master
       db = self.db_ismaster(master)
-      db['hosts'] + db['arbiters']
+      members = db['hosts']
+      members += db['arbiters'] if db.has_key?('arbiters')
     else
       raise Puppet::Error, "Can't find master host for replicaset #{@resource[:name]}."
     end
+    members
   end
 
   def members=(hosts)
