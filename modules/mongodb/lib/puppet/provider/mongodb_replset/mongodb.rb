@@ -7,10 +7,10 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   commands :mongo => 'mongo'
 
   def create
-    return true if master_host()
+    return true if master_host
 
     alive_members = members_present
-    alive_members -= [@resource[:arbiter]] if !@resource[:arbiter].empty?
+    alive_members -= [@resource[:arbiter]] unless @resource[:arbiter].empty?
     hostsconf = alive_members.each_with_index.map do |host, id|
       "{ _id: #{id}, host: \"#{host}\" }"
     end.join(',')
@@ -56,9 +56,9 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
       end
     end
 
-    if !@resource[:arbiter].empty?
+    unless @resource[:arbiter].empty?
       is_configured = false
-      if master = master_host()
+      if master = master_host
         status = self.rs_status(master)
         if status.has_key?('members')
           status['members'].each do |host|
@@ -80,8 +80,7 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   end
 
   def members
-    master = self.master_host
-    if master
+    if master = self.master_host
       db = self.db_ismaster(master)
       members = db['hosts']
       members += db['arbiters'] if db.has_key?('arbiters')
