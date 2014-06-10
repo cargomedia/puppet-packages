@@ -85,18 +85,37 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   end
 
   def members
-    if master = self.master_host
-      db = self.db_ismaster(master)
-      members = db['hosts']
-      members += db['arbiters'] if db.has_key?('arbiters')
-    else
+    master = self.master_host
+    unless master
       raise Puppet::Error, "Can't find master host for replicaset #{@resource[:name]}."
     end
-    members
+    rs_status(master)['members'].map { |member| member['name'] }
   end
 
   def members=(hosts)
-    add_members hosts
+    master = self.master_host
+    unless master
+      raise Puppet::Error, "Can't find master host for replicaset #{@resource[:name]}."
+    end
+    hosts_current = members
+    (hosts - hosts_current).each do |host|
+      if host == @resource[:arbiter]
+        self.rs_addArb(host, master)
+      else
+        self.rs_add(host, master)
+      end
+    end
+    (hosts_current - hosts).each do |host|
+      # @todo remove host
+    end
+  end
+
+  private
+
+  def members_including_arbiter
+    members = @resource[:members]
+    members += @resource[:arbiter] unless @resource[:arbiter].nil?
+    members
   end
 
   def members_present
@@ -122,23 +141,6 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
       end
     end
     false
-  end
-
-  def add_members(hosts)
-    if master = master_host()
-      current = self.db_ismaster(master)['hosts']
-      newhosts = hosts - current
-      newhosts.each do |host|
-        puts host, @resource[:arbiter]
-        if host == @resource[:arbiter]
-          self.rs_addArb(host, master)
-        else
-          self.rs_add(host, master)
-        end
-      end
-    else
-      raise Puppet::Error, "Can't find master host for replicaset #{@resource[:name]}."
-    end
   end
 
   def db_ismaster(host)
