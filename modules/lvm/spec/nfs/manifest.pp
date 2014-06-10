@@ -1,7 +1,7 @@
 node default {
 
   class {'lvm::install':
-    physicalDevice => '/dev/sda',
+    physicalDevice => '/dev/sdb',
     volumeGroupName => 'vg01',
     logicalVolumeName => 'storage01',
     logicalVolumeSize => '50%',
