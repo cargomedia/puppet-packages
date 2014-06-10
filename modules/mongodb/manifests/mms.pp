@@ -14,13 +14,13 @@ class mongodb::mms (
 
   if $apikey_backup {
     class {'mongodb::mms::backup':
-      apikey => $apikey_backup
+      api_key => $apikey_backup
     }
   }
 
   if $apikey_monitoring {
     class {'mongodb::mms::monitoring':
-      apikey => $apikey_monitoring
+      api_key => $apikey_monitoring
     }
   }
 }
