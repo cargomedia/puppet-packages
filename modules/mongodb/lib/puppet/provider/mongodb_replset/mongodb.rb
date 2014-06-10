@@ -148,6 +148,9 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
 
   def rs_remove(host, master)
     mongo_command('db.shutdownServer()', host, 'admin')
+    if host == master
+      master = find_member_primary
+    end
     output = mongo_command_json("rs.remove(#{JOSN.dump host})", master)
     if output['ok'] == 0
       raise Puppet::Error, "rs.remove() failed for host #{host} in replicaset #{@resource[:name]}: #{output['errmsg']}"
