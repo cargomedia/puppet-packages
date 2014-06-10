@@ -7,8 +7,6 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   commands :mongo => 'mongo'
 
   def create
-    return true if member_primary
-
     config_members = members_all_alive.each_with_index.map do |host, id|
       is_arbiter = (host == @resource[:arbiter])
       {'_id' => id, 'host' => host, 'arbiterOnly' => is_arbiter}
@@ -38,12 +36,12 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   end
 
   def exists?
-    # @todo check whether there's a primary for this replica set
+    !member_primary.nil?
   end
 
   def members
     master = self.member_primary
-    unless master
+    if master.nil?
       raise Puppet::Error, "Can't find master host for replicaset #{@resource[:name]}."
     end
     rs_status(master)['members'].map { |member| member['name'] }
@@ -51,7 +49,7 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
 
   def members=(hosts)
     master = self.member_primary
-    unless master
+    if master.nil?
       raise Puppet::Error, "Can't find master host for replicaset #{@resource[:name]}."
     end
     hosts_current = members
@@ -97,7 +95,7 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
         # do nothing
       end
     end
-    false
+    nil
   end
 
   def rs_initiate(conf, host)
