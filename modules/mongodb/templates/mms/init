@@ -15,7 +15,7 @@ DESC=<%= @agent_name %>
 DAEMON=/usr/bin/<%= @agent_name %>
 PIDFILE=/var/run/<%= @agent_name %>.pid
 DAEMON_ARGS="<%= @daemon_args %>"
-USER=mongodb-mms-agentFixed
+USER=mongodb-mms-agent
 
 test -x ${DAEMON} || exit 0
 set -e
