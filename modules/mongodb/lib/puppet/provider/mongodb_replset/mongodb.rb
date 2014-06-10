@@ -13,26 +13,23 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
     end
 
     config_members_non_arbiter = config_members.select { |host| !host['arbiterOnly'] }
-
     if 0 == config_members_non_arbiter.count
       raise Puppet::Error, 'Cannot initialize replica-set without alive non-arbiter nodes'
     end
 
-    output = self.rs_initiate({'_id' => @resource[:name], 'members' => config_members}, config_members_non_arbiter.first['host'])
-    if output['ok'] == 0
-      raise Puppet::Error, "rs.initiate() failed for replicaset #{@resource[:name]}: #{output['errmsg']}"
-    end
+    member_execution = config_members_non_arbiter.first['host']
+
+    self.rs_initiate({'_id' => @resource[:name], 'members' => config_members}, member_execution)
 
     block_until(lambda {
-      status = mongo_command_json('db.isMaster()', config_members_non_arbiter.first['host'])
-      unless status.has_key?('primary')
+      if member_primary(member_execution).nil?
         raise "No primary detected for replica `#{@resource[:name]}`"
       end
     })
   end
 
   def destroy
-    raise('Not implemented')
+    raise Puppet::Error, 'Not implemented'
   end
 
   def exists?
@@ -84,10 +81,11 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
     end
   end
 
-  def member_primary
-    members_all.each do |host|
+  def member_primary(host = nil)
+    members_to_ask = host ? [host] : members_all
+    members_to_ask.each do |h|
       begin
-        members_primary = rs_status(host)['members'].select { |member| 'PRIMARY' == member['stateStr'] }
+        members_primary = rs_status(h)['members'].select { |member| 'PRIMARY' == member['stateStr'] }
         if members_primary.count?
           return members_primary.first
         end
@@ -99,7 +97,10 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   end
 
   def rs_initiate(conf, host)
-    return self.mongo_command_json("rs.initiate(#{JSON.dump(conf)})", host)
+    output = self.mongo_command_json("rs.initiate(#{JSON.dump(conf)})", host)
+    if output['ok'] == 0
+      raise Puppet::Error, "rs.initiate() failed for replicaset #{@resource[:name]}: #{output['errmsg']}"
+    end
   end
 
   def rs_status(host)
