@@ -135,16 +135,23 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
     status
   end
 
-  def rs_add(host, master)
-    mongo_command_json("rs.add(\"#{host}\")", master)
+  def rs_add(host, master, arbiter_only = false)
+    output = mongo_command_json("rs.add(#{JSON.dump host}, #{JSON.dump arbiter_only})", master)
+    if output['ok'] == 0
+      raise Puppet::Error, "rs.add() failed for host #{host} in replicaset #{@resource[:name]}: #{output['errmsg']}"
+    end
   end
 
   def rs_add_arbiter(host, master)
-    mongo_command_json("rs.addArb(\"#{host}\")", master)
+    rs_add(host, master, true)
   end
 
   def rs_remove(host, master)
-    mongo_command_json("rs.remove(\"#{host}\")", master)
+    mongo_command('db.shutdownServer()', host, 'admin')
+    output = mongo_command_json("rs.remove(#{JOSN.dump host})", master)
+    if output['ok'] == 0
+      raise Puppet::Error, "rs.remove() failed for host #{host} in replicaset #{@resource[:name]}: #{output['errmsg']}"
+    end
   end
 
 end
