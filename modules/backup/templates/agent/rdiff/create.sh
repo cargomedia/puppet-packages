@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-trap 'if [ ${?} ]; then echo "Non-zero exit in $0 - Line ${LINENO}: ${BASH_COMMAND}"; fi' EXIT
+trap 'if [ ${?} ]; then echo "Non-zero exit in ${0} - Line ${LINENO}: ${BASH_COMMAND}"; fi' EXIT
 
 usage() { echo "Usage: $0 -h <host> -s <source> -d <destination> -o <rdiff-options> -t <mysql|lvm>" 1>&2; exit 1; }
 
