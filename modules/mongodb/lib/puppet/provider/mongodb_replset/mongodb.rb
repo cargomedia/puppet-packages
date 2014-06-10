@@ -52,7 +52,7 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
     hosts_current = members
     (hosts - hosts_current).each do |host|
       if host == @resource[:arbiter]
-        self.rs_addArb(host, master)
+        self.rs_add_arbiter(host, master)
       else
         self.rs_add(host, master)
       end
@@ -115,7 +115,7 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
     self.mongo_command_json("rs.add(\"#{host}\")", master)
   end
 
-  def rs_addArb(host, master)
+  def rs_add_arbiter(host, master)
     self.mongo_command_json("rs.addArb(\"#{host}\")", master)
   end
 
