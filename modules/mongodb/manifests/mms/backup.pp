@@ -1,25 +1,49 @@
 class mongodb::mms::backup (
   $version = '2.0.0.97',
-  $apikey = undef
+  $api_key = undef,
+  $mms_server = 'api-backup.mongodb.com'
 ){
 
   require 'mongodb::mms'
 
-  $daemon = 'mongod'
-  $instance_name = "${daemon}_${name}"
+  $agent_name = 'mongodb-mms-backup-agent'
+  $daemon_args = "-c /etc/mongodb-mms/backup-agent.config"
 
-  file { '/etc/mongodb-mms/monitoring-agent.config':
-    content=>template('mongodbmms/monitoring-agent.config.erb'),
-    require => [Exec['install-mms']]
+  helper::script {'install-mms-backup':
+    content => template('mongodb/mms/install.sh'),
+    unless => "test -x /usr/bin/${agent_name}",
+  }
+  ->
+
+  file {
+    '/etc/mongodb-mms/backup-agent.config':
+    ensure => file,
+    content=>template('mongodb/mms/conf-backup'),
+    owner => '0',
+    group => '0',
+    mode => '0644',
+    require => Helper::Script['install-mms-backup'],
+    notify => Service[$agent_name];
+
+    "/etc/init.d/${agent_name}":
+    ensure => file,
+    content=>template('mongodb/mms/init'),
+    owner => '0',
+    group => '0',
+    mode => '0755',
+    require => Helper::Script['install-mms-backup'],
+    notify => Service[$agent_name];
+  }
+  ->
+
+  service {$agent_name:
+  }
+  ->
+
+  helper::service{$agent_name:
   }
 
-  service { "mongodb-mms-monitoring-agent":
-    ensure     => 'running',
-    provider   => 'upstart',
-    hasrestart => 'true',
-    hasstatus  => 'true',
-    require => File['/etc/mongodb-mms/monitoring-agent.config'],
-    subscribe  => File['/etc/mongodb-mms/monitoring-agent.config']
+  @monit::entry {'mms-backup':
+    content => template('mongodb/mms/monit'),
   }
-
 }
