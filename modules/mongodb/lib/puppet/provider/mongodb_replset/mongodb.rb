@@ -7,7 +7,7 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   commands :mongo => 'mongo'
 
   def create
-    return true if master_host
+    return true if member_primary
 
     config_members = members_all_alive.each_with_index.map do |host, id|
       is_arbiter = (host == @resource[:arbiter])
@@ -42,7 +42,7 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   end
 
   def members
-    master = self.master_host
+    master = self.member_primary
     unless master
       raise Puppet::Error, "Can't find master host for replicaset #{@resource[:name]}."
     end
@@ -50,7 +50,7 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   end
 
   def members=(hosts)
-    master = self.master_host
+    master = self.member_primary
     unless master
       raise Puppet::Error, "Can't find master host for replicaset #{@resource[:name]}."
     end
@@ -86,12 +86,12 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
     end
   end
 
-  def master_host
-    @resource[:members].each do |host|
+  def member_primary
+    members_all.each do |host|
       begin
-        status = self.db_ismaster(host)
-        if status.has_key?('primary')
-          return status['primary']
+        members_primary = rs_status(host)['members'].select { |member| 'PRIMARY' == member['stateStr'] }
+        if members_primary.count?
+          return members_primary.first
         end
       rescue
         # do nothing
@@ -100,17 +100,15 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
     false
   end
 
-  def db_ismaster(host)
-    self.mongo_command_json("db.isMaster()", host)
-  end
-
   def rs_initiate(conf, host)
     return self.mongo_command_json("rs.initiate(#{JSON.dump(conf)})", host)
   end
 
   def rs_status(host)
-    status = self.mongo_command_json("rs.status()", host)
-    # @todo compare name
+    status = self.mongo_command_json('rs.status()', host)
+    if status['set'] != @resource[:name]
+      raise Puppet::Error, "Host `#{host}` is part of replica set `#{status['set']}` instead of `#{@resource[:name]}`."
+    end
     status
   end
 
