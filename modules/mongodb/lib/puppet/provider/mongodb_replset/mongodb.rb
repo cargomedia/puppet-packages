@@ -33,6 +33,7 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   end
 
   def exists?
+    # not enough, check if replica is initiated
     !find_member_primary.nil?
   end
 
@@ -105,6 +106,10 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
     find_member('PRIMARY', host_to_ask)
   end
 
+  def find_member_secondary(host_to_ask = nil)
+    find_member('SECONDARY', host_to_ask)
+  end
+
   def find_member(state_str, host_to_ask = nil)
     members_to_ask = host_to_ask ? [host_to_ask] : members_all
     members_to_ask.each do |host|
@@ -147,13 +152,38 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   end
 
   def rs_remove(host, master)
-    mongo_command('db.shutdownServer()', host, 'admin')
     if host == master
-      master = find_member_primary
+      begin
+        block_until(lambda {
+          secondary = find_member_secondary
+          if secondary.nil?
+            raise "No secondary detected for replica `#{@resource[:name]}`"
+          end
+        })
+
+        mongo_command('rs.stepDown(60)', host)
+        # "shutdownServer failed: no secondaries within 10 seconds of my optime"
+        mongo_command('db.shutdownServer({timeoutSecs : 30, force: 1})', host, 'admin')
+
+        block_until(lambda {
+          primary = find_member_primary()
+          if primary.nil? or primary == host
+            raise "No new primary detected for replica `#{@resource[:name]}`"
+          end
+          master = primary
+        })
+      rescue => e
+        raise Puppet::Error, "rs.stepDown() failed for host #{host} in replicaset #{@resource[:name]}: #{e.message}"
+      end
+    else
+      mongo_command('db.shutdownServer()', host, 'admin') if @resource[:members].include?(host)
     end
-    output = mongo_command_json("rs.remove(#{JOSN.dump host})", master)
-    if output['ok'] == 0
+
+    begin
+      output = mongo_command_json("rs.remove(#{JSON.dump host})", master)
       raise Puppet::Error, "rs.remove() failed for host #{host} in replicaset #{@resource[:name]}: #{output['errmsg']}"
+    rescue
+      # all went good. mongo client should be disconnected!
     end
   end
 
