@@ -66,7 +66,7 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
 
   def members_all
     members = @resource[:members]
-    members += @resource[:arbiter] unless @resource[:arbiter].nil?
+    members.push(@resource[:arbiter]) unless @resource[:arbiter].empty?
     members
   end
 
