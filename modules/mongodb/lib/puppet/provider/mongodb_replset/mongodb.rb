@@ -58,7 +58,7 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
       end
     end
     (hosts_current - hosts).each do |host|
-      # @todo remove host
+      self.rs_remove(host, master)
     end
   end
 
