@@ -10,6 +10,13 @@ Puppet::Type.newtype(:mongodb_replset) do
   newproperty(:members, :array_matching => :all) do
     desc 'Hostnames of members'
 
+    validate do |value|
+      arbiter = @resources[:arbiter]
+      if !arbiter.nil? and value.include?(arbiter)
+        raise Puppet::Error, 'Members shouldnt contain arbiter'
+      end
+    end
+
     def insync?(is)
       is.sort == should.sort
     end
