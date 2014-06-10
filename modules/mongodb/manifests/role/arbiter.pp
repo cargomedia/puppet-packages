@@ -18,8 +18,8 @@ class mongodb::role::arbiter (
 
   mongodb_replset {$repl_set:
     ensure => present,
-    arbiter => "${hostname}:${port}",
     members => $repl_members,
+    arbiters => ["${hostname}:${port}"],
     require => Mongodb::Core::Mongod['arbiter'],
   }
 

@@ -8,7 +8,7 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
 
   def create
     config_members = members_all_alive.each_with_index.map do |host, id|
-      is_arbiter = (host == @resource[:arbiter])
+      is_arbiter = @resource[:arbiters].include?(host)
       {'_id' => id, 'host' => host, 'arbiterOnly' => is_arbiter}
     end
 
@@ -19,10 +19,10 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
 
     member_execution = config_members_non_arbiter.first['host']
 
-    self.rs_initiate({'_id' => @resource[:name], 'members' => config_members}, member_execution)
+    rs_initiate({'_id' => @resource[:name], 'members' => config_members}, member_execution)
 
     block_until(lambda {
-      if member_primary(member_execution).nil?
+      if find_member_primary(member_execution).nil?
         raise "No primary detected for replica `#{@resource[:name]}`"
       end
     })
@@ -33,47 +33,63 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   end
 
   def exists?
-    !member_primary.nil?
+    !find_member_primary.nil?
   end
 
   def members
-    master = self.member_primary
+    master = find_member_primary
     if master.nil?
       raise Puppet::Error, "Can't find master host for replicaset #{@resource[:name]}."
     end
-    rs_status(master)['members'].map { |member| member['name'] }
+    find_members(master) - @resource[:arbiters]
   end
 
   def members=(hosts)
-    master = self.member_primary
+    master = find_member_primary
     if master.nil?
       raise Puppet::Error, "Can't find master host for replicaset #{@resource[:name]}."
     end
-    hosts_current = members
+    hosts_current = find_members(master) - @resource[:arbiters]
     (hosts - hosts_current).each do |host|
-      if host == @resource[:arbiter]
-        self.rs_add_arbiter(host, master)
-      else
-        self.rs_add(host, master)
-      end
+      rs_add(host, master)
     end
     (hosts_current - hosts).each do |host|
-      self.rs_remove(host, master)
+      rs_remove(host, master)
+    end
+  end
+
+  def arbiters
+    master = find_member_primary
+    if master.nil?
+      raise Puppet::Error, "Can't find master host for replicaset #{@resource[:name]}."
+    end
+    find_members(master) - @resource[:members]
+  end
+
+  def arbiters=(hosts)
+    master = find_member_primary
+    if master.nil?
+      raise Puppet::Error, "Can't find master host for replicaset #{@resource[:name]}."
+    end
+    hosts_current = find_members(master) - @resource[:members]
+    (hosts - hosts_current).each do |host|
+      rs_add_arbiter(host, master)
+    end
+    (hosts_current - hosts).each do |host|
+      rs_remove(host, master)
     end
   end
 
   private
 
   def members_all
-    members = @resource[:members]
-    members.push(@resource[:arbiter]) unless @resource[:arbiter].empty?
-    members
+    @resource[:members] + @resource[:arbiters]
   end
 
   def members_all_alive
     members_all.select do |host|
       begin
-        self.mongo_command('db.getMongo()', host)
+        mongo_command('db.getMongo()', host)
         true
       rescue Puppet::ExecutionFailure
         false
@@ -81,30 +97,38 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
     end
   end
 
-  def member_primary(host = nil)
-    members_to_ask = host ? [host] : members_all
-    members_to_ask.each do |h|
+  def find_members(host_to_ask)
+    rs_status(host_to_ask)['members'].map { |member| member['name'] }
+  end
+
+  def find_member_primary(host_to_ask = nil)
+    find_member('PRIMARY', host_to_ask)
+  end
+
+  def find_member(state_str, host_to_ask = nil)
+    members_to_ask = host_to_ask ? [host_to_ask] : members_all
+    members_to_ask.each do |host|
       begin
-        members_primary = rs_status(h)['members'].select { |member| 'PRIMARY' == member['stateStr'] }
-        if members_primary.count?
-          return members_primary.first
-        end
+        members_primary = rs_status(host)['members'].select { |member| state_str == member['stateStr'] }
       rescue
-        # do nothing
+        next
+      end
+      if members_primary.length > 0
+        return members_primary.first['name']
       end
     end
     nil
   end
 
   def rs_initiate(conf, host)
-    output = self.mongo_command_json("rs.initiate(#{JSON.dump(conf)})", host)
+    output = mongo_command_json("rs.initiate(#{JSON.dump(conf)})", host)
     if output['ok'] == 0
       raise Puppet::Error, "rs.initiate() failed for replicaset #{@resource[:name]}: #{output['errmsg']}"
     end
   end
 
   def rs_status(host)
-    status = self.mongo_command_json('rs.status()', host)
+    status = mongo_command_json('rs.status()', host)
     if status['set'] != @resource[:name]
       raise Puppet::Error, "Host `#{host}` is part of replica set `#{status['set']}` instead of `#{@resource[:name]}`."
     end
@@ -112,15 +136,15 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   end
 
   def rs_add(host, master)
-    self.mongo_command_json("rs.add(\"#{host}\")", master)
+    mongo_command_json("rs.add(\"#{host}\")", master)
   end
 
   def rs_add_arbiter(host, master)
-    self.mongo_command_json("rs.addArb(\"#{host}\")", master)
+    mongo_command_json("rs.addArb(\"#{host}\")", master)
   end
 
   def rs_remove(host, master)
-    self.mongo_command_json("rs.remove(\"#{host}\")", master)
+    mongo_command_json("rs.remove(\"#{host}\")", master)
   end
 
 end
