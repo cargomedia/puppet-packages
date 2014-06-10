@@ -4,6 +4,7 @@ class mongodb::role::shard (
   $hostname = 'localhost',
   $repl_set = undef,
   $repl_members = undef,
+  $repl_arbiter = undef,
   $router,
   $options = []
 ) {
@@ -20,6 +21,7 @@ class mongodb::role::shard (
     mongodb_replset {$repl_set:
       ensure => present,
       members => $repl_members,
+      arbiter => $repl_arbiter,
       require => Mongodb::Core::Mongod['shard'],
       before => Mongodb_shard["${hostname}:${port}"]
     }

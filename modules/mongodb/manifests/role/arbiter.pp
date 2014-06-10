@@ -3,7 +3,7 @@ class mongodb::role::arbiter (
   $bind_ip = '0.0.0.0',
   $hostname = 'localhost',
   $repl_set,
-  $repl_members = undef,
+  $repl_members,
   $options = []
 ) {
 

@@ -9,25 +9,24 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   def create
     return true if master_host
 
-    alive_members = members_present
-    members = alive_members.each_with_index.map do |host, id|
+    config_members = members_all_alive.each_with_index.map do |host, id|
       is_arbiter = (host == @resource[:arbiter])
       {'_id' => id, 'host' => host, 'arbiterOnly' => is_arbiter}
     end
 
-    members_non_arbiter = members.select { |host| !host['arbiterOnly'] }
+    config_members_non_arbiter = config_members.select { |host| !host['arbiterOnly'] }
 
-    if 0 == members_non_arbiter.count
+    if 0 == config_members_non_arbiter.count
       raise Puppet::Error, 'Cannot initialize replica-set without alive non-arbiter nodes'
     end
 
-    output = self.rs_initiate({'_id' => @resource[:name], 'members' => members}, members_non_arbiter.first['host'])
+    output = self.rs_initiate({'_id' => @resource[:name], 'members' => config_members}, config_members_non_arbiter.first['host'])
     if output['ok'] == 0
       raise Puppet::Error, "rs.initiate() failed for replicaset #{@resource[:name]}: #{output['errmsg']}"
     end
 
     block_until(lambda {
-      status = mongo_command_json('db.isMaster()', members_non_arbiter.first['host'])
+      status = mongo_command_json('db.isMaster()', config_members_non_arbiter.first['host'])
       unless status.has_key?('primary')
         raise "No primary detected for replica `#{@resource[:name]}`"
       end
@@ -39,49 +38,7 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   end
 
   def exists?
-    failcount = 0
-    is_configured = false
-    @resource[:members].each do |host|
-      begin
-        block_until_command host
-        debug "Checking replicaset member #{host} ..."
-        status = self.rs_status(host)
-        if status.has_key?('errmsg') and status['errmsg'] == 'not running with --replSet'
-          raise Puppet::Error, "Can't configure replicaset #{@resource[:name]}, host #{host} is not supposed to be part of a replicaset."
-        end
-        if status.has_key?('set')
-          if status['set'] != @resource[:name]
-            raise Puppet::Error, "Can't configure replicaset #{@resource[:name]}, host #{host} is already part of another replicaset."
-          end
-          is_configured = true
-        end
-      rescue Puppet::ExecutionFailure
-        debug "Can't connect to replicaset member #{host}."
-        failcount += 1
-      end
-    end
-
-    unless @resource[:arbiter].empty?
-      is_configured = false
-      if master = master_host
-        status = self.rs_status(master)
-        if status.has_key?('members')
-          status['members'].each do |host|
-            if host['stateStr'] == 'ARBITER' and host['name'] == @resource[:arbiter]
-              is_configured = true
-            elsif host['name'] == @resource[:arbiter]
-              self.rs_remove(@resource[:arbiter], master)
-            end
-          end
-        end
-      end
-    end
-
-    if failcount == @resource[:members].length
-      raise Puppet::Error, "Can't connect to any member of replicaset #{@resource[:name]}."
-    end
-
-    return is_configured
+    # @todo check whether there's a primary for this replica set
   end
 
   def members
@@ -112,16 +69,16 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
 
   private
 
-  def members_including_arbiter
+  def members_all
     members = @resource[:members]
     members += @resource[:arbiter] unless @resource[:arbiter].nil?
     members
   end
 
-  def members_present
-    @resource[:members].select do |host|
+  def members_all_alive
+    members_all.select do |host|
       begin
-        self.mongo('--host', host, '--quiet', '--eval', 'db.version()')
+        self.mongo_command('db.getMongo()', host)
         true
       rescue Puppet::ExecutionFailure
         false
@@ -152,7 +109,9 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   end
 
   def rs_status(host)
-    self.mongo_command_json("rs.status()", host)
+    status = self.mongo_command_json("rs.status()", host)
+    # @todo compare name
+    status
   end
 
   def rs_add(host, master)

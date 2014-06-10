@@ -78,14 +78,14 @@ node default {
   mongodb_replset {'rep1':
     ensure => present,
     arbiter => 'localhost:27000',
-    members => ['localhost:27000', 'localhost:27001', 'localhost:27002'],
+    members => ['localhost:27001', 'localhost:27002'],
   }
   ->
 
   mongodb_replset {'rep2':
     ensure => present,
     arbiter => 'localhost:27005',
-    members => ['localhost:27005', 'localhost:27006', 'localhost:27007'],
+    members => ['localhost:27006', 'localhost:27007'],
   }
   ->
 
