@@ -71,6 +71,7 @@ RSpec.configure do |c|
           puts
           puts 'Running `' + vagrant_manifest_path + '`'
           output = vagrant_helper.exec command
+          output = output.gsub(/\e\[(\d+)(;\d+)*m/, '') # Remove color codes
           if match = output.match(/^Error: .*$/)
             raise "Command output contains error: `#{match[0]}`"
           end
