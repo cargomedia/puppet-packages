@@ -23,7 +23,7 @@ class Puppet::Provider::Mongodb < Puppet::Provider
   end
 
   def mongo_command_json(command, host, database = nil, options = {})
-    output = self.mongo_command(command, host, database, options)
+    output = self.mongo_command("printjson(#{command})", host, database, options)
 
     # Dirty hack to remove JavaScript objects
     output.gsub!(/ISODate\((.+?)\)/, '\1 ')
@@ -37,7 +37,7 @@ class Puppet::Provider::Mongodb < Puppet::Provider
     defaults = {:skip_fail => false}
     options = defaults.merge(options)
 
-    args = ['--quiet', '--host', host, '--eval', "printjson(#{command})"]
+    args = ['--quiet', '--host', host, '--eval', command]
     unless database.nil?
       args.unshift(database)
     end
