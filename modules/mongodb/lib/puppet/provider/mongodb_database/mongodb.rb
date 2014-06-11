@@ -36,7 +36,7 @@ Puppet::Type.type(:mongodb_database).provide :mongodb, :parent => Puppet::Provid
   end
 
   def sh_issharded(dbname, master)
-    output = mongo_command("db.databases.find({\"_id\": \"#{dbname}\", \"partitioned\": true}.count()", master, 'config')
+    output = mongo_command("db.databases.find({\"_id\": \"#{dbname}\", \"partitioned\": true}).count()", master, 'config')
     1 == output.to_i
   end
 

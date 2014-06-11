@@ -21,7 +21,8 @@ Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::
       warn ('Cannot add user on not primary/master member!')
       return true
     end
-    1 == mongo_command_json("db.system.users.find({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"}).count()", @resource[:router], 'admin')
+    output = mongo_command("db.system.users.find({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"}).count()", @resource[:router], 'admin')
+    1 == output.to_i
   end
 
   def password_hash
