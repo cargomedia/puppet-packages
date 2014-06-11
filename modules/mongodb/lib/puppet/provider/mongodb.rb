@@ -23,7 +23,11 @@ class Puppet::Provider::Mongodb < Puppet::Provider
   end
 
   def mongo_command_json(command, host, database = nil, options = {})
-    output = self.mongo_command("printjson(#{command})", host, database, options)
+    output = self.mongo_command("printjson(#{command})", host, database, options).strip
+
+    if 'null' == output
+      return nil
+    end
 
     # Dirty hack to remove JavaScript objects
     output.gsub!(/ISODate\((.+?)\)/, '\1 ')

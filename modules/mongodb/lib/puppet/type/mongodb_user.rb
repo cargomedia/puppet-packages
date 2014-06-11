@@ -4,7 +4,7 @@ Puppet::Type.newtype(:mongodb_user) do
   ensurable
 
   newparam(:name, :namevar=>true) do
-    desc "The name of the user."
+    desc 'The name of the user.'
   end
 
   newparam(:database) do
@@ -32,16 +32,13 @@ Puppet::Type.newtype(:mongodb_user) do
     end
   end
 
-  newproperty(:password_hash) do
-    desc "The password hash of the user. Use mongodb_password() for creating hash."
-    defaultto do
-      fail("Property 'password_hash' must be set. Use mongodb_password() for creating hash.")
-    end
-    newvalue(/^\w+$/)
+  newproperty(:password) do
+    desc 'The password of the user.'
+    newvalue(/^.+$/)
   end
 
   newparam(:router) do
-    desc "The cluster mongos/router instance"
+    desc 'The cluster mongos/router instance'
 
     newvalues(/^[^:]+:\d+$/)
 

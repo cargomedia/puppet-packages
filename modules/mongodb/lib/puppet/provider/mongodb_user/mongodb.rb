@@ -2,57 +2,73 @@ require 'puppet/provider/mongodb'
 
 Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::Mongodb do
 
-  desc "Manage users for a MongoDB database."
+  desc 'Manage users for a MongoDB database.'
 
   defaultfor :kernel => 'Linux'
 
   def create
-    roles = JSON.dump @resource[:roles]
-    mongo_command("db.createUser({user:\"#{@resource[:name]}\", pwd:\"#{@resource[:password_hash]}\", roles: #{roles}})", @resource[:router], @resource[:database])
+    password_hash = create_password_hash('puppet-mongodb', @resource[:password])
+    data = {
+        :user => @resource[:name],
+        :pwd => @resource[:password],
+        :roles => @resource[:roles],
+        :customData => {:puppetPasswordHash => password_hash}
+    }
+    mongo_command("db.createUser(#{JSON.dump data})", @resource[:router], @resource[:database])
   end
 
   def destroy
-    mongo_command("db.dropUser(\"#{@resource[:name]}\")", @resource[:router], @resource[:database])
+    mongo_command("db.dropUser(#{JSON.dump @resource[:name]})", @resource[:router], @resource[:database])
   end
 
   def exists?
     block_until_command
-    if !self.db_ismaster(@resource[:router])
-      warn ('Cannot add user on not primary/master member!')
-      return true
+    unless db_ismaster(@resource[:router])
+      raise Puppet::Error, 'Cannot add user on not primary/master member!'
     end
-    output = mongo_command("db.system.users.find({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"}).count()", @resource[:router], 'admin')
-    1 == output.to_i
+    !db_find_user.nil?
   end
 
-  def password_hash
-    if !self.db_ismaster(@resource[:router])
-      return @resource[:password_hash]
+  def password
+    password_hash_should = create_password_hash('puppet-mongodb', @resource[:password])
+    password_hash_is = db_find_user['customData']['puppetPasswordHash']
+    if password_hash_is == password_hash_should
+      @resource[:password]
+    else
+      @resource[:password] + 'change_me'
     end
-    user = mongo_command_json("db.system.users.findOne({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"})", @resource[:router], 'admin')
-    user['pwd']
   end
 
-  def password_hash=(value)
-    mongo_command("db.system.users.update({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"}, { $set: {pwd:\"#{value}\"}})", @resource[:router], 'admin')
+  def password=(value)
+    password_hash = create_password_hash('puppet-mongodb', value)
+    db_update_user({:pwd => value, :customData => {:puppetPasswordHash => password_hash}})
   end
 
   def roles
-    if !self.db_ismaster(@resource[:router])
-      return @resource[:roles]
-    end
-    user = mongo_command_json("db.getMongo().getDB('admin').getCollection('system.users').findOne({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"})", @resource[:router])
-    user['roles']
+    db_find_user['roles']
   end
 
   def roles=(value)
-    roles = JSON.dump @resource[:roles]
-    mongo_command("db.system.users.update({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"}, { $set: {roles: #{roles}}})", @resource[:router])
+    db_update_user({:roles => value})
   end
+
+  private
 
   def db_ismaster(host)
     status = mongo_command_json("db.isMaster()", host)
-    status['ismaster'] == true
+    status['ismaster']
+  end
+
+  def db_find_user
+    mongo_command_json("db.getUser(\"#{@resource[:name]}\")", @resource[:router], @resource[:database])
+  end
+
+  def db_update_user(data)
+    mongo_command("db.updateUser(#{JSON.dump @resource[:name]}, #{JSON.dump data})", @resource[:router], @resource[:database])
+  end
+
+  def create_password_hash(password, salt)
+    Digest::MD5.hexdigest("#{salt}:mongo:#{password}")
   end
 
 end

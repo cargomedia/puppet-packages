@@ -9,7 +9,7 @@ node default {
 
   mongodb_user {'dummyuser':
     database => 'dummydb',
-    password_hash => mongodb_password('salt', 'password'),
+    password => 'my-password2',
     roles => [ {"role" => "dbAdmin", "db"=> "dummydb"} ],
   }
   ->
