@@ -1,17 +1,17 @@
 Puppet::Type.newtype(:mongodb_database) do
-  @doc = "Manage MongoDB databases."
+  @doc = 'Manage MongoDB databases.'
 
   ensurable
 
   attr_accessor :shard
 
   newparam(:name, :namevar => true) do
-    desc "The name of the database."
+    desc 'The name of the database.'
     newvalues(/^\w+$/)
   end
 
   newparam(:router) do
-    desc "The cluster mongos/router instance"
+    desc 'The cluster mongos/router instance'
 
     newvalues(/^[^:]+:\d+$/)
 
@@ -23,9 +23,10 @@ Puppet::Type.newtype(:mongodb_database) do
     end
   end
 
-  newparam(:shard) do
-    desc "Enable sharding for database."
-    defaultto false
+  newproperty(:shard, :boolean => true) do
+    desc 'Enable sharding for database.'
+    newvalues(:true, :false)
+    defaultto :false
   end
 
 end
