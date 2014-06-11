@@ -25,7 +25,7 @@ Puppet::Type.type(:mongodb_shard).provide :mongodb, :parent => Puppet::Provider:
   end
 
   def sh_isshard(host, router)
-    output = mongo_command("db.shards.find(#{JSON.dump({:host => host})}).count()", router, 'config')
+    output = mongo_command("db.shards.find({\"host\": /#{host}/}).count()", router, 'config')
     output.to_i > 0
   end
 
