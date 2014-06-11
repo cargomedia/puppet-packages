@@ -24,13 +24,13 @@ Puppet::Type.type(:mongodb_shard).provide :mongodb, :parent => Puppet::Provider:
     sh_isshard(@resource[:name], @resource[:router])
   end
 
-  def sh_isshard(host, master)
-    output = self.mongo_command("db.shards.find({\"host\": /#{host}/}).count()", master, 'config')
+  def sh_isshard(host, router)
+    output = mongo_command_json("db.shards.find(#{JSON.dump({:host => host})}).count()", router, 'config')
     output.to_i > 0
   end
 
-  def sh_add(host, master)
-    output = self.mongo_command_json("sh.addShard(\"#{host}\")", master)
+  def sh_add(host, router)
+    output = self.mongo_command_json("sh.addShard(#{JSON.dump(host)})", router)
     if output['ok'] == 0
       raise Puppet::Error, "sh.addShard() failed for #{@resource[:name]}: #{output['errmsg']}"
     end
