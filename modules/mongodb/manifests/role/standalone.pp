@@ -3,7 +3,7 @@ class mongodb::role::standalone (
   $bind_ip = '0.0.0.0',
   $hostname = 'localhost',
   $rest = true,
-  $options = []
+  $options = {}
 ) {
 
   mongodb::core::mongod {'standalone':

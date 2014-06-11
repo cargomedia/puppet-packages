@@ -2,7 +2,7 @@ class mongodb::role::config (
   $port = 27019,
   $bind_ip = '0.0.0.0',
   $hostname = 'localhost',
-  $options = []
+  $options = {}
 ) {
 
   mongodb::core::mongod {'config':

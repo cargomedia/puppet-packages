@@ -31,9 +31,6 @@ port = <%= @port %>
 bind_ip = <%= @bind_ip %>
 <% end %>
 
-# Disables write-ahead journaling
-nojournal=<%= !@journal %>
-
 # Enables periodic logging of CPU utilization and I/O wait
 #cpu = true
 
@@ -90,6 +87,6 @@ replSet=<%= @repl_set %>
 # between replica set members
 #keyFile=/path/to/keyfile
 
-<% @options.each do |option| %>
-<%= option %>
+<% @options.each do |key, value| %>
+<%= key %>=<%= value %>
 <% end %>

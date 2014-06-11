@@ -34,8 +34,12 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
 
   def exists?
     members_all.each do |host|
-      status = mongo_command_json('rs.status()', host)
-      return true if 1 == status['ok'] and status['set'] == @resource[:name]
+      begin
+        status = mongo_command_json('rs.status()', host)
+        return true if 1 == status['ok'] and status['set'] == @resource[:name]
+      rescue Puppet::ExecutionFailure
+        next
+      end
     end
     return false
   end

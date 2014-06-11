@@ -3,7 +3,7 @@ define mongodb::core::mongos (
   $port = 27017,
   $bind_ip = undef,
   $fork = false,
-  $options = []
+  $options = {}
 ) {
 
   require 'mongodb'

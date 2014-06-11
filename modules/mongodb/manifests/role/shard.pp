@@ -6,7 +6,7 @@ class mongodb::role::shard (
   $repl_members = undef,
   $repl_arbiters = undef,
   $router,
-  $options = []
+  $options = {}
 ) {
 
   mongodb::core::mongod {'shard':

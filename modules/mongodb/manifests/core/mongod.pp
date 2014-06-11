@@ -6,8 +6,7 @@ define mongodb::core::mongod (
   $shard_server = false,
   $rest = false,
   $fork = false,
-  $journal = true,
-  $options = []
+  $options = {}
 ) {
 
   require 'mongodb'

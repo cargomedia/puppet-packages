@@ -3,7 +3,7 @@ class mongodb::role::router (
   $bind_ip = '0.0.0.0',
   $hostname = 'localhost',
   $config_servers,
-  $options = []
+  $options = {}
 ) {
 
   mongodb::core::mongos {'router':
