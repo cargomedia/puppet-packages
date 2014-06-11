@@ -6,8 +6,6 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
 
   defaultfor :kernel => 'Linux'
 
-  commands :mongo => 'mongo'
-
   def create
     if @resource[:name] == "#{@resource[:database]}.all"
       if @resource[:shard_enabled]
@@ -19,7 +17,7 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
         end
       end
     else
-      mongo(@resource[:database], '--quiet', '--host', @resource[:router], '--eval', "db.createCollection('#{@resource[:name]}')")
+      mongo_command("db.createCollection('#{@resource[:name]}')", @resource[:router], @resource[:database])
       if @resource[:shard_enabled]
         if !sh_issharded(@resource[:name], @resource[:database], @resource[:router])
           sh_shard(@resource[:name], @resource[:database], @resource[:shard_key], @resource[:router])
@@ -29,7 +27,7 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
   end
 
   def destroy
-    mongo(@resource[:database], '--quiet', '--host', @resource[:router], '--eval', "db.#{@resource[:name]}.drop()")
+    mongo_command("db.#{@resource[:name]}.drop()", @resource[:router], @resource[:database])
   end
 
   def exists?
@@ -39,8 +37,8 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
       return false
     end
 
-    col_exists = mongo('--quiet', '--host', @resource[:router],
-                       '--eval', "db.getMongo().getDB('#{@resource[:database]}').getCollectionNames()").split(",").include?(@resource[:name])
+    collection_names = db_collections(@resource[:database], @resource[:router])
+    col_exists = collection_names.include?(@resource[:name])
     if @resource[:ensure].to_s != 'absent' and @resource[:shard_enabled] and col_exists
       return sh_issharded(@resource[:name], @resource[:database], @resource[:router])
     end
@@ -48,19 +46,19 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
   end
 
   def db_collections(dbname, master)
-    self.mongo_command_json("db.getMongo().getDB('#{@resource[:database]}').getCollectionNames()", master)
+    mongo_command_json("db.getMongo().getDB('#{dbname}').getCollectionNames()", master)
   end
 
   def sh_shard(collection, dbname, key, master)
-    self.mongo_command_json("sh.shardCollection(\"#{dbname}.#{collection}\", {'#{key}': 1})", master)
+    mongo_command_json("sh.shardCollection(\"#{dbname}.#{collection}\", {'#{key}': 1})", master)
   end
 
   def sh_status(collection, dbname, master)
-    self.mongo_command_json("db.getMongo().getDB('#{dbname}').getCollection('#{collection}').stats()", master)
+    mongo_command_json("db.getMongo().getDB('#{dbname}').getCollection('#{collection}').stats()", master)
   end
 
   def sh_issharded(collection, dbname, master)
-    self.sh_status(collection, dbname, master)['sharded']
+    sh_status(collection, dbname, master)['sharded']
   end
 
 end

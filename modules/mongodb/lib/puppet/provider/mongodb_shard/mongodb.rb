@@ -6,8 +6,6 @@ Puppet::Type.type(:mongodb_shard).provide :mongodb, :parent => Puppet::Provider:
 
   defaultfor :kernel => 'Linux'
 
-  commands :mongo => 'mongo'
-
   def create
     repl_set = ''
     unless @resource[:repl_set].to_s.empty?

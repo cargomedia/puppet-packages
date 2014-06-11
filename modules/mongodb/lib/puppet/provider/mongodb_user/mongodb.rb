@@ -6,15 +6,13 @@ Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::
 
   defaultfor :kernel => 'Linux'
 
-  commands :mongo => 'mongo'
-
   def create
     roles = JSON.dump @resource[:roles]
-    mongo(@resource[:database], '--host', @resource[:router], '--eval', "db.createUser({user:\"#{@resource[:name]}\", pwd:\"#{@resource[:password_hash]}\", roles: #{roles}})")
+    mongo_command("db.createUser({user:\"#{@resource[:name]}\", pwd:\"#{@resource[:password_hash]}\", roles: #{roles}})", @resource[:router], @resource[:database])
   end
 
   def destroy
-    mongo(@resource[:database], '--quiet', '--host', @resource[:router], '--eval', "db.dropUser(\"#{@resource[:name]}\")")
+    mongo_command("db.dropUser(\"#{@resource[:name]}\")", @resource[:router], @resource[:database])
   end
 
   def exists?
@@ -23,35 +21,36 @@ Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::
       warn ('Cannot add user on not primary/master member!')
       return true
     end
-    mongo('admin', '--quiet', '--host', @resource[:router], '--eval', "db.system.users.find({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"}).count()").strip.eql?('1')
+    1 == mongo_command_json("db.system.users.find({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"}).count()", @resource[:router], 'admin')
   end
 
   def password_hash
     if !self.db_ismaster(@resource[:router])
       return @resource[:password_hash]
     end
-    mongo('admin', '--quiet', '--host', @resource[:router], '--eval', "db.system.users.findOne({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"})[\"pwd\"]").strip
+    user = mongo_command_json("db.system.users.findOne({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"})", @resource[:router], 'admin')
+    user['pwd']
   end
 
   def password_hash=(value)
-    mongo('admin', '--quiet', '--host', @resource[:router], '--eval', "db.system.users.update({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"}, { $set: {pwd:\"#{value}\"}})")
+    mongo_command("db.system.users.update({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"}, { $set: {pwd:\"#{value}\"}})", @resource[:router], 'admin')
   end
 
   def roles
     if !self.db_ismaster(@resource[:router])
       return @resource[:roles]
     end
-    user = self.mongo_command_json("db.getMongo().getDB('admin').getCollection('system.users').findOne({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"})", @resource[:router])
+    user = mongo_command_json("db.getMongo().getDB('admin').getCollection('system.users').findOne({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"})", @resource[:router])
     user['roles']
   end
 
   def roles=(value)
     roles = JSON.dump @resource[:roles]
-    mongo('admin', '--quiet', '--host', @resource[:router], '--eval', "db.system.users.update({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"}, { $set: {roles: #{roles}}})")
+    mongo_command("db.system.users.update({user:\"#{@resource[:name]}\", db: \"#{@resource[:database]}\"}, { $set: {roles: #{roles}}})", @resource[:router])
   end
 
   def db_ismaster(host)
-    status = self.mongo_command_json("db.isMaster()", host)
+    status = mongo_command_json("db.isMaster()", host)
     status['ismaster'] == true
   end
 

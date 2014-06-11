@@ -6,17 +6,15 @@ Puppet::Type.type(:mongodb_database).provide :mongodb, :parent => Puppet::Provid
 
   defaultfor :kernel => 'Linux'
 
-  commands :mongo => 'mongo'
-
   def create
-    mongo(@resource[:name], '--quiet', '--host', @resource[:router], '--eval', "db.dummyData.insert({\"created_by_puppet\": 1})")
+    mongo_command('db.dummyData.insert({"created_by_puppet": 1})', @resource[:router], @resource[:name])
     if @resource[:shard] and !self.sh_issharded(@resource[:name], @resource[:router])
       self.sh_enable(@resource[:name], @resource[:router])
     end
   end
 
   def destroy
-    mongo(@resource[:name], '--quiet', '--host', @resource[:router], '--eval', 'db.dropDatabase()')
+    mongo_command('db.dropDatabase()', @resource[:router], @resource[:name])
   end
 
   def exists?
@@ -26,7 +24,7 @@ Puppet::Type.type(:mongodb_database).provide :mongodb, :parent => Puppet::Provid
       return true
     end
 
-    db_exists = mongo('--quiet', '--host', @resource[:router], '--eval', 'db.getMongo().getDBNames()').split(",").include?(@resource[:name])
+    db_exists = mongo_command('db.getMongo().getDBNames()', @resource[:router]).split(",").include?(@resource[:name])
     if @resource[:ensure].to_s != 'absent' and @resource[:shard] and db_exists
       return self.sh_issharded(@resource[:name], @resource[:router])
     end
@@ -38,7 +36,7 @@ Puppet::Type.type(:mongodb_database).provide :mongodb, :parent => Puppet::Provid
   end
 
   def sh_issharded(dbname, master)
-    output = self.mongo('config', '--quiet', '--host', master, '--eval', "printjson(db.databases.find({\"_id\": \"#{dbname}\", \"partitioned\": true}).count())")
+    output = mongo_command_json("db.databases.find({\"_id\": \"#{dbname}\", \"partitioned\": true}.count()", master, 'config')
     1 == output.to_i
   end
 

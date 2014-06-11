@@ -4,8 +4,6 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
 
   desc "Manage hosts members for a replicaset."
 
-  commands :mongo => 'mongo'
-
   def create
     config_members = members_all_alive.each_with_index.map do |host, id|
       is_arbiter = @resource[:arbiters].include?(host)
