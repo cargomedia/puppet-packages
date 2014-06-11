@@ -5,6 +5,8 @@ Puppet::Type.newtype(:mongodb_shard) do
 
   newparam(:name, :namevar => true) do
     desc 'The name of the shard database.'
+
+    newvalues(/^[^:]+:\d+$/)
   end
 
   newparam(:repl_set) do
