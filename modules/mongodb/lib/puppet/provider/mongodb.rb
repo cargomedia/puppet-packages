@@ -10,19 +10,20 @@ class Puppet::Provider::Mongodb < Puppet::Provider
     block_until(check, tries)
   end
 
-  def block_until(check, tries = 10)
+  def block_until(check, seconds = 20)
+    delay = 2
     begin
       check.call
     rescue => e
       debug("MongoDB server not ready (#{e.message}), retrying...")
-      sleep 2
-      raise("Cannot connect to MongoDB router instance (#{e.message})") if (tries -= 1) <= 0
+      sleep delay
+      raise("Cannot connect to MongoDB router instance (#{e.message})") if (seconds -= delay) <= 0
       retry
     end
   end
 
-  def mongo_command_json(command, host, database = nil)
-    output = self.mongo_command(command, host, database)
+  def mongo_command_json(command, host, database = nil, options = {})
+    output = self.mongo_command(command, host, database, options)
 
     # Dirty hack to remove JavaScript objects
     output.gsub!(/ISODate\((.+?)\)/, '\1 ')
@@ -32,12 +33,18 @@ class Puppet::Provider::Mongodb < Puppet::Provider
     JSON.parse(output)
   end
 
-  def mongo_command(command, host, database = nil)
+  def mongo_command(command, host, database = nil, options = {})
+    defaults = {:skip_fail => false}
+    options = defaults.merge(options)
+
     args = ['--quiet', '--host', host, '--eval', "printjson(#{command})"]
     unless database.nil?
       args.unshift(database)
     end
-    self.mongo(*args)
+
+    command_options = {:failonfail => !options[:skip_fail], :combine => true, :custom_environment => {}}
+    command = Puppet::Provider::Command.new('mongo', 'mongo', Puppet::Util, Puppet::Util::Execution, command_options)
+    command.execute(*args)
   end
 
 end

@@ -33,8 +33,11 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
   end
 
   def exists?
-    # not enough, check if replica is initiated
-    !find_member_primary.nil?
+    members_all.each do |host|
+      status = mongo_command_json('rs.status()', host)
+      return true if 1 == status['ok'] and status['set'] == @resource[:name]
+    end
+    return false
   end
 
   def members
@@ -151,39 +154,40 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
     rs_add(host, master, true)
   end
 
-  def rs_remove(host, master)
-    if host == master
-      begin
-        block_until(lambda {
-          secondary = find_member_secondary
-          if secondary.nil?
-            raise "No secondary detected for replica `#{@resource[:name]}`"
-          end
-        })
+  def db_shutdown(host)
+    output = mongo_command('db.shutdownServer()', host, 'admin', {:skip_fail => true})
 
-        mongo_command('rs.stepDown(60)', host)
-        # "shutdownServer failed: no secondaries within 10 seconds of my optime"
-        mongo_command('db.shutdownServer({timeoutSecs : 30, force: 1})', host, 'admin')
+    unless output.include? 'server should be down'
+      raise Puppet::Error, "db.shutdownServer() failed for host #{host} in replicaset #{@resource[:name]}: #{output}"
+    end
+  end
 
-        block_until(lambda {
-          primary = find_member_primary()
-          if primary.nil? or primary == host
-            raise "No new primary detected for replica `#{@resource[:name]}`"
-          end
-          master = primary
-        })
-      rescue => e
-        raise Puppet::Error, "rs.stepDown() failed for host #{host} in replicaset #{@resource[:name]}: #{e.message}"
-      end
-    else
-      mongo_command('db.shutdownServer()', host, 'admin') if @resource[:members].include?(host)
+  def rs_step_down(host, seconds)
+    output = mongo_command("rs.stepDown(#{seconds})", host, nil, {:skip_fail => true})
+
+    unless output.include? 'DBClientCursor::init call() failed'
+      raise Puppet::Error, "rs.stepDown() failed for host #{host} in replicaset #{@resource[:name]}: #{output}"
+    end
+  end
+
+  def rs_remove(host, primary)
+    if host == primary
+      rs_step_down(host, 60)
+
+      block_until(lambda {
+        primary_new = find_member_primary
+        if primary_new.nil? or primary_new == host
+          raise "No new primary detected for replica `#{@resource[:name]}` - #{rs_status(host)}"
+        end
+        primary = primary_new
+      }, 60)
     end
 
-    begin
-      output = mongo_command_json("rs.remove(#{JSON.dump host})", master)
-      raise Puppet::Error, "rs.remove() failed for host #{host} in replicaset #{@resource[:name]}: #{output['errmsg']}"
-    rescue
-      # all went good. mongo client should be disconnected!
+    db_shutdown(host)
+
+    output = mongo_command("rs.remove(#{JSON.dump host})", primary, nil, {:skip_fail => true})
+    unless output.include? 'DBClientCursor::init call() failed'
+      raise Puppet::Error, "rs.remove() failed for host #{host} in replicaset #{@resource[:name]}: #{output}"
     end
   end
 
