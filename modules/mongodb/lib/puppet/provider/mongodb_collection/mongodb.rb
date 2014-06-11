@@ -31,6 +31,7 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
   end
 
   def exists?
+    # @todo loop over all collections
     block_until_command
 
     if @resource[:name] == "#{@resource[:database]}.all"
