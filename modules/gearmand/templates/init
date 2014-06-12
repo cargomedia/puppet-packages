@@ -16,7 +16,7 @@ DAEMON_USER=gearman
 PIDDIR=/var/run/gearman-job-server
 PIDFILE=${PIDDIR}/gearman-job-server.pid
 LOGDIR=/var/log/gearman-job-server
-DAEMON_ARGS="--pid-file=${PIDFILE} --user=${DAEMON_USER} --daemon --log-file=${LOGDIR}/gearman.log"
+DAEMON_ARGS="--pid-file=${PIDFILE} --user=${DAEMON_USER} --daemon --log-file=${LOGDIR}/gearman.log <%=@daemon_args %>"
 
 test -x ${DAEMON} || exit 0
 set -e

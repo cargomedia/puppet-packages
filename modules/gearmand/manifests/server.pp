@@ -1,9 +1,17 @@
-class gearmand::server {
+class gearmand::server(
+  $persistence = 'none'
+) {
 
   require 'gearmand'
 
   user {'gearman':
     ensure => present,
+  }
+
+  case $persistence {
+    none:    { $daemon_args = '' }
+    sqlite3: { $daemon_args = '-q libsqlite3 --libsqlite3-db=${LOGDIR}/gearman-persist.sqlite3' }
+    default: { fail('Only sqlite3-based persistent queues supported right now') }
   }
 
   file {'/etc/init.d/gearman-job-server':
