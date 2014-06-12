@@ -3,7 +3,7 @@ class gearmand ($version = '1.1.2', $series = '1.2') {
   require 'build'
 
   if $::lsbdistcodename == 'wheezy' {
-    package {['libboost-all-dev', 'libevent-dev', 'libcloog-ppl0']:
+    package {['libboost-all-dev', 'libevent-dev', 'libcloog-ppl0', 'libsqlite3-dev']:
       ensure => present,
       before => Helper::Script['install gearman'],
     }
