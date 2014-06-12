@@ -2,7 +2,7 @@ require 'puppet/provider/mongodb'
 
 Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Provider::Mongodb do
 
-  desc "Manages MongoDB collections."
+  desc 'Manages MongoDB collections.'
 
   defaultfor :kernel => 'Linux'
 
@@ -21,13 +21,13 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
   end
 
   def shard_enabled
-    issharded = sh_issharded(@resource[:name], @resource[:database], @resource[:router])
+    issharded = db_collection_sharded?(@resource[:name], @resource[:database], @resource[:router])
     issharded ? :true : :false
   end
 
   def shard_enabled=(value)
     if :true == value
-      sh_shard(@resource[:name], @resource[:database], @resource[:shard_key], @resource[:router])
+      sh_shard_collection(@resource[:name], @resource[:database], @resource[:shard_key], @resource[:router])
     else
       raise Puppet::Error, "Cannot disable sharding for collection `#{@resource[:name]}`"
     end
@@ -39,19 +39,19 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
     mongo_command_json("db.getMongo().getDB('#{dbname}').getCollectionNames()", master)
   end
 
-  def sh_shard(collection, dbname, key, master)
+  def db_collection_stats(collection, dbname, master)
+    mongo_command_json("db.getMongo().getDB('#{dbname}').getCollection('#{collection}').stats()", master)
+  end
+
+  def db_collection_sharded?(collection, dbname, master)
+    db_collection_stats(collection, dbname, master)['sharded']
+  end
+
+  def sh_shard_collection(collection, dbname, key, master)
     output = mongo_command_json("sh.shardCollection(\"#{dbname}.#{collection}\", {'#{key}': 1})", master)
     if output['ok'] == 0
       raise Puppet::Error, "sh.shardCollection() failed for #{dbname}.#{collection}: #{output['errmsg']}"
     end
-  end
-
-  def sh_status(collection, dbname, master)
-    mongo_command_json("db.getMongo().getDB('#{dbname}').getCollection('#{collection}').stats()", master)
-  end
-
-  def sh_issharded(collection, dbname, master)
-    sh_status(collection, dbname, master)['sharded']
   end
 
 end
