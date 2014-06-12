@@ -1,7 +1,7 @@
 node default {
 
   class {'lvm::install':
-    physicalDevice => '/dev/sda5',
+    physicalDevice => '/dev/sdb',
     volumeGroupName => 'vg01',
     logicalVolumeName => 'storage01',
     logicalVolumeSize => '50%',
@@ -14,6 +14,6 @@ node default {
     configuration => '*(rw,async,no_root_squash,no_subtree_check,fsid=1)',
     owner => 'nobody',
     group => 'nogroup',
-    permissions => '747'
+    permissions => '707'
   }
 }
