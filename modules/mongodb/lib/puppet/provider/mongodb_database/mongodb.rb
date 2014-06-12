@@ -11,7 +11,7 @@ Puppet::Type.type(:mongodb_database).provide :mongodb, :parent => Puppet::Provid
   end
 
   def destroy
-    mongo_command('db.dropDatabase()', @resource[:router], @resource[:name])
+    raise Puppet::Error, 'Not implemented'
   end
 
   def exists?
