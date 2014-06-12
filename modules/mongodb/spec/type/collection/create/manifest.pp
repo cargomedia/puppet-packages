@@ -12,11 +12,6 @@ node default {
   }
   ->
 
-  mongodb_database {'testdb':
-    ensure => present,
-  }
-  ->
-
   mongodb_collection {'mycollection':
     ensure => present,
     database => 'testdb',
