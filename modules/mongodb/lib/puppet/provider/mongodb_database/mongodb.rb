@@ -8,6 +8,9 @@ Puppet::Type.type(:mongodb_database).provide :mongodb, :parent => Puppet::Provid
 
   def create
     mongo_command('db.dummyData.insert({"created_by_puppet": 1})', @resource[:router], @resource[:name])
+    if :true == resource.should(:shard)
+      sh_enable(@resource[:name], @resource[:router])
+    end
   end
 
   def destroy
