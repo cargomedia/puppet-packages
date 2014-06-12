@@ -23,3 +23,7 @@ end
 describe file('/etc/monit/conf.d/alert') do
   its(:content) { should match /set alert/ }
 end
+
+describe process("monit") do
+  it { should be_running }
+end
