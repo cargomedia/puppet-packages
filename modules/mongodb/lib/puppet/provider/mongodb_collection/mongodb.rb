@@ -8,7 +8,7 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
 
   def create
     mongo_command("db.createCollection('#{@resource[:name]}')", @resource[:router], @resource[:database])
-    if :true == resource.should(:shard_enabled)
+    if :true == resource.should(:shard)
       sh_shard_collection(@resource[:name], @resource[:database], @resource[:shard_key], @resource[:router])
     end
   end
@@ -23,13 +23,12 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
     collection_names.include?(@resource[:name])
   end
 
-  def shard_enabled
-    # @todo rename to "shard"
+  def shard
     issharded = db_collection_sharded?(@resource[:name], @resource[:database], @resource[:router])
     issharded ? :true : :false
   end
 
-  def shard_enabled=(value)
+  def shard=(value)
     if :true == value
       sh_shard_collection(@resource[:name], @resource[:database], @resource[:shard_key], @resource[:router])
     else

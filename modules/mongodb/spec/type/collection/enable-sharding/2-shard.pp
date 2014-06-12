@@ -2,7 +2,7 @@ node default {
 
   mongodb_collection {'mycollection':
     ensure => present,
-    shard_enabled => true,
+    shard => true,
     shard_key => '_id',
     database => 'testdb',
     router => 'localhost:27017'

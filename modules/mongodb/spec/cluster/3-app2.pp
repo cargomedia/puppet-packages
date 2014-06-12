@@ -24,7 +24,7 @@ node default {
   mongodb_collection {'bar':
     ensure => present,
     database => 'dummydb',
-    shard_enabled => true,
+    shard => true,
     shard_key => '_id',
     router => 'localhost:27017'
   }

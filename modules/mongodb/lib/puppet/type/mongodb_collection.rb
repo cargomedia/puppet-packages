@@ -12,7 +12,7 @@ Puppet::Type.newtype(:mongodb_collection) do
     desc 'The database where collection belongs to'
   end
 
-  newproperty(:shard_enabled, :boolean => true) do
+  newproperty(:shard, :boolean => true) do
     desc 'Enabled sharding for collection(s) in database'
     newvalues(:true, :false)
     defaultto :false
@@ -29,7 +29,7 @@ Puppet::Type.newtype(:mongodb_collection) do
     newvalues(/^[^:]+:\d+$/)
 
     defaultto do
-      if :true == @resource[:shard_enabled]
+      if :true == @resource[:shard]
         fail("Property 'router' must be set to enable and setup sharding for collections")
       end
       'localhost:27017'
