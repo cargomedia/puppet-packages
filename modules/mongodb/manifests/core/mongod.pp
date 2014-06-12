@@ -49,6 +49,7 @@ define mongodb::core::mongod (
     command => "while ! (mongo --quiet --port ${port} --eval 'db.getMongo()'); do sleep 0.5; done",
     provider => shell,
     timeout => 60,
+    refreshonly => true,
   }
 
   service {$instance_name:
