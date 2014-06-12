@@ -1,16 +1,16 @@
 class Puppet::Provider::Mongodb < Puppet::Provider
 
-  def block_until_command(host = @resource[:router], tries = 10, command = '{}')
+  def block_until_command(host = @resource[:router], seconds = 30, command = '{}')
     check = lambda {
       data = self.mongo_command_json(command, host)
       if data.has_key?('ok') and data['ok'] == 0
         raise("Result's `ok` is `#{data['ok']}`")
       end
     }
-    block_until(check, tries)
+    block_until(check, seconds)
   end
 
-  def block_until(check, seconds = 20)
+  def block_until(check, seconds = 30)
     delay = 2
     begin
       check.call
