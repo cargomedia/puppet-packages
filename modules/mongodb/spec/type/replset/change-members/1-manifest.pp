@@ -23,13 +23,6 @@ node default {
   }
   ->
 
-  exec {'wait for mongodb':
-    command => 'for port in 27001 27002 27003 27004 27005; do while ! (mongo --quiet --host localhost:${port} --eval \'db.getMongo()\'); do sleep 0.5; done; done;',
-    provider => shell,
-    timeout => 30,
-  }
-  ->
-
   mongodb_replset {'my-repl':
     ensure => present,
     members => ['localhost:27001', 'localhost:27002'],

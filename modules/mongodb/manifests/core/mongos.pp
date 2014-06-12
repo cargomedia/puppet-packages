@@ -34,6 +34,13 @@ define mongodb::core::mongos (
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
+  ~>
+
+  exec {"wait for ${instance_name} up":
+    command => "while ! (mongo --quiet --port ${port} --eval 'db.getMongo()'); do sleep 0.5; done",
+    provider => shell,
+    timeout => 60,
+  }
 
   service {$instance_name:
     enable => true,
