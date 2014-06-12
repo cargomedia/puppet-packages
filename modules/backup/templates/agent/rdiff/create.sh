@@ -1,8 +1,6 @@
 #!/bin/bash -e
 
-err_msg() { echo "Non-zero exit in ${1} - line ${2}: ${3}"; }
-
-trap 'if (test ${?} -gt 0); then err_msg ${0} ${LINENO} ${BASH_COMMAND}; fi' EXIT
+trap 'if (test ${?} -gt 0); then echo "Non-zero exit in ${0} - line ${LINENO}: ${BASH_COMMAND}"; fi' ERR EXIT
 
 usage() { echo "Usage: $0 -h <host> -s <source> -d <destination> -o <rdiff-options> -t <mysql|lvm>" 1>&2; exit 1; }
 
