@@ -1,5 +1,7 @@
 #!/bin/bash -e
 
+trap 'if (test ${?} -gt 0); then echo "Non-zero exit in ${0} - line ${LINENO}: ${BASH_COMMAND}"; fi' ERR EXIT
+
 usage() { echo "Usage: $0 -h <host> -s <source> -d <destination> -o <rdiff-options> -t <mysql|lvm>" 1>&2; exit 1; }
 
 while getopts "h:s:d:o:t:" o; do
