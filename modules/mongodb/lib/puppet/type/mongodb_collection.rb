@@ -5,7 +5,7 @@ Puppet::Type.newtype(:mongodb_collection) do
 
   newparam(:name, :namevar=>true) do
     desc 'The name of the collection.'
-    newvalues(/^\w+\.?\w+$/)
+    newvalues(/^.+$/)
   end
 
   newparam(:database) do
