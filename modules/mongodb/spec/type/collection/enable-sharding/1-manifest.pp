@@ -25,17 +25,8 @@ node default {
   }
   ->
 
-  mongodb_database {'testdb':
-    ensure => present,
-    shard => true,
-    router => 'localhost:27017',
-  }
-  ->
-
   mongodb_collection {'mycollection':
     ensure => present,
-    shard_enabled => true,
-    shard_key => '_id',
     database => 'testdb',
     router => 'localhost:27017'
   }
