@@ -8,6 +8,9 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
 
   def create
     mongo_command("db.createCollection('#{@resource[:name]}')", @resource[:router], @resource[:database])
+    if :true == resource.should(:shard_enabled)
+      sh_shard_collection(@resource[:name], @resource[:database], @resource[:shard_key], @resource[:router])
+    end
   end
 
   def destroy
@@ -21,6 +24,7 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
   end
 
   def shard_enabled
+    # @todo rename to "shard"
     issharded = db_collection_sharded?(@resource[:name], @resource[:database], @resource[:router])
     issharded ? :true : :false
   end

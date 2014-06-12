@@ -19,7 +19,6 @@ node default {
   }
   ->
 
-
   exec {'wait for router server up':
     command => 'while ! (mongo --quiet --host localhost:27017 --eval \'db.getMongo()\'); do sleep 0.5; done',
     provider => shell,
@@ -33,8 +32,15 @@ node default {
   }
   ->
 
+  mongodb_database {'testdb':
+    ensure => present,
+    shard => true,
+    router => 'localhost:27017',
+  }
+
   mongodb_collection {'mycollection':
     ensure => present,
+    shard_enabled => true,
     database => 'testdb',
     router => 'localhost:27017'
   }
