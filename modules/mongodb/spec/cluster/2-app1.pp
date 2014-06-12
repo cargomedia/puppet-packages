@@ -21,7 +21,7 @@ node default {
   }
   ->
 
-  mongodb_collection {'testdb.all':
+  mongodb_collection {'bar':
     ensure => present,
     database => 'testdb',
     shard_enabled => true,

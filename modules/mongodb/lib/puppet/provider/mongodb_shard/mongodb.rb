@@ -24,6 +24,8 @@ Puppet::Type.type(:mongodb_shard).provide :mongodb, :parent => Puppet::Provider:
     sh_isshard(@resource[:name], @resource[:router])
   end
 
+  private
+
   def sh_isshard(host, router)
     output = mongo_command("db.shards.find({\"host\": /#{host}/}).count()", router, 'config')
     output.to_i > 0

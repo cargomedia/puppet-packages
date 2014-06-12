@@ -35,10 +35,6 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
 
   private
 
-  def db_collections(dbname, master)
-    mongo_command_json("db.getMongo().getDB('#{dbname}').getCollectionNames()", master)
-  end
-
   def sh_shard(collection, dbname, key, master)
     output = mongo_command_json("sh.shardCollection(\"#{dbname}.#{collection}\", {'#{key}': 1})", master)
     if output['ok'] == 0
