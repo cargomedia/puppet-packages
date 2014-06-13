@@ -19,7 +19,7 @@ Puppet::Type.type(:mongodb_database).provide :mongodb, :parent => Puppet::Provid
 
   def exists?
     block_until_command
-    unless db_ismaster(@resource[:router])
+    unless db_ismaster_info(@resource[:router])['ismaster']
       raise Puppet::Error, "Cannot add database `#{@resource[:name]}` on non-primary `#{@resource[:router]}`"
     end
 
@@ -50,9 +50,8 @@ Puppet::Type.type(:mongodb_database).provide :mongodb, :parent => Puppet::Provid
     1 == output.to_i
   end
 
-  def db_ismaster(host)
-    status = mongo_command_json('db.isMaster()', host)
-    status['ismaster']
+  def db_ismaster_info(host)
+    mongo_command_json('db.isMaster()', host)
   end
 
 end

@@ -14,18 +14,15 @@ Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::
         :roles => @resource[:roles],
         :customData => {:puppetPasswordHash => password_hash}
     }
-    mongo_command("db.createUser(#{JSON.dump data})", @resource[:router], @resource[:database])
+    mongo_command("db.createUser(#{JSON.dump data})", find_master, @resource[:database])
   end
 
   def destroy
-    mongo_command("db.dropUser(#{JSON.dump @resource[:name]})", @resource[:router], @resource[:database])
+    mongo_command("db.dropUser(#{JSON.dump @resource[:name]})", find_master, @resource[:database])
   end
 
   def exists?
     block_until_command
-    unless db_ismaster(@resource[:router])
-      raise Puppet::Error, 'Cannot add user on not primary/master member!'
-    end
     !db_find_user.nil?
   end
 
@@ -54,17 +51,28 @@ Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::
 
   private
 
-  def db_ismaster(host)
-    status = mongo_command_json("db.isMaster()", host)
-    status['ismaster']
+  def find_master
+    host = @resource[:router]
+    ismaster_info = db_ismaster_info(host)
+    unless ismaster_info['ismaster']
+      unless ismaster_info.has_key?('primary')
+        raise Puppet::Error, "Cannot detect primary on `#{host}` to create user `#{@resource[:name]}`."
+      end
+      host = ismaster_info['primary']
+    end
+    host
+  end
+
+  def db_ismaster_info(host)
+    mongo_command_json('db.isMaster()', host)
   end
 
   def db_find_user
-    mongo_command_json("db.getUser(\"#{@resource[:name]}\")", @resource[:router], @resource[:database])
+    mongo_command_json("db.getUser(\"#{@resource[:name]}\")", find_master, @resource[:database])
   end
 
   def db_update_user(data)
-    mongo_command("db.updateUser(#{JSON.dump @resource[:name]}, #{JSON.dump data})", @resource[:router], @resource[:database])
+    mongo_command("db.updateUser(#{JSON.dump @resource[:name]}, #{JSON.dump data})", find_master, @resource[:database])
   end
 
   def create_password_hash(password, salt)
