@@ -1,8 +1,9 @@
 class mongodb::role::standalone (
   $port = 27017,
-  $bind_ip = undef,
+  $bind_ip = '0.0.0.0',
+  $hostname = 'localhost',
   $rest = true,
-  $options = []
+  $options = {}
 ) {
 
   mongodb::core::mongod {'standalone':
