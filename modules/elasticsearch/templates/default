@@ -2,8 +2,9 @@
 ES_USER=elasticsearch
 ES_GROUP=elasticsearch
 
-# Heap Size (defaults to 256m min, 1g max)
-ES_HEAP_SIZE=<%= @heap_size %>
+# Heap Size
+ES_MIN_MEM=<%= @heap_size_min %>
+ES_MAX_MEM=<%= @heap_size_max %>
 
 # Heap new generation
 #ES_HEAP_NEWSIZE=
