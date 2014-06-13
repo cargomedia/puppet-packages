@@ -2,22 +2,20 @@
 
 ### BEGIN INIT INFO
 # Provides:          gearman-job-server
-# Required-Start:    $network $remote_fs $syslog
-# Required-Stop:     $network $remote_fs $syslog
+# Required-Start:    $network $local_fs $syslog
+# Required-Stop:     $network $local_fs $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: Starts the gearman-job-server
 ### END INIT INFO
 
 NAME=gearman-job-server
+CONFFILE=<%= @confdir %>/<%= @conffile %>
 DESC=gearman-job-server
 DAEMON=/usr/local/sbin/gearmand
-DAEMON_USER=gearman
-PIDDIR=/var/run/gearman-job-server
-PIDFILE=${PIDDIR}/gearman-job-server.pid
-LOGDIR=/var/log/gearman-job-server
-CONFFILE=/etc/gearmand/gearmand.conf
-DAEMON_ARGS="--pid-file=${PIDFILE} --user=${DAEMON_USER} --daemon --log-file=${LOGDIR}/gearman.log <%=@daemon_args %>"
+DAEMON_USER=<%= @username %>
+PIDFILE=<%= @piddir %>/gearman-job-server.pid
+DAEMON_ARGS="--config-file=${CONFFILE} --pid-file=${PIDFILE}"
 
 test -x ${DAEMON} || exit 0
 set -e
@@ -27,8 +25,6 @@ set -e
 case "${1}" in
 	start)
 		log_daemon_msg "Starting ${DESC}" "${NAME}"
-		mkdir -p ${LOGDIR} ${PIDDIR}
-		chown ${DAEMON_USER} ${LOGDIR} ${PIDDIR}
 		if (start-stop-daemon --start --exec $DAEMON -- $DAEMON_ARGS); then
 			log_end_msg 0
 		else
