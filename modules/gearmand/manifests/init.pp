@@ -29,7 +29,6 @@ class gearmand (
     ensure => present,
     system => true,
   }
-  ~>
 
   file {[$logdir,$piddir,$confdir]:
     ensure => directory,
