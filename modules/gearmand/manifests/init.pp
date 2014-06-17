@@ -27,6 +27,7 @@ class gearmand (
 
   user {$username:
     ensure => present,
+    system => true,
   }
   ~>
 
