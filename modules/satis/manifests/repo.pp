@@ -14,7 +14,7 @@ define satis::repo ($content) {
   ~>
 
   exec {"create satis repo ${name}":
-    command => "/var/lib/satis/satis/bin/satis --no-interaction build --no-html-output ${specificationPath} ${outputPath}",
+    command => "/var/lib/satis/satis/bin/satis --no-interaction build ${specificationPath} ${outputPath}",
     refreshonly => true,
     cwd => '/var/lib/satis',
     user => 'satis',
@@ -23,7 +23,7 @@ define satis::repo ($content) {
   ->
 
   cron {"cron satis repo ${name}":
-    command => "/var/lib/satis/satis/bin/satis --no-interaction --quiet build --no-html-output ${specificationPath} ${outputPath}",
+    command => "/var/lib/satis/satis/bin/satis --no-interaction --quiet build ${specificationPath} ${outputPath}",
     user    => 'satis',
   }
 }
