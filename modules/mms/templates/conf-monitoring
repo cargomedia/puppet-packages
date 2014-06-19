@@ -66,7 +66,7 @@ disableGetLogsDataCollection=false
 disableLocksAndRecordStatsDataCollection=false
 
 # Set to False if you have no plans to use munin (saves one thread per server)
-enableMunin=true
+enableMunin=false
 
 #
 # You must be running a mongod process with built in SSL support. If
