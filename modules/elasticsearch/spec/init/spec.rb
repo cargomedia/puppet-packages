@@ -5,7 +5,8 @@ describe package('elasticsearch') do
 end
 
 describe file('/etc/default/elasticsearch') do
-  its(:content) { should match 'ES_HEAP_SIZE=512m' }
+  its(:content) { should match 'ES_MIN_MEM=512m' }
+  its(:content) { should match 'ES_MAX_MEM=1g' }
 end
 
 describe file('/etc/elasticsearch/elasticsearch.yml') do

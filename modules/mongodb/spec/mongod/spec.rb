@@ -1,10 +1,5 @@
 require 'spec_helper'
 
-# just waiting for mongod start up
-describe command('sleep 15') do
-  it { should return_exit_status 0 }
-end
-
 describe package('mongodb-org-server') do
   it { should be_installed.by('apt') }
 end

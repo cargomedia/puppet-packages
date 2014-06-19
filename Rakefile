@@ -6,7 +6,7 @@ require 'pathname'
 PuppetLint.configuration.send('disable_arrow_alignment')
 PuppetLint.configuration.send('disable_80chars')
 PuppetLint.configuration.send('disable_documentation')
-PuppetLint.configuration.ignore_paths = ["**/templates/**/*.pp"]
+PuppetLint.configuration.ignore_paths = ["**/templates/**/*.pp", "vendor/**/*.pp"]
 
 RSpec::Core::RakeTask.new(:test) do |t|
   t.pattern = 'modules/*/spec/*/spec.rb'
