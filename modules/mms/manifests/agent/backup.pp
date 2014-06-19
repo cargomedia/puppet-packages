@@ -11,7 +11,7 @@ class mms::agent::backup (
 
   helper::script {'install-mms-backup':
     content => template('mms/install.sh'),
-    unless => "test -x /usr/bin/${agent_name}",
+    unless => "(test -x /usr/bin/mongodb-${agent_name}-agent) && (/usr/bin/mongodb-${agent_name}-agent -version | grep -q ${version})",
   }
   ->
 

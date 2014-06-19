@@ -14,7 +14,7 @@ class mms::agent::monitoring (
 
   helper::script {'install-mms-monitoring':
     content => template('mms/install.sh'),
-    unless => "test -x /usr/bin/${agent_name}",
+    unless => "test -x /usr/bin/mongodb-${agent_name}-agent",
   }
   ->
 
