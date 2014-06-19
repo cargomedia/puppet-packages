@@ -1,19 +1,19 @@
-class mongodb::mms::monitoring (
+class mms::agent::monitoring (
   $version = '2.1.0.35',
-  $api_key = undef,
-  $auth_username = '',
-  $auth_password = '',
+  $api_key,
+  $auth_username = undef,
+  $auth_password = undef,
   $concurrency = 4,
   $mms_server = 'https://mms.mongodb.com'
 ){
 
-  require 'mongodb::mms'
+  require 'mms'
 
-  $agent_name = "mongodb-mms-monitoring-agent"
+  $agent_name = "mms-monitoring"
   $daemon_args = "-conf /etc/mongodb-mms/monitoring-agent.config -concurrency=${concurrency}"
 
   helper::script {'install-mms-monitoring':
-    content => template('mongodb/mms/install.sh'),
+    content => template('mms/install.sh'),
     unless => "test -x /usr/bin/${agent_name}",
   }
   ->
@@ -21,7 +21,7 @@ class mongodb::mms::monitoring (
   file {
     '/etc/mongodb-mms/monitoring-agent.config':
       ensure => file,
-      content=>template('mongodb/mms/conf-monitoring'),
+      content => template('mms/conf-monitoring'),
       owner => '0',
       group => '0',
       mode => '0644',
@@ -30,7 +30,7 @@ class mongodb::mms::monitoring (
 
     "/etc/init.d/${agent_name}":
       ensure => file,
-      content=>template('mongodb/mms/init'),
+      content => template('mms/init'),
       owner => '0',
       group => '0',
       mode => '0755',
@@ -47,7 +47,7 @@ class mongodb::mms::monitoring (
   }
 
   @monit::entry {'mms-monitoring':
-    content => template('mongodb/mms/monit'),
+    content => template('mms/monit'),
   }
 
 }

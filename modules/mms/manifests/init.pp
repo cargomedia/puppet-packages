@@ -1,4 +1,4 @@
-class mongodb::mms (
+class mms (
   $apikey_backup = undef,
   $apikey_monitoring = undef
 ) {
@@ -13,13 +13,13 @@ class mongodb::mms (
   }
 
   if $apikey_backup {
-    class {'mongodb::mms::backup':
+    class {'mms::agent::backup':
       api_key => $apikey_backup
     }
   }
 
   if $apikey_monitoring {
-    class {'mongodb::mms::monitoring':
+    class {'mms::agent::monitoring':
       api_key => $apikey_monitoring
     }
   }
