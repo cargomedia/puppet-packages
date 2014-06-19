@@ -9,7 +9,7 @@ class mms::agent::monitoring (
 
   require 'mms'
 
-  $agent_name = "mms-monitoring"
+  $agent_name = 'mms-monitoring'
   $daemon_args = "-conf /etc/mongodb-mms/monitoring-agent.config -concurrency=${concurrency}"
 
   helper::script {'install-mms-monitoring':
