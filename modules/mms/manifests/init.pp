@@ -4,6 +4,7 @@ class mms (
 
   user {'mongodb-mms-agent':
     ensure => present,
+    system => true,
   }
 
   file {'/var/run/mongodb-mms':
