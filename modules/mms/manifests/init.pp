@@ -1,6 +1,5 @@
 class mms (
-  $apikey_backup = undef,
-  $apikey_monitoring = undef
+  $api_key = undef
 ) {
 
   user {'mongodb-mms-agent':
@@ -12,15 +11,13 @@ class mms (
     require => User['mongodb-mms-agent']
   }
 
-  if $apikey_backup {
+  if $api_key {
     class {'mms::agent::backup':
-      api_key => $apikey_backup
+      api_key => $api_key
     }
-  }
 
-  if $apikey_monitoring {
     class {'mms::agent::monitoring':
-      api_key => $apikey_monitoring
+      api_key => $api_key
     }
   }
 }
