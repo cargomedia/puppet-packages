@@ -37,6 +37,7 @@ class mms::agent::backup (
   ->
 
   service {$agent_name:
+    hasrestart => true
   }
   ->
 

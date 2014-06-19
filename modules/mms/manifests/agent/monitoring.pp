@@ -40,6 +40,7 @@ class mms::agent::monitoring (
   ->
 
   service {$agent_name:
+    hasrestart => true
   }
   ->
 
