@@ -1,6 +1,6 @@
 node default {
 
-  class {'mongodb::mms::monitoring':
+  class {'mms::agent::backup':
     api_key => 'test-key'
   }
 }
