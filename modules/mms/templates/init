@@ -12,7 +12,7 @@
 
 NAME=<%= @agent_name %>
 DESC=<%= @agent_name %>
-DAEMON=/usr/bin/<%= @agent_name %>
+DAEMON=/usr/bin/mongodb-<%= @agent_name %>-agent
 PIDFILE=/var/run/<%= @agent_name %>.pid
 DAEMON_ARGS="<%= @daemon_args %>"
 USER=mongodb-mms-agent
