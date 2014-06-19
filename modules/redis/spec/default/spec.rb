@@ -6,7 +6,7 @@ end
 
 describe command('sysctl vm.overcommit_memory') do
   it { should return_exit_status 0 }
-  its(:stdout) { should match /vm.overcommit_memory = 0/ }
+  its(:stdout) { should match /vm.overcommit_memory = 1/ }
 end
 
 describe command('monit summary') do

@@ -17,12 +17,10 @@ class redis {
   }
   ->
 
-  file {'/etc/sysctl.d/redis.conf':
-    ensure => file,
-    content => template('redis/sysctl.d/redis.conf'),
-    owner => '0',
-    group => '0',
-    mode => '0644',
+  sysctl::entry {'redis':
+    entries => {
+      'vm.overcommit_memory' => '1',
+    },
   }
   ->
 
