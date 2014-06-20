@@ -6,6 +6,7 @@ class ntp {
 
   service {'ntp':
     hasrestart => true,
+    require => Package['ntp'],
   }
 
   @monit::entry {'ntp':
