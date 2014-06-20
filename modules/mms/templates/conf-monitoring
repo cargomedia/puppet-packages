@@ -1,0 +1,107 @@
+#
+# Required
+# Enter your API key  - See: https://mms.mongodb.com/settings
+#
+mmsApiKey=<%=@api_key%>
+
+#
+# Hostname of the MMS monitoring web server.
+#
+mmsBaseUrl=<%=@mms_server%>
+
+#
+# The global authentication credentials to be used by the agent.
+#
+# The user must be created on the "admin" database.
+#
+# If the global username/password is set then all hosts monitored by the
+# agent *must* use the same username password.
+#
+# Example usage:
+#
+# globalAuthUsername=yourAdminUser
+# globalAuthPassword=yourAdminPassword
+#
+# For more information about MongoDB authentication, see:
+#
+# http://www.mongodb.org/display/DOCS/Security+and+Authentication
+#
+#
+globalAuthUsername=<%=@auth_username%>
+globalAuthPassword=<%=@auth_password%>
+
+#
+# Ability to capture mongoS database and collection config information. Defaults to true.
+#
+configCollectionsEnabled=true
+configDatabasesEnabled=true
+
+#
+# Definitions for throttling particularly heavy-weight stats.
+# Value means "collect once every Nth passes".
+#
+throttlePassesShardChunkCounts = 10
+throttlePassesDbstats = 20
+throttlePassesOplog = 10
+
+#
+# Experimental: support for periodically capturing workingSet. Defaults to disabled.
+#
+#throttlePassesWorkingSet = 30
+#workingSetEnabled = true
+
+#
+# Ability to disable getLogs and profile data collection in the agent. This overrides
+# the server configuration. Set these fields to True if you can NEVER allow profile or log data
+# to be relayed to the central MMS servers.
+#
+disableProfileDataCollection=false
+disableGetLogsDataCollection=false
+
+#
+# Ability to disable the retrieval of the locks and recordStats information from
+# within a db.serverStatus call. This may be necessary for performance optimization in
+# deployments with thousands of databases. Only valid for MongoDB 2.4+
+#
+disableLocksAndRecordStatsDataCollection=false
+
+# Set to False if you have no plans to use munin (saves one thread per server)
+enableMunin=false
+
+#
+# You must be running a mongod process with built in SSL support. If
+# this setting is enabled the `sslTrustedServerCertificates` setting below
+# is required.
+#
+useSslForAllConnections=false
+
+#
+# Required only if connecting to MongoDBs running
+# with SSL.
+#
+# `sslTrustedServerCertificates` is path on disk that contains the trusted certificate
+# authority certificates in PEM format. The certificates will be used to verify
+# the server certificate returned from any MongoDBs running with SSL.
+#
+# Certificate verification can be turned off by changing the `sslRequireValidServerCertificates`
+# field to False. That configuration is only recommended for testing purposes
+# as it makes connections susceptible to MITM attacks.
+#
+sslTrustedServerCertificates=
+sslRequireValidServerCertificates=true
+
+# Kerberos settings
+# krb5Principal: The Kerberos principal used by the agent, e.g. mmsagent/myhost@EXAMPLE.COM
+# krb5Keytab: The ABSOLUTE path to kerberos principal's keytab file.
+#
+# IMPORTANT:
+# 1) You have to set both of the following parameters to enable Kerberos authentication
+#
+# 2) Once you enable Kerberos for an agent, this agent can ONLY monitor MongoDB instances with
+# Kerberos enabled. E.g., an agent cannot monitor 2 hosts where one of them has Kerberos enabled
+# and another one does not have Kerberos.
+#
+# 3) The agent depends on 'kinit' to do the Kerberos authentication. And it looks for the executable
+# in /usr/bin/kinit, so please make sure you have kinit in the locations.
+krb5Principal=
+krb5Keytab=
