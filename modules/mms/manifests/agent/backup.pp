@@ -46,5 +46,6 @@ class mms::agent::backup (
 
   @monit::entry {'mms-backup':
     content => template('mms/monit'),
+    require => Service[$agent_name],
   }
 }

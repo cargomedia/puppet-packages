@@ -49,6 +49,7 @@ class mms::agent::monitoring (
 
   @monit::entry {'mms-monitoring':
     content => template('mms/monit'),
+    require => Service[$agent_name],
   }
 
 }
