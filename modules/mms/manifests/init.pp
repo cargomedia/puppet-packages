@@ -9,7 +9,6 @@ class mms (
 
   file {'/var/run/mongodb-mms':
     ensure => directory,
-    require => User['mongodb-mms-agent'],
     owner => '0',
     group => '0',
     mode => '0644',
