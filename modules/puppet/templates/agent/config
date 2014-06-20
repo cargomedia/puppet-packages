@@ -5,3 +5,4 @@ masterport = <%= @masterport %>
 server = <%= @server %>
 runinterval = <%= @runinterval %>
 report = true
+usecacheonfailure = false
