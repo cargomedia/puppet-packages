@@ -10,7 +10,6 @@ class monit::service {
     plugin => 'monit',
     options => {
       'host' => 'localhost',
-      'auth' => 'false'
     },
     require => Service['monit'],
   }
