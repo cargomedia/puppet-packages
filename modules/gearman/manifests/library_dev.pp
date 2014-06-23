@@ -1,8 +1,8 @@
-class gearman::library {
+class gearman::library_dev {
 
   require 'apt::source::cargomedia'
 
-  package {'libgearman7':
+  package {'libgearman-dev':
     ensure => present,
   }
 
