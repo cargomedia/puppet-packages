@@ -4,7 +4,7 @@ class php5::extension::gearman (
 
   require 'build'
   require 'php5'
-  require 'gearmand'
+  require 'gearman::library'
 
   helper::script {'install php5::extension::gearman':
     content => template('php5/extension/gearman/install.sh'),
