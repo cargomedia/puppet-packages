@@ -8,9 +8,7 @@ class monit::service {
 
   @bipbip::entry {'monit':
     plugin => 'monit',
-    options => {
-      'host' => 'localhost',
-    },
+    options => {},
     require => Service['monit'],
   }
 }
