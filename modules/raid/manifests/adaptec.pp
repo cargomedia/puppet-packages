@@ -1,25 +1,18 @@
-class raid::adaptec(
-  $version = '1.5',
-  $revision = '20942'
-) {
+class raid::adaptec {
 
-  require 'hwraid-le-vert'
   require 'unzip'
+  require 'apt::source::cargomedia'
+  require 'raid::hwraid-le-vert'
 
   package {'arcconf':
     ensure => present,
-    require => Class['hwraid-le-vert'],
+    require => Class['apt::source::cargomedia'],
   }
   ->
 
   package {'aacraid-status':
-    ensure => present
-  }
-  ->
-
-  helper::script {'download current arcconf binary from adaptec':
-    content => template('raid/adaptec/install-arcconf-binary.sh'),
-    unless => "arcconf --version | grep -q '${version} (B${revision})'",
+    ensure => present,
+    require => Class['raid::hwraid-le-vert'],
   }
   ->
 
