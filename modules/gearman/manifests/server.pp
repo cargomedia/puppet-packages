@@ -8,6 +8,7 @@ class gearman::server {
 
   service {'gearman-job-server':
     hasrestart => true,
+    require => Package['gearman-job-server'],
   }
 
   @monit::entry {'gearman-job-server':
