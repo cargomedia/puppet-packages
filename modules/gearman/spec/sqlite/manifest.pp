@@ -1,6 +1,6 @@
 node default {
 
-  class {'gearmand::server':
+  class {'gearman::server':
     persistence => 'sqlite3',
   }
 }
