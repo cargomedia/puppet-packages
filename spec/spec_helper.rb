@@ -3,6 +3,7 @@ require 'net/ssh'
 require 'vagrant_helper'
 require 'yaml'
 require 'pathname'
+require 'rspec/its'
 
 include Serverspec::Helper::Ssh
 include Serverspec::Helper::DetectOS
@@ -65,14 +66,17 @@ RSpec.configure do |c|
         next unless File.extname(local_file) == '.pp'
         vagrant_manifest_path = vagrant_helper.get_path spec_dir.to_path + '/' + local_file
         command = "sudo puppet apply --verbose --modulepath '/etc/puppet/modules:/vagrant/modules' #{vagrant_manifest_path.shellescape} --hiera_config=/etc/hiera.yaml"
-        command += ' --debug' if debug
+        command += ' --debug --trace' if debug
         begin
           puts
           puts 'Running `' + vagrant_manifest_path + '`'
           output = vagrant_helper.exec command
-          raise output if output.match(/Error: /)
+          output = output.gsub(/\e\[(\d+)(;\d+)*m/, '') # Remove color codes
+          if match = output.match(/^Error: .*$/)
+            raise "Command output contains error: `#{match[0]}`"
+          end
         rescue Exception => e
-          abort 'Puppet command failed'
+          abort "Puppet command failed: #{e.message}"
         end
       end
     end

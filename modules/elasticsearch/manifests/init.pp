@@ -1,4 +1,9 @@
-class elasticsearch ($publish_host = undef, $heap_size = '256m', $cluster_name = undef) {
+class elasticsearch (
+  $publish_host = undef,
+  $heap_size_min = '256m',
+  $heap_size_max = '2g',
+  $cluster_name = undef
+) {
 
   require 'java'
 

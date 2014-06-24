@@ -1,7 +1,7 @@
 require 'ipaddress'
 module Puppet::Parser::Functions
   newfunction(:get_ipaddress, :type => :rvalue) do |args|
-    if args[0]
+    if args[0] and !args[0].empty?
       interface = args[0].to_s
       lookupvar('::ipaddress_' + interface)
     else

@@ -1,0 +1,17 @@
+#
+# Enter your API key - It can be found at https://mms.mongodb.com/settings
+#
+mmsApiKey=<%=@api_key%>
+
+#
+# Hostname of the MMS Backup web server.
+#
+mothership=<%=@mms_server%>
+
+#
+# Communicate with the MMS Backup web server over HTTPS
+#
+https=true
+
+# For additional optional settings, please see
+# https://mms.mongodb.com/help/reference/backup-agent

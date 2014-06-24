@@ -1,32 +1,9 @@
-class gearmand::server(
-  $persistence = 'none',
-  $username = $gearmand::params::username,
-  $confdir = $gearmand::params::confdir,
-  $conffile = $gearmand::params::conffile,
-  $logdir = $gearmand::params::logdir,
-  $dbfile = $gearmand::params::dbfile
-) inherits gearmand::params {
+class gearmand::server {
 
-  class {'gearmand':
-    username  => $username,
-    confdir   => $confdir,
-    conffile  => $conffile,
-    logdir    => $gearmand,
-  }
+  require 'gearmand'
 
-  case $persistence {
-    none:    { $daemon_args = [] }
-    sqlite3: { $daemon_args = ['-q libsqlite3', "--libsqlite3-db=${logdir}/${dbfile}"] }
-    default: { fail('Only sqlite3-based persistent queues supported right now') }
-  }
-
-  file {"$confdir/$conffile":
-    ensure => file,
-    content => template('gearmand/gearmand.conf'),
-    owner => '0',
-    group => '0',
-    mode => '0644',
-    notify => Service['gearman-job-server'],
+  user {'gearman':
+    ensure => present,
   }
 
   file {'/etc/init.d/gearman-job-server':
@@ -39,7 +16,9 @@ class gearmand::server(
   }
   ~>
 
-  helper::service{'gearman-job-server':
+  exec {'update-rc.d gearman-job-server defaults':
+    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    refreshonly => true,
   }
 
   @monit::entry {'gearman-job-server':
@@ -52,6 +31,9 @@ class gearmand::server(
       'hostname' => 'localhost',
       'port' => '4730',
     }
+  }
+
+  service {'gearman-job-server':
   }
 
 }

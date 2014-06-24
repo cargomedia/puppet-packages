@@ -1,0 +1,19 @@
+# mongos.conf
+
+logpath=/var/log/mongodb/<%= @instance_name %>.log
+
+logappend=true
+
+fork = <%= @fork %>
+
+<% if @bind_ip and !@bind_ip.empty? -%>
+bind_ip = <%= @bind_ip %>
+<% end %>
+
+port = <%= @port %>
+
+configdb = <%= @config_servers.join(",") %>
+
+<% @options.each do |key, value| %>
+<%= key %>=<%= value %>
+<% end %>
