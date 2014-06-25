@@ -33,5 +33,9 @@ unless puppet_report.has_key?('events')
 end
 
 if puppet_report['events'] and puppet_report['events']['failure'].to_i > 0
-  error 'Puppet catalog apply finished with errors'
+  error 'Last puppet run finished with errors'
+end
+
+if puppet_report['resources'] and puppet_report['resources']['total'].to_i == 0
+  error 'Last puppet run contained 0 resources.'
 end
