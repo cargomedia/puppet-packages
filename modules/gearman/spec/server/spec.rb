@@ -4,7 +4,7 @@ describe user('gearman') do
   it { should exist }
 end
 
-describe command('/usr/sbin/gearmand --version') do
+describe command('gearmand --version') do
   its(:stdout) { should match('1.1.12') }
 end
 
