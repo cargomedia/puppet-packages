@@ -19,5 +19,5 @@ end
 
 describe file('/etc/default/gearman-job-server') do
   it { should be_file }
-  its(:content) { should match /--job-retries=25/ }
+  its(:content) { should match /--job-retries=255/ }
 end

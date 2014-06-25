@@ -8,7 +8,7 @@ end
 describe file('/etc/default/gearman-job-server') do
   it { should be_file }
   its(:content) { should match /-q libsqlite3/ }
-  its(:content) { should match /--job-retries=0/ }
+  its(:content) { should match /--job-retries=25/ }
 end
 
 

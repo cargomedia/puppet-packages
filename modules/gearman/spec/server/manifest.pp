@@ -3,7 +3,7 @@ node default {
   require 'monit'
 
   class {'gearman::server':
-    jobretries => 25,
+    jobretries => 255,
   }
 
 }
