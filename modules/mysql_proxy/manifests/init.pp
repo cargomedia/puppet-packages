@@ -1,4 +1,6 @@
-class mysql_proxy ($host = 'localhost', $port = 4040, $backend_addresses) {
+class mysql_proxy ($host = '127.0.0.1', $port = 4040, $backend_addresses) {
+
+  require 'apt::source::cargomedia'
 
   file {'/etc/mysql-proxy':
     ensure => directory,
@@ -40,6 +42,7 @@ class mysql_proxy ($host = 'localhost', $port = 4040, $backend_addresses) {
   package {'mysql-proxy':
     ensure => present,
     notify => Service['mysql-proxy'],
+    require => Class['apt::source::cargomedia'],
   }
 
   service {'mysql-proxy':}

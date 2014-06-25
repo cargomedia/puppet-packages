@@ -20,3 +20,11 @@ end
 describe command('mysql --host=127.0.0.1 --port=4040 -e "SHOW DATABASES;"') do
   its(:stdout) { should match /example_db/ }
 end
+
+describe command('mysql --host=localhost --port=4040 -e "SHOW DATABASES;"') do
+  its(:stdout) { should match /example_db/ }
+end
+
+describe command('mysql-proxy --version') do
+  its(:stdout) { should match /mysql-proxy 0.8.4/ }
+end

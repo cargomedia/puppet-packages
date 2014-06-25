@@ -13,6 +13,7 @@ class gearman::server(
 
   package {'gearman-job-server':
     ensure => present,
+    require => Class['apt::source::cargomedia'],
   }
 
   service {'gearman-job-server':
