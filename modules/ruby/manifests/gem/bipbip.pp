@@ -1,6 +1,7 @@
 class ruby::gem::bipbip ($version = 'present') {
 
   require 'build'
+  require 'ruby::gem::nokogiri'
   include 'cgi-fcgi'
 
   package {'libsasl2-dev':
