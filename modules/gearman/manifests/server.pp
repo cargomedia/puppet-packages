@@ -1,6 +1,6 @@
 class gearman::server(
   $persistence = 'none',
-  $jobretries = 0,
+  $jobretries = 25,
 ) {
 
   require 'apt::source::cargomedia'
