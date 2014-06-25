@@ -9,6 +9,5 @@ class monit::service {
   @bipbip::entry {'monit':
     plugin => 'monit',
     options => {},
-    require => Service['monit'],
   }
 }
