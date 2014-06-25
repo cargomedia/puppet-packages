@@ -10,14 +10,16 @@ end
 
 describe service('gearman-job-server') do
   it { should be_enabled }
-end
-
-describe service('gearman-job-server') do
   it { should be_running }
 end
 
 describe port(4730) do
   it { should be_listening }
+end
+
+describe file('/etc/default/gearman-job-server') do
+  it { should be_file }
+  its(:content) { should match /--job-retries=255/ }
 end
 
 describe command('monit summary') do
