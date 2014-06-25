@@ -2,12 +2,6 @@ class raid::lsi-megaraidsas {
 
   require 'raid::hwraid-le-vert'
 
-  package {'arcconf':
-    ensure => present,
-    require => Class['raid::hwraid-le-vert'],
-  }
-  ->
-
   package {'megaraid-status':
     ensure => present
   }
