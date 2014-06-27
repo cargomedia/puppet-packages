@@ -37,16 +37,23 @@ PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
 case "${TYPE}" in
 "mysql")
+    set +e
     which monit-alert >/dev/null && monit-alert none
     which monit >/dev/null && monit unmonitor mysql
+    which monit-alert >/dev/null && monit-alert default
+    set -e
+
     /etc/init.d/mysql stop >/dev/null
 
     rm -rf /tmp/backup-db
     cp -a ${SOURCE_PATH} /tmp/backup-db
 
     /etc/init.d/mysql start >/dev/null
+    set +e
+    which monit-alert >/dev/null && monit-alert none
     which monit >/dev/null && monit monitor mysql
     which monit-alert >/dev/null && monit-alert default
+    set -e
 
     ssh root@${HOST} "mkdir -p ${DEST_PATH}"
     rdiff-backup ${RDIFF_OPTIONS} /tmp/backup-db root@${HOST}::${DEST_PATH} >/dev/null
