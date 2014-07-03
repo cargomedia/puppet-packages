@@ -17,7 +17,7 @@ define apt::source(
   }
 
   unless $keys == []  {
-    create_resources(apt::key, $keys, { ensure => present })
+    create_resources(apt::key, $keys, { ensure => $ensure })
   }
 
 }
