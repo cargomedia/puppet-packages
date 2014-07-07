@@ -4,28 +4,12 @@ class php5::extension::newrelic(
   $enabled = true,
   $browser_monitoring_enabled = true) {
 
-  include 'php5'
-
-  apt::source {'newrelic':
-    entries => ['deb http://apt.newrelic.com/debian/ newrelic non-free'],
-    keys => {'newrelic' => {
-        key     => '548C16BF',
-        key_url => 'http://download.newrelic.com/548C16BF.gpg',
-      }
-    }
-  }
+  require 'php5'
+  require 'apt::source::newrelic'
 
   package {['newrelic-php5']:
     ensure => present,
-    require => Apt::Source['newrelic'],
-  }
-  ->
-
-  exec {'newrelic postinstall':
-    command => 'newrelic-install install',
-    environment => ['NR_INSTALL_SILENT=yes'],
-    path => ['/usr/bin', '/bin'],
-    unless => 'newrelic-daemon -v',
+    require => Class['apt::source::newrelic'],
   }
   ->
 
