@@ -7,3 +7,10 @@ end
 describe command('php --re newrelic') do
   it { should return_exit_status 0 }
 end
+
+describe command('php --ri newrelic') do
+  its(:stdout) { should match /appname => bar/ }
+  its(:stdout) { should match /enabled => no/ }
+  its(:stdout) { should match /daemon\.logfile => \/var\/log\/newrelic\/newrelic-daemon\.log/ }
+  its(:stdout) { should match /browser_monitoring\.auto_instrument => enabled/ }
+end
