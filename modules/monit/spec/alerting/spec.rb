@@ -28,6 +28,10 @@ describe command('monit-silent foo bar') do
   it { should return_exit_status 1 }
 end
 
+describe command('echo "" >/var/spool/mail/vagrant') do
+  it { should return_exit_status 0 }
+end
+
 describe command('monit-silent unmonitor root') do
   it { should return_exit_status 0 }
 end
