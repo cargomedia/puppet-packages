@@ -3,5 +3,5 @@
 trap 'monit-alert default' ERR
 
 monit-alert none
-monit $1 $2
+monit $@
 monit-alert default
