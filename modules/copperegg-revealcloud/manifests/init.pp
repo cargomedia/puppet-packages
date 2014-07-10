@@ -2,7 +2,7 @@ class copperegg-revealcloud(
   $api_key,
   $label = $clientcert,
   $tags = [],
-  $version = 'v3.3-72-g0299de5',
+  $version = 'v3.3-62-g04d1c71',
   $enable_node = true
 ) {
 
