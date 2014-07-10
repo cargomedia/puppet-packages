@@ -22,7 +22,7 @@ daemon () {
     ${INITSCRIPT} ${1};
   fi
   if [ "${1}" == 'stop' ]; then
-    timeout --signal=9 5 bash -c '2>/dev/null wait $(cat ${PIDFILE})'
+    timeout --signal=9 5 bash -c 'while (ps -p $(cat ${PIDFILE}) >/dev/null);do true; done'
   fi
 }
 
