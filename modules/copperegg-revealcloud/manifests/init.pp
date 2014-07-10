@@ -40,12 +40,9 @@ class copperegg-revealcloud(
   }
   ->
 
-  exec {'download revealcloud':
-    command => "curl -sL '${url}' > ${dir}/revealcloud && chmod 0755 ${dir}/revealcloud",
+  helper::script {'download revealcloud':
+    content => template('copperegg-revealcloud/download.sh'),
     unless => "test -x ${dir}/revealcloud && ${dir}/revealcloud -V 2>&1 | grep 'Version: ${version}$'",
-    user => '0',
-    group => '0',
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     notify => Service['revealcloud'],
   }
   ->
