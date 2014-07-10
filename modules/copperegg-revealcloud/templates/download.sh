@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 TMPFILE='/tmp/revealcloud-<%= @version %>'
-PIDFILE='/usr/local/revealcloud/run/revealcloud.pid'
+PIDFILE='<%= @dir %>/run/revealcloud.pid'
 
 daemon () {
   INITSCRIPT='/etc/init.d/revealcloud'
@@ -22,9 +22,7 @@ daemon () {
     ${INITSCRIPT} ${1};
   fi
   if [ "${1}" == 'stop' ]; then
-    set +e
-    2>/dev/null wait $(cat ${PIDFILE})
-    set -e
+    timeout --signal=9 5 bash -c '2>/dev/null wait $(cat ${PIDFILE})'
   fi
 }
 
