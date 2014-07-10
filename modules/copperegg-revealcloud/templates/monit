@@ -1,0 +1,3 @@
+check process revealcloud with pidfile <%= @dir %>/run/revealcloud.pid
+	start program = "/etc/init.d/revealcloud start"
+	stop program  = "/etc/init.d/revealcloud stop"

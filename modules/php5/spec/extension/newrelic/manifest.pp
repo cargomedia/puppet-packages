@@ -1,9 +1,9 @@
 node default {
 
-  class {'newrelic::php5':
+  class {'php5::extension::newrelic':
     license_key => 'xxxxx',
     appname => 'bar',
-    enabled => true,
+    enabled => false,
     browser_monitoring_enabled => true,
   }
 }

@@ -76,4 +76,10 @@ class copperegg-revealcloud(
 
   service {'revealcloud':
   }
+
+  @monit::entry {'revealcloud':
+    content => template('copperegg-revealcloud/monit'),
+    require => Service['revealcloud']
+  }
+
 }
