@@ -3,7 +3,7 @@ Puppet::Type.newtype(:mongodb_user) do
 
   ensurable
 
-  newparam(:name, :namevar=>true) do
+  newparam(:name, :namevar => true) do
     desc 'The name of the user.'
   end
 
