@@ -3,7 +3,7 @@ Puppet::Type.newtype(:mongodb_user) do
 
   ensurable
 
-  newparam(:name, :namevar=>true) do
+  newparam(:name, :namevar => true) do
     desc 'The name of the user.'
   end
 
@@ -17,7 +17,9 @@ Puppet::Type.newtype(:mongodb_user) do
 
   newproperty(:roles, :array_matching => :all) do
     desc "The user's roles."
-    defaultto ['dbAdmin']
+    defaultto do
+      {'role' => 'dbAdmin', 'db' => @resource[:database]}
+    end
 
     def insync?(is)
       is.sort == should.sort
