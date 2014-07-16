@@ -2,10 +2,17 @@ class puppet::agent (
   $server = 'puppet',
   $masterport = 8140,
   $runinterval = '10m',
-  $cpu_shares = 1024
+  $cpu_shares = 1024,
+  $splay = false,
+  $splaylimit = undef,
 ) {
 
   include 'puppet::common'
+
+  $splaylimit_final = $splaylimit ? {
+    undef => $runinterval,
+    default => $splaylimit,
+  }
 
   if $cpu_shares < 1 or $cpu_shares > 1025 {
     fail "CPU shares must be in range 1 to 1024"
