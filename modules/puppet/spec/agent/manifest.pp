@@ -4,6 +4,7 @@ node default {
     server => 'example.com',
     masterport => 8141,
     runinterval => '2m',
+    splay => true,
   }
 
 }
