@@ -29,7 +29,7 @@ class satis($hostname) {
   ->
 
   exec {'upgrade satis':
-    command => "git fetch && git checkout ${version} && composer --no-interaction install",
+    command => "git fetch && git checkout ${version} && composer --no-interaction --no-dev install",
     cwd => '/var/lib/satis/satis',
     unless => "test $(git rev-parse HEAD) = ${version}",
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
