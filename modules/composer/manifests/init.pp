@@ -1,4 +1,4 @@
-class composer($version = '1.0.0-alpha7') {
+class composer($version = '1.0.0-alpha8') {
 
   require 'php5'
 
