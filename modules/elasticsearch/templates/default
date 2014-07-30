@@ -3,8 +3,9 @@ ES_USER=elasticsearch
 ES_GROUP=elasticsearch
 
 # Heap Size
-ES_MIN_MEM=<%= @heap_size_min %>
-ES_MAX_MEM=<%= @heap_size_max %>
+<% if @heap_size -%>
+ES_HEAP_SIZE=<%= @heap_size %>
+<% end %>
 
 # Heap new generation
 #ES_HEAP_NEWSIZE=
