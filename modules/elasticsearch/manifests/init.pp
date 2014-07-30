@@ -1,7 +1,6 @@
 class elasticsearch (
   $publish_host = undef,
-  $heap_size_min = '256m',
-  $heap_size_max = '2g',
+  $heap_size = undef,
   $cluster_name = undef
 ) {
 
@@ -16,6 +15,7 @@ class elasticsearch (
     group => '0',
     mode => '0755',
     before => Helper::Script['install elasticsearch'],
+    notify => Service['elasticsearch'],
   }
 
   file {'/etc/elasticsearch':
@@ -32,15 +32,21 @@ class elasticsearch (
     group => '0',
     mode => '0644',
     before => Helper::Script['install elasticsearch'],
+    notify => Service['elasticsearch'],
   }
 
   helper::script {'install elasticsearch':
     content => template('elasticsearch/install.sh'),
     unless => "/usr/share/elasticsearch/bin/elasticsearch -v | grep -q '\s${version},'"
   }
+  ->
+
+  service {'elasticsearch':
+    hasrestart => true,
+  }
 
   @monit::entry {'elasticsearch':
     content => template('elasticsearch/monit'),
-    require => Helper::Script['install elasticsearch'],
+    require => Service['elasticsearch'],
   }
 }
