@@ -6,7 +6,7 @@ end
 
 describe file('/usr/local/bin/sync_hiera.sh') do
   it { should be_executable }
-  its(:content) { should match /rsync -a --delete '\/etc\/puppet\/hiera\/data' '\/foobar\/'/ }
+  its(:content) { should match /foobar+.*\/etc\/puppet\/hiera\/data\/+.*/ }
 end
 
 describe cron do
