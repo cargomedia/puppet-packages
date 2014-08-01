@@ -39,12 +39,12 @@ class mms::agent::monitoring (
   }
   ->
 
-  service {$agent_name:
-    hasrestart => true
+  helper::service{$agent_name:
   }
   ->
 
-  helper::service{$agent_name:
+  service {$agent_name:
+    hasrestart => true
   }
 
   @monit::entry {'mms-monitoring':
