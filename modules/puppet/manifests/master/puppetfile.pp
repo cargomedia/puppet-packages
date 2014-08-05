@@ -49,7 +49,6 @@ class puppet::master::puppetfile(
     refreshonly => true,
   }
 
-  notify{"ueueu":} ->
   cron {'Update puppet master Puppetfile':
     command => $update_command,
     user    => 'root',
