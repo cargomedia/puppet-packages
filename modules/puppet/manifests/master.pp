@@ -1,6 +1,6 @@
 class puppet::master (
   $dnsAltNames = [],
-  $hieraDataDir = '/etc/puppet/hiera/data',
+  $hiera_data_dir = '/etc/puppet/data',
   $reportToEmail = 'root',
   $puppetdb = false,
   $puppetdb_port = 8080,
@@ -10,6 +10,7 @@ class puppet::master (
     'monit' # See https://github.com/cargomedia/puppet-packages/issues/232
   ],
   $puppetfile = undef,
+  $puppetfile_hiera_data_dir = undef,
   $port_webrick = 8140,
   $port_passenger = undef
 ) {
@@ -44,6 +45,13 @@ class puppet::master (
     notify => Service['puppetmaster'],
   }
 
+  file {$hiera_data_dir:
+    ensure => directory,
+    group => '0',
+    owner => '0',
+    mode => '0755',
+  }
+
   file {'/etc/puppet/hiera.yaml':
     ensure => file,
     content => template('puppet/master/hiera.yaml'),
@@ -62,6 +70,11 @@ class puppet::master (
     mode => '0644',
     before => Package['puppetmaster'],
     notify => Service['puppetmaster'],
+  }
+
+  exec {'update-rc.d bipbip defaults && /etc/init.d/bipbip start':
+    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    refreshonly => true,
   }
 
   if $reportToEmail {
@@ -103,6 +116,8 @@ class puppet::master (
   if $puppetfile {
     class {'puppet::master::puppetfile':
       content => $puppetfile,
+      hiera_data_dir => $hiera_data_dir,
+      puppetfile_hiera_data_dir => $puppetfile_hiera_data_dir,
     }
   }
 
