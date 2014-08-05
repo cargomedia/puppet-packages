@@ -1,5 +1,5 @@
 class mms::agent::backup (
-  $version = '2.2.2.125',
+  $version = '2.3.0.154',
   $api_key,
   $mms_server = 'api-backup.mongodb.com'
 ){
@@ -36,12 +36,12 @@ class mms::agent::backup (
   }
   ->
 
-  service {$agent_name:
-    hasrestart => true
+  helper::service{$agent_name:
   }
   ->
 
-  helper::service{$agent_name:
+  service {$agent_name:
+    hasrestart => true
   }
 
   @monit::entry {'mms-backup':

@@ -1,5 +1,5 @@
 class mms::agent::monitoring (
-  $version = '2.2.0.70',
+  $version = '2.4.0.101',
   $api_key,
   $auth_username = undef,
   $auth_password = undef,
@@ -39,12 +39,12 @@ class mms::agent::monitoring (
   }
   ->
 
-  service {$agent_name:
-    hasrestart => true
+  helper::service{$agent_name:
   }
   ->
 
-  helper::service{$agent_name:
+  service {$agent_name:
+    hasrestart => true
   }
 
   @monit::entry {'mms-monitoring':

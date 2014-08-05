@@ -1,5 +1,7 @@
 class mongodb {
 
+  include 'ntp'
+
   apt::source {'mongodb':
     entries => [
       'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen',
