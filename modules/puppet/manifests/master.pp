@@ -72,11 +72,6 @@ class puppet::master (
     notify => Service['puppetmaster'],
   }
 
-  exec {'update-rc.d bipbip defaults && /etc/init.d/bipbip start':
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    refreshonly => true,
-  }
-
   if $reportToEmail {
     file {'/etc/puppet/tagmail.conf':
       ensure => file,
