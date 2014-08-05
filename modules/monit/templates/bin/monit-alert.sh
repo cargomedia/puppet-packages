@@ -14,7 +14,7 @@ fi
 rm -f ${DEST}
 ln -s ${SOURCE} ${DEST}
 
-function monitGetStateFileAccess { stat -c "%x" "/root/.monit.state"; }
+function monitGetStateFileAccess { stat -c "%Y" "/root/.monit.state"; }
 export -f monitGetStateFileAccess
 export MONIT_STATE_FILE_ACCESS=$(monitGetStateFileAccess)
 function monitCheckHasReloaded { test "$(monitGetStateFileAccess)" != "${MONIT_STATE_FILE_ACCESS}"; }
