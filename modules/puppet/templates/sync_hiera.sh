@@ -1,3 +1,3 @@
 #!/bin/bash -e
 
-rsync -a --delete '<%= @hiera_data_repo %>' '<%= @hiera_data_dir %>/'
+rsync -a --delete '<%= @puppetfile_hiera_data_dir %>' '<%= @hiera_data_dir %>/'

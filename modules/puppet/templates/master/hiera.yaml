@@ -12,9 +12,9 @@
   - defaults
 
 :json:
-  :datadir: <%= @hieraDataDir %>
+  :datadir: <%= @hiera_data_dir %>
 
 :file:
-  :datadir: <%= @hieraDataDir %>
+  :datadir: <%= @hiera_data_dir %>
 
 :merge_behavior: deeper

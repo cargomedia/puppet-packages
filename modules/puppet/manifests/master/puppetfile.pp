@@ -1,14 +1,21 @@
 class puppet::master::puppetfile(
   $content,
   $hiera_data_dir  = undef,
-  $hiera_data_repo = undef
+  $puppetfile_hiera_data_dir = undef
 ) {
 
   require 'librarian_puppet'
   require 'rsync'
 
-  if $hiera_data_repo != undef {
-    $sync_command = " && /usr/local/bin/sync_hiera.sh"
+  if $puppetfile_hiera_data_dir != undef {
+    file {$puppetfile_hiera_data_dir:
+      ensure => directory,
+      group => '0',
+      owner => '0',
+      mode => '0755',
+    }
+
+    $sync_command = "&& /usr/local/bin/sync_hiera.sh"
 
     file {'/usr/local/bin/sync_hiera.sh':
       ensure => file,
@@ -17,6 +24,7 @@ class puppet::master::puppetfile(
       group => '0',
       mode => '0755',
       before => Exec['librarian update and rsync'],
+      require => File[$hiera_data_dir, $puppetfile_hiera_data_dir],
     }
   }
 
@@ -41,6 +49,7 @@ class puppet::master::puppetfile(
     refreshonly => true,
   }
 
+  notify{"ueueu":} ->
   cron {'Update puppet master Puppetfile':
     command => $update_command,
     user    => 'root',
