@@ -53,4 +53,11 @@ define mongodb::core::mongos (
     require => Service[$instance_name],
   }
 
+  @bipbip::entry {$instance_name:
+    plugin => 'mongodb',
+    options => {
+      'hostname' => $bind_ip? {undef => 'localhost', default => $bind_ip},
+      'port' => $port,
+    }
+  }
 }
