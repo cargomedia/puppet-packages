@@ -1,5 +1,5 @@
 class gearman::server(
-  $persistence = 'none',
+  $persistence = 'sqlite3',
   $jobretries = 25,
 ) {
 
