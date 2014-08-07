@@ -6,7 +6,7 @@ end
 
 describe file('/etc/default/gearman-job-server') do
   it { should be_file }
-  its(:content) { should_not match /-q/ }
+  its(:content) { should_not match /^PARAMS=".*-q\s.*"$/ }
 end
 
 describe service('gearman-job-server') do
