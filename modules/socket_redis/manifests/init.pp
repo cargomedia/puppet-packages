@@ -1,4 +1,4 @@
-class socket-redis (
+class socket_redis (
   $version = '0.1.1',
   $redisHost = 'localhost',
   $socketPorts = [8090],
@@ -15,7 +15,7 @@ class socket-redis (
   if $redisHost == 'localhost' {
     require 'redis'
   }
-  include 'socket-redis::service'
+  include 'socket_redis::service'
 
   file {'/etc/socket-redis':
     ensure => directory,
@@ -90,7 +90,7 @@ class socket-redis (
 
   file {'/etc/init.d/socket-redis':
     ensure => file,
-    content => template('socket-redis/init.sh'),
+    content => template('socket_redis/init.sh'),
     owner => '0',
     group => '0',
     mode => '0755',
@@ -112,7 +112,7 @@ class socket-redis (
   }
 
   @monit::entry {'socket-redis':
-    content => template('socket-redis/monit'),
+    content => template('socket_redis/monit'),
     require => Service['socket-redis'],
   }
 }

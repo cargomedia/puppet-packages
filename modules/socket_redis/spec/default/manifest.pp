@@ -2,5 +2,5 @@ node default {
 
   require 'monit'
 
-  class {'socket-redis':}
+  class {'socket_redis':}
 }
