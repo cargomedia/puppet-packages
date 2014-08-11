@@ -23,7 +23,7 @@ class VagrantHelper
 
     unless has_snapshot
       command 'destroy -f'
-      command 'up --no-provision'
+      command 'up --no-provision', {'DISABLE_PROXY' => 'true'}
       command 'provision', {'DISABLE_PROXY' => 'true'}
       command 'provision'
       system('vagrant snapshot take ' + @box + ' default')
