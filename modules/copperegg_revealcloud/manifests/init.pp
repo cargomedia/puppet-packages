@@ -1,4 +1,4 @@
-class copperegg-revealcloud(
+class copperegg_revealcloud(
   $api_key,
   $label = $clientcert,
   $tags = [],
@@ -8,7 +8,7 @@ class copperegg-revealcloud(
 
   $dir = '/usr/local/revealcloud'
   $api_host = 'api.copperegg.com'
-  $tag_list = hiera_array('copperegg-revealcloud::tags', $tags)
+  $tag_list = hiera_array('copperegg_revealcloud::tags', $tags)
 
   case $architecture {
     i386: { $url = "http://cdn.copperegg.com/revealcloud/${version}/linux-2.6/i386/revealcloud" }
@@ -41,14 +41,14 @@ class copperegg-revealcloud(
   ->
 
   helper::script {'download revealcloud':
-    content => template('copperegg-revealcloud/download.sh'),
+    content => template('copperegg_revealcloud/download.sh'),
     unless => "test -x ${dir}/revealcloud && ${dir}/revealcloud -V 2>&1 | grep 'Version: ${version}$'",
     notify => Service['revealcloud'],
   }
   ->
 
   file {'/etc/init.d/revealcloud':
-    content => template('copperegg-revealcloud/init.sh'),
+    content => template('copperegg_revealcloud/init.sh'),
     owner => '0',
     group => '0',
     mode => '0755',
@@ -78,7 +78,7 @@ class copperegg-revealcloud(
   }
 
   @monit::entry {'revealcloud':
-    content => template('copperegg-revealcloud/monit'),
+    content => template('copperegg_revealcloud/monit'),
     require => Service['revealcloud']
   }
 

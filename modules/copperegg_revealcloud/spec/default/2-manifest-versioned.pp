@@ -1,6 +1,6 @@
 node default {
 
-  class {'copperegg-revealcloud':
+  class {'copperegg_revealcloud':
     api_key => 'my_key',
     label => 'foo',
     tags => ['tag1', 'tag2'],
