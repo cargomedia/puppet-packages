@@ -1,6 +1,6 @@
 class backup::agent_common {
 
-  require 'rdiff-backup'
+  require 'rdiff_backup'
 
   file {'/usr/local/bin/backup-create.sh':
     ensure => file,

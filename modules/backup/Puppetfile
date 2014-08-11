@@ -1,6 +1,6 @@
-mod 'cargomedia/rdiff-backup',
+mod 'cargomedia/rdiff_backup',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/rdiff-backup'
+  :path => 'modules/rdiff_backup'
 
 mod 'cargomedia/ssh',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
