@@ -1,4 +1,4 @@
-class jenkins::plugin::github-oauth(
+class jenkins::plugin::github_oauth(
   $organizationNameList,
   $adminUserNameList,
   $clientId,
