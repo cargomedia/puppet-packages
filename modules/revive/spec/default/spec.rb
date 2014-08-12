@@ -17,5 +17,5 @@ describe command('curl https://example.com -Lk') do
 end
 
 describe cron do
-  it { should have_entry('10 * * * * /usr/bin/php /var/revive/scripts/maintenance/maintenance.php example.com').with_user('root') }
+  it { should have_entry('10 * * * * php /var/revive/scripts/maintenance/maintenance.php example.com').with_user('root') }
 end
