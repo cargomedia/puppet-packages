@@ -1,4 +1,4 @@
-class apt::cron-apt {
+class apt::cron_apt {
 
   require 'apt'
 
