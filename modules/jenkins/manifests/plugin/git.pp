@@ -3,8 +3,8 @@ class jenkins::plugin::git(
   $globalConfigEmail = 'example@example.com'
 ) {
 
-  require 'jenkins::plugin::git-client'
-  require 'jenkins::plugin::ssh-agent'
+  require 'jenkins::plugin::git_client'
+  require 'jenkins::plugin::ssh_agent'
 
   file {'/var/lib/jenkins/hudson.plugins.git.GitSCM.xml':
     ensure    => 'present',

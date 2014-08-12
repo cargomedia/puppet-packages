@@ -5,7 +5,7 @@ class jenkins::plugin::github-oauth(
   $clientSecret
 ) {
 
-  require 'jenkins::plugin::github-api'
+  require 'jenkins::plugin::github_api'
 
   file {'/var/lib/jenkins/config.d/github-oauth.xml':
     ensure    => 'present',

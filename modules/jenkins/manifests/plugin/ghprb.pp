@@ -5,7 +5,7 @@ class jenkins::plugin::ghprb(
 
   require 'jenkins::plugin::git'
   require 'jenkins::plugin::github'
-  require 'jenkins::plugin::github-api'
+  require 'jenkins::plugin::github_api'
 
   $config_puppet = '/var/lib/jenkins/org.jenkinsci.plugins.ghprb.GhprbTrigger-puppet.xml'
   $config_jenkins = '/var/lib/jenkins/org.jenkinsci.plugins.ghprb.GhprbTrigger.xml'
