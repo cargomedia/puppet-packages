@@ -1,4 +1,4 @@
-class wowza::jar::json-simple($version = '1.1.1') {
+class wowza::jar::json_simple($version = '1.1.1') {
 
   require 'wowza'
 

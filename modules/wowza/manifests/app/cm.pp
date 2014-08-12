@@ -9,7 +9,7 @@ class wowza::app::cm (
 ) {
 
   require 'wowza'
-  require 'wowza::jar::cm-wowza'
+  require 'wowza::jar::cm_wowza'
 
   file {"${dir}":
     ensure => directory,
