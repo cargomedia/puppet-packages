@@ -47,7 +47,7 @@ class revive (
   }
 
   if $certificateCa {
-    apache2::ssl-ca {$host:
+    apache2::ssl_ca {$host:
       content => $certificateCa,
       before => Apache2::Vhost[$host],
     }

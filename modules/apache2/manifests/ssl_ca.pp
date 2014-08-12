@@ -1,4 +1,4 @@
-define apache2::ssl-ca ($host = $name, $content) {
+define apache2::ssl_ca ($host = $name, $content) {
 
   require 'apache2::mod::ssl'
 
