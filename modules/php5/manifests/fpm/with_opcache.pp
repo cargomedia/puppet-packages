@@ -1,4 +1,4 @@
-define php5::fpm::with-opcache($host, $port) {
+define php5::fpm::with_opcache($host, $port) {
 
   @bipbip::entry {"${name}-opcache":
     plugin => 'fastcgi-php-opcache',

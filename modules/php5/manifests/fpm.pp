@@ -65,12 +65,12 @@ class php5::fpm {
     }
   }
 
-  @php5::fpm::with-apc {'php5-fpm':
+  @php5::fpm::with_apc {'php5-fpm':
     host => 'localhost',
     port => 9000,
   }
 
-  @php5::fpm::with-opcache {'php5-fpm':
+  @php5::fpm::with_opcache {'php5-fpm':
     host => 'localhost',
     port => 9000,
   }
