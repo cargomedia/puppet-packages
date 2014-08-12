@@ -1,5 +1,5 @@
 node default {
 
-  require 'raid::lsi-megaraidsas'
+  require 'raid::linux_md'
   require 'monit'
 }

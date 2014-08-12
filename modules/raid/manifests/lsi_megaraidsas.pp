@@ -1,6 +1,6 @@
-class raid::lsi-megaraidsas {
+class raid::lsi_megaraidsas {
 
-  require 'raid::hwraid-le-vert'
+  require 'raid::hwraid_le_vert'
 
   package {'megaraid-status':
     ensure => present
@@ -12,7 +12,7 @@ class raid::lsi-megaraidsas {
   }
 
   @monit::entry {'megaraidsas-statusd':
-    content => template('raid/lsi-megaraidsas/monit'),
+    content => template('raid/lsi_megaraidsas/monit'),
     require => Service['megaraidsas-statusd'],
   }
 }

@@ -1,4 +1,4 @@
-class raid::hwraid-le-vert {
+class raid::hwraid_le_vert {
 
   apt::source {'hwraid-le-vert':
     entries => [ "deb http://hwraid.le-vert.net/debian ${::lsbdistcodename} main" ],
