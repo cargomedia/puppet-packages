@@ -7,4 +7,4 @@ trap 'bundle exec rake test:cleanup' EXIT
 
 bundle exec rake validate
 bundle exec rake lint
-bundle exec rake test:git
+bundle exec rake test
