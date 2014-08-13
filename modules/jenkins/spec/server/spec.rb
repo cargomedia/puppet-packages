@@ -7,3 +7,7 @@ end
 describe command('monit summary') do
   its(:stdout) { should match /Process 'jenkins'/ }
 end
+
+describe port(1234) do
+  it { should be_listening }
+end
