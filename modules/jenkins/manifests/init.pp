@@ -2,12 +2,16 @@ class jenkins(
   $hostname,
   $port = 8080,
   $emailAdmin = 'root@localhost',
-  $emailSuffix = '@localhost'
+  $emailSuffix = '@localhost',
+  $numExecutors = 1
 ) {
 
   require 'jenkins::package'
   include 'jenkins::service'
-  include 'jenkins::config'
+
+  class {'jenkins::config':
+    numExecutors => $numExecutors,
+  }
 
   file {'/var/lib/jenkins/plugins':
     ensure => 'directory',

@@ -4,6 +4,7 @@ node default {
 
   class {'jenkins':
     hostname => 'example.com',
-    port => 1234
+    port => 1234,
+    numExecutors => 2,
   }
 }
