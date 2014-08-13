@@ -6,7 +6,7 @@ class elasticsearch (
 
   require 'java'
 
-  $version = '1.1.1'
+  $version = '1.3.1'
 
   file {'/etc/default/elasticsearch':
     ensure => file,
