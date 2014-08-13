@@ -3,6 +3,6 @@
   <disabledAdministrativeMonitors>
     <string>jenkins.security.RekeySecretAdminMonitor</string>
   </disabledAdministrativeMonitors>
-  <version>1.530</version>
-  <numExecutors>1</numExecutors>
+  <version>1.575</version>
+  <numExecutors><%= @numExecutors %></numExecutors>
   <mode>NORMAL</mode>
