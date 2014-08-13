@@ -1,10 +1,9 @@
 class jenkins(
   $hostname,
+  $port = 8080,
   $emailAdmin = 'root@localhost',
   $emailSuffix = '@localhost'
 ) {
-
-  $port = 8080
 
   require 'jenkins::package'
   include 'jenkins::service'
@@ -22,6 +21,15 @@ class jenkins(
     owner => 'jenkins',
     group => 'nogroup',
     mode => '0755',
+  }
+
+  file {'/etc/default/jenkins':
+    ensure => file,
+    content => template('jenkins/default'),
+    owner => '0',
+    group => '0',
+    mode => '0644',
+    notify => Service['jenkins'],
   }
 
 }
