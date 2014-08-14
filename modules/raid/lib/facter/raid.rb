@@ -10,7 +10,7 @@ if Facter.value(:kernel) == "Linux"
       if $?.success?
         mdstat_output.each_line do |l|
           if l =~ /^md.*: .*raid/
-            raid_list << 'linux-md'
+            raid_list << 'linux_md'
             break
           end
         end
@@ -24,9 +24,9 @@ if Facter.value(:kernel) == "Linux"
       lspci_lsi_output = `lspci -d 1000: 2>/dev/null | grep 'RAID'`
       if $?.success?
         lspci_lsi_output.each_line do |l|
-          #raid_list << "lsi-mpt-fusion-u320" if l.include?("Fusion-MPT Dual Ultra320")
-          #raid_list << "lsi-megaraid" if l.include?("MegaRAID")
-          raid_list << "lsi-megaraidsas" if l.include?("MegaRAID SAS") || l.include?("SAS1078 PCI-X Fusion-MPT SAS") || l.include?("LSI MegaSAS")
+          #raid_list << "lsi_mpt_fusion_u320" if l.include?("Fusion-MPT Dual Ultra320")
+          #raid_list << "lsi_megaraid" if l.include?("MegaRAID")
+          raid_list << "lsi_megaraidsas" if l.include?("MegaRAID SAS") || l.include?("SAS1078 PCI-X Fusion-MPT SAS") || l.include?("LSI MegaSAS")
         end
       end
 
