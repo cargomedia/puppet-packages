@@ -1,4 +1,6 @@
-class jenkins::config {
+class jenkins::config(
+  $numExecutors
+) {
 
   require 'jenkins::package'
   include 'jenkins::service'
@@ -8,6 +10,7 @@ class jenkins::config {
     owner     => 'jenkins',
     group     => 'nogroup',
     mode      => '0755',
+    purge     => true,
   }
 
   file {'/var/lib/jenkins/config.d/_dummy.xml':
@@ -23,6 +26,7 @@ class jenkins::config {
     owner     => 'jenkins',
     group     => 'nogroup',
     mode      => '0644',
+    notify    => Exec['/var/lib/jenkins/config.xml'],
   }
 
   file {'/var/lib/jenkins/config.d-footer.xml':
@@ -31,6 +35,7 @@ class jenkins::config {
     owner     => 'jenkins',
     group     => 'nogroup',
     mode      => '0644',
+    notify    => Exec['/var/lib/jenkins/config.xml'],
   }
 
   exec {'/var/lib/jenkins/config.xml':
