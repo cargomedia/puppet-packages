@@ -1,6 +1,6 @@
 class ffmpeg ($version = '1.0') {
 
-  require 'deb-multimedia'
+  require 'deb_multimedia'
   require 'yasm'
   require 'x264'
 

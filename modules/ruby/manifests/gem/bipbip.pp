@@ -2,7 +2,7 @@ class ruby::gem::bipbip ($version = 'present') {
 
   require 'build'
   require 'ruby::gem::nokogiri'
-  include 'cgi-fcgi'
+  include 'cgi_fcgi'
 
   package {'libsasl2-dev':
     ensure => present
@@ -17,7 +17,7 @@ class ruby::gem::bipbip ($version = 'present') {
     require => [
       Package['libsasl2-dev'],        # For "memcached"
       Package['libmysqlclient-dev'],  # For "mysql2"
-      Class['cgi-fcgi'],
+      Class['cgi_fcgi'],
     ],
   }
 }

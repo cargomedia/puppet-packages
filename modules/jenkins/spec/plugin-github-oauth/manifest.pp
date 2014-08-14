@@ -4,7 +4,7 @@ node default {
     hostname => 'example.com'
   }
 
-  class {'jenkins::plugin::github-oauth':
+  class {'jenkins::plugin::github_oauth':
     organizationNameList => ['cargomedia'],
     adminUserNameList => ['njam'],
     clientId => 'xxx',

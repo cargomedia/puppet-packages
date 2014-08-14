@@ -1,6 +1,6 @@
-mod 'cargomedia/deb-multimedia',
+mod 'cargomedia/deb_multimedia',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/deb-multimedia'
+  :path => 'modules/deb_multimedia'
 
 mod 'cargomedia/yasm',
   :git => 'git@github.com:cargomedia/puppet-packages.git',

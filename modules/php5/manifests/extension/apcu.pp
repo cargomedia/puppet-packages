@@ -19,5 +19,5 @@ class php5::extension::apcu (
     content => template('php5/extension/apcu/conf.ini'),
   }
 
-  Php5::Fpm::With-apc <||>
+  Php5::Fpm::With_apc <||>
 }

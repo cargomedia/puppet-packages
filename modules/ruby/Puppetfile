@@ -1,6 +1,6 @@
-mod 'cargomedia/cgi-fcgi',
+mod 'cargomedia/cgi_fcgi',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/cgi-fcgi'
+  :path => 'modules/cgi_fcgi'
 
 mod 'cargomedia/build',
   :git => 'git@github.com:cargomedia/puppet-packages.git',

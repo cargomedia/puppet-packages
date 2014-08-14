@@ -2,7 +2,7 @@ class raid::adaptec {
 
   require 'unzip'
   require 'apt::source::cargomedia'
-  require 'raid::hwraid-le-vert'
+  require 'raid::hwraid_le_vert'
 
   package {'arcconf':
     ensure => present,
@@ -12,7 +12,7 @@ class raid::adaptec {
 
   package {'aacraid-status':
     ensure => present,
-    require => Class['raid::hwraid-le-vert'],
+    require => Class['raid::hwraid_le_vert'],
   }
   ->
 

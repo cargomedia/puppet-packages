@@ -6,7 +6,7 @@ class jenkins::plugin::github(
 ) {
 
   require 'jenkins::plugin::git'
-  require 'jenkins::plugin::github-api'
+  require 'jenkins::plugin::github_api'
 
   file {'/var/lib/jenkins/com.cloudbees.jenkins.GitHubPushTrigger.xml':
     ensure    => 'present',
