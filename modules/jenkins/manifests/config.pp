@@ -10,6 +10,7 @@ class jenkins::config(
     owner     => 'jenkins',
     group     => 'nogroup',
     mode      => '0755',
+    purge     => true,
   }
 
   file {'/var/lib/jenkins/config.d/_dummy.xml':
