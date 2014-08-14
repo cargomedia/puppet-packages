@@ -6,39 +6,28 @@ class VagrantHelper
     @verbose = verbose
   end
 
-  def command(command, env = {})
-    if @verbose
-      puts command + (env.length > 0 ? ' (' + env.to_s + ')' : '')
-    end
-    env_backup = ENV.to_hash
-    env.each { |key, value| ENV[key] = value }
-    output = `cd #{@working_dir} && #{command}`
-    ENV.replace(env_backup)
-    output
-  end
-
   def reset
-    has_snapshot = command("vagrant snapshot list #{@box} 2>/dev/null | grep -q 'Name: default '")
-    is_running = command("vagrant status #{@box}").match(/running/)
+    has_snapshot = execute_local("vagrant snapshot list #{@box} 2>/dev/null | grep -q 'Name: default '")
+    is_running = execute_local("vagrant status #{@box}").match(/running/)
 
     unless has_snapshot
-      command "vagrant destroy -f #{@box}"
-      command "vagrant up --no-provision #{@box}", {'DISABLE_PROXY' => 'true'}
-      command "vagrant provision #{@box}", {'DISABLE_PROXY' => 'true'}
-      command "vagrant provision"
-      command "vagrant snapshot take #{@box} default"
+      execute_local("vagrant destroy -f #{@box}")
+      execute_local("vagrant up --no-provision #{@box}", {'DISABLE_PROXY' => 'true'})
+      execute_local("vagrant provision #{@box}", {'DISABLE_PROXY' => 'true'})
+      execute_local("vagrant provision")
+      execute_local("vagrant snapshot take #{@box} default")
     end
     unless is_running
-      command "vagrant up #{@box}"
+      execute_local("vagrant up #{@box}")
     end
-    command "vagrant snapshot go #{@box} default"
+    execute_local("vagrant snapshot go #{@box} default")
   end
 
   def connect
     user = Etc.getlogin
     options = {}
     host = ''
-    config = command("vagrant ssh-config #{@box}")
+    config = execute_local("vagrant ssh-config #{@box}")
     config.each_line do |line|
       if match = /HostName (.*)/.match(line)
         host = match[1]
@@ -54,7 +43,7 @@ class VagrantHelper
     @connection = Net::SSH.start(host, user, options)
   end
 
-  def exec(command)
+  def execute_ssh(command)
     channel = @connection.open_channel do |channel|
       channel.exec(command) do |ch, success|
         raise "could not execute command: #{command.inspect}" unless success
@@ -78,6 +67,17 @@ class VagrantHelper
     channel.wait
     raise channel[:output] unless channel[:success]
     channel[:output]
+  end
+
+  def execute_local(command, env = {})
+    if @verbose
+      puts command + (env.length > 0 ? ' (' + env.to_s + ')' : '')
+    end
+    env_backup = ENV.to_hash
+    env.each { |key, value| ENV[key] = value }
+    output = `cd #{@working_dir} && #{command}`
+    ENV.replace(env_backup)
+    output
   end
 
   def get_path(real_path)
