@@ -4,6 +4,6 @@ node default {
     hostname => 'example.com'
   }
 
-  class {'jenkins::plugin::embeddable-build-status':
+  class {'jenkins::plugin::embeddable_build_status':
   }
 }
