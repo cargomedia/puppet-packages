@@ -12,13 +12,8 @@ module RSpec
   module Core
     class ExampleGroup
       def get_file
-        block = self.class.metadata[:example_group_block]
-        if RUBY_VERSION.start_with?('1.8')
-          file = block.to_s.match(/.*@(.*):[0-9]+>/)[1]
-        else
-          file = block.source_location.first
-        end
-        file
+        block = self.class.metadata[:block]
+        block.source_location.first
       end
     end
   end
@@ -50,14 +45,14 @@ RSpec.configure do |c|
       end
 
       hiera_config = {
-          :backends => ['json'],
-          :json => {
-              :datadir => '/vagrant'
-          },
-          :hierarchy => [
-              Pathname.new(File.join(spec_dir.to_path, 'hiera')).relative_path_from(Pathname.new(root_dir)).to_s,
-              'spec/hiera'
-          ]
+        :backends => ['json'],
+        :json => {
+          :datadir => '/vagrant'
+        },
+        :hierarchy => [
+          Pathname.new(File.join(spec_dir.to_path, 'hiera')).relative_path_from(Pathname.new(root_dir)).to_s,
+          'spec/hiera'
+        ]
       }
       hiera_command = "echo #{hiera_config.to_yaml.shellescape} > /etc/hiera.yaml"
       vagrant_helper.exec("sudo bash -c #{hiera_command.shellescape}")
