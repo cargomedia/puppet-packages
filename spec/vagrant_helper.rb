@@ -1,3 +1,5 @@
+require 'open3'
+
 class VagrantHelper
 
   def initialize(working_dir, box, verbose)
@@ -6,39 +8,28 @@ class VagrantHelper
     @verbose = verbose
   end
 
-  def command(subcommand, env = {})
-    if @verbose
-      puts "Vagrant(#{@box}) : " + subcommand + (env.length > 0 ? ' (' + env.to_s + ')' : '')
-    end
-    env_backup = ENV.to_hash
-    env.each {|key, value| ENV[key] = value }
-    output = `cd #{@working_dir} && vagrant #{subcommand} #{@box}`
-    ENV.replace(env_backup)
-    output
-  end
-
   def reset
-    has_snapshot = system('vagrant snapshot list ' + @box + ' 2>/dev/null | grep -q "Name: default "')
-    is_running = command('status').match(/running/)
+    has_snapshot = execute_local("vagrant snapshot list #{@box} 2>/dev/null | grep -q 'Name: default '")
+    is_running = execute_local("vagrant status #{@box}").match(/running/)
 
     unless has_snapshot
-      command 'destroy -f'
-      command 'up --no-provision', {'DISABLE_PROXY' => 'true'}
-      command 'provision', {'DISABLE_PROXY' => 'true'}
-      command 'provision'
-      system('vagrant snapshot take ' + @box + ' default')
+      execute_local("vagrant destroy -f #{@box}")
+      execute_local("vagrant up --no-provision #{@box}", {'DISABLE_PROXY' => 'true'})
+      execute_local("vagrant provision #{@box}", {'DISABLE_PROXY' => 'true'})
+      execute_local("vagrant provision")
+      execute_local("vagrant snapshot take #{@box} default")
     end
     unless is_running
-      command 'up'
+      execute_local("vagrant up #{@box}")
     end
-    system('vagrant snapshot go ' + @box + ' default')
+    execute_local("vagrant snapshot go #{@box} default")
   end
 
   def connect
     user = Etc.getlogin
     options = {}
     host = ''
-    config = command 'ssh-config'
+    config = execute_local("vagrant ssh-config #{@box}")
     config.each_line do |line|
       if match = /HostName (.*)/.match(line)
         host = match[1]
@@ -54,7 +45,7 @@ class VagrantHelper
     @connection = Net::SSH.start(host, user, options)
   end
 
-  def exec(command)
+  def execute_ssh(command)
     channel = @connection.open_channel do |channel|
       channel.exec(command) do |ch, success|
         raise "could not execute command: #{command.inspect}" unless success
@@ -78,6 +69,30 @@ class VagrantHelper
     channel.wait
     raise channel[:output] unless channel[:success]
     channel[:output]
+  end
+
+  def execute_local(command, env = {})
+    if @verbose
+      puts command + (env.length > 0 ? ' (' + env.to_s + ')' : '')
+    end
+
+    output_stdout = output_stderr = exit_code = nil
+    Dir.chdir(@working_dir) {
+      Open3.popen3(ENV, command) { |stdin, stdout, stderr, wait_thr|
+        output_stdout = stdout.read.chomp
+        output_stderr = stderr.read.chomp
+        exit_code = wait_thr.value
+      }
+    }
+
+    unless exit_code.success?
+      message = ['Command execution failed:', command]
+      message.push 'STDOUT:', output_stdout unless output_stdout.empty?
+      message.push 'STDERR:', output_stderr unless output_stderr.empty?
+      raise message.join("\n")
+    end
+
+    output_stdout
   end
 
   def get_path(real_path)
