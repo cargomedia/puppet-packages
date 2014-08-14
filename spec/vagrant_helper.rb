@@ -6,39 +6,39 @@ class VagrantHelper
     @verbose = verbose
   end
 
-  def command(subcommand, env = {})
+  def command(command, env = {})
     if @verbose
-      puts "Vagrant(#{@box}) : " + subcommand + (env.length > 0 ? ' (' + env.to_s + ')' : '')
+      puts command + (env.length > 0 ? ' (' + env.to_s + ')' : '')
     end
     env_backup = ENV.to_hash
-    env.each {|key, value| ENV[key] = value }
-    output = `cd #{@working_dir} && vagrant #{subcommand} #{@box}`
+    env.each { |key, value| ENV[key] = value }
+    output = `cd #{@working_dir} && #{command}`
     ENV.replace(env_backup)
     output
   end
 
   def reset
-    has_snapshot = system('vagrant snapshot list ' + @box + ' 2>/dev/null | grep -q "Name: default "')
-    is_running = command('status').match(/running/)
+    has_snapshot = command("vagrant snapshot list #{@box} 2>/dev/null | grep -q 'Name: default '")
+    is_running = command("vagrant status #{@box}").match(/running/)
 
     unless has_snapshot
-      command 'destroy -f'
-      command 'up --no-provision', {'DISABLE_PROXY' => 'true'}
-      command 'provision', {'DISABLE_PROXY' => 'true'}
-      command 'provision'
-      system('vagrant snapshot take ' + @box + ' default')
+      command "vagrant destroy -f #{@box}"
+      command "vagrant up --no-provision #{@box}", {'DISABLE_PROXY' => 'true'}
+      command "vagrant provision #{@box}", {'DISABLE_PROXY' => 'true'}
+      command "vagrant provision"
+      command "vagrant snapshot take #{@box} default"
     end
     unless is_running
-      command 'up'
+      command "vagrant up #{@box}"
     end
-    system('vagrant snapshot go ' + @box + ' default')
+    command "vagrant snapshot go #{@box} default"
   end
 
   def connect
     user = Etc.getlogin
     options = {}
     host = ''
-    config = command 'ssh-config'
+    config = command("vagrant ssh-config #{@box}")
     config.each_line do |line|
       if match = /HostName (.*)/.match(line)
         host = match[1]
