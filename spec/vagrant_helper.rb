@@ -1,3 +1,5 @@
+require 'open3'
+
 class VagrantHelper
 
   def initialize(working_dir, box, verbose)
@@ -73,11 +75,24 @@ class VagrantHelper
     if @verbose
       puts command + (env.length > 0 ? ' (' + env.to_s + ')' : '')
     end
-    env_backup = ENV.to_hash
-    env.each { |key, value| ENV[key] = value }
-    output = `cd #{@working_dir} && #{command}`
-    ENV.replace(env_backup)
-    output
+
+    output_stdout = output_stderr = exit_code = nil
+    Dir.chdir(@working_dir) {
+      Open3.popen3(ENV, command) { |stdin, stdout, stderr, wait_thr|
+        output_stdout = stdout.read.chomp
+        output_stderr = stderr.read.chomp
+        exit_code = wait_thr.value
+      }
+    }
+
+    unless exit_code.success?
+      message = ['Command execution failed:', command]
+      message.push 'STDOUT:', output_stdout unless output_stdout.empty?
+      message.push 'STDERR:', output_stderr unless output_stderr.empty?
+      raise message.join("\n")
+    end
+
+    output_stdout
   end
 
   def get_path(real_path)
