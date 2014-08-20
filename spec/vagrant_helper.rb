@@ -9,7 +9,7 @@ class VagrantHelper
   end
 
   def reset
-    has_snapshot = execute_local("vagrant snapshot list #{@box} 2>/dev/null | grep -q 'Name: default '", {} ,false)
+    has_snapshot = execute_local("vagrant snapshot list #{@box} 2>/dev/null | grep -q 'Name: default '", {}, false)
     is_running = execute_local("vagrant status #{@box}", {}, false).match(/running/)
     unless has_snapshot
       execute_local("vagrant destroy -f #{@box}")
