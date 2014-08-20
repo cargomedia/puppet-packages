@@ -9,9 +9,8 @@ class VagrantHelper
   end
 
   def reset
-    has_snapshot = execute_local("vagrant snapshot list #{@box} 2>/dev/null | grep -q 'Name: default '")
-    is_running = execute_local("vagrant status #{@box}").match(/running/)
-
+    has_snapshot = execute_local("vagrant snapshot list #{@box} 2>/dev/null | grep -q 'Name: default '", {} ,false)
+    is_running = execute_local("vagrant status #{@box}", {}, false).match(/running/)
     unless has_snapshot
       execute_local("vagrant destroy -f #{@box}")
       execute_local("vagrant up --no-provision #{@box}", {'DISABLE_PROXY' => 'true'})
@@ -71,7 +70,7 @@ class VagrantHelper
     channel[:output]
   end
 
-  def execute_local(command, env = {})
+  def execute_local(command, env = {}, exitOnFail = true)
     if @verbose
       puts command + (env.length > 0 ? ' (' + env.to_s + ')' : '')
     end
@@ -85,14 +84,14 @@ class VagrantHelper
       }
     }
 
-    unless exit_code.success?
+    unless exit_code.success? or !exitOnFail
       message = ['Command execution failed:', command]
       message.push 'STDOUT:', output_stdout unless output_stdout.empty?
       message.push 'STDERR:', output_stderr unless output_stderr.empty?
       raise message.join("\n")
     end
 
-    output_stdout
+    output_stdout.length > 0 ? output_stdout : nil
   end
 
   def get_path(real_path)
