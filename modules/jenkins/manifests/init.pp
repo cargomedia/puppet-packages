@@ -1,6 +1,6 @@
 class jenkins(
   $hostname,
-  $port = 8080,
+  $port = 80,
   $emailAdmin = 'root@localhost',
   $emailSuffix = '@localhost',
   $numExecutors = 1
