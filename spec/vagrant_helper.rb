@@ -11,7 +11,7 @@ class VagrantHelper
   def reset
     # Workaround
     # Override exit code because of bug (https://github.com/dergachev/vagrant-vbox-snapshot/issues/17)
-    has_snapshot = execute_local("vagrant snapshot list #{@box} 2>/dev/null | grep -q 'Name: default ' || true")
+    has_snapshot = execute_local("vagrant snapshot list #{@box} 2>/dev/null || true").match(/Default: /)
     is_running = execute_local("vagrant status #{@box}").match(/running/)
 
     unless has_snapshot
