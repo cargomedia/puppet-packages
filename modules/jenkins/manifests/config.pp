@@ -65,4 +65,13 @@ class jenkins::config(
     notify    => Service['jenkins'],
   }
 
+  file {'/var/lib/jenkins/org.jenkinsci.main.modules.sshd.SSHD.xml':
+    ensure    => 'present',
+    content   => template('jenkins/org.jenkinsci.main.modules.sshd.SSHD.xml'),
+    owner     => 'jenkins',
+    group     => 'nogroup',
+    mode      => '0644',
+    notify    => Service['jenkins'],
+  }
+
 }
