@@ -80,7 +80,7 @@ class VagrantHelper
 
     output_stdout = output_stderr = exit_code = nil
     Dir.chdir(@working_dir) {
-      Open3.popen3(ENV, command) { |stdin, stdout, stderr, wait_thr|
+      Open3.popen3(env.merge(ENV), command) { |stdin, stdout, stderr, wait_thr|
         output_stdout = stdout.read.chomp
         output_stderr = stderr.read.chomp
         exit_code = wait_thr.value
