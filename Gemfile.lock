@@ -3,7 +3,7 @@ GEM
   specs:
     CFPropertyList (2.2.8)
     diff-lcs (1.2.5)
-    facter (2.0.2)
+    facter (2.1.0)
       CFPropertyList (~> 2.2.6)
     hiera (1.3.4)
       json_pure
@@ -15,27 +15,30 @@ GEM
       hiera (~> 1.0)
       json_pure
       rgen (~> 0.6.5)
-    puppet-lint (0.3.2)
+    puppet-lint (1.0.1)
     rake (10.3.2)
     rgen (0.6.6)
-    rspec (2.99.0)
-      rspec-core (~> 2.99.0)
-      rspec-expectations (~> 2.99.0)
-      rspec-mocks (~> 2.99.0)
-    rspec-core (2.99.1)
-    rspec-expectations (2.99.1)
-      diff-lcs (>= 1.1.3, < 2.0)
+    rspec (3.0.0)
+      rspec-core (~> 3.0.0)
+      rspec-expectations (~> 3.0.0)
+      rspec-mocks (~> 3.0.0)
+    rspec-core (3.0.4)
+      rspec-support (~> 3.0.0)
+    rspec-expectations (3.0.4)
+      diff-lcs (>= 1.2.0, < 2.0)
+      rspec-support (~> 3.0.0)
     rspec-its (1.0.1)
       rspec-core (>= 2.99.0.beta1)
       rspec-expectations (>= 2.99.0.beta1)
-    rspec-mocks (2.99.1)
-    serverspec (1.9.0)
+    rspec-mocks (3.0.4)
+      rspec-support (~> 3.0.0)
+    rspec-support (3.0.4)
+    serverspec (0.15.4)
       highline
       net-ssh
-      rspec (~> 2.13)
-      rspec-its
-      specinfra (~> 1.18)
-    specinfra (1.18.2)
+      rspec (>= 2.13.0)
+      specinfra (>= 0.7.1)
+    specinfra (1.25.3)
 
 PLATFORMS
   ruby
@@ -44,4 +47,6 @@ DEPENDENCIES
   puppet
   puppet-lint
   rake
+  rspec (~> 3)
+  rspec-its
   serverspec
