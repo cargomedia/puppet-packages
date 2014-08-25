@@ -2,7 +2,9 @@
 <hudson>
   <disabledAdministrativeMonitors>
     <string>jenkins.security.RekeySecretAdminMonitor</string>
+    <string>hudson.diagnosis.ReverseProxySetupMonitor</string>
+    <string>jenkins.diagnostics.SecurityIsOffMonitor</string>
   </disabledAdministrativeMonitors>
-  <version>1.575</version>
+  <version>1.576</version>
   <numExecutors><%= @numExecutors %></numExecutors>
   <mode>NORMAL</mode>
