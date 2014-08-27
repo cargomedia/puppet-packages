@@ -11,7 +11,7 @@ class wowza::app::cm (
   require 'wowza'
   require 'wowza::jar::cm_wowza'
 
-  file {"${dir}":
+  file {$dir:
     ensure => directory,
     owner => 'wowza',
     group => 'wowza',

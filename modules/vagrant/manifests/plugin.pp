@@ -10,7 +10,7 @@ define vagrant::plugin(
     $listOutput = "${name} (${version})"
     $installCommand = "vagrant plugin install '${name}' --plugin-version '${version}'"
   } else {
-    $listOutput = "${name}"
+    $listOutput = $name
     $installCommand = "vagrant plugin install '${name}'"
   }
 
