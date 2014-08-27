@@ -7,8 +7,10 @@ define apache2::mod (
   require 'apache2'
   include 'apache2::service'
 
+  $linkIfEnabled = $enabled ? {true => link, false => absent}
+
   file {"/etc/apache2/mods-enabled/${name}.load":
-    ensure => $enabled ? {true => link, false => absent},
+    ensure => $linkIfEnabled,
     target => "/etc/apache2/mods-available/${name}.load",
     group => '0',
     owner => '0',
@@ -42,7 +44,7 @@ define apache2::mod (
     ->
 
     file {"/etc/apache2/mods-enabled/${name}.conf":
-      ensure => $enabled ? {true => link, false => absent},
+      ensure => $linkIfEnabled,
       target => "/etc/apache2/mods-available/${name}.conf",
       group => '0',
       owner => '0',

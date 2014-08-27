@@ -2,6 +2,10 @@ define helper::script ($content, $unless, $timeout = 300, $user = undef, $enviro
 
   $scriptName = md5($title)
   $scriptDirname = "/tmp/${scriptName}"
+  $scriptEnv =  $environment ? {
+    undef => hiera('helper::script::environment', []),
+    default => $environment,
+  }
 
   exec {"exec ${title}":
     provider => shell,
@@ -11,10 +15,7 @@ define helper::script ($content, $unless, $timeout = 300, $user = undef, $enviro
     logoutput => on_failure,
     timeout => $timeout,
     user => $user,
-    environment => $environment ? {
-      undef => hiera('helper::script::environment', []),
-      default => $environment,
-    },
+    environment => $scriptEnv,
   }
   ~>
 

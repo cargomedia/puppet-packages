@@ -7,8 +7,10 @@ define apt::source(
   require 'apt'
   include 'apt::update'
 
+  $fileIfPresent = $ensure? { present => file, default => $ensure}
+
   file { "/etc/apt/sources.list.d/${name}.list":
-    ensure  => $ensure? { present => file, default => $ensure},
+    ensure  => $fileIfPresent,
     owner   => '0',
     group   => '0',
     mode    => '0644',

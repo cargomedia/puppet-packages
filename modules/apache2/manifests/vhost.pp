@@ -3,6 +3,7 @@ define apache2::vhost ($content, $enabled = true) {
   require 'apache2'
 
   $vhostPath = "/etc/apache2/sites-available/${name}"
+  $linkIfEnabled = $enabled ? {true => link, false => absent}
 
   file { $vhostPath:
     ensure => present,
@@ -15,7 +16,7 @@ define apache2::vhost ($content, $enabled = true) {
   ->
 
   file { "/etc/apache2/sites-enabled/${name}":
-    ensure => $enabled ? { true => link, false => absent},
+    ensure => $linkIfEnabled,
     target => $vhostPath,
     group => '0',
     owner => '0',

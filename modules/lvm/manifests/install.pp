@@ -55,11 +55,12 @@ class lvm::install (
       ensure => directory,
     }
 
+    $mountOptions = $mount_options ? { undef => $logicalVolumeMountOptions,  default => $mount_options }
     mount::entry {'mount lvm':
       source => "/dev/${volumeGroupName}/${logicalVolumeName}",
       target => $logicalVolumeMountpoint,
       type => $logicalVolumeFilesystem,
-      options => $mount_options ? { undef => $logicalVolumeMountOptions,  default => $mount_options },
+      options => $mountOptions,
       mount_check => true,
     }
 
