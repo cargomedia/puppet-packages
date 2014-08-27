@@ -19,7 +19,7 @@ define network::interface (
 
   case $method {
     'dhcp': {
-      augeas {"main-$device" :
+      augeas {"main-${device}" :
         context => '/files/etc/network/interfaces',
         changes => template('network/interface/dhcp'),
         require => Class['augeas']
@@ -32,7 +32,7 @@ define network::interface (
       if $netmask == undef {
         fail ("Netmask for interface ${device} must be specified for ${method} method!")
       }
-      augeas {"main-$device" :
+      augeas {"main-${device}" :
         context => '/files/etc/network/interfaces',
         changes => template('network/interface/static'),
         require => Class['augeas']
@@ -44,9 +44,9 @@ define network::interface (
   }
 
   if $applyconfig {
-    exec {"/sbin/ifup $device":
-      command => "/sbin/ifup $device",
-      unless  => "/sbin/ifconfig | grep $device",
+    exec {"/sbin/ifup ${device}":
+      command => "/sbin/ifup ${device}",
+      unless  => "/sbin/ifconfig | grep ${device}",
       path => ['/usr/local/bin', '/usr/bin', '/bin', '/sbin'],
     }
   }

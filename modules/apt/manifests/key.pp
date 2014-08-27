@@ -15,7 +15,7 @@ define apt::key (
         fail '[apt::key] key_url or key_server or key_content is needed for ensure => present'
       }
       if ($key_url) {
-        exec { "Add deb signature key for $name":
+        exec { "Add deb signature key for ${name}":
           command   => "wget -q '${key_url}' -O- | apt-key add -",
           path      => ['/bin','/usr/bin'],
           unless    => $condition,
@@ -24,7 +24,7 @@ define apt::key (
         }
       }
       if ($key_server) {
-        exec { "Add deb signature key for $name":
+        exec { "Add deb signature key for ${name}":
           command   => "apt-key adv --keyserver ${key_server} --recv-keys ${key}",
           path      => ['/bin','/usr/bin'],
           unless    => $condition,
@@ -45,7 +45,7 @@ define apt::key (
     }
 
     absent: {
-      exec { "Remove deb signature key for $name":
+      exec { "Remove deb signature key for ${name}":
         command   => "apt-key del '${key}'",
         path      => ['/bin','/usr/bin'],
         onlyif    => $condition,
