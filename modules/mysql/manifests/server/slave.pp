@@ -18,7 +18,7 @@ class mysql::server::slave ($replication_id, $server_id) {
     content => template('mysql/replication-check.sh'),
     owner => '0',
     group => '0',
-    mode => '755',
+    mode => '0755',
     require => Service['mysql'],
   }
   ->

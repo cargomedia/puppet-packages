@@ -20,7 +20,7 @@ class network::hostname(
     ensure  => present,
     owner   => 'root',
     group   => 'root',
-    mode    => 644,
+    mode    => '0644',
     content => "${fqdn}\n",
   }
 
@@ -28,7 +28,7 @@ class network::hostname(
     ensure  => present,
     owner   => 'root',
     group   => 'root',
-    mode    => 644,
+    mode    => '0644',
     content => "${hostname}\n",
     notify  => Exec['hostname.sh'],
   }

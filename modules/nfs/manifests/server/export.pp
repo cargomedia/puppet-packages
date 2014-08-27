@@ -36,7 +36,7 @@ define nfs::server::export($publicPath = $name, $localPath, $configuration, $own
     content => template('nfs/export'),
     owner => '0',
     group => '0',
-    mode => '644',
+    mode => '0644',
     notify => Exec['/etc/exports'],
   }
 }

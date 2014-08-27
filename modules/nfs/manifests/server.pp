@@ -14,7 +14,7 @@ class nfs::server (
     ensure => directory,
     owner => '0',
     group => '0',
-    mode => '755',
+    mode => '0755',
     before => Package['nfs-kernel-server'],
   }
 
@@ -23,7 +23,7 @@ class nfs::server (
     content => template('nfs/server/default'),
     owner => '0',
     group => '0',
-    mode => '644',
+    mode => '0644',
     notify => Service['nfs-kernel-server'],
   }
   ->

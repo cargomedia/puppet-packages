@@ -11,20 +11,20 @@ class puppet::master::passenger (
       ensure => directory,
       owner => 'puppet',
       group => 'puppet',
-      mode => 0755;
+      mode => '0755';
 
     ['/usr/share/puppet/rack/puppetmasterd/public', '/usr/share/puppet/rack/puppetmasterd/tmp']:
       ensure => directory,
       owner => 'puppet',
       group => 'puppet',
-      mode => 0755;
+      mode => '0755';
 
     '/usr/share/puppet/rack/puppetmasterd/config.ru':
       ensure => present,
       source => '/usr/share/puppet/ext/rack/config.ru',
       owner => 'puppet',
       group => 'puppet',
-      mode => 0755;
+      mode => '0755';
   }
   ->
 

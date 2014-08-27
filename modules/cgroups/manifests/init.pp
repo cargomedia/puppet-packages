@@ -17,9 +17,9 @@ class cgroups {
 
   file {'/etc/cgconfig.conf':
     ensure => file,
-    mode => 0644,
-    owner => 0,
-    group => 0,
+    mode => '0644',
+    owner => '0',
+    group => '0',
   }
 
   file {'augeas-lens':
@@ -31,9 +31,9 @@ class cgroups {
   file {'/etc/init.d/cgconfig-apply':
     ensure => file,
     content => template('cgroups/init'),
-    mode => 0755,
-    owner => 0,
-    group => 0,
+    mode => '0755',
+    owner => '0',
+    group => '0',
     notify => Service['cgconfig-apply'],
   }
   ~>

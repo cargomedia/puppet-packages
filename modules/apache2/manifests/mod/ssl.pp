@@ -8,7 +8,7 @@ class apache2::mod::ssl {
     ensure => directory,
     owner => '0',
     group => '0',
-    mode => '755',
+    mode => '0755',
     require => Apache2::Mod['ssl'],
   }
 
@@ -16,7 +16,7 @@ class apache2::mod::ssl {
     ensure => directory,
     owner => '0',
     group => '0',
-    mode => '755',
+    mode => '0755',
     require => Apache2::Mod['ssl'],
   }
 }
