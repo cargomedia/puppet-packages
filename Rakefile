@@ -3,9 +3,13 @@ require 'rspec/core/rake_task'
 require 'puppet-lint/tasks/puppet-lint'
 require 'pathname'
 
+PuppetLint.configuration.fail_on_warnings = true
 PuppetLint.configuration.send('disable_arrow_alignment')
 PuppetLint.configuration.send('disable_80chars')
 PuppetLint.configuration.send('disable_documentation')
+PuppetLint.configuration.send('disable_class_inherits_from_params_class')
+PuppetLint.configuration.send('disable_parameter_order')
+
 PuppetLint.configuration.ignore_paths = ["**/templates/**/*.pp", "vendor/**/*.pp"]
 
 RSpec::Core::RakeTask.new(:test) do |t|
