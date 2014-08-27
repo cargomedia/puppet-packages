@@ -24,10 +24,10 @@ class wowza (
 
   file {
     '/usr/local/WowzaStreamingEngine/lib/lib-versions':
-      ensure => directory;
+      ensure => directory,
       owner => 'wowza',
       group => 'wowza',
-      mode => '0755',
+      mode => '0755';
 
     '/usr/local/WowzaStreamingEngine/conf/admin.password':
       ensure =>file,
