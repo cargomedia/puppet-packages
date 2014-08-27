@@ -39,7 +39,7 @@ class jenkins::config(
   }
 
   exec {'/var/lib/jenkins/config.xml':
-    command     => "/bin/cat /var/lib/jenkins/config.d-header.xml /var/lib/jenkins/config.d/* /var/lib/jenkins/config.d-footer.xml > /var/lib/jenkins/config.xml",
+    command     => '/bin/cat /var/lib/jenkins/config.d-header.xml /var/lib/jenkins/config.d/* /var/lib/jenkins/config.d-footer.xml > /var/lib/jenkins/config.xml',
     refreshonly => true,
     user        => 'jenkins',
     group       => 'nogroup',

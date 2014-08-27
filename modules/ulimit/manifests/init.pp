@@ -1,7 +1,7 @@
 class ulimit (
   $limits = []
 ) {
-  file { "/etc/security/limits.conf":
+  file { '/etc/security/limits.conf':
     ensure  => file,
     group => '0',
     owner => '0',
@@ -9,7 +9,7 @@ class ulimit (
     content => template ("${module_name}/limits"),
   }
 
-  file { "/etc/security/limits.d/":
+  file { '/etc/security/limits.d/':
     ensure  => directory,
     group => '0',
     owner => '0',

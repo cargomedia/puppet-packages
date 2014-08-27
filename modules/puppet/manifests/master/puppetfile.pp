@@ -15,7 +15,7 @@ class puppet::master::puppetfile(
       mode => '0755',
     }
 
-    $sync_command = "&& /usr/local/bin/sync_hiera.sh"
+    $sync_command = '&& /usr/local/bin/sync_hiera.sh'
 
     file {'/usr/local/bin/sync_hiera.sh':
       ensure => file,

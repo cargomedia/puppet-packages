@@ -12,7 +12,7 @@ define apt::key (
   case $ensure {
     present: {
       if !$key_server and !$key_url and !$key_content {
-        fail "[apt::key] key_url or key_server or key_content is needed for ensure => present"
+        fail '[apt::key] key_url or key_server or key_content is needed for ensure => present'
       }
       if ($key_url) {
         exec { "Add deb signature key for $name":

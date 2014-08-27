@@ -15,7 +15,7 @@ class puppet::agent (
   }
 
   if $cpu_shares < 1 or $cpu_shares > 1025 {
-    fail "CPU shares must be in range 1 to 1024"
+    fail 'CPU shares must be in range 1 to 1024'
   }
 
   if $cpu_shares != 1024 {

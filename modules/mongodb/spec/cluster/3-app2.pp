@@ -10,7 +10,7 @@ node default {
   mongodb_user {'dummyuser':
     database => 'dummydb',
     password => 'my-password2',
-    roles => [ {"role" => "dbAdmin", "db"=> "dummydb"} ],
+    roles => [ {'role' => 'dbAdmin', 'db' => 'dummydb'} ],
   }
   ->
 

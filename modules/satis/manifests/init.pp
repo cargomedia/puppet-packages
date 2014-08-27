@@ -20,7 +20,7 @@ class satis($hostname) {
   }
 
   exec {'install satis':
-    command => "composer --no-interaction create-project composer/satis --stability=dev --keep-vcs /var/lib/satis/satis",
+    command => 'composer --no-interaction create-project composer/satis --stability=dev --keep-vcs /var/lib/satis/satis',
     creates => '/var/lib/satis/satis',
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     user => 'satis',
@@ -29,7 +29,7 @@ class satis($hostname) {
   ->
 
   exec {'upgrade satis':
-    command => "git fetch && git checkout ${version} && composer --no-interaction --no-dev install",
+    command => 'git fetch && git checkout ${version} && composer --no-interaction --no-dev install',
     cwd => '/var/lib/satis/satis',
     unless => "test $(git rev-parse HEAD) = ${version}",
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],

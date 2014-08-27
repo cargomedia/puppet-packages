@@ -60,7 +60,7 @@ class wowza::app::cm (
   }
 
   # wowza configuration
-  file {"/usr/local/WowzaStreamingEngine/conf/Server.xml":
+  file {'/usr/local/WowzaStreamingEngine/conf/Server.xml':
     ensure => file,
     content => template('wowza/app/cm/Server.xml'),
     owner => 'wowza',
@@ -69,7 +69,7 @@ class wowza::app::cm (
     notify => Service['wowza'],
   }
 
-  file {"/usr/local/WowzaStreamingEngine/conf/VHosts.xml":
+  file {'/usr/local/WowzaStreamingEngine/conf/VHosts.xml':
     ensure => file,
     content => template('wowza/app/cm/VHosts.xml'),
     owner => 'wowza',

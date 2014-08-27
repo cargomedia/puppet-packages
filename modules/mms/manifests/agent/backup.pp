@@ -7,7 +7,7 @@ class mms::agent::backup (
   require 'mms'
 
   $agent_name = 'mms-backup'
-  $daemon_args = "-c /etc/mongodb-mms/backup-agent.config"
+  $daemon_args = '-c /etc/mongodb-mms/backup-agent.config'
 
   helper::script {'install-mms-backup':
     content => template('mms/install.sh'),

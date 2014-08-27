@@ -2,7 +2,7 @@ class apt {
 
   include 'apt::update'
 
-  file { "/etc/apt/sources.list.d/":
+  file { '/etc/apt/sources.list.d/':
     ensure => directory,
     owner   => '0',
     group   => '0',

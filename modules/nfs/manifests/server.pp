@@ -45,7 +45,7 @@ class nfs::server (
   }
 
   exec {'/etc/init.d/nfs-kernel-server reload':
-    command     => "/etc/init.d/nfs-kernel-server reload",
+    command     => '/etc/init.d/nfs-kernel-server reload',
     onlyif      => '/etc/init.d/nfs-kernel-server status',
     refreshonly => true,
   }
