@@ -36,15 +36,15 @@ class monit ($emailTo = 'root@localhost', $emailFrom = 'root@localhost', $allowe
       mode => '0755';
 
     '/etc/monit/templates/alert-default':
-      content => template('monit/templates/alert-default'),
       ensure => file,
+      content => template('monit/templates/alert-default'),
       group => '0',
       owner => '0',
       mode => '0755';
 
     '/etc/monit/templates/alert-none':
-      content => template('monit/templates/alert-none'),
       ensure => file,
+      content => template('monit/templates/alert-none'),
       group => '0',
       owner => '0',
       mode => '0755';
@@ -69,8 +69,8 @@ class monit ($emailTo = 'root@localhost', $emailFrom = 'root@localhost', $allowe
   ->
 
   file { '/etc/monit/monitrc':
-    content => template('monit/monitrc'),
     ensure => file,
+    content => template('monit/monitrc'),
     group => '0',
     owner => '0',
     mode => '0600',

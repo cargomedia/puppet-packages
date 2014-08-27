@@ -18,11 +18,11 @@ class lvm::install (
       class {'lvm::base::xfs': }
 
       cron {'xfs-maintenance':
+        ensure => absent,
         command => "/usr/sbin/xfs_fsr ${logicalVolumeMountpoint} >/dev/null",
         user => 'root',
         minute => 30,
         hour => 2,
-        ensure => absent,
         require => Class['lvm::base::xfs'],
       }
 
