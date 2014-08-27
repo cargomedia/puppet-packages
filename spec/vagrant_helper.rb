@@ -9,7 +9,9 @@ class VagrantHelper
   end
 
   def reset
-    has_snapshot = execute_local("vagrant snapshot list #{@box} 2>/dev/null | grep -q 'Name: default '")
+    # Workaround
+    # Override exit code because of bug (https://github.com/dergachev/vagrant-vbox-snapshot/issues/17)
+    has_snapshot = execute_local("vagrant snapshot list #{@box} 2>/dev/null || true").match(/Name: default /)
     is_running = execute_local("vagrant status #{@box}").match(/running/)
 
     unless has_snapshot
@@ -78,7 +80,7 @@ class VagrantHelper
 
     output_stdout = output_stderr = exit_code = nil
     Dir.chdir(@working_dir) {
-      Open3.popen3(ENV, command) { |stdin, stdout, stderr, wait_thr|
+      Open3.popen3(ENV.merge(env), command) { |stdin, stdout, stderr, wait_thr|
         output_stdout = stdout.read.chomp
         output_stderr = stderr.read.chomp
         exit_code = wait_thr.value
