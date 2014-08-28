@@ -9,6 +9,10 @@ class VagrantHelper
   end
 
   def reset
+    unless execute_local('vagrant plugin list').match(/vagrant-vbox-snapshot/)
+      execute_local('vagrant plugin install vagrant-vbox-snapshot --plugin-version 0.0.4')
+    end
+
     # Workaround
     # Override exit code because of bug (https://github.com/dergachev/vagrant-vbox-snapshot/issues/17)
     has_snapshot = execute_local("vagrant snapshot list #{@box} 2>/dev/null || true").match(/Name: default /)
@@ -18,7 +22,7 @@ class VagrantHelper
       execute_local("vagrant destroy -f #{@box}")
       execute_local("vagrant up --no-provision #{@box}", {'DISABLE_PROXY' => 'true'})
       execute_local("vagrant provision #{@box}", {'DISABLE_PROXY' => 'true'})
-      execute_local("vagrant provision")
+      execute_local('vagrant provision')
       execute_local("vagrant snapshot take #{@box} default")
     end
     unless is_running
