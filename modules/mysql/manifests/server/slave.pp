@@ -4,7 +4,7 @@ class mysql::server::slave ($replication_id, $server_id) {
 
   file {'/etc/mysql/conf.d/slave.cnf':
     ensure => file,
-    content => template('mysql/conf.d/slave.cnf'),
+    content => template("${module_name}/conf.d/slave.cnf"),
     owner => 'root',
     group => 'mysql',
     mode => '0640',
@@ -15,7 +15,7 @@ class mysql::server::slave ($replication_id, $server_id) {
 
   file {'/usr/local/bin/mysql-replication-check':
     ensure => file,
-    content => template('mysql/replication-check.sh'),
+    content => template("${module_name}/replication-check.sh"),
     owner => '0',
     group => '0',
     mode => '0755',

@@ -1,7 +1,7 @@
 class apache2::mod::ssl {
 
   apache2::mod {'ssl':
-    configuration => template('apache2/mod/ssl.conf'),
+    configuration => template("${module_name}/mod/ssl.conf"),
   }
 
   file {'/etc/apache2/ssl':

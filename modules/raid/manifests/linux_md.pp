@@ -9,7 +9,7 @@ class raid::linux_md {
 
   file {'/etc/mdadm/mdadm.conf':
     ensure => file,
-    content => template('raid/linux_md/mdadm.conf'),
+    content => template("${module_name}/linux_md/mdadm.conf"),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -19,7 +19,7 @@ class raid::linux_md {
 
   file {'/tmp/mdadm.preseed':
     ensure => file,
-    content => template('raid/linux_md/mdadm.preseed'),
+    content => template("${module_name}/linux_md/mdadm.preseed"),
     mode => '0644',
   }
 
@@ -35,7 +35,7 @@ class raid::linux_md {
   }
 
   @monit::entry {'mdadm-status':
-    content => template('raid/linux_md/monit'),
+    content => template("${module_name}/linux_md/monit"),
     require => Service['mdadm'],
   }
 

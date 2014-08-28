@@ -33,7 +33,7 @@ define nfs::server::export($publicPath = $name, $localPath, $configuration, $own
 
   file {"/etc/exports.d/${filename}":
     ensure => file,
-    content => template('nfs/export'),
+    content => template("${module_name}/export"),
     owner => '0',
     group => '0',
     mode => '0644',

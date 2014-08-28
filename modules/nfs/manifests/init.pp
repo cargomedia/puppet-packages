@@ -2,7 +2,7 @@ class nfs {
 
   file { '/etc/default/nfs-common':
     ensure => file,
-    content => template('nfs/default'),
+    content => template("${module_name}/default"),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -11,7 +11,7 @@ class nfs {
 
   file { '/etc/idmapd.conf':
     ensure => file,
-    content => template('nfs/idmapd.conf'),
+    content => template("${module_name}/idmapd.conf"),
     group => '0',
     owner => '0',
     mode => '0644',

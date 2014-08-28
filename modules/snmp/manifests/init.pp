@@ -7,7 +7,7 @@ class snmp (
 
   file {'/etc/snmp/snmpd.conf':
     ensure => file,
-    content => template('snmp/snmpd.conf'),
+    content => template("${module_name}/snmpd.conf"),
     owner => '0',
     group => '0',
     mode => '0644',
@@ -16,7 +16,7 @@ class snmp (
 
   file {'/etc/default/snmpd':
     ensure => file,
-    content => template('snmp/default'),
+    content => template("${module_name}/default"),
     owner => '0',
     group => '0',
     mode => '0644',
@@ -33,7 +33,7 @@ class snmp (
   }
 
   @monit::entry {'snmpd':
-    content => template('snmp/monit'),
+    content => template("${module_name}/monit"),
     require => Package['snmpd'],
   }
 }

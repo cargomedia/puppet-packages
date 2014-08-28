@@ -45,7 +45,7 @@ class lvm::install (
   }
 
   helper::script {'install lvm':
-    content => template('lvm/install'),
+    content => template("${module_name}/install"),
     unless => "lvs | grep -q ${logicalVolumeName}",
     require => Class['lvm::package'],
   }
@@ -66,7 +66,7 @@ class lvm::install (
 
     $mountBasename = file_basename($logicalVolumeMountpoint)
     @monit::entry {"fs-check-${mountBasename}":
-      content => template('lvm/monit'),
+      content => template("${module_name}/monit"),
     }
   }
 

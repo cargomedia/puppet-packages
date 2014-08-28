@@ -19,7 +19,7 @@ class puppet::master::puppetfile(
 
     file {'/usr/local/bin/sync_hiera.sh':
       ensure => file,
-      content => template('puppet/sync_hiera.sh'),
+      content => template("${module_name}/sync_hiera.sh"),
       owner => '0',
       group => '0',
       mode => '0755',

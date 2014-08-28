@@ -2,7 +2,7 @@ class ssh ($permit_root_login = 'yes') {
 
   file {'/etc/ssh/ssh_config':
     ensure => file,
-    content => template('ssh/ssh_config'),
+    content => template("${module_name}/ssh_config"),
     owner => '0',
     group => '0',
     mode => '0644',
@@ -11,7 +11,7 @@ class ssh ($permit_root_login = 'yes') {
 
   file {'/etc/ssh/sshd_config':
     ensure => file,
-    content => template('ssh/sshd_config'),
+    content => template("${module_name}/sshd_config"),
     owner => '0',
     group => '0',
     mode => '0644',

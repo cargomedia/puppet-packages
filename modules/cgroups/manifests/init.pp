@@ -30,7 +30,7 @@ class cgroups {
 
   file {'/etc/init.d/cgconfig-apply':
     ensure => file,
-    content => template('cgroups/init'),
+    content => template("${module_name}/init"),
     mode => '0755',
     owner => '0',
     group => '0',

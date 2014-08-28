@@ -8,7 +8,7 @@ class jenkins::plugin::git(
 
   file {'/var/lib/jenkins/hudson.plugins.git.GitSCM.xml':
     ensure    => 'present',
-    content   => template('jenkins/plugin/git.xml'),
+    content   => template("${module_name}/plugin/git.xml"),
     owner     => 'jenkins',
     group     => 'nogroup',
     mode      => '0644',

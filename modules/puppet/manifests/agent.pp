@@ -39,7 +39,7 @@ class puppet::agent (
   file {
     '/etc/puppet/conf.d/agent':
       ensure => file,
-      content => template('puppet/agent/config'),
+      content => template("${module_name}/agent/config"),
       group => '0',
       owner => '0',
       mode => '0644',
@@ -47,7 +47,7 @@ class puppet::agent (
 
     '/etc/default/puppet':
       ensure => file,
-      content => template('puppet/agent/default'),
+      content => template("${module_name}/agent/default"),
       group => '0',
       owner => '0',
       mode => '0644',
@@ -55,7 +55,7 @@ class puppet::agent (
 
     '/etc/init.d/puppet':
       ensure => file,
-      content => template('puppet/agent/init'),
+      content => template("${module_name}/agent/init"),
       group => '0',
       owner => '0',
       mode => '0755',
@@ -86,19 +86,19 @@ class puppet::agent (
 
   file {'/usr/local/bin/puppet-agent-check.rb':
     ensure => file,
-    content => template('puppet/agent/puppet-agent-check.rb'),
+    content => template("${module_name}/agent/puppet-agent-check.rb"),
     group => '0',
     owner => '0',
     mode => '0755',
   }
 
   @monit::entry {'puppet':
-    content => template('puppet/agent/monit'),
+    content => template("${module_name}/agent/monit"),
     require => Service['puppet'],
   }
 
   @monit::entry {'puppet-agent-check':
-    content => template('puppet/agent/monit-agent-check'),
+    content => template("${module_name}/agent/monit-agent-check"),
     require => Service['puppet'],
   }
 }

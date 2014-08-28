@@ -20,7 +20,7 @@ class nfs::server (
 
   file {'/etc/default/nfs-kernel-server':
     ensure => file,
-    content => template('nfs/server/default'),
+    content => template("${module_name}/server/default"),
     owner => '0',
     group => '0',
     mode => '0644',
@@ -51,7 +51,7 @@ class nfs::server (
   }
 
   @monit::entry {'nfs-kernel-server':
-    content => template('nfs/monit'),
+    content => template("${module_name}/monit"),
     require => Service['nfs-kernel-server'],
   }
 

@@ -9,7 +9,7 @@ define helper::script ($content, $unless, $timeout = 300, $user = undef, $enviro
 
   exec {"exec ${title}":
     provider => shell,
-    command => template('helper/script.sh'),
+    command => template("${module_name}/script.sh"),
     unless => $unless,
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     logoutput => on_failure,

@@ -29,7 +29,7 @@ class puppet::master::passenger (
   ->
 
   apache2::vhost {'puppetmaster':
-    content => template('puppet/master/apache2/vhost'),
+    content => template("${module_name}/master/apache2/vhost"),
   }
 
 }

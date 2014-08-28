@@ -21,7 +21,7 @@ define network::interface (
     'dhcp': {
       augeas {"main-${device}" :
         context => '/files/etc/network/interfaces',
-        changes => template('network/interface/dhcp'),
+        changes => template("${module_name}/interface/dhcp"),
         require => Class['augeas']
       }
     }
@@ -34,7 +34,7 @@ define network::interface (
       }
       augeas {"main-${device}" :
         context => '/files/etc/network/interfaces',
-        changes => template('network/interface/static'),
+        changes => template("${module_name}/interface/static"),
         require => Class['augeas']
       }
     }

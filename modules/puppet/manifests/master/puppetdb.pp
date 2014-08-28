@@ -6,7 +6,7 @@ class puppet::master::puppetdb(
 
   file {'/etc/puppet/puppetdb.conf':
     ensure => file,
-    content => template('puppet/master/puppetdb.conf'),
+    content => template("${module_name}/master/puppetdb.conf"),
     owner => '0',
     group => '0',
     mode => '0644',
@@ -16,7 +16,7 @@ class puppet::master::puppetdb(
 
   file {'/etc/puppet/conf.d/puppetdb':
     ensure => file,
-    content => template('puppet/master/conf.d/puppetdb'),
+    content => template("${module_name}/master/conf.d/puppetdb"),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -26,7 +26,7 @@ class puppet::master::puppetdb(
 
   file {'/etc/puppet/routes.yaml':
     ensure => file,
-    content => template('puppet/master/routes.yaml'),
+    content => template("${module_name}/master/routes.yaml"),
     group => '0',
     owner => '0',
     mode => '0644',

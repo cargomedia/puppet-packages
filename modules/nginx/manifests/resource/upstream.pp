@@ -12,7 +12,7 @@ define nginx::resource::upstream (
   $fileIfPresent = $ensure ? {present => file, default => $ensure}
   file {"/etc/nginx/conf.d/${name}-upstream.conf":
     ensure => $fileIfPresent,
-    content  => template('nginx/conf.d/upstream.erb'),
+    content  => template("${module_name}/conf.d/upstream.erb"),
     notify   => Class['nginx::service'],
   }
 }

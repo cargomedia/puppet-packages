@@ -21,13 +21,13 @@ class raid::adaptec {
   }
 
   @monit::entry {'aacraid-statusd':
-    content => template('raid/adaptec/monit'),
+    content => template("${module_name}/adaptec/monit"),
     require => Service['aacraid-statusd'],
   }
 
   file {'/usr/local/sbin/arcconf-write-cache-on-devices.pl':
     ensure => file,
-    content => template('raid/adaptec/arcconf-write-cache-on-devices.pl'),
+    content => template("${module_name}/adaptec/arcconf-write-cache-on-devices.pl"),
     owner => '0',
     group => '0',
     mode => '0755',
@@ -35,7 +35,7 @@ class raid::adaptec {
   ->
 
   helper::script {'set hard drive write cache off if adaptec raid':
-    content => template('raid/adaptec/set-write-cache-off.sh'),
+    content => template("${module_name}/adaptec/set-write-cache-off.sh"),
     unless => 'test "$(/usr/local/sbin/arcconf-write-cache-on-devices.pl)" = ""',
     require => Package['arcconf'],
   }

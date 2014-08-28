@@ -13,7 +13,7 @@ class mms::agent::monitoring (
   $daemon_args = "-conf /etc/mongodb-mms/monitoring-agent.config -concurrency=${concurrency}"
 
   helper::script {'install-mms-monitoring':
-    content => template('mms/install.sh'),
+    content => template("${module_name}/install.sh"),
     unless => "(test -x /usr/bin/mongodb-${agent_name}-agent) && (dpkg -s mongodb-${agent_name}-agent | grep -q ${version})",
   }
   ->
@@ -21,7 +21,7 @@ class mms::agent::monitoring (
   file {
     '/etc/mongodb-mms/monitoring-agent.config':
       ensure => file,
-      content => template('mms/conf-monitoring'),
+      content => template("${module_name}/conf-monitoring"),
       owner => '0',
       group => '0',
       mode => '0644',
@@ -30,7 +30,7 @@ class mms::agent::monitoring (
 
     "/etc/init.d/${agent_name}":
       ensure => file,
-      content => template('mms/init'),
+      content => template("${module_name}/init"),
       owner => '0',
       group => '0',
       mode => '0755',
@@ -48,7 +48,7 @@ class mms::agent::monitoring (
   }
 
   @monit::entry {'mms-monitoring':
-    content => template('mms/monit'),
+    content => template("${module_name}/monit"),
     require => Service[$agent_name],
   }
 

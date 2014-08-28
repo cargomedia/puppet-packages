@@ -14,6 +14,6 @@ class php5::extension::newrelic(
   ->
 
   php5::config_extension {'newrelic':
-    content => template('php5/extension/newrelic/conf.ini'),
+    content => template("${module_name}/extension/newrelic/conf.ini"),
   }
 }

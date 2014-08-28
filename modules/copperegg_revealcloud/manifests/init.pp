@@ -41,14 +41,14 @@ class copperegg_revealcloud(
   ->
 
   helper::script {'download revealcloud':
-    content => template('copperegg_revealcloud/download.sh'),
+    content => template("${module_name}/download.sh"),
     unless => "test -x ${dir}/revealcloud && ${dir}/revealcloud -V 2>&1 | grep 'Version: ${version}$'",
     notify => Service['revealcloud'],
   }
   ->
 
   file {'/etc/init.d/revealcloud':
-    content => template('copperegg_revealcloud/init.sh'),
+    content => template("${module_name}/init.sh"),
     owner => '0',
     group => '0',
     mode => '0755',
@@ -78,7 +78,7 @@ class copperegg_revealcloud(
   }
 
   @monit::entry {'revealcloud':
-    content => template('copperegg_revealcloud/monit'),
+    content => template("${module_name}/monit"),
     require => Service['revealcloud']
   }
 

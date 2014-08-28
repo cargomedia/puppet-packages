@@ -15,7 +15,7 @@ define cgroups::group (
 
   augeas {$name:
     context => '/files/etc/cgconfig.conf',
-    changes => template('cgroups/group'),
+    changes => template("${module_name}/group"),
   }
   ~>
 

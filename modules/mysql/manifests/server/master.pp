@@ -14,7 +14,7 @@ class mysql::server::master (
 
   file {'/etc/mysql/conf.d/master.cnf':
     ensure => file,
-    content => template('mysql/conf.d/master.cnf'),
+    content => template("${module_name}/conf.d/master.cnf"),
     owner => 'root',
     group => 'mysql',
     mode => '0640',

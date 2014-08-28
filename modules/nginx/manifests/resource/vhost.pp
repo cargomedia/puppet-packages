@@ -52,12 +52,12 @@ define nginx::resource::vhost(
     # HTTP server
     file { "${nginx::config::nx_temp_dir}/nginx.d/${name}-001":
       ensure  => $fileIfEnabled,
-      content => template('nginx/vhost/vhost_header.erb'),
+      content => template("${module_name}/vhost/vhost_header.erb"),
       notify => Class['nginx::service'],
     }
     file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-699":
       ensure  => $fileIfEnabled,
-      content => template('nginx/vhost/vhost_footer.erb'),
+      content => template("${module_name}/vhost/vhost_footer.erb"),
       notify  => Class['nginx::service'],
     }
   }
@@ -66,12 +66,12 @@ define nginx::resource::vhost(
     # HTTPS server
     file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-700-ssl":
       ensure  => $fileIfEnabled,
-      content => template('nginx/vhost/vhost_ssl_header.erb'),
+      content => template("${module_name}/vhost/vhost_ssl_header.erb"),
       notify => Class['nginx::service'],
     }
     file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-999-ssl":
       ensure  => $fileIfEnabled,
-      content => template('nginx/vhost/vhost_footer.erb'),
+      content => template("${module_name}/vhost/vhost_footer.erb"),
       notify => Class['nginx::service'],
     }
   }

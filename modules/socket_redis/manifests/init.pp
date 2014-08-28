@@ -90,7 +90,7 @@ class socket_redis (
 
   file {'/etc/init.d/socket-redis':
     ensure => file,
-    content => template('socket_redis/init.sh'),
+    content => template("${module_name}/init.sh"),
     owner => '0',
     group => '0',
     mode => '0755',
@@ -112,7 +112,7 @@ class socket_redis (
   }
 
   @monit::entry {'socket-redis':
-    content => template('socket_redis/monit'),
+    content => template("${module_name}/monit"),
     require => Service['socket-redis'],
   }
 }

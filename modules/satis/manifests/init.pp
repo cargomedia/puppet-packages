@@ -47,6 +47,6 @@ class satis($hostname) {
   ->
 
   apache2::vhost{$hostname:
-    content => template('satis/vhost'),
+    content => template("${module_name}/vhost"),
   }
 }

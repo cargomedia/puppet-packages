@@ -4,7 +4,7 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
 
   file {'/root/.my.cnf':
     ensure => file,
-    content => template('mysql/client-config.cnf'),
+    content => template("${module_name}/client-config.cnf"),
     owner => '0',
     group => '0',
     mode => '0600',
@@ -35,7 +35,7 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
 
   file {'/etc/mysql/my.cnf':
     ensure => file,
-    content => template('mysql/my.cnf'),
+    content => template("${module_name}/my.cnf"),
     owner => 'root',
     group => 'mysql',
     mode => '0640',
@@ -46,7 +46,7 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
 
   file {'/etc/mysql/conf.d/init-file.cnf':
     ensure => file,
-    content => template('mysql/init-file.cnf'),
+    content => template("${module_name}/init-file.cnf"),
     owner => 'root',
     group => 'mysql',
     mode => '0640',
@@ -57,7 +57,7 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
 
   file {'/etc/mysql/init.sql':
     ensure => file,
-    content => template('mysql/init.sql'),
+    content => template("${module_name}/init.sql"),
     owner => 'root',
     group => 'mysql',
     mode => '0640',
@@ -68,7 +68,7 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
 
   file {'/etc/mysql/debian.cnf':
     ensure => file,
-    content => template('mysql/debian.cnf'),
+    content => template("${module_name}/debian.cnf"),
     owner => 'root',
     group => 'root',
     mode => '0600',
@@ -110,7 +110,7 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
   }
 
   @monit::entry {'mysql':
-    content => template('mysql/monit'),
+    content => template("${module_name}/monit"),
     require => Service['mysql'],
   }
 

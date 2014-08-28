@@ -62,7 +62,7 @@ class wowza::app::cm (
   # wowza configuration
   file {'/usr/local/WowzaStreamingEngine/conf/Server.xml':
     ensure => file,
-    content => template('wowza/app/cm/Server.xml'),
+    content => template("${module_name}/app/cm/Server.xml"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -71,7 +71,7 @@ class wowza::app::cm (
 
   file {'/usr/local/WowzaStreamingEngine/conf/VHosts.xml':
     ensure => file,
-    content => template('wowza/app/cm/VHosts.xml'),
+    content => template("${module_name}/app/cm/VHosts.xml"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -81,7 +81,7 @@ class wowza::app::cm (
   # video chat application
   file {"${dir}/conf/videochat/Application.xml":
     ensure => file,
-    content => template('wowza/app/cm/wowza/conf/videochat/Application.xml'),
+    content => template("${module_name}/app/cm/wowza/conf/videochat/Application.xml"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -91,7 +91,7 @@ class wowza::app::cm (
   # cm application configuration
   file {"${dir}/conf/Authentication.xml":
     ensure => file,
-    content => template('wowza/app/cm/wowza/conf/Authentication.xml'),
+    content => template("${module_name}/app/cm/wowza/conf/Authentication.xml"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -100,7 +100,7 @@ class wowza::app::cm (
 
   file {"${dir}/conf/DVR.xml":
     ensure => file,
-    content => template('wowza/app/cm/wowza/conf/DVR.xml'),
+    content => template("${module_name}/app/cm/wowza/conf/DVR.xml"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -109,7 +109,7 @@ class wowza::app::cm (
 
   file {"${dir}/conf/HTTPStreamers.xml":
     ensure => file,
-    content => template('wowza/app/cm/wowza/conf/HTTPStreamers.xml'),
+    content => template("${module_name}/app/cm/wowza/conf/HTTPStreamers.xml"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -118,7 +118,7 @@ class wowza::app::cm (
 
   file {"${dir}/conf/jmxremote.access":
     ensure => file,
-    content => template('wowza/app/cm/wowza/conf/jmxremote.access'),
+    content => template("${module_name}/app/cm/wowza/conf/jmxremote.access"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -127,7 +127,7 @@ class wowza::app::cm (
 
   file {"${dir}/conf/jmxremote.password":
     ensure => file,
-    content => template('wowza/app/cm/wowza/conf/jmxremote.password'),
+    content => template("${module_name}/app/cm/wowza/conf/jmxremote.password"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -136,7 +136,7 @@ class wowza::app::cm (
 
   file {"${dir}/conf/LiveStreamPacketizers.xml":
     ensure => file,
-    content => template('wowza/app/cm/wowza/conf/LiveStreamPacketizers.xml'),
+    content => template("${module_name}/app/cm/wowza/conf/LiveStreamPacketizers.xml"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -145,7 +145,7 @@ class wowza::app::cm (
 
   file {"${dir}/conf/LiveStreamTranscoders.xml":
     ensure => file,
-    content => template('wowza/app/cm/wowza/conf/LiveStreamTranscoders.xml'),
+    content => template("${module_name}/app/cm/wowza/conf/LiveStreamTranscoders.xml"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -154,7 +154,7 @@ class wowza::app::cm (
 
   file {"${dir}/conf/log4j.properties":
     ensure => file,
-    content => template('wowza/app/cm/wowza/conf/log4j.properties'),
+    content => template("${module_name}/app/cm/wowza/conf/log4j.properties"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -163,7 +163,7 @@ class wowza::app::cm (
 
   file {"${dir}/conf/MediaCasters.xml":
     ensure => file,
-    content => template('wowza/app/cm/wowza/conf/MediaCasters.xml'),
+    content => template("${module_name}/app/cm/wowza/conf/MediaCasters.xml"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -172,7 +172,7 @@ class wowza::app::cm (
 
   file {"${dir}/conf/MediaReaders.xml":
     ensure => file,
-    content => template('wowza/app/cm/wowza/conf/MediaReaders.xml'),
+    content => template("${module_name}/app/cm/wowza/conf/MediaReaders.xml"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -181,7 +181,7 @@ class wowza::app::cm (
 
   file {"${dir}/conf/MediaWriters.xml":
     ensure => file,
-    content => template('wowza/app/cm/wowza/conf/MediaWriters.xml'),
+    content => template("${module_name}/app/cm/wowza/conf/MediaWriters.xml"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -190,7 +190,7 @@ class wowza::app::cm (
 
   file {"${dir}/conf/MP3Tags.xml":
     ensure => file,
-    content => template('wowza/app/cm/wowza/conf/MP3Tags.xml'),
+    content => template("${module_name}/app/cm/wowza/conf/MP3Tags.xml"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -199,7 +199,7 @@ class wowza::app::cm (
 
   file {"${dir}/conf/RTP.xml":
     ensure => file,
-    content => template('wowza/app/cm/wowza/conf/RTP.xml'),
+    content => template("${module_name}/app/cm/wowza/conf/RTP.xml"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -208,7 +208,7 @@ class wowza::app::cm (
 
   file {"${dir}/conf/StartupStreams.xml":
     ensure => file,
-    content => template('wowza/app/cm/wowza/conf/StartupStreams.xml'),
+    content => template("${module_name}/app/cm/wowza/conf/StartupStreams.xml"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -217,7 +217,7 @@ class wowza::app::cm (
 
   file {"${dir}/conf/Streams.xml":
     ensure => file,
-    content => template('wowza/app/cm/wowza/conf/Streams.xml'),
+    content => template("${module_name}/app/cm/wowza/conf/Streams.xml"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',
@@ -226,7 +226,7 @@ class wowza::app::cm (
 
   file {"${dir}/conf/VHost.xml":
     ensure => file,
-    content => template('wowza/app/cm/wowza/conf/VHost.xml'),
+    content => template("${module_name}/app/cm/wowza/conf/VHost.xml"),
     owner => 'wowza',
     group => 'wowza',
     mode => '0644',

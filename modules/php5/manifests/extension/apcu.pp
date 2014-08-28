@@ -9,14 +9,14 @@ class php5::extension::apcu (
   require 'php5'
 
   helper::script {'install php5::apcu':
-    content => template('php5/extension/apcu/install.sh'),
+    content => template("${module_name}/extension/apcu/install.sh"),
     unless => "php --re apcu | grep 'apcu version' | grep ' ${version} '",
     require => Class['php5'],
   }
   ->
 
   php5::config_extension {'apcu':
-    content => template('php5/extension/apcu/conf.ini'),
+    content => template("${module_name}/extension/apcu/conf.ini"),
   }
 
   Php5::Fpm::With_apc <||>

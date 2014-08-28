@@ -12,8 +12,8 @@ class passenger (
   $mod_passenger_location = "${gem_home}/gems/passenger-${version}/buildout/apache2/mod_passenger.so"
 
   apache2::mod {'passenger':
-    configuration => template('passenger/passenger-enabled'),
-    load_configuration => template('passenger/passenger-load'),
+    configuration => template("${module_name}/passenger-enabled"),
+    load_configuration => template("${module_name}/passenger-load"),
     notify  => Service['apache2'],
     require => Exec['compile-passenger']
   }

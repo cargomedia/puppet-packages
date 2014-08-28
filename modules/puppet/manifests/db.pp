@@ -15,7 +15,7 @@ class puppet::db(
 
   file {'/etc/default/puppetdb':
     ensure => file,
-    content => template('puppet/db/default'),
+    content => template("${module_name}/db/default"),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -63,7 +63,7 @@ class puppet::db(
 
   file {'/etc/puppetdb/conf.d/config.ini':
     ensure => file,
-    content => template('puppet/db/config.ini'),
+    content => template("${module_name}/db/config.ini"),
     owner => 'puppetdb',
     group => 'puppetdb',
     mode => '0640',
@@ -72,7 +72,7 @@ class puppet::db(
 
   file {'/etc/puppetdb/conf.d/jetty.ini':
     ensure => file,
-    content => template('puppet/db/jetty.ini'),
+    content => template("${module_name}/db/jetty.ini"),
     owner => 'puppetdb',
     group => 'puppetdb',
     mode => '0640',
@@ -82,7 +82,7 @@ class puppet::db(
   service {'puppetdb':}
 
   @monit::entry {'puppetdb':
-    content => template('puppet/db/monit'),
+    content => template("${module_name}/db/monit"),
     require => Service['puppetdb'],
   }
 }

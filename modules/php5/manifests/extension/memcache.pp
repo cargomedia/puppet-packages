@@ -9,7 +9,7 @@ class php5::extension::memcache {
   ->
 
   php5::config_extension {'memcache':
-    content => template('php5/extension/memcache/conf.ini'),
+    content => template("${module_name}/extension/memcache/conf.ini"),
   }
 
 }

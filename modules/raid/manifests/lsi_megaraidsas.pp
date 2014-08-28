@@ -12,7 +12,7 @@ class raid::lsi_megaraidsas {
   }
 
   @monit::entry {'megaraidsas-statusd':
-    content => template('raid/lsi_megaraidsas/monit'),
+    content => template("${module_name}/lsi_megaraidsas/monit"),
     require => Service['megaraidsas-statusd'],
   }
 }

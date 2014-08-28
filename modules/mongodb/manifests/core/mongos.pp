@@ -14,7 +14,7 @@ define mongodb::core::mongos (
   file {
     "/etc/mongodb/${instance_name}.conf":
       ensure  => file,
-      content => template('mongodb/mongos/conf'),
+      content => template("${module_name}/mongos/conf"),
       mode    => '0644',
       owner   => 'mongodb',
       group   => 'mongodb',
@@ -22,7 +22,7 @@ define mongodb::core::mongos (
 
     "/etc/init.d/${instance_name}":
       ensure  => file,
-      content => template('mongodb/init'),
+      content => template("${module_name}/init"),
       mode    => '0755',
       owner   => 'mongodb',
       group   => 'mongodb',
@@ -49,7 +49,7 @@ define mongodb::core::mongos (
   }
 
   @monit::entry {$instance_name:
-    content => template('mongodb/monit'),
+    content => template("${module_name}/monit"),
     require => Service[$instance_name],
   }
 
