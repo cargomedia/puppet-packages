@@ -10,7 +10,7 @@ class VagrantHelper
 
   def reset
     unless execute_local('vagrant plugin list').match(/vagrant-vbox-snapshot/)
-      execute_local('vagrant plugin install vagrant-vbox-snapshot --plugin-version 0.0.4')
+      execute_local('vagrant plugin install vagrant-vbox-snapshot')
     end
 
     # Workaround
