@@ -11,7 +11,7 @@ describe file('/var/lib/jenkins/plugins/git-client.hpi') do
 end
 
 describe command('curl http://localhost:8080/pluginManager/installed') do
-  let(:pre_command) { 'sleep 10' }
+  let(:pre_command) { 'sleep 15' } # Let jenkins open its socket(s)
   its(:stdout) { should match /ssh-agent/ }
   its(:stdout) { should match /git-client/ }
 end
