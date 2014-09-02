@@ -27,7 +27,7 @@ RSpec.configure do |c|
   c.add_setting :before_files
   c.before_files = []
   root_dir = Dir.getwd
-  vagrant_helper = VagrantHelper.new(root_dir, box, true)
+  vagrant_helper = VagrantHelper.new(root_dir, box, debug ? true : false)
 
   c.before :all do
     file = self.get_file
@@ -60,8 +60,9 @@ RSpec.configure do |c|
       spec_dir.sort.each do |local_file|
         next unless File.extname(local_file) == '.pp'
         vagrant_manifest_path = vagrant_helper.get_path spec_dir.to_path + '/' + local_file
-        command = "sudo puppet apply --verbose --modulepath '/etc/puppet/modules:/vagrant/modules' #{vagrant_manifest_path.shellescape} --hiera_config=/etc/hiera.yaml"
-        command += ' --debug --trace' if debug
+        command = "sudo puppet apply --modulepath '/etc/puppet/modules:/vagrant/modules' #{vagrant_manifest_path.shellescape} --hiera_config=/etc/hiera.yaml"
+        command += ' --verbose --debug --trace' if debug
+
         begin
           puts
           puts 'Running `' + vagrant_manifest_path + '`'
