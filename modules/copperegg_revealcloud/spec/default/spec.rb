@@ -6,15 +6,13 @@ describe command('2>&1 /usr/local/revealcloud/revealcloud -V') do
 end
 
 describe service('revealcloud') do
+  let(:pre_command) { 'monit start revealcloud;sleep 15' }
+  it { should be_running }
   it { should be_enabled }
 end
 
 describe file('/etc/init.d/revealcloud') do
   it { should be_file }
-end
-
-describe service('revealcloud') do
-  it { should be_enabled }
 end
 
 describe file('/etc/monit/conf.d/revealcloud') do
