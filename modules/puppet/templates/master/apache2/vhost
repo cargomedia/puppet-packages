@@ -5,8 +5,8 @@ Listen <%= @port %>
     # Only allow high security cryptography. Alter if needed for compatibility.
     SSLProtocol             All -SSLv2
     SSLCipherSuite          HIGH:!ADH:RC4+RSA:-MEDIUM:-LOW:-EXP
-    SSLCertificateFile      /etc/puppet/ssl/certs/<%= @::fqdn %>.pem
-    SSLCertificateKeyFile   /etc/puppet/ssl/private_keys/<%= ::@fqdn %>.pem
+    SSLCertificateFile      /etc/puppet/ssl/certs/<%= @fqdn %>.pem
+    SSLCertificateKeyFile   /etc/puppet/ssl/private_keys/<%= @fqdn %>.pem
     SSLCertificateChainFile /etc/puppet/ssl/ca/ca_crt.pem
     SSLCACertificateFile    /etc/puppet/ssl/ca/ca_crt.pem
     SSLCARevocationFile     /etc/puppet/ssl/ca/ca_crl.pem
@@ -35,6 +35,6 @@ Listen <%= @port %>
       </IfVersion>
     </Directory>
 
-    ErrorLog /var/log/apache2/<%= @::fqdn %>_ssl_error.log
-    CustomLog /var/log/apache2/<%= @::fqdn %>_ssl_access.log combined
+    ErrorLog /var/log/apache2/<%= @fqdn %>_ssl_error.log
+    CustomLog /var/log/apache2/<%= @fqdn %>_ssl_access.log combined
 </VirtualHost>
