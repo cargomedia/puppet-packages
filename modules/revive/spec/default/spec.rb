@@ -12,7 +12,7 @@ describe command('env no_proxy=example.com curl http://example.com -L') do
   its(:stdout) { should match 'Revive Adserver' }
 end
 
-describe command('curl https://example.com -Lk') do
+describe command('env no_proxy=example.com curl https://example.com -Lk') do
   its(:stdout) { should match 'Revive Adserver' }
 end
 
