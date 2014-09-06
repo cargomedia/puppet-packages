@@ -56,7 +56,7 @@ class copperegg_revealcloud(
   }
   ~>
 
-  exec {'update-rc.d revealcloud defaults':
+  exec {'update-rc.d revealcloud defaults && /etc/init.d/revealcloud start':
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
