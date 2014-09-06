@@ -57,7 +57,6 @@ class copperegg_revealcloud(
   ~>
 
   exec {'update-rc.d revealcloud defaults':
-    command => 'update-rc.d revealcloud defaults && /etc/init.d/revealcloud start',
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
@@ -76,6 +75,7 @@ class copperegg_revealcloud(
   }
 
   service {'revealcloud':
+    ensure => running,
   }
 
   @monit::entry {'revealcloud':
