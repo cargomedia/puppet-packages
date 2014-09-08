@@ -11,14 +11,14 @@ class php5::extension::imagick (
   ->
 
   helper::script {'install php5::extension::imagick':
-    content => template('php5/extension/imagick/install.sh'),
+    content => template("${module_name}/extension/imagick/install.sh"),
     unless => "php --re imagick | grep -w 'imagick version ${version}'",
     require => Class['php5'],
   }
   ->
 
   php5::config_extension {'imagick':
-    content => template('php5/extension/imagick/conf.ini'),
+    content => template("${module_name}/extension/imagick/conf.ini"),
   }
 
 }

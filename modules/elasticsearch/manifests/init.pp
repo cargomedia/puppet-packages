@@ -10,7 +10,7 @@ class elasticsearch (
 
   file {'/etc/default/elasticsearch':
     ensure => file,
-    content => template('elasticsearch/default'),
+    content => template("${module_name}/default"),
     owner => '0',
     group => '0',
     mode => '0755',
@@ -27,7 +27,7 @@ class elasticsearch (
 
   file {'/etc/elasticsearch/elasticsearch.yml':
     ensure => file,
-    content => template('elasticsearch/elasticsearch.yml'),
+    content => template("${module_name}/elasticsearch.yml"),
     owner => '0',
     group => '0',
     mode => '0644',
@@ -36,7 +36,7 @@ class elasticsearch (
   }
 
   helper::script {'install elasticsearch':
-    content => template('elasticsearch/install.sh'),
+    content => template("${module_name}/install.sh"),
     unless => "/usr/share/elasticsearch/bin/elasticsearch -v | grep -q '\s${version},'"
   }
   ->
@@ -46,7 +46,7 @@ class elasticsearch (
   }
 
   @monit::entry {'elasticsearch':
-    content => template('elasticsearch/monit'),
+    content => template("${module_name}/monit"),
     require => Service['elasticsearch'],
   }
 }

@@ -15,7 +15,7 @@ class phpunit($version = '3.7.28') {
 
   file {$binary:
     ensure => file,
-    content => template('phpunit/phpunit.sh'),
+    content => template("${module_name}/phpunit.sh"),
     owner => '0',
     group => '0',
     mode => '0755',
@@ -23,7 +23,7 @@ class phpunit($version = '3.7.28') {
 
   file {$config:
     ensure => file,
-    content => template('phpunit/phpunit.ini'),
+    content => template("${module_name}/phpunit.ini"),
     owner => '0',
     group => '0',
     mode => '0644',

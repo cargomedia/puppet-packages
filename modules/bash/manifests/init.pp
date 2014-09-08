@@ -4,7 +4,7 @@ class bash ($prompt = '\u@$(hostname -f):\w$ ') {
 
   file {'/etc/bash.bashrc':
     ensure => file,
-    content => template('bash/bashrc'),
+    content => template("${module_name}/bashrc"),
     owner => '0',
     group => '0',
     mode => '0644',

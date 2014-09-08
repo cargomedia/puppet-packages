@@ -15,7 +15,7 @@ class composer($version = '1.0.0-alpha8') {
 
   file {$binary:
     ensure => file,
-    content => template('composer/composer.sh'),
+    content => template("${module_name}/composer.sh"),
     owner => '0',
     group => '0',
     mode => '0755',
@@ -23,7 +23,7 @@ class composer($version = '1.0.0-alpha8') {
 
   file {$config:
     ensure => file,
-    content => template('composer/composer.ini'),
+    content => template("${module_name}/composer.ini"),
     owner => '0',
     group => '0',
     mode => '0644',

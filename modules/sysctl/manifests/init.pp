@@ -5,7 +5,7 @@ class sysctl ($entries = {}) {
   if $localEntries != {} {
     file {'/etc/sysctl.conf':
       ensure => file,
-      content => template('sysctl/sysctl'),
+      content => template("${module_name}/sysctl"),
       owner => '0',
       group => '0',
       mode => '0644',

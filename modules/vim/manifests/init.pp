@@ -9,7 +9,7 @@ class vim {
 
   file {'/etc/vim/vimrc.local':
     ensure => file,
-    content => template('vim/vimrc'),
+    content => template("${module_name}/vimrc"),
     owner => '0',
     group => '0',
     mode => '0644',

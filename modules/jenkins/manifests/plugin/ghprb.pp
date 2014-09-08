@@ -12,7 +12,7 @@ class jenkins::plugin::ghprb(
 
   file {$config_puppet:
     ensure    => 'present',
-    content   => template('jenkins/plugin/ghprb.xml'),
+    content   => template("${module_name}/plugin/ghprb.xml"),
     owner     => 'jenkins',
     group     => 'nogroup',
     mode      => '0644',

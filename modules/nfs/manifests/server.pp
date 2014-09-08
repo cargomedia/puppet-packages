@@ -14,16 +14,16 @@ class nfs::server (
     ensure => directory,
     owner => '0',
     group => '0',
-    mode => '755',
+    mode => '0755',
     before => Package['nfs-kernel-server'],
   }
 
   file {'/etc/default/nfs-kernel-server':
     ensure => file,
-    content => template('nfs/server/default'),
+    content => template("${module_name}/server/default"),
     owner => '0',
     group => '0',
-    mode => '644',
+    mode => '0644',
     notify => Service['nfs-kernel-server'],
   }
   ->
@@ -45,13 +45,13 @@ class nfs::server (
   }
 
   exec {'/etc/init.d/nfs-kernel-server reload':
-    command     => "/etc/init.d/nfs-kernel-server reload",
+    command     => '/etc/init.d/nfs-kernel-server reload',
     onlyif      => '/etc/init.d/nfs-kernel-server status',
     refreshonly => true,
   }
 
   @monit::entry {'nfs-kernel-server':
-    content => template('nfs/monit'),
+    content => template("${module_name}/monit"),
     require => Service['nfs-kernel-server'],
   }
 

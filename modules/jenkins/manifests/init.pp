@@ -29,7 +29,7 @@ class jenkins(
 
   file {'/etc/default/jenkins':
     ensure => file,
-    content => template('jenkins/default'),
+    content => template("${module_name}/default"),
     owner => '0',
     group => '0',
     mode => '0644',

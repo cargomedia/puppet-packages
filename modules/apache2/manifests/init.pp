@@ -19,7 +19,7 @@ class apache2 {
 
   file {'/etc/apache2/apache2.conf':
     ensure => file,
-    content => template('apache2/apache2.conf'),
+    content => template("${module_name}/apache2.conf"),
     group => '0',
     owner => '0',
     mode => '0644',

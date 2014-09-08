@@ -1,14 +1,14 @@
 class apache2::mod::ssl {
 
   apache2::mod {'ssl':
-    configuration => template('apache2/mod/ssl.conf'),
+    configuration => template("${module_name}/mod/ssl.conf"),
   }
 
   file {'/etc/apache2/ssl':
     ensure => directory,
     owner => '0',
     group => '0',
-    mode => '755',
+    mode => '0755',
     require => Apache2::Mod['ssl'],
   }
 
@@ -16,7 +16,7 @@ class apache2::mod::ssl {
     ensure => directory,
     owner => '0',
     group => '0',
-    mode => '755',
+    mode => '0755',
     require => Apache2::Mod['ssl'],
   }
 }

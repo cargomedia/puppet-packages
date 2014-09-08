@@ -21,7 +21,7 @@ define ssh::key (
   ->
 
   helper::script {$keypath:
-    content => template('ssh/add-key.sh'),
+    content => template("${module_name}/add-key.sh"),
     unless => "grep ^${contentEscaped}$ ${keypath}",
     user => $user
   }

@@ -12,7 +12,7 @@ class postfix ($aliases = {}, $transports = []) {
 
   file {'/etc/postfix/main.cf':
     ensure => file,
-    content => template('postfix/main.cf'),
+    content => template("${module_name}/main.cf"),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -22,7 +22,7 @@ class postfix ($aliases = {}, $transports = []) {
 
   file {'/etc/postfix/header_checks':
     ensure => file,
-    content => template('postfix/header_checks'),
+    content => template("${module_name}/header_checks"),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -32,7 +32,7 @@ class postfix ($aliases = {}, $transports = []) {
 
   file {'/etc/postfix/sasl_passwd':
     ensure => file,
-    content => template('postfix/sasl_passwd'),
+    content => template("${module_name}/sasl_passwd"),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -43,7 +43,7 @@ class postfix ($aliases = {}, $transports = []) {
 
   file {'/etc/postfix/virtual':
     ensure => file,
-    content => template('postfix/virtual'),
+    content => template("${module_name}/virtual"),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -70,7 +70,7 @@ class postfix ($aliases = {}, $transports = []) {
   }
 
   @monit::entry {'postfix':
-    content => template('postfix/monit'),
+    content => template("${module_name}/monit"),
     require => Package['postfix'],
   }
 }

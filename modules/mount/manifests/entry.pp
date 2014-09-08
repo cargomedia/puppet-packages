@@ -8,6 +8,7 @@ define mount::entry (
 ) {
 
   include 'mount::common'
+  $presentIfMountCheck = $mount_check ? {true => present, false => absent}
 
   exec {"prepare ${target}":
     command => "mkdir -p ${target}; find '${target}' -type d -exec chmod -w {} \\;; find '${target}' -type f -exec chmod -w {} \\;;",
@@ -27,7 +28,7 @@ define mount::entry (
   ->
 
   cron {"mount-check ${target}":
-    ensure => $mount_check ? {true => present, false => absent},
+    ensure => $presentIfMountCheck,
     command => "/usr/sbin/mount-check.sh ${target}",
     user => 'root',
     require => File['/usr/sbin/mount-check.sh'],

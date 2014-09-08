@@ -3,7 +3,7 @@ class puppet::common(
 ) {
 
   helper::script {'install puppet apt sources':
-    content => template('puppet/install-apt-sources.sh'),
+    content => template("${module_name}/install-apt-sources.sh"),
     unless => "dpkg -l puppetlabs-release | grep '^ii '",
   }
 
@@ -25,7 +25,7 @@ class puppet::common(
 
   file {'/etc/puppet/conf.d/main':
     ensure => file,
-    content => template('puppet/config'),
+    content => template("${module_name}/config"),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -33,7 +33,7 @@ class puppet::common(
   }
 
   exec {'/etc/puppet/puppet.conf':
-    command => "cat /etc/puppet/conf.d/* > /etc/puppet/puppet.conf",
+    command => 'cat /etc/puppet/conf.d/* > /etc/puppet/puppet.conf',
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
     require => File['/etc/puppet'],

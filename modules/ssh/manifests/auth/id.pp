@@ -3,12 +3,12 @@ define ssh::auth::id (
   $user
 ) {
 
-  @@ssh::pair {"${title}@${fqdn}":
+  @@ssh::pair {"${title}@${::fqdn}":
     id => $id,
     user => $user,
-    fqdn => $fqdn,
+    fqdn => $::fqdn,
   }
 
-  Ssh::Key <<| fqdn == $fqdn and id == $id |>>
-  Ssh::Key <<| fqdn == $fqdn and id == "${id}.pub" |>>
+  Ssh::Key <<| fqdn == $::fqdn and id == $id |>>
+  Ssh::Key <<| fqdn == $::fqdn and id == "${id}.pub" |>>
 }

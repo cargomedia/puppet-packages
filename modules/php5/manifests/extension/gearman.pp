@@ -7,14 +7,14 @@ class php5::extension::gearman (
   require 'gearman::library_dev'
 
   helper::script {'install php5::extension::gearman':
-    content => template('php5/extension/gearman/install.sh'),
+    content => template("${module_name}/extension/gearman/install.sh"),
     unless => "php --re gearman | grep -w 'gearman version ${version}'",
     require => Class['php5'],
   }
   ->
 
   php5::config_extension {'gearman':
-    content => template('php5/extension/gearman/conf.ini'),
+    content => template("${module_name}/extension/gearman/conf.ini"),
   }
 
 }

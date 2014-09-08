@@ -4,8 +4,8 @@ class network::resolv (
   $domain     = '',
 ) {
 
-  file { "/etc/resolv.conf":
+  file { '/etc/resolv.conf':
     ensure => file,
-    content => template('network/resolv.conf'),
+    content => template("${module_name}/resolv.conf"),
   }
 }

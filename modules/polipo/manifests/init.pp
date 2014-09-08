@@ -16,7 +16,7 @@ class polipo(
 
   file {'/etc/polipo/config':
     ensure => file,
-    content => template('polipo/config'),
+    content => template("${module_name}/config"),
     owner => '0',
     group => '0',
     mode => '0644',

@@ -19,7 +19,7 @@ class php5::fpm {
 
   file {'/etc/php5/fpm/php-fpm.conf':
     ensure => file,
-    content => template('php5/fpm/php-fpm.conf'),
+    content => template("${module_name}/fpm/php-fpm.conf"),
     owner => '0',
     group => '0',
     mode => '0644',
@@ -29,7 +29,7 @@ class php5::fpm {
 
   file {'/etc/php5/fpm/pool.d/www.conf':
     ensure => file,
-    content => template('php5/fpm/www.conf'),
+    content => template("${module_name}/fpm/www.conf"),
     owner => '0',
     group => '0',
     mode => '0644',
@@ -52,7 +52,7 @@ class php5::fpm {
   }
 
   @monit::entry {'php5-fpm':
-    content => template('php5/fpm/monit'),
+    content => template("${module_name}/fpm/monit"),
     require => Service['php5-fpm'],
   }
 

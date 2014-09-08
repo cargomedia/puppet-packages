@@ -7,7 +7,7 @@ class bipbip::service {
   }
 
   @monit::entry {'bipbip':
-    content => template('bipbip/monit'),
+    content => template("${module_name}/monit"),
     require => Service['bipbip'],
   }
 

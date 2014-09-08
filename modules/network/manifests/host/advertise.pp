@@ -15,6 +15,6 @@ class network::host::advertise (
       aliases => $aliases_list
     }
   } else {
-    fail("Unable to figure out an ip address for the hostname to be advertised")
+    fail('Unable to figure out an ip address for the hostname to be advertised')
   }
 }

@@ -15,7 +15,7 @@ define composer::config(
 
   file {"${user_home}/.composer/config.json":
     ensure => file,
-    content => template('composer/config'),
+    content => template("${module_name}/config"),
     owner => $user,
     group => $user,
     mode => '0644',

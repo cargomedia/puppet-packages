@@ -20,7 +20,7 @@ class satis($hostname) {
   }
 
   exec {'install satis':
-    command => "composer --no-interaction create-project composer/satis --stability=dev --keep-vcs /var/lib/satis/satis",
+    command => 'composer --no-interaction create-project composer/satis --stability=dev --keep-vcs /var/lib/satis/satis',
     creates => '/var/lib/satis/satis',
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     user => 'satis',
@@ -47,6 +47,6 @@ class satis($hostname) {
   ->
 
   apache2::vhost{$hostname:
-    content => template('satis/vhost'),
+    content => template("${module_name}/vhost"),
   }
 }

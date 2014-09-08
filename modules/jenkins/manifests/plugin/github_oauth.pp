@@ -9,7 +9,7 @@ class jenkins::plugin::github_oauth(
 
   file {'/var/lib/jenkins/config.d/github-oauth.xml':
     ensure    => 'present',
-    content   => template('jenkins/plugin/github-oauth.xml'),
+    content   => template("${module_name}/plugin/github-oauth.xml"),
     owner     => 'jenkins',
     group     => 'nogroup',
     mode      => '0644',

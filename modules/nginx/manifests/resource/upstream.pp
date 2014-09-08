@@ -1,5 +1,5 @@
 define nginx::resource::upstream (
-  $ensure = 'present',
+  $ensure = present,
   $members,
   $upstream_cfg_append = undef
 ) {
@@ -9,12 +9,10 @@ define nginx::resource::upstream (
     mode  => '0644',
   }
 
+  $fileIfPresent = $ensure ? {present => file, default => $ensure}
   file {"/etc/nginx/conf.d/${name}-upstream.conf":
-    ensure => $ensure ? {
-      'absent'  => absent,
-      default   => 'file',
-    },
-    content  => template('nginx/conf.d/upstream.erb'),
+    ensure => $fileIfPresent,
+    content  => template("${module_name}/conf.d/upstream.erb"),
     notify   => Class['nginx::service'],
   }
 }

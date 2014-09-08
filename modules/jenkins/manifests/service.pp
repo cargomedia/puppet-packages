@@ -5,7 +5,7 @@ class jenkins::service {
   service {'jenkins':}
 
   @monit::entry {'jenkins':
-    content => template('jenkins/monit'),
+    content => template("${module_name}/monit"),
     require => Service['jenkins'],
   }
 }

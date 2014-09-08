@@ -34,7 +34,7 @@ class mongodb {
 
     '/etc/init.d/mongod':
       ensure  => file,
-      content => template('mongodb/init-replacement'),
+      content => template("${module_name}/init-replacement"),
       mode    => '0755',
       owner   => 0,
       group   => 0;

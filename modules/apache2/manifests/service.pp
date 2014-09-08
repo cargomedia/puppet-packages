@@ -5,7 +5,7 @@ class apache2::service {
   service {'apache2':}
 
   @monit::entry {'apache2':
-    content => template('apache2/monit'),
+    content => template("${module_name}/monit"),
     require => Service['apache2'],
   }
 }

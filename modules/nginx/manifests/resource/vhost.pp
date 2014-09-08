@@ -24,6 +24,8 @@ define nginx::resource::vhost(
     mode  => '0644',
   }
 
+  $fileIfEnabled = $ensure ? {'enable' => file, default => $ensure}
+
   # Check to see if SSL Certificates are properly defined.
   if ($ssl == true) {
     if ($ssl_cert == undef) or ($ssl_key == undef) {
@@ -49,19 +51,13 @@ define nginx::resource::vhost(
   if (!$ssl_only) {
     # HTTP server
     file { "${nginx::config::nx_temp_dir}/nginx.d/${name}-001":
-      ensure  => $ensure ? {
-      'absent' => absent,
-      default  => 'file',
-      },
-      content => template('nginx/vhost/vhost_header.erb'),
+      ensure  => $fileIfEnabled,
+      content => template("${module_name}/vhost/vhost_header.erb"),
       notify => Class['nginx::service'],
     }
     file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-699":
-      ensure  => $ensure ? {
-      'absent' => absent,
-      default  => 'file',
-      },
-      content => template('nginx/vhost/vhost_footer.erb'),
+      ensure  => $fileIfEnabled,
+      content => template("${module_name}/vhost/vhost_footer.erb"),
       notify  => Class['nginx::service'],
     }
   }
@@ -69,19 +65,13 @@ define nginx::resource::vhost(
   if ($ssl == true) {
     # HTTPS server
     file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-700-ssl":
-      ensure => $ensure ? {
-      'absent' => absent,
-      default  => 'file',
-      },
-      content => template('nginx/vhost/vhost_ssl_header.erb'),
+      ensure  => $fileIfEnabled,
+      content => template("${module_name}/vhost/vhost_ssl_header.erb"),
       notify => Class['nginx::service'],
     }
     file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-999-ssl":
-      ensure => $ensure ? {
-      'absent' => absent,
-      default  => 'file',
-      },
-      content => template('nginx/vhost/vhost_footer.erb'),
+      ensure  => $fileIfEnabled,
+      content => template("${module_name}/vhost/vhost_footer.erb"),
       notify => Class['nginx::service'],
     }
   }

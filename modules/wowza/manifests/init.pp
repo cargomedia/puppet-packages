@@ -15,7 +15,7 @@ class wowza (
   }
 
   helper::script {'install wowza':
-    content => template('wowza/install.sh'),
+    content => template("${module_name}/install.sh"),
     unless => "dpkg -l | grep -q '^ii.* wowzastreamingengine-${version}'",
     timeout => 900,
     require => User['wowza'],
@@ -24,14 +24,14 @@ class wowza (
 
   file {
     '/usr/local/WowzaStreamingEngine/lib/lib-versions':
+      ensure => directory,
       owner => 'wowza',
       group => 'wowza',
-      mode => '0755',
-      ensure => directory;
+      mode => '0755';
 
     '/usr/local/WowzaStreamingEngine/conf/admin.password':
       ensure =>file,
-      content => template('wowza/admin.password'),
+      content => template("${module_name}/admin.password"),
       owner => '0',
       group => '0',
       mode => '0644',
@@ -47,7 +47,7 @@ class wowza (
 
     '/etc/init.d/wowza':
       ensure => file,
-      content => template('wowza/init'),
+      content => template("${module_name}/init"),
       owner => '0',
       group => '0',
       mode => '0755',
@@ -58,7 +58,7 @@ class wowza (
   helper::service{'wowza':}
 
   @monit::entry {'wowza':
-    content => template('wowza/monit'),
+    content => template("${module_name}/monit"),
   }
 
 }

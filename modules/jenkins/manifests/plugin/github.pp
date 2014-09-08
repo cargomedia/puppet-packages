@@ -10,7 +10,7 @@ class jenkins::plugin::github(
 
   file {'/var/lib/jenkins/com.cloudbees.jenkins.GitHubPushTrigger.xml':
     ensure    => 'present',
-    content   => template('jenkins/plugin/github.xml'),
+    content   => template("${module_name}/plugin/github.xml"),
     owner     => 'jenkins',
     group     => 'nogroup',
     mode      => '0644',

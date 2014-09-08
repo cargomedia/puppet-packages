@@ -4,7 +4,7 @@ define sysctl::entry ($entries) {
 
   file {"/etc/sysctl.d/${name}":
     ensure => file,
-    content => template('sysctl/sysctl'),
+    content => template("${module_name}/sysctl"),
     owner => '0',
     group => '0',
     mode => '0644',

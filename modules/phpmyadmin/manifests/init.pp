@@ -10,6 +10,6 @@ class phpmyadmin {
   ->
 
   apache2::vhost {'phpmyadmin':
-    content => template('phpmyadmin/vhost.conf'),
+    content => template("${module_name}/vhost.conf"),
   }
 }

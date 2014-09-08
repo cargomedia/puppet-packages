@@ -10,7 +10,7 @@ class ntp {
   }
 
   @monit::entry {'ntp':
-    content => template('ntp/monit'),
+    content => template("${module_name}/monit"),
     require => Service['ntp'],
   }
 }

@@ -7,7 +7,7 @@ class gearman::server(
 
   case $persistence {
     none:    { $daemon_args = [] }
-    sqlite3: { $daemon_args = ['-q libsqlite3', "--libsqlite3-db=/var/log/gearman-job-server/gearman-persist.sqlite3"] }
+    sqlite3: { $daemon_args = ['-q libsqlite3', '--libsqlite3-db=/var/log/gearman-job-server/gearman-persist.sqlite3'] }
     default: { fail('Only sqlite3-based persistent queues supported right now') }
   }
 
@@ -22,7 +22,7 @@ class gearman::server(
   }
 
   @monit::entry {'gearman-job-server':
-    content => template('gearman/monit'),
+    content => template("${module_name}/monit"),
     require => Service['gearman-job-server'],
   }
 
@@ -37,7 +37,7 @@ class gearman::server(
 
   file {'/etc/default/gearman-job-server':
     ensure => file,
-    content => template('gearman/default'),
+    content => template("${module_name}/default"),
     owner => '0',
     group => '0',
     mode => '0644',

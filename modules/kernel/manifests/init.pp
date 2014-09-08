@@ -7,6 +7,6 @@ class kernel(
     owner => '0',
     group => '0',
     mode => '0644',
-    content => template('kernel/modules')
+    content => template("${module_name}/modules")
   }
 }

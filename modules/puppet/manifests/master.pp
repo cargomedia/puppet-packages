@@ -20,7 +20,7 @@ class puppet::master (
 
   file {'/etc/puppet/conf.d/master':
     ensure => file,
-    content => template('puppet/master/conf.d/master'),
+    content => template("${module_name}/master/conf.d/master"),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -37,7 +37,7 @@ class puppet::master (
 
   file {'/etc/puppet/manifests/site.pp':
     ensure => file,
-    content => template('puppet/master/site.pp'),
+    content => template("${module_name}/master/site.pp"),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -54,7 +54,7 @@ class puppet::master (
 
   file {'/etc/puppet/hiera.yaml':
     ensure => file,
-    content => template('puppet/master/hiera.yaml'),
+    content => template("${module_name}/master/hiera.yaml"),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -64,7 +64,7 @@ class puppet::master (
 
   file {'/etc/default/puppetmaster':
     ensure => file,
-    content => template('puppet/master/etc/default'),
+    content => template("${module_name}/master/etc/default"),
     group => '0',
     owner => '0',
     mode => '0644',
@@ -75,7 +75,7 @@ class puppet::master (
   if $reportToEmail {
     file {'/etc/puppet/tagmail.conf':
       ensure => file,
-      content => template('puppet/master/tagmail.conf'),
+      content => template("${module_name}/master/tagmail.conf"),
       group => '0',
       owner => '0',
       mode => '0644',
@@ -124,7 +124,7 @@ class puppet::master (
   }
 
   @monit::entry {'puppetmaster':
-    content => template('puppet/master/monit'),
+    content => template("${module_name}/master/monit"),
     require => Service['puppetmaster'],
   }
 

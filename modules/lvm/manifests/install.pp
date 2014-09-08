@@ -18,11 +18,11 @@ class lvm::install (
       class {'lvm::base::xfs': }
 
       cron {'xfs-maintenance':
+        ensure => absent,
         command => "/usr/sbin/xfs_fsr ${logicalVolumeMountpoint} >/dev/null",
         user => 'root',
         minute => 30,
         hour => 2,
-        ensure => absent,
         require => Class['lvm::base::xfs'],
       }
 
@@ -45,7 +45,7 @@ class lvm::install (
   }
 
   helper::script {'install lvm':
-    content => template('lvm/install'),
+    content => template("${module_name}/install"),
     unless => "lvs | grep -q ${logicalVolumeName}",
     require => Class['lvm::package'],
   }
@@ -55,17 +55,18 @@ class lvm::install (
       ensure => directory,
     }
 
+    $mountOptions = $mount_options ? { undef => $logicalVolumeMountOptions,  default => $mount_options }
     mount::entry {'mount lvm':
       source => "/dev/${volumeGroupName}/${logicalVolumeName}",
       target => $logicalVolumeMountpoint,
       type => $logicalVolumeFilesystem,
-      options => $mount_options ? { undef => $logicalVolumeMountOptions,  default => $mount_options },
+      options => $mountOptions,
       mount_check => true,
     }
 
     $mountBasename = file_basename($logicalVolumeMountpoint)
     @monit::entry {"fs-check-${mountBasename}":
-      content => template('lvm/monit'),
+      content => template("${module_name}/monit"),
     }
   }
 

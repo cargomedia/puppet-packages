@@ -5,7 +5,7 @@ class deb_multimedia {
     keys => {
       'debian-multimedia' => {
         key => '1F41B907',
-        key_content => template('deb_multimedia/debian-multimedia-keyring.gpg'),
+        key_content => template("${module_name}/debian-multimedia-keyring.gpg"),
       }
     }
   }

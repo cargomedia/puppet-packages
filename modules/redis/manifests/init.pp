@@ -10,7 +10,7 @@ class redis {
 
   file {'/etc/redis/redis.conf':
     ensure => file,
-    content => template('redis/redis.conf'),
+    content => template("${module_name}/redis.conf"),
     owner => '0',
     group => '0',
     mode => '0644',
@@ -29,7 +29,7 @@ class redis {
   }
 
   @monit::entry {'redis':
-    content => template('redis/monit'),
+    content => template("${module_name}/monit"),
     require => Package['redis-server'],
   }
 

@@ -4,7 +4,7 @@ class yasm ($version = '1.2.0'){
   require 'unzip'
 
   helper::script {'install yasm':
-    content => template('yasm/install.sh'),
+    content => template("${module_name}/install.sh"),
     unless => "yasm --version | grep -q '^yasm ${version}$'",
   }
 

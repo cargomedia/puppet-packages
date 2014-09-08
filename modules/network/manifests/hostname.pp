@@ -5,13 +5,14 @@ class network::hostname(
   include 'network::host::purge'
 
   $hostname = regsubst($fqdn, '^([^.]*).*$', '\1')
+  $aliases = $hostname ? {
+    $fqdn => ['localhost'],
+    default => [$hostname, 'localhost']
+  }
 
   network::host {$fqdn:
     ipaddr => '127.0.0.1',
-    aliases => $hostname ? {
-      $fqdn => ['localhost'],
-      default => [$hostname, 'localhost']
-    },
+    aliases => $aliases,
     before => Class['network::host::purge'],
   }
 
@@ -19,7 +20,7 @@ class network::hostname(
     ensure  => present,
     owner   => 'root',
     group   => 'root',
-    mode    => 644,
+    mode    => '0644',
     content => "${fqdn}\n",
   }
 
@@ -27,7 +28,7 @@ class network::hostname(
     ensure  => present,
     owner   => 'root',
     group   => 'root',
-    mode    => 644,
+    mode    => '0644',
     content => "${hostname}\n",
     notify  => Exec['hostname.sh'],
   }

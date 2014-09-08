@@ -30,15 +30,15 @@ define nginx::resource::location(
 
   # Use proxy template if $proxy is defined, otherwise use directory template.
   if ($proxy != undef) {
-    $content_real = template('nginx/vhost/vhost_location_proxy.erb')
+    $content_real = template("${module_name}/vhost/vhost_location_proxy.erb")
   } elsif ($location_alias != undef) {
-    $content_real = template('nginx/vhost/vhost_location_alias.erb')
+    $content_real = template("${module_name}/vhost/vhost_location_alias.erb")
   } elsif ($stub_status != undef) {
-    $content_real = template('nginx/vhost/vhost_location_stub_status.erb')
+    $content_real = template("${module_name}/vhost/vhost_location_stub_status.erb")
   } elsif ($www_root != undef) {
-    $content_real = template('nginx/vhost/vhost_location_directory.erb')
+    $content_real = template("${module_name}/vhost/vhost_location_directory.erb")
   } else {
-    $content_real = template('nginx/vhost/vhost_location.erb')
+    $content_real = template("${module_name}/vhost/vhost_location.erb")
   }
 
   ## Check for various error conditions

@@ -4,7 +4,7 @@ class memcached ($port = 11211, $memory = 2048, $user = 'nobody') {
 
   file {'/etc/memcached.conf':
     ensure => file,
-    content => template('memcached/memcached.conf'),
+    content => template("${module_name}/memcached.conf"),
     owner => '0',
     group => '0',
     mode => '0644',
@@ -17,7 +17,7 @@ class memcached ($port = 11211, $memory = 2048, $user = 'nobody') {
   }
 
   @monit::entry {'memcached':
-    content => template('memcached/monit'),
+    content => template("${module_name}/monit"),
     require => Service['memcached'],
   }
 

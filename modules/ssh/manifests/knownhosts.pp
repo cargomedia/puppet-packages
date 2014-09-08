@@ -2,12 +2,12 @@ class ssh::knownhosts {
 
   require 'ssh'
 
-  $aliases = get_knownhosts($fqdn)
+  $aliases = get_knownhosts($::fqdn)
 
-  @@ssh::knownhost {$clientcert:
-    hostname => $fqdn,
+  @@ssh::knownhost {$::clientcert:
+    hostname => $::fqdn,
     aliases => $aliases,
-    key => $sshrsakey,
+    key => $::sshrsakey,
   }
 
   Ssh::Knownhost <<| |>>

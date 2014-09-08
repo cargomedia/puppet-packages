@@ -1,6 +1,6 @@
 class copperegg_revealcloud(
   $api_key,
-  $label = $clientcert,
+  $label = $::clientcert,
   $tags = [],
   $version = 'v3.3-62-g04d1c71',
   $enable_node = true
@@ -10,7 +10,7 @@ class copperegg_revealcloud(
   $api_host = 'api.copperegg.com'
   $tag_list = hiera_array('copperegg_revealcloud::tags', $tags)
 
-  case $architecture {
+  case $::architecture {
     i386: { $url = "http://cdn.copperegg.com/revealcloud/${version}/linux-2.6/i386/revealcloud" }
     amd64: { $url = "http://cdn.copperegg.com/revealcloud/${version}/linux-2.6/x86_64/revealcloud" }
     default: { fail('Unrecognized architecture') }
@@ -41,14 +41,14 @@ class copperegg_revealcloud(
   ->
 
   helper::script {'download revealcloud':
-    content => template('copperegg_revealcloud/download.sh'),
+    content => template("${module_name}/download.sh"),
     unless => "test -x ${dir}/revealcloud && ${dir}/revealcloud -V 2>&1 | grep 'Version: ${version}$'",
     notify => Service['revealcloud'],
   }
   ->
 
   file {'/etc/init.d/revealcloud':
-    content => template('copperegg_revealcloud/init.sh'),
+    content => template("${module_name}/init.sh"),
     owner => '0',
     group => '0',
     mode => '0755',
@@ -79,7 +79,7 @@ class copperegg_revealcloud(
   }
 
   @monit::entry {'revealcloud':
-    content => template('copperegg_revealcloud/monit'),
+    content => template("${module_name}/monit"),
     require => Service['revealcloud']
   }
 

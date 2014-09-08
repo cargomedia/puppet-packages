@@ -40,7 +40,7 @@ class bipbip (
 
   file {'/etc/bipbip/config.yml':
     ensure => file,
-    content => template('bipbip/config.yml'),
+    content => template("${module_name}/config.yml"),
     owner => '0',
     group => '0',
     mode => '0644',
@@ -58,7 +58,7 @@ class bipbip (
 
   file {'/etc/init.d/bipbip':
     ensure => file,
-    content => template('bipbip/init.sh'),
+    content => template("${module_name}/init.sh"),
     owner => '0',
     group => '0',
     mode => '0755',

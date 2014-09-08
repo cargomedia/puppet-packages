@@ -21,7 +21,7 @@ class revive (
   require 'rsync'
 
   helper::script {'install revive':
-    content => template('revive/install.sh'),
+    content => template("${module_name}/install.sh"),
     unless => "grep -w \"define('VERSION', '${version}')\" /var/revive/constants.php",
     require => Class['rsync'],
   }
@@ -55,7 +55,7 @@ class revive (
 
   file {'/var/revive/www/delivery/ajs-proxy.php':
     ensure => present,
-    content => template('revive/ajs-proxy.php'),
+    content => template("${module_name}/ajs-proxy.php"),
     group => 'www-data',
     owner => 'www-data',
     mode => '0644',
@@ -71,7 +71,7 @@ class revive (
   }
 
   apache2::vhost {$host:
-    content => template('revive/vhost'),
+    content => template("${module_name}/vhost"),
   }
 
   cron {"cron revive maintenance ${host}":

@@ -12,14 +12,14 @@ class php5::extension::svm (
   ->
 
   helper::script {'install php5::extension::svm':
-    content => template('php5/extension/svm/install.sh'),
+    content => template("${module_name}/extension/svm/install.sh"),
     unless => "php --re svm | grep -w 'svm version ${version_output}'",
     require => Class['php5'],
   }
   ->
 
   php5::config_extension {'svm':
-    content => template('php5/extension/svm/conf.ini'),
+    content => template("${module_name}/extension/svm/conf.ini"),
   }
 
 }
