@@ -1,6 +1,6 @@
 define mysql::database ($user = undef) {
 
-  require 'mysql::server'
+  require 'mysql::client'
 
   database {$name:
     ensure => present,
