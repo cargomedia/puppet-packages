@@ -2,7 +2,7 @@ define mysql::grant (
   $privileges
 ) {
 
-  require 'mysql::service'
+  require 'mysql::client'
 
   database_grant {$name:
     privileges => $privileges,
