@@ -10,9 +10,9 @@ define mysql::database ($user = undef) {
 
   if $user {
     database_grant {"${user}/${name}":
-    privileges => ['all'],
-    provider => 'mysql',
-    require => Mysql::User[$user],
+      privileges => ['all'],
+      provider => 'mysql',
+      require => Mysql::User[$user],
     }
   }
 }
