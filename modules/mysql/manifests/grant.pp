@@ -1,7 +1,5 @@
 define mysql::grant (
-  $privileges,
-  $user = undef,
-  $database = undef
+  $privileges
 ) {
 
   require 'mysql::service'
