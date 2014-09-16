@@ -1,4 +1,4 @@
-puppet-packages [![Build Status](https://travis-ci.org/cargomedia/puppet-packages.png?branch=master)](https://travis-ci.org/cargomedia/puppet-packages)
+puppet-packages [![Build Status][http://ci.cargomedia.ch:8080/job/cargomedia-puppet-packages/badge/icon](http://ci.cargomedia.ch:8080/job/cargomedia-puppet-packages/badge/icon)
 ===============
 Reusable puppet modules for Debian Wheezy.
 
