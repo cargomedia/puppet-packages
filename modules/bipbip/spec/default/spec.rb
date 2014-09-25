@@ -39,3 +39,7 @@ end
 describe command('/etc/init.d/bipbip status') do
   it { should return_exit_status 0 }
 end
+
+describe file('/var/log/bipbip/') do
+  it { should be_directory }
+end
