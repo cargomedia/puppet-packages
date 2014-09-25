@@ -1,5 +1,5 @@
-<% @file_patterns.each do |pattern| -%>
-<%= pattern %>
+<% @file_paths.each do |path| -%>
+<%= path %>
 <% end %>
 {
 <% @commands.each do |command| -%>

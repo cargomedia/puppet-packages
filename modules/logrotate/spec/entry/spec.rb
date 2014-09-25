@@ -2,7 +2,7 @@ require 'spec_helper'
 
 tests = [
     {:title => 'foo',
-     :file_patterns => ['/var/log/foo/*.log', '/var/log/foo_bar.log'],
+     :file_paths => ['/var/log/foo/*.log', '/var/log/foo_bar.log'],
      :commands => [
          'create 640',
          'rotate 14',
@@ -13,13 +13,17 @@ tests = [
      ],
     },
     {:title => 'bar',
-     :file_patterns => ['/var/log/bar/*.log', '/var/log/bar_foo.log'],
+     :file_paths => ['/var/log/bar/*.log', '/var/log/bar_foo.log'],
      :commands => [
          'create 640 bar bar',
          'rotate 4',
          'compress',
          'monthly',
      ],
+    },
+    {:title => 'baz',
+     :file_paths => ['/var/log/messages', '/var/log/syslog'],
+     :commands => [],
     }
 ]
 
@@ -30,9 +34,9 @@ tests.each do |test|
     it { should be_file }
   end
 
-  test[:file_patterns].each do |pattern|
+  test[:file_paths].each do |path|
     describe file(path_to_file) do
-      it { should contain pattern }
+      it { should contain path }
     end
   end
 

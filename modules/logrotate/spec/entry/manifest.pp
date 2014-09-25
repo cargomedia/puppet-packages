@@ -7,13 +7,13 @@ node default {
   }
   ->
 
-  file { ['/var/log/foo_bar.log', '/var/log/foo/foo.log', '/var/log/bar_foo.log', '/var/log/bar/bar.log']:
+  file {['/var/log/foo_bar.log', '/var/log/foo/foo.log', '/var/log/bar_foo.log', '/var/log/bar/bar.log']:
     ensure => file,
   }
   ->
 
-  logrotate::entry {'foo':
-    file_patterns => ['/var/log/foo/*.log', '/var/log/foo_bar.log'],
+  logrotate::entry{'foo':
+    file_paths => ['/var/log/foo/*.log', '/var/log/foo_bar.log'],
     commands => [
       'create 640',
       'rotate 14',
@@ -24,8 +24,8 @@ node default {
     ]
   }
 
-  logrotate::entry {'bar':
-    file_patterns => ['/var/log/bar/*.log', '/var/log/bar_foo.log'],
+  logrotate::entry{'bar':
+    file_paths => ['/var/log/bar/*.log', '/var/log/bar_foo.log'],
     commands => [
       'create 640 bar bar',
       'rotate 4',
@@ -34,4 +34,7 @@ node default {
     ]
   }
 
+  logrotate::entry{'baz':
+    content => template("logrotate/spec/baz"),
+  }
 }
