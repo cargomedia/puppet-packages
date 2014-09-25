@@ -1,5 +1,7 @@
-logfile: <%= @log_file %>
+logfile: /var/log/bipbip/<%= @log_file %>
 loglevel: <%= @log_level %>
+logfile_days_to_keep: <%= @logfile_days_to_keep %>
+logfile_maxsize: <%= @logfile_maxsize %>
 frequency: <%= @frequency %>
 include: services.d/
 

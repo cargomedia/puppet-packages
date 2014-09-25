@@ -2,8 +2,10 @@ class bipbip (
   $api_key,
   $version = '0.4.1',
   $frequency = 5,
-  $log_file = '/var/log/bipbip.log',
-  $log_level = 'INFO'
+  $log_file = 'bipbip.log',
+  $log_level = 'INFO',
+  $logfile_days_to_keep = 7,
+  $logfile_days_to_keep = 8388608
 ){
 
   include 'bipbip::service'
@@ -48,7 +50,15 @@ class bipbip (
   }
   ->
 
-  file {'/var/log/bipbip.log':
+  file {'/var/log/bipbip':
+    ensure => directory,
+    owner => 'bipbip',
+    group => 'bipbip',
+    mode => '0755',
+  }
+
+  ->
+  file {"/var/log/bipbip/${log_file}":
     ensure => file,
     owner => 'bipbip',
     group => 'bipbip',
