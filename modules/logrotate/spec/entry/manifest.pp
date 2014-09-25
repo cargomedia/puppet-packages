@@ -35,6 +35,6 @@ node default {
   }
 
   logrotate::entry{'baz':
-    content => template("logrotate/spec/baz"),
+    content => template('logrotate/spec/baz'),
   }
 }
