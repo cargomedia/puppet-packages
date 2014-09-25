@@ -1,0 +1,8 @@
+<% @file_patterns.each do |pattern| -%>
+<%= pattern %>
+<% end %>
+{
+<% @commands.each do |command| -%>
+	<%= command %>
+<% end %>
+}
