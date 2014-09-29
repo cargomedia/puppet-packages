@@ -39,3 +39,11 @@ end
 describe command('/etc/init.d/bipbip status') do
   it { should return_exit_status 0 }
 end
+
+describe file('/etc/logrotate.d/bipbip') do
+  it { should be_file }
+end
+
+describe command('logrotate -d /etc/logrotate.d/bipbip') do
+  it { should return_exit_status 0 }
+end

@@ -2,10 +2,11 @@ class bipbip (
   $api_key,
   $version = '0.4.1',
   $frequency = 5,
-  $log_file = '/var/log/bipbip.log',
+  $log_file = '/var/log/bipbip/bipbip.log',
   $log_level = 'INFO'
 ){
 
+  require 'logrotate'
   include 'bipbip::service'
 
   class {'ruby::gem::bipbip':
@@ -48,11 +49,24 @@ class bipbip (
   }
   ->
 
-  file {'/var/log/bipbip.log':
+  file {'/var/log/bipbip':
+    ensure => directory,
+    owner => 'bipbip',
+    group => 'bipbip',
+    mode => '0755',
+  }
+  ->
+
+  file {'/var/log/bipbip/bipbip.log':
     ensure => file,
     owner => 'bipbip',
     group => 'bipbip',
     mode => '0644',
+  }
+  ->
+
+  logrotate::entry{$module_name:
+    content => template("${module_name}/logrotate")
   }
   ->
 
