@@ -1,54 +1,42 @@
 require 'spec_helper'
 
-tests = [
-    {:title => 'foo',
-     :file_paths => ['/var/log/foo/*.log', '/var/log/foo_bar.log'],
-     :commands => [
-         'create 640',
-         'rotate 14',
-         'compress',
-         'daily',
-         'delaycompress',
-         'notifyempty'
-     ],
-    },
-    {:title => 'bar',
-     :file_paths => ['/var/log/bar/*.log', '/var/log/bar_foo.log'],
-     :commands => [
-         'create 640 bar bar',
-         'rotate 4',
-         'compress',
-         'monthly',
-     ],
-    },
-    {:title => 'baz',
-     :file_paths => ['/var/log/messages', '/var/log/syslog'],
-     :commands => [],
-    }
+spec_commands = [
+  'rotate 7',
+  'compress',
+  'daily',
+  'create',
+  'delaycompress',
+  'missingok'
 ]
 
-tests.each do |test|
-  path_to_file = '/etc/logrotate.d/' + test[:title]
+logrotate_file = '/etc/logrotate.d/foo'
 
-  describe file(path_to_file) do
-    it { should be_file }
+describe file(logrotate_file) do
+  it { should contain '/var/log/foo/*.log' }
+  spec_commands.each do |command|
+    it { should contain command }
   end
+end
 
-  test[:file_paths].each do |path|
-    describe file(path_to_file) do
-      it { should contain path }
-    end
-  end
+describe command("logrotate -d " + logrotate_file) do
+  it { should return_exit_status 0 }
+end
 
-  test[:commands].each do |command|
-    describe file(path_to_file) do
-      it { should contain command }
-    end
-  end
-
-  describe command("logrotate -d " + path_to_file) do
+2.times do
+  describe command("logrotate -f " + logrotate_file) do
     it { should return_exit_status 0 }
   end
 end
 
+describe file(logrotate_file) do
+  it { should be_file }
+end
+
+describe file('/var/log/foo/bar.log.2.gz') do
+  it { should be_file }
+end
+
+describe command('cat /tmp/test | wc -l') do
+  its(:stdout) { should match /2/ }
+end
 
