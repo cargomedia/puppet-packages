@@ -47,19 +47,3 @@ end
 describe command('logrotate -d /etc/logrotate.d/bipbip') do
   it { should return_exit_status 0 }
 end
-
-describe command('logrotate -f /etc/logrotate.d/bipbip') do
-  it { should return_exit_status 0 }
-end
-
-describe command('monit restart bipbip && sleep 5') do
-  it { should return_exit_status 0 }
-end
-
-describe command('logrotate -f /etc/logrotate.d/bipbip') do
-  it { should return_exit_status 0 }
-end
-
-describe file('/var/log/bipbip/bipbip.log.2.gz') do
-  it { should be_file }
-end
