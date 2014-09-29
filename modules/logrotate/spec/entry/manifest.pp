@@ -1,5 +1,4 @@
 $logrotate_conf = '
-/var/log/foo_bar.log
 /var/log/foo/*.log {
   create
   rotate 7

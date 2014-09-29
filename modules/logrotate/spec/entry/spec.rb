@@ -1,23 +1,20 @@
 require 'spec_helper'
 
-spec = {file_paths: ['/var/log/foo/*.log', '/var/log/foo_bar.log'],
-        commands: [
-            'rotate 7',
-            'compress',
-            'daily',
-            'create',
-            'delaycompress',
-            'missingok']}
+spec_commands = [
+  'rotate 7',
+  'compress',
+  'daily',
+  'create',
+  'delaycompress',
+  'missingok'
+]
 
 logrotate_file = '/etc/logrotate.d/foo'
 
-
 describe file(logrotate_file) do
-  spec[:file_paths].each do |path|
-    it { should contain path }
-  end
-  spec[:commands].each do |c|
-    it { should contain c }
+  it { should contain '/var/log/foo/*.log' }
+  spec_commands.each do |command|
+    it { should contain command }
   end
 end
 
@@ -40,6 +37,6 @@ describe file('/var/log/foo/bar.log.2.gz') do
 end
 
 describe command('cat /tmp/test | wc -l') do
-  its(:stdout) { should == '3'}
+  its(:stdout) { should match /2/ }
 end
 
