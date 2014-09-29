@@ -9,4 +9,3 @@ mod 'cargomedia/ruby',
 mod 'cargomedia/logrotate',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/logrotate'
-
