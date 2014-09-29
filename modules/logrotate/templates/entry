@@ -1,8 +1,0 @@
-<% @file_paths.each do |path| -%>
-<%= path %>
-<% end %>
-{
-<% @commands.each do |command| -%>
-	<%= command %>
-<% end %>
-}
