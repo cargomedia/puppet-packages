@@ -2,53 +2,57 @@ class php5 {
 
   file { '/etc/php5':
     ensure => directory,
-    owner => '0',
-    group => '0',
-    mode => '0755',
+    owner  => '0',
+    group  => '0',
+    mode   => '0755',
   }
 
   file { '/etc/php5/conf.d':
     ensure => directory,
-    owner => '0',
-    group => '0',
-    mode => '0755',
+    owner  => '0',
+    group  => '0',
+    mode   => '0755',
   }
 
   file { '/etc/php5/cli':
     ensure => directory,
-    owner => '0',
-    group => '0',
-    mode => '0755',
+    owner  => '0',
+    group  => '0',
+    mode   => '0755',
   }
 
-  file {'/var/log/php':
+  file { '/var/log/php':
     ensure => directory,
-    owner => '0',
-    group => '0',
-    mode => '0777',
+    owner  => '0',
+    group  => '0',
+    mode   => '0777',
+  }
+
+  logrotate::entry{ "$module_name":
+    content => template("${module_name}/logrotate")
   }
 
   php5::config { '/etc/php5/cli/php.ini':
-    memory_limit => '8G',
+    memory_limit   => '8G',
     display_errors => true,
-    before => Package['php5-cli'],
+    before         => Package['php5-cli'],
   }
 
-  package {'php5-common':
-    ensure => present,
+  package { 'php5-common':
+    ensure  => present,
     require => [File['/etc/php5/cli/php.ini'], File['/etc/php5/conf.d']],
   }
   ->
 
-  package {['php5-cli', 'php5-dev', 'libpcre3-dev']:
+  package { ['php5-cli', 'php5-dev', 'libpcre3-dev']:
     ensure => present,
   }
   ->
 
-  exec {'/usr/lib/php5/extensions':
-    command => 'ln -s $(php -r "echo ini_get(\"extension_dir\");") /usr/lib/php5/extensions',
+  exec { '/usr/lib/php5/extensions':
+    command  => 'ln -s $(php -r "echo ini_get(\"extension_dir\");") /usr/lib/php5/extensions',
     provider => shell,
-    creates => '/usr/lib/php5/extensions',
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    creates  => '/usr/lib/php5/extensions',
+    path     => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
 }
