@@ -28,7 +28,7 @@ class php5 {
     mode   => '0777',
   }
 
-  logrotate::entry{ "$module_name":
+  logrotate::entry{$module_name:
     content => template("${module_name}/logrotate")
   }
 
