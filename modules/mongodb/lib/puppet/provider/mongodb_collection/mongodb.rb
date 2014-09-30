@@ -51,7 +51,7 @@ Puppet::Type.type(:mongodb_collection).provide :mongodb, :parent => Puppet::Prov
   end
 
   def sh_shard_collection(collection, dbname, key, master)
-    output = mongo_command_json("sh.shardCollection(\"#{dbname}.#{collection}\", {'#{key}': 1})", master)
+    output = mongo_command_json("sh.shardCollection(\"#{dbname}.#{collection}\", {'#{key}': 'hashed'})", master)
     if output['ok'] == 0
       raise Puppet::Error, "sh.shardCollection() failed for #{dbname}.#{collection}: #{output['errmsg']}"
     end
