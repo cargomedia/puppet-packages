@@ -25,7 +25,7 @@ class php5 {
     ensure => directory,
     owner  => '0',
     group  => '0',
-    mode   => '0777',
+    mode   => '0755',
   }
 
   logrotate::entry {$module_name:
