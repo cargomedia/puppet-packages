@@ -33,3 +33,21 @@ end
 describe port(27017) do
   it { should be_listening.with('tcp') }
 end
+
+describe file('/etc/logrotate.d/mongos_router') do
+  it { should be_file }
+  it { should contain 'cat /var/run/mongos_router.pid'}
+end
+
+describe command('logrotate -d /etc/logrotate.d/mongos_router') do
+  it { should return_exit_status 0 }
+end
+
+describe file('/etc/logrotate.d/mongod_config') do
+  it { should be_file }
+  it { should contain 'cat /var/run/mongod_config.pid'}
+end
+
+describe command('logrotate -d /etc/logrotate.d/mongod_config') do
+  it { should return_exit_status 0 }
+end

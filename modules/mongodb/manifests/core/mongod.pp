@@ -70,4 +70,8 @@ define mongodb::core::mongod (
       'port' => $port,
     }
   }
+
+  logrotate::entry{$instance_name:
+    content => template("${module_name}/logrotate")
+  }
 }
