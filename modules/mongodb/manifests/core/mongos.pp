@@ -61,4 +61,8 @@ define mongodb::core::mongos (
       'port' => $port,
     }
   }
+
+  logrotate::entry{$instance_name:
+    content => template("${module_name}/logrotate")
+  }
 }

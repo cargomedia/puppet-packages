@@ -22,13 +22,19 @@ class mongodb {
   file {
     '/var/lib/mongodb':
       ensure  => directory,
-      mode    => '0644',
+      mode    => '0755',
+      owner   => 'mongodb',
+      group   => 'mongodb';
+
+    '/var/log/mongodb':
+      ensure  => directory,
+      mode    => '0755',
       owner   => 'mongodb',
       group   => 'mongodb';
 
     '/etc/mongodb':
       ensure  => directory,
-      mode    => '0644',
+      mode    => '0755',
       owner   => 'mongodb',
       group   => 'mongodb';
 
