@@ -88,6 +88,18 @@ class socket_redis (
     system => true,
   }
 
+  file {$logDir:
+    ensure => directory,
+    owner => 'socket-redis',
+    group => 'socket-redis',
+    mode => '0755',
+    require => User['socket-redis']
+  }
+
+  logrotate::entry{$module_name:
+    content => template("${module_name}/logrotate")
+  }
+
   file {'/etc/init.d/socket-redis':
     ensure => file,
     content => template("${module_name}/init.sh"),
