@@ -125,6 +125,7 @@ case "$1" in
                          --pidfile $PID --exec $DAEMON \
                          -- $MONIT_OPTS
     then
+      sleep 0.5
       echo -17 > /proc/$(cat $PID)/oom_adj
       log_end_msg 0
     else

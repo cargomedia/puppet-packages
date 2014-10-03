@@ -27,6 +27,7 @@ case "${1}" in
 	start)
 		log_daemon_msg "Starting ${DESC}" "${NAME}"
 		if (start-stop-daemon --start --startas $DAEMON --pidfile $PIDFILE -- $DAEMON_ARGS); then
+			sleep 0.5
 			echo -17 > /proc/$(cat $PIDFILE)/oom_adj
 			log_end_msg 0
 		else
