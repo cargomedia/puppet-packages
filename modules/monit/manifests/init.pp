@@ -76,6 +76,15 @@ class monit ($emailTo = 'root@localhost', $emailFrom = 'root@localhost', $allowe
     mode => '0600',
     notify => Service['monit'],
   }
+
+  file {'/etc/init.d/monit':
+    ensure => file,
+    content => template("${module_name}/init"),
+    owner => '0',
+    group => '0',
+    mode => '0755',
+    notify => Service['monit'],
+  }
   ->
 
   package {'monit':
