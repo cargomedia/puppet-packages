@@ -48,7 +48,7 @@ describe command('logrotate -d /etc/logrotate.d/bipbip') do
   it { should return_exit_status 0 }
 end
 
-describe command('cat /proc/$(cat /var/run/bipbip.pid)/oom_adj') do
+describe command('cat /proc/$(cat /var/run/bipbip.pid)/oom_score_adj') do
   it { should return_exit_status 0 }
-  its(:stdout) { should match '-17' }
+  its(:stdout) { should match '-1000' }
 end
