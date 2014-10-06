@@ -26,8 +26,8 @@ function adjust_oom {
 	while ! [ -e $PIDFILE ] ; do sleep 0.1; done;
 
 	PID="$(head -n1 $PIDFILE)"
-	if [ -e '/proc/$PID/oom_score_adj' ]; then
-		echo -1000 > /proc/$PID/oom_score_adj
+	if [ -e "/proc/$PID/oom_score_adj" ]; then
+		echo -1000 > "/proc/$PID/oom_score_adj"
 	fi
 }
 
