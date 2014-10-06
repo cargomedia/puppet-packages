@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 <% require 'shellwords' %>
 
 ### BEGIN INIT INFO
@@ -22,12 +22,23 @@ test -x ${DAEMON} || exit 0
 set -e
 . /lib/lsb/init-functions
 
+function adjust_oom {
+	while ! [ -e $PIDFILE ] ; do sleep 0.1; done;
+
+	PID="$(head -n1 $PIDFILE)"
+	if [ -e '/proc/$PID/oom_score_adj' ]; then
+		echo -1000 > /proc/$PID/oom_score_adj
+	fi
+}
+
+export -f adjust_oom
+export PIDFILE
 
 case "${1}" in
 	start)
 		log_daemon_msg "Starting ${DESC}" "${NAME}"
 		if (start-stop-daemon --start --startas $DAEMON --pidfile $PIDFILE -- $DAEMON_ARGS); then
-			echo -17 > /proc/$(cat $PIDFILE)/oom_adj
+			timeout 5 bash -c 'adjust_oom'
 			log_end_msg 0
 		else
 			log_end_msg 1
