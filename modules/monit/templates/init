@@ -26,7 +26,7 @@ DELAY="/etc/monit/monit_delay"
 NAME=monit
 DESC="daemon monitor"
 MONIT_OPTS=
-PID="/var/run/$NAME.pid"
+PIDFILE="/var/run/$NAME.pid"
 
 # Check if DAEMON binary exist
 [ -f $DAEMON ] || exit 0
@@ -134,7 +134,7 @@ case "$1" in
     log_daemon_msg "Starting $DESC" "$NAME"
     monit_checks $1
     if start-stop-daemon --start --quiet --oknodo \
-                         --pidfile $PID --exec $DAEMON \
+                         --pidfile $PIDFILE --exec $DAEMON \
                          -- $MONIT_OPTS
     then
       timeout 5 bash -c 'adjust_oom'
@@ -147,7 +147,7 @@ case "$1" in
   stop)
     log_daemon_msg "Stopping $DESC" "$NAME"
     if start-stop-daemon --retry TERM/5/KILL/5 --oknodo --stop --quiet \
-                         --pidfile $PID --exec $DAEMON
+                         --pidfile $PIDFILE --exec $DAEMON
     then
       log_end_msg 0
     else
@@ -157,7 +157,7 @@ case "$1" in
   reload)
     log_daemon_msg "Reloading $DESC configuration" "$NAME"
     if start-stop-daemon --stop --signal HUP --quiet \
-                                --oknodo --pidfile $PID \
+                                --oknodo --pidfile $PIDFILE \
                                 --exec $DAEMON -- $MONIT_OPTS
     then
       log_end_msg 0
@@ -173,7 +173,7 @@ case "$1" in
     $DAEMON $MONIT_OPTS -t
     ;;
   status)
-    status_of_proc -p $PID $DAEMON $NAME
+    status_of_proc -p $PIDFILE $DAEMON $NAME
     ;;
   *)
     log_action_msg "Usage: /etc/init.d/$NAME {start|stop|reload|restart|force-reload|syntax|status}"
