@@ -18,7 +18,7 @@ describe file('/etc/monit/conf.d/revealcloud') do
   it { should be_file }
 end
 
-describe command('cat /proc/$(cat /usr/local/revealcloud/run/revealcloud.pid)/oom_adj') do
+describe command('cat /proc/$(cat /usr/local/revealcloud/run/revealcloud.pid)/oom_score_adj') do
   it { should return_exit_status 0 }
-  its(:stdout) { should match '-17' }
+  its(:stdout) { should match '-1000' }
 end
