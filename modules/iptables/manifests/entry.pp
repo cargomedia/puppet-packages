@@ -1,9 +1,11 @@
-define network::iptables (
+define iptables::entry (
   $command = 'append',
   $table = 'filter',
-  $chain,
-  $rule
+  $chain = undef,
+  $rule = undef
 ) {
+
+  require 'iptables'
 
   exec {$title:
     provider => shell,
