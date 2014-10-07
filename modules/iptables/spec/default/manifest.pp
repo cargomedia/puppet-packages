@@ -1,8 +1,5 @@
 node default {
 
-  iptables::reset {'Reset iptables': }
-  ->
-
   iptables::entry {'Set up NAT for foo1':
     table => 'nat',
     chain => 'POSTROUTING',
