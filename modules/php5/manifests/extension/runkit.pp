@@ -5,11 +5,12 @@ class php5::extension::runkit (
 
   require 'build'
   require 'php5'
+  require 'git'
 
   helper::script {'install php5::extension::runkit':
     content => template("${module_name}/extension/runkit/install.sh"),
     unless => "php --re runkit | grep -w 'runkit version ${version}'",
-    require => Class['php5'],
+    require => Class['php5', 'git'],
   }
   ->
 
