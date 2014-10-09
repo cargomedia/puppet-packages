@@ -34,7 +34,14 @@ define network::interface (
       }
       augeas {"main-${device}" :
         context => '/files/etc/network/interfaces',
-        changes => template("${module_name}/interface/static"),
+        changes => template("${module_name}/interface/static_manual"),
+        require => Class['augeas']
+      }
+    }
+    'manual': {
+      augeas {"main-${device}" :
+        context => '/files/etc/network/interfaces',
+        changes => template("${module_name}/interface/static_manual"),
         require => Class['augeas']
       }
     }
