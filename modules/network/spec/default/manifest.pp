@@ -17,10 +17,20 @@ node default {
     },
     route_opts => 'route add -net 10.0.0.0/8 gw 10.55.40.129',
   }
+  ->
 
   network::interface {'eth2':
     method      => 'dhcp',
     applyconfig => false
+  }
+  ->
+
+  network::interface {'eth3':
+    method  => 'manual',
+    ipaddr  => '10.10.40.10',
+    netmask => '255.255.255.0',
+    gateway => '10.10.40.1',
+    mtu     => 16000,
   }
 
   network::host {'foo':
