@@ -50,7 +50,7 @@ define network::interface (
     }
   }
 
-  if $applyconfig {
+  if $applyconfig and $method != 'manual' {
     exec {"/sbin/ifup ${device}":
       command => "/sbin/ifup ${device}",
       unless  => "/sbin/ifconfig | grep ${device}",
