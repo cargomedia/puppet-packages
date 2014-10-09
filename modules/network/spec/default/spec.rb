@@ -31,6 +31,7 @@ describe file('/etc/network/interfaces') do
     it { should contain(match).from(/^iface eth1/).to(/^iface/) }
   end
   its(:content) { should match('iface eth2 inet dhcp') }
+  its(:content) { should_not match('auto eth3') }
   eth3_matches.each do |match|
     it { should contain(match).after(/^iface eth3/) }
   end

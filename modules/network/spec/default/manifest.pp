@@ -21,7 +21,7 @@ node default {
 
   network::interface {'eth2':
     method      => 'dhcp',
-    applyconfig => false
+    applyconfig => false,
   }
   ->
 

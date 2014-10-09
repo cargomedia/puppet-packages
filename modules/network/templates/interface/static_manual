@@ -1,4 +1,6 @@
+<% if @method == 'static' -%>
 set auto[child::1 = '<%= @device %>']/1 <%= @device %>
+<% end -%>
 set iface[. = '<%= @device %>'] <%= @device %>
 set iface[. = '<%= @device %>']/family inet
 set iface[. = '<%= @device %>']/method <%= @method %>
