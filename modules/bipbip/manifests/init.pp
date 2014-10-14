@@ -1,6 +1,6 @@
 class bipbip (
   $api_key,
-  $version = '0.4.1',
+  $version = '0.4.2',
   $frequency = 5,
   $log_file = '/var/log/bipbip/bipbip.log',
   $log_level = 'INFO'
