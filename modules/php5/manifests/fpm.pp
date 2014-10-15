@@ -7,14 +7,14 @@ class php5::fpm {
     ensure => directory,
     owner => '0',
     group => '0',
-    mode => '0755',
+    mode => '0644',
   }
 
   file {['/etc/php5/fpm/pool.d', '/var/log/php5-fpm']:
     ensure => directory,
     owner => '0',
     group => '0',
-    mode => '0755',
+    mode => '0644',
   }
 
   file {'/etc/php5/fpm/php-fpm.conf':
