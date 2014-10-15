@@ -51,6 +51,10 @@ class php5::fpm {
     notify => Service['php5-fpm'],
   }
 
+  logrotate::entry{'php5-fpm':
+    content => template("${module_name}/logrotate-fpm"),
+  }
+
   package {'php5-fpm':
     ensure => present,
   }
