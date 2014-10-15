@@ -53,6 +53,7 @@ class php5::fpm {
 
   logrotate::entry{'php5-fpm':
     content => template("${module_name}/logrotate-fpm"),
+    before => Package['php5-fpm'],
   }
 
   package {'php5-fpm':
