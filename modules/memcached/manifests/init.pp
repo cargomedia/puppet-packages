@@ -1,4 +1,9 @@
-class memcached ($port = 11211, $memory = 2048, $user = 'nobody') {
+class memcached (
+  $port = 11211,
+  $memory = 2048,
+  $user = 'nobody',
+  $max_connections = 10000
+) {
 
   include 'memcached::service'
 
