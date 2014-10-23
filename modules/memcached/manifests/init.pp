@@ -17,6 +17,10 @@ class memcached (
     before => Package['memcached'],
   }
 
+  package {['memcached','moreutils']:
+    ensure => present,
+  }
+
   file {['/usr/share/memcached/','/usr/share/memcached/scripts/']:
     ensure => directory,
     owner => '0',
@@ -29,12 +33,9 @@ class memcached (
     content => template("${module_name}/start-memcached.pl"),
     owner => '0',
     group => '0',
-    mode => '0644',
-    before => Package['memcached'],
-  }
-
-  package {['memcached','moreutils']:
-    ensure => present,
+    mode => '0755',
+    subscribe => Package['memcached'],
+    notify => Service['memcached'],
   }
 
   @monit::entry {'memcached':
