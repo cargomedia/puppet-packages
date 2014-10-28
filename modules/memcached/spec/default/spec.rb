@@ -10,6 +10,7 @@ end
 
 describe file('/etc/memcached.conf') do
   it { should contain '-c 99' }
+  it { should contain '-vvv' }
 end
 
 describe command('>/var/log/memcached.log && monit restart memcached')
