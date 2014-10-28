@@ -8,7 +8,7 @@ node default {
 
   class {'memcached':
     max_connections => 99,
-    log_verbosity => -1024
+    log_verbosity => 1024
   }
   ->
 
