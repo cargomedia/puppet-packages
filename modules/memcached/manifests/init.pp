@@ -2,13 +2,8 @@ class memcached (
   $port = 11211,
   $memory = 2048,
   $user = 'nobody',
-  $max_connections = 10000,
-  $log_verbosity = 1
+  $max_connections = 10000
 ) {
-
-  if ($log_verbosity < 0 or $log_verbosity > 3) {
-    fail 'Log verbosity level not supported (Must be 0-3)'
-  }
 
   include 'memcached::service'
 
@@ -19,28 +14,11 @@ class memcached (
     group => '0',
     mode => '0644',
     notify => Service['memcached'],
-    before => Package['memcached'],
   }
+  ->
 
-  package {['memcached','moreutils']:
+  package {'memcached':
     ensure => present,
-  }
-
-  file {['/usr/share/memcached/','/usr/share/memcached/scripts/']:
-    ensure => directory,
-    owner => '0',
-    group => '0',
-    mode => '0644',
-  }
-
-  file {'/usr/share/memcached/scripts/start-memcached':
-    ensure => file,
-    content => template("${module_name}/start-memcached.pl"),
-    owner => '0',
-    group => '0',
-    mode => '0755',
-    subscribe => Package['memcached'],
-    notify => Service['memcached'],
   }
 
   @monit::entry {'memcached':
