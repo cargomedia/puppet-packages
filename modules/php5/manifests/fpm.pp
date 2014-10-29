@@ -79,19 +79,6 @@ class php5::fpm {
     }
   }
 
-  @bipbip::entry { 'logparser-php5-fpm':
-    plugin  => 'log-parser',
-    options => {
-      'metric_group' => 'logparser-php5-fpm',
-      'path' => '/var/log/php5-fpm/php5-fpm.log',
-      'regexp_timestamp' => '^\[\d+-\w{3}-\d{4} \d+:\d+:\d+\]',
-      'matchers' => [
-        { 'name' => 'segfaults',
-          'regexp' => 'SIGSEGV' }
-      ]
-    },
-  }
-
   @php5::fpm::with_apc {'php5-fpm':
     host => 'localhost',
     port => 9000,
