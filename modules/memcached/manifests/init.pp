@@ -6,6 +6,10 @@ class memcached (
   $log_verbosity = 1
 ) {
 
+  if ($log_verbosity < 0 or $log_verbosity > 3) {
+    fail 'Log verbosity level not supported (Must be 0-3)'
+  }
+
   include 'memcached::service'
 
   file {'/etc/memcached.conf':

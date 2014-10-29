@@ -15,6 +15,6 @@ describe file('/etc/memcached.conf') do
   it { should contain '-vvv' }
 end
 
-describe command('ruby -e \'require "date";p Date.parse(File.open("/var/log/memcached.log").first)\'') do
-  it { should return_exit_status 0 }
+describe file('/var/log/memcached.log') do
+  its(:content) { should match /^\d{4}-\d{2}.\d{2}T\d{2}:\d{2}:\d{2}.\d+Z/ }
 end
