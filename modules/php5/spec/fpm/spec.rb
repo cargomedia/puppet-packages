@@ -19,3 +19,7 @@ end
 describe file('/var/log/php5-fpm/php5-fpm.log') do
   its(:content) { should match /error log file re-opened/ }
 end
+
+describe file('/etc/bipbip/services.d/logparser-php5-fpm.yml') do
+  it { should be_file }
+end
