@@ -84,7 +84,6 @@ class php5::fpm {
     options => {
       'metric_group' => 'logparser-php5-fpm',
       'path' => '/var/log/php5-fpm/php5-fpm.log',
-      'regexp_timestamp' => '^\[\d+-\w{3}-\d{4} \d+:\d+:\d+\]',
       'matchers' => [
         { 'name' => 'segfaults',
           'regexp' => 'SIGSEGV' }
