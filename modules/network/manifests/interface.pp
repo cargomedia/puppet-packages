@@ -22,7 +22,8 @@ define network::interface (
       augeas {"main-${device}" :
         context => '/files/etc/network/interfaces',
         changes => template("${module_name}/interface/dhcp"),
-        require => Class['augeas']
+        require => Class['augeas'],
+        notify  => Service["Restart ${device}"],
       }
     }
     'static': {
@@ -35,7 +36,8 @@ define network::interface (
       augeas {"main-${device}" :
         context => '/files/etc/network/interfaces',
         changes => template("${module_name}/interface/static_manual"),
-        require => Class['augeas']
+        require => Class['augeas'],
+        notify  => Service["Restart ${device}"],
       }
     }
     'manual': {
@@ -50,11 +52,8 @@ define network::interface (
     }
   }
 
-  if $applyconfig and $method != 'manual' {
-    exec {"/sbin/ifup ${device}":
-      command => "/sbin/ifup ${device}",
-      unless  => "/sbin/ifconfig | grep ${device}",
-      path => ['/usr/local/bin', '/usr/bin', '/bin', '/sbin'],
-    }
+  service {"Restart ${device}":
+    status => 'true',
+    restart => "ifdown --force ${device} && ifup ${device}",
   }
 }
