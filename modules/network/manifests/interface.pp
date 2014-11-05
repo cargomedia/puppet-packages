@@ -56,6 +56,5 @@ define network::interface (
     command     => "ifdown --force ${device} && ifup ${device}",
     path        => ['/bin', '/sbin', '/usr/bin'],
     refreshonly => true,
-    timeout     => 60,
   }
 }
