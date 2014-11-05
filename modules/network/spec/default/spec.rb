@@ -2,9 +2,8 @@ require 'spec_helper'
 
 eth1_matches = [
     'iface eth1 inet static',
-    'address 10.10.20.10',
-    'netmask 255.255.0.0',
-    'gateway 10.10.10.1',
+    'address 10.10.20.122',
+    'netmask 255.255.255.0',
     'slaves eth2 eth3',
     'mtu 9000',
     'bond-mode 4',
@@ -13,7 +12,7 @@ eth1_matches = [
     'bond-updelay 0',
     'bond-lacp-rate fast',
     'bond-xmit_hash_policy 1',
-    'up route add -net 10.0.0.0/8 gw 10.55.40.129'
+    'up route add -net 10.10.130.0 netmask 255.255.255.0 gw 10.10.20.128'
 ]
 
 eth3_matches = [
@@ -30,8 +29,6 @@ describe file('/etc/network/interfaces') do
   eth1_matches.each do |match|
     it { should contain(match).from(/^iface eth1/).to(/^iface/) }
   end
-  its(:content) { should match('iface eth2 inet dhcp') }
-  its(:content) { should_not match('auto eth3') }
   eth3_matches.each do |match|
     it { should contain(match).after(/^iface eth3/) }
   end
@@ -49,4 +46,16 @@ end
 describe file('/etc/resolv.conf') do
   it { should be_file }
   its(:content) { should match('example.local') }
+end
+
+describe interface('eth1') do
+  it { should have_ipv4_address("10.10.20.122") }
+end
+
+describe interface('eth3') do
+  it { should_not have_ipv4_address("10.10.40.10") }
+end
+
+describe command('netstat -rn') do
+  its(:stdout) {should match /10.10.130.0.*eth1/}
 end
