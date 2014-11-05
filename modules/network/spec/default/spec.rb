@@ -57,5 +57,5 @@ describe interface('eth3') do
 end
 
 describe command('netstat -rn') do
-  its(:stdout) {should match /10.10.130.0.*eth1/}
+  its(:stdout) { should match /10.10.130.0.*eth1/ }
 end
