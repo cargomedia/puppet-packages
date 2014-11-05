@@ -53,7 +53,7 @@ define network::interface (
   }
 
   service {"Restart ${device}":
-    status => 'true',
+    status => true,
     restart => "ifdown --force ${device} && ifup ${device}",
   }
 }
