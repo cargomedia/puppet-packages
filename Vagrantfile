@@ -13,7 +13,7 @@ Vagrant.configure('2') do |config|
     warn("Installing the vagrant plugin 'vagrant-proxyconf' is highly recommended for dramatic performance gains. \nRun\n \`vagrant plugin install vagrant-proxyconf\` to install it")
   end
 
-  # This is a an additional disk needed to test lvm
+  # This is a an additional disk needed to test module lvm
   # It will show up as /dev/sdb in the guest OS
   config.vm.provider :virtualbox do |vb|
     hdd_path = File.expand_path File.dirname(__FILE__) + "/.vagrant/machines/wheezy/virtualbox/hard-disks/additional_disk.vdi"
@@ -31,5 +31,7 @@ Vagrant.configure('2') do |config|
 
   config.vm.define 'wheezy', primary: true do |wheezy|
     wheezy.vm.box = 'cargomedia/debian-7-amd64-default'
+    # Additional network card to test module network (resource type network::interface)
+    wheezy.vm.network :private_network, ip: '10.10.20.2', auto_config: false
   end
 end
