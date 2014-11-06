@@ -1,6 +1,6 @@
 class wowza (
   $version = '4.0.3',
-  $license = 'EDEV4-HNGXC-T3rK3-axKB3-ncwW6-aHhB6-KQJRHWV3hHA',
+  $license = 'ET1A4-rxCap-8rRZK-anCke-QYRhH-V8Prb-7bkWraz76eN8',
   $admin_user = 'root',
   $admin_password = 'root'
 ) {
