@@ -1,8 +1,8 @@
-class timezone() {
+class timezone($code = 'Etc/UTC') {
 
   file {'/etc/timezone':
     ensure => file,
-    content => 'Etc/UTC',
+    content => $code,
     owner => '0',
     group => '0',
     mode => '0644',

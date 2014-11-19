@@ -1,5 +1,7 @@
 node default {
 
-  timezone::set{'Europe/Berlin':}
+  class {'timezone':
+    code => 'Europe/Berlin'
+  }
 
 }
