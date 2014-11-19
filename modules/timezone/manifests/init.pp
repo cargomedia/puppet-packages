@@ -6,7 +6,6 @@ class timezone($code = 'Etc/UTC') {
     owner => '0',
     group => '0',
     mode => '0644',
-
   }
   ~>
 
