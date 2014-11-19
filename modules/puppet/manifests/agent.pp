@@ -2,7 +2,6 @@ class puppet::agent (
   $server = 'puppet',
   $masterport = 8140,
   $runinterval = '10m',
-  $cpu_shares = 1024,
   $nice_value = 0,
   $splay = false,
   $splaylimit = undef,
@@ -13,28 +12,6 @@ class puppet::agent (
   $splaylimit_final = $splaylimit ? {
     undef => $runinterval,
     default => $splaylimit,
-  }
-
-  if $cpu_shares < 1 or $cpu_shares > 1025 {
-    fail 'CPU shares must be in range 1 to 1024'
-  }
-
-  if $cpu_shares != 1024 {
-    $cgroup_enabled = true
-  }
-
-  if $cgroup_enabled {
-    cgroups::group {'puppet-agent-daemon':
-      controllers => {
-        'cpu' => {
-          'cpu.shares' => $cpu_shares
-        },
-        'cpuset' => {
-          'cpuset.cpus' => 0,
-          'cpuset.mems' => 0,
-        }
-      }
-    }
   }
 
   file {

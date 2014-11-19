@@ -37,9 +37,6 @@ start_puppet_agent() {
     if is_true "$START" ; then
         start-stop-daemon --start --quiet --pidfile $PIDFILE \
           --startas $DAEMON -- $NAME $DAEMON_OPTS
-<% if @cgroup_enabled -%>
-        echo $(cat $PIDFILE) > /sys/fs/cgroup/puppet-agent-daemon/tasks
-<% end -%>
 <% if @nice_value != 0 -%>
         renice -n <%= @nice_value %> -p $(cat $PIDFILE)
 <% end -%>
