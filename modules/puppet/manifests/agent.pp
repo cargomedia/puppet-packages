@@ -2,7 +2,7 @@ class puppet::agent (
   $server = 'puppet',
   $masterport = 8140,
   $runinterval = '10m',
-  $nice_value = 0,
+  $nice_value = '19',
   $splay = false,
   $splaylimit = undef,
 ) {
