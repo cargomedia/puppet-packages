@@ -33,10 +33,6 @@ mod 'cargomedia/apache2',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/apache2'
 
-mod 'cargomedia/cgroups',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/cgroups'
-
 mod 'cargomedia/rsync',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/rsync'
