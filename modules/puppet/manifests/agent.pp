@@ -3,6 +3,7 @@ class puppet::agent (
   $masterport = 8140,
   $runinterval = '10m',
   $cpu_shares = 1024,
+  $nice_value = 0,
   $splay = false,
   $splaylimit = undef,
 ) {
