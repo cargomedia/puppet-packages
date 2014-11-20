@@ -4,12 +4,12 @@ class truecrypt(
 
   require 'build'
 
-  package {['libfuse-dev', 'nasm', 'libpkcs11-helper1-dev', 'libwxbase2.8-dev', 'pkg-config']:}
+  package { ['libfuse-dev', 'nasm', 'libpkcs11-helper1-dev', 'libwxbase2.8-dev', 'pkg-config']: }
+  ->
 
-  helper::script {'install truecrypt':
-    content => template("${module_name}/install.sh"),
-    unless => "truecrypt --version | grep -e 'TrueCrypt ${version}$'",
-    timeout => 900,
+  helper::script { 'install truecrypt':
+    content     => template("${module_name}/install.sh"),
+    unless      => "truecrypt --version | grep -e 'TrueCrypt ${version}$'",
+    timeout     => 900,
   }
-
 }
