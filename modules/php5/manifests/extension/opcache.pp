@@ -2,7 +2,7 @@ class php5::extension::opcache (
   $version = '7.0.3',
   $version_output = '7.0.3FE',
   $enable = true,
-  $enable_cli = true,
+  $enable_cli = false,
   $memory_consumption = 256, # in Mbytes
   $interned_strings_buffer = 8, # in Mbytes
   $max_accelerated_files = 4000,
