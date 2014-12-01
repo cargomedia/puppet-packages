@@ -73,4 +73,9 @@ class postfix ($aliases = {}, $transports = []) {
     content => template("${module_name}/monit"),
     require => Package['postfix'],
   }
+
+  @bipbip::entry {'postfix':
+    plugin => 'postfix',
+    options => {},
+  }
 }
