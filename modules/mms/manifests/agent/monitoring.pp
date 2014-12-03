@@ -1,5 +1,5 @@
 class mms::agent::monitoring (
-  $version = '2.4.0.101',
+  $version = '2.8.0.143',
   $api_key,
   $auth_username = undef,
   $auth_password = undef,
@@ -14,7 +14,7 @@ class mms::agent::monitoring (
 
   helper::script {'install-mms-monitoring':
     content => template("${module_name}/install.sh"),
-    unless => "(test -x /usr/bin/mongodb-${agent_name}-agent) && (dpkg -s mongodb-${agent_name}-agent | grep -q ${version})",
+    unless => "(test -x /usr/bin/mongodb-${agent_name}-agent) && (/usr/bin/mongodb-${agent_name}-agent -version | grep -q ${version})",
   }
   ->
 
