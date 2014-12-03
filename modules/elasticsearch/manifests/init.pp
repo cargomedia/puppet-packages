@@ -53,7 +53,7 @@ class elasticsearch (
   @bipbip::entry {'elasticsearch':
     plugin => 'elasticsearch',
     options => {
-      'hostname' => $publish_host,
+      'hostname' => 'localhost',
       'port' => '9200',
     },
   }
