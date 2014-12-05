@@ -3,7 +3,7 @@ class autoprefixer {
   require 'nodejs'
 
   package {'autoprefixer':
-    ensure => '2.2.0',
+    ensure => '4.0.0',
     provider => 'npm',
   }
 
