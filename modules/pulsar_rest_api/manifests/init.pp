@@ -1,0 +1,138 @@
+class pulsar_rest_api (
+  $version = 'latest',
+  $port = 80,
+
+  $mongodbHost = 'localhost',
+  $mongodbPort = 27017,
+
+  $pulsarRepo = undef,
+  $pulsarBranch = undef,
+
+  $auth = undef,
+
+  $sslKey = undef,
+  $sslCert = undef,
+  $sslPfx = undef,
+  $sslPassphrase = undef
+) {
+
+  require 'nodejs'
+  if $mongodbHost == 'localhost' {
+    class { 'mongodb::role::standalone':
+      host => $mongodbHost,
+      port => $mongodbPort,
+    }
+  }
+  include 'pulsar_rest_api::service'
+
+  file { '/etc/pulsar-rest-api':
+    ensure => directory,
+    owner  => '0',
+    group  => '0',
+    mode   => '0755',
+  }
+
+  file { '/etc/pulsar-rest-api/ssl':
+    ensure => directory,
+    owner  => '0',
+    group  => '0',
+    mode   => '0755',
+  }
+
+  if $sslKey {
+    $sslKeyFile = '/etc/pulsar-rest-api/ssl/cert.key'
+    file { $sslKeyFile:
+      ensure  => file,
+      content => $sslKey,
+      owner   => '0',
+      group   => '0',
+      mode    => '0640',
+      before  => File['/etc/init.d/pulsar-rest-api'],
+      notify  => Service['pulsar-rest-api'],
+    }
+  }
+
+  if $sslCert {
+    $sslCertFile = '/etc/pulsar-rest-api/ssl/cert.pem'
+    file { $sslCertFile:
+      ensure  => file,
+      content => $sslCert,
+      owner   => '0',
+      group   => '0',
+      mode    => '0640',
+      before  => File['/etc/init.d/pulsar-rest-api'],
+      notify  => Service['pulsar-rest-api'],
+    }
+  }
+
+  if $sslPfx {
+    $sslPfxFile = '/etc/pulsar-rest-api/ssl/cert.pfx'
+    file { $sslPfxFile:
+      ensure  => file,
+      content => $sslPfx,
+      owner   => '0',
+      group   => '0',
+      mode    => '0640',
+      before  => File['/etc/init.d/pulsar-rest-api'],
+      notify  => Service['pulsar-rest-api'],
+    }
+  }
+
+  if $sslPassphrase {
+    $sslPassphraseFile = '/etc/pulsar-rest-api/ssl/passphrase'
+    file { $sslPassphraseFile:
+      ensure  => file,
+      content => $sslPassphrase,
+      owner   => '0',
+      group   => '0',
+      mode    => '0640',
+      before  => File['/etc/init.d/pulsar-rest-api'],
+      notify  => Service['pulsar-rest-api'],
+    }
+  }
+
+  user { 'pulsar-rest-api':
+    ensure => present,
+    system => true,
+  }
+
+  file { $logDir:
+    ensure  => directory,
+    owner   => 'pulsar-rest-api',
+    group   => 'pulsar-rest-api',
+    mode    => '0755',
+    require => User['pulsar-rest-api']
+  }
+
+  logrotate::entry{ $module_name:
+    content => template("${module_name}/logrotate")
+  }
+
+  file { '/etc/init.d/pulsar-rest-api':
+    ensure  => file,
+    content => template("${module_name}/init.sh"),
+    owner   => '0',
+    group   => '0',
+    mode    => '0755',
+    notify  => Service['pulsar-rest-api'],
+    before  => Package['pulsar-rest-api'],
+    require => User['pulsar-rest-api'],
+  }
+  ~>
+
+  exec { 'update-rc.d pulsar-rest-api defaults':
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    refreshonly => true,
+  }
+
+
+  package { 'pulsar-rest-api':
+    ensure   => $version,
+    provider => 'npm',
+  }
+
+  @monit::entry { 'pulsar-rest-api':
+    content => template("${module_name}/monit"),
+    require => Service['pulsar-rest-api'],
+  }
+}
