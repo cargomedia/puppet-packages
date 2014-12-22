@@ -1,9 +1,12 @@
 class pulsar_rest_api (
-  $version = 'latest',
+  $version = '0.1.4',
   $port = 80,
 
   $mongodbHost = 'localhost',
   $mongodbPort = 27017,
+  $mongodbDb = 'pulsar-rest-api',
+
+  $logDir = '/var/log/pulsar-rest-api',
 
   $pulsarRepo = undef,
   $pulsarBranch = undef,
@@ -11,30 +14,30 @@ class pulsar_rest_api (
   $auth = undef,
 
   $sslKey = undef,
-  $sslCert = undef,
   $sslPfx = undef,
+  $sslCert = undef,
   $sslPassphrase = undef
 ) {
 
   require 'nodejs'
   if $mongodbHost == 'localhost' {
     class { 'mongodb::role::standalone':
-      host => $mongodbHost,
-      port => $mongodbPort,
+      hostname => $mongodbHost,
+      port     => $mongodbPort,
     }
   }
   include 'pulsar_rest_api::service'
 
   file { '/etc/pulsar-rest-api':
     ensure => directory,
-    owner  => '0',
+    owner  => 'pulsar-rest-api',
     group  => '0',
     mode   => '0755',
   }
 
   file { '/etc/pulsar-rest-api/ssl':
     ensure => directory,
-    owner  => '0',
+    owner  => 'pulsar-rest-api',
     group  => '0',
     mode   => '0755',
   }
@@ -44,7 +47,7 @@ class pulsar_rest_api (
     file { $sslKeyFile:
       ensure  => file,
       content => $sslKey,
-      owner   => '0',
+      owner  => 'pulsar-rest-api',
       group   => '0',
       mode    => '0640',
       before  => File['/etc/init.d/pulsar-rest-api'],
@@ -57,7 +60,7 @@ class pulsar_rest_api (
     file { $sslCertFile:
       ensure  => file,
       content => $sslCert,
-      owner   => '0',
+      owner  => 'pulsar-rest-api',
       group   => '0',
       mode    => '0640',
       before  => File['/etc/init.d/pulsar-rest-api'],
@@ -70,7 +73,7 @@ class pulsar_rest_api (
     file { $sslPfxFile:
       ensure  => file,
       content => $sslPfx,
-      owner   => '0',
+      owner  => 'pulsar-rest-api',
       group   => '0',
       mode    => '0640',
       before  => File['/etc/init.d/pulsar-rest-api'],
@@ -91,6 +94,16 @@ class pulsar_rest_api (
     }
   }
 
+  file { '/etc/pulsar-rest-api/config.yml':
+    ensure  => file,
+    content => template('pulsar_rest_api/config.yml'),
+    owner  => 'pulsar-rest-api',
+    group   => '0',
+    mode    => '0640',
+    before  => File['/etc/init.d/pulsar-rest-api'],
+    notify  => Service['pulsar-rest-api'],
+  }
+
   user { 'pulsar-rest-api':
     ensure => present,
     system => true,
@@ -99,7 +112,7 @@ class pulsar_rest_api (
   file { $logDir:
     ensure  => directory,
     owner   => 'pulsar-rest-api',
-    group   => 'pulsar-rest-api',
+    group   => '0',
     mode    => '0755',
     require => User['pulsar-rest-api']
   }
@@ -111,7 +124,7 @@ class pulsar_rest_api (
   file { '/etc/init.d/pulsar-rest-api':
     ensure  => file,
     content => template("${module_name}/init.sh"),
-    owner   => '0',
+    owner   => 'pulsar-rest-api',
     group   => '0',
     mode    => '0755',
     notify  => Service['pulsar-rest-api'],
@@ -129,6 +142,7 @@ class pulsar_rest_api (
   package { 'pulsar-rest-api':
     ensure   => $version,
     provider => 'npm',
+    require  => Class['nodejs'],
   }
 
   @monit::entry { 'pulsar-rest-api':
