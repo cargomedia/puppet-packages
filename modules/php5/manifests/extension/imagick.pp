@@ -12,7 +12,7 @@ class php5::extension::imagick (
 
   helper::script {'install php5::extension::imagick':
     content => template("${module_name}/extension/imagick/install.sh"),
-    unless => "php --re imagick | grep -w 'imagick version ${version}'",
+    unless => "php --re imagick | grep -w 'imagick version ${version}' || [ ${PIPESTATUS[0]} == 139 ]",
     require => Class['php5'],
   }
   ->

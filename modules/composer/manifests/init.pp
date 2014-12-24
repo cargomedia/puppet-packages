@@ -9,7 +9,7 @@ class composer($version = '1.0.0-alpha9') {
   exec {"curl ${phar}":
     command => "curl -sL http://getcomposer.org/download/${version}/composer.phar > ${phar}",
     path => ['/usr/local/bin', '/usr/bin', '/bin'],
-    unless => "${binary} --version | grep -w '${version}'",
+    unless => "${binary} --version | grep -w '${version}' || [ ${PIPESTATUS[0]} == 139 ]",
     require => [File[$binary], File[$config]],
   }
 

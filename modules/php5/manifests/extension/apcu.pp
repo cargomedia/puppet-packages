@@ -11,7 +11,7 @@ class php5::extension::apcu (
 
   helper::script {'install php5::apcu':
     content => template("${module_name}/extension/apcu/install.sh"),
-    unless => "php --re apcu | grep 'apcu version' | grep ' ${version} '",
+    unless => "php --re apcu | grep 'apcu version' | grep ' ${version} ' || [ ${PIPESTATUS[0]} == 139 ]",
     require => Class['php5'],
   }
   ->
