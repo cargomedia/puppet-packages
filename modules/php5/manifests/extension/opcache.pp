@@ -15,7 +15,7 @@ class php5::extension::opcache (
 
   helper::script {'install php5::extension::opcache':
     content => template("${module_name}/extension/opcache/install.sh"),
-    unless => "php --re 'Zend OPcache' | grep 'Zend OPcache version ${version_output} '",
+    unless => "php --re 'Zend OPcache' | grep 'Zend OPcache version ${version_output} ' || [ ${PIPESTATUS[0]} == 139 ]",
     require => Class['php5'],
   }
   ->

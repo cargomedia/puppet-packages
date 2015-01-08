@@ -13,7 +13,7 @@ class php5::extension::svm (
 
   helper::script {'install php5::extension::svm':
     content => template("${module_name}/extension/svm/install.sh"),
-    unless => "php --re svm | grep -w 'svm version ${version_output}'",
+    unless => "php --re svm | grep -w 'svm version ${version_output}' || [ ${PIPESTATUS[0]} == 139 ]",
     require => Class['php5'],
   }
   ->

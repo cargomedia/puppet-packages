@@ -12,7 +12,7 @@ class php5::extension::apc (
 
   helper::script {'install php5::apc':
     content => template("${module_name}/extension/apc/install.sh"),
-    unless => "php --re apc | grep 'apc version' | grep ' ${version} '",
+    unless => "php --re apc | grep 'apc version' | grep ' ${version} ' || [ ${PIPESTATUS[0]} == 139 ]",
     require => Class['php5'],
   }
   ->
