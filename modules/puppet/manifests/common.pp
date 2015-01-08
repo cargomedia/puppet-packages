@@ -4,7 +4,7 @@ class puppet::common(
 
   helper::script {'install puppet apt sources':
     content => template("${module_name}/install-apt-sources.sh"),
-    unless => "dpkg -l puppetlabs-release | grep '^ii '",
+    unless => "dpkg-query -f '\${Status} \${Version}\n' -W puppetlabs-release | grep -q 'ok installed ${Version}'",
   }
 
   file {'/etc/puppet':

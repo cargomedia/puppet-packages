@@ -16,7 +16,7 @@ class wowza (
 
   helper::script {'install wowza':
     content => template("${module_name}/install.sh"),
-    unless => "dpkg -l | grep -q '^ii.*${version}.*Wowza Streaming Engine'",
+    unless => "dpkg-query -f '\${Status} \${Version}\n' -W wowzastreamingengine-${Version} | grep -q 'ok installed ${Version}'",
     timeout => 900,
     require => User['wowza'],
   }
