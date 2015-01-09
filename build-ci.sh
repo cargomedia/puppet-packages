@@ -7,4 +7,11 @@ trap 'bundle exec rake test:cleanup' EXIT
 
 bundle exec rake validate
 bundle exec rake lint
-bundle exec rake test
+
+if [ -z "${ghprbTargetBranch}" ]; then
+    # Full project build
+    bundle exec rake test
+else
+    # Pull request build
+    bundle exec rake test:changes_from_branch[${ghprbTargetBranch}]
+fi
