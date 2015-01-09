@@ -7,6 +7,13 @@ class puppet::common(
     unless => "dpkg-query -f '\${Status}\n' -W puppetlabs-release | grep -q 'ok installed'",
   }
 
+  file {'/var/lib/puppet':
+    ensure => directory,
+    group => '0',
+    owner => '0',
+    mode => '0755',
+  }
+
   file {'/etc/puppet':
     ensure => directory,
     group => '0',
