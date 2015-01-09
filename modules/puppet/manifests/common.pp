@@ -9,8 +9,8 @@ class puppet::common(
 
   file {'/var/lib/puppet':
     ensure => directory,
-    group => '0',
-    owner => '0',
+    group => 'puppet',
+    owner => 'puppet',
     mode => '0755',
   }
 
