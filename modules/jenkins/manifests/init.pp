@@ -3,7 +3,8 @@ class jenkins(
   $port = 8080,
   $emailAdmin = 'root@localhost',
   $emailSuffix = '@localhost',
-  $numExecutors = 1
+  $numExecutors = 1,
+  $clusterId = undef
 ) {
 
   require 'jenkins::package'
@@ -35,6 +36,12 @@ class jenkins(
     group => '0',
     mode => '0644',
     notify => Service['jenkins'],
+  }
+
+  if $clusterId != undef {
+    ssh::auth::id {"jenkins@cluster-${clusterId}":
+      user => 'jenkins',
+    }
   }
 
 }

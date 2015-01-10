@@ -9,3 +9,7 @@ mod 'cargomedia/apt',
 mod 'cargomedia/ntp',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/ntp'
+
+mod 'cargomedia/ssh',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/ssh'
