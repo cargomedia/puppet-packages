@@ -7,6 +7,7 @@ class jenkins(
 ) {
 
   require 'jenkins::package'
+  require 'jenkins::common'
   include 'jenkins::service'
 
   class {'jenkins::config':
