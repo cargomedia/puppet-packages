@@ -13,25 +13,18 @@ class jenkins::config::main(
     purge     => true,
   }
 
-  file {'/var/lib/jenkins/config.d/_dummy.xml':
+  file {'/var/lib/jenkins/config.d/_header.xml':
     ensure    => 'present',
-    owner     => 'jenkins',
-    group     => 'nogroup',
-    mode      => '0644',
-  }
-
-  file {'/var/lib/jenkins/config.d-header.xml':
-    ensure    => 'present',
-    content   => template("${module_name}/config/config.d-header.xml"),
+    content   => template("${module_name}/config/main/_header.xml"),
     owner     => 'jenkins',
     group     => 'nogroup',
     mode      => '0644',
     notify    => Exec['/var/lib/jenkins/config.xml'],
   }
 
-  file {'/var/lib/jenkins/config.d-footer.xml':
+  file {'/var/lib/jenkins/config.d/_footer.xml':
     ensure    => 'present',
-    content   => template("${module_name}/config/config.d-footer.xml"),
+    content   => template("${module_name}/config/main/_footer.xml"),
     owner     => 'jenkins',
     group     => 'nogroup',
     mode      => '0644',
@@ -39,19 +32,18 @@ class jenkins::config::main(
   }
 
   exec {'/var/lib/jenkins/config.xml':
-    command     => '/bin/cat /var/lib/jenkins/config.d-header.xml /var/lib/jenkins/config.d/* /var/lib/jenkins/config.d-footer.xml > /var/lib/jenkins/config.xml',
+    command     => '/bin/cat /var/lib/jenkins/config.d/_header.xml /var/lib/jenkins/config.d/* /var/lib/jenkins/config.d/_footer.xml > /var/lib/jenkins/config.xml',
     refreshonly => true,
     user        => 'jenkins',
     group       => 'nogroup',
     require     => [
       File['/var/lib/jenkins/config.d'],
-      File['/var/lib/jenkins/config.d/_dummy.xml'],
-      File['/var/lib/jenkins/config.d-header.xml'],
-      File['/var/lib/jenkins/config.d-footer.xml']
+      File['/var/lib/jenkins/config.d/_header.xml'],
+      File['/var/lib/jenkins/config.d/_footer.xml']
     ],
     subscribe   => [
-      File['/var/lib/jenkins/config.d-header.xml'],
-      File['/var/lib/jenkins/config.d-footer.xml']
+      File['/var/lib/jenkins/config.d/_header.xml'],
+      File['/var/lib/jenkins/config.d/_footer.xml']
     ],
     notify      => Service['jenkins'],
   }
