@@ -22,7 +22,7 @@ class jenkins::config::main(
 
   file {'/var/lib/jenkins/config.d-header.xml':
     ensure    => 'present',
-    content   => template("${module_name}/config.d-header.xml"),
+    content   => template("${module_name}/config/config.d-header.xml"),
     owner     => 'jenkins',
     group     => 'nogroup',
     mode      => '0644',
@@ -31,7 +31,7 @@ class jenkins::config::main(
 
   file {'/var/lib/jenkins/config.d-footer.xml':
     ensure    => 'present',
-    content   => template("${module_name}/config.d-footer.xml"),
+    content   => template("${module_name}/config/config.d-footer.xml"),
     owner     => 'jenkins',
     group     => 'nogroup',
     mode      => '0644',
@@ -58,7 +58,7 @@ class jenkins::config::main(
 
   file {'/var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml':
     ensure    => 'present',
-    content   => template("${module_name}/jenkins.model.JenkinsLocationConfiguration.xml"),
+    content   => template("${module_name}/config/jenkins.model.JenkinsLocationConfiguration.xml"),
     owner     => 'jenkins',
     group     => 'nogroup',
     mode      => '0644',
@@ -67,7 +67,7 @@ class jenkins::config::main(
 
   file {'/var/lib/jenkins/org.jenkinsci.main.modules.sshd.SSHD.xml':
     ensure    => 'present',
-    content   => template("${module_name}/org.jenkinsci.main.modules.sshd.SSHD.xml"),
+    content   => template("${module_name}/config/org.jenkinsci.main.modules.sshd.SSHD.xml"),
     owner     => 'jenkins',
     group     => 'nogroup',
     mode      => '0644',
@@ -76,7 +76,7 @@ class jenkins::config::main(
 
   file {'/var/lib/jenkins/hudson.tasks.Mailer.xml':
     ensure    => 'present',
-    content   => template("${module_name}/hudson.tasks.Mailer.xml"),
+    content   => template("${module_name}/config/hudson.tasks.Mailer.xml"),
     owner     => 'jenkins',
     group     => 'nogroup',
     mode      => '0644',
