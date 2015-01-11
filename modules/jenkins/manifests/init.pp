@@ -14,6 +14,7 @@ class jenkins(
   class {'jenkins::config::main':
     numExecutors => $numExecutors,
   }
+  include 'jenkins::config::credentials'
 
   file {'/var/lib/jenkins/plugins':
     ensure => 'directory',
