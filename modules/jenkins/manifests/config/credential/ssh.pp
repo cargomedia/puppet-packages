@@ -1,7 +1,7 @@
 define jenkins::config::credential::ssh(
   $id = $title,
   $username,
-  $privateKey
+  $private_key
 ) {
 
   include 'jenkins::config::credentials'

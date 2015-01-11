@@ -1,6 +1,6 @@
 class jenkins::plugin::ghprb(
-  $accessToken,
-  $adminList = []
+  $access_token,
+  $admin_list = []
 ) {
 
   require 'jenkins::plugin::git'

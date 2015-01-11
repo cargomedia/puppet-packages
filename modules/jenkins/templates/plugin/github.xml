@@ -4,8 +4,8 @@
   <credentials>
     <com.cloudbees.jenkins.Credential>
       <username><%= @username %></username>
-      <apiUrl><%= @apiUrl %></apiUrl>
-      <oauthAccessToken><%= @oauthAccessToken %></oauthAccessToken>
+      <apiUrl><%= @api_url %></apiUrl>
+      <oauthAccessToken><%= @oauth_access_token %></oauthAccessToken>
       <password><%= @password %></password>
     </com.cloudbees.jenkins.Credential>
   </credentials>

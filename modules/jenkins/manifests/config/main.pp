@@ -1,5 +1,5 @@
 class jenkins::config::main(
-  $numExecutors
+  $num_executors
 ) {
 
   require 'jenkins::package'

@@ -5,6 +5,6 @@ node default {
   }
 
   class {'jenkins::plugin::github':
-    oauthAccessToken => 'foo',
+    oauth_access_token => 'foo',
   }
 }
