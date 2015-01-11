@@ -43,6 +43,13 @@ class jenkins(
     ssh::auth::id {"jenkins@cluster-${clusterId}":
       user => 'jenkins',
     }
+
+    $sshKeys = generate_sshkey("jenkins@cluster-${clusterId}")
+
+    jenkins::config::credential::ssh{"jenkins@cluster-${clusterId}":
+      username => 'jenkins',
+      privateKey => $sshKeys[private]
+    }
   }
 
 }
