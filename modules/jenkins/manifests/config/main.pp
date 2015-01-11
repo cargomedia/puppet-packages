@@ -14,47 +14,45 @@ class jenkins::config::main(
     recurse   => true,
   }
 
-  file {'/var/lib/jenkins/config.d/dummy.xml':
-    ensure    => 'present',
-    owner     => 'jenkins',
-    group     => 'nogroup',
-    mode      => '0644',
-  }
+  file {
+    '/var/lib/jenkins/config.d/00-header.xml':
+      ensure    => 'present',
+      content   => template("${module_name}/config/main/00-header.xml"),
+      owner     => 'jenkins',
+      group     => 'nogroup',
+      mode      => '0644',
+      notify    => Exec['/var/lib/jenkins/config.xml'];
 
-  file {'/var/lib/jenkins/config.d/_header.xml':
-    ensure    => 'present',
-    content   => template("${module_name}/config/main/_header.xml"),
-    owner     => 'jenkins',
-    group     => 'nogroup',
-    mode      => '0644',
-    notify    => Exec['/var/lib/jenkins/config.xml'],
-  }
+    '/var/lib/jenkins/config.d/20-slaves-00-header.xml':
+      ensure    => 'present',
+      content   => template("${module_name}/config/main/20-slaves-00-header.xml"),
+      owner     => 'jenkins',
+      group     => 'nogroup',
+      mode      => '0644',
+      notify    => Exec['/var/lib/jenkins/config.xml'];
 
-  file {'/var/lib/jenkins/config.d/_footer.xml':
-    ensure    => 'present',
-    content   => template("${module_name}/config/main/_footer.xml"),
-    owner     => 'jenkins',
-    group     => 'nogroup',
-    mode      => '0644',
-    notify    => Exec['/var/lib/jenkins/config.xml'],
+    '/var/lib/jenkins/config.d/20-slaves-99-footer.xml':
+      ensure    => 'present',
+      content   => template("${module_name}/config/main/20-slaves-99-footer.xml"),
+      owner     => 'jenkins',
+      group     => 'nogroup',
+      mode      => '0644',
+      notify    => Exec['/var/lib/jenkins/config.xml'];
+
+    '/var/lib/jenkins/config.d/99-footer.xml':
+      ensure    => 'present',
+      content   => template("${module_name}/config/main/99-footer.xml"),
+      owner     => 'jenkins',
+      group     => 'nogroup',
+      mode      => '0644',
+      notify    => Exec['/var/lib/jenkins/config.xml'];
   }
 
   exec {'/var/lib/jenkins/config.xml':
-    command     => '/bin/cat /var/lib/jenkins/config.d/_header.xml /var/lib/jenkins/config.d/[!_]* /var/lib/jenkins/config.d/_footer.xml > /var/lib/jenkins/config.xml',
-    provider    => 'shell',
+    command     => '/bin/cat /var/lib/jenkins/config.d/* > /var/lib/jenkins/config.xml',
     refreshonly => true,
     user        => 'jenkins',
     group       => 'nogroup',
-    require     => [
-      File['/var/lib/jenkins/config.d'],
-      File['/var/lib/jenkins/config.d/_header.xml'],
-      File['/var/lib/jenkins/config.d/_footer.xml'],
-      File['/var/lib/jenkins/config.d/dummy.xml']
-    ],
-    subscribe   => [
-      File['/var/lib/jenkins/config.d/_header.xml'],
-      File['/var/lib/jenkins/config.d/_footer.xml']
-    ],
     notify      => Service['jenkins'],
   }
 

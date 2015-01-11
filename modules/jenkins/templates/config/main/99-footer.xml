@@ -8,26 +8,6 @@
   <viewsTabBar class="hudson.views.DefaultViewsTabBar"/>
   <myViewsTabBar class="hudson.views.DefaultMyViewsTabBar"/>
   <clouds/>
-  <slaves>
-    <slave>
-      <name>my slave</name>
-      <description></description>
-      <remoteFS>/var/lib/jenkins</remoteFS>
-      <numExecutors>3</numExecutors>
-      <mode>NORMAL</mode>
-      <retentionStrategy class="hudson.slaves.RetentionStrategy$Always"/>
-      <launcher class="hudson.plugins.sshslaves.SSHLauncher" plugin="ssh-slaves@1.9">
-        <host>agent.sandbox</host>
-        <port>22</port>
-        <credentialsId>b2e4fe68-f3ac-451d-a4bb-e85b5a403e44</credentialsId>
-        <maxNumRetries>0</maxNumRetries>
-        <retryWaitTime>0</retryWaitTime>
-      </launcher>
-      <label></label>
-      <nodeProperties/>
-      <userId>anonymous</userId>
-    </slave>
-  </slaves>
   <quietPeriod>5</quietPeriod>
   <scmCheckoutRetryCount>0</scmCheckoutRetryCount>
   <views>
