@@ -50,6 +50,8 @@ class jenkins(
       username => 'jenkins',
       private_key => $ssh_keys[private]
     }
+
+    Jenkins::Config::Slave <<| cluster_id == $cluster_id |>>
   }
 
 }
