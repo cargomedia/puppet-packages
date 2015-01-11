@@ -11,6 +11,14 @@ class jenkins::config::main(
     group     => 'nogroup',
     mode      => '0755',
     purge     => true,
+    recurse   => true,
+  }
+
+  file {'/var/lib/jenkins/config.d/dummy.xml':
+    ensure    => 'present',
+    owner     => 'jenkins',
+    group     => 'nogroup',
+    mode      => '0644',
   }
 
   file {'/var/lib/jenkins/config.d/_header.xml':
@@ -32,14 +40,16 @@ class jenkins::config::main(
   }
 
   exec {'/var/lib/jenkins/config.xml':
-    command     => '/bin/cat /var/lib/jenkins/config.d/_header.xml /var/lib/jenkins/config.d/* /var/lib/jenkins/config.d/_footer.xml > /var/lib/jenkins/config.xml',
+    command     => '/bin/cat /var/lib/jenkins/config.d/_header.xml /var/lib/jenkins/config.d/[!_]* /var/lib/jenkins/config.d/_footer.xml > /var/lib/jenkins/config.xml',
+    provider    => 'shell',
     refreshonly => true,
     user        => 'jenkins',
     group       => 'nogroup',
     require     => [
       File['/var/lib/jenkins/config.d'],
       File['/var/lib/jenkins/config.d/_header.xml'],
-      File['/var/lib/jenkins/config.d/_footer.xml']
+      File['/var/lib/jenkins/config.d/_footer.xml'],
+      File['/var/lib/jenkins/config.d/dummy.xml']
     ],
     subscribe   => [
       File['/var/lib/jenkins/config.d/_header.xml'],

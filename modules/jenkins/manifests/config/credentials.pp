@@ -9,6 +9,14 @@ class jenkins::config::credentials {
     group     => 'nogroup',
     mode      => '0755',
     purge     => true,
+    recurse   => true,
+  }
+
+  file {'/var/lib/jenkins/credentials.d/dummy.xml':
+    ensure    => 'present',
+    owner     => 'jenkins',
+    group     => 'nogroup',
+    mode      => '0644',
   }
 
   file {'/var/lib/jenkins/credentials.d/_header.xml':
@@ -30,7 +38,8 @@ class jenkins::config::credentials {
   }
 
   exec {'/var/lib/jenkins/credentials.xml':
-    command     => '/bin/cat /var/lib/jenkins/credentials.d/_header.xml /var/lib/jenkins/credentials.d/* /var/lib/jenkins/credentials.d/_footer.xml > /var/lib/jenkins/credentials.xml',
+    command     => '/bin/cat /var/lib/jenkins/credentials.d/_header.xml /var/lib/jenkins/credentials.d/[!_]* /var/lib/jenkins/credentials.d/_footer.xml > /var/lib/jenkins/credentials.xml',
+    provider    => 'shell',
     refreshonly => true,
     user        => 'jenkins',
     group       => 'nogroup',
@@ -38,6 +47,7 @@ class jenkins::config::credentials {
       File['/var/lib/jenkins/credentials.d'],
       File['/var/lib/jenkins/credentials.d/_header.xml'],
       File['/var/lib/jenkins/credentials.d/_footer.xml'],
+      File['/var/lib/jenkins/credentials.d/dummy.xml']
     ],
     subscribe   => [
       File['/var/lib/jenkins/credentials.d/_header.xml'],
