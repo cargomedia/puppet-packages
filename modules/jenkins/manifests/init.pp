@@ -46,7 +46,7 @@ class jenkins(
 
     $ssh_keys = generate_sshkey("jenkins@cluster-${cluster_id}")
 
-    jenkins::config::credential::ssh{"cluster-credential":
+    jenkins::config::credential::ssh{'cluster-credential':
       username => 'jenkins',
       private_key => $ssh_keys[private]
     }
