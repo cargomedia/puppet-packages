@@ -12,6 +12,7 @@ class jenkins::config::main(
     mode      => '0755',
     purge     => true,
     recurse   => true,
+    notify    => Exec['/var/lib/jenkins/config.xml'],
   }
 
   file {

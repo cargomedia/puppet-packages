@@ -10,6 +10,7 @@ class jenkins::config::credentials {
     mode      => '0755',
     purge     => true,
     recurse   => true,
+    notify    => Exec['/var/lib/jenkins/credentials.xml'],
   }
 
   file {
