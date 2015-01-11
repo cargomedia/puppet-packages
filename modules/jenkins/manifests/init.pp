@@ -11,7 +11,7 @@ class jenkins(
   require 'jenkins::common'
   include 'jenkins::service'
 
-  class {'jenkins::config':
+  class {'jenkins::config::main':
     numExecutors => $numExecutors,
   }
 

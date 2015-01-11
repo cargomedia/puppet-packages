@@ -1,4 +1,4 @@
-class jenkins::config(
+class jenkins::config::main(
   $numExecutors
 ) {
 
