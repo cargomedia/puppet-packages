@@ -5,5 +5,5 @@ describe package('jenkins') do
 end
 
 describe file('/var/lib/jenkins/credentials.xml') do
-  its(:content) { should match '<id>jenkins@cluster-foo</id>' }
+  its(:content) { should match '<id>cluster-credential</id>' }
 end
