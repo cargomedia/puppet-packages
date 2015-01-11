@@ -7,7 +7,9 @@ module Puppet::Parser::Functions
     key_file = "/var/lib/puppet/ssh-repository/#{name}"
     unless File.exists? key_file
       FileUtils.mkdir_p File.dirname key_file
-      `/usr/bin/ssh-keygen -t ssh-rsa -f #{Shellwords.escape(key_file)} -C #{Shellwords.escape(name)}`
+      unless Kernel.system("/usr/bin/ssh-keygen -t ssh-rsa -N '' -f #{Shellwords.escape(key_file)} -C #{Shellwords.escape(name)}")
+        raise Puppet::ParseError, "Failed to generate SSH key `#{name}`."
+      end
     end
     private = File.read(key_file)
     public = File.read(key_file + '.pub')
