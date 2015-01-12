@@ -4,7 +4,7 @@
 # Provides:				bipbip
 # Required-Start:		$syslog
 # Required-Stop:		$syslog
-# Default-Start:		2 3 4 5
+# Default-Start:		3 4 5
 # Default-Stop:			0 1 6
 # Short-Description:	Bipbip
 # Description:			Gather services data and store in CopperEgg

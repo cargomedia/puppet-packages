@@ -4,7 +4,7 @@
 # Provides:          socket-redis
 # Required-Start:    $local_fs $syslog
 # Required-Stop:     $local_fs $syslog
-# Default-Start:     2 3 4 5
+# Default-Start:     3 4 5
 # Default-Stop:      0 1 6
 # Short-Description: Starts the socket-redis node script
 ### END INIT INFO
