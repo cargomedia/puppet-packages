@@ -1,6 +1,6 @@
 class jenkins::plugin::git(
-  $globalConfigName = 'example',
-  $globalConfigEmail = 'example@example.com'
+  $global_config_name = 'example',
+  $global_config_email = 'example@example.com'
 ) {
 
   require 'jenkins::plugin::git_client'

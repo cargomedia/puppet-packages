@@ -1,8 +1,8 @@
 class jenkins::plugin::github_oauth(
-  $organizationNameList,
-  $adminUserNameList,
-  $clientId,
-  $clientSecret
+  $organization_name_list,
+  $admin_user_name_list,
+  $client_id,
+  $client_secret
 ) {
 
   require 'jenkins::plugin::github_api'
