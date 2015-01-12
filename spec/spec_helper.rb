@@ -27,7 +27,7 @@ RSpec.configure do |c|
   c.add_setting :before_files
   c.before_files = []
   root_dir = Dir.getwd
-  vagrant_helper = VagrantHelper.new(root_dir, box, debug ? true : false)
+  vagrant_helper = VagrantHelper.new(root_dir, box, true)
 
   c.before :all do
     file = self.get_file
