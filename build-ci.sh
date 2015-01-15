@@ -13,5 +13,6 @@ if [ -z "${ghprbTargetBranch}" ]; then
     bundle exec rake test
 else
     # Pull request build
+    git fetch origin
     bundle exec rake test:changes_from_branch[origin/${ghprbTargetBranch}]
 fi
