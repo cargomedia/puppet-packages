@@ -9,7 +9,7 @@ define composer::project (
   require 'composer'
 
   exec {"install ${name}":
-    command => "composer --no-interaction create-project composer/satis --stability=${stability} --keep-vcs ${target}",
+    command => "composer --no-interaction create-project ${source} --stability=${stability} --keep-vcs ${target}",
     creates => $target,
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     user => $user,
@@ -18,7 +18,7 @@ define composer::project (
   }
   ->
 
-  exec {'upgrade satis':
+  exec {"upgrade ${name}":
     command => "git fetch && git checkout ${version} && composer --no-interaction --no-dev install",
     cwd => $target,
     unless => "test $(git rev-parse HEAD) = $(git rev-parse ${version})",
