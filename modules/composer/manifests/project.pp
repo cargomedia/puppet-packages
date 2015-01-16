@@ -3,12 +3,13 @@ define composer::project (
   $target = "/usr/local/composer/${source}",
   $user = 'root',
   $home = '/root',
+  $stability = 'stable',
 ) {
 
   require 'composer'
 
   exec {"install ${name}":
-    command => "composer --no-interaction create-project composer/satis --stability=dev --keep-vcs ${target}",
+    command => "composer --no-interaction create-project composer/satis --stability=${stability} --keep-vcs ${target}",
     creates => $target,
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     user => $user,
