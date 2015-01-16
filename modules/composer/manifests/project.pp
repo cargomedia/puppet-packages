@@ -1,15 +1,14 @@
 define composer::project (
-  $source = $name,
-  $target = "/usr/local/composer/${source}",
+  $target = "/usr/local/composer/${name}",
+  $version,
   $user = 'root',
   $home = '/root',
   $stability = 'stable',
 ) {
-
   require 'composer'
 
   exec {"install ${name}":
-    command => "composer --no-interaction create-project ${source} --stability=${stability} --keep-vcs ${target}",
+    command => "composer --no-interaction create-project ${name} --stability=${stability} --keep-vcs ${target}",
     creates => $target,
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     user => $user,
