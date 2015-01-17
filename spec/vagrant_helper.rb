@@ -32,7 +32,7 @@ class VagrantHelper
 
   def status
     output = execute_local("vagrant status #{@box}")
-    match_data = /^#{@box}\s+(\w+) \(\w+\)$/.match(output)
+    match_data = /^#{@box}\s+(.+?)\s+\(.+?\)$/.match(output)
     if match_data.nil?
       raise "Cannot detect machine status from output: `#{output}`."
     end
