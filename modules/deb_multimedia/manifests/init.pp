@@ -4,8 +4,8 @@ class deb_multimedia {
     entries => [ "deb http://www.deb-multimedia.org ${::lsbdistcodename} main non-free" ],
     keys => {
       'debian-multimedia' => {
-        key => '1F41B907',
-        key_content => template("${module_name}/debian-multimedia-keyring.gpg"),
+        key => '5C808C2B65558117',
+        key_server => 'pgp.mit.edu'
       }
     }
   }
