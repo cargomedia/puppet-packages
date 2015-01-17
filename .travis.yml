@@ -1,7 +1,0 @@
-language: ruby
-rvm: 1.9.3
-env:
-  - PUPPET_VERSION=3.3.0
-script:
-  - bundle exec rake validate
-  - bundle exec rake lint
