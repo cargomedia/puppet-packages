@@ -13,10 +13,11 @@ class VagrantHelper
       execute_local('vagrant plugin install vagrant-vbox-snapshot')
     end
 
-    # Workaround
-    # Override exit code because of bug (https://github.com/dergachev/vagrant-vbox-snapshot/issues/17)
-    has_snapshot = execute_local("vagrant snapshot list #{@box} 2>/dev/null || true").match(/Name: default /)
-    is_running = execute_local("vagrant status #{@box}").match(/running/)
+    if status == 'not created'
+      has_snapshot = false
+    else
+      has_snapshot = execute_local("vagrant snapshot list #{@box}").match(/Name: default /)
+    end
 
     unless has_snapshot
       execute_local("vagrant destroy -f #{@box}")
@@ -25,10 +26,20 @@ class VagrantHelper
       execute_local("vagrant provision #{@box}")
       execute_local("vagrant snapshot take #{@box} default")
     end
-    unless is_running
+
+    unless status == 'running'
       execute_local("vagrant up #{@box}")
     end
     execute_local("vagrant snapshot go #{@box} default")
+  end
+
+  def status
+    output = execute_local("vagrant status #{@box}")
+    match_data = /^#{@box}\s+(\w+) \(\w+\)$/.match(output)
+    if match_data.nil?
+      raise "Cannot detect machine status from output: `#{output}`."
+    end
+    match_data[1]
   end
 
   def connect
