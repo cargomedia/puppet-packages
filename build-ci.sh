@@ -5,7 +5,7 @@ bundle install --path=.bundle
 
 trap 'bundle exec rake test:cleanup' EXIT
 
-bundle exec rake validate
+bundle exec rake syntax
 bundle exec rake lint
 
 if [ -z "${ghprbTargetBranch}" ]; then

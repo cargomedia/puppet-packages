@@ -1,6 +1,7 @@
 require 'rake'
 require 'rspec/core/rake_task'
 require 'puppet-lint/tasks/puppet-lint'
+require 'puppet-syntax/tasks/puppet-syntax'
 require 'pathname'
 require 'shellwords'
 
@@ -10,8 +11,9 @@ PuppetLint.configuration.send('disable_80chars')
 PuppetLint.configuration.send('disable_documentation')
 PuppetLint.configuration.send('disable_class_inherits_from_params_class')
 PuppetLint.configuration.send('disable_parameter_order')
-
 PuppetLint.configuration.ignore_paths = ["**/templates/**/*.pp", "vendor/**/*.pp"]
+
+PuppetSyntax.exclude_paths = ["**/templates/**/*.pp", "vendor/**/*.pp"]
 
 RSpec::Core::RakeTask.new(:test) do |t|
   t.pattern = 'modules/*/spec/*/spec.rb'
@@ -61,9 +63,4 @@ namespace :test do
     end
     Rake::Task[:changes_from_branch_specs].execute
   end
-end
-
-desc 'puppet validate'
-task :validate do
-  sh 'puppet parser validate $(find modules -name "*.pp" -not -path "*/templates/*")'
 end
