@@ -27,9 +27,6 @@ class VagrantHelper
       execute_local("vagrant snapshot take #{@box} default")
     end
 
-    unless status == 'running'
-      execute_local("vagrant up #{@box}")
-    end
     execute_local("vagrant snapshot go #{@box} default")
   end
 
