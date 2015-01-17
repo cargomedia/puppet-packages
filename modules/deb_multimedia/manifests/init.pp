@@ -4,7 +4,7 @@ class deb_multimedia {
     entries => [ "deb http://www.deb-multimedia.org ${::lsbdistcodename} main non-free" ],
     keys => {
       'debian-multimedia' => {
-        key => '5C808C2B65558117',
+        key => '65558117',
         key_server => 'pgp.mit.edu'
       }
     }
