@@ -22,7 +22,7 @@ class VagrantHelper
       execute_local("vagrant destroy -f #{@box}")
       execute_local("vagrant up --no-provision #{@box}", {'DISABLE_PROXY' => 'true'})
       execute_local("vagrant provision #{@box}", {'DISABLE_PROXY' => 'true'})
-      execute_local('vagrant provision')
+      execute_local("vagrant provision #{@box}")
       execute_local("vagrant snapshot take #{@box} default")
     end
     unless is_running
