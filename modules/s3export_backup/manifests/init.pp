@@ -1,6 +1,6 @@
 class s3export_backup {
 
-  require 'php5::extension::curl'
+  require 'cm::application'
 
   composer::project{ 'cargomedia/s3export_backup':
     version   => '0.1.1',
