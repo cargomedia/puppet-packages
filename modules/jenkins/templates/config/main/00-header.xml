@@ -6,5 +6,5 @@
     <string>jenkins.diagnostics.SecurityIsOffMonitor</string>
   </disabledAdministrativeMonitors>
   <version>1.576</version>
-  <numExecutors><%= @numExecutors %></numExecutors>
+  <numExecutors><%= @num_executors %></numExecutors>
   <mode>NORMAL</mode>

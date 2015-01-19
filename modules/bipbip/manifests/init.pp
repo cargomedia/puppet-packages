@@ -1,6 +1,6 @@
 class bipbip (
   $api_key,
-  $version = '0.5.2',
+  $version = 'latest',
   $frequency = 5,
   $log_file = '/var/log/bipbip/bipbip.log',
   $log_level = 'INFO'
@@ -18,6 +18,8 @@ class bipbip (
   user {'bipbip':
     ensure => present,
     system => true,
+    managehome => true,
+    home => '/home/bipbip',
   }
   ->
 

@@ -1,2 +1,0 @@
-check program puppet-agent-check with path /usr/local/bin/puppet-agent-check.rb
-  if status != 0 for 61 cycles then alert

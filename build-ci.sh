@@ -5,6 +5,14 @@ bundle install --path=.bundle
 
 trap 'bundle exec rake test:cleanup' EXIT
 
-bundle exec rake validate
+bundle exec rake syntax
 bundle exec rake lint
-bundle exec rake test
+
+if [ -z "${ghprbTargetBranch}" ]; then
+    # Full project build
+    bundle exec rake test
+else
+    # Pull request build
+    git fetch origin
+    bundle exec rake test:changes_from_branch[origin/${ghprbTargetBranch}]
+fi

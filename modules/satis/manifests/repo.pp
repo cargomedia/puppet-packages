@@ -23,7 +23,7 @@ define satis::repo ($content) {
   ->
 
   cron {"cron satis repo ${name}":
-    command => "/var/lib/satis/satis/bin/satis --no-interaction --quiet build ${specificationPath} ${outputPath}",
+    command => "/var/lib/satis/satis/bin/satis --no-interaction build ${specificationPath} ${outputPath} >/dev/null",
     user    => 'satis',
   }
 }

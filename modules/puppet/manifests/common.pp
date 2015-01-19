@@ -4,7 +4,14 @@ class puppet::common(
 
   helper::script {'install puppet apt sources':
     content => template("${module_name}/install-apt-sources.sh"),
-    unless => "dpkg -l puppetlabs-release | grep '^ii '",
+    unless => "dpkg-query -f '\${Status}\n' -W puppetlabs-release | grep -q 'ok installed'",
+  }
+
+  file {'/var/lib/puppet':
+    ensure => directory,
+    group => 'puppet',
+    owner => 'puppet',
+    mode => '0755',
   }
 
   file {'/etc/puppet':

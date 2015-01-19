@@ -1,8 +1,8 @@
 class jenkins::plugin::github(
-  $oauthAccessToken = undef,
+  $oauth_access_token = undef,
   $username = undef,
   $password = undef,
-  $apiUrl = undef
+  $api_url = undef
 ) {
 
   require 'jenkins::plugin::git'

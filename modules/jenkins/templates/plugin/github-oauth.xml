@@ -2,13 +2,13 @@
   <authorizationStrategy class="org.jenkinsci.plugins.GithubAuthorizationStrategy" plugin="github-oauth@0.14">
   <rootACL>
     <organizationNameList class="linked-list">
-      <% @organizationNameList.each do |organizationName| -%>
-      <string><%= organizationName %></string>
+      <% @organization_name_list.each do |organization_name| -%>
+      <string><%= organization_name %></string>
       <% end %>
     </organizationNameList>
     <adminUserNameList class="linked-list">
-      <% @adminUserNameList.each do |adminUserName| -%>
-        <string><%= adminUserName %></string>
+      <% @admin_user_name_list.each do |admin_user_name| -%>
+        <string><%= admin_user_name %></string>
       <% end %>
     </adminUserNameList>
     <authenticatedUserReadPermission>false</authenticatedUserReadPermission>
@@ -20,6 +20,6 @@
   <securityRealm class="org.jenkinsci.plugins.GithubSecurityRealm">
   <githubWebUri>https://github.com</githubWebUri>
   <githubApiUri>https://api.github.com</githubApiUri>
-  <clientID><%= @clientId %></clientID>
-  <clientSecret><%= @clientSecret %></clientSecret>
+  <clientID><%= @client_id %></clientID>
+  <clientSecret><%= @client_secret %></clientSecret>
   </securityRealm>

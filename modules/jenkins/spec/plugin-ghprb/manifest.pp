@@ -5,7 +5,7 @@ node default {
   }
 
   class {'jenkins::plugin::ghprb':
-    accessToken => 'xxx',
-    adminList => ['foo', 'bar']
+    access_token => 'xxx',
+    admin_list => ['foo', 'bar']
   }
 }

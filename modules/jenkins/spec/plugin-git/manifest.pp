@@ -5,7 +5,7 @@ node default {
   }
 
   class {'jenkins::plugin::git':
-    globalConfigName => 'foo',
-    globalConfigEmail => 'bar@example.com',
+    global_config_name => 'foo',
+    global_config_email => 'bar@example.com',
   }
 }

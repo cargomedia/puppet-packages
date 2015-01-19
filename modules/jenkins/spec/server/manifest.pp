@@ -5,6 +5,6 @@ node default {
   class {'jenkins':
     hostname => 'example.com',
     port => 1234,
-    numExecutors => 2,
+    num_executors => 2,
   }
 }

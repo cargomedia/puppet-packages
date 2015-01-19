@@ -62,21 +62,14 @@ class puppet::agent (
     refreshonly => true,
   }
 
-  file {'/usr/local/bin/puppet-agent-check.rb':
-    ensure => file,
-    content => template("${module_name}/agent/puppet-agent-check.rb"),
-    group => '0',
-    owner => '0',
-    mode => '0755',
-  }
-
   @monit::entry {'puppet':
     content => template("${module_name}/agent/monit"),
     require => Service['puppet'],
   }
 
-  @monit::entry {'puppet-agent-check':
-    content => template("${module_name}/agent/monit-agent-check"),
-    require => Service['puppet'],
+  @bipbip::entry {'puppet':
+    plugin => 'puppet',
+    options => {},
   }
+
 }

@@ -49,4 +49,12 @@ class elasticsearch (
     content => template("${module_name}/monit"),
     require => Service['elasticsearch'],
   }
+
+  @bipbip::entry {'elasticsearch':
+    plugin => 'elasticsearch',
+    options => {
+      'hostname' => 'localhost',
+      'port' => '9200',
+    },
+  }
 }
