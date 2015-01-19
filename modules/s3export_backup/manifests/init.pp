@@ -1,6 +1,7 @@
 class s3export_backup {
 
   require 'cm::application'
+  require 'truecrypt'
 
   composer::project{ 'cargomedia/s3export_backup':
     version   => '0.1.1',
