@@ -9,3 +9,7 @@ mod 'cargomedia/composer',
 mod 'cargomedia/truecrypt',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/truecrypt'
+
+mod 'cargomedia/gdisk',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/gdisk'
