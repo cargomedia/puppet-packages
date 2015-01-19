@@ -25,7 +25,7 @@ describe file('/etc/bipbip/services.d') do
 end
 
 describe user('bipbip') do
-  it { should have_home_directory 'home/bipbip' }
+  it { should have_home_directory '/home/bipbip' }
 end
 
 yaml_files = ['/etc/bipbip/config.yml', '/etc/bipbip/services.d/memcache.yml', '/etc/bipbip/services.d/logparser.yml']
