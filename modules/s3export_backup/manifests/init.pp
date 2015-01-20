@@ -1,9 +1,9 @@
 class s3export_backup (
   $version = '0.1.2',
-  $awsKey,
-  $awsSecret,
-  $awsRegion,
-  $awsBucket,
+  $aws_key,
+  $aws_secret,
+  $aws_region,
+  $aws_bucket,
 ) {
 
   require 'cm::application'
