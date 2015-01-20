@@ -21,7 +21,7 @@ end
 
 namespace :test do
   task :cleanup do
-    sh 'vagrant', 'destroy', '--force'
+    sh 'vagrant', 'halt', '--force'
   end
 
   module_dirs = Pathname.new('modules/').children.select { |c| c.directory? }

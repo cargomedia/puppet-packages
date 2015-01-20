@@ -18,6 +18,8 @@ class bipbip (
   user {'bipbip':
     ensure => present,
     system => true,
+    managehome => true,
+    home => '/home/bipbip',
   }
   ->
 
