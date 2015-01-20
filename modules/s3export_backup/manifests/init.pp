@@ -1,4 +1,5 @@
 class s3export_backup (
+  $version = '0.1.2',
   $awsKey,
   $awsSecret,
   $awsRegion,
@@ -11,7 +12,7 @@ class s3export_backup (
 
   composer::project { 'cargomedia/s3export_backup':
     target    => '/usr/local/lib/s3export_backup',
-    version   => '0.1.1',
+    version   => $version,
     stability => 'dev',
   }
   ->
