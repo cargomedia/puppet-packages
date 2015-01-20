@@ -114,7 +114,6 @@ class pulsar_rest_api (
     owner   => 'pulsar-rest-api',
     group   => '0',
     mode    => '0755',
-    require => User['pulsar-rest-api']
   }
 
   logrotate::entry{ $module_name:
@@ -129,7 +128,6 @@ class pulsar_rest_api (
     mode    => '0755',
     notify  => Service['pulsar-rest-api'],
     before  => Package['pulsar-rest-api'],
-    require => User['pulsar-rest-api'],
   }
   ~>
 
