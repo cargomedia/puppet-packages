@@ -10,12 +10,13 @@ class s3export_backup (
   require 'gdisk'
 
   composer::project { 'cargomedia/s3export_backup':
+    target    => '/usr/local/lib/s3export_backup',
     version   => '0.1.1',
     stability => 'dev',
   }
   ->
 
-  file { '/usr/local/composer/cargomedia/s3export_backup/resources/config/local.php':
+  file { '/usr/local/lib/s3export_backup/resources/config/local.php':
     content => template('s3export_backup/config.php'),
     owner   => '0',
     group   => '0',
@@ -24,7 +25,7 @@ class s3export_backup (
   ~>
 
   exec { 's3export_backup setup':
-    command     => '/usr/local/composer/cargomedia/s3export_backup/bin/cm app setup',
+    command     => '/usr/local/lib/s3export_backup/bin/cm app setup',
     refreshonly => true,
   }
 
