@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe file('/etc/rsyslog.conf') do
   it { should be_file }
+  its(:content) { should match /\$FileCreateMode 0707/ }
 end
 
 describe package('rsyslog') do
