@@ -11,3 +11,8 @@ end
 describe service('rsyslog') do
   it { should be_running }
 end
+
+describe file('/var/log/syslog') do
+  it { should be_file}
+  it { should be_mode 707}
+end
