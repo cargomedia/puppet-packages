@@ -68,6 +68,15 @@ class monit ($emailTo = 'root@localhost', $emailFrom = 'root@localhost', $allowe
   }
   ->
 
+  file { '/usr/local/bin/monit-silent':
+    ensure => file,
+    content => template('monit/bin/monit-silent.sh'),
+    group => '0',
+    owner => '0',
+    mode => '0755',
+  }
+  ->
+
   file { '/etc/monit/monitrc':
     ensure => file,
     content => template("${module_name}/monitrc"),
