@@ -1,5 +1,5 @@
 define composer::project (
-  $target = "/usr/local/composer/${name}",
+  $target,
   $version,
   $user = 'root',
   $home = '/root',
