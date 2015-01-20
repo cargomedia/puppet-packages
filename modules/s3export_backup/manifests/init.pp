@@ -28,6 +28,7 @@ class s3export_backup (
   exec { 's3export_backup setup':
     command     => '/usr/local/lib/s3export_backup/bin/cm app setup',
     refreshonly => true,
+    require     => Class['cm::application'],
   }
 
   file { '/usr/local/bin/s3export':
