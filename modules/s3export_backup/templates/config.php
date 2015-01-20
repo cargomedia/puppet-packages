@@ -2,10 +2,10 @@
 
 return function (CM_Config_Node $config) {
 
-    $awsBucket = '<%= @awsBucket %>';
-    $awsRegion = '<%= @awsRegion %>';
-    $awsKey = '<%= @awsKey %>';
-    $awsSecret = '<%= @awsSecret %>';
+    $awsBucket = '<%= @aws_bucket %>';
+    $awsRegion = '<%= @aws_region %>';
+    $awsKey = '<%= @aws_key %>';
+    $awsSecret = '<%= @aws_secret %>';
 
     $config->services['s3export-filesystem-original'] = array(
         'class'  => 'CM_File_Filesystem_Factory',
