@@ -1,0 +1,29 @@
+port: <%= @port %>
+mongodb:
+  host: <%= @mongodbHost %>
+  port: <%= @mongodbPort %>
+  db: <%= @mongodbDb %>
+<% if @pulsarRepo || @pulsarBranch %>
+pulsar:
+  repo: <%= @pulsarRepo %>
+  branch: <%= @pulsarBranch %>
+<% end -%>
+logPath: <%= @logDir %>/pulsar-rest-api.log
+<% if @auth -%>
+auth:
+  githubOauthId: <%= @auth.githubOauthId %>
+  githubOauthSecret: <%= @auth.githubOauthSecret %>
+  githubOrg: <%= @auth.githubOrg %>
+  baseUrl: <%= @auth.baseUrl %>
+  callbackUrl: <%= @auth.callbackUrl%>
+<% end -%>
+<% if @sslPfxFile || @sslKeyFile && @ssCertFile -%>
+ssl:
+<% if @sslPfxFile -%>
+  pfx: <%= @sslPfxFile %>
+<% else -%>
+  key: <%= @sslKeyFile %>
+  cert: <%= @ssCertFile %>
+<% end -%>
+  <% if @sslPassphrase %>passphrase: <%= @sslPassphrase %><% end %>
+<% end -%>
