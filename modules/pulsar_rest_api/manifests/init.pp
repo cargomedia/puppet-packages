@@ -2,93 +2,95 @@ class pulsar_rest_api (
   $version = '0.1.4',
   $port = 8080,
 
-  $mongodbHost = 'localhost',
-  $mongodbPort = 27017,
-  $mongodbDb = 'pulsar-rest-api',
+  $mongodb_host = 'localhost',
+  $mongodb_port = 27017,
+  $mongodb_db = 'pulsar-rest-api',
 
-  $logDir = '/var/log/pulsar-rest-api',
+  $log_dir = '/var/log/pulsar-rest-api',
 
-  $pulsarRepo = undef,
-  $pulsarBranch = undef,
+  $pulsar_repo = undef,
+  $pulsar_branch = undef,
 
   $auth = undef,
 
-  $sslKey = undef,
-  $sslPfx = undef,
-  $sslCert = undef,
-  $sslPassphrase = undef
+  $ssl_key = undef,
+  $ssl_pfx = undef,
+  $ssl_cert = undef,
+  $ssl_passphrase = undef
 ) {
 
+  require 'pulsar'
   require 'nodejs'
-  if $mongodbHost == 'localhost' {
+
+  if $mongodb_host == 'localhost' {
     class { 'mongodb::role::standalone':
-      hostname => $mongodbHost,
-      port     => $mongodbPort,
+      hostname => $mongodb_host,
+      port     => $mongodb_port,
     }
   }
   include 'pulsar_rest_api::service'
 
   file { '/etc/pulsar-rest-api':
     ensure => directory,
-    owner  => 'pulsar-rest-api',
+    owner  => '0',
     group  => '0',
     mode   => '0755',
   }
 
   file { '/etc/pulsar-rest-api/ssl':
     ensure => directory,
-    owner  => 'pulsar-rest-api',
+    owner  => '0',
     group  => '0',
     mode   => '0755',
   }
 
-  if $sslKey {
-    $sslKeyFile = '/etc/pulsar-rest-api/ssl/cert.key'
-    file { $sslKeyFile:
+  if $ssl_key {
+    $ssl_key_file = '/etc/pulsar-rest-api/ssl/cert.key'
+    file { $ssl_key_file:
       ensure  => file,
-      content => $sslKey,
+      content => $ssl_key,
       owner  => 'pulsar-rest-api',
       group   => '0',
-      mode    => '0640',
+      mode    => '0440',
       before  => File['/etc/init.d/pulsar-rest-api'],
       notify  => Service['pulsar-rest-api'],
     }
   }
 
-  if $sslCert {
-    $sslCertFile = '/etc/pulsar-rest-api/ssl/cert.pem'
-    file { $sslCertFile:
+  if $ssl_cert {
+    $ssl_cert_file = '/etc/pulsar-rest-api/ssl/cert.pem'
+    file { $ssl_cert_file:
       ensure  => file,
-      content => $sslCert,
+      content => $ssl_cert,
       owner  => 'pulsar-rest-api',
       group   => '0',
-      mode    => '0640',
+      mode    => '0440',
       before  => File['/etc/init.d/pulsar-rest-api'],
       notify  => Service['pulsar-rest-api'],
     }
   }
 
-  if $sslPfx {
-    $sslPfxFile = '/etc/pulsar-rest-api/ssl/cert.pfx'
-    file { $sslPfxFile:
+  if $ssl_pfx {
+    $ssl_pfx_file = '/etc/pulsar-rest-api/ssl/cert.pfx'
+    file { $ssl_pfx_file:
       ensure  => file,
-      content => $sslPfx,
+      content => $ssl_pfx,
       owner  => 'pulsar-rest-api',
       group   => '0',
-      mode    => '0640',
+      mode    => '0440',
       before  => File['/etc/init.d/pulsar-rest-api'],
       notify  => Service['pulsar-rest-api'],
     }
   }
 
-  if $sslPassphrase {
-    $sslPassphraseFile = '/etc/pulsar-rest-api/ssl/passphrase'
-    file { $sslPassphraseFile:
+  if $ssl_passphrase {
+    $ssl_passphrase_file = '/etc/pulsar-rest-api/ssl/passphrase'
+    file { $ssl_passphrase_file:
       ensure  => file,
-      content => $sslPassphrase,
+      content => $ssl_passphrase,
       owner   => '0',
       group   => '0',
-      mode    => '0640',
+      mode    => '0440',
       before  => File['/etc/init.d/pulsar-rest-api'],
       notify  => Service['pulsar-rest-api'],
     }
@@ -99,7 +101,7 @@ class pulsar_rest_api (
     content => template('pulsar_rest_api/config.yml'),
     owner  => 'pulsar-rest-api',
     group   => '0',
-    mode    => '0640',
+    mode    => '0440',
     before  => File['/etc/init.d/pulsar-rest-api'],
     notify  => Service['pulsar-rest-api'],
   }
@@ -109,10 +111,10 @@ class pulsar_rest_api (
     system => true,
   }
 
-  file { $logDir:
+  file { $log_dir:
     ensure  => directory,
     owner   => 'pulsar-rest-api',
-    group   => '0',
+    group   => 'pulsar-rest-api',
     mode    => '0755',
   }
 
@@ -123,7 +125,7 @@ class pulsar_rest_api (
   file { '/etc/init.d/pulsar-rest-api':
     ensure  => file,
     content => template("${module_name}/init.sh"),
-    owner   => 'pulsar-rest-api',
+    owner   => '0',
     group   => '0',
     mode    => '0755',
     notify  => Service['pulsar-rest-api'],
