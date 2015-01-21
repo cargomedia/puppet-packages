@@ -1,29 +1,29 @@
 port: <%= @port %>
 mongodb:
-  host: <%= @mongodb_host %>
+  host: '<%= @mongodb_host %>'
   port: <%= @mongodb_port %>
-  db: <%= @mongodb_db %>
+  db: '<%= @mongodb_db %>'
 <% if @pulsar_repo || @pulsar_branch %>
 pulsar:
-  repo: <%= @pulsar_repo %>
-  branch: <%= @pulsar_branch %>
+  repo: '<%= @pulsar_repo %>'
+  branch: '<%= @pulsar_branch %>'
 <% end -%>
-logPath: <%= @log_dir %>/pulsar-rest-api.log
+logPath: '<%= @log_dir %>/pulsar-rest-api.log'
 <% if @auth -%>
 auth:
-  githubOauthId: <%= @auth.github_oauth_id %>
-  githubOauthSecret: <%= @auth.github_oauth_secret %>
-  githubOrg: <%= @auth.github_org %>
-  baseUrl: <%= @auth.base_url %>
-  callbackUrl: <%= @auth.callback_url%>
+  githubOauthId: '<%= @auth.github_oauth_id %>'
+  githubOauthSecret: '<%= @auth.github_oauth_secret %>'
+  githubOrg: '<%= @auth.github_org %>'
+  baseUrl: '<%= @auth.base_url %>'
+  callbackUrl: '<%= @auth.callback_url%>'
 <% end -%>
 <% if @ssl_pfx_file || @ssl_key_file && @ssl_cert_file -%>
 ssl:
 <% if @ssl_pfx_file -%>
-  pfx: <%= @ssl_pfx_file %>
+  pfx: '<%= @ssl_pfx_file %>'
 <% else -%>
-  key: <%= @ssl_key_file %>
-  cert: <%= @ssl_cert_file %>
+  key: '<%= @ssl_key_file %>'
+  cert: '<%= @ssl_cert_file %>'
 <% end -%>
-  <% if @ssl_passphrase_file %>passphrase: <%= @ssl_passphrase_file %><% end %>
+  <% if @ssl_passphrase_file %>passphrase: '<%= @ssl_passphrase_file %>'<% end %>
 <% end -%>
