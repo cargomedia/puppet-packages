@@ -3,19 +3,19 @@ node default {
   require 'monit'
 
   class { 'pulsar_rest_api':
-    port          => 8080,
+    port           => 8080,
 
-    mongodbHost   => 'localhost',
-    mongodbPort   => 27017,
+    mongodb_host   => 'localhost',
+    mongodb_port   => 27017,
 
-    pulsarRepo    => undef,
-    pulsarBranch  => undef,
+    pulsar_repo    => undef,
+    pulsar_branch  => undef,
 
-    auth          => undef,
+    auth           => undef,
 
-    sslKey        => undef,
-    sslCert       => undef,
-    sslPfx        => undef,
-    sslPassphrase => undef
+    ssl_key        => undef,
+    ssl_cert       => undef,
+    ssl_pfx        => undef,
+    ssl_passphrase => undef
   }
 }

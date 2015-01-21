@@ -15,7 +15,7 @@ DESC=pulsar-rest-api
 DAEMON=/usr/bin/node
 DAEMON_USER=pulsar-rest-api:pulsar-rest-api
 PIDFILE=/var/run/pulsar-rest-api.pid
-LOGDIR="<%= @logDir %>"
+LOGDIR="<%= @log_dir %>"
 DAEMON_ARGS="/usr/bin/pulsar-rest-api -c /etc/pulsar-rest-api/config.yml"
 
 test -x $DAEMON || exit 0

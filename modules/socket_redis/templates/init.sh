@@ -29,7 +29,7 @@ case "${1}" in
 		mkdir -p ${LOGDIR}
 		chown ${DAEMON_USER} ${LOGDIR}
 		ulimit -n 100000
-		if (start-stop-daemon --start --background --make-pidfile --pidfile $PIDFILE --chuid $DAEMON_USER --exec $DAEMON -- $DAEMON_ARGS); then
+		if (start-stop-daemon --start --background --make-pidfile --oknodo --pidfile $PIDFILE --chuid $DAEMON_USER --startas $DAEMON -- $DAEMON_ARGS); then
 			log_end_msg 0
 		else
 			log_end_msg 1
@@ -37,7 +37,7 @@ case "${1}" in
 	;;
 	stop)
 		log_daemon_msg "Stopping ${DESC}" "${NAME}"
-		if (start-stop-daemon --stop --pidfile $PIDFILE --exec $DAEMON); then
+		if (start-stop-daemon --stop --oknodo --pidfile $PIDFILE --chuid $DAEMON_USER); then
 			log_end_msg 0
 		else
 			log_end_msg 1
