@@ -19,6 +19,7 @@ class pulsar_rest_api (
   $ssl_passphrase = undef
 ) {
 
+  require 'pulsar'
   require 'nodejs'
 
   if $mongodb_host == 'localhost' {
@@ -136,7 +137,6 @@ class pulsar_rest_api (
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
-
 
   package { 'pulsar-rest-api':
     ensure   => $version,
