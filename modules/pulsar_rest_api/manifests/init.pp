@@ -19,6 +19,7 @@ class pulsar_rest_api (
   $ssl_passphrase = undef
 ) {
 
+  require 'pulsar'
   require 'nodejs'
 
   if $mongodb_host == 'localhost' {
