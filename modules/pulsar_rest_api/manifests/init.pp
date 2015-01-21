@@ -120,20 +120,17 @@ class pulsar_rest_api (
 
 
   file { '/etc/init.d/pulsar-rest-api':
-  ensure  => file,
-  content => template("${module_name}/init.sh"),
-  owner   => '0',
-  group   => '0',
-  mode    => '0755',
-  notify  => Service['pulsar-rest-api'],
-  before  => Package['pulsar-rest-api'],
+    ensure  => file,
+    content => template("${module_name}/init.sh"),
+    owner   => '0',
+    group   => '0',
+    mode    => '0755',
+    notify  => Service['pulsar-rest-api'],
+    before  => Package['pulsar-rest-api'],
   }
   ~>
 
-  exec { 'update-rc.d pulsar-rest-api defaults':
-  path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-  refreshonly => true,
-  }
+  helper::service {'pulsar-rest-api': }
 
   logrotate::entry{ $module_name:
     content => template("${module_name}/logrotate")
