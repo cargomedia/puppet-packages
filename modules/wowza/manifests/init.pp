@@ -55,7 +55,9 @@ class wowza (
   }
   ->
 
-  helper::service{'wowza':}
+  helper::service{'wowza':
+    subscribe => File["/etc/init.d/wowza"],
+  }
 
   @monit::entry {'wowza':
     content => template("${module_name}/monit"),

@@ -40,6 +40,7 @@ class mms::agent::monitoring (
   ->
 
   helper::service{$agent_name:
+    subscribe => File["/etc/init.d/${agent_name}"],
   }
   ->
 
