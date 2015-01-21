@@ -1,6 +1,6 @@
 class pulsar_rest_api (
   $version = '0.1.4',
-  $port = 80,
+  $port = 8080,
 
   $mongodbHost = 'localhost',
   $mongodbPort = 27017,

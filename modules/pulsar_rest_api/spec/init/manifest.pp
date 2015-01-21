@@ -3,7 +3,7 @@ node default {
   require 'monit'
 
   class { 'pulsar_rest_api':
-    port          => 80,
+    port          => 8080,
 
     mongodbHost   => 'localhost',
     mongodbPort   => 27017,
