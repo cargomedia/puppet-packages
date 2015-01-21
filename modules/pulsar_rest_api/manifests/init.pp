@@ -22,6 +22,11 @@ class pulsar_rest_api (
   require 'pulsar'
   require 'nodejs'
 
+  user { 'pulsar-rest-api':
+    ensure => present,
+    system => true,
+  }
+
   if $mongodb_host == 'localhost' {
     class { 'mongodb::role::standalone':
       hostname => $mongodb_host,
@@ -106,11 +111,6 @@ class pulsar_rest_api (
     notify  => Service['pulsar-rest-api'],
   }
 
-  user { 'pulsar-rest-api':
-    ensure => present,
-    system => true,
-  }
-
   file { $log_dir:
     ensure  => directory,
     owner   => 'pulsar-rest-api',
@@ -118,26 +118,26 @@ class pulsar_rest_api (
     mode    => '0755',
   }
 
-  logrotate::entry{ $module_name:
-    content => template("${module_name}/logrotate")
-  }
 
   file { '/etc/init.d/pulsar-rest-api':
-    ensure  => file,
-    content => template("${module_name}/init.sh"),
-    owner   => '0',
-    group   => '0',
-    mode    => '0755',
-    notify  => Service['pulsar-rest-api'],
-    before  => Package['pulsar-rest-api'],
+  ensure  => file,
+  content => template("${module_name}/init.sh"),
+  owner   => '0',
+  group   => '0',
+  mode    => '0755',
+  notify  => Service['pulsar-rest-api'],
+  before  => Package['pulsar-rest-api'],
   }
   ~>
 
   exec { 'update-rc.d pulsar-rest-api defaults':
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    refreshonly => true,
+  path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+  refreshonly => true,
   }
 
+  logrotate::entry{ $module_name:
+    content => template("${module_name}/logrotate")
+  }
 
   package { 'pulsar-rest-api':
     ensure   => $version,
