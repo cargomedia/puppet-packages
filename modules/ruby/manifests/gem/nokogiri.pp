@@ -2,7 +2,7 @@ class ruby::gem::nokogiri ($version = 'present') {
 
   require 'build'
 
-  package {['libxslt1-dev', 'libxml2-dev']:
+  package {['libxslt1-dev', 'libxml2-dev', 'zlib1g-dev']:
     ensure => present
   }
 
