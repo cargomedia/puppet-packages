@@ -16,69 +16,60 @@ class copperegg_revealcloud(
     default: { fail('Unrecognized architecture') }
   }
 
-  file {$dir:
+  file { $dir:
     ensure => directory,
-    owner => '0',
-    group => '0',
-    mode => '0644',
+    owner  => '0',
+    group  => '0',
+    mode   => '0644',
   }
   ->
 
-  file {"${dir}/run":
+  file { "${dir}/run":
     ensure => directory,
-    owner => '0',
-    group => '0',
-    mode => '0644',
+    owner  => '0',
+    group  => '0',
+    mode   => '0644',
   }
   ->
 
-  file {"${dir}/log":
+  file { "${dir}/log":
     ensure => directory,
-    owner => '0',
-    group => '0',
-    mode => '0644',
+    owner  => '0',
+    group  => '0',
+    mode   => '0644',
   }
   ->
 
-  helper::script {'download revealcloud':
+  helper::script { 'download revealcloud':
     content => template("${module_name}/download.sh"),
-    unless => "test -x ${dir}/revealcloud && ${dir}/revealcloud -V 2>&1 | grep 'Version: ${version}$'",
-    notify => Service['revealcloud'],
+    unless  => "test -x ${dir}/revealcloud && ${dir}/revealcloud -V 2>&1 | grep 'Version: ${version}$'",
+    notify  => Service['revealcloud'],
   }
   ->
 
-  file {'/etc/init.d/revealcloud':
-    content => template("${module_name}/init.sh"),
-    owner => '0',
-    group => '0',
-    mode => '0755',
-    notify => Service['revealcloud'],
-  }
-  ~>
-
-  exec {'update-rc.d revealcloud defaults':
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    refreshonly => true,
+  helper::service { 'revealcloud':
+    init_file_content => template("${module_name}/init.sh"),
+    notify            => Service['revealcloud'],
   }
 
   if $enable_node {
-    exec {'enable revealcloud node':
-      command => "/etc/init.d/revealcloud stop && ${dir}/revealcloud -x -a ${api_host} -k ${api_key} -E && /etc/init.d/revealcloud start",
+    exec { 'enable revealcloud node':
+      command     => "/etc/init.d/revealcloud stop && ${dir}/revealcloud -x -a ${api_host} -k ${api_key} -E && /etc/init.d/revealcloud start",
       refreshonly => true,
-      user => '0',
-      group => '0',
-      require => File['/etc/init.d/revealcloud'],
-      before => Service['revealcloud'],
+      user        => '0',
+      group       => '0',
+      require     => Helper::Service['revealcloud'],
+      before      => Service['revealcloud'],
     }
 
-    Exec['update-rc.d revealcloud defaults'] ~> Exec['enable revealcloud node']
+    Helper::Service['revealcloud'] ~> Exec['enable revealcloud node']
   }
 
-  service {'revealcloud':
+  service { 'revealcloud':
     ensure => running,
   }
 
-  @monit::entry {'revealcloud':
+  @monit::entry { 'revealcloud':
     content => template("${module_name}/monit"),
     require => Service['revealcloud']
   }
