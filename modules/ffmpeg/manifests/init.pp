@@ -3,6 +3,7 @@ class ffmpeg ($version = '1.0') {
   require 'deb_multimedia'
   require 'yasm'
   require 'x264'
+  require 'build::dev::zlib1g'
 
   package {[
       'liba52-0.7.4-dev',
@@ -14,7 +15,6 @@ class ffmpeg ($version = '1.0') {
       'mjpegtools',
       'libgpac-dev',
       'libxfixes-dev',
-      'zlib1g-dev',
       'libvpx-dev',
       'libvdpau-dev',
       'libopencore-amrnb-dev',
