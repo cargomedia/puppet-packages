@@ -16,33 +16,25 @@ class puppet::agent (
 
   file {
     '/etc/puppet/conf.d/agent':
-      ensure => file,
+      ensure  => file,
       content => template("${module_name}/agent/config"),
-      group => '0',
-      owner => '0',
-      mode => '0644',
-      notify => Exec['/etc/puppet/puppet.conf'];
+      group   => '0',
+      owner   => '0',
+      mode    => '0644',
+      notify  => Exec['/etc/puppet/puppet.conf'];
 
     '/etc/default/puppet':
-      ensure => file,
+      ensure  => file,
       content => template("${module_name}/agent/default"),
-      group => '0',
-      owner => '0',
-      mode => '0644',
-      notify => Service['puppet'];
-
-    '/etc/init.d/puppet':
-      ensure => file,
-      content => template("${module_name}/agent/init"),
-      group => '0',
-      owner => '0',
-      mode => '0755',
-      notify => Service['puppet'];
+      group   => '0',
+      owner   => '0',
+      mode    => '0644',
+      notify  => Service['puppet'];
   }
   ->
 
-  package {'puppet':
-    ensure => present,
+  package { 'puppet':
+    ensure  => present,
     require => [
       Helper::Script['install puppet apt sources'],
       Exec['/etc/puppet/puppet.conf'],
@@ -51,25 +43,24 @@ class puppet::agent (
   }
   ->
 
-  service {'puppet':
+  helper::service { 'puppet':
+    init_file_content => template("${module_name}/agent/init"),
+    notify            => Service['puppet'],
+    require           => Package['puppet'],
+  }
+
+  service { 'puppet':
     subscribe => Exec['/etc/puppet/puppet.conf'],
   }
-  ->
 
-  exec {'update-rc.d puppet defaults && /etc/init.d/puppet start':
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    subscribe => [ File['/etc/init.d/puppet'], File['/etc/default/puppet'] ],
-    refreshonly => true,
-  }
-
-  @monit::entry {'puppet':
+  @monit::entry { 'puppet':
     content => template("${module_name}/agent/monit"),
     require => Service['puppet'],
   }
 
-  @bipbip::entry {'puppet':
-    plugin => 'puppet',
-    options => {},
+  @bipbip::entry { 'puppet':
+    plugin  => 'puppet',
+    options => { },
   }
 
 }
