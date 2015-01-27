@@ -16,7 +16,7 @@ class wowza (
 
   helper::script {'install wowza':
     content => template("${module_name}/install.sh"),
-    unless => "dpkg-query -f '\${Status} \${Version}\n' -W wowzastreamingengine-${version} | grep -q 'ok installed ${version}'",
+    unless  => "dpkg-query -f '\${Status} \${Version}\n' -W wowzastreamingengine-${version} | grep -q 'ok installed ${version}'",
     timeout => 900,
     require => User['wowza'],
   }
@@ -25,42 +25,34 @@ class wowza (
   file {
     '/usr/local/WowzaStreamingEngine/lib/lib-versions':
       ensure => directory,
-      owner => 'wowza',
-      group => 'wowza',
-      mode => '0755';
+      owner  => 'wowza',
+      group  => 'wowza',
+      mode   => '0755';
 
     '/usr/local/WowzaStreamingEngine/conf/admin.password':
-      ensure =>file,
+      ensure  =>file,
       content => template("${module_name}/admin.password"),
-      owner => '0',
-      group => '0',
-      mode => '0644',
-      notify => Service['wowza'];
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
+      notify  => Service['wowza'];
 
     '/usr/local/WowzaStreamingEngine/conf/Server.license':
-      ensure => file,
+      ensure  => file,
       content => $license,
-      owner => '0',
-      group => '0',
-      mode => '0644',
-      notify => Service['wowza'];
-
-    '/etc/init.d/wowza':
-      ensure => file,
-      content => template("${module_name}/init"),
-      owner => '0',
-      group => '0',
-      mode => '0755',
-      notify => Service['wowza'];
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
+      notify  => Service['wowza'];
   }
   ->
 
-  helper::service{'wowza':
-    subscribe => File["/etc/init.d/wowza"],
+  helper::service {'wowza':
+    init_file_content => template("${module_name}/init"),
+    notify            => Service['wowza'],
   }
 
   @monit::entry {'wowza':
     content => template("${module_name}/monit"),
   }
-
 }
