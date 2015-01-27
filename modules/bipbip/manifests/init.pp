@@ -9,72 +9,72 @@ class bipbip (
   require 'logrotate'
   include 'bipbip::service'
 
-  class {'ruby::gem::bipbip':
+  class { 'ruby::gem::bipbip':
     version => $version,
-    notify => Service['bipbip'],
+    notify  => Service['bipbip'],
   }
   ->
 
-  user {'bipbip':
-    ensure => present,
-    system => true,
+  user { 'bipbip':
+    ensure     => present,
+    system     => true,
     managehome => true,
-    home => '/home/bipbip',
+    home       => '/home/bipbip',
   }
   ->
 
-  file {'/etc/bipbip':
+  file { '/etc/bipbip':
     ensure => directory,
-    owner => '0',
-    group => '0',
-    mode => '0644',
+    owner  => '0',
+    group  => '0',
+    mode   => '0644',
   }
   ->
 
-  file {'/etc/bipbip/services.d':
-    ensure => directory,
-    owner => '0',
-    group => '0',
-    mode => '0644',
-    purge => true,
+  file { '/etc/bipbip/services.d':
+    ensure  => directory,
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
+    purge   => true,
     recurse => true,
   }
   ->
 
-  file {'/etc/bipbip/config.yml':
-    ensure => file,
+  file { '/etc/bipbip/config.yml':
+    ensure  => file,
     content => template("${module_name}/config.yml"),
-    owner => '0',
-    group => '0',
-    mode => '0644',
-    notify => Service['bipbip'],
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
+    notify  => Service['bipbip'],
   }
   ->
 
-  file {'/var/log/bipbip':
+  file { '/var/log/bipbip':
     ensure => directory,
-    owner => 'bipbip',
-    group => 'bipbip',
-    mode => '0755',
+    owner  => 'bipbip',
+    group  => 'bipbip',
+    mode   => '0755',
   }
   ->
 
-  file {'/var/log/bipbip/bipbip.log':
+  file { '/var/log/bipbip/bipbip.log':
     ensure => file,
-    owner => 'bipbip',
-    group => 'bipbip',
-    mode => '0644',
+    owner  => 'bipbip',
+    group  => 'bipbip',
+    mode   => '0644',
   }
   ->
 
-  logrotate::entry{$module_name:
+  logrotate::entry{ $module_name:
     content => template("${module_name}/logrotate")
   }
 
   helper::service { 'bipbip':
     init_file_content => template("${module_name}/init.sh"),
-    notify => Service['bipbip'],
-    require => [User['bipbip'], File['/etc/bipbip/config.yml']]
+    notify            => Service['bipbip'],
+    require           => [User['bipbip'], File['/etc/bipbip/config.yml']]
   }
   ->
 
