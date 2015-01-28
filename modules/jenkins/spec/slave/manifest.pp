@@ -1,6 +1,6 @@
 node default {
 
-  class {'jenkins::slave':
+  class { 'jenkins::slave':
     cluster_id => 'foo'
   }
 }

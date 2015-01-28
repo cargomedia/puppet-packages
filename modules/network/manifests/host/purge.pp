@@ -1,6 +1,6 @@
 class network::host::purge {
 
-  resources {'host':
+  resources { 'host':
     purge => true,
   }
 }

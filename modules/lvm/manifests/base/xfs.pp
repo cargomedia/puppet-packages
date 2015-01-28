@@ -1,6 +1,6 @@
 class lvm::base::xfs {
 
-  package {'xfsprogs':
+  package { 'xfsprogs':
     ensure => installed,
   }
 }

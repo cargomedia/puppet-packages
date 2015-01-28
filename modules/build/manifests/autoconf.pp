@@ -1,6 +1,6 @@
 class build::autoconf {
 
-  package {'autoconf':
+  package { 'autoconf':
     ensure => present,
   }
 }

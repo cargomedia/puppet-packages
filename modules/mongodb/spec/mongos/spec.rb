@@ -36,7 +36,7 @@ end
 
 describe file('/etc/logrotate.d/mongos_router') do
   it { should be_file }
-  it { should contain 'cat /var/run/mongos_router.pid'}
+  it { should contain 'cat /var/run/mongos_router.pid' }
 end
 
 describe command('logrotate -d /etc/logrotate.d/mongos_router') do
@@ -45,7 +45,7 @@ end
 
 describe file('/etc/logrotate.d/mongod_config') do
   it { should be_file }
-  it { should contain 'cat /var/run/mongod_config.pid'}
+  it { should contain 'cat /var/run/mongod_config.pid' }
 end
 
 describe command('logrotate -d /etc/logrotate.d/mongod_config') do

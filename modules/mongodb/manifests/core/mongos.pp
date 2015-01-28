@@ -3,7 +3,7 @@ define mongodb::core::mongos (
   $port = 27017,
   $bind_ip = undef,
   $fork = false,
-  $options = {}
+  $options = { }
 ) {
 
   require 'mongodb'
@@ -30,39 +30,39 @@ define mongodb::core::mongos (
   }
   ~>
 
-  exec {"/etc/init.d/${instance_name} start":
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+  exec { "/etc/init.d/${instance_name} start":
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
   ~>
 
-  exec {"wait for ${instance_name} up":
-    command => "while ! (mongo --quiet --port ${port} --eval 'db.getMongo()'); do sleep 0.5; done",
-    provider => shell,
-    timeout => 100,
+  exec { "wait for ${instance_name} up":
+    command     => "while ! (mongo --quiet --port ${port} --eval 'db.getMongo()'); do sleep 0.5; done",
+    provider    => shell,
+    timeout     => 100,
     refreshonly => true,
   }
 
-  service {$instance_name:
-    enable => true,
+  service { $instance_name:
+    enable     => true,
     hasrestart => false,
   }
 
-  @monit::entry {$instance_name:
+  @monit::entry { $instance_name:
     content => template("${module_name}/monit"),
     require => Service[$instance_name],
   }
 
-  $hostName = $bind_ip? {undef => 'localhost', default => $bind_ip}
-  @bipbip::entry {$instance_name:
-    plugin => 'mongodb',
+  $hostName = $bind_ip? { undef => 'localhost', default => $bind_ip }
+  @bipbip::entry { $instance_name:
+    plugin  => 'mongodb',
     options => {
       'hostname' => $hostName,
       'port' => $port,
     }
   }
 
-  logrotate::entry{$instance_name:
+  logrotate::entry{ $instance_name:
     content => template("${module_name}/logrotate")
   }
 }

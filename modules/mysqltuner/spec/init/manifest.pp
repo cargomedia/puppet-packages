@@ -1,4 +1,4 @@
 node default {
 
-  class {'mysqltuner':}
+  class { 'mysqltuner': }
 }

@@ -1,13 +1,13 @@
 class cron {
 
-  package {'cron':
+  package { 'cron':
     ensure => present,
   }
   ->
 
-  service {'cron':}
+  service { 'cron': }
 
-  @monit::entry {'cron':
+  @monit::entry { 'cron':
     content => template("${module_name}/monit"),
     require => Service['cron'],
   }

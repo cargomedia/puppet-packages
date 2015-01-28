@@ -1,6 +1,6 @@
 class sudo {
 
-  package {'sudo':
+  package { 'sudo':
     ensure => present,
   }
 }

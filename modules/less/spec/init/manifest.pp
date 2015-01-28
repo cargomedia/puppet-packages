@@ -1,4 +1,4 @@
 node default {
 
-  class {'less':}
+  class { 'less': }
 }

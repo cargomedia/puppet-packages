@@ -18,74 +18,74 @@ class puppet::master (
   require 'ssh::auth::keyserver'
   include 'puppet::common'
 
-  file {'/etc/puppet/conf.d/master':
-    ensure => file,
+  file { '/etc/puppet/conf.d/master':
+    ensure  => file,
     content => template("${module_name}/master/conf.d/master"),
-    group => '0',
-    owner => '0',
-    mode => '0644',
-    notify => Exec['/etc/puppet/puppet.conf'],
-    before => Package['puppetmaster'],
+    group   => '0',
+    owner   => '0',
+    mode    => '0644',
+    notify  => Exec['/etc/puppet/puppet.conf'],
+    before  => Package['puppetmaster'],
   }
 
-  file {'/etc/puppet/manifests':
+  file { '/etc/puppet/manifests':
     ensure => directory,
-    group => '0',
-    owner => '0',
-    mode => '0755',
+    group  => '0',
+    owner  => '0',
+    mode   => '0755',
   }
 
-  file {'/etc/puppet/manifests/site.pp':
-    ensure => file,
+  file { '/etc/puppet/manifests/site.pp':
+    ensure  => file,
     content => template("${module_name}/master/site.pp"),
-    group => '0',
-    owner => '0',
-    mode => '0644',
-    before => Package['puppetmaster'],
-    notify => Service['puppetmaster'],
+    group   => '0',
+    owner   => '0',
+    mode    => '0644',
+    before  => Package['puppetmaster'],
+    notify  => Service['puppetmaster'],
   }
 
-  file {$hiera_data_dir:
+  file { $hiera_data_dir:
     ensure => directory,
-    group => '0',
-    owner => '0',
-    mode => '0755',
+    group  => '0',
+    owner  => '0',
+    mode   => '0755',
   }
 
-  file {'/etc/puppet/hiera.yaml':
-    ensure => file,
+  file { '/etc/puppet/hiera.yaml':
+    ensure  => file,
     content => template("${module_name}/master/hiera.yaml"),
-    group => '0',
-    owner => '0',
-    mode => '0644',
-    before => Package['puppetmaster'],
-    notify => Service['puppetmaster'],
+    group   => '0',
+    owner   => '0',
+    mode    => '0644',
+    before  => Package['puppetmaster'],
+    notify  => Service['puppetmaster'],
   }
 
-  file {'/etc/default/puppetmaster':
-    ensure => file,
+  file { '/etc/default/puppetmaster':
+    ensure  => file,
     content => template("${module_name}/master/etc/default"),
-    group => '0',
-    owner => '0',
-    mode => '0644',
-    before => Package['puppetmaster'],
-    notify => Service['puppetmaster'],
+    group   => '0',
+    owner   => '0',
+    mode    => '0644',
+    before  => Package['puppetmaster'],
+    notify  => Service['puppetmaster'],
   }
 
   if $reportToEmail {
-    file {'/etc/puppet/tagmail.conf':
-      ensure => file,
+    file { '/etc/puppet/tagmail.conf':
+      ensure  => file,
       content => template("${module_name}/master/tagmail.conf"),
-      group => '0',
-      owner => '0',
-      mode => '0644',
-      before => Package['puppetmaster'],
-      notify => Service['puppetmaster'],
+      group   => '0',
+      owner   => '0',
+      mode    => '0644',
+      before  => Package['puppetmaster'],
+      notify  => Service['puppetmaster'],
     }
   }
 
-  package {'puppetmaster':
-    ensure => present,
+  package { 'puppetmaster':
+    ensure  => present,
     require => [
       Helper::Script['install puppet apt sources'],
       Exec['/etc/puppet/puppet.conf'],
@@ -94,36 +94,36 @@ class puppet::master (
   }
   ->
 
-  service {'puppetmaster':
+  service { 'puppetmaster':
     subscribe => Exec['/etc/puppet/puppet.conf'],
   }
 
   if $puppetdb {
-    class {'puppet::db':
-      port => $puppetdb_port,
+    class { 'puppet::db':
+      port     => $puppetdb_port,
       port_ssl => $puppetdb_port_ssl,
     }
-    class {'puppet::master::puppetdb':
+    class { 'puppet::master::puppetdb':
       port => $puppetdb_port_ssl,
     }
   }
 
   if $puppetfile {
-    class {'puppet::master::puppetfile':
-      content => $puppetfile,
-      hiera_data_dir => $hiera_data_dir,
+    class { 'puppet::master::puppetfile':
+      content                   => $puppetfile,
+      hiera_data_dir            => $hiera_data_dir,
       puppetfile_hiera_data_dir => $puppetfile_hiera_data_dir,
     }
   }
 
   if $port_passenger {
-    class {'puppet::master::passenger':
-      port => $port_passenger,
+    class { 'puppet::master::passenger':
+      port    => $port_passenger,
       require => [Package['puppetmaster'], Service['puppetmaster']],
     }
   }
 
-  @monit::entry {'puppetmaster':
+  @monit::entry { 'puppetmaster':
     content => template("${module_name}/master/monit"),
     require => Service['puppetmaster'],
   }

@@ -1,6 +1,6 @@
 node default {
 
-  class {'ulimit':
+  class { 'ulimit':
     limits => [
       {
         'domain' => 'root',

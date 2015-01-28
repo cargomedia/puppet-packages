@@ -1,13 +1,13 @@
 node default {
 
-  class {'jenkins':
+  class { 'jenkins':
     hostname => 'example.com'
   }
 
-  class {'jenkins::plugin::github_oauth':
+  class { 'jenkins::plugin::github_oauth':
     organization_name_list => ['cargomedia'],
-    admin_user_name_list => ['njam'],
-    client_id => 'xxx',
-    client_secret => 'yyy',
+    admin_user_name_list   => ['njam'],
+    client_id              => 'xxx',
+    client_secret          => 'yyy',
   }
 }

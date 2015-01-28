@@ -5,7 +5,7 @@ class monit::entry::system(
 
   require '::monit'
 
-  @monit::entry {'system':
+  @monit::entry { 'system':
     content => template("${module_name}/entry/system"),
   }
 }

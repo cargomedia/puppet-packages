@@ -5,9 +5,9 @@ describe file('/etc/sysctl.conf') do
 end
 
 entries = [
-    'net.ipv4.tcp_synack_retries = 2',
-    'net.ipv4.tcp_syncookies = 1',
-    'vm.swappiness = 0',
+  'net.ipv4.tcp_synack_retries = 2',
+  'net.ipv4.tcp_syncookies = 1',
+  'vm.swappiness = 0',
 ]
 
 describe file('/etc/sysctl.conf') do

@@ -1,14 +1,14 @@
 node default {
 
-  class {'jenkins':
+  class { 'jenkins':
     hostname => 'example.com'
   }
 
-  jenkins::job {'foo':
+  jenkins::job { 'foo':
     content => 'foo',
   }
 
-  jenkins::job {'bar':
+  jenkins::job { 'bar':
     content => 'bar',
   }
 }

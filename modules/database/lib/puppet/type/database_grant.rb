@@ -18,13 +18,13 @@ Puppet::Type.newtype(:database_grant) do
     reqs = []
     matches = self[:name].match(/^([^@]+)@([^\/]+).*$/)
     unless matches.nil?
-      reqs << '%s@%s' % [ matches[1], matches[2] ]
+      reqs << '%s@%s' % [matches[1], matches[2]]
     end
     # puts "Autoreq: '%s'" % reqs.join(" ")
     reqs
   end
 
-  newparam(:name, :namevar=>true) do
+  newparam(:name, :namevar => true) do
     desc 'The primary key: either user@host for global privilges or user@host/database for database specific privileges'
   end
 
@@ -34,9 +34,11 @@ Puppet::Type.newtype(:database_grant) do
     def should_to_s(newvalue = @should)
       if newvalue
         unless newvalue.is_a?(Array)
-          newvalue = [ newvalue ]
+          newvalue = [newvalue]
         end
-        newvalue.collect do |v| v.downcase end.sort.join ', '
+        newvalue.collect do |v|
+          v.downcase
+        end.sort.join ', '
       else
         nil
       end
@@ -45,24 +47,26 @@ Puppet::Type.newtype(:database_grant) do
     def is_to_s(currentvalue = @is)
       if currentvalue
         unless currentvalue.is_a?(Array)
-          currentvalue = [ currentvalue ]
+          currentvalue = [currentvalue]
         end
-        currentvalue.collect do |v| v.downcase end.sort.join ', '
+        currentvalue.collect do |v|
+          v.downcase
+        end.sort.join ', '
       else
         nil
       end
     end
 
     # use the sorted outputs for comparison
-def insync?(is)
+    def insync?(is)
       if defined? @should and @should
         case self.should_to_s
-        when 'all'
-          self.provider.all_privs_set?
-        when self.is_to_s(is)
-          true
-        else
-          false
+          when 'all'
+            self.provider.all_privs_set?
+          when self.is_to_s(is)
+            true
+          else
+            false
         end
       else
         true

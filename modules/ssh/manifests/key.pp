@@ -12,17 +12,17 @@ define ssh::key (
   $keypath = "${ssh_dir}/id.d/${titleEscaped}"
   $contentEscaped = shellquote($content)
 
-  exec {"${ssh_dir}/id.d for ${title}":
+  exec { "${ssh_dir}/id.d for ${title}":
     command => "mkdir -p ${ssh_dir}/id.d",
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    unless => "test -d ${ssh_dir}/id.d",
-    user => $user,
+    path    => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    unless  => "test -d ${ssh_dir}/id.d",
+    user    => $user,
   }
   ->
 
-  helper::script {$keypath:
+  helper::script { $keypath:
     content => template("${module_name}/add-key.sh"),
-    unless => "grep ^${contentEscaped}$ ${keypath}",
-    user => $user
+    unless  => "grep ^${contentEscaped}$ ${keypath}",
+    user    => $user
   }
 }

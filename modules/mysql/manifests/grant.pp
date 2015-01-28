@@ -4,8 +4,8 @@ define mysql::grant (
 
   require 'mysql::client'
 
-  database_grant {$name:
+  database_grant { $name:
     privileges => $privileges,
-    provider => mysql,
+    provider   => mysql,
   }
 }

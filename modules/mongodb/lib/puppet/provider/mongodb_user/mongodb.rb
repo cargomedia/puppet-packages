@@ -9,10 +9,10 @@ Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::
   def create
     password_hash = create_password_hash('puppet-mongodb', @resource[:password])
     data = {
-        :user => @resource[:name],
-        :pwd => @resource[:password],
-        :roles => @resource[:roles],
-        :customData => {:puppetPasswordHash => password_hash}
+      :user => @resource[:name],
+      :pwd => @resource[:password],
+      :roles => @resource[:roles],
+      :customData => {:puppetPasswordHash => password_hash}
     }
     mongo_command("db.createUser(#{JSON.dump data})", find_master, @resource[:database])
   end

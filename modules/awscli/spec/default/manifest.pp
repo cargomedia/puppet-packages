@@ -1,5 +1,5 @@
 node default {
 
-  class {'awscli': }
+  class { 'awscli': }
 
 }

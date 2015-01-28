@@ -1,8 +1,8 @@
 class deb_multimedia {
 
-  apt::source {'deb-multimedia':
+  apt::source { 'deb-multimedia':
     entries => [ "deb http://www.deb-multimedia.org ${::lsbdistcodename} main non-free" ],
-    keys => {
+    keys    => {
       'debian-multimedia' => {
         key => '65558117',
         key_server => 'pgp.mit.edu'
@@ -11,7 +11,7 @@ class deb_multimedia {
   }
   ->
 
-  package {'deb-multimedia-keyring':
+  package { 'deb-multimedia-keyring':
     ensure => latest,
   }
 

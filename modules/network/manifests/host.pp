@@ -3,9 +3,9 @@ define network::host (
   $aliases  = [],
 ) {
 
-  host {$name:
-    ensure => present,
+  host { $name:
+    ensure       => present,
     host_aliases => $aliases,
-    ip => $ipaddr,
+    ip           => $ipaddr,
   }
 }

@@ -17,113 +17,113 @@ class socket_redis (
   }
   include 'socket_redis::service'
 
-  file {'/etc/socket-redis':
+  file { '/etc/socket-redis':
     ensure => directory,
-    owner => '0',
-    group => '0',
-    mode => '0755',
+    owner  => '0',
+    group  => '0',
+    mode   => '0755',
   }
 
-  file {'/etc/socket-redis/ssl':
+  file { '/etc/socket-redis/ssl':
     ensure => directory,
-    owner => '0',
-    group => '0',
-    mode => '0755',
+    owner  => '0',
+    group  => '0',
+    mode   => '0755',
   }
 
   if $sslKey {
     $sslKeyFile = '/etc/socket-redis/ssl/cert.key'
-    file {$sslKeyFile:
-      ensure => file,
+    file { $sslKeyFile:
+      ensure  => file,
       content => $sslKey,
-      owner => '0',
-      group => '0',
-      mode => '0640',
-      before => File['/etc/init.d/socket-redis'],
-      notify => Service['socket-redis'],
+      owner   => '0',
+      group   => '0',
+      mode    => '0640',
+      before  => File['/etc/init.d/socket-redis'],
+      notify  => Service['socket-redis'],
     }
   }
 
   if $sslCert {
     $sslCertFile = '/etc/socket-redis/ssl/cert.pem'
-    file {$sslCertFile:
-      ensure => file,
+    file { $sslCertFile:
+      ensure  => file,
       content => $sslCert,
-      owner => '0',
-      group => '0',
-      mode => '0640',
-      before => File['/etc/init.d/socket-redis'],
-      notify => Service['socket-redis'],
+      owner   => '0',
+      group   => '0',
+      mode    => '0640',
+      before  => File['/etc/init.d/socket-redis'],
+      notify  => Service['socket-redis'],
     }
   }
 
   if $sslPfx {
     $sslPfxFile = '/etc/socket-redis/ssl/cert.pfx'
-    file {$sslPfxFile:
-      ensure => file,
+    file { $sslPfxFile:
+      ensure  => file,
       content => $sslPfx,
-      owner => '0',
-      group => '0',
-      mode => '0640',
-      before => File['/etc/init.d/socket-redis'],
-      notify => Service['socket-redis'],
+      owner   => '0',
+      group   => '0',
+      mode    => '0640',
+      before  => File['/etc/init.d/socket-redis'],
+      notify  => Service['socket-redis'],
     }
   }
 
   if $sslPassphrase {
     $sslPassphraseFile = '/etc/socket-redis/ssl/passphrase'
-    file {$sslPassphraseFile:
-      ensure => file,
+    file { $sslPassphraseFile:
+      ensure  => file,
       content => $sslPassphrase,
-      owner => '0',
-      group => '0',
-      mode => '0640',
-      before => File['/etc/init.d/socket-redis'],
-      notify => Service['socket-redis'],
+      owner   => '0',
+      group   => '0',
+      mode    => '0640',
+      before  => File['/etc/init.d/socket-redis'],
+      notify  => Service['socket-redis'],
     }
   }
 
-  user {'socket-redis':
+  user { 'socket-redis':
     ensure => present,
     system => true,
   }
 
-  file {$logDir:
-    ensure => directory,
-    owner => 'socket-redis',
-    group => 'socket-redis',
-    mode => '0755',
+  file { $logDir:
+    ensure  => directory,
+    owner   => 'socket-redis',
+    group   => 'socket-redis',
+    mode    => '0755',
     require => User['socket-redis']
   }
 
-  logrotate::entry{$module_name:
+  logrotate::entry{ $module_name:
     content => template("${module_name}/logrotate")
   }
 
-  file {'/etc/init.d/socket-redis':
-    ensure => file,
+  file { '/etc/init.d/socket-redis':
+    ensure  => file,
     content => template("${module_name}/init.sh"),
-    owner => '0',
-    group => '0',
-    mode => '0755',
-    notify => Service['socket-redis'],
-    before => Package['socket-redis'],
+    owner   => '0',
+    group   => '0',
+    mode    => '0755',
+    notify  => Service['socket-redis'],
+    before  => Package['socket-redis'],
     require => User['socket-redis'],
   }
   ~>
 
-  exec {'update-rc.d socket-redis defaults':
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+  exec { 'update-rc.d socket-redis defaults':
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
 
 
-  package {'socket-redis':
-    ensure => $version,
+  package { 'socket-redis':
+    ensure   => $version,
     provider => 'npm',
   }
 
-  @monit::entry {'socket-redis':
+  @monit::entry { 'socket-redis':
     content => template("${module_name}/monit"),
     require => Service['socket-redis'],
   }

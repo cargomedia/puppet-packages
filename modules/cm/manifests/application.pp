@@ -24,7 +24,7 @@ class cm::application (
   require 'foreman::debian'
   require 'mysql::client'
 
-  class {'php5::extension::opcache':
+  class { 'php5::extension::opcache':
     enable => !$development,
   }
 

@@ -15,19 +15,19 @@ define backup::agent (
 
   require 'backup::agent_common'
 
-  ssh::auth::id {$name:
-    id => "backup-agent@${server_id}",
+  ssh::auth::id { $name:
+    id   => "backup-agent@${server_id}",
     user => 'root',
   }
 
-  cron {"backup-${name}":
+  cron { "backup-${name}":
     command => "/usr/local/bin/backup-create.sh -h '${host}' -s '${source}' -d '${destination}' -o '${options}' -t '${sourceType}'",
     user    => 'root',
     minute  => $cronTimeMinute,
     hour    => $cronTimeHour,
   }
 
-  cron {"backup-check-${name}":
+  cron { "backup-check-${name}":
     command => "/usr/local/bin/backup-check.sh -h '${host}' -d '${destination}'",
     user    => 'root',
     minute  => 10,

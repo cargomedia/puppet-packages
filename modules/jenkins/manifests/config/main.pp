@@ -5,7 +5,7 @@ class jenkins::config::main(
   require 'jenkins::package'
   include 'jenkins::service'
 
-  file {'/var/lib/jenkins/config.d':
+  file { '/var/lib/jenkins/config.d':
     ensure    => 'directory',
     owner     => 'jenkins',
     group     => 'nogroup',
@@ -49,7 +49,7 @@ class jenkins::config::main(
       notify    => Exec['/var/lib/jenkins/config.xml'];
   }
 
-  exec {'/var/lib/jenkins/config.xml':
+  exec { '/var/lib/jenkins/config.xml':
     command     => '/bin/cat /var/lib/jenkins/config.d/* > /var/lib/jenkins/config.xml',
     refreshonly => true,
     user        => 'jenkins',
@@ -57,7 +57,7 @@ class jenkins::config::main(
     notify      => Service['jenkins'],
   }
 
-  file {'/var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml':
+  file { '/var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml':
     ensure    => 'present',
     content   => template("${module_name}/config/jenkins.model.JenkinsLocationConfiguration.xml"),
     owner     => 'jenkins',
@@ -66,7 +66,7 @@ class jenkins::config::main(
     notify    => Service['jenkins'],
   }
 
-  file {'/var/lib/jenkins/org.jenkinsci.main.modules.sshd.SSHD.xml':
+  file { '/var/lib/jenkins/org.jenkinsci.main.modules.sshd.SSHD.xml':
     ensure    => 'present',
     content   => template("${module_name}/config/org.jenkinsci.main.modules.sshd.SSHD.xml"),
     owner     => 'jenkins',
@@ -75,7 +75,7 @@ class jenkins::config::main(
     notify    => Service['jenkins'],
   }
 
-  file {'/var/lib/jenkins/hudson.tasks.Mailer.xml':
+  file { '/var/lib/jenkins/hudson.tasks.Mailer.xml':
     ensure    => 'present',
     content   => template("${module_name}/config/hudson.tasks.Mailer.xml"),
     owner     => 'jenkins',
