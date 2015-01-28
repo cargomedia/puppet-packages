@@ -130,7 +130,9 @@ class socket_redis (
 
   @bipbip::entry { 'socket-redis':
     plugin  => 'socket-redis',
-    options => {},
+    options => {
+      url => "localhost:${statusPort}/status"
+    },
   }
 
 }
