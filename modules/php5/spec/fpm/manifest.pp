@@ -2,9 +2,9 @@ node default {
 
   require 'monit'
 
-  class {'bipbip':
+  class { 'bipbip':
     api_key => 'foo',
   }
 
-  class {'php5::fpm':}
+  class { 'php5::fpm': }
 }

@@ -7,50 +7,50 @@ define apache2::mod (
   require 'apache2'
   include 'apache2::service'
 
-  $linkIfEnabled = $enabled ? {true => link, false => absent}
+  $linkIfEnabled = $enabled ? { true => link, false => absent }
 
-  file {"/etc/apache2/mods-enabled/${name}.load":
-    ensure => $linkIfEnabled,
-    target => "/etc/apache2/mods-available/${name}.load",
-    group => '0',
-    owner => '0',
-    mode => '0644',
+  file { "/etc/apache2/mods-enabled/${name}.load":
+    ensure  => $linkIfEnabled,
+    target  => "/etc/apache2/mods-available/${name}.load",
+    group   => '0',
+    owner   => '0',
+    mode    => '0644',
     require => Class['apache2'],
-    notify => Service['apache2'],
+    notify  => Service['apache2'],
   }
 
   if $load_configuration {
-    file {"/etc/apache2/mods-available/${name}.load":
+    file { "/etc/apache2/mods-available/${name}.load":
       ensure  => file,
       content => $load_configuration,
       owner   => '0',
       group   => '0',
       mode    => '0644',
       require => Class['apache2'],
-      notify => Service['apache2'],
+      notify  => Service['apache2'],
     }
   }
 
   if $configuration {
-    file {"/etc/apache2/mods-available/${name}.conf":
-      ensure => file,
+    file { "/etc/apache2/mods-available/${name}.conf":
+      ensure  => file,
       content => $configuration,
-      group => '0',
-      owner => '0',
-      mode => '0644',
+      group   => '0',
+      owner   => '0',
+      mode    => '0644',
       require => Class['apache2'],
-      notify => Service['apache2'],
+      notify  => Service['apache2'],
     }
     ->
 
-    file {"/etc/apache2/mods-enabled/${name}.conf":
-      ensure => $linkIfEnabled,
-      target => "/etc/apache2/mods-available/${name}.conf",
-      group => '0',
-      owner => '0',
-      mode => '0644',
+    file { "/etc/apache2/mods-enabled/${name}.conf":
+      ensure  => $linkIfEnabled,
+      target  => "/etc/apache2/mods-available/${name}.conf",
+      group   => '0',
+      owner   => '0',
+      mode    => '0644',
       require => Class['apache2'],
-      notify => Service['apache2'],
+      notify  => Service['apache2'],
     }
   }
 }

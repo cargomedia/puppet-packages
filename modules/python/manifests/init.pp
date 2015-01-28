@@ -1,6 +1,6 @@
 class python {
 
-  package {['python', 'python-pip']:
+  package { ['python', 'python-pip']:
     ensure => present,
   }
 

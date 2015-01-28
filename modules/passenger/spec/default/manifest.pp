@@ -1,6 +1,6 @@
 node default {
 
-  class {'passenger':
+  class { 'passenger':
     version => '4.0.38'
   }
 

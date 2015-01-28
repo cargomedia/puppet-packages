@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe package('lvm2') do
-  it {should be_installed }
+  it { should be_installed }
 end
 
 describe file('/nfsexport/shared') do

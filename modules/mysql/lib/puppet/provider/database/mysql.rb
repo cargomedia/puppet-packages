@@ -3,7 +3,7 @@ Puppet::Type.type(:database).provide(:mysql) do
 
   defaultfor :kernel => 'Linux'
 
-  optional_commands :mysql      => 'mysql'
+  optional_commands :mysql => 'mysql'
   optional_commands :mysqladmin => 'mysqladmin'
 
   def self.defaults_file

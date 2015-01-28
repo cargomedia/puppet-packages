@@ -1,9 +1,9 @@
 node default {
 
-  class {'bipbip':
+  class { 'bipbip':
     api_key => 'foo',
   }
 
-  class {'monit':}
-  class {'monit::entry::system':}
+  class { 'monit': }
+  class { 'monit::entry::system': }
 }

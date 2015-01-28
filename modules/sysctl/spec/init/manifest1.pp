@@ -1,5 +1,5 @@
 node default {
-  class {'sysctl':
-    entries => {}
+  class { 'sysctl':
+    entries => { }
   }
 }

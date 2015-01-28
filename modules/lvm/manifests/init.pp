@@ -1,6 +1,6 @@
 class lvm {
 
-  file {'/root/bin':
+  file { '/root/bin':
     ensure => directory,
   }
 }

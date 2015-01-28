@@ -7,36 +7,36 @@ define nfs::server::export($publicPath = $name, $localPath, $configuration, $own
 
   $filename = md5($name)
 
-  exec {$lpath:
+  exec { $lpath:
     command => "mkdir -p ${lpath}",
     creates => $lpath,
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    path    => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
   ->
 
-  mount::entry {$path:
-    source => $localPath,
-    options => 'bind',
-    mount => true,
+  mount::entry { $path:
+    source      => $localPath,
+    options     => 'bind',
+    mount       => true,
     mount_check => true,
   }
   ->
 
-  file {$path:
+  file { $path:
     ensure => directory,
-    owner => $owner,
-    group => $group,
-    mode => $permissions,
+    owner  => $owner,
+    group  => $group,
+    mode   => $permissions,
   }
   ->
 
 
-  file {"/etc/exports.d/${filename}":
-    ensure => file,
+  file { "/etc/exports.d/${filename}":
+    ensure  => file,
     content => template("${module_name}/export"),
-    owner => '0',
-    group => '0',
-    mode => '0644',
-    notify => Exec['/etc/exports'],
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
+    notify  => Exec['/etc/exports'],
   }
 }

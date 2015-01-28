@@ -1,6 +1,6 @@
 node default {
 
-  class {'rdiff_backup':
+  class { 'rdiff_backup':
   }
 
 }

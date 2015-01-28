@@ -1,6 +1,6 @@
 node default {
 
-  class {'elasticsearch':
+  class { 'elasticsearch':
     publish_host => 'localhost',
     cluster_name => 'foo',
   }

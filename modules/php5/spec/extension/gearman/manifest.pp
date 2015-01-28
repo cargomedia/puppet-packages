@@ -1,5 +1,5 @@
 node default {
 
-  class {'php5::extension::gearman':
+  class { 'php5::extension::gearman':
   }
 }

@@ -20,61 +20,61 @@ class revive (
   require 'mysql::server'
   require 'rsync'
 
-  helper::script {'install revive':
+  helper::script { 'install revive':
     content => template("${module_name}/install.sh"),
-    unless => "grep -w \"define('VERSION', '${version}')\" /var/revive/constants.php",
+    unless  => "grep -w \"define('VERSION', '${version}')\" /var/revive/constants.php",
     require => Class['rsync'],
   }
 
-  file {"/etc/apache2/ssl/${host}.pem":
-    ensure => present,
+  file { "/etc/apache2/ssl/${host}.pem":
+    ensure  => present,
     content => $certificatePem,
-    group => 'www-data',
-    owner => 'www-data',
-    mode => '0644',
+    group   => 'www-data',
+    owner   => 'www-data',
+    mode    => '0644',
     require => Class['apache2::mod::ssl'],
-    before => Apache2::Vhost[$host],
+    before  => Apache2::Vhost[$host],
   }
 
-  file {"/etc/apache2/ssl/${host}.key":
-    ensure => present,
+  file { "/etc/apache2/ssl/${host}.key":
+    ensure  => present,
     content => $certificateKey,
-    group => 'www-data',
-    owner => 'www-data',
-    mode => '0644',
+    group   => 'www-data',
+    owner   => 'www-data',
+    mode    => '0644',
     require => Class['apache2::mod::ssl'],
-    before => Apache2::Vhost[$host],
+    before  => Apache2::Vhost[$host],
   }
 
   if $certificateCa {
-    apache2::ssl_ca {$host:
+    apache2::ssl_ca { $host:
       content => $certificateCa,
-      before => Apache2::Vhost[$host],
+      before  => Apache2::Vhost[$host],
     }
   }
 
-  file {'/var/revive/www/delivery/ajs-proxy.php':
-    ensure => present,
+  file { '/var/revive/www/delivery/ajs-proxy.php':
+    ensure  => present,
     content => template("${module_name}/ajs-proxy.php"),
-    group => 'www-data',
-    owner => 'www-data',
-    mode => '0644',
+    group   => 'www-data',
+    owner   => 'www-data',
+    mode    => '0644',
     require => Helper::Script['install revive'],
   }
 
-  mysql::user {"${dbUser}@localhost":
+  mysql::user { "${dbUser}@localhost":
     password => $dbPassword,
   }
 
-  mysql::database {$dbName:
+  mysql::database { $dbName:
     user => "${dbUser}@localhost",
   }
 
-  apache2::vhost {$host:
+  apache2::vhost { $host:
     content => template("${module_name}/vhost"),
   }
 
-  cron {"cron revive maintenance ${host}":
+  cron { "cron revive maintenance ${host}":
     command => "php /var/revive/scripts/maintenance/maintenance.php ${host}",
     user    => 'root',
     minute  => 10,

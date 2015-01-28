@@ -1,6 +1,6 @@
 node default {
 
-  class {'gearman::library_dev':
+  class { 'gearman::library_dev':
   }
 
 }

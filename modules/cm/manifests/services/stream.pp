@@ -11,13 +11,13 @@ class cm::services::stream(
 
   $ssl = ($ssl_cert != undef) or ($ssl_key != undef)
 
-  nginx::resource::vhost {'stream-server':
-    listen_port       => $port,
-    ssl               => $ssl,
-    ssl_port          => $port,
-    ssl_cert          => $ssl_cert,
-    ssl_key           => $ssl_key,
-    proxy             => 'http://backend-socketredis',
+  nginx::resource::vhost { 'stream-server':
+    listen_port         => $port,
+    ssl                 => $ssl,
+    ssl_port            => $port,
+    ssl_cert            => $ssl_cert,
+    ssl_key             => $ssl_key,
+    proxy               => 'http://backend-socketredis',
     location_cfg_append => [
       'proxy_set_header X-Real-IP $remote_addr;',
       'proxy_set_header Host $host;',
@@ -32,17 +32,17 @@ class cm::services::stream(
 
   $stream_members = prefix($socket_ports, 'localhost:')
 
-  nginx::resource::upstream {'backend-socketredis':
-    ensure  => present,
-    members => $stream_members,
+  nginx::resource::upstream { 'backend-socketredis':
+    ensure              => present,
+    members             => $stream_members,
     upstream_cfg_append => [
       'ip_hash;',
     ],
   }
 
-  class {'socket_redis':
-    redisHost => $redis_host,
+  class { 'socket_redis':
+    redisHost   => $redis_host,
     socketPorts => $socket_ports,
-    statusPort => $status_port,
+    statusPort  => $status_port,
   }
 }

@@ -8,7 +8,7 @@ class jenkins::plugin::github(
   require 'jenkins::plugin::git'
   require 'jenkins::plugin::github_api'
 
-  file {'/var/lib/jenkins/com.cloudbees.jenkins.GitHubPushTrigger.xml':
+  file { '/var/lib/jenkins/com.cloudbees.jenkins.GitHubPushTrigger.xml':
     ensure    => 'present',
     content   => template("${module_name}/plugin/github.xml"),
     owner     => 'jenkins',
@@ -17,7 +17,7 @@ class jenkins::plugin::github(
   }
   ->
 
-  jenkins::plugin {'github':
+  jenkins::plugin { 'github':
     version => '1.8',
   }
 

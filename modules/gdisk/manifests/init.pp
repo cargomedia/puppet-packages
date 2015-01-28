@@ -1,6 +1,6 @@
 class gdisk {
 
-  package {'gdisk':
+  package { 'gdisk':
     ensure => present,
   }
 }

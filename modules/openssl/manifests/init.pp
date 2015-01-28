@@ -1,6 +1,6 @@
 class openssl {
 
-  package {'openssl':
+  package { 'openssl':
     ensure => present,
   }
 }

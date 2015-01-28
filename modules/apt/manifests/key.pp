@@ -33,13 +33,13 @@ define apt::key (
         }
       }
       if ($key_content) {
-        file {"/etc/apt/trusted.gpg.d/${name}":
-          ensure => file,
+        file { "/etc/apt/trusted.gpg.d/${name}":
+          ensure  => file,
           content => $key_content,
-          owner  => 0,
-          group  => 0,
-          mode   => '0644',
-          notify => Exec['apt_update'],
+          owner   => 0,
+          group   => 0,
+          mode    => '0644',
+          notify  => Exec['apt_update'],
         }
       }
     }
@@ -55,7 +55,7 @@ define apt::key (
     }
 
     default: {
-        fail "Invalid 'ensure' value '${ensure}' for apt::key (Must be present|absent)"
+      fail "Invalid 'ensure' value '${ensure}' for apt::key (Must be present|absent)"
     }
   }
 }

@@ -1,6 +1,6 @@
 node default {
 
-  class {'rsyslog':
+  class { 'rsyslog':
     logfile_mode => '0707',
   }
 }

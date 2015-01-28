@@ -5,23 +5,23 @@ define cgroups::group (
   $perm_admin_gid = 'root',
   $controllers = {
     'cpuset' => {
-        'cpuset.cpus' => 0,
-        'cpuset.mems' => 0,
+      'cpuset.cpus' => 0,
+      'cpuset.mems' => 0,
     }
   }
 ) {
 
   require 'cgroups'
 
-  augeas {$name:
+  augeas { $name:
     context => '/files/etc/cgconfig.conf',
     changes => template("${module_name}/group"),
   }
   ~>
 
-  exec {"cgroup apply ${name}":
-    command => 'cgconfigparser -l /etc/cgconfig.conf',
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+  exec { "cgroup apply ${name}":
+    command     => 'cgconfigparser -l /etc/cgconfig.conf',
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
 

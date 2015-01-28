@@ -1,6 +1,6 @@
 class build::gcc {
 
-  package {'gcc':
+  package { 'gcc':
     ensure => present,
   }
 }

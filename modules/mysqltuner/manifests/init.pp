@@ -1,6 +1,6 @@
 class mysqltuner {
 
-  package {'mysqltuner':
+  package { 'mysqltuner':
     ensure => present,
   }
 }

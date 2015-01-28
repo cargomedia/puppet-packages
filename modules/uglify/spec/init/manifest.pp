@@ -1,4 +1,4 @@
 node default {
 
-  class {'uglify':}
+  class { 'uglify': }
 }

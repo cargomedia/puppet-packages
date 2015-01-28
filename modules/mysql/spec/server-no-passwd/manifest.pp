@@ -1,5 +1,5 @@
 node default {
 
-  class {'mysql::server':
+  class { 'mysql::server':
   }
 }

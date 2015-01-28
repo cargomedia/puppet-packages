@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe package('lvm2') do
-  it {should be_installed }
+  it { should be_installed }
 end
 
 describe command('which pvcreate') do
@@ -25,7 +25,7 @@ describe file('/root/bin/expand-raid.sh') do
 end
 
 describe package('xfsprogs') do
-  it {should be_installed }
+  it { should be_installed }
 end
 
 describe command('which xfs_growfs') do
@@ -33,5 +33,5 @@ describe command('which xfs_growfs') do
 end
 
 describe file('/root/bin/expand-raid.sh') do
-  it {should be_file }
+  it { should be_file }
 end

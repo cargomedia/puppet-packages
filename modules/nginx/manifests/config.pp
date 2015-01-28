@@ -19,49 +19,49 @@ class nginx::config(
     mode  => '0644',
   }
 
-  file {$nginx::params::nx_conf_dir:
+  file { $nginx::params::nx_conf_dir:
     ensure => directory,
   }
 
-  file {"${nginx::params::nx_conf_dir}/conf.d":
+  file { "${nginx::params::nx_conf_dir}/conf.d":
     ensure => directory,
   }
   if $confd_purge == true {
     File["${nginx::params::nx_conf_dir}/conf.d"] {
-      ignore => 'vhost_autogen.conf',
-      purge => true,
+      ignore  => 'vhost_autogen.conf',
+      purge   => true,
       recurse => true,
     }
   }
 
-  file {$nginx::config::nx_run_dir:
+  file { $nginx::config::nx_run_dir:
     ensure => directory,
   }
 
-  file {"${nginx::params::nx_conf_dir}/ssl":
+  file { "${nginx::params::nx_conf_dir}/ssl":
     ensure => directory,
   }
 
-  file {"${nginx::params::nx_conf_dir}/sites-enabled/default":
+  file { "${nginx::params::nx_conf_dir}/sites-enabled/default":
     ensure => absent,
   }
 
-  file {"${nginx::params::nx_conf_dir}/nginx.conf":
+  file { "${nginx::params::nx_conf_dir}/nginx.conf":
     ensure  => file,
     content => template("${module_name}/conf.d/nginx.conf.erb"),
   }
 
-  file {"${nginx::params::nx_conf_dir}/fastcgi_params":
+  file { "${nginx::params::nx_conf_dir}/fastcgi_params":
     ensure  => file,
     content => template("${module_name}/fastcgi_params.erb"),
   }
 
-  file {"${nginx::params::nx_conf_dir}/conf.d/proxy.conf":
+  file { "${nginx::params::nx_conf_dir}/conf.d/proxy.conf":
     ensure  => file,
     content => template("${module_name}/conf.d/proxy.conf.erb"),
   }
 
-  file {"${nginx::config::nx_temp_dir}/nginx.d":
+  file { "${nginx::config::nx_temp_dir}/nginx.d":
     ensure  => directory,
     purge   => true,
     recurse => true,

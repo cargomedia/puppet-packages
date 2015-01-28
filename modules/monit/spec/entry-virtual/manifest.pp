@@ -1,4 +1,4 @@
 node default {
 
-  class {'puppet::agent':}
+  class { 'puppet::agent': }
 }

@@ -1,6 +1,6 @@
 class wowza::service {
 
-  service {'wowza':
+  service { 'wowza':
   }
 
 }

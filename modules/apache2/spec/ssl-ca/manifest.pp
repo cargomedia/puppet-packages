@@ -1,6 +1,6 @@
 node default {
 
-  apache2::ssl_ca {'example.com':
+  apache2::ssl_ca { 'example.com':
     content => 'foo',
   }
 }

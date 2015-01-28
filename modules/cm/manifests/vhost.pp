@@ -10,26 +10,26 @@ define cm::vhost(
   include 'cm::services::webserver'
 
   $hostnames = concat([$name], $aliases)
-  $debug_int = $debug ? {true => 1, false => 0}
+  $debug_int = $debug ? { true => 1, false => 0 }
   $ssl = ($ssl_cert != undef) or ($ssl_key != undef)
-  $port = $ssl ? {true => 443, false => 80}
+  $port = $ssl ? { true => 443, false => 80 }
 
   if ($ssl) {
-    nginx::resource::vhost{"${name}-https-redirect":
-      listen_port => 80,
-      server_name => $hostnames,
+    nginx::resource::vhost{ "${name}-https-redirect":
+      listen_port         => 80,
+      server_name         => $hostnames,
       location_cfg_append => [
         'return 301 https://$host$request_uri;',
       ],
     }
   }
 
-  nginx::resource::vhost {$name:
-    server_name => $hostnames,
-    ssl => $ssl,
-    listen_port => $port,
-    ssl_cert => $ssl_cert,
-    ssl_key => $ssl_key,
+  nginx::resource::vhost { $name:
+    server_name         => $hostnames,
+    ssl                 => $ssl,
+    listen_port         => $port,
+    ssl_cert            => $ssl_cert,
+    ssl_key             => $ssl_key,
     location_cfg_append => [
       'include fastcgi_params;',
       "fastcgi_param SCRIPT_FILENAME ${path}/public/index.php;",
@@ -40,37 +40,37 @@ define cm::vhost(
     ],
   }
 
-  nginx::resource::location{"${name}-fpm-status":
-    vhost => $name,
-    ssl => $ssl,
-    ssl_only => $ssl,
-    location => '/fpm-status',
+  nginx::resource::location{ "${name}-fpm-status":
+    vhost               => $name,
+    ssl                 => $ssl,
+    ssl_only            => $ssl,
+    location            => '/fpm-status',
     location_cfg_append => [
       'deny all;',
     ],
   }
 
-  nginx::resource::location{"${name}-maintenance":
-    vhost => $name,
-    ssl => $ssl,
-    ssl_only => $ssl,
-    location => '/maintenance',
-    www_root => "${path}/public",
+  nginx::resource::location{ "${name}-maintenance":
+    vhost     => $name,
+    ssl       => $ssl,
+    ssl_only  => $ssl,
+    location  => '/maintenance',
+    www_root  => "${path}/public",
     try_files => ['/maintenance.html', 'something-nonexistent'],
   }
 
   if ($debug) {
-    nginx::resource::location{"${name}-library":
-      vhost => $name,
-      ssl => $ssl,
+    nginx::resource::location{ "${name}-library":
+      vhost    => $name,
+      ssl      => $ssl,
       ssl_only => $ssl,
       location => '/library/',
       www_root => $path,
     }
 
-    nginx::resource::location{"${name}-vendor":
-      vhost => $name,
-      ssl => $ssl,
+    nginx::resource::location{ "${name}-vendor":
+      vhost    => $name,
+      ssl      => $ssl,
       ssl_only => $ssl,
       location => '/vendor/',
       www_root => $path,
@@ -80,11 +80,11 @@ define cm::vhost(
   if ($cdn_origin) {
     $cdn_origin_vhost = "${name}-origin"
 
-    nginx::resource::vhost{$cdn_origin_vhost:
-      server_name => [$cdn_origin],
-      ssl => $ssl,
-      ssl_cert => $ssl_cert,
-      ssl_key => $ssl_key,
+    nginx::resource::vhost{ $cdn_origin_vhost:
+      server_name         => [$cdn_origin],
+      ssl                 => $ssl,
+      ssl_cert            => $ssl_cert,
+      ssl_key             => $ssl_key,
       location_cfg_append => [
         'deny all;',
       ],
@@ -93,11 +93,11 @@ define cm::vhost(
     $cdn_origin_vhost = $name
   }
 
-  nginx::resource::location{"${name}-origin-upstream":
-    location => '~* ^/(vendor-css|vendor-js|library-css|library-js|layout)/',
-    vhost => $cdn_origin_vhost,
-    ssl => $ssl,
-    ssl_only => false,
+  nginx::resource::location{ "${name}-origin-upstream":
+    location            => '~* ^/(vendor-css|vendor-js|library-css|library-js|layout)/',
+    vhost               => $cdn_origin_vhost,
+    ssl                 => $ssl,
+    ssl_only            => false,
     location_cfg_append => [
       'expires 1y;',
       'gzip on;',
@@ -114,12 +114,12 @@ define cm::vhost(
     ],
   }
 
-  nginx::resource::location{"${name}-origin-static":
-    location => '/static',
-    vhost => $cdn_origin_vhost,
-    ssl => $ssl,
-    ssl_only => false,
-    www_root => "${path}/public",
+  nginx::resource::location{ "${name}-origin-static":
+    location            => '/static',
+    vhost               => $cdn_origin_vhost,
+    ssl                 => $ssl,
+    ssl_only            => false,
+    www_root            => "${path}/public",
     location_cfg_append => [
       'expires 1y;',
       'gzip on;',
@@ -132,12 +132,12 @@ define cm::vhost(
     ],
   }
 
-  nginx::resource::location{"${name}-origin-userfiles":
-    location => '/userfiles',
-    vhost => $cdn_origin_vhost,
-    ssl => $ssl,
-    ssl_only => false,
-    www_root => "${path}/public",
+  nginx::resource::location{ "${name}-origin-userfiles":
+    location            => '/userfiles',
+    vhost               => $cdn_origin_vhost,
+    ssl                 => $ssl,
+    ssl_only            => false,
+    www_root            => "${path}/public",
     location_cfg_append => [
       'expires 1y;',
       'gzip on;',

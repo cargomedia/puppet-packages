@@ -1,4 +1,4 @@
 node default {
 
-  class {'php5::extension::ssh2':}
+  class { 'php5::extension::ssh2': }
 }

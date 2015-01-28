@@ -3,7 +3,7 @@ class jenkins::config::credentials {
   require 'jenkins::package'
   include 'jenkins::service'
 
-  file {'/var/lib/jenkins/credentials.d':
+  file { '/var/lib/jenkins/credentials.d':
     ensure    => 'directory',
     owner     => 'jenkins',
     group     => 'nogroup',
@@ -31,7 +31,7 @@ class jenkins::config::credentials {
       notify    => Exec['/var/lib/jenkins/credentials.xml'];
   }
 
-  exec {'/var/lib/jenkins/credentials.xml':
+  exec { '/var/lib/jenkins/credentials.xml':
     command     => '/bin/cat /var/lib/jenkins/credentials.d/* > /var/lib/jenkins/credentials.xml',
     refreshonly => true,
     user        => 'jenkins',

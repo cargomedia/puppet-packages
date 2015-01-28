@@ -1,5 +1,5 @@
 node default {
 
-  class {'cgroups': }
+  class { 'cgroups': }
 
 }

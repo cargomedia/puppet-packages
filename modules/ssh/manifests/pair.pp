@@ -6,23 +6,23 @@ define ssh::pair (
 
   $keys = generate_sshkey($id)
 
-  @@ssh::key {$title:
-    user => $user,
+  @@ssh::key { $title:
+    user    => $user,
     content => $keys[private],
-    id => $id,
-    fqdn => $fqdn,
+    id      => $id,
+    fqdn    => $fqdn,
   }
 
-  @@ssh::key {"${title}.pub":
-    user => $user,
+  @@ssh::key { "${title}.pub":
+    user    => $user,
     content => $keys[public],
-    id => $id,
-    fqdn => $fqdn,
+    id      => $id,
+    fqdn    => $fqdn,
   }
 
-  @@ssh::authorized_key {$title:
-    id => $id,
-    user => $user,
+  @@ssh::authorized_key { $title:
+    id      => $id,
+    user    => $user,
     content => $keys[public],
   }
 }
