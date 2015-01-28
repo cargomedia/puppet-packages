@@ -127,4 +127,12 @@ class socket_redis (
     content => template("${module_name}/monit"),
     require => Service['socket-redis'],
   }
+
+  @bipbip::entry { 'socket-redis':
+    plugin  => 'socket-redis',
+    options => {
+      'url' => "http://localhost:${statusPort}/status",
+    },
+  }
+
 }
