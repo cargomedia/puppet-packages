@@ -34,7 +34,6 @@ class cgroups {
     require           => File['/etc/cgconfig.conf'],
   }
 
-
   service { 'cgconfig-apply':
     enable => true,
   }

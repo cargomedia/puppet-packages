@@ -29,16 +29,15 @@ class mms::agent::backup (
     init_file_content => template("${module_name}/init"),
     require           => Helper::Script['install-mms-backup'],
     notify            => Service[$agent_name];
-  helper::service{ $agent_name:
   }
   ->
 
   service { $agent_name:
-  hasrestart => true
+    hasrestart => true
   }
 
   @monit::entry { 'mms-backup':
-  content => template("${module_name}/monit"),
-  require => Service[$agent_name],
+    content => template("${module_name}/monit"),
+    require => Service[$agent_name],
   }
-  }
+}

@@ -73,5 +73,4 @@ class copperegg_revealcloud(
     content => template("${module_name}/monit"),
     require => Service['revealcloud']
   }
-
 }
