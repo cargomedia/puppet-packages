@@ -6,32 +6,32 @@ class mongodb::role::shard (
   $repl_members = undef,
   $repl_arbiters = undef,
   $router,
-  $options = {}
+  $options = { }
 ) {
 
-  mongodb::core::mongod {'shard':
-    port => $port,
-    bind_ip => $bind_ip,
+  mongodb::core::mongod { 'shard':
+    port         => $port,
+    bind_ip      => $bind_ip,
     shard_server => true,
-    repl_set => $repl_set,
-    options => $options,
+    repl_set     => $repl_set,
+    options      => $options,
   }
 
   if $repl_set {
-    mongodb_replset {$repl_set:
-      ensure => present,
-      members => $repl_members,
+    mongodb_replset { $repl_set:
+      ensure   => present,
+      members  => $repl_members,
       arbiters => $repl_arbiters,
-      require => Mongodb::Core::Mongod['shard'],
-      before => Mongodb_shard["${hostname}:${port}"]
+      require  => Mongodb::Core::Mongod['shard'],
+      before   => Mongodb_shard["${hostname}:${port}"]
     }
   }
 
-  mongodb_shard {"${hostname}:${port}":
-    ensure => present,
+  mongodb_shard { "${hostname}:${port}":
+    ensure   => present,
     repl_set => $repl_set,
-    router => $router,
-    require => Mongodb::Core::Mongod['shard'],
+    router   => $router,
+    require  => Mongodb::Core::Mongod['shard'],
   }
 
 }

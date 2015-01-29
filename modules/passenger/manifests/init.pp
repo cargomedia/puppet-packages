@@ -11,24 +11,24 @@ class passenger (
   $passenger_root = "${gem_home}/gems/passenger-${version}"
   $mod_passenger_location = "${gem_home}/gems/passenger-${version}/buildout/apache2/mod_passenger.so"
 
-  apache2::mod {'passenger':
-    configuration => template("${module_name}/passenger-enabled"),
+  apache2::mod { 'passenger':
+    configuration      => template("${module_name}/passenger-enabled"),
     load_configuration => template("${module_name}/passenger-load"),
-    notify  => Service['apache2'],
-    require => Exec['compile-passenger']
+    notify             => Service['apache2'],
+    require            => Exec['compile-passenger']
   }
 
-  package {['libcurl4-openssl-dev']:
+  package { ['libcurl4-openssl-dev']:
     ensure => present,
   }
   ->
 
-  ruby::gem {'passenger':
+  ruby::gem { 'passenger':
     ensure => $version,
   }
   ->
 
-  exec {'compile-passenger':
+  exec { 'compile-passenger':
     path      => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     command   => 'passenger-install-apache2-module -a',
     logoutput => on_failure,

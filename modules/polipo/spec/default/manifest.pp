@@ -1,6 +1,6 @@
 node default {
 
-  class {'polipo':
+  class { 'polipo':
     diskCacheRoot => '/tmp/foo',
   }
 }

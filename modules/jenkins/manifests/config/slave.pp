@@ -7,7 +7,7 @@ define jenkins::config::slave(
 
   include 'jenkins::config::main'
 
-  file {"/var/lib/jenkins/config.d/20-slaves-10-${host}.xml":
+  file { "/var/lib/jenkins/config.d/20-slaves-10-${host}.xml":
     ensure    => 'present',
     content   => template("${module_name}/config/main/20-slaves-10-entry.xml"),
     owner     => 'jenkins',

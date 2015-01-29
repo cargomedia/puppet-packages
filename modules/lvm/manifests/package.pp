@@ -1,6 +1,6 @@
 class lvm::package {
 
-  package {'lvm2':
+  package { 'lvm2':
     ensure => installed,
   }
 }

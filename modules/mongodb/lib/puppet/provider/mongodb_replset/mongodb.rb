@@ -20,10 +20,10 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
     rs_initiate({'_id' => @resource[:name], 'members' => config_members}, member_execution)
 
     block_until(lambda {
-      if find_member_primary(member_execution).nil?
-        raise "No primary detected for replica `#{@resource[:name]}`"
-      end
-    })
+                  if find_member_primary(member_execution).nil?
+                    raise "No primary detected for replica `#{@resource[:name]}`"
+                  end
+                })
   end
 
   def destroy
@@ -177,12 +177,12 @@ Puppet::Type.type(:mongodb_replset).provide :mongodb, :parent => Puppet::Provide
       rs_step_down(host, 60)
 
       block_until(lambda {
-        primary_new = find_member_primary
-        if primary_new.nil? or primary_new == host
-          raise "No new primary detected for replica `#{@resource[:name]}` - #{rs_status(host)}"
-        end
-        primary = primary_new
-      }, 60)
+            primary_new = find_member_primary
+            if primary_new.nil? or primary_new == host
+              raise "No new primary detected for replica `#{@resource[:name]}` - #{rs_status(host)}"
+            end
+            primary = primary_new
+          }, 60)
     end
 
     db_shutdown(host)

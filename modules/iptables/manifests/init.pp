@@ -1,6 +1,6 @@
 class iptables {
 
-  package {'iptables':
+  package { 'iptables':
     ensure => present,
   }
 }

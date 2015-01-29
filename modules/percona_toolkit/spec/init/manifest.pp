@@ -1,4 +1,4 @@
 node default {
 
-  class {'percona_toolkit':}
+  class { 'percona_toolkit': }
 }

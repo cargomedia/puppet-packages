@@ -5,5 +5,5 @@ describe command('which phpunit') do
 end
 
 describe command('phpunit --version') do
-  it { should return_stdout /3\.7\.27/}
+  it { should return_stdout /3\.7\.27/ }
 end

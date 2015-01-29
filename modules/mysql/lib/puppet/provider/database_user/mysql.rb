@@ -4,19 +4,19 @@ Puppet::Type.type(:database_user).provide(:mysql) do
 
   defaultfor :kernel => 'Linux'
 
-  optional_commands :mysql      => 'mysql'
+  optional_commands :mysql => 'mysql'
   optional_commands :mysqladmin => 'mysqladmin'
 
   def self.instances
     users = mysql([defaults_file, 'mysql', '-BNe' "select concat(User, '@',Host) as User from mysql.user"].compact).split("\n")
-    users.select{ |user| user =~ /.+@/ }.collect do |name|
+    users.select { |user| user =~ /.+@/ }.collect do |name|
       new(:name => name)
     end
   end
 
   def create
-    merged_name          = @resource[:name].sub('@', "'@'")
-    password_hash        = @resource.value(:password_hash)
+    merged_name = @resource[:name].sub('@', "'@'")
+    password_hash = @resource.value(:password_hash)
     max_user_connections = @resource.value(:max_user_connections) || 0
 
     mysql([defaults_file, 'mysql', '-e', "grant usage on *.* to '#{merged_name}' identified by PASSWORD
@@ -26,7 +26,7 @@ Puppet::Type.type(:database_user).provide(:mysql) do
   end
 
   def destroy
-    merged_name   = @resource[:name].sub('@', "'@'")
+    merged_name = @resource[:name].sub('@', "'@'")
     mysql([defaults_file, 'mysql', '-e', "drop user '#{merged_name}'"].compact)
 
     exists? ? (return false) : (return true)
@@ -37,7 +37,7 @@ Puppet::Type.type(:database_user).provide(:mysql) do
   end
 
   def password_hash=(string)
-    mysql([defaults_file, 'mysql', '-e', "SET PASSWORD FOR '%s' = '%s'" % [ @resource[:name].sub('@', "'@'"), string ] ].compact)
+    mysql([defaults_file, 'mysql', '-e', "SET PASSWORD FOR '%s' = '%s'" % [@resource[:name].sub('@', "'@'"), string]].compact)
 
     password_hash == string ? (return true) : (return false)
   end
@@ -47,7 +47,7 @@ Puppet::Type.type(:database_user).provide(:mysql) do
   end
 
   def max_user_connections=(int)
-    mysql([defaults_file, "mysql", "-e", "grant usage on *.* to '%s' with max_user_connections #{int}" % [ @resource[:name].sub("@", "'@'")] ].compact).chomp
+    mysql([defaults_file, "mysql", "-e", "grant usage on *.* to '%s' with max_user_connections #{int}" % [@resource[:name].sub("@", "'@'")]].compact).chomp
 
     max_user_connections == int ? (return true) : (return false)
   end
@@ -69,6 +69,7 @@ Puppet::Type.type(:database_user).provide(:mysql) do
       nil
     end
   end
+
   def defaults_file
     self.class.defaults_file
   end

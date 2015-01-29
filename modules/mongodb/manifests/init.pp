@@ -2,11 +2,11 @@ class mongodb {
 
   include 'ntp'
 
-  apt::source {'mongodb':
+  apt::source { 'mongodb':
     entries => [
       'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen',
     ],
-    keys => {
+    keys    => {
       'mongodb' => {
         'key' => '7F0CEB10',
         'key_server' => 'keyserver.ubuntu.com',
@@ -14,7 +14,7 @@ class mongodb {
     },
   }
 
-  user {'mongodb':
+  user { 'mongodb':
     ensure => present,
     system => true,
   }
@@ -47,18 +47,18 @@ class mongodb {
   }
   ->
 
-  package {'mongodb-org':
+  package { 'mongodb-org':
     require => [ Apt::Source['mongodb'] ]
   }
   ->
 
-  service {'mongod':
+  service { 'mongod':
     ensure => stopped,
     enable => false,
   }
   ->
 
-  file {'/etc/mongod.conf':
+  file { '/etc/mongod.conf':
     ensure => absent,
   }
 

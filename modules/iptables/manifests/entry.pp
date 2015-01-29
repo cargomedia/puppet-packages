@@ -7,7 +7,7 @@ define iptables::entry (
 
   require 'iptables'
 
-  exec {$title:
+  exec { $title:
     provider => shell,
     command  => "iptables --table ${table} --${command} ${chain} ${rule}",
     unless   => "iptables --table ${table} --check ${chain} ${rule}",

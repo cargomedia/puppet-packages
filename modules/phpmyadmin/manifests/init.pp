@@ -4,12 +4,12 @@ class phpmyadmin {
   require 'php5::apache2'
   require 'php5::extension::mysql'
 
-  package {'phpmyadmin':
+  package { 'phpmyadmin':
     ensure => installed,
   }
   ->
 
-  apache2::vhost {'phpmyadmin':
+  apache2::vhost { 'phpmyadmin':
     content => template("${module_name}/vhost.conf"),
   }
 }

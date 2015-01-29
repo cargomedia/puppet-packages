@@ -24,21 +24,21 @@ define nginx::resource::vhost(
     mode  => '0644',
   }
 
-  $fileIfEnabled = $ensure ? {'enable' => file, default => $ensure}
+  $fileIfEnabled = $ensure ? { 'enable' => file, default => $ensure }
 
-  # Check to see if SSL Certificates are properly defined.
+# Check to see if SSL Certificates are properly defined.
   if ($ssl == true) {
     if ($ssl_cert == undef) or ($ssl_key == undef) {
       fail('nginx: SSL certificate/key (ssl_cert/ssl_cert) and/or SSL Private must be defined')
     } else {
       $ssl_cert_file = "${nginx::params::nx_conf_dir}/ssl/${name}.pem"
       $ssl_key_file = "${nginx::params::nx_conf_dir}/ssl/${name}.key"
-      file {$ssl_cert_file:
+      file { $ssl_cert_file:
         ensure  => file,
         content => $ssl_cert,
         notify  => Class['nginx::service'],
       }
-      file {$ssl_key_file:
+      file { $ssl_key_file:
         ensure  => file,
         content => $ssl_key,
         notify  => Class['nginx::service'],
@@ -49,13 +49,13 @@ define nginx::resource::vhost(
   $ssl_only = ($ssl == true) and ($ssl_port == $listen_port)
 
   if (!$ssl_only) {
-    # HTTP server
+  # HTTP server
     file { "${nginx::config::nx_temp_dir}/nginx.d/${name}-001":
       ensure  => $fileIfEnabled,
       content => template("${module_name}/vhost/vhost_header.erb"),
-      notify => Class['nginx::service'],
+      notify  => Class['nginx::service'],
     }
-    file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-699":
+    file { "${nginx::config::nx_temp_dir}/nginx.d/${name}-699":
       ensure  => $fileIfEnabled,
       content => template("${module_name}/vhost/vhost_footer.erb"),
       notify  => Class['nginx::service'],
@@ -63,22 +63,22 @@ define nginx::resource::vhost(
   }
 
   if ($ssl == true) {
-    # HTTPS server
-    file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-700-ssl":
+  # HTTPS server
+    file { "${nginx::config::nx_temp_dir}/nginx.d/${name}-700-ssl":
       ensure  => $fileIfEnabled,
       content => template("${module_name}/vhost/vhost_ssl_header.erb"),
-      notify => Class['nginx::service'],
+      notify  => Class['nginx::service'],
     }
-    file {"${nginx::config::nx_temp_dir}/nginx.d/${name}-999-ssl":
+    file { "${nginx::config::nx_temp_dir}/nginx.d/${name}-999-ssl":
       ensure  => $fileIfEnabled,
       content => template("${module_name}/vhost/vhost_footer.erb"),
-      notify => Class['nginx::service'],
+      notify  => Class['nginx::service'],
     }
   }
 
 
-  # Create the default location reference for the vHost
-  nginx::resource::location {"${name}-default":
+# Create the default location reference for the vHost
+  nginx::resource::location { "${name}-default":
     ensure               => $ensure,
     vhost                => $name,
     ssl                  => $ssl,
@@ -91,7 +91,7 @@ define nginx::resource::vhost(
     notify               => Class['nginx::service'],
   }
 
-  # Support location_cfg_prepend and location_cfg_append on default location created by vhost
+# Support location_cfg_prepend and location_cfg_append on default location created by vhost
   if $location_cfg_prepend {
     Nginx::Resource::Location["${name}-default"] {
       location_cfg_prepend => $location_cfg_prepend

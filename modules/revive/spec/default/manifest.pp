@@ -1,15 +1,15 @@
 node default {
 
-  class {'apt::update':
+  class { 'apt::update':
     before => Class['php5'],
   }
 
-  host {'example.com':
+  host { 'example.com':
     ip => '127.0.0.1',
   }
 
-  class {'revive':
-    host => 'example.com',
+  class { 'revive':
+    host           => 'example.com',
     certificatePem => '-----BEGIN CERTIFICATE-----
 MIIDJjCCAg6gAwIBAgIJALz0SCS44yRnMA0GCSqGSIb3DQEBBQUAMBYxFDASBgNV
 BAMTC2V4YW1wbGUuY29tMB4XDTEzMTAzMDEzMDcxNVoXDTIzMTAyODEzMDcxNVow

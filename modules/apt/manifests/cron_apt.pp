@@ -2,23 +2,23 @@ class apt::cron_apt {
 
   require 'apt'
 
-  package {'cron-apt':
-    ensure => present,
+  package { 'cron-apt':
+    ensure  => present,
     require => File['/etc/cron-apt/config'],
   }
 
-  file {'/etc/cron-apt':
+  file { '/etc/cron-apt':
     ensure => directory,
-    owner => '0',
-    group => '0',
-    mode => '0755',
+    owner  => '0',
+    group  => '0',
+    mode   => '0755',
   }
 
-  file {'/etc/cron-apt/config':
-    ensure => file,
+  file { '/etc/cron-apt/config':
+    ensure  => file,
     content => template("${module_name}/cron-apt-config"),
-    owner => '0',
-    group => '0',
-    mode => '0644',
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
   }
 }

@@ -5,14 +5,14 @@ class php5::extension::stats (
   require 'build'
   require 'php5'
 
-  helper::script {'install php5::extension::stats':
+  helper::script { 'install php5::extension::stats':
     content => template("${module_name}/extension/stats/install.sh"),
-    unless => "php --re stats | grep -w 'stats version ${version}'",
+    unless  => "php --re stats | grep -w 'stats version ${version}'",
     require => Class['php5'],
   }
   ->
 
-  php5::config_extension {'stats':
+  php5::config_extension { 'stats':
     content => template("${module_name}/extension/stats/conf.ini"),
   }
 

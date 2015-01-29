@@ -2,11 +2,11 @@ node default {
 
   require 'mysql::server'
 
-  mysql::user {'foo@localhost':
+  mysql::user { 'foo@localhost':
     password => 'mypass',
   }
 
-  mysql::user {'bar@localhost':
+  mysql::user { 'bar@localhost':
     password => 'mypass',
   }
 }

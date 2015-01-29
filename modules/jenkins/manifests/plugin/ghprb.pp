@@ -10,7 +10,7 @@ class jenkins::plugin::ghprb(
   $config_puppet = '/var/lib/jenkins/org.jenkinsci.plugins.ghprb.GhprbTrigger-puppet.xml'
   $config_jenkins = '/var/lib/jenkins/org.jenkinsci.plugins.ghprb.GhprbTrigger.xml'
 
-  file {$config_puppet:
+  file { $config_puppet:
     ensure    => 'present',
     content   => template("${module_name}/plugin/ghprb.xml"),
     owner     => 'jenkins',
@@ -20,18 +20,18 @@ class jenkins::plugin::ghprb(
   ->
 
   # Compare beginning of config file (first $L lines), and copy if they differ
-  exec {$config_jenkins:
-    command => "cp ${config_puppet} ${config_jenkins}",
+  exec { $config_jenkins:
+    command   => "cp ${config_puppet} ${config_jenkins}",
     logoutput => true,
-    unless => "bash -c 'L=$(($(wc -l < ${config_puppet}) - 1)) && diff <(head -n \${L} ${config_puppet}) <(head -n \${L} ${config_jenkins})'",
-    provider => shell,
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    user => 'jenkins',
-    group => 'nogroup',
+    unless    => "bash -c 'L=$(($(wc -l < ${config_puppet}) - 1)) && diff <(head -n \${L} ${config_puppet}) <(head -n \${L} ${config_jenkins})'",
+    provider  => shell,
+    path      => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    user      => 'jenkins',
+    group     => 'nogroup',
   }
   ->
 
-  jenkins::plugin {'ghprb':
+  jenkins::plugin { 'ghprb':
     version => '1.9',
   }
 

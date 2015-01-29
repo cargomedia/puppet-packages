@@ -22,13 +22,13 @@ define nginx::resource::location(
     notify => Class['nginx::service'],
   }
 
-  ## Shared Variables
+## Shared Variables
   $ensure_real = $ensure ? {
     'absent' => absent,
     default  => file,
   }
 
-  # Use proxy template if $proxy is defined, otherwise use directory template.
+# Use proxy template if $proxy is defined, otherwise use directory template.
   if ($proxy != undef) {
     $content_real = template("${module_name}/vhost/vhost_location_proxy.erb")
   } elsif ($location_alias != undef) {
@@ -41,7 +41,7 @@ define nginx::resource::location(
     $content_real = template("${module_name}/vhost/vhost_location.erb")
   }
 
-  ## Check for various error conditions
+## Check for various error conditions
   if ($vhost == undef) {
     fail('Cannot create a location reference without attaching to a virtual host')
   }
@@ -49,17 +49,17 @@ define nginx::resource::location(
     fail('Cannot define both directory and proxy in a virtual host')
   }
 
-  ## Create stubs for vHost File Fragment Pattern
+## Create stubs for vHost File Fragment Pattern
   if ($ssl_only != true) {
-    file {"${nginx::config::nx_temp_dir}/nginx.d/${vhost}-500-${name}":
+    file { "${nginx::config::nx_temp_dir}/nginx.d/${vhost}-500-${name}":
       ensure  => $ensure_real,
       content => $content_real,
     }
   }
 
-  ## Only create SSL Specific locations if $ssl is true.
+## Only create SSL Specific locations if $ssl is true.
   if ($ssl == true) {
-    file {"${nginx::config::nx_temp_dir}/nginx.d/${vhost}-800-${name}-ssl":
+    file { "${nginx::config::nx_temp_dir}/nginx.d/${vhost}-800-${name}-ssl":
       ensure  => $ensure_real,
       content => $content_real,
     }

@@ -1,26 +1,26 @@
 require 'spec_helper'
 
 eth1_matches = [
-    'iface eth1 inet static',
-    'address 10.10.20.122',
-    'netmask 255.255.255.0',
-    'slaves eth2 eth3',
-    'mtu 9000',
-    'bond-mode 4',
-    'bond-miimon 100',
-    'bond-downdelay 0',
-    'bond-updelay 0',
-    'bond-lacp-rate fast',
-    'bond-xmit_hash_policy 1',
-    'up route add -net 10.10.130.0 netmask 255.255.255.0 gw 10.10.20.128'
+  'iface eth1 inet static',
+  'address 10.10.20.122',
+  'netmask 255.255.255.0',
+  'slaves eth2 eth3',
+  'mtu 9000',
+  'bond-mode 4',
+  'bond-miimon 100',
+  'bond-downdelay 0',
+  'bond-updelay 0',
+  'bond-lacp-rate fast',
+  'bond-xmit_hash_policy 1',
+  'up route add -net 10.10.130.0 netmask 255.255.255.0 gw 10.10.20.128'
 ]
 
 eth3_matches = [
-    'iface eth3 inet manual',
-    'address 10.10.40.10',
-    'netmask 255.255.255.0',
-    'gateway 10.10.40.1',
-    'mtu 16000',
+  'iface eth3 inet manual',
+  'address 10.10.40.10',
+  'netmask 255.255.255.0',
+  'gateway 10.10.40.1',
+  'mtu 16000',
 ]
 
 

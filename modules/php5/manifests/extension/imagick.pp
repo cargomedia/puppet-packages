@@ -5,19 +5,19 @@ class php5::extension::imagick (
   require 'build'
   require 'php5'
 
-  package {'libmagickwand-dev':
+  package { 'libmagickwand-dev':
     ensure => present,
   }
   ->
 
-  helper::script {'install php5::extension::imagick':
+  helper::script { 'install php5::extension::imagick':
     content => template("${module_name}/extension/imagick/install.sh"),
-    unless => "php --re imagick | grep -w 'imagick version ${version}'",
+    unless  => "php --re imagick | grep -w 'imagick version ${version}'",
     require => Class['php5'],
   }
   ->
 
-  php5::config_extension {'imagick':
+  php5::config_extension { 'imagick':
     content => template("${module_name}/extension/imagick/conf.ini"),
   }
 

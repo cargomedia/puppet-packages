@@ -1,10 +1,10 @@
 class virtualbox {
 
-  apt::source {'virtualbox':
+  apt::source { 'virtualbox':
     entries => [
       "deb http://download.virtualbox.org/virtualbox/debian ${::lsbdistcodename} contrib non-free",
     ],
-    keys => {
+    keys    => {
       'virtualbox' => {
         key     => '98AB5139',
         key_url => 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc',
@@ -13,11 +13,11 @@ class virtualbox {
   }
   ->
 
-  package {'virtualbox-4.3':
+  package { 'virtualbox-4.3':
     ensure => present,
   }
 
-  package {'dkms':
+  package { 'dkms':
     ensure => present,
   }
 }

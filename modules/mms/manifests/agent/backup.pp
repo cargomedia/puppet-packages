@@ -9,7 +9,7 @@ class mms::agent::backup (
   $agent_name = 'mms-backup'
   $daemon_args = '-c /etc/mongodb-mms/backup-agent.config'
 
-  helper::script {'install-mms-backup':
+  helper::script { 'install-mms-backup':
     content => template("${module_name}/install.sh"),
     unless  => "(test -x /usr/bin/mongodb-${agent_name}-agent) && (/usr/bin/mongodb-${agent_name}-agent -version | grep -q ${version})",
   }
@@ -29,14 +29,15 @@ class mms::agent::backup (
     init_file_content => template("${module_name}/init"),
     require           => Helper::Script['install-mms-backup'],
     notify            => Service[$agent_name];
+  helper::service{ $agent_name:
   }
   ->
 
-  service {$agent_name:
+  service { $agent_name:
     hasrestart => true
   }
 
-  @monit::entry {'mms-backup':
+  @monit::entry { 'mms-backup':
     content => template("${module_name}/monit"),
     require => Service[$agent_name],
   }

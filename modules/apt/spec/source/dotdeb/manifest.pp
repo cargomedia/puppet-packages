@@ -1,4 +1,4 @@
 node default {
 
-  class {'apt::source::dotdeb':}
+  class { 'apt::source::dotdeb': }
 }

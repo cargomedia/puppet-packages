@@ -1,6 +1,6 @@
 node default {
 
-  class {'timezone':
+  class { 'timezone':
     code => 'Europe/Berlin'
   }
 

@@ -1,3 +1,3 @@
 node default {
-  class {'logrotate':}
+  class { 'logrotate': }
 }

@@ -6,7 +6,7 @@ class jenkins::plugin::git(
   require 'jenkins::plugin::git_client'
   require 'jenkins::plugin::ssh_agent'
 
-  file {'/var/lib/jenkins/hudson.plugins.git.GitSCM.xml':
+  file { '/var/lib/jenkins/hudson.plugins.git.GitSCM.xml':
     ensure    => 'present',
     content   => template("${module_name}/plugin/git.xml"),
     owner     => 'jenkins',
@@ -15,7 +15,7 @@ class jenkins::plugin::git(
   }
   ->
 
-  jenkins::plugin {'git':
+  jenkins::plugin { 'git':
     version => '1.5.0',
   }
 

@@ -1,11 +1,11 @@
 node default {
   require 'sudo'
 
-  user {'foo':
+  user { 'foo':
     ensure => present,
   }
 
-  sudo::config {'foo':
+  sudo::config { 'foo':
     content => 'foo ALL=NOPASSWD:ALL'
   }
 }

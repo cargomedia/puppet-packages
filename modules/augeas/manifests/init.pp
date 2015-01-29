@@ -1,6 +1,6 @@
 class augeas {
 
-  package {'libaugeas-ruby':
+  package { 'libaugeas-ruby':
     ensure => installed,
   }
 }

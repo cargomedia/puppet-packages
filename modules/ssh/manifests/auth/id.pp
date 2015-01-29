@@ -3,8 +3,8 @@ define ssh::auth::id (
   $user
 ) {
 
-  @@ssh::pair {"${title}@${::fqdn}":
-    id => $id,
+  @@ssh::pair { "${title}@${::fqdn}":
+    id   => $id,
     user => $user,
     fqdn => $::fqdn,
   }

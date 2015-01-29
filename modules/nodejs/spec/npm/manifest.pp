@@ -2,8 +2,8 @@ node default {
 
   require 'nodejs'
 
-  package {'redis':
+  package { 'redis':
     provider => 'npm',
-    require => Class['nodejs'],
+    require  => Class['nodejs'],
   }
 }

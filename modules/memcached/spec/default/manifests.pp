@@ -2,7 +2,7 @@ node default {
 
   require 'monit'
 
-  class {'memcached':
+  class { 'memcached':
     max_connections => 99
   }
 }

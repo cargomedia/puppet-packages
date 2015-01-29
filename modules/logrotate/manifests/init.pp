@@ -1,22 +1,22 @@
 class logrotate {
 
-  file {'/etc/logrotate.conf':
-    ensure => file,
+  file { '/etc/logrotate.conf':
+    ensure  => file,
     content => template("${module_name}/logrotate.conf"),
-    owner => '0',
-    group => '0',
-    mode => '0644',
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
   }
 
-  file {'/etc/logrotate.d':
+  file { '/etc/logrotate.d':
     ensure => directory,
-    owner => '0',
-    group => '0',
-    mode => '0755',
+    owner  => '0',
+    group  => '0',
+    mode   => '0755',
   }
 
-  package {'logrotate':
-    ensure => present,
+  package { 'logrotate':
+    ensure  => present,
     require => File['/etc/logrotate.conf', '/etc/logrotate.d'],
   }
 }

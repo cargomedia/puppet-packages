@@ -4,10 +4,10 @@ class ssh::knownhosts {
 
   $aliases = get_knownhosts($::fqdn)
 
-  @@ssh::knownhost {$::clientcert:
+  @@ssh::knownhost { $::clientcert:
     hostname => $::fqdn,
-    aliases => $aliases,
-    key => $::sshrsakey,
+    aliases  => $aliases,
+    key      => $::sshrsakey,
   }
 
   Ssh::Knownhost <<| |>>

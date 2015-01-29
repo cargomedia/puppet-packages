@@ -10,11 +10,11 @@ class wowza (
 
   include 'wowza::service'
 
-  user {'wowza':
+  user { 'wowza':
     ensure => present,
   }
 
-  helper::script {'install wowza':
+  helper::script { 'install wowza':
     content => template("${module_name}/install.sh"),
     unless  => "dpkg-query -f '\${Status} \${Version}\n' -W wowzastreamingengine-${version} | grep -q 'ok installed ${version}'",
     timeout => 900,
@@ -52,7 +52,7 @@ class wowza (
     notify            => Service['wowza'],
   }
 
-  @monit::entry {'wowza':
+  @monit::entry { 'wowza':
     content => template("${module_name}/monit"),
   }
 }
