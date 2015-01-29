@@ -17,7 +17,7 @@ class mms::agent::monitoring (
     unless  => "(test -x /usr/bin/mongodb-${agent_name}-agent) && (/usr/bin/mongodb-${agent_name}-agent -version | grep -q ${version})",
   }
 
-  file {'/etc/mongodb-mms/monitoring-agent.config':
+  file { '/etc/mongodb-mms/monitoring-agent.config':
     ensure  => file,
     content => template("${module_name}/conf-monitoring"),
     owner   => '0',
@@ -28,7 +28,7 @@ class mms::agent::monitoring (
   }
   ->
 
-  helper::service {$agent_name:
+  helper::service { $agent_name:
     init_file_content => template("${module_name}/init"),
     subscribe         => File["/etc/init.d/${agent_name}"],
     require           => Helper::Script['install-mms-monitoring'],

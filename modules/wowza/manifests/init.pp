@@ -47,7 +47,7 @@ class wowza (
   }
   ->
 
-  helper::service {'wowza':
+  helper::service { 'wowza':
     init_file_content => template("${module_name}/init"),
     notify            => Service['wowza'],
   }
