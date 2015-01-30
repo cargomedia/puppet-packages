@@ -1,5 +1,5 @@
 class s3export_backup (
-  $version = '0.1.2',
+  $version = '0.2.0',
   $aws_key,
   $aws_secret,
   $aws_region,
