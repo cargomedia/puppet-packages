@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe file('/var/log/gearman-job-server/gearman-persist.sqlite3') do
   it { should be_file }
-  it { should be_owned_by 'gearman'}
+  it { should be_owned_by 'gearman' }
 end
 
 describe file('/etc/default/gearman-job-server') do

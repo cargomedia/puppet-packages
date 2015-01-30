@@ -1,6 +1,6 @@
 class build::make {
 
-  package {'make':
+  package { 'make':
     ensure => present,
   }
 }

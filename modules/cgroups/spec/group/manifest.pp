@@ -1,13 +1,13 @@
 node default {
 
-  cgroups::group {'puppet': }
+  cgroups::group { 'puppet': }
 
-  cgroups::group {'vagrant':
-    perm_task_uid => 'vagrant',
-    perm_task_gid => 'vagrant',
+  cgroups::group { 'vagrant':
+    perm_task_uid  => 'vagrant',
+    perm_task_gid  => 'vagrant',
     perm_admin_uid => 'vagrant',
     perm_admin_gid => 'vagrant',
-    controllers => {
+    controllers    => {
       'cpu' => {
         'cpu.shares' => 200
       },

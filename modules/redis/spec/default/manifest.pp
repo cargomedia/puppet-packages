@@ -2,6 +2,6 @@ node default {
 
   require 'monit'
 
-  class {'redis':
+  class { 'redis':
   }
 }

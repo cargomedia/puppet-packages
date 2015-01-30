@@ -1,6 +1,6 @@
 node default {
 
-  class {'network::hostname':
+  class { 'network::hostname':
     fqdn => 'foo',
   }
 }

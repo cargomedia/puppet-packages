@@ -1,6 +1,6 @@
 node default {
 
-  class {'phpunit':
+  class { 'phpunit':
     version => '3.7.27',
   }
 }

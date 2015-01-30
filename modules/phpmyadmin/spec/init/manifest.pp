@@ -1,4 +1,4 @@
 node default {
 
-  class {'phpmyadmin':}
+  class { 'phpmyadmin': }
 }

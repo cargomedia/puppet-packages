@@ -1,6 +1,6 @@
 class build::gpp {
 
-  package {'g++':
+  package { 'g++':
     ensure => present,
   }
 }

@@ -1,6 +1,6 @@
 class unzip {
 
-  package {'unzip':
+  package { 'unzip':
     ensure => present,
   }
 }

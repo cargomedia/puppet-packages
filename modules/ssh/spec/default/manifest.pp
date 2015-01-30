@@ -1,6 +1,6 @@
 node default {
 
-  class {'ssh':
+  class { 'ssh':
     permit_root_login => 'without-password',
   }
 }

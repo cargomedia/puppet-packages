@@ -1,10 +1,10 @@
 class jenkins::package {
 
-  apt::source {'jenkins':
+  apt::source { 'jenkins':
     entries => [
       'deb http://pkg.jenkins-ci.org/debian binary/',
     ],
-    keys => {
+    keys    => {
       'jenkins' => {
         key     => 'D50582E6',
         key_url => 'http://pkg.jenkins-ci.org/debian/jenkins-ci.org.key',
@@ -13,7 +13,7 @@ class jenkins::package {
   }
   ->
 
-  package {'jenkins':
+  package { 'jenkins':
     ensure => present,
   }
 

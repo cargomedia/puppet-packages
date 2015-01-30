@@ -1,5 +1,5 @@
 node default {
 
-  class {'php5::extension::opcache':
+  class { 'php5::extension::opcache':
   }
 }

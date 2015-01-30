@@ -6,30 +6,30 @@ class mysql::server::master (
   $debian_sys_maint_password = undef
 ) {
 
-  @@mysql::server::instance {$replication_id:
-    root_password => $root_password,
+  @@mysql::server::instance { $replication_id:
+    root_password             => $root_password,
     debian_sys_maint_password => $debian_sys_maint_password,
   }
   Mysql::Server::Instance <<| title == $replication_id |>>
 
-  file {'/etc/mysql/conf.d/master.cnf':
-    ensure => file,
+  file { '/etc/mysql/conf.d/master.cnf':
+    ensure  => file,
     content => template("${module_name}/conf.d/master.cnf"),
-    owner => 'root',
-    group => 'mysql',
-    mode => '0640',
+    owner   => 'root',
+    group   => 'mysql',
+    mode    => '0640',
     require => User['mysql'],
-    before => Package['mysql-server'],
-    notify => Service['mysql'],
+    before  => Package['mysql-server'],
+    notify  => Service['mysql'],
   }
 
-  mysql::user {'replication@%':
+  mysql::user { 'replication@%':
     password => $replication_password,
   }
   ->
 
-  database_grant {'replication@%':
+  database_grant { 'replication@%':
     privileges => ['repl_slave_priv'],
-    provider => 'mysql',
+    provider   => 'mysql',
   }
 }

@@ -13,14 +13,14 @@ class php5::extension::opcache (
   require 'build'
   require 'php5'
 
-  helper::script {'install php5::extension::opcache':
+  helper::script { 'install php5::extension::opcache':
     content => template("${module_name}/extension/opcache/install.sh"),
-    unless => "php --re 'Zend OPcache' | grep 'Zend OPcache version ${version_output} '",
+    unless  => "php --re 'Zend OPcache' | grep 'Zend OPcache version ${version_output} '",
     require => Class['php5'],
   }
   ->
 
-  php5::config_extension {'opcache':
+  php5::config_extension { 'opcache':
     content => template("${module_name}/extension/opcache/conf.ini"),
   }
 

@@ -8,50 +8,50 @@ class elasticsearch (
 
   $version = '1.3.1'
 
-  file {'/etc/default/elasticsearch':
-    ensure => file,
+  file { '/etc/default/elasticsearch':
+    ensure  => file,
     content => template("${module_name}/default"),
-    owner => '0',
-    group => '0',
-    mode => '0755',
-    before => Helper::Script['install elasticsearch'],
-    notify => Service['elasticsearch'],
+    owner   => '0',
+    group   => '0',
+    mode    => '0755',
+    before  => Helper::Script['install elasticsearch'],
+    notify  => Service['elasticsearch'],
   }
 
-  file {'/etc/elasticsearch':
+  file { '/etc/elasticsearch':
     ensure => directory,
-    owner => '0',
-    group => '0',
-    mode => '0755',
+    owner  => '0',
+    group  => '0',
+    mode   => '0755',
   }
 
-  file {'/etc/elasticsearch/elasticsearch.yml':
-    ensure => file,
+  file { '/etc/elasticsearch/elasticsearch.yml':
+    ensure  => file,
     content => template("${module_name}/elasticsearch.yml"),
-    owner => '0',
-    group => '0',
-    mode => '0644',
-    before => Helper::Script['install elasticsearch'],
-    notify => Service['elasticsearch'],
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
+    before  => Helper::Script['install elasticsearch'],
+    notify  => Service['elasticsearch'],
   }
 
-  helper::script {'install elasticsearch':
+  helper::script { 'install elasticsearch':
     content => template("${module_name}/install.sh"),
-    unless => "/usr/share/elasticsearch/bin/elasticsearch -v | grep -q '\s${version},'"
+    unless  => "/usr/share/elasticsearch/bin/elasticsearch -v | grep -q '\s${version},'"
   }
   ->
 
-  service {'elasticsearch':
+  service { 'elasticsearch':
     hasrestart => true,
   }
 
-  @monit::entry {'elasticsearch':
+  @monit::entry { 'elasticsearch':
     content => template("${module_name}/monit"),
     require => Service['elasticsearch'],
   }
 
-  @bipbip::entry {'elasticsearch':
-    plugin => 'elasticsearch',
+  @bipbip::entry { 'elasticsearch':
+    plugin  => 'elasticsearch',
     options => {
       'hostname' => 'localhost',
       'port' => '9200',

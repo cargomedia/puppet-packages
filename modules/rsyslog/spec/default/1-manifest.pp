@@ -1,5 +1,5 @@
 node default {
 
-  class {'rsyslog':
+  class { 'rsyslog':
   }
 }

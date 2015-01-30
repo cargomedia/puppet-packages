@@ -11,25 +11,25 @@ class lvm::install (
 
   include 'lvm'
 
-  class {'lvm::package': }
+  class { 'lvm::package': }
 
   case $logicalVolumeFilesystem {
     'xfs': {
-      class {'lvm::base::xfs': }
+      class { 'lvm::base::xfs': }
 
-      cron {'xfs-maintenance':
-        ensure => absent,
+      cron { 'xfs-maintenance':
+        ensure  => absent,
         command => "/usr/sbin/xfs_fsr ${logicalVolumeMountpoint} >/dev/null",
-        user => 'root',
-        minute => 30,
-        hour => 2,
+        user    => 'root',
+        minute  => 30,
+        hour    => 2,
         require => Class['lvm::base::xfs'],
       }
 
       if $expandTools == true {
-        class {'lvm::expand::raid::adaptec':
+        class { 'lvm::expand::raid::adaptec':
           logicalVolumeName => $logicalVolumeName,
-          volumeGroupName => $volumeGroupName,
+          volumeGroupName   => $volumeGroupName,
         }
       }
 
@@ -44,28 +44,28 @@ class lvm::install (
     $mount_options = $logicalVolumeMountOptions
   }
 
-  helper::script {'install lvm':
+  helper::script { 'install lvm':
     content => template("${module_name}/install"),
-    unless => "lvs | grep -q ${logicalVolumeName}",
+    unless  => "lvs | grep -q ${logicalVolumeName}",
     require => Class['lvm::package'],
   }
 
   if $logicalVolumeMountpoint != undef {
-    file {$logicalVolumeMountpoint:
+    file { $logicalVolumeMountpoint:
       ensure => directory,
     }
 
     $mountOptions = $mount_options ? { undef => $logicalVolumeMountOptions,  default => $mount_options }
-    mount::entry {'mount lvm':
-      source => "/dev/${volumeGroupName}/${logicalVolumeName}",
-      target => $logicalVolumeMountpoint,
-      type => $logicalVolumeFilesystem,
-      options => $mountOptions,
+    mount::entry { 'mount lvm':
+      source      => "/dev/${volumeGroupName}/${logicalVolumeName}",
+      target      => $logicalVolumeMountpoint,
+      type        => $logicalVolumeFilesystem,
+      options     => $mountOptions,
       mount_check => true,
     }
 
     $mountBasename = file_basename($logicalVolumeMountpoint)
-    @monit::entry {"fs-check-${mountBasename}":
+    @monit::entry { "fs-check-${mountBasename}":
       content => template("${module_name}/monit"),
     }
   }

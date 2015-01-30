@@ -2,7 +2,7 @@ node default {
 
   require 'monit'
 
-  class {'ntp':
+  class { 'ntp':
   }
 
 }

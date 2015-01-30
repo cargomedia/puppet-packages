@@ -1,6 +1,6 @@
 class rsync {
 
-  package {'rsync':
+  package { 'rsync':
     ensure => present,
   }
 }

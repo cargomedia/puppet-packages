@@ -1,5 +1,5 @@
 node default {
 
-  class {'monit':}
-  class {'monit::entry::system':}
+  class { 'monit': }
+  class { 'monit::entry::system': }
 }

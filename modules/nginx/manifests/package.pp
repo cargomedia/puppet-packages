@@ -1,11 +1,11 @@
 class nginx::package {
 
-  apt::source {'nginx':
+  apt::source { 'nginx':
     entries => [
       "deb http://nginx.org/packages/debian/ ${::lsbdistcodename} nginx",
       "deb-src http://nginx.org/packages/debian/ ${::lsbdistcodename} nginx"
     ],
-    keys => {
+    keys    => {
       'nginx' => {
         key     => '7BD9BF62',
         key_url => 'http://nginx.org/keys/nginx_signing.key',
@@ -14,7 +14,7 @@ class nginx::package {
   }
   ->
 
-  package {'nginx':
+  package { 'nginx':
     ensure => present,
   }
 }

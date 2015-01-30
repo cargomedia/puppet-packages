@@ -10,13 +10,13 @@ class network::hostname(
     default => [$hostname, 'localhost']
   }
 
-  network::host {$fqdn:
-    ipaddr => '127.0.0.1',
+  network::host { $fqdn:
+    ipaddr  => '127.0.0.1',
     aliases => $aliases,
-    before => Class['network::host::purge'],
+    before  => Class['network::host::purge'],
   }
 
-  file {'/etc/mailname':
+  file { '/etc/mailname':
     ensure  => present,
     owner   => 'root',
     group   => 'root',
@@ -24,7 +24,7 @@ class network::hostname(
     content => "${fqdn}\n",
   }
 
-  file {'/etc/hostname':
+  file { '/etc/hostname':
     ensure  => present,
     owner   => 'root',
     group   => 'root',
@@ -33,7 +33,7 @@ class network::hostname(
     notify  => Exec['hostname.sh'],
   }
 
-  exec {'hostname.sh':
+  exec { 'hostname.sh':
     command     => '/etc/init.d/hostname.sh start',
     refreshonly => true,
   }

@@ -5,7 +5,7 @@ class network::resolv (
 ) {
 
   file { '/etc/resolv.conf':
-    ensure => file,
+    ensure  => file,
     content => template("${module_name}/resolv.conf"),
   }
 }

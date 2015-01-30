@@ -1,18 +1,18 @@
-class sysctl ($entries = {}) {
+class sysctl ($entries = { }) {
 
   $localEntries = hiera_hash('sysctl::entries', $entries)
 
-  if $localEntries != {} {
-    file {'/etc/sysctl.conf':
-      ensure => file,
+  if $localEntries != { } {
+    file { '/etc/sysctl.conf':
+      ensure  => file,
       content => template("${module_name}/sysctl"),
-      owner => '0',
-      group => '0',
-      mode => '0644',
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
     }
     ~>
 
-    exec {'/sbin/sysctl -p /etc/sysctl.conf':
+    exec { '/sbin/sysctl -p /etc/sysctl.conf':
       refreshonly => true,
     }
   }

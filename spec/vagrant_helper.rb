@@ -13,22 +13,30 @@ class VagrantHelper
       execute_local('vagrant plugin install vagrant-vbox-snapshot')
     end
 
-    # Workaround
-    # Override exit code because of bug (https://github.com/dergachev/vagrant-vbox-snapshot/issues/17)
-    has_snapshot = execute_local("vagrant snapshot list #{@box} 2>/dev/null || true").match(/Name: default /)
-    is_running = execute_local("vagrant status #{@box}").match(/running/)
+    if status == 'not created'
+      has_snapshot = false
+    else
+      has_snapshot = execute_local("vagrant snapshot list #{@box}").match(/Name: default /)
+    end
 
-    unless has_snapshot
+    if has_snapshot
+      execute_local("vagrant snapshot go #{@box} default")
+    else
       execute_local("vagrant destroy -f #{@box}")
       execute_local("vagrant up --no-provision #{@box}", {'DISABLE_PROXY' => 'true'})
       execute_local("vagrant provision #{@box}", {'DISABLE_PROXY' => 'true'})
-      execute_local('vagrant provision')
+      execute_local("vagrant provision #{@box}")
       execute_local("vagrant snapshot take #{@box} default")
     end
-    unless is_running
-      execute_local("vagrant up #{@box}")
+  end
+
+  def status
+    output = execute_local("vagrant status #{@box}")
+    match_data = /^#{@box}\s+(.+?)\s+\(.+?\)$/.match(output)
+    if match_data.nil?
+      raise "Cannot detect machine status from output: `#{output}`."
     end
-    execute_local("vagrant snapshot go #{@box} default")
+    match_data[1]
   end
 
   def connect
@@ -40,7 +48,7 @@ class VagrantHelper
       if match = /HostName (.*)/.match(line)
         host = match[1]
         options = Net::SSH::Config.for(host)
-      elsif  match = /User (.*)/.match(line)
+      elsif match = /User (.*)/.match(line)
         user = match[1]
       elsif match = /IdentityFile (.*)/.match(line)
         options[:keys] = [match[1].gsub(/"/, '')]

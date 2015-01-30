@@ -1,6 +1,6 @@
 node default {
 
-  class {'ffmpeg':
+  class { 'ffmpeg':
   }
 
 }

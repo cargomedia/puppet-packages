@@ -1,4 +1,4 @@
 node default {
 
-  class {'composer':}
+  class { 'composer': }
 }

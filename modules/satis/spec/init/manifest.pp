@@ -1,6 +1,6 @@
 node default {
 
-  class {'satis':
+  class { 'satis':
     hostname => 'example.com',
   }
 }

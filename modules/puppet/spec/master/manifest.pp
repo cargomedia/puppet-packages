@@ -1,6 +1,6 @@
 node default {
 
-  class {'puppet::master':
+  class { 'puppet::master':
   }
 
 }

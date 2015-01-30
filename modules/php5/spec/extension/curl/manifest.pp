@@ -1,4 +1,4 @@
 node default {
 
-  class {'php5::extension::curl':}
+  class { 'php5::extension::curl': }
 }

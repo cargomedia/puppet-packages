@@ -2,12 +2,12 @@ class monit::service {
 
   require 'monit'
 
-  service {'monit':
+  service { 'monit':
     hasrestart => true,
   }
 
-  @bipbip::entry {'monit':
-    plugin => 'monit',
-    options => {},
+  @bipbip::entry { 'monit':
+    plugin  => 'monit',
+    options => { },
   }
 }

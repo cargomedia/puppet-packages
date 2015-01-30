@@ -14,11 +14,11 @@ class nginx (
   $confd_purge            = $nginx::params::nx_confd_purge,
 ) inherits nginx::params {
 
-  class {'nginx::package':
+  class { 'nginx::package':
     notify => Class['nginx::service'],
   }
 
-  class {'nginx::config':
+  class { 'nginx::config':
     daemon_user           => $daemon_user,
     worker_processes      => $worker_processes,
     worker_connections    => $worker_connections,
@@ -36,9 +36,9 @@ class nginx (
     notify                => Class['nginx::service'],
   }
 
-  class {'nginx::service': }
+  class { 'nginx::service': }
 
-  @monit::entry {'nginx':
+  @monit::entry { 'nginx':
     content => template("${module_name}/monit/nginx"),
     require => Service['nginx'],
   }

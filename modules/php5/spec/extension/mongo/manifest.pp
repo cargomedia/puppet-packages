@@ -1,4 +1,4 @@
 node default {
 
-  class {'php5::extension::mongo':}
+  class { 'php5::extension::mongo': }
 }

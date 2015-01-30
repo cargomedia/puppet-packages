@@ -6,18 +6,18 @@ define composer::config(
 
   require 'composer'
 
-  file {"${user_home}/.composer":
+  file { "${user_home}/.composer":
     ensure => directory,
-    owner => $user,
-    group => $user,
-    mode => '0644',
+    owner  => $user,
+    group  => $user,
+    mode   => '0644',
   }
 
-  file {"${user_home}/.composer/config.json":
-    ensure => file,
+  file { "${user_home}/.composer/config.json":
+    ensure  => file,
     content => template("${module_name}/config"),
-    owner => $user,
-    group => $user,
-    mode => '0644',
+    owner   => $user,
+    group   => $user,
+    mode    => '0644',
   }
 }

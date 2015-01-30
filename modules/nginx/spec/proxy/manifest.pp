@@ -52,7 +52,7 @@ UEmQgwSdfYTu5DLSuey9YMI6m3kSohQzpmHRZoGwFwBGh/hsrNjkYZHtzGbNfhg5
 z5jiDSPskspb8TxB7mD/QtGd/K2UAhECw0n+dET8t9mzsHp5aqYeyMs=
 -----END RSA PRIVATE KEY-----'
 
-  class {'nginx':
+  class { 'nginx':
     worker_processes      => 6,
     worker_rlimit_nofile  => 20000,
     worker_connections    => 10000,
@@ -60,14 +60,14 @@ z5jiDSPskspb8TxB7mD/QtGd/K2UAhECw0n+dET8t9mzsHp5aqYeyMs=
     access_log            => 'off',
   }
 
-  nginx::resource::vhost {'staging.cargomedia.ch':
-    ensure            => present,
-    listen_port       => '8090',
-    proxy             => 'http://backend-socketredis',
-    ssl               => true,
-    ssl_port          => '8090',
-    ssl_cert          => $ssl_cert,
-    ssl_key           => $ssl_key,
+  nginx::resource::vhost { 'staging.cargomedia.ch':
+    ensure              => present,
+    listen_port         => '8090',
+    proxy               => 'http://backend-socketredis',
+    ssl                 => true,
+    ssl_port            => '8090',
+    ssl_cert            => $ssl_cert,
+    ssl_key             => $ssl_key,
     location_cfg_append => [
       'proxy_set_header X-Real-IP $remote_addr;',
       'proxy_set_header Host $host;',
@@ -80,9 +80,9 @@ z5jiDSPskspb8TxB7mD/QtGd/K2UAhECw0n+dET8t9mzsHp5aqYeyMs=
     ]
   }
 
-  nginx::resource::upstream {'backend-socketredis':
-    ensure  => present,
-    members => [
+  nginx::resource::upstream { 'backend-socketredis':
+    ensure              => present,
+    members             => [
       'localhost:8096',
       'localhost:8097',
       'localhost:8098',

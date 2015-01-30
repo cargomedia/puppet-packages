@@ -4,7 +4,7 @@ class mongodb::role::arbiter (
   $hostname = 'localhost',
   $repl_set,
   $repl_members,
-  $options = {}
+  $options = { }
 ) {
 
   $defaults = {
@@ -13,19 +13,19 @@ class mongodb::role::arbiter (
     'noprealloc' => true,
   }
 
-  mongodb::core::mongod {'arbiter':
-    port => $port,
-    bind_ip => $bind_ip,
+  mongodb::core::mongod { 'arbiter':
+    port         => $port,
+    bind_ip      => $bind_ip,
     shard_server => true,
-    repl_set => $repl_set,
-    options => merge($defaults, $options),
+    repl_set     => $repl_set,
+    options      => merge($defaults, $options),
   }
 
-  mongodb_replset {$repl_set:
-    ensure => present,
-    members => $repl_members,
+  mongodb_replset { $repl_set:
+    ensure   => present,
+    members  => $repl_members,
     arbiters => ["${hostname}:${port}"],
-    require => Mongodb::Core::Mongod['arbiter'],
+    require  => Mongodb::Core::Mongod['arbiter'],
   }
 
 }

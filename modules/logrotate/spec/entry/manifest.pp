@@ -13,16 +13,16 @@ $logrotate_conf = '
 
 node default {
 
-  file {'/var/log/foo':
+  file { '/var/log/foo':
     ensure => directory,
   }
 
-  file {'/var/log/foo/bar.log':
+  file { '/var/log/foo/bar.log':
     ensure => file,
   }
   ->
 
-  logrotate::entry{'foo':
+  logrotate::entry{ 'foo':
     content => $logrotate_conf,
   }
 }
