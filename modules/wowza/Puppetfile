@@ -13,3 +13,7 @@ mod 'cargomedia/helper',
 mod 'cargomedia/monit',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/monit'
+
+mod 'cargomedia/sysvinit',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/sysvinit'

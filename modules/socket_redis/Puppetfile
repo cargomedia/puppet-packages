@@ -10,6 +10,6 @@ mod 'cargomedia/logrotate',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/logrotate'
 
-mod 'cargomedia/helper',
+mod 'cargomedia/sysvinit',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/helper'
+  :path => 'modules/sysvinit'
