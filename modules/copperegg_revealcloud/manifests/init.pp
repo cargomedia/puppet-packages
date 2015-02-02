@@ -47,7 +47,7 @@ class copperegg_revealcloud(
   }
   ->
 
-  helper::service { 'revealcloud':
+  sysvinit::script { 'revealcloud':
     init_file_content => template("${module_name}/init.sh"),
     notify            => Service['revealcloud'],
   }
@@ -58,11 +58,11 @@ class copperegg_revealcloud(
       refreshonly => true,
       user        => '0',
       group       => '0',
-      require     => Helper::Service['revealcloud'],
+      require     => Sysvinit::Script['revealcloud'],
       before      => Service['revealcloud'],
     }
 
-    Helper::Service['revealcloud'] ~> Exec['enable revealcloud node']
+    Sysvinit::Script['revealcloud'] ~> Exec['enable revealcloud node']
   }
 
   service { 'revealcloud':

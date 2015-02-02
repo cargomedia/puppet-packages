@@ -28,7 +28,7 @@ class cgroups {
     source => 'puppet:///modules/cgroups/cgconfig.aug',
   }
 
-  helper::service { 'cgconfig-apply':
+  sysvinit::script { 'cgconfig-apply':
     init_file_content => template("${module_name}/init"),
     notify            => Service['cgconfig-apply'],
     require           => File['/etc/cgconfig.conf'],

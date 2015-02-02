@@ -1,4 +1,4 @@
-define helper::service(
+define sysvinit::script(
   $init_file_content,
 ) {
 

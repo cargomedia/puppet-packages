@@ -71,7 +71,7 @@ class bipbip (
     content => template("${module_name}/logrotate")
   }
 
-  helper::service { 'bipbip':
+  sysvinit::script { 'bipbip':
     init_file_content => template("${module_name}/init.sh"),
     notify            => Service['bipbip'],
     require           => [User['bipbip'], File['/etc/bipbip/config.yml']]

@@ -100,7 +100,7 @@ class socket_redis (
     content => template("${module_name}/logrotate")
   }
 
-  helper::service { 'socket-redis':
+  sysvinit::script { 'socket-redis':
     init_file_content => template("${module_name}/init.sh"),
     notify            => Service['socket-redis'],
     require           => [Package['socket-redis'], User['socket-redis']],
