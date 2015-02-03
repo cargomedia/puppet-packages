@@ -22,6 +22,11 @@ class pulsar_rest_api (
   require 'pulsar'
   require 'nodejs'
 
+  user { 'pulsar-rest-api':
+    ensure => present,
+    system => true,
+  }
+
   if $mongodb_host == 'localhost' {
     class { 'mongodb::role::standalone':
       hostname => $mongodb_host,
@@ -120,9 +125,6 @@ class pulsar_rest_api (
     mode    => '0755',
   }
 
-  logrotate::entry{ $module_name:
-    content => template("${module_name}/logrotate")
-  }
 
   file { '/etc/init.d/pulsar-rest-api':
     ensure  => file,
@@ -135,9 +137,10 @@ class pulsar_rest_api (
   }
   ~>
 
-  exec { 'update-rc.d pulsar-rest-api defaults':
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    refreshonly => true,
+  helper::service {'pulsar-rest-api': }
+
+  logrotate::entry{ $module_name:
+    content => template("${module_name}/logrotate")
   }
 
   package { 'pulsar-rest-api':
