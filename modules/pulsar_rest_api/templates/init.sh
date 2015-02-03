@@ -10,6 +10,7 @@
 ### END INIT INFO
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
+LANG=en_US
 NAME=pulsar-rest-api
 DESC=pulsar-rest-api
 DAEMON=/usr/bin/node
