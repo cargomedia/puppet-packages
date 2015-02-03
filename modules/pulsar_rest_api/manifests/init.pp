@@ -41,14 +41,14 @@ class pulsar_rest_api (
     ensure => directory,
     owner  => '0',
     group  => '0',
-    mode   => '0755',
+    mode   => '0644',
   }
 
   file { '/etc/pulsar-rest-api/ssl':
     ensure => directory,
     owner  => '0',
     group  => '0',
-    mode   => '0755',
+    mode   => '0644',
   }
 
   if $ssl_key {
@@ -117,7 +117,7 @@ class pulsar_rest_api (
     ensure  => directory,
     owner   => 'pulsar-rest-api',
     group   => 'pulsar-rest-api',
-    mode    => '0755',
+    mode    => '0644',
   }
 
 
@@ -126,7 +126,7 @@ class pulsar_rest_api (
     content => template("${module_name}/init.sh"),
     owner   => '0',
     group   => '0',
-    mode    => '0755',
+    mode    => '0644',
     notify  => Service['pulsar-rest-api'],
     before  => Package['pulsar-rest-api'],
   }
