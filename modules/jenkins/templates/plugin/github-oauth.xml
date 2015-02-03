@@ -1,21 +1,13 @@
   <useSecurity>true</useSecurity>
-  <authorizationStrategy class="org.jenkinsci.plugins.GithubAuthorizationStrategy" plugin="github-oauth@0.14">
-  <rootACL>
-    <organizationNameList class="linked-list">
-      <% @organization_name_list.each do |organization_name| -%>
-      <string><%= organization_name %></string>
-      <% end %>
-    </organizationNameList>
-    <adminUserNameList class="linked-list">
-      <% @admin_user_name_list.each do |admin_user_name| -%>
-        <string><%= admin_user_name %></string>
-      <% end %>
-    </adminUserNameList>
-    <authenticatedUserReadPermission>false</authenticatedUserReadPermission>
-    <allowGithubWebHookPermission>false</allowGithubWebHookPermission>
-    <allowCcTrayPermission>false</allowCcTrayPermission>
-    <allowAnonymousReadPermission>false</allowAnonymousReadPermission>
-  </rootACL>
+  <authorizationStrategy class="hudson.security.GlobalMatrixAuthorizationStrategy">
+    <permission>hudson.model.Item.ViewStatus:anonymous</permission>
+    <% @organization_name_list.each do |organization_name| -%>
+    <permission>hudson.model.Item.Read:<%= organization_name %></permission>
+    <permission>hudson.model.Hudson.Read:<%= organization_name %></permission>
+    <% end %>
+    <% @admin_user_name_list.each do |admin_user_name| -%>
+    <permission>hudson.model.Hudson.Administer:<%= admin_user_name %></permission>
+    <% end %>
   </authorizationStrategy>
   <securityRealm class="org.jenkinsci.plugins.GithubSecurityRealm">
   <githubWebUri>https://github.com</githubWebUri>
