@@ -127,7 +127,7 @@ class pulsar_rest_api (
     content => template("${module_name}/init.sh"),
     owner   => '0',
     group   => '0',
-    mode    => '0644',
+    mode    => '0755',
     before  => Package['pulsar-rest-api'],
     notify  => Service['pulsar-rest-api'],
   }
