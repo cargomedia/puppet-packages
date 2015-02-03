@@ -23,8 +23,8 @@ class pulsar_rest_api (
   require 'nodejs'
 
   user { 'pulsar-rest-api':
-    ensure => present,
-    system => true,
+    ensure     => present,
+    system     => true,
   }
 
   if $mongodb_host == 'localhost' {
@@ -54,7 +54,7 @@ class pulsar_rest_api (
     file { $ssl_key_file:
       ensure  => file,
       content => $ssl_key,
-      owner  => 'pulsar-rest-api',
+      owner   => 'pulsar-rest-api',
       group   => '0',
       mode    => '0440',
       before  => File['/etc/init.d/pulsar-rest-api'],
@@ -67,7 +67,7 @@ class pulsar_rest_api (
     file { $ssl_cert_file:
       ensure  => file,
       content => $ssl_cert,
-      owner  => 'pulsar-rest-api',
+      owner   => 'pulsar-rest-api',
       group   => '0',
       mode    => '0440',
       before  => File['/etc/init.d/pulsar-rest-api'],
@@ -80,7 +80,7 @@ class pulsar_rest_api (
     file { $ssl_pfx_file:
       ensure  => file,
       content => $ssl_pfx,
-      owner  => 'pulsar-rest-api',
+      owner   => 'pulsar-rest-api',
       group   => '0',
       mode    => '0440',
       before  => File['/etc/init.d/pulsar-rest-api'],
@@ -104,7 +104,7 @@ class pulsar_rest_api (
   file { '/etc/pulsar-rest-api/config.yml':
     ensure  => file,
     content => template('pulsar_rest_api/config.yml'),
-    owner  => 'pulsar-rest-api',
+    owner   => 'pulsar-rest-api',
     group   => '0',
     mode    => '0440',
     before  => File['/etc/init.d/pulsar-rest-api'],
@@ -112,10 +112,10 @@ class pulsar_rest_api (
   }
 
   user { 'pulsar-rest-api':
-    ensure => present,
-    system => true,
+    ensure     => present,
+    system     => true,
     managehome => true,
-    home => '/home/pulsar-rest-api',
+    home       => '/home/pulsar-rest-api',
   }
 
   file { $log_dir:
@@ -137,7 +137,7 @@ class pulsar_rest_api (
   }
   ~>
 
-  helper::service {'pulsar-rest-api': }
+  helper::service { 'pulsar-rest-api': }
 
   logrotate::entry{ $module_name:
     content => template("${module_name}/logrotate")
