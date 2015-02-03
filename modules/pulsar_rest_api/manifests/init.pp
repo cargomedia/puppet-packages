@@ -19,8 +19,9 @@ class pulsar_rest_api (
   $ssl_passphrase = undef
 ) {
 
-  require 'pulsar'
-  require 'nodejs'
+  require pulsar
+  require nodejs
+  include pulsar_rest_api::service
 
   user { 'pulsar-rest-api':
     ensure     => present,
@@ -35,7 +36,6 @@ class pulsar_rest_api (
       port     => $mongodb_port,
     }
   }
-  include 'pulsar_rest_api::service'
 
   file { '/etc/pulsar-rest-api':
     ensure => directory,
