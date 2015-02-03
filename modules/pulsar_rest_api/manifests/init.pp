@@ -25,6 +25,8 @@ class pulsar_rest_api (
   user { 'pulsar-rest-api':
     ensure     => present,
     system     => true,
+    managehome => true,
+    home       => '/home/pulsar-rest-api',
   }
 
   if $mongodb_host == 'localhost' {
