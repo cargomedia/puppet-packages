@@ -8,7 +8,6 @@ describe port(8080) do
   it { should be_listening }
 end
 
-describe file('/home/pulsar-rest-api') do
-  it { should be_directory}
+describe user('pulsar-rest-api') do
+  it { should have_home_directory '/home/pulsar-rest-api' }
 end
-
