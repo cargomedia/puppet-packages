@@ -1,5 +1,5 @@
 class pulsar_rest_api (
-  $version = '0.1.4',
+  $version = latest,
   $port = 8080,
 
   $mongodb_host = 'localhost',
