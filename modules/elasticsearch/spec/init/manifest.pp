@@ -1,8 +1,8 @@
 node default {
 
-  class {'elasticsearch':
+  class { 'elasticsearch':
     publish_host => 'localhost',
-    heap_size => '123m',
+    heap_size    => '123m',
     cluster_name => 'foo',
   }
 }

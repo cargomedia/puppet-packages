@@ -1,11 +1,11 @@
 node default {
 
-  network::interface {'eth0':
+  network::interface { 'eth0':
     method      => 'dhcp',
   }
   ->
 
-  network::interface {'eth1':
+  network::interface { 'eth1':
     method       => 'static',
     ipaddr       => '10.10.20.122',
     netmask      => '255.255.255.0',
@@ -23,7 +23,7 @@ node default {
   }
   ->
 
-  network::interface {'eth3':
+  network::interface { 'eth3':
     method      => 'manual',
     ipaddr      => '10.10.40.10',
     netmask     => '255.255.255.0',
@@ -32,12 +32,12 @@ node default {
   }
   ->
 
-  network::host {'foo':
+  network::host { 'foo':
     ipaddr  => '10.10.10.100',
     aliases => ['boo', 'moo']
   }
 
-  class {'network::resolv':
+  class { 'network::resolv':
     search     => ['example.local', 'example.com'],
     nameserver => ['172.168.1.2', '8.8.8.8'],
     domain     => 'example.com',

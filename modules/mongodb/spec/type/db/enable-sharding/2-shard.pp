@@ -1,8 +1,8 @@
 node default {
 
-  mongodb_database {'testdb':
+  mongodb_database { 'testdb':
     ensure => present,
-    shard => true,
+    shard  => true,
     router => 'localhost:27017',
   }
 

@@ -1,5 +1,5 @@
 node default {
-  class {'kernel' :
+  class { 'kernel' :
     modules => ['loop', 'foo', 'bar'],
   }
 }

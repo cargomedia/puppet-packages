@@ -1,10 +1,10 @@
 node default {
 
-  class {'jenkins':
+  class { 'jenkins':
     hostname => 'example.com'
   }
 
-  class {'jenkins::plugin::github':
+  class { 'jenkins::plugin::github':
     oauth_access_token => 'foo',
   }
 }

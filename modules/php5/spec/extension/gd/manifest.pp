@@ -1,4 +1,4 @@
 node default {
 
-  class {'php5::extension::gd':}
+  class { 'php5::extension::gd': }
 }

@@ -1,5 +1,5 @@
 node default {
 
-  class {'php5::extension::svm':
+  class { 'php5::extension::svm':
   }
 }

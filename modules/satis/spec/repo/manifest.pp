@@ -1,10 +1,10 @@
 node default {
 
-  class {'satis':
+  class { 'satis':
     hostname => 'example.com',
   }
 
-  satis::repo{'foo':
+  satis::repo{ 'foo':
     content => '{
       "name": "foo",
       "homepage": "http://example.com/foo",
@@ -13,7 +13,7 @@ node default {
     }',
   }
 
-  satis::repo{'bar':
+  satis::repo{ 'bar':
     content => '{
       "name": "bar",
       "homepage": "http://example.com/bar",

@@ -31,13 +31,13 @@ describe command('sleep 10') do
   it { should return_exit_status 0 }
 end
 
-[1935,8083,8086].each do |port|
+[1935, 8083, 8086].each do |port|
   describe port(port) do
     it { should be_listening }
   end
 end
 
-[8084,8085].each do |port|
+[8084, 8085].each do |port|
   describe port(port) do
     it { should_not be_listening }
   end

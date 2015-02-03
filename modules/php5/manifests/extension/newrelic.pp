@@ -7,13 +7,13 @@ class php5::extension::newrelic(
   require 'php5'
   require 'apt::source::newrelic'
 
-  package {['newrelic-php5']:
-    ensure => present,
+  package { ['newrelic-php5']:
+    ensure  => present,
     require => Class['apt::source::newrelic'],
   }
   ->
 
-  php5::config_extension {'newrelic':
+  php5::config_extension { 'newrelic':
     content => template("${module_name}/extension/newrelic/conf.ini"),
   }
 }

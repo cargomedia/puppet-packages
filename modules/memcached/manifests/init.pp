@@ -7,27 +7,27 @@ class memcached (
 
   include 'memcached::service'
 
-  file {'/etc/memcached.conf':
-    ensure => file,
+  file { '/etc/memcached.conf':
+    ensure  => file,
     content => template("${module_name}/memcached.conf"),
-    owner => '0',
-    group => '0',
-    mode => '0644',
-    notify => Service['memcached'],
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
+    notify  => Service['memcached'],
   }
   ->
 
-  package {'memcached':
+  package { 'memcached':
     ensure => present,
   }
 
-  @monit::entry {'memcached':
+  @monit::entry { 'memcached':
     content => template("${module_name}/monit"),
     require => Service['memcached'],
   }
 
-  @bipbip::entry {'memcached':
-    plugin => 'memcached',
+  @bipbip::entry { 'memcached':
+    plugin  => 'memcached',
     options => {
       'hostname' => 'localhost',
       'port' => $port,

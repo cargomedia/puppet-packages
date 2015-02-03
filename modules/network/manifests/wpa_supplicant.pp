@@ -1,6 +1,6 @@
 class network::wpa_supplicant {
 
-  package {'wpasupplicant':
+  package { 'wpasupplicant':
     ensure => present,
   }
 }

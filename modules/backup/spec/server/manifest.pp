@@ -1,6 +1,6 @@
 node default {
 
-  class {'backup::server':
+  class { 'backup::server':
     id => 'my-backup-server',
   }
 

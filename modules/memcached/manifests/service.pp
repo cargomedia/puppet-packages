@@ -1,6 +1,6 @@
 class memcached::service {
 
-  service {'memcached':
+  service { 'memcached':
     require => Package['memcached'],
   }
 }

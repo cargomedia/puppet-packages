@@ -1,6 +1,6 @@
 node default {
 
-  mongodb::core::mongod {'server':
+  mongodb::core::mongod { 'server':
     port => 28017
   }
 

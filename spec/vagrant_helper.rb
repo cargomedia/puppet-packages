@@ -48,7 +48,7 @@ class VagrantHelper
       if match = /HostName (.*)/.match(line)
         host = match[1]
         options = Net::SSH::Config.for(host)
-      elsif  match = /User (.*)/.match(line)
+      elsif match = /User (.*)/.match(line)
         user = match[1]
       elsif match = /IdentityFile (.*)/.match(line)
         options[:keys] = [match[1].gsub(/"/, '')]

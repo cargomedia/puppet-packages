@@ -4,8 +4,8 @@ define python::pip (
 
   require 'python'
 
-  package {$name:
-    ensure => $ensure,
+  package { $name:
+    ensure   => $ensure,
     provider => pip,
   }
 

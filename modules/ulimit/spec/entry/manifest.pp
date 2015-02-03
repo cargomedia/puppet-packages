@@ -1,6 +1,6 @@
 node default {
 
-  ulimit::entry {'mysql':
+  ulimit::entry { 'mysql':
     limits => [
       {
         'domain' => 'mysql',
