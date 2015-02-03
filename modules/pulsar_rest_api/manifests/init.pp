@@ -113,13 +113,6 @@ class pulsar_rest_api (
     notify  => Service['pulsar-rest-api'],
   }
 
-  user { 'pulsar-rest-api':
-    ensure     => present,
-    system     => true,
-    managehome => true,
-    home       => '/home/pulsar-rest-api',
-  }
-
   file { $log_dir:
     ensure  => directory,
     owner   => 'pulsar-rest-api',
