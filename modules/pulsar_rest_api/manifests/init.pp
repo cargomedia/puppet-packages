@@ -59,7 +59,7 @@ class pulsar_rest_api (
       owner   => 'pulsar-rest-api',
       group   => '0',
       mode    => '0440',
-      before  => File['/etc/init.d/pulsar-rest-api'],
+      before  => Package['pulsar-rest-api'],
       notify  => Service['pulsar-rest-api'],
     }
   }
@@ -72,7 +72,7 @@ class pulsar_rest_api (
       owner   => 'pulsar-rest-api',
       group   => '0',
       mode    => '0440',
-      before  => File['/etc/init.d/pulsar-rest-api'],
+      before  => Package['pulsar-rest-api'],
       notify  => Service['pulsar-rest-api'],
     }
   }
@@ -85,7 +85,7 @@ class pulsar_rest_api (
       owner   => 'pulsar-rest-api',
       group   => '0',
       mode    => '0440',
-      before  => File['/etc/init.d/pulsar-rest-api'],
+      before  => Package['pulsar-rest-api'],
       notify  => Service['pulsar-rest-api'],
     }
   }
@@ -98,7 +98,7 @@ class pulsar_rest_api (
       owner   => '0',
       group   => '0',
       mode    => '0440',
-      before  => File['/etc/init.d/pulsar-rest-api'],
+      before  => Package['pulsar-rest-api'],
       notify  => Service['pulsar-rest-api'],
     }
   }
@@ -109,7 +109,7 @@ class pulsar_rest_api (
     owner   => 'pulsar-rest-api',
     group   => '0',
     mode    => '0440',
-    before  => File['/etc/init.d/pulsar-rest-api'],
+    before  => Package['pulsar-rest-api'],
     notify  => Service['pulsar-rest-api'],
   }
 
@@ -118,6 +118,7 @@ class pulsar_rest_api (
     owner   => 'pulsar-rest-api',
     group   => 'pulsar-rest-api',
     mode    => '0644',
+    before  => Package['pulsar-rest-api'],
   }
 
 
@@ -127,21 +128,22 @@ class pulsar_rest_api (
     owner   => '0',
     group   => '0',
     mode    => '0644',
-    notify  => Service['pulsar-rest-api'],
     before  => Package['pulsar-rest-api'],
-  }
-  ~>
-
-  helper::service { 'pulsar-rest-api': }
-
-  logrotate::entry{ $module_name:
-    content => template("${module_name}/logrotate")
+    notify  => Service['pulsar-rest-api'],
   }
 
   package { 'pulsar-rest-api':
     ensure   => $version,
     provider => 'npm',
     require  => Class['nodejs'],
+  }
+
+  helper::service { 'pulsar-rest-api':
+    require => Package['pulsar-rest-api'],
+  }
+
+  logrotate::entry{ $module_name:
+    content => template("${module_name}/logrotate")
   }
 
   @monit::entry { 'pulsar-rest-api':
