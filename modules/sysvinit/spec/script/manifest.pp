@@ -1,15 +1,15 @@
 node default {
 
-  file{'/tmp/bar':
-    ensure => file,
+  file{ '/tmp/bar':
+    ensure  => file,
     content => template('sysvinit/spec/script/bar'),
-    owner => '0',
-    group => '0',
-    mode => '0755',
+    owner   => '0',
+    group   => '0',
+    mode    => '0755',
   }
   ->
 
-  sysvinit::script{'foo':
-    init_file_content => template('sysvinit/spec/script/foo'),
+  sysvinit::script{ 'foo':
+    content => template('sysvinit/spec/script/foo'),
   }
 }

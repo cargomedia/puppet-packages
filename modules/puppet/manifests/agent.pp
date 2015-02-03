@@ -44,7 +44,7 @@ class puppet::agent (
   ->
 
   sysvinit::script { 'puppet':
-    init_file_content => template("${module_name}/agent/init"),
+    content           => template("${module_name}/agent/init"),
     notify            => Service['puppet'],
     require           => Package['puppet'],
   }

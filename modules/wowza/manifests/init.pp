@@ -48,7 +48,7 @@ class wowza (
   ->
 
   sysvinit::script { 'wowza':
-    init_file_content => template("${module_name}/init"),
+    content           => template("${module_name}/init"),
     notify            => Service['wowza'],
   }
 

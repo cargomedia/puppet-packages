@@ -1,10 +1,10 @@
 define sysvinit::script(
-  $init_file_content,
+  $content,
 ) {
 
   file { "/etc/init.d/${name}":
     ensure  => file,
-    content => $init_file_content,
+    content => $content,
     owner   => '0',
     group   => '0',
     mode    => '0755',

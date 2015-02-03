@@ -48,7 +48,7 @@ class copperegg_revealcloud(
   ->
 
   sysvinit::script { 'revealcloud':
-    init_file_content => template("${module_name}/init.sh"),
+    content           => template("${module_name}/init.sh"),
     notify            => Service['revealcloud'],
   }
 
