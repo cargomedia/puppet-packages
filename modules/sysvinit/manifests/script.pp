@@ -11,12 +11,6 @@ define sysvinit::script(
   }
   ~>
 
-  exec { "update-rc.d ${name} defaults":
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    refreshonly => true,
-  }
-  ~>
-
   exec { "/etc/init.d/${name} start":
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     unless      => "/etc/init.d/${name} status",
