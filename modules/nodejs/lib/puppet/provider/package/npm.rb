@@ -21,7 +21,7 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
     Puppet.debug("Warning: npm list --json exited with code #{$CHILD_STATUS.exitstatus}") unless $CHILD_STATUS.success?
     begin
       # ignore any npm output lines to be a bit more robust
-      output = PSON.parse(output.lines.select{ |l| l =~ /^((?!^npm).*)$/}.join("\n"), {:max_nesting => 100} )
+      output = PSON.parse(output.lines.select { |l| l =~ /^((?!^npm).*)$/ }.join("\n"), {:max_nesting => 100})
       @npmlist = output['dependencies'] || {}
     rescue PSON::ParserError => e
       Puppet.debug("Error: npm list --json command error #{e.message}")
@@ -35,8 +35,8 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
 
   def self.instances
     @npmlist ||= npmlist
-    @npmlist.collect do |k,v|
-      new({:name=>k, :ensure=>v['version'], :provider=>'npm'})
+    @npmlist.collect do |k, v|
+      new({:name => k, :ensure => v['version'], :provider => 'npm'})
     end
   end
 
@@ -45,9 +45,9 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
 
     if list.has_key?(resource[:name]) and list[resource[:name]].has_key?('version')
       version = list[resource[:name]]['version']
-      { :ensure => version, :name => resource[:name] }
+      {:ensure => version, :name => resource[:name]}
     else
-      { :ensure => :absent, :name => resource[:name] }
+      {:ensure => :absent, :name => resource[:name]}
     end
   end
 
