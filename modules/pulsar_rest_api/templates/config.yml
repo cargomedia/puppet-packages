@@ -1,4 +1,4 @@
-port: <%= @internal_port %>
+port: <%= @port %>
 mongodb:
   host: '<%= @mongodb_host %>'
   port: <%= @mongodb_port %>
