@@ -21,3 +21,7 @@ mod 'cargomedia/helper',
 mod 'cargomedia/monit',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/monit'
+
+mod 'cargomedia/nginx',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/nginx'
