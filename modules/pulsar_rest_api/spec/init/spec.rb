@@ -12,11 +12,7 @@ describe port(8080) do
   it { should be_listening }
 end
 
-describe port(80) do
-  it { should be_listening }
-end
-
-describe command('curl -L localhost') do
+describe command('curl -L localhost:8080') do
   it { should return_exit_status 0 }
   its(:stdout) { should match '<title>Pulsar REST API client</title>' }
 end

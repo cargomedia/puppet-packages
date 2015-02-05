@@ -1,7 +1,6 @@
 class pulsar_rest_api (
   $version = latest,
-  $port = 80,
-  $internal_port = 8080,
+  $port = 8080,
 
   $mongodb_host = 'localhost',
   $mongodb_port = 27017,
@@ -13,15 +12,11 @@ class pulsar_rest_api (
   $pulsar_branch = undef,
 
   $auth = undef,
-
-  $ssl_cert = undef,
-  $ssl_key = undef,
 ) {
 
   require pulsar
   require nodejs
   include pulsar_rest_api::service
-  include nginx
 
   user { 'pulsar-rest-api':
     ensure     => present,
@@ -51,7 +46,7 @@ class pulsar_rest_api (
     group   => '0',
     mode    => '0440',
     before  => Package['pulsar-rest-api'],
-    notify  => [Service['pulsar-rest-api'], Service['nginx']],
+    notify  => Service['pulsar-rest-api'],
   }
 
   file { $log_dir:
@@ -82,33 +77,6 @@ class pulsar_rest_api (
 
   helper::service { 'pulsar-rest-api':
     require => Package['pulsar-rest-api'],
-  }
-
-  $ssl = ($ssl_cert != undef) or ($ssl_key != undef)
-
-  nginx::resource::vhost { 'pulsar-rest-api':
-    listen_port         => $port,
-    ssl                 => $ssl,
-    ssl_port            => $port,
-    ssl_cert            => $ssl_cert,
-    ssl_key             => $ssl_key,
-    proxy               => 'http://pulsar-rest-api',
-    location_cfg_append => [
-      'proxy_set_header X-Real-IP $remote_addr;',
-      'proxy_set_header Host $host;',
-      'proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;',
-      'proxy_http_version 1.1;',
-      'proxy_set_header Upgrade $http_upgrade;',
-      'proxy_set_header Connection "upgrade";',
-      'proxy_read_timeout 999999999;',
-      'proxy_buffering off;',
-    ],
-  }
-
-  nginx::resource::upstream { 'pulsar-rest-api':
-    ensure              => present,
-    members             => ["localhost:${internal_port}"],
-    upstream_cfg_append => ['ip_hash;'],
   }
 
   logrotate::entry{ $module_name:
