@@ -14,6 +14,7 @@ class pulsar_rest_api (
   $auth = undef,
 ) {
 
+  require bower
   require pulsar
   require nodejs
   include pulsar_rest_api::service
@@ -72,7 +73,16 @@ class pulsar_rest_api (
     ensure   => $version,
     provider => 'npm',
     require  => Class['nodejs'],
-    notify   => Service['pulsar-rest-api'],
+    notify   => [
+      Service['pulsar-rest-api'],
+      Exec['pulsar-rest-api bower install']
+    ],
+  }
+
+  exec { 'pulsar-rest-api bower install':
+    command => 'bower install --production',
+    cwd     => '/usr/lib/node_modules/pulsar-rest-api',
+    path    => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
 
   helper::service { 'pulsar-rest-api':
