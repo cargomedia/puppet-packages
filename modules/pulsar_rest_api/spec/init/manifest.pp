@@ -9,6 +9,12 @@ node default {
     pulsar_repo    => undef,
     pulsar_branch  => undef,
 
-    auth           => undef,
+    auth           => {
+      'github_oauth_id' => 'id',
+      'github_oauth_secret' => 'secret',
+      'github_org' => 'org',
+      'base_url' => 'base_url',
+      'callback_url' => 'callback_url',
+    },
   }
 }

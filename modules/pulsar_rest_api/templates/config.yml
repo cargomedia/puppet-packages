@@ -11,9 +11,9 @@ pulsar:
 logPath: '<%= @log_dir %>/pulsar-rest-api.log'
 <% if @auth -%>
 auth:
-  githubOauthId: '<%= @auth.github_oauth_id %>'
-  githubOauthSecret: '<%= @auth.github_oauth_secret %>'
-  githubOrg: '<%= @auth.github_org %>'
-  baseUrl: '<%= @auth.base_url %>'
-  callbackUrl: '<%= @auth.callback_url%>'
+  githubOauthId: '<%= @auth['github_oauth_id'] %>'
+  githubOauthSecret: '<%= @auth['github_oauth_secret'] %>'
+  githubOrg: '<%= @auth['github_org'] %>'
+  baseUrl: '<%= @auth['base_url'] %>'
+  callbackUrl: '<%= @auth['callback_url'] %>'
 <% end -%>
