@@ -1,4 +1,4 @@
-port: <%= @port %>
+port: <%= @internal_port %>
 mongodb:
   host: '<%= @mongodb_host %>'
   port: <%= @mongodb_port %>
@@ -16,14 +16,4 @@ auth:
   githubOrg: '<%= @auth.github_org %>'
   baseUrl: '<%= @auth.base_url %>'
   callbackUrl: '<%= @auth.callback_url%>'
-<% end -%>
-<% if @ssl_pfx_file || (@ssl_key_file && @ssl_cert_file) -%>
-ssl:
-<% if @ssl_pfx_file -%>
-  pfx: '<%= @ssl_pfx_file %>'
-<% else -%>
-  key: '<%= @ssl_key_file %>'
-  cert: '<%= @ssl_cert_file %>'
-<% end -%>
-  <% if @ssl_passphrase_file %>passphrase: '<%= @ssl_passphrase_file %>'<% end %>
 <% end -%>
