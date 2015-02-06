@@ -1,22 +1,23 @@
 #!/bin/sh
 
 ### BEGIN INIT INFO
-# Provides:          socket-redis
+# Provides:          pulsar-rest-api
 # Required-Start:    $local_fs $syslog
 # Required-Stop:     $local_fs $syslog
 # Default-Start:     2 3 4 5
 # Default-Stop:      0 1 6
-# Short-Description: Starts the socket-redis node script
+# Short-Description: Starts the pulsar-rest-api node script
 ### END INIT INFO
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
-NAME=socket-redis
-DESC=socket-redis
+LANG=en_US
+NAME=pulsar-rest-api
+DESC=pulsar-rest-api
 DAEMON=/usr/bin/node
-DAEMON_USER=socket-redis:socket-redis
-PIDFILE=/var/run/socket-redis.pid
-LOGDIR="<%= @logDir %>"
-DAEMON_ARGS="/usr/bin/socket-redis --log-dir=$LOGDIR --redis-host=<%= @redisHost %> --socket-ports=<%= @socketPorts.join(',') %> --status-port=<%= @statusPort %><%= ' --ssl-key=' + @sslKeyFile if @sslKeyFile %><%= ' --ssl-cert=' + @sslCertFile if @sslCertFile %><%= ' --ssl-pfx=' + @sslPfxFile if @sslPfxFile %><%= ' --ssl-passphrase=' + @sslPassphraseFile if @sslPassphraseFile %>"
+DAEMON_USER=pulsar-rest-api:pulsar-rest-api
+PIDFILE=/var/run/pulsar-rest-api.pid
+LOGDIR="<%= @log_dir %>"
+DAEMON_ARGS="/usr/bin/pulsar-rest-api -c /etc/pulsar-rest-api/config.yml"
 
 test -x $DAEMON || exit 0
 set -e
@@ -29,7 +30,7 @@ case "${1}" in
 		mkdir -p ${LOGDIR}
 		chown ${DAEMON_USER} ${LOGDIR}
 		ulimit -n 100000
-		if (start-stop-daemon --start --background --make-pidfile --oknodo --pidfile $PIDFILE --chuid $DAEMON_USER --startas $DAEMON -- $DAEMON_ARGS); then
+		if (start-stop-daemon --start --oknodo --make-pidfile --background --pidfile $PIDFILE --chuid $DAEMON_USER --startas $DAEMON -- $DAEMON_ARGS); then
 			log_end_msg 0
 		else
 			log_end_msg 1

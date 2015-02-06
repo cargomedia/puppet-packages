@@ -1,0 +1,18 @@
+port: <%= @port %>
+mongodb:
+  host: '<%= @mongodb_host %>'
+  port: <%= @mongodb_port %>
+  db: '<%= @mongodb_db %>'
+<% if @pulsar_repo || @pulsar_branch %>
+pulsar:
+  repo: '<%= @pulsar_repo %>'
+  branch: '<%= @pulsar_branch %>'
+<% end -%>
+logPath: '<%= @log_dir %>/pulsar-rest-api.log'
+<% if @auth -%>
+auth:
+  githubOauthId: '<%= @auth['github_oauth_id'] %>'
+  githubOauthSecret: '<%= @auth['github_oauth_secret'] %>'
+  githubOrg: '<%= @auth['github_org'] %>'
+  baseUrl: '<%= @auth['base_url'] %>'
+<% end -%>

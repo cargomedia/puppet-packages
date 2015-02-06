@@ -1,19 +1,29 @@
 require 'puppet/provider/package'
+require 'json'
 
 Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package do
   desc "npm is package management for node.js. This provider only handles global packages."
 
   has_feature :versionable
 
-  optional_commands :npm => 'npm'
+  if Puppet::Util::Package.versioncmp(Puppet.version, '3.0') >= 0
+    has_command(:npm, 'npm') do
+      is_optional
+      environment :HOME => "/root"
+    end
+  else
+    optional_commands :npm => 'npm'
+  end
 
   def self.npmlist
+    # Ignore non-zero exit codes as they can be minor, just try and parse JSON
+    output = execute([command(:npm), 'list', '--json', '--global'], {:combine => false})
+    Puppet.debug("Warning: npm list --json exited with code #{$CHILD_STATUS.exitstatus}") unless $CHILD_STATUS.success?
     begin
-      output = npm('list', '--json', '--global')
       # ignore any npm output lines to be a bit more robust
-      output = PSON.parse(output.lines.select { |l| l =~ /^((?!^npm).*)$/ }.join("\n"))
+      output = PSON.parse(output.lines.select { |l| l =~ /^((?!^npm).*)$/ }.join("\n"), {:max_nesting => 100})
       @npmlist = output['dependencies'] || {}
-    rescue Exception => e
+    rescue PSON::ParserError => e
       Puppet.debug("Error: npm list --json command error #{e.message}")
       @npmlist = {}
     end
@@ -42,15 +52,12 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
   end
 
   def latest
-    if /#{resource[:name]}@([\d\.]+)/ =~ npm('outdated', '--global', resource[:name])
-      @latest = $1
-    else
-      @property_hash[:ensure] unless @property_hash[:ensure].is_a? Symbol
-    end
+    output = npm('view', resource[:name], 'versions', '--json', '--quiet')
+    versions = JSON.parse(output)
+    versions.last
   end
 
   def update
-    resource[:ensure] = @latest
     self.install
   end
 
@@ -61,11 +68,8 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
       package = "#{resource[:name]}@#{resource[:ensure]}"
     end
 
-    if resource[:source]
-      npm('install', '--global', resource[:source])
-    else
-      npm('install', '--global', package)
-    end
+    package = resource[:source] if resource[:source]
+    npm('install', '--global', package)
   end
 
   def uninstall
