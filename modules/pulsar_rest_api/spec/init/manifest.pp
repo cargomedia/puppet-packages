@@ -14,7 +14,6 @@ node default {
       'github_oauth_secret' => 'secret',
       'github_org' => 'org',
       'base_url' => 'base_url',
-      'callback_url' => 'callback_url',
     },
   }
 }

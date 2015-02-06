@@ -15,5 +15,4 @@ auth:
   githubOauthSecret: '<%= @auth['github_oauth_secret'] %>'
   githubOrg: '<%= @auth['github_org'] %>'
   baseUrl: '<%= @auth['base_url'] %>'
-  callbackUrl: '<%= @auth['callback_url'] %>'
 <% end -%>
