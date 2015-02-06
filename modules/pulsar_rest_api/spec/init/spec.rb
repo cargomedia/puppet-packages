@@ -12,9 +12,9 @@ describe port(8080) do
   it { should be_listening }
 end
 
-describe command('curl -L localhost:8080') do
+describe command('curl -I localhost:8080') do
   it { should return_exit_status 0 }
-  its(:stdout) { should match '<title>Pulsar REST API client</title>' }
+  its(:stdout) { should match 'location: https://github.com/login/oauth/authorize' }
 end
 
 describe command('monit summary') do

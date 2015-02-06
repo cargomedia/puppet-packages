@@ -6,8 +6,8 @@ node default {
     mongodb_host   => 'localhost',
     mongodb_port   => 27017,
 
-    pulsar_repo    => undef,
-    pulsar_branch  => undef,
+    pulsar_repo    => 'foo/bar',
+    pulsar_branch  => 'master',
 
     auth           => {
       'github_oauth_id' => 'id',
