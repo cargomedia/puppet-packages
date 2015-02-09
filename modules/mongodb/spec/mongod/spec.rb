@@ -40,5 +40,5 @@ describe file('/etc/logrotate.d/mongod_server') do
 end
 
 describe command('logrotate -d /etc/logrotate.d/mongod_server') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end

@@ -5,7 +5,7 @@ describe package('ruby') do
 end
 
 describe command('which gem') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe command('gem list') do

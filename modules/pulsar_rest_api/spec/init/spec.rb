@@ -13,7 +13,7 @@ describe port(8080) do
 end
 
 describe command('curl -I localhost:8080') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
   its(:stdout) { should match 'location: https://github.com/login/oauth/authorize' }
 end
 

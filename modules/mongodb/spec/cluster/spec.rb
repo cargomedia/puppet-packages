@@ -42,11 +42,11 @@ end
 
 # add data
 describe command('echo "db.test_collection.insert({\'foo\':\'foo\'});" | mongo testdb --host localhost --port 27017') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe command('echo "db.test_collection.insert({\'boo\':\'boo\'});" | mongo dummydb --host localhost --port 27017') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 # get sharding status

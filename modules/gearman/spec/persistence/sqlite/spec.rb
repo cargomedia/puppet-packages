@@ -19,5 +19,5 @@ describe port(4730) do
 end
 
 describe command('lsof | grep gearmand | grep -q gearman-persist.sqlite3') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end

@@ -5,5 +5,5 @@ describe package('less') do
 end
 
 describe command('which lessc') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end

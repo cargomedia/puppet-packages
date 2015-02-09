@@ -5,6 +5,6 @@ describe package('autoprefixer') do
 end
 
 describe command('autoprefixer --version') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
   its(:stdout) { should match 'autoprefixer' }
 end

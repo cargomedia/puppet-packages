@@ -5,5 +5,5 @@ describe package('bower') do
 end
 
 describe command('bower --version') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end

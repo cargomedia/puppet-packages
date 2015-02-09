@@ -5,19 +5,19 @@ describe package('lvm2') do
 end
 
 describe command('which pvcreate') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe command('which vgcreate') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe command('which lvcreate') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe command('which arcconf') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe file('/root/bin/expand-raid.sh') do
@@ -29,7 +29,7 @@ describe package('xfsprogs') do
 end
 
 describe command('which xfs_growfs') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe file('/root/bin/expand-raid.sh') do

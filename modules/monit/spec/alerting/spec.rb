@@ -5,11 +5,11 @@ describe file('/etc/monit/conf.d/alert') do
 end
 
 describe command('monit-alert foobar') do
-  it { should return_exit_status 1 }
+  its(:exit_status) { should eq 1 }
 end
 
 describe command('monit-alert none') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe file('/etc/monit/conf.d/alert') do
@@ -17,7 +17,7 @@ describe file('/etc/monit/conf.d/alert') do
 end
 
 describe command('monit-alert default') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe file('/etc/monit/conf.d/alert') do

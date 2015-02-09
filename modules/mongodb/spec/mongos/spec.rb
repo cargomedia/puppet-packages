@@ -40,7 +40,7 @@ describe file('/etc/logrotate.d/mongos_router') do
 end
 
 describe command('logrotate -d /etc/logrotate.d/mongos_router') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe file('/etc/logrotate.d/mongod_config') do
@@ -49,5 +49,5 @@ describe file('/etc/logrotate.d/mongod_config') do
 end
 
 describe command('logrotate -d /etc/logrotate.d/mongod_config') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end

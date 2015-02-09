@@ -9,7 +9,7 @@ describe package('python-pip') do
 end
 
 describe command('which pip') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe command('pip freeze') do
@@ -17,5 +17,5 @@ describe command('pip freeze') do
 end
 
 describe command('which aws-ec2-assign-elastic-ip') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end

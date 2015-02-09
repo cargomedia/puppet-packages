@@ -15,11 +15,11 @@ describe service('nfs-kernel-server') do
 end
 
 describe command('monit summary | grep nfs-server') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe command('ps ax | grep "\[nfsd\]" | wc -l') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
   its(:stdout) { should match /32/ }
 end
 

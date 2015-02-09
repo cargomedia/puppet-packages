@@ -13,11 +13,11 @@ describe service('monit') do
 end
 
 describe command('snmpwalk -v 2c -c fuboo localhost .iso.3.6.1.2.1.1.1.0 | grep Linux') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe command('snmpwalk -v 2c -c public localhost .iso.3.6.1.2.1.1.1.0 | grep Linux') do
-  it { should return_exit_status 1 }
+  its(:exit_status) { should eq 1 }
 end
 
 describe command('monit summary') do

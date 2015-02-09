@@ -21,6 +21,6 @@ describe command('puppet agent --configprint splaylimit') do
 end
 
 describe command('sudo -u vagrant cat /var/lib/puppet/state/last_run_summary.yaml') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
   its(:stdout) { should match /puppet/ }
 end

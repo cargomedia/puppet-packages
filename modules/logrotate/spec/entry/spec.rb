@@ -19,12 +19,12 @@ describe file(logrotate_file) do
 end
 
 describe command("logrotate -d " + logrotate_file) do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 2.times do
   describe command("logrotate -f " + logrotate_file) do
-    it { should return_exit_status 0 }
+    its(:exit_status) { should eq 0 }
   end
 end
 

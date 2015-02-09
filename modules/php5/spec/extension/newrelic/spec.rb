@@ -5,7 +5,7 @@ describe package('newrelic-php5') do
 end
 
 describe command('php --re newrelic') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe command('php --ri newrelic') do

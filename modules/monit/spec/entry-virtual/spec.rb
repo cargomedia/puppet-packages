@@ -1,5 +1,5 @@
 require 'spec_helper'
 
 describe command('test -f /etc/monit/conf.d/puppet') do
-  it { should return_exit_status 1 }
+  its(:exit_status) { should eq 1 }
 end

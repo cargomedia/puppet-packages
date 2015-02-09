@@ -5,7 +5,7 @@ describe package('php5-snmp') do
 end
 
 describe command('php --ri snmp') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe file('/var/log/php/error.log') do

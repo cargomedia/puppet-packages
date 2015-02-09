@@ -29,7 +29,7 @@ describe file('/etc/nginx/conf.d/backend-socketredis-upstream.conf') do
 end
 
 describe command('monit summary | grep nginx') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe port(8090) do
@@ -37,5 +37,5 @@ describe port(8090) do
 end
 
 describe command('openssl s_client -connect localhost:8090 | grep "CONNECTED"') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end

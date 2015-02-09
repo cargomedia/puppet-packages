@@ -20,7 +20,7 @@ end
 
 describe command('/usr/bin/unzip -tl /usr/local/WowzaStreamingEngine/lib/ch.cargomedia.wms.jar') do
   let(:pre_command) { 'apt-get install -qy unzip' }
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 describe file('/etc/monit/conf.d/wowza') do
@@ -28,7 +28,7 @@ describe file('/etc/monit/conf.d/wowza') do
 end
 
 describe command('sleep 10') do
-  it { should return_exit_status 0 }
+  its(:exit_status) { should eq 0 }
 end
 
 [1935, 8083, 8086].each do |port|
@@ -44,5 +44,5 @@ end
 end
 
 describe command('curl http://localhost:8086/status') do
-  its(:stdout) { should match /{}/ }
+  its(:stdout) { should eq "{}\n" }
 end
