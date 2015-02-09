@@ -5,9 +5,6 @@ require 'yaml'
 require 'pathname'
 require 'rspec/its'
 
-include Serverspec::Helper::Ssh
-include Serverspec::Helper::DetectOS
-
 module RSpec
   module Core
     class ExampleGroup
@@ -33,10 +30,11 @@ RSpec.configure do |c|
     file = self.get_file
     unless c.before_files.include? file
       c.before_files.push file
-      c.ssh.close if c.ssh
 
       vagrant_helper.reset unless keep_box
-      c.ssh = vagrant_helper.connect
+      Specinfra.configuration.backend = :ssh
+      Specinfra.configuration.ssh_options = vagrant_helper.ssh_options
+
       spec_dir = Dir.new File.dirname file
 
       if File.exists? spec_dir.to_path + '/facts.json'

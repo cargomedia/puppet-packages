@@ -1,4 +1,6 @@
 require 'open3'
+require 'net/ssh'
+require 'tempfile'
 
 class VagrantHelper
 
@@ -39,27 +41,18 @@ class VagrantHelper
     match_data[1]
   end
 
-  def connect
-    user = Etc.getlogin
-    options = {}
-    host = ''
-    config = execute_local("vagrant ssh-config #{@box}")
-    config.each_line do |line|
-      if match = /HostName (.*)/.match(line)
-        host = match[1]
-        options = Net::SSH::Config.for(host)
-      elsif match = /User (.*)/.match(line)
-        user = match[1]
-      elsif match = /IdentityFile (.*)/.match(line)
-        options[:keys] = [match[1].gsub(/"/, '')]
-      elsif match = /Port (.*)/.match(line)
-        options[:port] = match[1]
-      end
+  def ssh_options
+    unless @options
+      config = Tempfile.new('')
+      execute_local("vagrant ssh-config > #{config.path}")
+      @options = Net::SSH::Config.for(@box, [config.path])
     end
-    @connection = Net::SSH.start(host, user, options)
+    @options
   end
 
   def execute_ssh(command)
+    options = ssh_options
+    @connection = Net::SSH.start(options[:host_name], options[:user], options) unless @connection
     channel = @connection.open_channel do |channel|
       channel.exec(command) do |ch, success|
         raise "could not execute command: #{command.inspect}" unless success
