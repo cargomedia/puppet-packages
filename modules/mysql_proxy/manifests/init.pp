@@ -45,7 +45,9 @@ class mysql_proxy ($host = '127.0.0.1', $port = 4040, $backend_addresses) {
     require => Class['apt::source::cargomedia'],
   }
 
-  service { 'mysql-proxy': }
+  service { 'mysql-proxy':
+    enable => true,
+  }
 
   @monit::entry { 'mysql-proxy':
     content => template("${module_name}/monit"),

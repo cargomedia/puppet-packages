@@ -1,5 +1,9 @@
 node default {
 
+  service { 'foo':
+    enable => true,
+  }
+
   file{ '/tmp/bar':
     ensure  => file,
     content => template('sysvinit/spec/script/bar'),
@@ -11,5 +15,6 @@ node default {
 
   sysvinit::script{ 'foo':
     content => template('sysvinit/spec/script/foo'),
+    before  => Service['foo'],
   }
 }

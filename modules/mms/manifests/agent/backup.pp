@@ -33,7 +33,8 @@ class mms::agent::backup (
   ->
 
   service { $agent_name:
-    hasrestart => true
+    hasrestart => true,
+    enable     => true,
   }
 
   @monit::entry { 'mms-backup':

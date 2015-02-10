@@ -66,7 +66,8 @@ class copperegg_revealcloud(
   }
 
   service { 'revealcloud':
-    ensure => running,
+    ensure  => running,
+    enable  => true,
   }
 
   @monit::entry { 'revealcloud':

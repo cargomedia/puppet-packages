@@ -79,7 +79,9 @@ class puppet::db(
     notify  => Service['puppetdb'],
   }
 
-  service { 'puppetdb': }
+  service { 'puppetdb':
+    enable => true,
+  }
 
   @monit::entry { 'puppetdb':
     content => template("${module_name}/db/monit"),

@@ -18,6 +18,7 @@ class gearman::server(
 
   service { 'gearman-job-server':
     hasrestart => true,
+    enable     => true,
     require    => Package['gearman-job-server'],
   }
 

@@ -1,4 +1,6 @@
 class postfix::service {
 
-  service { 'postfix': }
+  service { 'postfix':
+    enable => true,
+  }
 }

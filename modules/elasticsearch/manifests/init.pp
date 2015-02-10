@@ -43,6 +43,7 @@ class elasticsearch (
 
   service { 'elasticsearch':
     hasrestart => true,
+    enable     => true,
   }
 
   @monit::entry { 'elasticsearch':

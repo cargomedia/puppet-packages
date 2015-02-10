@@ -50,6 +50,7 @@ class puppet::agent (
   }
 
   service { 'puppet':
+    enable    => true,
     subscribe => Exec['/etc/puppet/puppet.conf'],
   }
 

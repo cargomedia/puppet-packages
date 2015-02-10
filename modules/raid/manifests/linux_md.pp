@@ -32,6 +32,7 @@ class raid::linux_md {
 
   service { 'mdadm':
     hasstatus => false,
+    enable    => true,
   }
 
   @monit::entry { 'mdadm-status':

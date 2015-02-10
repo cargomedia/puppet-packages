@@ -95,6 +95,7 @@ class puppet::master (
   ->
 
   service { 'puppetmaster':
+    enable    => true,
     subscribe => Exec['/etc/puppet/puppet.conf'],
   }
 

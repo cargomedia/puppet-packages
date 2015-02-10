@@ -33,5 +33,7 @@ class ssh ($permit_root_login = 'yes') {
     before => Service['ssh'],
   }
 
-  service { 'ssh': }
+  service { 'ssh':
+    enable => true,
+  }
 }
