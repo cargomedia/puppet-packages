@@ -1,8 +1,6 @@
 node default {
 
-  service { 'foo':
-    enable => true,
-  }
+  service { 'foo': }
 
   file{ '/tmp/bar':
     ensure  => file,
