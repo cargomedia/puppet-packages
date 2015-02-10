@@ -18,23 +18,14 @@ class satis($hostname) {
     managehome => true,
     home       => '/var/lib/satis',
   }
-
-  exec { 'install satis':
-    command     => 'composer --no-interaction create-project composer/satis --stability=dev --keep-vcs /var/lib/satis/satis',
-    creates     => '/var/lib/satis/satis',
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    user        => 'satis',
-    environment => ['HOME=/var/lib/satis'],
-  }
   ->
 
-  exec { 'upgrade satis':
-    command     => "git fetch && git checkout ${version} && composer --no-interaction --no-dev install",
-    cwd         => '/var/lib/satis/satis',
-    unless      => "test $(git rev-parse HEAD) = ${version}",
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    user        => 'satis',
-    environment => ['HOME=/var/lib/satis'],
+  composer::project { 'composer/satis':
+    target    => '/var/lib/satis/satis',
+    version   => $version,
+    stability => 'dev',
+    user      => 'satis',
+    home      => '/var/lib/satis'
   }
   ->
 

@@ -1,9 +1,9 @@
 node default {
 
-  composer::project{ 'phpunit/phpunit':
-    target    => '/usr/local/lib/phpunit',
+  composer::project{ 'seld/jsonlint':
+    target    => '/usr/local/lib/jsonlint',
     user      => 'root',
-    version   => '4.4.0',
+    version   => '1.3.1',
     stability => 'dev',
   }
 }
