@@ -49,7 +49,6 @@ class copperegg_revealcloud(
 
   sysvinit::script { 'revealcloud':
     content           => template("${module_name}/init.sh"),
-    notify            => Service['revealcloud'],
   }
 
   if $enable_node {

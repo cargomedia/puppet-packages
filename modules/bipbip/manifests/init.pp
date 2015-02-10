@@ -73,7 +73,6 @@ class bipbip (
 
   sysvinit::script { 'bipbip':
     content           => template("${module_name}/init.sh"),
-    notify            => Service['bipbip'],
     require           => [User['bipbip'], File['/etc/bipbip/config.yml']]
   }
   ->

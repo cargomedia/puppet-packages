@@ -30,7 +30,6 @@ class cgroups {
 
   sysvinit::script { 'cgconfig-apply':
     content           => template("${module_name}/init"),
-    notify            => Service['cgconfig-apply'],
     require           => File['/etc/cgconfig.conf'],
   }
 

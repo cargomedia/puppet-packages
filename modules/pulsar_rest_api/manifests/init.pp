@@ -78,7 +78,6 @@ class pulsar_rest_api (
   sysvinit::script { 'pulsar-rest-api':
     content => template("${module_name}/init.sh"),
     require => Package['pulsar-rest-api'],
-    notify  => Service['pulsar-rest-api'],
   }
 
   logrotate::entry{ $module_name:

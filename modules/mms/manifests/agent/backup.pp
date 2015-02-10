@@ -28,7 +28,6 @@ class mms::agent::backup (
   sysvinit::script { $agent_name:
     content           => template("${module_name}/init"),
     require           => Helper::Script['install-mms-backup'],
-    notify            => Service[$agent_name];
   }
   ->
 

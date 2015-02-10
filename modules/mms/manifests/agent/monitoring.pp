@@ -31,7 +31,6 @@ class mms::agent::monitoring (
   sysvinit::script { $agent_name:
     content           => template("${module_name}/init"),
     require           => Helper::Script['install-mms-monitoring'],
-    notify            => Service[$agent_name];
   }
   ->
 
