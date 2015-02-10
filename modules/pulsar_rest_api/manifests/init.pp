@@ -86,7 +86,8 @@ class pulsar_rest_api (
     refreshonly => true,
   }
 
-  helper::service { 'pulsar-rest-api':
+  sysvinit::script { 'pulsar-rest-api':
+    content => template("${module_name}/init.sh")
     require => Package['pulsar-rest-api'],
   }
 
