@@ -58,11 +58,9 @@ class copperegg_revealcloud(
       refreshonly => true,
       user        => '0',
       group       => '0',
-      require     => Sysvinit::Script['revealcloud'],
+      subscribe   => Sysvinit::Script['revealcloud'],
       before      => Service['revealcloud'],
     }
-
-    Sysvinit::Script['revealcloud'] ~> Exec['enable revealcloud node']
   }
 
   service { 'revealcloud':
