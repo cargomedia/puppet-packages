@@ -87,7 +87,7 @@ class pulsar_rest_api (
   }
 
   sysvinit::script { 'pulsar-rest-api':
-    content => template("${module_name}/init.sh")
+    content => template("${module_name}/init.sh"),
     require => Package['pulsar-rest-api'],
   }
 
