@@ -18,6 +18,7 @@ define sysvinit::script(
   }
 
   Service <| title == $name |> {
-    enable  => true,
+    enable    => true,
+    subscribe => File["/etc/init.d/${name}"],
   }
 }
