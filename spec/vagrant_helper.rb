@@ -4,6 +4,9 @@ require 'tempfile'
 
 class VagrantHelper
 
+  class SshExecException < Exception
+  end
+
   def initialize(working_dir, box, verbose)
     @working_dir = working_dir
     @box = box
@@ -11,6 +14,7 @@ class VagrantHelper
   end
 
   def reset
+
     unless execute_local('vagrant plugin list').match(/vagrant-vbox-snapshot/)
       execute_local('vagrant plugin install vagrant-vbox-snapshot')
     end
@@ -28,7 +32,7 @@ class VagrantHelper
       execute_local("vagrant up --no-provision #{@box}", {'DISABLE_PROXY' => 'true'})
       execute_local("vagrant provision #{@box}", {'DISABLE_PROXY' => 'true'})
       execute_local("vagrant provision #{@box}")
-      execute_local("vagrant snapshot take #{@box} default")
+      execute_local("vagrant snapshot take #{@box } default")
     end
   end
 
@@ -42,18 +46,28 @@ class VagrantHelper
   end
 
   def ssh_options
-    unless @options
-      config = Tempfile.new('')
-      execute_local("vagrant ssh-config > #{config.path}")
-      @options = Net::SSH::Config.for(@box, [config.path])
+    config = Tempfile.new('')
+    execute_local("vagrant ssh-config > #{config.path}")
+    Net::SSH::Config.for(@box, [config.path])
+  end
+
+  def ssh_start
+    if @ssh_connection.nil?
+      options = ssh_options
+      @ssh_connection = Net::SSH.start(options[:host_name], options[:user], options)
     end
-    @options
+    @ssh_connection
+  end
+
+  def ssh_close
+    if @ssh_connection
+      @ssh_connection.close
+      @ssh_connection = nil
+    end
   end
 
   def execute_ssh(command)
-    options = ssh_options
-    @connection = Net::SSH.start(options[:host_name], options[:user], options) unless @connection
-    channel = @connection.open_channel do |channel|
+    channel = ssh_start.open_channel do |channel|
       channel.exec(command) do |ch, success|
         raise "could not execute command: #{command.inspect}" unless success
         ch[:output] = ''
@@ -74,7 +88,7 @@ class VagrantHelper
       end
     end
     channel.wait
-    raise channel[:output] unless channel[:success]
+    raise SshExecException.new(channel[:output]) unless channel[:success]
     channel[:output]
   end
 
