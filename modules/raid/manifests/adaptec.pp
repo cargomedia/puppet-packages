@@ -18,6 +18,7 @@ class raid::adaptec {
 
   service { 'aacraid-statusd':
     hasstatus => false,
+    enable    => true,
   }
 
   @monit::entry { 'aacraid-statusd':

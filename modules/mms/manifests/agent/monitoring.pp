@@ -16,35 +16,27 @@ class mms::agent::monitoring (
     content => template("${module_name}/install.sh"),
     unless  => "(test -x /usr/bin/mongodb-${agent_name}-agent) && (/usr/bin/mongodb-${agent_name}-agent -version | grep -q ${version})",
   }
-  ->
 
-  file {
-    '/etc/mongodb-mms/monitoring-agent.config':
-      ensure  => file,
-      content => template("${module_name}/conf-monitoring"),
-      owner   => '0',
-      group   => '0',
-      mode    => '0644',
-      require => Helper::Script['install-mms-monitoring'],
-      notify  => Service[$agent_name];
-
-    "/etc/init.d/${agent_name}":
-      ensure  => file,
-      content => template("${module_name}/init"),
-      owner   => '0',
-      group   => '0',
-      mode    => '0755',
-      require => Helper::Script['install-mms-monitoring'],
-      notify  => Service[$agent_name];
+  file { '/etc/mongodb-mms/monitoring-agent.config':
+    ensure  => file,
+    content => template("${module_name}/conf-monitoring"),
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
+    require => Helper::Script['install-mms-monitoring'],
+    notify  => Service[$agent_name];
   }
   ->
 
-  helper::service{ $agent_name:
+  sysvinit::script { $agent_name:
+    content           => template("${module_name}/init"),
+    require           => Helper::Script['install-mms-monitoring'],
   }
   ->
 
   service { $agent_name:
-    hasrestart => true
+    hasrestart => true,
+    enable     => true,
   }
 
   @monit::entry { 'mms-monitoring':

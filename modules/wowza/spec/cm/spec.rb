@@ -4,6 +4,11 @@ describe package('wowzastreamingengine-4.0.3') do
   it { should be_installed }
 end
 
+describe service('wowza') do
+  it { should be_running }
+  it { should be_enabled }
+end
+
 describe file('/usr/local/WowzaStreamingEngine/lib/json-simple.jar') do
   it { should be_file }
   it { should be_linked_to '/usr/local/WowzaStreamingEngine/lib/lib-versions/json-simple-1.1.1.jar' }

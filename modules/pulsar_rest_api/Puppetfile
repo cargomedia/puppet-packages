@@ -25,3 +25,7 @@ mod 'cargomedia/monit',
 mod 'cargomedia/bower',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/bower'
+
+mod 'cargomedia/sysvinit',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/sysvinit'

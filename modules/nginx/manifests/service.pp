@@ -6,9 +6,9 @@ class nginx::service {
     subscribe   => File["${nginx::params::nx_temp_dir}/nginx.d"],
   }
   service { 'nginx':
-    enable     => true,
     hasstatus  => true,
     hasrestart => true,
+    enable     => true,
     subscribe  => Exec['rebuild-nginx-vhosts'],
   }
 }

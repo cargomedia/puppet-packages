@@ -70,21 +70,10 @@ class bipbip (
   logrotate::entry{ $module_name:
     content => template("${module_name}/logrotate")
   }
-  ->
 
-  file { '/etc/init.d/bipbip':
-    ensure  => file,
-    content => template("${module_name}/init.sh"),
-    owner   => '0',
-    group   => '0',
-    mode    => '0755',
-    notify  => Service['bipbip'],
-  }
-  ~>
-
-  exec { 'update-rc.d bipbip defaults && /etc/init.d/bipbip start':
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    refreshonly => true,
+  sysvinit::script { 'bipbip':
+    content           => template("${module_name}/init.sh"),
+    require           => [User['bipbip'], File['/etc/bipbip/config.yml']]
   }
   ->
 

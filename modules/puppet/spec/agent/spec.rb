@@ -1,5 +1,10 @@
 require 'spec_helper'
 
+describe service('puppet') do
+  it { should be_enabled }
+  it { should be_running }
+end
+
 describe command('puppet agent --configprint server') do
   its(:stdout) { should match /^example.com$/ }
 end

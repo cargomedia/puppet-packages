@@ -30,14 +30,6 @@ class puppet::agent (
       owner   => '0',
       mode    => '0644',
       notify  => Service['puppet'];
-
-    '/etc/init.d/puppet':
-      ensure  => file,
-      content => template("${module_name}/agent/init"),
-      group   => '0',
-      owner   => '0',
-      mode    => '0755',
-      notify  => Service['puppet'];
   }
   ->
 
@@ -51,15 +43,14 @@ class puppet::agent (
   }
   ->
 
-  service { 'puppet':
-    subscribe => Exec['/etc/puppet/puppet.conf'],
+  sysvinit::script { 'puppet':
+    content           => template("${module_name}/agent/init"),
+    require           => Package['puppet'],
   }
-  ->
 
-  exec { 'update-rc.d puppet defaults && /etc/init.d/puppet start':
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    subscribe   => [ File['/etc/init.d/puppet'], File['/etc/default/puppet'] ],
-    refreshonly => true,
+  service { 'puppet':
+    enable    => true,
+    subscribe => Exec['/etc/puppet/puppet.conf'],
   }
 
   @monit::entry { 'puppet':

@@ -2,5 +2,7 @@ class polipo::service {
 
   require 'polipo'
 
-  service { 'polipo': }
+  service { 'polipo':
+    enable => true,
+  }
 }

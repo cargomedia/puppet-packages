@@ -4,6 +4,7 @@ class bipbip::service {
 
   service { 'bipbip':
     hasrestart => true,
+    enable => true,
   }
 
   @monit::entry { 'bipbip':

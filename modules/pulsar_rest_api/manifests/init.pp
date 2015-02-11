@@ -58,17 +58,6 @@ class pulsar_rest_api (
     before  => Package['pulsar-rest-api'],
   }
 
-
-  file { '/etc/init.d/pulsar-rest-api':
-    ensure  => file,
-    content => template("${module_name}/init.sh"),
-    owner   => '0',
-    group   => '0',
-    mode    => '0755',
-    before  => Package['pulsar-rest-api'],
-    notify  => Service['pulsar-rest-api'],
-  }
-
   package { 'pulsar-rest-api':
     ensure   => $version,
     provider => 'npm',
@@ -86,7 +75,8 @@ class pulsar_rest_api (
     refreshonly => true,
   }
 
-  helper::service { 'pulsar-rest-api':
+  sysvinit::script { 'pulsar-rest-api':
+    content => template("${module_name}/init.sh"),
     require => Package['pulsar-rest-api'],
   }
 

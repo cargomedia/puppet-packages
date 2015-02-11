@@ -33,7 +33,9 @@ class nfs::server (
   }
   ->
 
-  service { 'nfs-kernel-server': }
+  service { 'nfs-kernel-server':
+    enable => true,
+  }
 
   $rootExports = shellquote("/nfsexport ${$configuration}")
   exec { '/etc/exports':

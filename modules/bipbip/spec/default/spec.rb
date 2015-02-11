@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe user('bipbip') do
   it { should exist }
+  it { should have_home_directory '/home/bipbip' }
 end
 
 describe command('/usr/local/bin/bipbip -v') do
@@ -10,6 +11,7 @@ end
 
 describe service('bipbip') do
   it { should be_enabled }
+  it { should be_running }
 end
 
 describe file('/etc/monit/conf.d/bipbip') do
@@ -17,15 +19,11 @@ describe file('/etc/monit/conf.d/bipbip') do
 end
 
 describe file('/etc/init.d/bipbip') do
-  it { should be_file }
+  it { should be_executable }
 end
 
 describe file('/etc/bipbip/services.d') do
   it { should be_directory }
-end
-
-describe user('bipbip') do
-  it { should have_home_directory '/home/bipbip' }
 end
 
 yaml_files = ['/etc/bipbip/config.yml', '/etc/bipbip/services.d/memcache.yml', '/etc/bipbip/services.d/logparser.yml']
@@ -49,10 +47,6 @@ end
 describe file(yaml_files.shift) do
   its(:content) { should match /plugin:.*log-parser/ }
   its(:content) { should match /name:.*oom_killer/ }
-end
-
-describe command('/etc/init.d/bipbip status') do
-  it { should return_exit_status 0 }
 end
 
 describe file('/etc/logrotate.d/bipbip') do
