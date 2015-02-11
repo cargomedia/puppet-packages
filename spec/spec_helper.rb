@@ -1,9 +1,4 @@
 require 'serverspec'
-require 'net/ssh'
-require 'yaml'
-require 'pathname'
-require 'rspec/its'
-
 require 'lib/vagrant_box'
 require 'lib/puppet_spec'
 

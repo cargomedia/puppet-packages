@@ -1,3 +1,7 @@
+require 'json'
+require 'pathname'
+require 'yaml'
+
 class PuppetSpec
 
   def initialize(vagrant_box, example_group)

@@ -1,6 +1,7 @@
 require 'open3'
 require 'net/ssh'
 require 'tempfile'
+require 'pathname'
 
 class VagrantBox
 
