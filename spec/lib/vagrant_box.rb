@@ -2,12 +2,10 @@ require 'open3'
 require 'net/ssh'
 require 'tempfile'
 
-class VagrantHelper
-
-  class SshExecException < Exception
-  end
+class VagrantBox
 
   def initialize(working_dir, box, verbose)
+    working_dir = Pathname.new(working_dir) unless working_dir.instance_of? Pathname
     @working_dir = working_dir
     @box = box
     @verbose = verbose
@@ -86,7 +84,7 @@ class VagrantHelper
       end
     end
     channel.wait
-    raise SshExecException.new(channel[:output]) unless channel[:success]
+    raise channel[:output] unless channel[:success]
     channel[:output]
   end
 
@@ -96,7 +94,7 @@ class VagrantHelper
     end
 
     output_stdout = output_stderr = exit_code = nil
-    Dir.chdir(@working_dir) {
+    Dir.chdir(@working_dir.to_s) {
       Open3.popen3(ENV.to_hash.merge(env), command) { |stdin, stdout, stderr, wait_thr|
         output_stdout = stdout.read.chomp
         output_stderr = stderr.read.chomp
@@ -114,7 +112,10 @@ class VagrantHelper
     output_stdout
   end
 
-  def get_path(real_path)
-    real_path.sub(@working_dir, '/vagrant')
+  def parse_external_path(path)
+    path = Pathname.new(path) unless path.instance_of? Pathname
+    path = path.relative_path_from(@working_dir)
+    raise 'Cannot parse path outside of working directory' if path.to_s.match(/^..\//)
+    path.expand_path('/vagrant')
   end
 end
