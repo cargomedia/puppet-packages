@@ -1,5 +1,8 @@
 require 'spec_helper'
 
-describe file('/etc/monit/conf.d/puppet') do
-  it { should be_file }
+describe 'monit::entry real' do
+
+  describe file('/etc/monit/conf.d/puppet') do
+    it { should be_file }
+  end
 end

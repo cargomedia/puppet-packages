@@ -1,5 +1,8 @@
 require 'spec_helper'
 
-describe file('/etc/apt/sources.list.d/dotdeb.list') do
-  it { should be_file }
+describe 'apt::source::dotdeb' do
+
+  describe file('/etc/apt/sources.list.d/dotdeb.list') do
+    it { should be_file }
+  end
 end

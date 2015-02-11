@@ -1,9 +1,12 @@
 require 'spec_helper'
 
-describe package('libfcgi0ldbl') do
-  it { should be_installed }
-end
+describe 'cgi_fcgi' do
 
-describe command('which cgi-fcgi') do
-  its(:exit_status) { should eq 0 }
+  describe package('libfcgi0ldbl') do
+    it { should be_installed }
+  end
+
+  describe command('which cgi-fcgi') do
+    its(:exit_status) { should eq 0 }
+  end
 end

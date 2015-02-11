@@ -1,8 +1,12 @@
 node default {
 
-  class { 'mysql::server': }
+  require 'mysql::server'
 
   mysql::user { 'foo@localhost':
-    password => 'bar',
+    password => 'mypass',
+  }
+
+  mysql::user { 'bar@localhost':
+    password => 'mypass',
   }
 }

@@ -1,13 +1,16 @@
 require 'spec_helper'
 
-describe command('nodejs -v') do
-  its(:exit_status) { should eq 0 }
-end
+describe 'nodejs' do
 
-describe command('node -v') do
-  its(:exit_status) { should eq 0 }
-end
+  describe command('nodejs -v') do
+    its(:exit_status) { should eq 0 }
+  end
 
-describe command('npm -v') do
-  its(:exit_status) { should eq 0 }
+  describe command('node -v') do
+    its(:exit_status) { should eq 0 }
+  end
+
+  describe command('npm -v') do
+    its(:exit_status) { should eq 0 }
+  end
 end

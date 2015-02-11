@@ -1,13 +1,16 @@
 require 'spec_helper'
 
-describe package('php5-snmp') do
-  it { should be_installed }
-end
+describe 'php5::extension::snmp' do
 
-describe command('php --ri snmp') do
-  its(:exit_status) { should eq 0 }
-end
+  describe package('php5-snmp') do
+    it { should be_installed }
+  end
 
-describe file('/var/log/php/error.log') do
-  its(:content) { should_not match /Warning.*snmp.*already loaded/ }
+  describe command('php --ri snmp') do
+    its(:exit_status) { should eq 0 }
+  end
+
+  describe file('/var/log/php/error.log') do
+    its(:content) { should_not match /Warning.*snmp.*already loaded/ }
+  end
 end
