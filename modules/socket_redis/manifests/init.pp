@@ -100,23 +100,10 @@ class socket_redis (
     content => template("${module_name}/logrotate")
   }
 
-  file { '/etc/init.d/socket-redis':
-    ensure  => file,
+  sysvinit::script { 'socket-redis':
     content => template("${module_name}/init.sh"),
-    owner   => '0',
-    group   => '0',
-    mode    => '0755',
-    notify  => Service['socket-redis'],
-    before  => Package['socket-redis'],
-    require => User['socket-redis'],
+    require           => [Package['socket-redis'], User['socket-redis']],
   }
-  ~>
-
-  exec { 'update-rc.d socket-redis defaults':
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    refreshonly => true,
-  }
-
 
   package { 'socket-redis':
     ensure   => $version,

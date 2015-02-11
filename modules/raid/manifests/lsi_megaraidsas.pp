@@ -9,6 +9,7 @@ class raid::lsi_megaraidsas {
 
   service { 'megaraidsas-statusd':
     hasstatus => false,
+    enable    => true,
   }
 
   @monit::entry { 'megaraidsas-statusd':

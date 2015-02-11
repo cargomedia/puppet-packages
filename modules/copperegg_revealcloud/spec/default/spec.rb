@@ -3,8 +3,8 @@ require 'spec_helper'
 describe 'copperegg_revealcloud' do
 
   describe command('2>&1 /usr/local/revealcloud/revealcloud -V') do
-    its(:exit_status) { should eq 0 }
-    its(:stdout) { should match /v3\.3-9-g06271da/ }
+    it { should return_exit_status 0 }
+    its(:stdout) { should match /v3\.3-92-g0814c8d/ }
   end
 
   describe service('revealcloud') do
@@ -21,7 +21,7 @@ describe 'copperegg_revealcloud' do
   end
 
   describe command('cat /proc/$(cat /usr/local/revealcloud/run/revealcloud.pid)/oom_score_adj') do
-    its(:exit_status) { should eq 0 }
+    it { should return_exit_status 0 }
     its(:stdout) { should match '-1000' }
   end
 end

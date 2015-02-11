@@ -2,6 +2,11 @@ require 'spec_helper'
 
 describe 'puppet::agent' do
 
+  describe service('puppet') do
+    it { should be_enabled }
+    it { should be_running }
+  end
+
   describe command('puppet agent --configprint server') do
     its(:stdout) { should match /^example.com$/ }
   end
@@ -23,7 +28,7 @@ describe 'puppet::agent' do
   end
 
   describe command('sudo -u vagrant cat /var/lib/puppet/state/last_run_summary.yaml') do
-    its(:exit_status) { should eq 0 }
+    it { should return_exit_status 0 }
     its(:stdout) { should match /puppet/ }
   end
 end

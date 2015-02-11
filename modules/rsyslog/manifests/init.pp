@@ -22,5 +22,7 @@ class rsyslog(
   package { 'rsyslog': }
   ->
 
-  service { 'rsyslog': }
+  service { 'rsyslog':
+    enable => true,
+  }
 }

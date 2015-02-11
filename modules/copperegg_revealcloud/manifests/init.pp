@@ -47,18 +47,8 @@ class copperegg_revealcloud(
   }
   ->
 
-  file { '/etc/init.d/revealcloud':
-    content => template("${module_name}/init.sh"),
-    owner   => '0',
-    group   => '0',
-    mode    => '0755',
-    notify  => Service['revealcloud'],
-  }
-  ~>
-
-  exec { 'update-rc.d revealcloud defaults':
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    refreshonly => true,
+  sysvinit::script { 'revealcloud':
+    content           => template("${module_name}/init.sh"),
   }
 
   if $enable_node {
@@ -67,20 +57,18 @@ class copperegg_revealcloud(
       refreshonly => true,
       user        => '0',
       group       => '0',
-      require     => File['/etc/init.d/revealcloud'],
+      subscribe   => Sysvinit::Script['revealcloud'],
       before      => Service['revealcloud'],
     }
-
-    Exec['update-rc.d revealcloud defaults'] ~> Exec['enable revealcloud node']
   }
 
   service { 'revealcloud':
-    ensure => running,
+    ensure  => running,
+    enable  => true,
   }
 
   @monit::entry { 'revealcloud':
     content => template("${module_name}/monit"),
     require => Service['revealcloud']
   }
-
 }

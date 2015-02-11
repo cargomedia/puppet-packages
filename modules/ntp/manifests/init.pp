@@ -6,6 +6,7 @@ class ntp {
 
   service { 'ntp':
     hasrestart => true,
+    enable     => true,
     require    => Package['ntp'],
   }
 

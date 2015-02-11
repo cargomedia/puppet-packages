@@ -32,6 +32,7 @@ class nfs {
   }
 
   service { 'nfs-common':
+    enable  => true,
     require => Package ['nfs-common'],
   }
 }

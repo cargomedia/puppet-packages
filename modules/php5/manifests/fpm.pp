@@ -61,6 +61,7 @@ class php5::fpm {
   }
 
   service { 'php5-fpm':
+    enable    => true,
     require   => Package['php5-fpm'],
     subscribe => Class['php5::config_extension_change'],
   }

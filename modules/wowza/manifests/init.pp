@@ -44,21 +44,14 @@ class wowza (
       group   => '0',
       mode    => '0644',
       notify  => Service['wowza'];
-
-    '/etc/init.d/wowza':
-      ensure  => file,
-      content => template("${module_name}/init"),
-      owner   => '0',
-      group   => '0',
-      mode    => '0755',
-      notify  => Service['wowza'];
   }
   ->
 
-  helper::service{ 'wowza': }
+  sysvinit::script { 'wowza':
+    content           => template("${module_name}/init"),
+  }
 
   @monit::entry { 'wowza':
     content => template("${module_name}/monit"),
   }
-
 }

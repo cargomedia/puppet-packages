@@ -5,3 +5,7 @@ mod 'cargomedia/monit',
 mod 'cargomedia/helper',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/helper'
+
+mod 'cargomedia/sysvinit',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/sysvinit'

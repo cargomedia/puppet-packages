@@ -28,19 +28,9 @@ class cgroups {
     source => 'puppet:///modules/cgroups/cgconfig.aug',
   }
 
-  file { '/etc/init.d/cgconfig-apply':
-    ensure  => file,
-    content => template("${module_name}/init"),
-    mode    => '0755',
-    owner   => '0',
-    group   => '0',
-    notify  => Service['cgconfig-apply'],
-  }
-  ~>
-
-  exec { 'update-rc.d cgconfig-apply defaults && /etc/init.d/cgconfig-apply start':
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    refreshonly => true,
+  sysvinit::script { 'cgconfig-apply':
+    content           => template("${module_name}/init"),
+    require           => File['/etc/cgconfig.conf'],
   }
 
   service { 'cgconfig-apply':
