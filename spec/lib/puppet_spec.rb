@@ -17,12 +17,17 @@ class PuppetSpec
         :datadir => '/vagrant'
       },
       :hierarchy => [
-        @vagrant_box.parse_external_path(@spec_dir.join('hiera')).to_s,
+        @spec_dir.join('hiera').relative_path_from(@vagrant_box.working_dir).to_s,
         'spec/hiera'
       ]
     }
     hiera_config_command = "echo #{hiera_config.to_yaml.shellescape} > /etc/hiera.yaml"
     @vagrant_box.execute_ssh("sudo bash -c #{hiera_config_command.shellescape}")
+
+    hiera_path = @spec_dir.join('hiera.json')
+    if hiera_path.file?
+      puts "Hiera variables present: #{JSON.parse(hiera_path.read)}"
+    end
   end
 
   def apply_facts
