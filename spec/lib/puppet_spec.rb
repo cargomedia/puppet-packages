@@ -28,6 +28,7 @@ class PuppetSpec
   def apply_facts
     facts_path = @spec_dir.join('facts.json')
     if facts_path.file?
+      puts "Facts present: #{JSON.parse(facts_path.read)}"
       vagrant_facts_path = @vagrant_box.parse_external_path(facts_path)
       @vagrant_box.execute_ssh("sudo mkdir -p /etc/facter/facts.d && sudo ln -sf #{vagrant_facts_path.to_s.shellescape} /etc/facter/facts.d/")
     end
