@@ -4,7 +4,6 @@ require 'vagrant_helper'
 require 'yaml'
 require 'pathname'
 require 'rspec/its'
-require 'helper/puppet_provisioner'
 
 module RSpec
   module Core
@@ -17,6 +16,7 @@ module RSpec
   end
 end
 
+
 RSpec.configure do |configuration|
 
   debug = ENV['debug']
@@ -26,13 +26,14 @@ RSpec.configure do |configuration|
   vagrant_helper = VagrantHelper.new(root_dir, box, true)
   Specinfra.configuration.backend = :ssh
 
-
   configuration.before :all do
     spec_dir = Dir.new File.dirname self.get_file
 
     # spin up vagrant box
     vagrant_helper.reset unless keep_box
+    Specinfra.configuration.backend = :ssh
     Specinfra.configuration.ssh_options = vagrant_helper.ssh_options
+    Specinfra.configuration.ssh = vagrant_helper.ssh_start
 
     # generate and copy facts json
     if File.exists? spec_dir.to_path + '/facts.json'
@@ -74,11 +75,5 @@ RSpec.configure do |configuration|
         abort "Command failed: #{e.message}"
       end
     end
-  end
-
-  configuration.after :all do
-    # Specinfra.configuration.ssh.close if Specinfra.configuration.ssh
-    Specinfra.configuration.ssh = nil
-    # vagrant_helper.ssh_close
   end
 end

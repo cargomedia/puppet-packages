@@ -14,7 +14,6 @@ class VagrantHelper
   end
 
   def reset
-
     unless execute_local('vagrant plugin list').match(/vagrant-vbox-snapshot/)
       execute_local('vagrant plugin install vagrant-vbox-snapshot')
     end
@@ -34,6 +33,7 @@ class VagrantHelper
       execute_local("vagrant provision #{@box}")
       execute_local("vagrant snapshot take #{@box } default")
     end
+    ssh_close unless @ssh_connection.nil?
   end
 
   def status
@@ -60,10 +60,8 @@ class VagrantHelper
   end
 
   def ssh_close
-    if @ssh_connection
-      @ssh_connection.close
-      @ssh_connection = nil
-    end
+    @ssh_connection.close
+    @ssh_connection = nil
   end
 
   def execute_ssh(command)
