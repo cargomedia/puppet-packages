@@ -46,6 +46,6 @@ describe 'wowza::app::cm' do
   end
 
   describe command('curl http://localhost:8086/status') do
-    its(:stdout) { should eq "{}\n" }
+    its(:stdout) { should eq '{}' }
   end
 end

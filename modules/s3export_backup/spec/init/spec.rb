@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 's3export_backup' do
 
   describe command('s3export') do
-    its(:stderr) { should match '[options] <command> [arguments]' }
+    its(:stderr) { should match /\[options\] <command> \[arguments\]/ }
   end
 
   describe file('/usr/local/lib/s3export_backup/resources/config/local.php') do
