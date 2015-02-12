@@ -8,7 +8,7 @@ describe 'bipbip' do
   end
 
   describe command('/usr/local/bin/bipbip -v') do
-    it { should return_exit_status 0 }
+    its(:exit_status) { should eq 0 }
   end
 
   describe service('bipbip') do
@@ -32,7 +32,7 @@ describe 'bipbip' do
 
   yaml_files.each do |file|
     describe command("ruby -e \"require 'psych';Psych.load_file('#{file}')\"") do
-      it { should return_exit_status 0 }
+      its(:exit_status) { should eq 0 }
     end
   end
 
@@ -56,11 +56,11 @@ describe 'bipbip' do
   end
 
   describe command('logrotate -d /etc/logrotate.d/bipbip') do
-    it { should return_exit_status 0 }
+    its(:exit_status) { should eq 0 }
   end
 
   describe command('cat /proc/$(cat /var/run/bipbip.pid)/oom_score_adj') do
-    it { should return_exit_status 0 }
+    its(:exit_status) { should eq 0 }
     its(:stdout) { should match '-1000' }
   end
 end

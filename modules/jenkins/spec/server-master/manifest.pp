@@ -4,5 +4,4 @@ node default {
     hostname   => 'example.com',
     cluster_id => 'foo',
   }
-
 }
