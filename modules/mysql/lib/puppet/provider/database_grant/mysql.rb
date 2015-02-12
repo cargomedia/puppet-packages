@@ -1,3 +1,4 @@
+
 # A grant is either global or per-db. This can be distinguished by the syntax
 # of the name:
 #   user@host => global
@@ -9,7 +10,7 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
 
   defaultfor :kernel => 'Linux'
 
-  optional_commands :mysql => 'mysql'
+  optional_commands :mysql      => 'mysql'
   optional_commands :mysqladmin => 'mysqladmin'
 
   def self.user_privs
@@ -31,7 +32,7 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
   def self.query_user_privs
     results = mysql([defaults_file, 'mysql', '-Be', 'describe user'].compact)
     column_names = results.split(/\n/).map { |l| l.chomp.split(/\t/)[0] }
-    @user_privs = column_names.delete_if { |e| !(e =~/_priv$/) }
+    @user_privs = column_names.delete_if { |e| !( e =~/_priv$/) }
   end
 
   def self.query_db_privs
@@ -56,10 +57,10 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
         }
       when 4
         {
-          :type => :database,
+          :type => :db,
           :user => matches[0],
           :host => matches[1],
-          :database => matches[3]
+          :db => matches[3]
         }
     end
   end
@@ -72,9 +73,9 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
           mysql([defaults_file, 'mysql', '-e', "INSERT INTO user (host, user) VALUES ('%s', '%s')" % [
                                 name[:host], name[:user],
                               ]].compact)
-        when :database
+        when :db
           mysql([defaults_file, 'mysql', '-e', "INSERT INTO db (host, user, db) VALUES ('%s', '%s', '%s')" % [
-                                name[:host], name[:user], name[:database],
+                                name[:host], name[:user], name[:db],
                               ]].compact)
       end
       mysql_flush
@@ -82,33 +83,27 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
   end
 
   def destroy
-    mysql([defaults_file, 'mysql', '-e', "REVOKE ALL ON '%s'.* FROM '%s@%s'" % [@resource[:privileges], @resource[:database], @resource[:name], @resource[:host]]].compact)
+    mysql([defaults_file, 'mysql', '-e', "REVOKE ALL ON '%s'.* FROM '%s@%s'" % [ @resource[:privileges], @resource[:database], @resource[:name], @resource[:host] ]].compact)
   end
 
   def row_exists?
     name = split_name(@resource[:name])
     fields = [:user, :host]
-    if name[:type] == :database
-      fields << :database
+    if name[:type] == :db
+      fields << :db
     end
-    not mysql([defaults_file, 'mysql', '-NBe', "SELECT '1' FROM %s WHERE %s" % [name[:type], fields.map do |f|
-                                                                                             "%s='%s'" % [f, name[f]]
-                                                                                           end.join(' AND ')]].compact).empty?
+    not mysql([defaults_file, 'mysql', '-NBe', "SELECT '1' FROM %s WHERE %s" % [ name[:type], fields.map do |f| "%s='%s'" % [f, name[f]] end.join(' AND ')]].compact).empty?
   end
 
   def all_privs_set?
     all_privs = case split_name(@resource[:name])[:type]
                   when :user
                     user_privs
-                  when :database
+                  when :db
                     db_privs
                 end
-    all_privs = all_privs.collect do |p|
-      p.downcase
-    end.sort.join('|')
-    privs = privileges.collect do |p|
-      p.downcase
-    end.sort.join('|')
+    all_privs = all_privs.collect do |p| p.downcase end.sort.join('|')
+    privs = privileges.collect do |p| p.downcase end.sort.join('|')
 
     all_privs == privs
   end
@@ -119,28 +114,22 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
 
     case name[:type]
       when :user
-        privs = mysql([defaults_file, 'mysql', '-Be', "select * from mysql.user where user='%s' and host='%s'" % [name[:user], name[:host]]].compact)
-      when :database
-        privs = mysql([defaults_file, 'mysql', '-Be', "select * from mysql.db where user='%s' and host='%s' and db='%s'" % [name[:user], name[:host], name[:database]]].compact)
+        privs = mysql([defaults_file, 'mysql', '-Be', "select * from mysql.user where user='%s' and host='%s'" % [ name[:user], name[:host] ]].compact)
+      when :db
+        privs = mysql([defaults_file, 'mysql', '-Be', "select * from mysql.db where user='%s' and host='%s' and db='%s'" % [ name[:user], name[:host], name[:db] ]].compact)
     end
 
     if privs.match(/^$/)
       privs = [] # no result, no privs
     else
       # returns a line with field names and a line with values, each tab-separated
-      privs = privs.split(/\n/).map! do |l|
-        l.chomp.split(/\t/)
-      end
+      privs = privs.split(/\n/).map! do |l| l.chomp.split(/\t/) end
       # transpose the lines, so we have key/value pairs
       privs = privs[0].zip(privs[1])
-      privs = privs.select do |p|
-        p[0].match(/_priv$/) and p[1] == 'Y'
-      end
+      privs = privs.select do |p| p[0].match(/_priv$/) and p[1] == 'Y' end
     end
 
-    privs.collect do |p|
-      p[0]
-    end
+    privs.collect do |p| p[0] end
   end
 
   def privileges=(privs)
@@ -156,11 +145,11 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
     case name[:type]
       when :user
         stmt = 'update user set '
-        where = " where user='%s' and host='%s'" % [name[:user], name[:host]]
+        where = " where user='%s' and host='%s'" % [ name[:user], name[:host] ]
         all_privs = user_privs
-      when :database
+      when :db
         stmt = 'update db set '
-        where = " where user='%s' and host='%s' and db='%s'" % [name[:user], name[:host], name[:database]]
+        where = " where user='%s' and host='%s' and db='%s'" % [ name[:user], name[:host], name[:db] ]
         all_privs = db_privs
     end
 
@@ -174,9 +163,7 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
     privs = privs.map { |p| p.downcase }
 
     # puts "stmt:", stmt
-    set = all_privs.collect do |p|
-      "%s = '%s'" % [p, privs.include?(p.downcase) ? 'Y' : 'N']
-    end.join(', ')
+    set = all_privs.collect do |p| "%s = '%s'" % [p, privs.include?(p.downcase) ? 'Y' : 'N'] end.join(', ')
     # puts "set:", set
     stmt = stmt << set << where
 
@@ -212,7 +199,6 @@ Puppet::Type.type(:database_grant).provide(:mysql) do
       nil
     end
   end
-
   def defaults_file
     self.class.defaults_file
   end
