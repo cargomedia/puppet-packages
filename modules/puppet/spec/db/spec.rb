@@ -6,8 +6,13 @@ describe 'puppet::db' do
     it { should be_installed }
   end
 
+  describe service('puppetdb') do
+    it { should be_running }
+    it { should be_enabled }
+  end
+
 # Wait for puppetdb to start up
-  describe command('timeout --signal=9 30 bash -c "while ! (grep -q \'PuppetDB version\' /var/log/puppetdb/puppetdb.log); do sleep 0.5; done"') do
+  describe command('timeout --signal=9 30 bash -c "while ! (netstat -altp |grep -q \'java\'); do sleep 0.5; done"') do
     its(:exit_status) { should eq 0 }
   end
 
