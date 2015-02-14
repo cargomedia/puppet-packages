@@ -19,6 +19,10 @@ class nginx::config(
     mode  => '0644',
   }
 
+  file { $nginx::params::nx_temp_dir:
+    ensure => directory,
+  }
+
   file { $nginx::params::nx_conf_dir:
     ensure => directory,
   }
