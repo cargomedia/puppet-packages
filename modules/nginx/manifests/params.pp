@@ -1,5 +1,5 @@
 class nginx::params {
-  $nx_temp_dir = '/tmp'
+  $nx_temp_dir = '/etc/nginx/puppet-tmp'
   $nx_run_dir  = '/var/nginx'
 
   $nx_daemon_user           = 'nginx'
