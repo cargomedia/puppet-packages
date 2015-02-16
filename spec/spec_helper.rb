@@ -7,9 +7,8 @@ RSpec.configure do |configuration|
   debug = ENV['debug']
   keep_box = ENV['keep_box']
   box = ENV['box'] || 'wheezy'
-  root_dir = Dir.getwd
+  root_dir = Pathname.new(__FILE__).dirname.dirname
   vagrant_box = VagrantBox.new(root_dir, box, true)
-  Specinfra.configuration.backend = :ssh
 
   configuration.before :all do
 
