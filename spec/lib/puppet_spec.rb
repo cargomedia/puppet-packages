@@ -4,6 +4,8 @@ require 'yaml'
 
 class PuppetSpec
 
+  # @param [VagrantBox] vagrant_box
+  # @param [RSpec::Core::ExampleGroup] example_group
   def initialize(vagrant_box, example_group)
     @vagrant_box = vagrant_box
     example_file = example_group.class.metadata[:block].source_location.first
@@ -39,6 +41,7 @@ class PuppetSpec
     end
   end
 
+  # @param [TrueClass, FalseClass] debug
   def apply_manifests(debug)
     @spec_dir.entries.sort.each do |relative_path|
       next unless relative_path.extname == '.pp'

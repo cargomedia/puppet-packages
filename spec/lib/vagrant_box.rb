@@ -7,6 +7,9 @@ class VagrantBox
 
   attr_reader :working_dir
 
+  # @param [Pathname, String] working_dir
+  # @param [String] box
+  # @param [TrueClass, FalseClass] verbose
   def initialize(working_dir, box, verbose)
     working_dir = Pathname.new(working_dir) unless working_dir.instance_of? Pathname
     @working_dir = working_dir
@@ -37,6 +40,7 @@ class VagrantBox
     ssh_close unless @ssh_connection.nil?
   end
 
+  # @return [String]
   def status
     output = execute_local("vagrant status #{@box}")
     match_data = /^#{@box}\s+(.+?)\s+\(.+?\)$/.match(output)
@@ -46,12 +50,14 @@ class VagrantBox
     match_data[1]
   end
 
+  # @return [Hash]
   def ssh_options
     config = Tempfile.new('')
     execute_local("vagrant ssh-config > #{config.path}")
     Net::SSH::Config.for(@box, [config.path])
   end
 
+  # @return [Net::SSH::Connection::Session]
   def ssh_start
     if @ssh_connection.nil?
       options = ssh_options
@@ -65,6 +71,8 @@ class VagrantBox
     @ssh_connection = nil
   end
 
+  # @param [String] command
+  # @return [String]
   def execute_ssh(command)
     channel = ssh_start.open_channel do |channel|
       channel.exec(command) do |ch, success|
@@ -91,6 +99,8 @@ class VagrantBox
     channel[:output]
   end
 
+  # @param [String] command
+  # @param [Hash] env
   def execute_local(command, env = {})
     if @verbose
       puts command + (env.length > 0 ? ' (' + env.to_s + ')' : '')
@@ -115,6 +125,8 @@ class VagrantBox
     output_stdout
   end
 
+  # @param [Pathname, String] path
+  # @return [Pathname]
   def parse_external_path(path)
     path = Pathname.new(path) unless path.instance_of? Pathname
     path = path.relative_path_from(@working_dir)
