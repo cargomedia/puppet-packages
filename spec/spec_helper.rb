@@ -7,7 +7,7 @@ RSpec.configure do |configuration|
   debug = ENV['debug']
   keep_box = ENV['keep_box']
   box = ENV['box'] || 'wheezy'
-  root_dir = Pathname.new(__FILE__).dirname.dirname
+  root_dir = Dir.getwd
   vagrant_box = VagrantBox.new(root_dir, box, true)
 
   configuration.before :all do
