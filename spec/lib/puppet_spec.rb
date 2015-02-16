@@ -50,7 +50,7 @@ class PuppetSpec
 
       begin
         puts
-        puts "Applying`#{vagrant_manifest_path.to_s}`"
+        puts "Applying `#{vagrant_manifest_path.to_s}`"
         output = @vagrant_box.execute_ssh command
         output = output.gsub(/\e\[(\d+)(;\d+)*m/, '') # Remove color codes
         match = output.match(/^Error: .*$/)
