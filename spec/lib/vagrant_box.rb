@@ -5,7 +5,7 @@ require 'pathname'
 
 class VagrantBox
 
-  attr_accessor :working_dir
+  attr_reader :working_dir
 
   def initialize(working_dir, box, verbose)
     working_dir = Pathname.new(working_dir) unless working_dir.instance_of? Pathname
