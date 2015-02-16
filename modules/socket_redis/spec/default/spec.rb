@@ -1,18 +1,21 @@
 require 'spec_helper'
 
-describe package('socket-redis') do
-  it { should be_installed.by('npm') }
-end
+describe 'socket_redis' do
 
-describe service('socket-redis') do
-  it { should be_running }
-  it { should be_enabled }
-end
+  describe package('socket-redis') do
+    it { should be_installed.by('npm') }
+  end
 
-describe port(8085) do
-  it { should be_listening }
-end
+  describe service('socket-redis') do
+    it { should be_running }
+    it { should be_enabled }
+  end
 
-describe port(8090) do
-  it { should be_listening }
+  describe port(8085) do
+    it { should be_listening }
+  end
+
+  describe port(8090) do
+    it { should be_listening }
+  end
 end

@@ -1,8 +1,17 @@
 require 'open3'
+require 'net/ssh'
+require 'tempfile'
+require 'pathname'
 
-class VagrantHelper
+class VagrantBox
 
+  attr_reader :working_dir
+
+  # @param [Pathname, String] working_dir
+  # @param [String] box
+  # @param [TrueClass, FalseClass] verbose
   def initialize(working_dir, box, verbose)
+    working_dir = Pathname.new(working_dir) unless working_dir.instance_of? Pathname
     @working_dir = working_dir
     @box = box
     @verbose = verbose
@@ -26,10 +35,12 @@ class VagrantHelper
       execute_local("vagrant up --no-provision #{@box}", {'DISABLE_PROXY' => 'true'})
       execute_local("vagrant provision #{@box}", {'DISABLE_PROXY' => 'true'})
       execute_local("vagrant provision #{@box}")
-      execute_local("vagrant snapshot take #{@box} default")
+      execute_local("vagrant snapshot take #{@box } default")
     end
+    ssh_close unless @ssh_connection.nil?
   end
 
+  # @return [String]
   def status
     output = execute_local("vagrant status #{@box}")
     match_data = /^#{@box}\s+(.+?)\s+\(.+?\)$/.match(output)
@@ -39,28 +50,31 @@ class VagrantHelper
     match_data[1]
   end
 
-  def connect
-    user = Etc.getlogin
-    options = {}
-    host = ''
-    config = execute_local("vagrant ssh-config #{@box}")
-    config.each_line do |line|
-      if match = /HostName (.*)/.match(line)
-        host = match[1]
-        options = Net::SSH::Config.for(host)
-      elsif match = /User (.*)/.match(line)
-        user = match[1]
-      elsif match = /IdentityFile (.*)/.match(line)
-        options[:keys] = [match[1].gsub(/"/, '')]
-      elsif match = /Port (.*)/.match(line)
-        options[:port] = match[1]
-      end
-    end
-    @connection = Net::SSH.start(host, user, options)
+  # @return [Hash]
+  def ssh_options
+    config = Tempfile.new('')
+    execute_local("vagrant ssh-config > #{config.path}")
+    Net::SSH::Config.for(@box, [config.path])
   end
 
+  # @return [Net::SSH::Connection::Session]
+  def ssh_start
+    if @ssh_connection.nil?
+      options = ssh_options
+      @ssh_connection = Net::SSH.start(options[:host_name], options[:user], options)
+    end
+    @ssh_connection
+  end
+
+  def ssh_close
+    @ssh_connection.close
+    @ssh_connection = nil
+  end
+
+  # @param [String] command
+  # @return [String]
   def execute_ssh(command)
-    channel = @connection.open_channel do |channel|
+    channel = ssh_start.open_channel do |channel|
       channel.exec(command) do |ch, success|
         raise "could not execute command: #{command.inspect}" unless success
         ch[:output] = ''
@@ -85,13 +99,15 @@ class VagrantHelper
     channel[:output]
   end
 
+  # @param [String] command
+  # @param [Hash] env
   def execute_local(command, env = {})
     if @verbose
       puts command + (env.length > 0 ? ' (' + env.to_s + ')' : '')
     end
 
     output_stdout = output_stderr = exit_code = nil
-    Dir.chdir(@working_dir) {
+    Dir.chdir(@working_dir.to_s) {
       Open3.popen3(ENV.to_hash.merge(env), command) { |stdin, stdout, stderr, wait_thr|
         output_stdout = stdout.read.chomp
         output_stderr = stderr.read.chomp
@@ -109,7 +125,12 @@ class VagrantHelper
     output_stdout
   end
 
-  def get_path(real_path)
-    real_path.sub(@working_dir, '/vagrant')
+  # @param [Pathname, String] path
+  # @return [Pathname]
+  def parse_external_path(path)
+    path = Pathname.new(path) unless path.instance_of? Pathname
+    path = path.relative_path_from(@working_dir)
+    raise 'Cannot parse path outside of working directory' if path.to_s.match(/^..\//)
+    path.expand_path('/vagrant')
   end
 end

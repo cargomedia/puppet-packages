@@ -23,39 +23,41 @@ eth3_matches = [
   'mtu 16000',
 ]
 
+describe 'network' do
 
-describe file('/etc/network/interfaces') do
-  it { should be_file }
-  eth1_matches.each do |match|
-    it { should contain(match).from(/^iface eth1/).to(/^iface/) }
+  describe file('/etc/network/interfaces') do
+    it { should be_file }
+    eth1_matches.each do |match|
+      it { should contain(match).from(/^iface eth1/).to(/^iface/) }
+    end
+    eth3_matches.each do |match|
+      it { should contain(match).after(/^iface eth3/) }
+    end
   end
-  eth3_matches.each do |match|
-    it { should contain(match).after(/^iface eth3/) }
+
+  describe file('/etc/hosts') do
+    it { should be_file }
+    its(:content) { should match('foo') }
   end
-end
 
-describe file('/etc/hosts') do
-  it { should be_file }
-  its(:content) { should match('foo') }
-end
+  describe host('foo') do
+    it { should be_resolvable }
+  end
 
-describe host('foo') do
-  it { should be_resolvable }
-end
+  describe file('/etc/resolv.conf') do
+    it { should be_file }
+    its(:content) { should match('example.local') }
+  end
 
-describe file('/etc/resolv.conf') do
-  it { should be_file }
-  its(:content) { should match('example.local') }
-end
+  describe interface('eth1') do
+    it { should have_ipv4_address("10.10.20.122") }
+  end
 
-describe interface('eth1') do
-  it { should have_ipv4_address("10.10.20.122") }
-end
+  describe interface('eth3') do
+    it { should_not have_ipv4_address("10.10.40.10") }
+  end
 
-describe interface('eth3') do
-  it { should_not have_ipv4_address("10.10.40.10") }
-end
-
-describe command('netstat -rn') do
-  its(:stdout) { should match /10.10.130.0.*eth1/ }
+  describe command('netstat -rn') do
+    its(:stdout) { should match /10.10.130.0.*eth1/ }
+  end
 end

@@ -1,14 +1,17 @@
 require 'spec_helper'
 
-describe port(6379) do
-  it { should be_listening }
-end
+describe 'redis' do
 
-describe command('sysctl vm.overcommit_memory') do
-  it { should return_exit_status 0 }
-  its(:stdout) { should match /vm.overcommit_memory = 1/ }
-end
+  describe port(6379) do
+    it { should be_listening }
+  end
 
-describe command('monit summary') do
-  its(:stdout) { should match /redis/ }
+  describe command('sysctl vm.overcommit_memory') do
+    its(:exit_status) { should eq 0 }
+    its(:stdout) { should match /vm.overcommit_memory = 1/ }
+  end
+
+  describe command('monit summary') do
+    its(:stdout) { should match /redis/ }
+  end
 end

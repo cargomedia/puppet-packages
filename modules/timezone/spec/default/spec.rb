@@ -1,9 +1,12 @@
 require 'spec_helper'
 
-describe file('/etc/timezone') do
-  its(:content) { should match /Etc\/UTC/ }
-end
+describe 'timezone' do
 
-describe command('2>&1 dpkg-reconfigure -f noninteractive tzdata') do
-  its(:stdout) { should match /default time zone.*Etc\/UTC/ }
+  describe file('/etc/timezone') do
+    its(:content) { should match /Etc\/UTC/ }
+  end
+
+  describe command('2>&1 dpkg-reconfigure -f noninteractive tzdata') do
+    its(:stdout) { should match /default time zone.*Etc\/UTC/ }
+  end
 end

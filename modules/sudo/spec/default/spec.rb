@@ -1,9 +1,12 @@
 require 'spec_helper'
 
-describe package('sudo') do
-  it { should be_installed }
-end
+describe 'sudo' do
 
-describe command('sudo -u foo sudo uname') do
-  it { should return_exit_status 0 }
+  describe package('sudo') do
+    it { should be_installed }
+  end
+
+  describe command('sudo -u foo sudo uname') do
+    its(:exit_status) { should eq 0 }
+  end
 end

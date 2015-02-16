@@ -1,16 +1,19 @@
 require 'spec_helper'
 
-describe service('mms-monitoring') do
-  it { should be_enabled }
-  it { should be_running }
-end
+describe 'mms::monitoring' do
 
-describe file ('/etc/mongodb-mms/monitoring-agent.config') do
-  its(:content) { should match /mmsApiKey=test-key/ }
-  its(:content) { should match /globalAuthUsername=mms/ }
-  its(:content) { should match /globalAuthPassword=mms/ }
-end
+  describe service('mms-monitoring') do
+    it { should be_enabled }
+    it { should be_running }
+  end
 
-describe command('monit summary') do
-  its(:stdout) { should match /Process 'mms-monitoring'/ }
+  describe file ('/etc/mongodb-mms/monitoring-agent.config') do
+    its(:content) { should match /mmsApiKey=test-key/ }
+    its(:content) { should match /globalAuthUsername=mms/ }
+    its(:content) { should match /globalAuthPassword=mms/ }
+  end
+
+  describe command('monit summary') do
+    its(:stdout) { should match /Process 'mms-monitoring'/ }
+  end
 end

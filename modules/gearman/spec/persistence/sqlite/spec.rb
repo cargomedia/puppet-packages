@@ -1,23 +1,26 @@
 require 'spec_helper'
 
-describe file('/var/log/gearman-job-server/gearman-persist.sqlite3') do
-  it { should be_file }
-  it { should be_owned_by 'gearman' }
-end
+describe 'gearman persistence sqlite' do
 
-describe file('/etc/default/gearman-job-server') do
-  it { should be_file }
-  its(:content) { should match /-q libsqlite3/ }
-end
+  describe file('/var/log/gearman-job-server/gearman-persist.sqlite3') do
+    it { should be_file }
+    it { should be_owned_by 'gearman' }
+  end
 
-describe service('gearman-job-server') do
-  it { should be_running }
-end
+  describe file('/etc/default/gearman-job-server') do
+    it { should be_file }
+    its(:content) { should match /-q libsqlite3/ }
+  end
 
-describe port(4730) do
-  it { should be_listening }
-end
+  describe service('gearman-job-server') do
+    it { should be_running }
+  end
 
-describe command('lsof | grep gearmand | grep -q gearman-persist.sqlite3') do
-  it { should return_exit_status 0 }
+  describe port(4730) do
+    it { should be_listening }
+  end
+
+  describe command('lsof | grep gearmand | grep -q gearman-persist.sqlite3') do
+    its(:exit_status) { should eq 0 }
+  end
 end
