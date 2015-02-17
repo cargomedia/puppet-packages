@@ -104,6 +104,8 @@ class puppet::master (
       port     => $puppetdb_port,
       port_ssl => $puppetdb_port_ssl,
     }
+    ->
+
     class { 'puppet::master::puppetdb':
       port => $puppetdb_port_ssl,
     }
