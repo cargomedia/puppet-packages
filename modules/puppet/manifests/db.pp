@@ -82,9 +82,16 @@ class puppet::db(
   service { 'puppetdb':
     enable => true,
   }
+  ~>
+
+  exec { 'puppet::db ready' :
+    command     => 'timeout --signal=9 120 bash -c "while ! (netstat -altp | grep -q \'java\'); do sleep 0.5; done"',
+    path        => "/usr/bin:/bin",
+    refreshonly => true,
+  }
 
   @monit::entry { 'puppetdb':
     content => template("${module_name}/db/monit"),
-    require => Service['puppetdb'],
+    require => Exec['puppet::db ready'],
   }
 }
