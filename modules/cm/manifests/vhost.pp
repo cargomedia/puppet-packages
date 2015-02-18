@@ -18,12 +18,12 @@ define cm::vhost(
 
 
   if ($redirect) {
-    $protocol = $ssl ? { true => 'https', false => 'http'}
+    $protocol = $ssl ? { true => 'https', false => 'http' }
     nginx::resource::vhost{ "${name}-redirect":
       listen_port         => 80,
-      server_name         => $hostnames,
+      server_name         => $redirect,
       location_cfg_append => [
-        "return 301 ${protocol}://${redirect}\$request_uri;",
+        "return 301 ${protocol}://${name}\$request_uri;",
       ],
     }
   } elsif ($ssl) {
