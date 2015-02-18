@@ -51,19 +51,33 @@ hdnRAoGAf2QS8mvy8/eagaX7UD7iQKAFX/6tQINRmprAjuF6/fOmZ3MQu9Q5R0mS
 inZL8VyT42eLzq/N4eyQ/Xxd7HR0gWmwu+o18FYcrZVbaF3+VyQ=
 -----END RSA PRIVATE KEY-----'
 
-  $domain = 'foo.cm'
+  $domain_cm = 'foo.cm'
+  $domain_xx = 'foo.xx'
 
   host { $domain:
-    host_aliases => [ 'admin.foo.cm', 'www.foo.cm', 'origin-www.foo.cm', 'bar.cm' ],
+    host_aliases => [
+      $domain_cm, "www.$domain_cm", "admin.$domain_cm",
+      $domain_xx, "www.$domain_xx", "admin.$domain_xx",
+      'bar.cm', 'bor.cm', 'baz.cm' ],
     ip           => '127.0.0.1',
   }
 
-  cm::vhost { "www.${domain}":
+  cm::vhost { $domain_xx:
     path       => $application_root,
     ssl_cert   => $ssl_cert,
     ssl_key    => $ssl_key,
-    aliases    => [ $domain, "admin.${domain}" ],
-    cdn_origin => "origin-www.${domain}",
-    redirect   => 'bar.cm',
+    aliases    => ["www.${domain_xx}", "admin.${domain_xx}"],
+    cdn_origin => "origin-www.${domain_xx}",
   }
+
+
+  cm::vhost { "www.${domain_cm}":
+    path       => $application_root,
+    ssl_cert   => $ssl_cert,
+    ssl_key    => $ssl_key,
+    aliases    => [ $domain_cm, "admin.${domain_cm}" ],
+    cdn_origin => "origin-www.${domain_cm}",
+    redirect   => ['bar.cm', 'bor.cm', 'baz.cm'],
+  }
+
 }
