@@ -89,7 +89,7 @@ class puppet::db(
 
   exec { 'puppet::db ready' :
     command     => 'timeout --signal=9 120 bash -c \'while ! (netstat -altp | grep "$(cat /var/run/puppetdb.pid)/java"); do sleep 0.5; done\'',
-    path        => "/usr/bin:/bin",
+    path        => '/usr/bin:/bin',
     refreshonly => true,
   }
 
