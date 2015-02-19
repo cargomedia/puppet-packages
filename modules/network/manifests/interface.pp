@@ -42,7 +42,7 @@ define network::interface (
       augeas { "main-${device}" :
         context => '/files/etc/network/interfaces',
         changes => template("${module_name}/interface/static_manual"),
-        require => Class['augeas']
+        require => Class['augeas'],
       }
     }
     default: {
@@ -55,7 +55,7 @@ define network::interface (
       command     => "ifdown --force ${device} && ifup ${device}",
       path        => ['/bin', '/sbin', '/usr/bin'],
       refreshonly => true,
-      subscribe   => Augeas["main-${device}"]
+      subscribe   => Augeas["main-${device}"],
     }
   }
 
