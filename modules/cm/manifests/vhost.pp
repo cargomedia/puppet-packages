@@ -26,7 +26,9 @@ define cm::vhost(
         "return 301 ${protocol}://${name}\$request_uri;",
       ],
     }
-  } elsif ($ssl) {
+  }
+
+  if ($ssl) {
     nginx::resource::vhost{ "${name}-https-redirect":
       listen_port         => 80,
       server_name         => $hostnames,

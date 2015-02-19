@@ -10,8 +10,10 @@ describe 'nginx:vhost' do
   end
 
   ['www.', 'admin.', ''].each do |name|
-    describe command("curl --proxy '' -v http://#{name}foo.xx") do
-      its(:stderr) { should match /< Location: https:\/\/#{name}foo\.xx\// }
+    ['xx', 'cm'].each do |tld|
+      describe command("curl --proxy '' -v http://#{name}foo.#{tld}") do
+        its(:stderr) { should match /< Location: https:\/\/#{name}foo\.#{tld}\// }
+      end
     end
   end
 end
