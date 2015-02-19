@@ -52,9 +52,11 @@ define network::interface (
     }
   }
 
-  exec { "Restart ${device}":
-    command     => "ifdown --force ${device} && ifup ${device}",
-    path        => ['/bin', '/sbin', '/usr/bin'],
-    refreshonly => true,
+  if $applyconfig {
+    exec { "Restart ${device}":
+      command     => "ifdown --force ${device} && ifup ${device}",
+      path        => ['/bin', '/sbin', '/usr/bin'],
+      refreshonly => true,
+    }
   }
 }
