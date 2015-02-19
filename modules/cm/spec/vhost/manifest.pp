@@ -56,8 +56,8 @@ inZL8VyT42eLzq/N4eyQ/Xxd7HR0gWmwu+o18FYcrZVbaF3+VyQ=
 
   host { $domain:
     host_aliases => [
-      $domain_cm, "www.$domain_cm", "admin.$domain_cm",
-      $domain_xx, "www.$domain_xx", "admin.$domain_xx",
+      $domain_cm, "www.${domain_cm}", "admin.${domain_cm}",
+      $domain_xx, "www.${domain_xx}", "admin.${domain_xx}",
       'bar.cm', 'bor.cm', 'baz.cm' ],
     ip           => '127.0.0.1',
   }
