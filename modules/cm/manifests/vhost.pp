@@ -3,6 +3,7 @@ define cm::vhost(
   $ssl_cert = undef,
   $ssl_key = undef,
   $aliases = [],
+  $redirect = undef,
   $cdn_origin = undef,
   $debug = false
 ) {
@@ -13,6 +14,19 @@ define cm::vhost(
   $debug_int = $debug ? { true => 1, false => 0 }
   $ssl = ($ssl_cert != undef) or ($ssl_key != undef)
   $port = $ssl ? { true => 443, false => 80 }
+
+
+
+  if ($redirect) {
+    $protocol = $ssl ? { true => 'https', false => 'http' }
+    nginx::resource::vhost{ "${name}-redirect":
+      listen_port         => 80,
+      server_name         => $redirect,
+      location_cfg_append => [
+        "return 301 ${protocol}://${name}\$request_uri;",
+      ],
+    }
+  }
 
   if ($ssl) {
     nginx::resource::vhost{ "${name}-https-redirect":
