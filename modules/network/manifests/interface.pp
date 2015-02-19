@@ -23,7 +23,6 @@ define network::interface (
         context => '/files/etc/network/interfaces',
         changes => template("${module_name}/interface/dhcp"),
         require => Class['augeas'],
-        notify  => Exec["Restart ${device}"],
       }
     }
     'static': {
@@ -37,14 +36,13 @@ define network::interface (
         context => '/files/etc/network/interfaces',
         changes => template("${module_name}/interface/static_manual"),
         require => Class['augeas'],
-        notify  => Exec["Restart ${device}"],
       }
     }
     'manual': {
       augeas { "main-${device}" :
         context => '/files/etc/network/interfaces',
         changes => template("${module_name}/interface/static_manual"),
-        require => Class['augeas']
+        require => Class['augeas'],
       }
     }
     default: {
@@ -52,9 +50,13 @@ define network::interface (
     }
   }
 
-  exec { "Restart ${device}":
-    command     => "ifdown --force ${device} && ifup ${device}",
-    path        => ['/bin', '/sbin', '/usr/bin'],
-    refreshonly => true,
+  if $applyconfig {
+    exec { "Restart ${device}":
+      command     => "ifdown --force ${device} && ifup ${device}",
+      path        => ['/bin', '/sbin', '/usr/bin'],
+      refreshonly => true,
+      subscribe   => Augeas["main-${device}"],
+    }
   }
+
 }
