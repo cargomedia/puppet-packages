@@ -53,7 +53,6 @@ define network::interface (
   if $applyconfig {
     exec { "Restart ${device}":
       command     => "ifdown --force ${device} && ifup ${device}",
-      onlyif      => "$applyconfig",
       path        => ['/bin', '/sbin', '/usr/bin'],
       refreshonly => true,
       subscribe   => Augeas["main-${device}"]
