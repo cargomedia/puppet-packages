@@ -3,6 +3,7 @@ class puppet::db(
   $port_ssl
 ) {
 
+  include 'puppet::common'
   include 'puppet::master'
 
   $path_ssl_private = '/etc/puppetdb/ssl/private.pem'
@@ -24,7 +25,8 @@ class puppet::db(
   ->
 
   package { 'puppetdb':
-    ensure => present,
+    ensure  => present,
+    require => Helper::Script['install puppet apt sources'],
   }
   ->
 
@@ -88,7 +90,7 @@ class puppet::db(
   ~>
 
   exec { 'puppet::db ready' :
-    command     => 'timeout --signal=9 120 bash -c \'while ! (netstat -altp | grep "$(cat /var/run/puppetdb.pid)/java"); do sleep 0.5; done\'',
+    command     => 'timeout --signal=9 120 bash -c \'while ! (netstat -altp | grep -w "$(cat /var/run/puppetdb.pid)"); do sleep 0.5; done\'',
     path        => '/usr/bin:/bin',
     refreshonly => true,
   }
