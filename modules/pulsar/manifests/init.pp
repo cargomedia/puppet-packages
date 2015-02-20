@@ -4,7 +4,7 @@ class pulsar ($repository = undef) {
   require 'git'
 
   ruby::gem { 'pulsar':
-    ensure => present,
+    ensure => '0.3.5',
   }
 
   if $repository {
