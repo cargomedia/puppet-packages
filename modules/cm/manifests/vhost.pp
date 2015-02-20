@@ -25,6 +25,9 @@ define cm::vhost(
       location_cfg_append => [
         "return 301 ${protocol}://${name}\$request_uri;",
       ],
+      vhost_cfg_prepend   => [
+        'add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";'
+      ]
     }
   }
 
@@ -35,6 +38,9 @@ define cm::vhost(
       location_cfg_append => [
         'return 301 https://$host$request_uri;',
       ],
+      vhost_cfg_prepend   => [
+        'add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";'
+      ]
     }
   }
 
@@ -52,6 +58,9 @@ define cm::vhost(
       'fastcgi_pass fastcgi-backend;',
       'error_page 502 =503 /maintenance;',
     ],
+    vhost_cfg_prepend   => [
+      'add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";'
+    ]
   }
 
   nginx::resource::location{ "${name}-fpm-status":
