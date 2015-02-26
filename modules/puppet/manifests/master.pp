@@ -12,7 +12,10 @@ class puppet::master (
   $puppetfile = undef,
   $puppetfile_hiera_data_dir = undef,
   $port_webrick = 8140,
-  $port_passenger = undef
+  $port_passenger = undef,
+  $librarian_config = {
+    'LIBRARIAN_PUPPET_RSYNC' => true
+  }
 ) {
 
   require 'ssh::auth::keyserver'
@@ -70,6 +73,21 @@ class puppet::master (
     mode    => '0644',
     before  => Package['puppetmaster'],
     notify  => Service['puppetmaster'],
+  }
+
+  file { ['/etc/puppet/.librarian', '/etc/puppet/.librarian/puppet']:
+    ensure => directory,
+    group  => '0',
+    owner  => '0',
+    mode   => '0755',
+  }
+
+  file { '/etc/puppet/.librarian/puppet/config':
+    ensure  => file,
+    content => template("${module_name}/master/librarian"),
+    group   => '0',
+    owner   => '0',
+    mode    => '0644',
   }
 
   if $reportToEmail {
