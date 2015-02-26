@@ -15,8 +15,8 @@ describe 'puppet::master puppetfile' do
     its(:content) { should match /foobar+.*\/etc\/puppet\/data\/+.*/ }
   end
 
-  describe file('/etc/puppet/.librarian/puppet/config') do
-    its(:content) { should match /LIBRARIAN_PUPPET_RSYNC: 'true'/ }
+  describe command('cd /etc/puppet/ && librarian-puppet config') do
+    its(:stdout) { should match /rsync: true/ }
   end
 
   describe cron do

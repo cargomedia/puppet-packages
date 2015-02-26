@@ -1,7 +1,13 @@
 class puppet::master::puppetfile(
   $content,
   $hiera_data_dir  = undef,
-  $puppetfile_hiera_data_dir = undef
+  $puppetfile_hiera_data_dir = undef,
+  $librarian_config = {
+    'rsync' => {
+      path => '/etc/puppet',
+      value => true
+    }
+  }
 ) {
 
   require 'librarian_puppet'
@@ -30,7 +36,6 @@ class puppet::master::puppetfile(
 
   $update_command = "cd /etc/puppet && librarian-puppet update ${sync_command}"
 
-
   file { '/etc/puppet/Puppetfile':
     ensure  => file,
     owner   => '0',
@@ -48,6 +53,8 @@ class puppet::master::puppetfile(
     environment => ['HOME=/root'],
     refreshonly => true,
   }
+
+  create_resources('librarian_puppet::config', $librarian_config)
 
   cron { 'Update puppet master Puppetfile':
     command     => $update_command,

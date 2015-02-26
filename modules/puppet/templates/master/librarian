@@ -1,4 +1,0 @@
----
-<% if @librarian_config -%><% @librarian_config.each do |key, value| -%>
-<%= key %>: '<%= value %>'
-<% end -%><% end -%>
