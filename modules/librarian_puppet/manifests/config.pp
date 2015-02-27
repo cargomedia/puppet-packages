@@ -2,7 +2,7 @@ define librarian_puppet::config (
   $value,
   $path = undef,
   $user = 'root',
-  $environment = ['HOME=/root']
+  $user_home = '/root'
 ) {
 
   $command_prefix = "librarian-puppet config ${name}"
@@ -21,7 +21,7 @@ define librarian_puppet::config (
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     provider    => shell,
     user        => $user,
-    environment => $environment,
+    environment => ["HOME=${user_home}"],
     unless      => $unless
   }
 
