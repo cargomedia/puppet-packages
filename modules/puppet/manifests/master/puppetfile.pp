@@ -28,8 +28,13 @@ class puppet::master::puppetfile(
     }
   }
 
-  $update_command = "cd /etc/puppet && librarian-puppet update ${sync_command}"
+  librarian_puppet::config { 'rsync for /etc/puppet':
+    name  => 'rsync',
+    path  => '/etc/puppet',
+    value => true
+  }
 
+  $update_command = "cd /etc/puppet && librarian-puppet update ${sync_command}"
 
   file { '/etc/puppet/Puppetfile':
     ensure  => file,
