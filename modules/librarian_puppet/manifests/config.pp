@@ -23,7 +23,7 @@ define librarian_puppet::config (
     cwd         => $path,
     user        => $user,
     environment => ["HOME=${user_home}"],
-    unless      => $unless
+    unless      => $unless,
   }
 
 }
