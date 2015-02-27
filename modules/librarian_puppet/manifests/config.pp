@@ -16,7 +16,7 @@ define librarian_puppet::config (
   $command = "${command_prefix} ${value} ${command_option}"
   $unless = "${command_prefix} | grep ${name}"
 
-  exec { "set config ${name} to ${value}":
+  exec { "set librairan-puppet config ${name} to ${value}":
     command     => $command,
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     provider    => shell,
