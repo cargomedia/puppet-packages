@@ -6,20 +6,21 @@ define librarian_puppet::config (
 ) {
 
   $command_prefix = "librarian-puppet config ${name}"
-  $unless_sufix = "${command_prefix} | grep ${name}"
 
   if ($path == undef) {
-    $command = "${command_prefix} ${value} --global"
-    $unless = $unless_sufix
+    $command_option = "--global"
   } else {
-    $command = "cd ${path} && ${command_prefix} ${value} --local"
-    $unless = "cd ${path} && ${unless_sufix}"
+    $command_option = "--local"
   }
+
+  $command = "${command_prefix} ${value} ${command_option}"
+  $unless = "${command_prefix} | grep ${name}"
 
   exec { "set config ${name} to ${value}":
     command     => $command,
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     provider    => shell,
+    cwd         => $path,
     user        => $user,
     environment => ["HOME=${user_home}"],
     unless      => $unless
