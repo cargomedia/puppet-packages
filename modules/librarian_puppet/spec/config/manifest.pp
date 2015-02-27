@@ -13,7 +13,7 @@ node default {
 
   librarian_puppet::config { 'slave-local':
     path  => '/tmp',
-    value => 'true',
+    value => true,
   }
 
   librarian_puppet::config { 'slave-global':

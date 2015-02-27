@@ -8,9 +8,9 @@ define librarian_puppet::config (
   $command_prefix = "librarian-puppet config ${name}"
 
   if ($path == undef) {
-    $command_option = "--global"
+    $command_option = '--global'
   } else {
-    $command_option = "--local"
+    $command_option = '--local'
   }
 
   $command = "${command_prefix} ${value} ${command_option}"
