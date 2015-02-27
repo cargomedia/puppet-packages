@@ -28,7 +28,8 @@ class puppet::master::puppetfile(
     }
   }
 
-  librarian_puppet::config { 'rsync':
+  librarian_puppet::config { 'rsync for /etc/puppet':
+    name  => 'rsync',
     path  => '/etc/puppet',
     value => true
   }
