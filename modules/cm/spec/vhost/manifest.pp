@@ -72,12 +72,12 @@ inZL8VyT42eLzq/N4eyQ/Xxd7HR0gWmwu+o18FYcrZVbaF3+VyQ=
 
 
   cm::vhost { "www.${domain_cm}":
-    path       => $application_root,
-    ssl_cert   => $ssl_cert,
-    ssl_key    => $ssl_key,
-    aliases    => [ $domain_cm, "admin.${domain_cm}" ],
-    cdn_origin => "origin-www.${domain_cm}",
-    redirect   => ['bar.cm', 'bor.cm', 'baz.cm'],
+    path        => $application_root,
+    ssl_cert    => $ssl_cert,
+    ssl_key     => $ssl_key,
+    aliases     => [ $domain_cm, "admin.${domain_cm}" ],
+    cdn_origin  => "origin-www.${domain_cm}",
+    redirects   => ['bar.cm', 'bor.cm', 'baz.cm'],
   }
 
 }
