@@ -45,7 +45,7 @@ start_puppet_agent() {
 }
 
 stop_puppet_agent() {
-    start-stop-daemon --stop --retry TERM/10/KILL/5 --quiet --oknodo --pidfile $PIDFILE
+    start-stop-daemon --stop --retry TERM/20/KILL/20 --quiet --oknodo --pidfile $PIDFILE
 }
 
 status_puppet_agent() {
