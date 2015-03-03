@@ -24,4 +24,10 @@ describe 'copperegg_revealcloud' do
     its(:exit_status) { should eq 0 }
     its(:stdout) { should match '-1000' }
   end
+
+  describe file('/etc/init.d/revealcloud') do
+    it { should be_file }
+    its(:content) { should match '-t tag1' }
+    its(:content) { should match '-t tag2' }
+  end
 end

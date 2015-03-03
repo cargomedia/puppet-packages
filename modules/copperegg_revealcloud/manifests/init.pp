@@ -1,14 +1,14 @@
 class copperegg_revealcloud(
   $api_key,
   $label = $::clientcert,
-  $tags = [],
+  $tags = $::copperegg_tags,
   $version = 'v3.3-92-g0814c8d',
   $enable_node = true
 ) {
 
   $dir = '/usr/local/revealcloud'
   $api_host = 'api.copperegg.com'
-  $tag_list = hiera_array('copperegg_revealcloud::tags', $tags)
+  $tag_list = $tags ? { undef => [], default => $tags }
 
   case $::architecture {
     i386: { $url = "http://cdn.copperegg.com/revealcloud/${version}/linux-2.6/i386/revealcloud" }
