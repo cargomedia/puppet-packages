@@ -109,6 +109,9 @@ define cm::vhost(
       location_cfg_append => [
         'deny all;',
       ],
+      vhost_cfg_prepend   => [
+        'add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";'
+      ]
     }
   } else {
     $cdn_origin_vhost = $name
