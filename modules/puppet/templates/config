@@ -5,3 +5,4 @@ logdir = /var/log/puppet
 rundir = /var/run/puppet
 basemodulepath = <%= @basemodulepath %>
 certname = <%= @clientcert %>
+stringify_facts = false
