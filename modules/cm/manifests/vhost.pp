@@ -15,6 +15,8 @@ define cm::vhost(
   $ssl = ($ssl_cert != undef) or ($ssl_key != undef)
   $port = $ssl ? { true => 443, false => 80 }
 
+  $hsts_header = $ssl ? {true => 'add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";', false => '' }
+
   if ($redirects) {
     $protocol = $ssl ? { true => 'https', false => 'http' }
     nginx::resource::vhost{ "${name}-redirect":
@@ -24,7 +26,7 @@ define cm::vhost(
         "return 301 ${protocol}://${name}\$request_uri;",
       ],
       vhost_cfg_prepend   => [
-        'add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";'
+        $hsts_header
       ]
     }
   }
@@ -37,7 +39,7 @@ define cm::vhost(
         'return 301 https://$host$request_uri;',
       ],
       vhost_cfg_prepend   => [
-        'add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";'
+        $hsts_header
       ]
     }
   }
@@ -57,7 +59,7 @@ define cm::vhost(
       'error_page 502 =503 /maintenance;',
     ],
     vhost_cfg_prepend   => [
-      'add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";'
+      $hsts_header
     ]
   }
 
@@ -110,7 +112,7 @@ define cm::vhost(
         'deny all;',
       ],
       vhost_cfg_prepend   => [
-        'add_header Strict-Transport-Security "max-age=31536000; includeSubdomains;";'
+        $hsts_header
       ]
     }
   } else {
