@@ -26,3 +26,7 @@ if ! (timeout --signal=9 5 bash -c "while ! (monitCheckHasReloaded); do sleep 0.
   # Hard-restart monit in case it cannot reload
   /etc/init.d/monit restart
 fi
+
+if ! (timeout --signal=9 10 bash -c "while ! (monitCheckHasReloaded); do sleep 0.05; done"); then
+  exit 1
+fi
