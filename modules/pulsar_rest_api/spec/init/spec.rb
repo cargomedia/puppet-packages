@@ -14,8 +14,8 @@ describe 'pulsar_rest_api' do
     its(:content) { should include "repo: 'foo/bar'" }
     its(:content) { should include "branch: 'master'" }
     its(:content) { should include "githubOauthSecret: 'secret'"}
-    its(:content) { should include "read: ['read-org']" }
-    its(:content) { should include "write: ['write-org']" }
+    its(:content) { should include 'read: ["read-org", "read-user"]' }
+    its(:content) { should include 'write: ["write-org"]' }
   end
 
   describe port(8080) do

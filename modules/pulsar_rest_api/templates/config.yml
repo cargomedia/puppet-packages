@@ -17,7 +17,7 @@ authentication:
   baseUrl: '<%= @authentication['base_url'] %>'
 <% if @authentication['authorization'] -%>
   authorization:
-    read: ['<%= @authentication['authorization']['read'] %>']
-    write: ['<%= @authentication['authorization']['write'] %>']
+    read: <%= @authentication['authorization']['read'] %>
+    write: <%= @authentication['authorization']['write'] %>
 <% end -%>
 <% end -%>

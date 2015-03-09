@@ -15,8 +15,8 @@ node default {
       'github_org' => 'org',
       'base_url' => 'base_url',
       'authorization' => {
-        'read' => 'read-org',
-        'write' => 'write-org',
+        'read' => ['read-org', 'read-user'],
+        'write' => ['write-org'],
       }
     },
   }
