@@ -10,6 +10,14 @@ describe 'pulsar_rest_api' do
     it { should be_installed.by('npm') }
   end
 
+  describe file('/etc/pulsar-rest-api/config.yml') do
+    its(:content) { should include "repo: 'foo/bar'" }
+    its(:content) { should include "branch: 'master'" }
+    its(:content) { should include "githubOauthSecret: 'secret'"}
+    its(:content) { should include "read: ['read-org']" }
+    its(:content) { should include "write: ['write-org']" }
+  end
+
   describe port(8080) do
     it { should be_listening }
   end

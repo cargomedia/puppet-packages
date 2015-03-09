@@ -9,11 +9,15 @@ node default {
     pulsar_repo    => 'foo/bar',
     pulsar_branch  => 'master',
 
-    auth           => {
+    authentication => {
       'github_oauth_id' => 'id',
       'github_oauth_secret' => 'secret',
       'github_org' => 'org',
       'base_url' => 'base_url',
+      'authorization' => {
+        'read' => 'read-org',
+        'write' => 'write-org',
+      }
     },
   }
 }

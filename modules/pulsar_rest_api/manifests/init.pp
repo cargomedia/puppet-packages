@@ -11,7 +11,7 @@ class pulsar_rest_api (
   $pulsar_repo = undef,
   $pulsar_branch = undef,
 
-  $auth = undef,
+  $authentication = undef,
 ) {
 
   require bower
