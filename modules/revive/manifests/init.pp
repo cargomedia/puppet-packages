@@ -3,7 +3,7 @@ class revive (
   $certificatePem,
   $certificateKey,
   $certificateCa = undef,
-  $version = '3.0.5',
+  $version = '3.1.0',
   $dbName = 'revive',
   $dbUser = 'revive',
   $dbPassword = 'revive'
