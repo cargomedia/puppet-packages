@@ -9,10 +9,15 @@ pulsar:
   branch: '<%= @pulsar_branch %>'
 <% end -%>
 logPath: '<%= @log_dir %>/pulsar-rest-api.log'
-<% if @auth -%>
-auth:
-  githubOauthId: '<%= @auth['github_oauth_id'] %>'
-  githubOauthSecret: '<%= @auth['github_oauth_secret'] %>'
-  githubOrg: '<%= @auth['github_org'] %>'
-  baseUrl: '<%= @auth['base_url'] %>'
+<% if @authentication -%>
+authentication:
+  githubOauthId: '<%= @authentication['github_oauth_id'] %>'
+  githubOauthSecret: '<%= @authentication['github_oauth_secret'] %>'
+  githubOrg: '<%= @authentication['github_org'] %>'
+  baseUrl: '<%= @authentication['base_url'] %>'
+<% if @authentication['authorization'] -%>
+  authorization:
+    read: ['<%= @authentication['authorization']['read'] %>']
+    write: ['<%= @authentication['authorization']['write'] %>']
+<% end -%>
 <% end -%>
