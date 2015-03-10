@@ -37,7 +37,7 @@ case "${1}" in
 	;;
 	stop)
 		log_daemon_msg "Stopping ${DESC}" "${NAME}"
-	if (start-stop-daemon --stop --retry TERM/20/KILL/20 --oknodo --pidfile $PIDFILE --chuid $DAEMON_USER); then
+	if (start-stop-daemon --stop --oknodo --retry TERM/20/TERM/20 --pidfile $PIDFILE --chuid $DAEMON_USER); then
 			log_end_msg 0
 		else
 			log_end_msg 1
