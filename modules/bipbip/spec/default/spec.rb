@@ -38,6 +38,7 @@ describe 'bipbip' do
 
   describe file(yaml_files.shift) do
     its(:content) { should match /include:.*services.d/ }
+    its(:content) { should match /tags:\n  - foo\n  - bar\n/ }
   end
 
   describe file(yaml_files.shift) do

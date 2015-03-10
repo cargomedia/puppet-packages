@@ -5,6 +5,7 @@ node default {
   class { 'bipbip':
     api_key   => 'mykey',
     frequency => 5,
+    tags => ['foo', 'bar'],
   }
 
   @bipbip::entry { 'memcache':
