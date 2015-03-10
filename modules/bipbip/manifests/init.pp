@@ -2,8 +2,9 @@ class bipbip (
   $api_key,
   $version = 'latest',
   $frequency = 5,
+  $tags = $::copperegg_tags,
   $log_file = '/var/log/bipbip/bipbip.log',
-  $log_level = 'INFO'
+  $log_level = 'INFO',
 ){
 
   require 'logrotate'
