@@ -149,7 +149,7 @@ start_server() {
 stop_server() {
 # Stop the process using the wrapper
             start-stop-daemon --stop --quiet --pidfile $PIDFILE \
-                        --retry TERM/300/KILL/20 \
+                        --retry TERM/300/TERM/300 \
                         --user $DAEMONUSER \
                         --exec $DAEMON
             errcode=$?
