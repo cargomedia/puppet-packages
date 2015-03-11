@@ -1,6 +1,6 @@
 class apt::update(
   $options = [],
-  $max_cache_age = 5,
+  $max_cache_age = 5*24*3600,
 ) {
 
   require 'apt'
