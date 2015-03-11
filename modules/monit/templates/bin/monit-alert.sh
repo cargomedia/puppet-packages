@@ -14,20 +14,13 @@ fi
 rm -f ${DEST}
 ln -s ${SOURCE} ${DEST}
 
-function monitGetStateFileAccess { stat -c "%Y" "/root/.monit.state"; }
-export -f monitGetStateFileAccess
-export MONIT_STATE_FILE_ACCESS=$(monitGetStateFileAccess)
-function waitForMonitStateChange { timeout --signal=9 $1 bash -c 'while ! (test "$(monitGetStateFileAccess)" != "${MONIT_STATE_FILE_ACCESS}"); do sleep 0.05; done'; }
-export -f waitForMonitStateChange
+function getMonitReloadCount { grep -c 'Monit reloaded' '/var/log/syslog';  }
+export -f getMonitReloadCount
+export MONIT_RELOAD_COUNT=$(getMonitReloadCount)
+function waitForMonitReload { timeout --signal=9 $1 bash -c 'while ! (test "$(getMonitReloadCount)" != "${MONIT_RELOAD_COUNT}"); do sleep 0.05; done'; }
 
-monit reload
-
-if ! (waitForMonitStateChange 5); then
-  # Hard-restart monit in case it cannot reload
-  /etc/init.d/monit restart
-
-  if ! (waitForMonitStateChange 10); then
-    exit 1
-  fi
+if (pidof monit >/dev/null); then
+  kill -s SIGHUP $(pidof monit)
 fi
 
+waitForMonitReload 10
