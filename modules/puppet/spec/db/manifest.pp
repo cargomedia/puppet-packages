@@ -1,9 +1,8 @@
 node default {
-
-  environment::variable { ['http_proxy', 'HTTP_PROXY']:
-    value => '',
+  # hack to bypass proxy
+  Package {
+    install_options => [ '-o','Acquire::http::Proxy=""'],
   }
-  ->
 
   class { 'puppet::db':
     port     => 8080,
