@@ -3,7 +3,8 @@ class puppet::db(
   $port_ssl
 ) {
 
-  require 'puppet::master'
+  include 'puppet::common'
+  include 'puppet::master'
 
   $path_ssl_private = '/etc/puppetdb/ssl/private.pem'
   $path_ssl_public = '/etc/puppetdb/ssl/public.pem'
@@ -24,7 +25,8 @@ class puppet::db(
   ->
 
   package { 'puppetdb':
-    ensure => present,
+    ensure  => present,
+    require => Helper::Script['install puppet apt sources'],
   }
   ->
 
@@ -39,18 +41,21 @@ class puppet::db(
   exec { $path_ssl_private:
     command => "cp $(puppet master --configprint hostprivkey) ${path_ssl_private} && chown puppetdb:puppetdb ${path_ssl_private} && chmod 600 ${path_ssl_private}",
     creates => $path_ssl_private,
+    require => Package['puppetmaster'],
   }
   ->
 
   exec { $path_ssl_public:
     command => "cp $(puppet master --configprint hostcert) ${path_ssl_public} && chown puppetdb:puppetdb ${path_ssl_public} && chmod 600 ${path_ssl_public}",
     creates => $path_ssl_public,
+    require => Package['puppetmaster'],
   }
   ->
 
   exec { $path_ssl_ca:
     command => "cp $(puppet master --configprint localcacert) ${path_ssl_ca} && chown puppetdb:puppetdb ${path_ssl_ca} && chmod 600 ${path_ssl_ca}",
     creates => $path_ssl_ca,
+    require => Package['puppetmaster'],
   }
   ->
 
@@ -82,9 +87,16 @@ class puppet::db(
   service { 'puppetdb':
     enable => true,
   }
+  ~>
+
+  exec { 'puppet::db ready' :
+    command     => 'timeout --signal=9 120 bash -c \'while ! (netstat -altp | grep -w "$(cat /var/run/puppetdb.pid)"); do sleep 0.5; done\'',
+    path        => '/usr/bin:/bin',
+    refreshonly => true,
+  }
 
   @monit::entry { 'puppetdb':
     content => template("${module_name}/db/monit"),
-    require => Service['puppetdb'],
+    require => Exec['puppet::db ready'],
   }
 }

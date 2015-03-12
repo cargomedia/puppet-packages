@@ -103,7 +103,9 @@ class puppet::master (
     class { 'puppet::db':
       port     => $puppetdb_port,
       port_ssl => $puppetdb_port_ssl,
+      require  => Service['puppetmaster'],
     }
+
     class { 'puppet::master::puppetdb':
       port => $puppetdb_port_ssl,
     }
