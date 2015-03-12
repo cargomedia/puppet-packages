@@ -10,7 +10,6 @@
 ### END INIT INFO
 
 PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
-LANG=en_US
 NAME=pulsar-rest-api
 DESC=pulsar-rest-api
 DAEMON=/usr/bin/node
@@ -30,6 +29,7 @@ case "${1}" in
 		mkdir -p ${LOGDIR}
 		chown ${DAEMON_USER} ${LOGDIR}
 		ulimit -n 100000
+		export LANG=en_US
 		if (start-stop-daemon --start --oknodo --make-pidfile --background --pidfile $PIDFILE --chuid $DAEMON_USER --startas $DAEMON -- $DAEMON_ARGS); then
 			log_end_msg 0
 		else
