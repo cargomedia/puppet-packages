@@ -146,7 +146,7 @@ case "$1" in
     ;;
   stop)
     log_daemon_msg "Stopping $DESC" "$NAME"
-    if start-stop-daemon --retry TERM/5/KILL/5 --oknodo --stop --quiet \
+    if start-stop-daemon --stop --oknodo --retry TERM/5/TERM/5 --quiet \
                          --pidfile $PIDFILE --exec $DAEMON
     then
       log_end_msg 0
