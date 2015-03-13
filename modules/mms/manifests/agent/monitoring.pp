@@ -1,11 +1,13 @@
 class mms::agent::monitoring (
-  $version = '2.8.0.143',
+  $version = '3.1.0.175',
   $api_key,
   $auth_username = undef,
   $auth_password = undef,
   $concurrency = 4,
   $mms_server = 'https://mms.mongodb.com'
 ){
+
+  # Docu: https://docs.mms.mongodb.com/tutorial/install-monitoring-agent-with-deb-package/
 
   require 'mms'
 
