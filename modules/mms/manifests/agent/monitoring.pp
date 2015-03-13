@@ -7,6 +7,8 @@ class mms::agent::monitoring (
   $mms_server = 'https://mms.mongodb.com'
 ){
 
+  # Docu: https://docs.mms.mongodb.com/tutorial/install-monitoring-agent-with-deb-package/
+
   require 'mms'
 
   $agent_name = 'mms-monitoring'
