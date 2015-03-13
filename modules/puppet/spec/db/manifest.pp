@@ -1,7 +1,7 @@
 node default {
 
   Package {
-    install_options => ['-o', 'Acquire::Retries=20'],
+    install_options => ['-o', 'Acquire::http::Proxy=""'],
   }
 
   class { 'puppet::db':
