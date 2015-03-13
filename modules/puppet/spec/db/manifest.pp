@@ -1,7 +1,8 @@
 node default {
-  # hack to bypass proxy
+# hack to bypass proxy
+
   Package {
-    install_options => [ '-o','Acquire::http::Proxy=""'],
+    install_options => ['-o', 'Acquire::Retries=20'],
   }
 
   class { 'puppet::db':
