@@ -1,5 +1,4 @@
 node default {
-# hack to bypass proxy
 
   Package {
     install_options => ['-o', 'Acquire::Retries=20'],
