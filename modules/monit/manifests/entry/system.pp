@@ -1,6 +1,7 @@
 class monit::entry::system(
   $alertOnLoad1 = undef,
-  $alertOnLoad5 = undef
+  $alertOnLoad5 = undef,
+  $alertOnLoad15 = undef
 ) {
 
   require '::monit'
