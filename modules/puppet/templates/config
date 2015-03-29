@@ -3,6 +3,6 @@ confdir = /etc/puppet
 ssldir = /etc/puppet/ssl
 logdir = /var/log/puppet
 rundir = /var/run/puppet
+stringify_facts = false
 basemodulepath = <%= @basemodulepath %>
 certname = <%= @clientcert %>
-stringify_facts = false
