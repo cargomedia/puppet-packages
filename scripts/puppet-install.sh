@@ -25,6 +25,7 @@ confdir = /etc/puppet
 ssldir = /etc/puppet/ssl
 logdir = /var/log/puppet
 rundir = /var/run/puppet
+stringify_facts = false
 EOF
 
 elif (uname | grep -q 'Darwin'); then
