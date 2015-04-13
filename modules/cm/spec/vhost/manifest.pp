@@ -54,7 +54,7 @@ inZL8VyT42eLzq/N4eyQ/Xxd7HR0gWmwu+o18FYcrZVbaF3+VyQ=
   $domain_cm = 'foo.cm'
   $domain_xx = 'foo.xx'
 
-  host { $domain:
+  host { 'mock-domain-resolution':
     host_aliases => [
       $domain_cm, "www.${domain_cm}", "admin.${domain_cm}",
       $domain_xx, "www.${domain_xx}", "admin.${domain_xx}",
