@@ -24,7 +24,7 @@ class puppet::db(
   ->
 
   package { 'puppetdb':
-    ensure => '2.3.0-1puppetlabs1',
+    ensure => present,
   }
   ->
 
