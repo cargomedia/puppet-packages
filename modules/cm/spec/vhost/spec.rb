@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'nginx:vhost' do
+describe 'cm::vhost' do
   redirect_location = /< Location: https:\/\/www\.foo\.cm\//
 
   ['bar', 'bor', 'baz'].each do |name|

@@ -1,11 +1,19 @@
-class cm::services {
+class cm::services(
+  $ssl_cert = undef,
+  $ssl_key = undef,
+) {
 
   include 'redis'
   include 'mysql::server'
   include 'memcached'
   include 'elasticsearch'
   include 'gearman::server'
-  include 'cm::services::stream'
-  include 'cm::services::webserver'
   include 'mongodb::role::standalone'
+  include 'cm::services::webserver'
+
+  class { 'cm::services::stream':
+    ssl_cert => $ssl_cert,
+    ssl_key  => $ssl_key,
+  }
+
 }
