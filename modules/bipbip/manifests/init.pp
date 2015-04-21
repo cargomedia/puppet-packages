@@ -1,6 +1,6 @@
 class bipbip (
   $api_key,
-  $version = 'latest',
+  $version = '0.5.24',
   $frequency = 15,
   $tags = $::copperegg_tags,
   $log_file = '/var/log/bipbip/bipbip.log',
