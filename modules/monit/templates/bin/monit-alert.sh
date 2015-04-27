@@ -21,6 +21,5 @@ function waitForMonitReload { timeout --signal=9 $1 bash -c 'while ! (test "$(ge
 
 if (pidof monit >/dev/null); then
   kill -s SIGHUP $(pidof monit)
+  waitForMonitReload 10
 fi
-
-waitForMonitReload 10
