@@ -47,36 +47,26 @@ class PuppetSpec
     @spec_dir.entries.sort.each do |relative_path|
       next unless relative_path.extname == '.pp'
 
-      manifest_path = relative_path.expand_path(@spec_dir)
-      manifest_path_vagrant = @vagrant_box.parse_external_path(manifest_path)
-      run_apply_manifest(manifest_path_vagrant)
+      run_apply(@vagrant_box.working_dir.join('spec/spec_before.pp'))
+      run_apply(relative_path.expand_path(@spec_dir))
     end
   end
 
   private
 
-  # @param [Pathname] path
-  def run_apply_manifest(path)
-    run_apply(path.to_s.shellescape)
-  end
-
-  # @param [String] puppet_code
-  def run_apply_code(puppet_code)
-    run_apply("--execute #{puppet_code.shellescape}")
-  end
-
-  # @param [String] arg
-  def run_apply(arg)
+  # @param [Pathname] manifest_path
+  def run_apply(manifest_path)
+    manifest_path_vagrant = @vagrant_box.parse_external_path(manifest_path)
     module_path = '/etc/puppet/modules:/vagrant/modules'
     hiera_path = '/etc/hiera.yaml'
 
     command = "sudo puppet apply --modulepath #{module_path.shellescape} --hiera_config=#{hiera_path.shellescape}"
     command += ' --verbose --debug --trace' if @verbose
-    command += ' ' + arg
+    command += ' ' + manifest_path_vagrant.to_s.shellescape
     command += ' --detailed-exitcodes || [ $? -eq 2 ]'
 
     begin
-      puts "Puppet applying: `#{arg.to_s}`"
+      puts "Puppet applying: `#{manifest_path_vagrant.to_s}`"
       @vagrant_box.execute_ssh command
     rescue Exception => e
       abort "Command failed: #{e.message}"
