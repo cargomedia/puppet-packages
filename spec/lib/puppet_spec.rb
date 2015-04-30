@@ -6,10 +6,12 @@ class PuppetSpec
 
   # @param [VagrantBox] vagrant_box
   # @param [RSpec::Core::ExampleGroup] example_group
-  def initialize(vagrant_box, example_group)
+  # @param [TrueClass, FalseClass] verbose
+  def initialize(vagrant_box, example_group, verbose)
     @vagrant_box = vagrant_box
     example_file = example_group.class.metadata[:block].source_location.first
     @spec_dir = Pathname.new(example_file).dirname
+    @verbose = verbose
   end
 
   def configure_hiera
@@ -41,28 +43,33 @@ class PuppetSpec
     end
   end
 
-  # @param [TrueClass, FalseClass] debug
-  def apply_manifests(debug)
+  def apply_manifests
     @spec_dir.entries.sort.each do |relative_path|
       next unless relative_path.extname == '.pp'
 
-      manifest_path = relative_path.expand_path(@spec_dir)
-      vagrant_manifest_path = @vagrant_box.parse_external_path(manifest_path)
-      command = "sudo puppet apply --modulepath '/etc/puppet/modules:/vagrant/modules' #{vagrant_manifest_path.to_s.shellescape} --hiera_config=/etc/hiera.yaml"
-      command += ' --verbose --debug --trace' if debug
+      run_apply(@vagrant_box.working_dir.join('spec/spec_before.pp'))
+      run_apply(relative_path.expand_path(@spec_dir))
+    end
+  end
 
-      begin
-        puts
-        puts "Applying `#{vagrant_manifest_path.to_s}`"
-        output = @vagrant_box.execute_ssh command
-        output = output.gsub(/\e\[(\d+)(;\d+)*m/, '') # Remove color codes
-        match = output.match(/^Error: .*$/)
-        if match
-          abort "Puppet command failed: `#{match[0]}`"
-        end
-      rescue Exception => e
-        abort "Command failed: #{e.message}"
-      end
+  private
+
+  # @param [Pathname] manifest_path
+  def run_apply(manifest_path)
+    manifest_path_vagrant = @vagrant_box.parse_external_path(manifest_path)
+    module_path = '/etc/puppet/modules:/vagrant/modules'
+    hiera_path = '/etc/hiera.yaml'
+
+    command = "sudo puppet apply --modulepath #{module_path.shellescape} --hiera_config=#{hiera_path.shellescape}"
+    command += ' --verbose --debug --trace' if @verbose
+    command += ' ' + manifest_path_vagrant.to_s.shellescape
+    command += ' --detailed-exitcodes || [ $? -eq 2 ]'
+
+    begin
+      puts "Puppet applying: `#{manifest_path_vagrant.to_s}`"
+      @vagrant_box.execute_ssh command
+    rescue Exception => e
+      abort "Command failed: #{e.message}"
     end
   end
 
