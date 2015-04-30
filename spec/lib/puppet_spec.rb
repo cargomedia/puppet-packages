@@ -50,16 +50,12 @@ class PuppetSpec
       vagrant_manifest_path = @vagrant_box.parse_external_path(manifest_path)
       command = "sudo puppet apply --modulepath '/etc/puppet/modules:/vagrant/modules' #{vagrant_manifest_path.to_s.shellescape} --hiera_config=/etc/hiera.yaml"
       command += ' --verbose --debug --trace' if debug
+      command += ' --detailed-exitcodes || [ $? -eq 2 ]'
 
       begin
         puts
         puts "Applying `#{vagrant_manifest_path.to_s}`"
-        output = @vagrant_box.execute_ssh command
-        output = output.gsub(/\e\[(\d+)(;\d+)*m/, '') # Remove color codes
-        match = output.match(/^Error: .*$/)
-        if match
-          abort "Puppet command failed: `#{match[0]}`"
-        end
+        @vagrant_box.execute_ssh command
       rescue Exception => e
         abort "Command failed: #{e.message}"
       end
