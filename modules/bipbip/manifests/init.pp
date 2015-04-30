@@ -66,11 +66,11 @@ class bipbip (
     group  => 'bipbip',
     mode   => '0644',
   }
-  ->
-
-  logrotate::entry{ $module_name:
-    content => template("${module_name}/logrotate")
-  }
+#  ->
+#
+#  logrotate::entry{ $module_name:
+#    content => template("${module_name}/logrotate")
+#  }
 
   sysvinit::script { 'bipbip':
     content           => template("${module_name}/init.sh"),

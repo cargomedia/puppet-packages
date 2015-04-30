@@ -52,13 +52,13 @@ describe 'bipbip' do
     its(:content) { should match /name:.*oom_killer/ }
   end
 
-  describe file('/etc/logrotate.d/bipbip') do
-    it { should be_file }
-  end
-
-  describe command('logrotate -d /etc/logrotate.d/bipbip') do
-    its(:exit_status) { should eq 0 }
-  end
+  # describe file('/etc/logrotate.d/bipbip') do
+  #   it { should be_file }
+  # end
+  #
+  # describe command('logrotate -d /etc/logrotate.d/bipbip') do
+  #   its(:exit_status) { should eq 0 }
+  # end
 
   describe command('cat /proc/$(cat /var/run/bipbip.pid)/oom_score_adj') do
     its(:exit_status) { should eq 0 }
