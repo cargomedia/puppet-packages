@@ -12,8 +12,12 @@ describe 'jenkins::plugin' do
     it { should be_owned_by 'jenkins' }
   end
 
-  describe command('curl http://localhost:8080/pluginManager/installed') do
-    let(:pre_command) { 'sleep 15' } # Let jenkins open its socket(s)
+  # Wait for jenkins to start up
+  describe command('timeout --signal=9 30 bash -c "while ! (curl -s http://localhost:8080/ | grep -q "Dashboard"); do sleep 0.5; done"') do
+    its(:exit_status) { should eq 0 }
+  end
+
+  describe command('curl -s http://localhost:8080/pluginManager/installed') do
     its(:stdout) { should match /ssh-agent/ }
     its(:stdout) { should match /git-client/ }
   end

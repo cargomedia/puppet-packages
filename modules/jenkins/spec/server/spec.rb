@@ -10,9 +10,13 @@ describe 'jenkins server' do
     its(:stdout) { should match /Process 'jenkins'/ }
   end
 
-# Make sure only 1 port is open (HTTP)
+  # Wait for jenkins to start up
+  describe command('timeout --signal=9 30 bash -c "while ! (curl -s http://localhost:1234/ | grep -q "Dashboard"); do sleep 0.5; done"') do
+    its(:exit_status) { should eq 0 }
+  end
+
+  # Make sure only 1 port is open (HTTP)
   describe command('netstat -lnp | grep java | wc -l') do
-    let(:pre_command) { 'sleep 15' } # Let jenkins open its socket(s)
     its(:stdout) { should match '1' }
   end
 
