@@ -1,9 +1,7 @@
 node default {
 
-  include 'apt::update'
-
-  package { 'less':
-    ensure => installed
+  class { 'apt::update':
+    max_cache_age => 50,
   }
 
 }
