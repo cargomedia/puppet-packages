@@ -4,7 +4,6 @@ class jenkins::slave(
 ) {
 
   require 'jenkins::common'
-  require 'java'
 
   ssh::auth::grant { "jenkins@${::clientcert} for jenkins@cluster-${cluster_id}":
     id   => "jenkins@cluster-${cluster_id}",

@@ -1,6 +1,7 @@
 class jenkins::common {
 
   include 'ntp'
+  include 'java'
 
   user { 'jenkins':
     ensure     => present,
