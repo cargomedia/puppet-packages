@@ -30,6 +30,7 @@ case "${1}" in
 		chown ${DAEMON_USER} ${LOGDIR}
 		ulimit -n 100000
 		export LANG=en_US
+		DAEMON="/usr/bin/ssh-agent ${DAEMON}"
 		if (start-stop-daemon --start --oknodo --make-pidfile --background --pidfile $PIDFILE --chuid $DAEMON_USER --startas $DAEMON -- $DAEMON_ARGS); then
 			log_end_msg 0
 		else
