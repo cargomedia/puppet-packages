@@ -3,7 +3,6 @@ node default {
   require 'monit'
 
   class { 'bipbip':
-    api_key   => 'mykey',
     frequency => 5,
     tags => ['foo', 'bar'],
   }
