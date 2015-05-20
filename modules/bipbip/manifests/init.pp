@@ -1,5 +1,5 @@
 class bipbip (
-  $api_key,
+  $api_key = undef,
   $version = 'latest',
   $frequency = 15,
   $tags = $::copperegg_tags,
