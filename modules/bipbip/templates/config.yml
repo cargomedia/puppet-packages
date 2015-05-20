@@ -9,6 +9,7 @@ tags:
 <% end %>
 
 storages:
-  -
+<% if @api_key %>  -
     name: copperegg
     api_key: <%= @api_key %>
+<% end %>

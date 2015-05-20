@@ -8,6 +8,7 @@ trap 'bundle exec rake test:cleanup' EXIT
 bundle exec rake syntax
 bundle exec rake lint
 
+vagrant box update
 if [ -z "${ghprbTargetBranch}" ]; then
     # Full project build
     bundle exec rake test
