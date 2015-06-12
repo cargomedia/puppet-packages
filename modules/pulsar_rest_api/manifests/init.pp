@@ -69,7 +69,7 @@ class pulsar_rest_api (
   }
 
   exec { 'pulsar-rest-api bower install':
-    command     => 'bower install --production --allow-root',
+    command     => 'bower install --config.interactive=false --production --allow-root',
     cwd         => '/usr/lib/node_modules/pulsar-rest-api',
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
