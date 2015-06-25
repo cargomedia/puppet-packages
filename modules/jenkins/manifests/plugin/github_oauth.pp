@@ -18,7 +18,7 @@ class jenkins::plugin::github_oauth(
   ->
 
   jenkins::plugin { 'github-oauth':
-    version => '0.14',
+    version => '0.20',
   }
 
 }
