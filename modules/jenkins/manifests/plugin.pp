@@ -9,7 +9,7 @@ define jenkins::plugin($version) {
   exec { "install jenkins plugin ${name}":
     command => "curl -sL ${url} > ${path}",
     path    => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    creates => $path,
+    unless  => "grep 'Plugin-Version: ${version}' /var/lib/jenkins/plugins/${name}/META-INF/MANIFEST.MF",
     user    => 'jenkins',
     notify  => Service['jenkins'],
   }
