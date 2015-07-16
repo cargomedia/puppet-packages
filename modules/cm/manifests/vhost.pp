@@ -71,23 +71,6 @@ define cm::vhost(
     try_files => ['/maintenance.html', 'something-nonexistent'],
   }
 
-  if ($debug) {
-    nginx::resource::location{ "${name}-library":
-      vhost    => $name,
-      ssl      => $ssl,
-      ssl_only => $ssl,
-      location => '/library/',
-      www_root => $path,
-    }
-
-    nginx::resource::location{ "${name}-vendor":
-      vhost    => $name,
-      ssl      => $ssl,
-      ssl_only => $ssl,
-      location => '/vendor/',
-      www_root => $path,
-    }
-  }
 
   if ($cdn_origin) {
     $cdn_origin_vhost = "${name}-origin"
