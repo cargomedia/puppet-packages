@@ -2,7 +2,8 @@ require 'spec_helper'
 
 describe 'virtualbox' do
 
-  describe package('virtualbox-4.3') do
-    it { should be_installed }
+  describe command('virtualbox -?') do
+    its(:exit_status) { should eq 0 }
   end
+
 end
