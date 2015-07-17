@@ -13,7 +13,7 @@ class virtualbox {
   }
   ->
 
-  package { 'virtualbox-4.3':
+  package { 'virtualbox-5.0':
     ensure => present,
   }
 
