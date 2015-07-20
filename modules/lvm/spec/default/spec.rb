@@ -33,8 +33,4 @@ describe 'lvm' do
   describe command('which xfs_growfs') do
     its(:exit_status) { should eq 0 }
   end
-
-  describe file('/root/bin/expand-raid.sh') do
-    it { should be_file }
-  end
 end
