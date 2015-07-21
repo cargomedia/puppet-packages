@@ -6,8 +6,8 @@ node default {
   ->
 
   helper::script { 'Setup temporary loop device':
-    content => 'TMP=$(mktemp);dd if=/dev/zero of=${TMP} bs=100 count=1M;losetup /dev/loop0 ${TMP}',
-    unless  => "lsblk | grep -q loop0",
+    content => "TMP=$(mktemp);dd if=/dev/zero of=${TMP} bs=100 count=1M;losetup /dev/loop0 ${TMP}",
+    unless  => 'lsblk | grep -q loop0',
   }
   ->
 
