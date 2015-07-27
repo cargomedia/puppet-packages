@@ -3,6 +3,7 @@ node default {
   user { ['foo', 'bar']:
     ensure     => present,
     system     => false,
+    managehome => true,
   }
 
   class { 'postfix':
