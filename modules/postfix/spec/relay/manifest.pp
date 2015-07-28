@@ -27,7 +27,7 @@ node default {
 
   exec { 'send test mail #2':
     provider    => shell,
-      command     => 'echo "test" | mail -s "test" filter_2828@example.com',
+    command     => 'echo "test" | mail -s "test" filter_2828@example.com',
     path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     require     => Exec ['smtp-sink instance'],
   }
