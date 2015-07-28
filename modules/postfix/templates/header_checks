@@ -1,3 +1,4 @@
 <% @transports.each do |transport| -%>
+<% transport['filter'] = '//' if transport['filter'] == nil %>
 <%= transport['filter'] %> FILTER <%= transport['protocol'] %>:[<%= transport['host'] %>]:<%= transport['port'] %>
 <% end %>
