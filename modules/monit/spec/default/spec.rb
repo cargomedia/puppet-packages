@@ -10,4 +10,13 @@ describe 'monit' do
   describe process('monit') do
     it { should be_running }
   end
+
+  describe file('/etc/monit/monitrc') do
+    it 'is a file' do
+      expect(subject).to be_file
+    end
+    it 'default from address is root@$::domain ' do
+      expect(subject).to contain('root@test').after(/from:/)
+    end
+  end
 end

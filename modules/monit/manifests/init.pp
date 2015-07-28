@@ -1,4 +1,4 @@
-class monit ($emailTo = 'root@localhost', $emailFrom = 'root@localhost', $allowedHosts = []) {
+class monit ($emailTo = 'root@localhost', $emailFrom = "root@${::domain}", $allowedHosts = []) {
 
   include 'monit::service'
 
