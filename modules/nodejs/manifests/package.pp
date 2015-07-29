@@ -1,6 +1,6 @@
 define nodejs::package(
   $path,
-  $version,
+  $version = 'latest',
   $user = 'root',
 ) {
 
@@ -8,13 +8,15 @@ define nodejs::package(
 
   $npm_path = 'npm'
 
-  $install_check_package_string = "${name}:${name}@${ensure}"
-  $install_check = "${npm_path} ls --long --parseable | grep '${path}/node_modules/${install_check_package_string}'"
-
-  $package_string = "${name}@${version}"
+  if $version == 'latest' {
+    $install_check_package_string = "${name}:${name}@\$(${npm_path} view ${name} version --quiet)"
+  } else {
+    $install_check_package_string = "${name}:${name}@${version}"
+  }
+  $install_check = "${npm_path} ls --long --parseable | grep \"${path}/node_modules/${install_check_package_string}\""
 
   exec { "npm_install_${name}":
-    command     => "${npm_path} install ${package_string}",
+    command     => "${npm_path} install ${name}@${version}",
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     unless      => $install_check,
     user        => $user,
