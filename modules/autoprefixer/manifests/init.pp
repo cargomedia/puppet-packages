@@ -1,14 +1,18 @@
-class autoprefixer {
+class autoprefixer(
+  $caniuse_version = 'latest'
+) {
 
   require 'nodejs'
 
   package { 'autoprefixer':
-    ensure   => '4.0.0',
+    ensure   => '5.2.0',
     provider => 'npm',
   }
 
-  package { 'caniuse-db':
-    ensure   => '1.0.20140810',
-    provider => 'npm',
+  nodejs::package { 'caniuse-db':
+    path    => '/usr/lib/node_modules/autoprefixer/node_modules/autoprefixer-core',
+    version => $caniuse_version,
+    require => Package['autoprefixer'],
   }
+
 }

@@ -1,4 +1,6 @@
 node default {
 
-  class { 'autoprefixer': }
+  class { 'autoprefixer':
+    caniuse_version => '1.0.30000246'
+  }
 }
