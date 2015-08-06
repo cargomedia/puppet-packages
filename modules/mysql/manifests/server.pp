@@ -123,4 +123,16 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
       'password' => $debian_sys_maint_password,
     }
   }
+
+  @bipbip::entry { 'logparser-mysql-errors':
+    plugin  => 'log-parser',
+    options => {
+      'metric_group' => 'mysql',
+      'path' => '/var/log/mysql/error.log',
+      'matchers' => [
+        { 'name' => 'crashed_tables',
+          'regexp' => 'is marked as crashed' },
+      ]
+    },
+  }
 }
