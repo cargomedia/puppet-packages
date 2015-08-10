@@ -77,6 +77,16 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
     notify  => Service['mysql'],
   }
 
+  file { '/var/log/mysql/error.log':
+    ensure  => file,
+    owner   => 'mysql',
+    owner   => 'root',
+    mode    => '0644',
+    require => User['mysql'],
+    after   => Package['mysql-server'],
+    notify  => Service['mysql'],
+  }
+
   mysql::user { 'debian-sys-maint@localhost':
     password => $debian_sys_maint_password,
   }
