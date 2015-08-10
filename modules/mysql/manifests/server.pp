@@ -77,14 +77,11 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
     notify  => Service['mysql'],
   }
 
-  file { '/var/log/mysql/error.log':
+  file { '/var/log/mysql.err':
     ensure  => file,
     owner   => 'mysql',
-    owner   => 'root',
     mode    => '0644',
-    require => User['mysql'],
-    after   => Package['mysql-server'],
-    notify  => Service['mysql'],
+    require => [User['mysql'], Package['mysql-server']],
   }
 
   mysql::user { 'debian-sys-maint@localhost':
@@ -138,7 +135,7 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
     plugin  => 'log-parser',
     options => {
       'metric_group' => 'mysql',
-      'path' => '/var/log/mysql/error.log',
+      'path' => '/var/log/mysql.err',
       'matchers' => [
         { 'name' => 'crashed_tables',
           'regexp' => 'is marked as crashed' },
