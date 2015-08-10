@@ -116,7 +116,7 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
     ]
   }
 
-  logrotate::entry{ 'mysql-server-error':
+  logrotate::entry { 'mysql-server-error':
     content => template("${module_name}/logrotate-error"),
     before  => Package['mysql-server'],
   }
