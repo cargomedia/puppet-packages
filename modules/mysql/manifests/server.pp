@@ -81,7 +81,8 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
     ensure  => file,
     owner   => 'mysql',
     mode    => '0644',
-    require => [User['mysql'], Package['mysql-server']],
+    before  => Package['mysql-server'],
+    require => User['mysql'],
   }
 
   mysql::user { 'debian-sys-maint@localhost':
