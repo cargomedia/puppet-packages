@@ -2,7 +2,7 @@
 
 trap 'if (test ${?} -gt 0); then echo "Non-zero exit in ${0} - line ${LINENO}: ${BASH_COMMAND}"; fi' ERR EXIT
 
-usage() { echo "Usage: $0 -h <host> -s <source> -d <destination> -o <rdiff-options> -t <mysql|lvm>" 1>&2; exit 1; }
+usage() { echo "Usage: $0 -h <host> -s <source> -d <destination> -o <rdiff-options> -t <mysql|lvm> -r <remove-after>" 1>&2; exit 1; }
 
 while getopts "h:s:d:o:t:" o; do
     case "${o}" in
@@ -21,6 +21,9 @@ while getopts "h:s:d:o:t:" o; do
         t)
             TYPE=${OPTARG}
             ;;
+        r)
+            REMOVE_AFTER=${OPTARG}
+            ;;
         *)
             usage
             ;;
@@ -31,7 +34,6 @@ shift $((OPTIND-1))
 if [ -z "${HOST}" ] || [ -z "${SOURCE_PATH}" ] || [ -z "${DEST_PATH}" ] || [ -z "${RDIFF_OPTIONS}" ]; then
     usage
 fi
-
 
 PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
 
@@ -105,4 +107,4 @@ case "${TYPE}" in
 esac
 
 
-rdiff-backup --remove-older-than 4W --force root@${HOST}::${DEST_PATH} >/dev/null
+rdiff-backup --remove-older-than ${REMOVE_AFTER} --force root@${HOST}::${DEST_PATH} >/dev/null

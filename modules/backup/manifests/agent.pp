@@ -5,6 +5,7 @@ define backup::agent (
   $source,
   $destination,
   $options = '--no-file-statistics --no-compare-inode',
+  $remove_after = '4W', # see man page for rdiff-backup (http://linux.die.net/man/1/rdiff-backup), section --remove-after time_spec
   $cronTimeHour = 4,
   $cronTimeMinute = 0
 ) {
@@ -21,7 +22,7 @@ define backup::agent (
   }
 
   cron { "backup-${name}":
-    command => "/usr/local/bin/backup-create.sh -h '${host}' -s '${source}' -d '${destination}' -o '${options}' -t '${sourceType}'",
+    command => "/usr/local/bin/backup-create.sh -h '${host}' -s '${source}' -d '${destination}' -o '${options}' -t '${sourceType}' -r '${remove_after}'",
     user    => 'root',
     minute  => $cronTimeMinute,
     hour    => $cronTimeHour,
