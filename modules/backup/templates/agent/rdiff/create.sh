@@ -2,7 +2,7 @@
 
 trap 'if (test ${?} -gt 0); then echo "Non-zero exit in ${0} - line ${LINENO}: ${BASH_COMMAND}"; fi' ERR EXIT
 
-usage() { echo "Usage: $0 -h <host> -s <source> -d <destination> -o <rdiff-options> -t <mysql|lvm> [-r <remove-after> (default: 4W) ]" 1>&2; exit 1; }
+usage() { echo "Usage: $0 -h <host> -s <source> -d <destination> -o <rdiff-options> -t <mysql|lvm> -r <remove-after>" 1>&2; exit 1; }
 
 while getopts "h:s:d:o:t:" o; do
     case "${o}" in
@@ -33,10 +33,6 @@ shift $((OPTIND-1))
 
 if [ -z "${HOST}" ] || [ -z "${SOURCE_PATH}" ] || [ -z "${DEST_PATH}" ] || [ -z "${RDIFF_OPTIONS}" ]; then
     usage
-fi
-
-if [ -z "${REMOVE_AFTER}" ]; then
-    REMOVE_AFTER='4W'
 fi
 
 PATH="/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
