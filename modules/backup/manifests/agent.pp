@@ -5,6 +5,7 @@ define backup::agent (
   $source,
   $destination,
   $options = '--no-file-statistics --no-compare-inode',
+  $delete_after = '4W',
   $cronTimeHour = 4,
   $cronTimeMinute = 0
 ) {
@@ -21,7 +22,7 @@ define backup::agent (
   }
 
   cron { "backup-${name}":
-    command => "/usr/local/bin/backup-create.sh -h '${host}' -s '${source}' -d '${destination}' -o '${options}' -t '${sourceType}'",
+    command => "/usr/local/bin/backup-create.sh -h '${host}' -s '${source}' -d '${destination}' -o '${options}' -t '${sourceType}' -r '${delete_after}'",
     user    => 'root',
     minute  => $cronTimeMinute,
     hour    => $cronTimeHour,
