@@ -4,7 +4,7 @@ trap 'if (test ${?} -gt 0); then echo "Non-zero exit in ${0} - line ${LINENO}: $
 
 usage() { echo "Usage: $0 -h <host> -s <source> -d <destination> -o <rdiff-options> -t <mysql|lvm> -r <remove-after>" 1>&2; exit 1; }
 
-while getopts "h:s:d:o:t:" o; do
+while getopts "h:s:d:o:t:r:" o; do
     case "${o}" in
         h)
             HOST=${OPTARG}
