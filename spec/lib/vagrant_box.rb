@@ -106,9 +106,15 @@ class VagrantBox
       puts command + (env.length > 0 ? ' (' + env.to_s + ')' : '')
     end
 
+    # Reset bundler/rubygems environment, so that `vagrant` uses its own ruby environment
+    env_original = ENV.to_hash
+    %w[BUNDLE_APP_CONFIG BUNDLE_CONFIG BUNDLE_GEMFILE BUNDLE_BIN_PATH RUBYLIB RUBYOPT GEMRC GEM_PATH].each do |var|
+      env_original[var] = nil
+    end
+
     output_stdout = output_stderr = exit_code = nil
     Dir.chdir(@working_dir.to_s) {
-      Open3.popen3(ENV.to_hash.merge(env), command) { |stdin, stdout, stderr, wait_thr|
+      Open3.popen3(env_original.merge(env), command) { |stdin, stdout, stderr, wait_thr|
         output_stdout = stdout.read.chomp
         output_stderr = stderr.read.chomp
         exit_code = wait_thr.value
