@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'gearman persistence sqlite' do
+describe 'gearman persistence mysql' do
 
   describe file('/etc/default/gearman-job-server') do
     it { should be_file }
