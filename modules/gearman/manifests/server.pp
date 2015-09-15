@@ -15,7 +15,7 @@ class gearman::server(
     none: { $daemon_args = [] }
     sqlite3: { $daemon_args = ['-q libsqlite3', '--libsqlite3-db=/var/log/gearman-job-server/gearman-persist.sqlite3'] }
     mysql: { $daemon_args = [
-      "--queue-type=mysql",
+      '--queue-type=mysql',
       "--mysql-host=${mysql_host}",
       "--mysql-port=${mysql_port}",
       "--mysql-user=${mysql_user}",
