@@ -6,7 +6,7 @@ class gearman::server(
   $mysql_password = 'gearman',
   $mysql_db = 'gearman',
   $mysql_table = 'gearman_queue',
-  $bind_ip = '',
+  $bind_ip = undef,
   $jobretries = 25,
 ) {
 
