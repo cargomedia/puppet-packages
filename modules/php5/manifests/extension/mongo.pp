@@ -1,4 +1,4 @@
-class php5::extension::mongo($version = '1.5.6') {
+class php5::extension::mongo($version = '1.6.11') {
 
   require 'build'
   require 'php5'
