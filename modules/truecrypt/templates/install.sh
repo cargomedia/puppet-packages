@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-curl http://cznic.dl.sourceforge.net/project/truecrypt/TrueCrypt/Other/TrueCrypt-<%= @version %>-source-unix.tar.gz > TrueCrypt-<%= @version %>-source-unix.tar.gz
+curl -L http://sourceforge.net/projects/truecrypt/files/TrueCrypt/Other/TrueCrypt-<%= @version %>-source-unix.tar.gz/download > TrueCrypt-<%= @version %>-source-unix.tar.gz
 tar -xzf TrueCrypt-<%= @version %>-source-unix.tar.gz
 cd truecrypt-<%= @version %>-source
 
