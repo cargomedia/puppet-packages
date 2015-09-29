@@ -6,7 +6,6 @@ class cm::application (
   require 'php5'
   require 'php5::extension::apcu'
   require 'php5::extension::mysql'
-  require 'php5::extension::redis'
   require 'php5::extension::intl'
   require 'php5::extension::memcache'
   require 'php5::extension::gd'
