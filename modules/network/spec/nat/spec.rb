@@ -6,7 +6,7 @@ describe 'network::nat' do
     it { should be_installed }
   end
 
-  describe file('/proc/sys/net/ipv4/ip_forward ') do
+  describe file('/proc/sys/net/ipv4/ip_forward') do
     its(:content) { should match /1/ }
   end
 
