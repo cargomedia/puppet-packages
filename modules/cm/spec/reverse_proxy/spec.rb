@@ -11,7 +11,7 @@ describe 'cm::vhost' do
 
   ['www.', 'admin.', ''].each do |name|
     describe command("curl --proxy '' -v http://#{name}foo.xxx") do
-      its(:stderr) { should match /< Location: https:\/\/#{name}foo\.#{tld}\// }
+      its(:stderr) { should match /< Location: https:\/\/#{name}foo\.xxx\// }
     end
   end
 end
