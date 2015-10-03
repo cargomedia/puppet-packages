@@ -2,7 +2,7 @@ node default {
 
   require 'cm::application'
 
-  $upstream_members = ['localhost:8001']
+  $upstream_members = ['localhost:443']
 
   $ssl_cert = '-----BEGIN CERTIFICATE-----
 MIIC9TCCAd2gAwIBAgIJAIq90DIzpdxxMA0GCSqGSIb3DQEBBQUAMBExDzANBgNV
