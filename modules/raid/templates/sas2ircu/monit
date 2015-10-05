@@ -1,3 +1,3 @@
-check process megaraidsas-statusd with pidfile /var/run/sas2ircu-statusd.pid
+check process sas2ircu-statusd with pidfile /var/run/sas2ircu-statusd.pid
 	start program = "/etc/init.d/sas2ircu-statusd start"
 	stop program = "/etc/init.d/sas2ircu-statusd stop"
