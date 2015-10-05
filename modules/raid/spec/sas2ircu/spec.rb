@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'raid::sas2ircu' do
 
-  describe package('sas2ircu-statusd') do
+  describe package('sas2ircu-status') do
     it { should be_installed }
   end
 
