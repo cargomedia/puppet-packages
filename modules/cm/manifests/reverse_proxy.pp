@@ -9,11 +9,9 @@ define cm::reverse_proxy(
 
   include 'nginx'
 
-  $upstream_members = suffix($members, ' max_fails=3 fail_timeout=3')
-
   nginx::resource::upstream { 'reverse-proxy-backend':
     ensure              => present,
-    members             => $upstream_members,
+    members             => $members,
     upstream_cfg_append => [
       'keepalive 400;',
     ],
