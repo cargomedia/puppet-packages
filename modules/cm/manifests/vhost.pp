@@ -52,16 +52,6 @@ define cm::vhost(
     ],
   }
 
-  nginx::resource::location{ "${name}-fpm-status":
-    vhost               => $name,
-    ssl                 => $ssl,
-    ssl_only            => $ssl,
-    location            => '/fpm-status',
-    location_cfg_append => [
-      'deny all;',
-    ],
-  }
-
   nginx::resource::location{ "${name}-maintenance":
     vhost     => $name,
     ssl       => $ssl,
