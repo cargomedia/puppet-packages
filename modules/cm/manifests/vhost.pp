@@ -8,7 +8,7 @@ define cm::vhost(
   $debug = false
 ) {
 
-  include 'cm::services::webserver'
+  include 'cm::services::upstream_fastcgi'
 
   $hostnames = concat([$name], $aliases)
   $debug_int = $debug ? { true => 1, false => 0 }

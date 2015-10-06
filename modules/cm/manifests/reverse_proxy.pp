@@ -1,22 +1,11 @@
 define cm::reverse_proxy(
-  $members = [],
   $ssl_cert = undef,
   $ssl_key = undef,
   $aliases = [],
   $redirects = undef
 ) {
 
-  include 'nginx'
-
-  $upstream_members = suffix($members, ' max_fails=999 fail_timeout=1')
-
-  nginx::resource::upstream { "reverse-proxy-backend-${name}":
-    ensure              => present,
-    members             => $upstream_members,
-    upstream_cfg_append => [
-      'keepalive 400;',
-    ],
-  }
+  include 'cm::services::upstream_proxy'
 
   $hostnames = concat([$name], $aliases)
   $ssl = ($ssl_cert != undef) or ($ssl_key != undef)
