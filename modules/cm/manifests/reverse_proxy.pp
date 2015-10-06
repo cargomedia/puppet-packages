@@ -9,9 +9,11 @@ define cm::reverse_proxy(
 
   include 'nginx'
 
+  $upstream_members = suffix($members, ' max_fails=999 fail_timeout=1')
+
   nginx::resource::upstream { 'reverse-proxy-backend':
     ensure              => present,
-    members             => $members,
+    members             => $upstream_members,
     upstream_cfg_append => [
       'keepalive 400;',
     ],
@@ -52,7 +54,8 @@ define cm::reverse_proxy(
     location_cfg_append => [
       "proxy_set_header Host '${name}';",
       'proxy_set_header X-Real-IP $remote_addr;',
-      'proxy_pass https://reverse-proxy-backend;'
+      'proxy_pass https://reverse-proxy-backend;',
+      'proxy_next_upstream error timeout http_502;'
     ],
   }
 
