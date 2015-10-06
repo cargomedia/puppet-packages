@@ -61,7 +61,6 @@ inZL8VyT42eLzq/N4eyQ/Xxd7HR0gWmwu+o18FYcrZVbaF3+VyQ=
   }
 
   cm::reverse_proxy { $domain_xxx:
-    members                => $upstream_members,
     ssl_cert               => $ssl_cert,
     ssl_key                => $ssl_key,
     aliases                => ["www.${domain_xxx}", "admin.${domain_xxx}"],
