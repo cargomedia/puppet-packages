@@ -62,6 +62,9 @@ inZL8VyT42eLzq/N4eyQ/Xxd7HR0gWmwu+o18FYcrZVbaF3+VyQ=
     ip           => '127.0.0.1',
   }
 
+  cm::upstream::fastcgi {'fastcgi-backend':
+  }
+
   cm::vhost { $domain_xx:
     path       => $application_root,
     ssl_cert   => $ssl_cert,
