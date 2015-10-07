@@ -3,10 +3,8 @@ node default {
   $domain_xxx = 'foo.xxx'
   $upstream_name = 'nine-five-nine-five'
 
-  host { $domain_xxx:
-    host_aliases => [
-      "www.${domain_xxx}",
-      'bar.xxx', 'baz.xxx' ],
+  host { 'proxy.xxx':
+    host_aliases => ['bar.xxx'],
     ip           => '127.0.0.1',
   }
 
