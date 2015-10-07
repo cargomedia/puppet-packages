@@ -47,13 +47,10 @@ hdnRAoGAf2QS8mvy8/eagaX7UD7iQKAFX/6tQINRmprAjuF6/fOmZ3MQu9Q5R0mS
 inZL8VyT42eLzq/N4eyQ/Xxd7HR0gWmwu+o18FYcrZVbaF3+VyQ=
 -----END RSA PRIVATE KEY-----'
 
-  $domain_xxx = 'proxy.xxx'
   $upstream_name = 'nine-five-nine-five'
 
-  host { $domain_xxx:
-    host_aliases => [
-      "www.${domain_xxx}",
-      'bar.xxx', 'baz.xxx' ],
+  host { 'foo.xxx':
+    host_aliases => ['bar.xxx'],
     ip           => '127.0.0.1',
   }
 
@@ -70,7 +67,7 @@ inZL8VyT42eLzq/N4eyQ/Xxd7HR0gWmwu+o18FYcrZVbaF3+VyQ=
     members => ['bar.xxx:443'],
   }
 
-  cm::reverse_proxy { $domain_xxx:
+  cm::reverse_proxy { 'foo.xxx':
     upstream_name          => $upstream_name,
   }
 
