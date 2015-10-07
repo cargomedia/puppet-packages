@@ -1,13 +1,12 @@
-class cm::services::upstream_proxy(
-  $upstream_name = 'reverse-proxy-backend',
+define cm::upstream::proxy(
   $members = ['localhost']
 ) {
 
   include 'cm::services::webserver'
 
-  $upstream_members = suffix($members, ' max_fails=999 fail_timeout=1')
+  $upstream_members = suffix($members, ' max_fails=0 fail_timeout=1')
 
-  nginx::resource::upstream { $upstream_name:
+  nginx::resource::upstream { $name:
     ensure              => present,
     members             => $upstream_members,
     upstream_cfg_append => [
