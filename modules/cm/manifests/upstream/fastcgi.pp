@@ -1,6 +1,4 @@
-define cm::upstream::fastcgi(
-  $members = ['localhost:9000']
-) {
+define cm::upstream::fastcgi($members) {
 
   include 'cm::services::webserver'
 

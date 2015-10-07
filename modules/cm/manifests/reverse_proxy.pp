@@ -4,6 +4,7 @@ define cm::reverse_proxy(
   $aliases = [],
   $redirects = undef,
   $upstream_name = undef,
+  $upstream_members = ['localhost:443'],
   $ssl_to_backend = true
 ) {
 
@@ -15,6 +16,7 @@ define cm::reverse_proxy(
 
   if ($upstream_name == undef and defined(Cm::Upstream::Fastcgi[$upstream_name_default]) == false) {
     cm::upstream::proxy { $upstream_name_default:
+      members => $upstream_members
     }
   }
 
