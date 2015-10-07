@@ -1,5 +1,5 @@
 define cm::upstream::proxy(
-  $members = ['localhost']
+  $members = ['localhost:443']
 ) {
 
   include 'cm::services::webserver'

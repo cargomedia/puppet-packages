@@ -6,10 +6,17 @@ define cm::vhost(
   $redirects = undef,
   $cdn_origin = undef,
   $debug = false,
-  $upstream_name = 'fastcgi-backend'
+  $upstream_name = undef
 ) {
 
   include 'cm::services::webserver'
+
+  $upstream = $upstream_name ? { default => $upstream_name, undef => 'fastcgi-backend' }
+
+  if ($upstream_name == undef and defined(Cm::Upstream::Fastcgi['fastcgi-backend']) == false) {
+    cm::upstream::fastcgi { $upstream:
+    }
+  }
 
   $hostnames = concat([$name], $aliases)
   $debug_int = $debug ? { true => 1, false => 0 }
@@ -48,7 +55,7 @@ define cm::vhost(
       "fastcgi_param SCRIPT_FILENAME ${path}/public/index.php;",
       "fastcgi_param CM_DEBUG ${debug_int};",
       'fastcgi_keep_conn on;',
-      "fastcgi_pass ${upstream_name};",
+      "fastcgi_pass ${upstream};",
       'error_page 502 =503 /maintenance;',
     ],
   }
@@ -96,7 +103,7 @@ define cm::vhost(
       "fastcgi_param SCRIPT_FILENAME ${path}/public/index.php;",
       "fastcgi_param CM_DEBUG ${debug_int};",
       'fastcgi_keep_conn on;',
-      "fastcgi_pass ${$upstream_name};",
+      "fastcgi_pass ${$upstream};",
     ],
   }
 
