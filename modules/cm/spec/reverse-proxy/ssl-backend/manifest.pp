@@ -1,7 +1,5 @@
 node default {
 
-  require 'cm::application'
-
   $ssl_cert = '-----BEGIN CERTIFICATE-----
 MIIC9TCCAd2gAwIBAgIJAIq90DIzpdxxMA0GCSqGSIb3DQEBBQUAMBExDzANBgNV
 BAMMBmZvby5jbTAeFw0xNTAyMTcxMTE5NTdaFw0yNTAyMTQxMTE5NTdaMBExDzAN
@@ -49,20 +47,39 @@ hdnRAoGAf2QS8mvy8/eagaX7UD7iQKAFX/6tQINRmprAjuF6/fOmZ3MQu9Q5R0mS
 inZL8VyT42eLzq/N4eyQ/Xxd7HR0gWmwu+o18FYcrZVbaF3+VyQ=
 -----END RSA PRIVATE KEY-----'
 
-  $domain_xxx = 'foo.xxx'
+  $domain_xxx = 'proxy.xxx'
+  $upstream_name = 'nine-five-nine-five'
 
-  host { 'mock-domain-resolution':
+  host { $domain_xxx:
     host_aliases => [
-      $domain_xxx, "www.${domain_xxx}", "admin.${domain_xxx}",
-      'bar.xxx', 'bor.xxx', 'baz.xxx' ],
+      "www.${domain_xxx}",
+      'bar.xxx', 'baz.xxx' ],
     ip           => '127.0.0.1',
   }
 
-  cm::reverse_proxy { $domain_xxx:
-    ssl_cert               => $ssl_cert,
-    ssl_key                => $ssl_key,
-    aliases                => ["www.${domain_xxx}", "admin.${domain_xxx}"],
-    redirects              => ['bar.xxx', 'bor.xxx', 'baz.xxx']
+  file { '/var/www':
+    ensure => directory,
   }
 
+  file { '/var/www/index.html':
+    ensure  => file,
+    content => 'foobar',
+  }
+
+  cm::upstream::proxy { $upstream_name:
+    members => ['bar.xxx:443'],
+  }
+
+  cm::reverse_proxy { $domain_xxx:
+    upstream_name          => $upstream_name,
+  }
+
+  nginx::resource::vhost { 'proxy-destination':
+    server_name         => ['bar.xxx'],
+    ssl                 => true,
+    ssl_cert            => $ssl_cert,
+    ssl_key             => $ssl_key,
+    www_root            => '/var/www/',
+    require             => File['/var/www/index.html'],
+  }
 }
