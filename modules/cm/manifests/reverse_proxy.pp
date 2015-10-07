@@ -8,10 +8,12 @@ define cm::reverse_proxy(
 
   include 'cm::services::webserver'
 
-  $upstream = $upstream_name ? { default => $upstream_name, undef => 'reverse-proxy-backend' }
+  $upstream_name_default = 'reverse-proxy-backend'
 
-  if ($upstream_name == undef and defined(Cm::Upstream::Fastcgi['reverse-proxy-backend']) == false) {
-    cm::upstream::proxy { $upstream:
+  $upstream_name_real = $upstream_name ? { default => $upstream_name, undef => $upstream_name_default }
+
+  if ($upstream_name == undef and defined(Cm::Upstream::Fastcgi[$upstream_name_default]) == false) {
+    cm::upstream::proxy { $upstream_name_default:
     }
   }
 
@@ -49,7 +51,7 @@ define cm::reverse_proxy(
     location_cfg_append => [
       "proxy_set_header Host '${name}';",
       'proxy_set_header X-Real-IP $remote_addr;',
-      "proxy_pass https://${$upstream};",
+      "proxy_pass https://${upstream_name_real};",
       'proxy_next_upstream error timeout http_502;'
     ],
   }
