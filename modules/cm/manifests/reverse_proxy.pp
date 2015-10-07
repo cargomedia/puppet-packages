@@ -2,10 +2,11 @@ define cm::reverse_proxy(
   $ssl_cert = undef,
   $ssl_key = undef,
   $aliases = [],
-  $redirects = undef
+  $redirects = undef,
+  $upstream_name = 'reverse-proxy-backend'
 ) {
 
-  include 'cm::services::upstream_proxy'
+  include 'cm::services::webserver'
 
   $hostnames = concat([$name], $aliases)
   $ssl = ($ssl_cert != undef) or ($ssl_key != undef)
@@ -41,7 +42,7 @@ define cm::reverse_proxy(
     location_cfg_append => [
       "proxy_set_header Host '${name}';",
       'proxy_set_header X-Real-IP $remote_addr;',
-      'proxy_pass https://reverse-proxy-backend;',
+      "proxy_pass https://${$upstream_name};",
       'proxy_next_upstream error timeout http_502;'
     ],
   }
