@@ -6,7 +6,8 @@ define cm::vhost(
   $redirects = undef,
   $cdn_origin = undef,
   $debug = false,
-  $upstream_name = undef
+  $upstream_name = undef,
+  $upstream_members = ['localhost:9000']
 ) {
 
   include 'cm::services::webserver'
@@ -17,6 +18,7 @@ define cm::vhost(
 
   if ($upstream_name == undef and defined(Cm::Upstream::Fastcgi[$upstream_name_default]) == false) {
     cm::upstream::fastcgi { $upstream_name_default:
+      members => $upstream_members
     }
   }
 
