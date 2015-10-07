@@ -10,9 +10,6 @@ class cm::services(
   include 'gearman::server'
   include 'mongodb::role::standalone'
 
-  cm::upstream::fastcgi {'fastcgi-backend':
-  }
-
   class { 'cm::services::stream':
     ssl_cert => $ssl_cert,
     ssl_key  => $ssl_key,
