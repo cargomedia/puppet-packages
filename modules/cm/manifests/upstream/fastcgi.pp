@@ -1,5 +1,4 @@
-class cm::services::upstream_fastcgi(
-  $upstream_name = 'fastcgi-backend',
+define cm::upstream::fastcgi(
   $members = ['localhost:9000']
 ) {
 
@@ -7,7 +6,7 @@ class cm::services::upstream_fastcgi(
 
   $upstream_members = suffix($members, ' max_fails=3 fail_timeout=3')
 
-  nginx::resource::upstream { $upstream_name:
+  nginx::resource::upstream { $name:
     ensure              => present,
     members             => $upstream_members,
     upstream_cfg_append => [
