@@ -60,6 +60,9 @@ inZL8VyT42eLzq/N4eyQ/Xxd7HR0gWmwu+o18FYcrZVbaF3+VyQ=
     ip           => '127.0.0.1',
   }
 
+  cm::upstream::proxy {'reverse-proxy-backend':
+  }
+
   cm::reverse_proxy { $domain_xxx:
     ssl_cert               => $ssl_cert,
     ssl_key                => $ssl_key,
