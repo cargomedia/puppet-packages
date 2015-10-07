@@ -2,8 +2,6 @@ node default {
 
   require 'cm::application'
 
-  $upstream_members = ['localhost:443']
-
   $ssl_cert = '-----BEGIN CERTIFICATE-----
 MIIC9TCCAd2gAwIBAgIJAIq90DIzpdxxMA0GCSqGSIb3DQEBBQUAMBExDzANBgNV
 BAMMBmZvby5jbTAeFw0xNTAyMTcxMTE5NTdaFw0yNTAyMTQxMTE5NTdaMBExDzAN
@@ -58,10 +56,6 @@ inZL8VyT42eLzq/N4eyQ/Xxd7HR0gWmwu+o18FYcrZVbaF3+VyQ=
       $domain_xxx, "www.${domain_xxx}", "admin.${domain_xxx}",
       'bar.xxx', 'bor.xxx', 'baz.xxx' ],
     ip           => '127.0.0.1',
-  }
-
-  cm::upstream::proxy { 'reverse-proxy-backend':
-    members => $upstream_members
   }
 
   cm::reverse_proxy { $domain_xxx:
