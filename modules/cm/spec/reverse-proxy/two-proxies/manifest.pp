@@ -32,13 +32,17 @@ node default {
   }
 
   cm::reverse_proxy { 'foobar':
-    upstream_name          => $upstream1_name,
-    ssl_to_backend         => false,
+    upstream_options => {
+      name  => $upstream1_name,
+      ssl   => false,
+    }
   }
 
   cm::reverse_proxy { 'alicebob':
-    upstream_name          => $upstream2_name,
-    ssl_to_backend         => false,
+    upstream_options => {
+      name   => $upstream2_name,
+      ssl    => false,
+    },
   }
 
   nginx::resource::vhost { 'destination1':

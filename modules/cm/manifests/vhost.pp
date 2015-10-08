@@ -6,19 +6,24 @@ define cm::vhost(
   $redirects = undef,
   $cdn_origin = undef,
   $debug = false,
-  $upstream_name = undef,
-  $upstream_members = ['localhost:9000']
+  $upstream_options = {},
 ) {
 
   include 'cm::services::webserver'
 
-  $upstream_name_default = 'fastcgi-backend'
+  $upstream_options_defaults = {
+    name => 'fastcgi-backend',
+    members => ['localhost:9000']
+  }
 
-  $upstream_name_real = $upstream_name ? { default => $upstream_name, undef => $upstream_name_default }
+  $upstream_opts = merge($upstream_options_defaults, $upstream_options)
+  $upstream_name_real = $upstream_options[name] ? { default => $upstream_opts[name], undef => $upstream_options_defaults[name] }
 
-  if ($upstream_name == undef and defined(Cm::Upstream::Fastcgi[$upstream_name_default]) == false) {
-    cm::upstream::fastcgi { $upstream_name_default:
-      members => $upstream_members
+  if ($upstream_options[name] == undef) {
+    if !(defined(Cm::Upstream::Fastcgi[$upstream_opts[name]])) {
+      cm::upstream::fastcgi { $upstream_opts[name]:
+        members => $upstream_opts[members]
+      }
     }
   }
 

@@ -1,5 +1,9 @@
 node default {
 
+  require 'cm::application'
+
+  $application_root = '/home/fuckbook/serve'
+
   $ssl_cert = '-----BEGIN CERTIFICATE-----
 MIIC9TCCAd2gAwIBAgIJAIq90DIzpdxxMA0GCSqGSIb3DQEBBQUAMBExDzANBgNV
 BAMMBmZvby5jbTAeFw0xNTAyMTcxMTE5NTdaFw0yNTAyMTQxMTE5NTdaMBExDzAN
@@ -47,39 +51,42 @@ hdnRAoGAf2QS8mvy8/eagaX7UD7iQKAFX/6tQINRmprAjuF6/fOmZ3MQu9Q5R0mS
 inZL8VyT42eLzq/N4eyQ/Xxd7HR0gWmwu+o18FYcrZVbaF3+VyQ=
 -----END RSA PRIVATE KEY-----'
 
-  $upstream_name = 'nine-five-nine-five'
+  $domain_cm = 'foo.cm'
+  $domain_xx = 'foo.xx'
 
-  host { 'foo.xxx':
-    host_aliases => ['bar.xxx', 'baz.xxx'],
+  host { 'mock-domain-resolution':
+    host_aliases => [
+      $domain_cm, "www.${domain_cm}", "admin.${domain_cm}",
+      $domain_xx, "www.${domain_xx}", "admin.${domain_xx}",
+      'bar.cm', 'bor.cm', 'baz.cm' ],
     ip           => '127.0.0.1',
   }
 
-  file { '/var/www':
-    ensure => directory,
+  cm::upstream::fastcgi { 'foo':
+    members => [ 'localhost:9000', 'localhost:9001'],
   }
 
-  file { '/var/www/index.html':
-    ensure  => file,
-    content => 'foobar',
-  }
-
-  cm::upstream::proxy { $upstream_name:
-    members => ['bar.xxx:443'],
-  }
-
-  cm::reverse_proxy { 'foo.xxx':
-    redirects => ['baz.xxx'],
+  cm::vhost { $domain_xx:
+    path             => $application_root,
+    ssl_cert         => $ssl_cert,
+    ssl_key          => $ssl_key,
+    aliases          => ["www.${domain_xx}", "admin.${domain_xx}"],
+    cdn_origin       => "origin-www.${domain_xx}",
     upstream_options => {
-      name => $upstream_name,
+      name => 'foo',
     }
   }
 
-  nginx::resource::vhost { 'proxy-destination':
-    server_name         => ['bar.xxx'],
-    ssl                 => true,
-    ssl_cert            => $ssl_cert,
-    ssl_key             => $ssl_key,
-    www_root            => '/var/www/',
-    require             => File['/var/www/index.html'],
+  cm::vhost { "www.${domain_cm}":
+    path        => $application_root,
+    ssl_cert    => $ssl_cert,
+    ssl_key     => $ssl_key,
+    aliases     => [ $domain_cm, "admin.${domain_cm}" ],
+    cdn_origin  => "origin-www.${domain_cm}",
+    redirects   => ['bar.cm', 'bor.cm', 'baz.cm'],
+    upstream_options => {
+      members => [ 'localhost:8888', 'localhost:8889'],
+    }
   }
+
 }
