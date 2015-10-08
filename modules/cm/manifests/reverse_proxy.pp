@@ -12,7 +12,7 @@ define cm::reverse_proxy(
     name => 'reverse-proxy-backend',
     members => ['localhost:443'],
     ssl => true,
-    header_host => "${name}"
+    header_host => $name,
   }
 
   $upstream_opts = merge($upstream_options_defaults, $upstream_options)
@@ -61,7 +61,7 @@ define cm::reverse_proxy(
       location_cfg_append => [
         "proxy_set_header Host '${upstream_opts[header_host]}';",
         'proxy_set_header X-Real-IP $remote_addr;',
-        "proxy_pass ${proto}://$upstream_name_real;",
+        "proxy_pass ${proto}://${upstream_name_real};",
         'proxy_next_upstream error timeout http_502;'
       ]
     }
