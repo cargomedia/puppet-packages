@@ -3,20 +3,26 @@ define cm::reverse_proxy(
   $ssl_key = undef,
   $aliases = [],
   $redirects = undef,
-  $upstream_name = undef,
-  $upstream_members = ['localhost:443'],
-  $ssl_to_backend = true
+  $upstream_options = {}
 ) {
 
   include 'cm::services::webserver'
 
-  $upstream_name_default = 'reverse-proxy-backend'
+  $upstream_options_defaults = {
+    name => 'reverse-proxy-backend',
+    members => ['localhost:443'],
+    ssl => true,
+    header_host => "${name}"
+  }
 
-  $upstream_name_real = $upstream_name ? { default => $upstream_name, undef => $upstream_name_default }
+  $upstream_opts = merge($upstream_options_defaults, $upstream_options)
+  $upstream_name_real = $upstream_options[name] ? { default => $upstream_opts[name], undef => $upstream_options_defaults[name] }
 
-  if ($upstream_name == undef and defined(Cm::Upstream::Fastcgi[$upstream_name_default]) == false) {
-    cm::upstream::proxy { $upstream_name_default:
-      members => $upstream_members
+  if ($upstream_options[name] == undef) {
+    if !(defined(Cm::Upstream::Proxy[$upstream_opts[name]])) {
+      cm::upstream::proxy { $upstream_opts[name]:
+        members => $upstream_opts[members],
+      }
     }
   }
 
@@ -45,19 +51,19 @@ define cm::reverse_proxy(
     }
   }
 
-  $protocol = $ssl_to_backend ? { true => 'https', false => 'http' }
-  nginx::resource::vhost { $name:
-    server_name         => $hostnames,
-    ssl                 => $ssl,
-    listen_port         => $port,
-    ssl_cert            => $ssl_cert,
-    ssl_key             => $ssl_key,
-    location_cfg_append => [
-      "proxy_set_header Host '${name}';",
-      'proxy_set_header X-Real-IP $remote_addr;',
-      "proxy_pass ${protocol}://${upstream_name_real};",
-      'proxy_next_upstream error timeout http_502;'
-    ],
-  }
+    $proto = $upstream_opts[ssl] ? { true => 'https', false => 'http' }
+    nginx::resource::vhost { $name:
+      server_name         => $hostnames,
+      ssl                 => $ssl,
+      listen_port         => $port,
+      ssl_cert            => $ssl_cert,
+      ssl_key             => $ssl_key,
+      location_cfg_append => [
+        "proxy_set_header Host '${upstream_opts[header_host]}';",
+        'proxy_set_header X-Real-IP $remote_addr;',
+        "proxy_pass ${proto}://$upstream_name_real;",
+        'proxy_next_upstream error timeout http_502;'
+      ]
+    }
 
-}
+  }

@@ -22,8 +22,11 @@ node default {
   }
 
   cm::reverse_proxy { $domain_xxx:
-    upstream_name          => $upstream_name,
-    ssl_to_backend         => false,
+    upstream_options => {
+      name => $upstream_name,
+      ssl => false,
+      header_host => 'bar.xxx'
+    }
   }
 
   nginx::resource::vhost { 'proxy-destination':
