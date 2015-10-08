@@ -10,5 +10,4 @@ describe 'cm::vhost' do
     its(:stdout) { should match /alice and bob/ }
   end
 
-
 end
