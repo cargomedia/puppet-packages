@@ -9,7 +9,6 @@ class cm::services(
   include 'elasticsearch'
   include 'gearman::server'
   include 'mongodb::role::standalone'
-  include 'cm::services::webserver'
 
   class { 'cm::services::stream':
     ssl_cert => $ssl_cert,
