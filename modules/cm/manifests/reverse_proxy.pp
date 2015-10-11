@@ -61,6 +61,7 @@ define cm::reverse_proxy(
       location_cfg_append => [
         "proxy_set_header Host '${upstream_opts[header_host]}';",
         'proxy_set_header X-Real-IP $remote_addr;',
+        'proxy_set_header X-Forwarded-For $remote_addr;',
         "proxy_pass ${proto}://${upstream_name_real};",
         'proxy_next_upstream error timeout http_502;'
       ]

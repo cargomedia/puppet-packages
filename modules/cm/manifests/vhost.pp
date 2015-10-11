@@ -61,6 +61,11 @@ define cm::vhost(
     ssl_key             => $ssl_key,
     location_cfg_append => [
       'include fastcgi_params;',
+      'set $_real_client_ip $remote_addr;',
+      'if ($http_x_real_ip != "") {',
+      '  set $_real_client_ip $http_x_real_ip;',
+      '}',
+      'fastcgi_param REMOTE_ADDR $_real_client_ip;',
       "fastcgi_param SCRIPT_FILENAME ${path}/public/index.php;",
       "fastcgi_param CM_DEBUG ${debug_int};",
       'fastcgi_keep_conn on;',
@@ -109,6 +114,11 @@ define cm::vhost(
       'gzip_types application/x-javascript text/css text/plain application/xml image/svg+xml;',
 
       'include fastcgi_params;',
+      'set $_real_client_ip $remote_addr;',
+      'if ($http_x_real_ip != "") {',
+      '  set $_real_client_ip $http_x_real_ip;',
+      '}',
+      'fastcgi_param REMOTE_ADDR $_real_client_ip;',
       "fastcgi_param SCRIPT_FILENAME ${path}/public/index.php;",
       "fastcgi_param CM_DEBUG ${debug_int};",
       'fastcgi_keep_conn on;',
