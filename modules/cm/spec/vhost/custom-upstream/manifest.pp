@@ -54,6 +54,17 @@ inZL8VyT42eLzq/N4eyQ/Xxd7HR0gWmwu+o18FYcrZVbaF3+VyQ=
   $domain_cm = 'foo.cm'
   $domain_xx = 'foo.xx'
 
+  exec { 'mock-second-ip-address':
+    command   => 'ifconfig eth0:0 192.168.199.199',
+    path      => ['/bin', '/sbin'],
+  }
+  ->
+  exec { 'netcat listening socket on 9001':
+    command   => 'nc -l -p 9001 >/var/log/spec_nc_log  &',
+    path      => ['/bin', '/sbin'],
+  }
+  ->
+
   host { 'mock-domain-resolution':
     host_aliases => [
       $domain_cm, "www.${domain_cm}", "admin.${domain_cm}",
@@ -61,9 +72,10 @@ inZL8VyT42eLzq/N4eyQ/Xxd7HR0gWmwu+o18FYcrZVbaF3+VyQ=
       'bar.cm', 'bor.cm', 'baz.cm' ],
     ip           => '127.0.0.1',
   }
+  ->
 
   cm::upstream::fastcgi { 'foo':
-    members => [ 'localhost:9000', 'localhost:9001'],
+    members => [ 'localhost:9001'],
   }
 
   cm::vhost { $domain_xx:
@@ -88,5 +100,4 @@ inZL8VyT42eLzq/N4eyQ/Xxd7HR0gWmwu+o18FYcrZVbaF3+VyQ=
       members => [ 'localhost:8888', 'localhost:8889'],
     }
   }
-
 }
