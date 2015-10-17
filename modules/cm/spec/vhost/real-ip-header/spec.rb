@@ -8,6 +8,16 @@ describe 'cm::vhost' do
     end
   end
 
+  describe 'Nginx validates the X-Real-IP header' do
+    describe command("curl --proxy '' -H 'X-Real-IP: foo' http://www.example.com") do
+      its(:stdout) { should match /your ip: 127.0.0.1/ }
+    end
+
+    describe command("curl --proxy '' -H 'X-Real-IP: 1.2.3.4foo' http://www.example.com") do
+      its(:stdout) { should match /your ip: 127.0.0.1/ }
+    end
+  end
+
   describe 'Checking if REMOTE_ADDR is passed by default' do
     describe command("curl --proxy '' http://www.example.com") do
       its(:stdout) { should match /your ip: 127.0.0.1/ }
