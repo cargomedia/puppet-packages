@@ -22,7 +22,8 @@ class nginx::params {
   $nx_client_max_body_size    = '100M'
 
   $nx_proxy_set_header        = [
-    'Host $host', 'X-Real-IP $remote_addr',
+    'Host $host',
+    'X-Real-IP $remote_addr',
     'X-Forwarded-For $proxy_add_x_forwarded_for',
   ]
 

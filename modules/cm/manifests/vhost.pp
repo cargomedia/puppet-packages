@@ -6,7 +6,7 @@ define cm::vhost(
   $redirects = undef,
   $cdn_origin = undef,
   $debug = false,
-  $upstream_options = {},
+  $upstream_options = { },
 ) {
 
   include 'cm::services::webserver'
@@ -61,6 +61,7 @@ define cm::vhost(
     ssl_key             => $ssl_key,
     location_cfg_append => [
       'include fastcgi_params;',
+      'set_real_ip_from 0.0.0.0/0;',
       "fastcgi_param SCRIPT_FILENAME ${path}/public/index.php;",
       "fastcgi_param CM_DEBUG ${debug_int};",
       'fastcgi_keep_conn on;',
@@ -109,6 +110,7 @@ define cm::vhost(
       'gzip_types application/x-javascript text/css text/plain application/xml image/svg+xml;',
 
       'include fastcgi_params;',
+      'set_real_ip_from 0.0.0.0/0;',
       "fastcgi_param SCRIPT_FILENAME ${path}/public/index.php;",
       "fastcgi_param CM_DEBUG ${debug_int};",
       'fastcgi_keep_conn on;',
