@@ -8,4 +8,10 @@ describe 'cm::vhost' do
     end
   end
 
+  describe 'Checking if REMOTE_ADDR is passed by default' do
+    describe command("curl --proxy '' http://www.example.com") do
+      its(:stdout) { should match /your ip: 127.0.0.1/ }
+    end
+  end
+
 end
