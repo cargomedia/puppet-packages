@@ -1,7 +1,5 @@
 node default {
 
-  require 'cm::application'
-
   $application_root = '/home/fuckbook/serve'
 
   $ssl_cert = '-----BEGIN CERTIFICATE-----
