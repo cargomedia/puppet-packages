@@ -5,10 +5,27 @@ define cm::vhost(
   $aliases = [],
   $redirects = undef,
   $cdn_origin = undef,
-  $debug = false
+  $debug = false,
+  $upstream_options = { },
 ) {
 
   include 'cm::services::webserver'
+
+  $upstream_options_defaults = {
+    name => 'fastcgi-backend',
+    members => ['localhost:9000']
+  }
+
+  $upstream_opts = merge($upstream_options_defaults, $upstream_options)
+  $upstream_name_real = $upstream_options[name] ? { default => $upstream_opts[name], undef => $upstream_options_defaults[name] }
+
+  if ($upstream_options[name] == undef) {
+    if !(defined(Cm::Upstream::Fastcgi[$upstream_opts[name]])) {
+      cm::upstream::fastcgi { $upstream_opts[name]:
+        members => $upstream_opts[members]
+      }
+    }
+  }
 
   $hostnames = concat([$name], $aliases)
   $debug_int = $debug ? { true => 1, false => 0 }
@@ -44,21 +61,12 @@ define cm::vhost(
     ssl_key             => $ssl_key,
     location_cfg_append => [
       'include fastcgi_params;',
+      'set_real_ip_from 0.0.0.0/0;',
       "fastcgi_param SCRIPT_FILENAME ${path}/public/index.php;",
       "fastcgi_param CM_DEBUG ${debug_int};",
       'fastcgi_keep_conn on;',
-      'fastcgi_pass fastcgi-backend;',
+      "fastcgi_pass ${upstream_name_real};",
       'error_page 502 =503 /maintenance;',
-    ],
-  }
-
-  nginx::resource::location{ "${name}-fpm-status":
-    vhost               => $name,
-    ssl                 => $ssl,
-    ssl_only            => $ssl,
-    location            => '/fpm-status',
-    location_cfg_append => [
-      'deny all;',
     ],
   }
 
@@ -102,10 +110,11 @@ define cm::vhost(
       'gzip_types application/x-javascript text/css text/plain application/xml image/svg+xml;',
 
       'include fastcgi_params;',
+      'set_real_ip_from 0.0.0.0/0;',
       "fastcgi_param SCRIPT_FILENAME ${path}/public/index.php;",
       "fastcgi_param CM_DEBUG ${debug_int};",
       'fastcgi_keep_conn on;',
-      'fastcgi_pass fastcgi-backend;',
+      "fastcgi_pass ${upstream_name_real};",
     ],
   }
 
