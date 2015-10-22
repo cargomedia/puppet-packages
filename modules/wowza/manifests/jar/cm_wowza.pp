@@ -1,4 +1,4 @@
-class wowza::jar::cm_wowza($version = '0.2.0') {
+class wowza::jar::cm_wowza($version = '0.2.1') {
 
   require 'wowza'
   require 'wowza::jar::flexjson'
