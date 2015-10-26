@@ -20,6 +20,7 @@ class cm::application (
   require 'php5::extension::mongo'
   require 'php5::fpm'
   require 'uglify'
+  require 'browserify'
   require 'autoprefixer'
   require 'foreman::debian'
   require 'mysql::client'
