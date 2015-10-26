@@ -18,6 +18,10 @@ mod 'cargomedia/uglify',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/uglify'
 
+mod 'cargomedia/browserify',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/browserify'
+
 mod 'cargomedia/autoprefixer',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/autoprefixer'
