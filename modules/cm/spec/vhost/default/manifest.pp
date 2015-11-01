@@ -1,5 +1,7 @@
 node default {
 
+  require 'php5::fpm'
+
   $ssl_cert = '-----BEGIN CERTIFICATE-----
 MIIDGDCCAgCgAwIBAgIJAISr5JGTVVfRMA0GCSqGSIb3DQEBCwUAMB8xEDAOBgNV
 BAMMB215LW5hbWUxCzAJBgNVBAYTAlVTMB4XDTE1MTEwMTEzMjYzMFoXDTI1MTAy
@@ -58,7 +60,7 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
   }
 
   cm::vhost { 'example1.com':
-    path       => '/home/app1',
+    path       => '/tmp/app1',
     ssl_cert   => $ssl_cert,
     ssl_key    => $ssl_key,
     aliases    => ['www.example1.com', 'admin.example1.com'],
@@ -67,12 +69,26 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
 
 
   cm::vhost { 'www.example2.com':
-    path        => '/home/app2',
+    path        => '/tmp/app2',
     ssl_cert    => $ssl_cert,
     ssl_key     => $ssl_key,
     aliases     => [ 'example2.com', 'admin.example2.com' ],
     cdn_origin  => 'origin-www.example2.com',
     redirects   => ['example2-redirect1.com', 'example2-redirect2.com', 'example2-redirect2.com'],
+  }
+
+  file { [
+    '/tmp/app1', '/tmp/app1/public',
+    '/tmp/app2', '/tmp/app2/public',
+  ]:
+    ensure => directory
+  }
+
+  file { [
+    '/tmp/app1/public/index.php',
+    '/tmp/app2/public/index.php',
+  ]:
+    content => '<?php echo "Hello World!";'
   }
 
 }

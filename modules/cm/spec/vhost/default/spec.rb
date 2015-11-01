@@ -18,4 +18,13 @@ describe 'cm::vhost' do
     end
   end
 
+  # FastCGI upstream
+  ['www.', 'admin.', ''].each do |prefix|
+    ['example1.com', 'example2.com'].each do |domain|
+      describe command("curl --proxy '' -vk https://#{prefix}#{domain}") do
+        its(:stdout) { should match /Hello World!/ }
+      end
+    end
+  end
+
 end
