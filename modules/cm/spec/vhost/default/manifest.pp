@@ -1,7 +1,5 @@
 node default {
 
-  $application_root = '/home/fuckbook/serve'
-
   $ssl_cert = '-----BEGIN CERTIFICATE-----
 MIIDGDCCAgCgAwIBAgIJAISr5JGTVVfRMA0GCSqGSIb3DQEBCwUAMB8xEDAOBgNV
 BAMMB215LW5hbWUxCzAJBgNVBAYTAlVTMB4XDTE1MTEwMTEzMjYzMFoXDTI1MTAy
@@ -60,7 +58,7 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
   }
 
   cm::vhost { 'example1.com':
-    path       => $application_root,
+    path       => '/home/app1',
     ssl_cert   => $ssl_cert,
     ssl_key    => $ssl_key,
     aliases    => ['www.example1.com', 'admin.example1.com'],
@@ -69,7 +67,7 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
 
 
   cm::vhost { 'www.example2.com':
-    path        => $application_root,
+    path        => '/home/app2',
     ssl_cert    => $ssl_cert,
     ssl_key     => $ssl_key,
     aliases     => [ 'example2.com', 'admin.example2.com' ],
