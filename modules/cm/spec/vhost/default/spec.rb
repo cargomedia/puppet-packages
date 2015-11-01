@@ -1,19 +1,21 @@
 require 'spec_helper'
 
 describe 'cm::vhost' do
-  redirect_location = /< Location: https:\/\/www\.foo\.cm\//
 
-  ['bar', 'bor', 'baz'].each do |name|
-    describe command("curl --proxy '' -v http://#{name}.cm") do
-      its(:stderr) { should match redirect_location }
+  # Redirects
+  ['example2-redirect1.com', 'example2-redirect2.com', 'example2-redirect2.com'].each do |domain|
+    describe command("curl --proxy '' -v http://#{domain}") do
+      its(:stderr) { should match /< Location: https:\/\/www\.example2\.com\// }
     end
   end
 
-  ['www.', 'admin.', ''].each do |name|
-    ['xx', 'cm'].each do |tld|
-      describe command("curl --proxy '' -v http://#{name}foo.#{tld}") do
-        its(:stderr) { should match /< Location: https:\/\/#{name}foo\.#{tld}\// }
+  # HTTPS -> HTTP redirects
+  ['www.', 'admin.', ''].each do |prefix|
+    ['example1.com', 'example2.com'].each do |domain|
+      describe command("curl --proxy '' -v http://#{prefix}#{domain}") do
+        its(:stderr) { should match /< Location: https:\/\/#{prefix}#{domain}\// }
       end
     end
   end
+
 end
