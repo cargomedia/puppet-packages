@@ -78,17 +78,24 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
   }
 
   file { [
-    '/tmp/app1', '/tmp/app1/public',
-    '/tmp/app2', '/tmp/app2/public',
+    '/tmp/app1', '/tmp/app1/public', '/tmp/app1/public/static',
+    '/tmp/app2', '/tmp/app2/public', '/tmp/app2/public/static',
   ]:
-    ensure => directory
+    ensure => directory,
   }
 
   file { [
     '/tmp/app1/public/index.php',
     '/tmp/app2/public/index.php',
   ]:
-    content => '<?php echo "Hello World!";'
+    content => '<?php echo "Hello World!";',
+  }
+
+  file { [
+    '/tmp/app1/public/static/file.txt',
+    '/tmp/app2/public/static/file.txt',
+  ]:
+    content => 'My Data',
   }
 
 }

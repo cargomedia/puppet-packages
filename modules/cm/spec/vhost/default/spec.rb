@@ -22,8 +22,19 @@ describe 'cm::vhost' do
   ['www.', 'admin.', ''].each do |prefix|
     ['example1.com', 'example2.com'].each do |domain|
       describe command("curl --proxy '' -vk https://#{prefix}#{domain}") do
-        its(:stdout) { should match /Hello World!/ }
+        its(:stdout) { should match 'Hello World!' }
       end
+    end
+  end
+
+  # CDN Origin
+  [
+    'http://origin-www.example1.com', 'https://origin-www.example1.com',
+    'http://origin-www.example2.com', 'https://origin-www.example2.com',
+  ].each do |url|
+    describe command("curl --proxy '' -vk #{url}/static/file.txt") do
+      its(:stdout) { should match 'My Data' }
+      its(:stderr) { should match /Access-Control-Allow-Origin	*/ }
     end
   end
 
