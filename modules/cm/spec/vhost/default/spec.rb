@@ -3,9 +3,9 @@ require 'spec_helper'
 describe 'cm::vhost' do
 
   # Redirects
-  ['example2-redirect1.com', 'example2-redirect2.com', 'example2-redirect2.com'].each do |domain|
+  ['example1-redirect1.com', 'example1-redirect2.com', 'example1-redirect2.com'].each do |domain|
     describe command("curl --proxy '' -v http://#{domain}") do
-      its(:stderr) { should match /< Location: https:\/\/www\.example2\.com\// }
+      its(:stderr) { should match /< Location: https:\/\/example1\.com\// }
     end
   end
 
@@ -19,18 +19,21 @@ describe 'cm::vhost' do
   end
 
   # FastCGI upstream
-  ['www.', 'admin.', ''].each do |prefix|
-    ['example1.com', 'example2.com'].each do |domain|
-      describe command("curl --proxy '' -vk https://#{prefix}#{domain}") do
-        its(:stdout) { should match 'Hello World!' }
-      end
+  [
+    'https://example1.com', 'https://www.example1.com', 'https://admin.example1.com',
+    'https://example2.com', 'https://www.example2.com', 'https://admin.example2.com',
+    'http://example3.com', 'http://www.example3.com', 'http://admin.example3.com',
+  ].each do |url|
+    describe command("curl --proxy '' -vk #{url}") do
+      its(:stdout) { should match 'Hello World!' }
     end
   end
 
   # CDN Origin
   [
-    'http://origin-www.example1.com', 'https://origin-www.example1.com',
-    'http://origin-www.example2.com', 'https://origin-www.example2.com',
+    'https://origin-www.example1.com',
+    'https://www.example2.com',
+    'http://origin-www.example3.com',
   ].each do |url|
     describe command("curl --proxy '' -vk #{url}/static/file.txt") do
       its(:stdout) { should match 'My Data' }
