@@ -55,10 +55,11 @@ define cm::vhost(
 
   nginx::resource::vhost { $name:
     server_name         => $hostnames,
-    ssl                 => $ssl,
     listen_port         => $port,
+    ssl                 => $ssl,
     ssl_cert            => $ssl_cert,
     ssl_key             => $ssl_key,
+    ssl_port            => $port,
     location_cfg_append => [
       'include fastcgi_params;',
       'set_real_ip_from 0.0.0.0/0;',
@@ -85,9 +86,11 @@ define cm::vhost(
 
     nginx::resource::vhost{ $cdn_origin_vhost:
       server_name         => [$cdn_origin],
+      listen_port         => $port,
       ssl                 => $ssl,
       ssl_cert            => $ssl_cert,
       ssl_key             => $ssl_key,
+      ssl_port            => $port,
       location_cfg_append => [
         'deny all;',
       ],
@@ -100,7 +103,7 @@ define cm::vhost(
     location            => '~* ^/(vendor-css|vendor-js|library-css|library-js|layout)/',
     vhost               => $cdn_origin_vhost,
     ssl                 => $ssl,
-    ssl_only            => false,
+    ssl_only            => $ssl,
     location_cfg_append => [
       'expires 1y;',
       'gzip on;',
@@ -122,7 +125,7 @@ define cm::vhost(
     location            => '/static',
     vhost               => $cdn_origin_vhost,
     ssl                 => $ssl,
-    ssl_only            => false,
+    ssl_only            => $ssl,
     www_root            => "${path}/public",
     location_cfg_append => [
       'expires 1y;',
@@ -140,7 +143,7 @@ define cm::vhost(
     location            => '/userfiles',
     vhost               => $cdn_origin_vhost,
     ssl                 => $ssl,
-    ssl_only            => false,
+    ssl_only            => $ssl,
     www_root            => "${path}/public",
     location_cfg_append => [
       'expires 1y;',
