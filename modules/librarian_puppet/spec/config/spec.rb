@@ -8,7 +8,7 @@ describe 'librarian_puppet' do
     its(:stdout) { should match /slave: 88/ }
   end
 
-  describe command('cd /tmp && librarian-puppet config') do
+  describe command('cd /tmp/dir1 && librarian-puppet config') do
     its(:stdout) { should match /master-global: false/ }
     its(:stdout) { should match /master-local: 3/ }
     its(:stdout) { should match /slave: 22/ }
