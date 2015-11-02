@@ -10,7 +10,6 @@ class puppet::master (
     'monit' # See https://github.com/cargomedia/puppet-packages/issues/232
   ],
   $puppetfile = undef,
-  $puppetfile_hiera_data_dir = undef,
   $port_webrick = 8140,
   $port_passenger = undef
 ) {
@@ -112,8 +111,6 @@ class puppet::master (
   if $puppetfile {
     class { 'puppet::master::puppetfile':
       content                   => $puppetfile,
-      hiera_data_dir            => $hiera_data_dir,
-      puppetfile_hiera_data_dir => $puppetfile_hiera_data_dir,
     }
   }
 
