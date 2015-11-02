@@ -1,11 +1,12 @@
 define librarian_puppet::config (
+  $key,
   $value,
   $path = undef,
   $user = 'root',
   $user_home = '/root'
 ) {
 
-  $command_prefix = "librarian-puppet config ${name}"
+  $command_prefix = "librarian-puppet config ${key}"
 
   if ($path == undef) {
     $command_option = '--global'
@@ -14,9 +15,9 @@ define librarian_puppet::config (
   }
 
   $command = "${command_prefix} ${value} ${command_option}"
-  $unless = "${command_prefix} | grep ${name}"
+  $unless = "${command_prefix} | grep ${key}"
 
-  exec { "set librarian-puppet config ${name} to ${value}":
+  exec { "set librarian-puppet config ${key} to ${value}":
     command     => $command,
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     provider    => shell,

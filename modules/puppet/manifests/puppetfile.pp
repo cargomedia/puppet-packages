@@ -7,8 +7,8 @@ define puppet::puppetfile(
   require 'rsync'
 
   librarian_puppet::config { "rsync for ${directory}":
-    name  => 'rsync',
     path  => $directory,
+    key   => 'rsync',
     value => true
   }
 
