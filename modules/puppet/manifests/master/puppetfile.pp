@@ -11,7 +11,7 @@ class puppet::master::puppetfile(
     value => true
   }
 
-  $update_command = "cd /etc/puppet && librarian-puppet update"
+  $update_command = 'cd /etc/puppet && librarian-puppet update'
 
   file { '/etc/puppet/Puppetfile':
     ensure  => file,
