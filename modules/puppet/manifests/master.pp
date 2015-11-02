@@ -27,6 +27,13 @@ class puppet::master (
     before  => Package['puppetmaster'],
   }
 
+  file { '/etc/puppet/environments':
+    ensure => directory,
+    group  => '0',
+    owner  => '0',
+    mode   => '0755',
+  }
+
   file { '/etc/puppet/manifests':
     ensure => directory,
     group  => '0',
