@@ -109,8 +109,8 @@ class puppet::master (
   }
 
   if $puppetfile {
-    class { 'puppet::master::puppetfile':
-      content                   => $puppetfile,
+    puppet::puppetfile { '/etc/puppet' :
+      content => $puppetfile,
     }
   }
 
