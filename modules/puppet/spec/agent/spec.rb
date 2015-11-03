@@ -27,6 +27,10 @@ describe 'puppet::agent' do
     its(:stdout) { should match /^120$/ }
   end
 
+  describe command('puppet agent --configprint environment') do
+    its(:stdout) { should match /^foo$/ }
+  end
+
   describe command('sudo -u vagrant cat /var/lib/puppet/state/last_run_summary.yaml') do
     its(:exit_status) { should eq 0 }
     its(:stdout) { should match /puppet/ }

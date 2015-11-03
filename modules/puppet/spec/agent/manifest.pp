@@ -5,6 +5,7 @@ node default {
     masterport  => 8141,
     runinterval => '2m',
     splay       => true,
+    environment => 'foo',
   }
 
 }
