@@ -1,81 +1,112 @@
 node default {
 
-  $application_root = '/home/fuckbook/serve'
+  require 'php5::fpm'
 
   $ssl_cert = '-----BEGIN CERTIFICATE-----
-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
+MIIDGDCCAgCgAwIBAgIJAISr5JGTVVfRMA0GCSqGSIb3DQEBCwUAMB8xEDAOBgNV
+BAMMB215LW5hbWUxCzAJBgNVBAYTAlVTMB4XDTE1MTEwMTEzMjYzMFoXDTI1MTAy
+OTEzMjYzMFowHzEQMA4GA1UEAwwHbXktbmFtZTELMAkGA1UEBhMCVVMwggEiMA0G
+CSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQCz8cQPqjZW1oM9myUQotq7dE91uJ/P
+Uzs1gtbb4I2tpQcGTR1mgQgRu8l6St0e3qELU8c1s4sxVsMu3FfFEiJtHf629O18
+IQB/zRSqlI4r5i/5Ln/FsViNxqWSox37G0aPCCn3aW7NE7FmNwQRnD81/znlPFrA
+Q3Zu+4G0dxkzWLf67Nqk0apXWn56/a74vwvYejTN0cNzUCnDsTzjje3Ssuf14eJX
+OOLqpvuwEIL0XfXBCye8qAI9sqNgJCakcIH6TkOGdLo2h5z2UMlo4Ctkj5eLgkUd
+svFcEHw1ZWLOWzndcqp4SDnEjNFeLNj4zOPrL0kE1zzPh/qY8RYXofrzAgMBAAGj
+VzBVMAwGA1UdEwQFMAMBAf8wRQYDVR0RBD4wPIIMZXhhbXBsZTEuY29tgg4qLmV4
+YW1wbGUxLmNvbYIMZXhhbXBsZTIuY29tgg4qLmV4YW1wbGUyLmNvbTANBgkqhkiG
+9w0BAQsFAAOCAQEArBemT0i2jUTzKKMVFy9dAB+EkCHXPzar68boo26QOEBAgar4
+3DilhqClSUwKDIw0VZ5OCczRb3RV+VgIlHEeKD8n1yyQj72ny0PmUc9ep9HKY2Lv
+9yMV0j2guETZfp2SJSlUozS1eElbaFcZqWD2ziIxewd77XJnatSu/buCQQUrdtqv
+Aj7nIlhHpDP6UkNn4FV84HvLp/nwSfmp/D//Yib6pWPoDiYLNRhoHzxdekPJJ9dx
+VR72liY1SZ6e+qPELJTAq1m3xG2BYEHWsUacuvPlbI3cku30sEXYy5B2jT399RCG
+8lYvuzJvNDFkUk3Dp8UUDUkYwLCM0x5wrVbXxw==
 -----END CERTIFICATE-----'
 
   $ssl_key = '-----BEGIN RSA PRIVATE KEY-----
-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
+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
 -----END RSA PRIVATE KEY-----'
-
-  $domain_cm = 'foo.cm'
-  $domain_xx = 'foo.xx'
 
   host { 'mock-domain-resolution':
     host_aliases => [
-      $domain_cm, "www.${domain_cm}", "admin.${domain_cm}",
-      $domain_xx, "www.${domain_xx}", "admin.${domain_xx}",
-      'bar.cm', 'bor.cm', 'baz.cm' ],
+      'example1.com', 'www.example1.com', 'admin.example1.com', 'origin-www.example1.com',
+      'example1-redirect1.com', 'example1-redirect2.com', 'example1-redirect2.com',
+      'example2.com', 'www.example2.com', 'admin.example2.com', 'origin-www.example2.com',
+      'example3.com', 'www.example3.com', 'admin.example3.com', 'origin-www.example3.com',
+    ],
     ip           => '127.0.0.1',
   }
 
-  cm::vhost { $domain_xx:
-    path       => $application_root,
-    ssl_cert   => $ssl_cert,
-    ssl_key    => $ssl_key,
-    aliases    => ["www.${domain_xx}", "admin.${domain_xx}"],
-    cdn_origin => "origin-www.${domain_xx}",
-  }
-
-
-  cm::vhost { "www.${domain_cm}":
-    path        => $application_root,
+# HTTPS with CDN and Redirect
+  cm::vhost { 'example1.com':
+    path        => '/tmp/app1',
     ssl_cert    => $ssl_cert,
     ssl_key     => $ssl_key,
-    aliases     => [ $domain_cm, "admin.${domain_cm}" ],
-    cdn_origin  => "origin-www.${domain_cm}",
-    redirects   => ['bar.cm', 'bor.cm', 'baz.cm'],
+    aliases     => ['www.example1.com', 'admin.example1.com'],
+    cdn_origin  => 'origin-www.example1.com',
+    redirects   => ['example1-redirect1.com', 'example1-redirect2.com', 'example1-redirect2.com'],
+  }
+
+# HTTPS without CDN
+  cm::vhost { 'www.example2.com':
+    path        => '/tmp/app2',
+    ssl_cert    => $ssl_cert,
+    ssl_key     => $ssl_key,
+    aliases     => [ 'example2.com', 'admin.example2.com' ],
+  }
+
+# HTTP
+  cm::vhost { 'www.example3.com':
+    path        => '/tmp/app3',
+    aliases     => [ 'example3.com', 'admin.example3.com' ],
+    cdn_origin  => 'origin-www.example3.com',
+  }
+
+  file { [
+    '/tmp/app1', '/tmp/app1/public', '/tmp/app1/public/static',
+    '/tmp/app2', '/tmp/app2/public', '/tmp/app2/public/static',
+    '/tmp/app3', '/tmp/app3/public', '/tmp/app3/public/static',
+  ]:
+    ensure => directory,
+  }
+
+  file { [
+    '/tmp/app1/public/index.php',
+    '/tmp/app2/public/index.php',
+    '/tmp/app3/public/index.php',
+  ]:
+    content => '<?php echo "Hello World!";',
+  }
+
+  file { [
+    '/tmp/app1/public/static/file.txt',
+    '/tmp/app2/public/static/file.txt',
+    '/tmp/app3/public/static/file.txt',
+  ]:
+    content => 'My Data',
   }
 
 }

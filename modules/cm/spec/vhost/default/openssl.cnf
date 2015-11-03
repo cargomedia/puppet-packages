@@ -1,0 +1,25 @@
+prompt = no
+
+[req]
+req_extensions = v3_req
+x509_extensions = v3_ca
+distinguished_name = req_distinguished_name
+
+[req_distinguished_name]
+commonName = my-name
+countryName = US
+
+[v3_req]
+basicConstraints = CA:true
+subjectAltName = @alt_names
+
+[v3_ca]
+basicConstraints = CA:true
+subjectAltName = @alt_names
+
+[alt_names]
+DNS.1 = example1.com
+DNS.2 = *.example1.com
+
+DNS.3 = example2.com
+DNS.4 = *.example2.com
