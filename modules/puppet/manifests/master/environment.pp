@@ -1,5 +1,5 @@
 define puppet::master::environment (
-  $puppetfile
+  $puppetfile = undef
 ) {
 
   include 'puppet::master'
@@ -7,14 +7,16 @@ define puppet::master::environment (
   $directory = "/etc/puppet/environments/${name}"
 
   file { $directory:
-    ensure => directory,
+    ensure  => directory,
     group   => '0',
     owner   => '0',
     mode    => '0644',
   }
 
-  puppet::puppetfile { $directory :
-    content => $puppetfile,
+  if ($puppetfile) {
+    puppet::puppetfile { $directory :
+      content => $puppetfile,
+    }
   }
 
 }
