@@ -6,4 +6,3 @@ rundir = /var/run/puppet
 stringify_facts = false
 basemodulepath = <%= @basemodulepath %>
 certname = <%= @clientcert %>
-environmentpath = /etc/puppet/environments
