@@ -8,13 +8,13 @@ node default {
 
   librarian_puppet::config { 'config master-local':
     key   => 'master-local',
-    value => '3',
+    value => true,
     path  => '/tmp/dir1',
   }
 
   librarian_puppet::config { 'config master-global':
     key   => 'master-global',
-    value => 'false',
+    value => false,
   }
 
   librarian_puppet::config { 'config slave1':
