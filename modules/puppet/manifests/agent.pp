@@ -5,6 +5,7 @@ class puppet::agent (
   $nice_value = '19',
   $splay = false,
   $splaylimit = undef,
+  $environment = 'production',
 ) {
 
   include 'puppet::common'

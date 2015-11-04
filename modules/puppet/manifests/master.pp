@@ -11,7 +11,8 @@ class puppet::master (
   ],
   $puppetfile = undef,
   $port_webrick = 8140,
-  $port_passenger = undef
+  $port_passenger = undef,
+  $environmentpath = undef,
 ) {
 
   require 'ssh::auth::keyserver'
@@ -25,6 +26,13 @@ class puppet::master (
     mode    => '0644',
     notify  => Exec['/etc/puppet/puppet.conf'],
     before  => Package['puppetmaster'],
+  }
+
+  file { '/etc/puppet/environments':
+    ensure => directory,
+    group  => '0',
+    owner  => '0',
+    mode   => '0755',
   }
 
   file { '/etc/puppet/manifests':
@@ -109,8 +117,8 @@ class puppet::master (
   }
 
   if $puppetfile {
-    class { 'puppet::master::puppetfile':
-      content                   => $puppetfile,
+    puppet::puppetfile { '/etc/puppet' :
+      content => $puppetfile,
     }
   }
 

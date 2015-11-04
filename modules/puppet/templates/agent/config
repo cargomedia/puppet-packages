@@ -8,3 +8,4 @@ report = true
 usecacheonfailure = false
 splay = <%= @splay %>
 splaylimit = <%= @splaylimit_final %>
+environment = <%= @environment %>

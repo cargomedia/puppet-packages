@@ -1,19 +1,20 @@
-class puppet::master::puppetfile(
+define puppet::puppetfile(
+  $directory = $name,
   $content,
 ) {
 
   require 'librarian_puppet'
   require 'rsync'
 
-  librarian_puppet::config { 'rsync for /etc/puppet':
-    name  => 'rsync',
-    path  => '/etc/puppet',
-    value => true
+  librarian_puppet::config { "rsync for ${directory}":
+    path  => $directory,
+    key   => 'rsync',
+    value => true,
   }
 
-  $update_command = 'cd /etc/puppet && librarian-puppet update'
+  $update_command = "cd '${directory}' && librarian-puppet update"
 
-  file { '/etc/puppet/Puppetfile':
+  file { "${directory}/Puppetfile":
     ensure  => file,
     owner   => '0',
     group   => '0',
@@ -22,16 +23,16 @@ class puppet::master::puppetfile(
   }
   ~>
 
-  exec { 'librarian update and rsync':
+  exec { "librarian-puppet update for ${directory}":
     command     => $update_command,
+    user        => 'root',
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     provider    => shell,
-    user        => 'root',
     environment => ['HOME=/root'],
     refreshonly => true,
   }
 
-  cron { 'Update puppet master Puppetfile':
+  cron { "librarian-puppet update for ${directory}":
     command     => $update_command,
     user        => 'root',
     environment => ['PATH=/usr/local/sbin:/usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin'],

@@ -2,22 +2,36 @@ node default {
 
   require 'librarian_puppet'
 
-  librarian_puppet::config { 'master-local':
-    path  => '/tmp',
-    value => '3',
+  file { ['/tmp/dir1', '/tmp/dir2']:
+    ensure => directory,
   }
 
-  librarian_puppet::config { 'master-global':
+  librarian_puppet::config { 'config master-local':
+    key   => 'master-local',
+    value => true,
+    path  => '/tmp/dir1',
+  }
+
+  librarian_puppet::config { 'config master-global':
+    key   => 'master-global',
     value => false,
   }
 
-  librarian_puppet::config { 'slave-local':
-    path  => '/tmp',
-    value => true,
+  librarian_puppet::config { 'config slave1':
+    key   => 'slave',
+    value => '22',
+    path  => '/tmp/dir1',
   }
 
-  librarian_puppet::config { 'slave-global':
-    value => 88,
+  librarian_puppet::config { 'config slave2':
+    key   => 'slave',
+    value => '33',
+    path  => '/tmp/dir2',
+  }
+
+  librarian_puppet::config { 'config slave3':
+    key   => 'slave',
+    value => '88',
   }
 
 }
