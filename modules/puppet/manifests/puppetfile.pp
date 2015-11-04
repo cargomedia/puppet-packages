@@ -9,7 +9,7 @@ define puppet::puppetfile(
   librarian_puppet::config { "rsync for ${directory}":
     path  => $directory,
     key   => 'rsync',
-    value => 'true',
+    value => true,
   }
 
   $update_command = "cd '${directory}' && librarian-puppet update"
