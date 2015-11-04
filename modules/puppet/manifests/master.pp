@@ -12,7 +12,7 @@ class puppet::master (
   $puppetfile = undef,
   $port_webrick = 8140,
   $port_passenger = undef,
-  $environmentpath = '/etc/puppet/environments',
+  $environmentpath = undef,
 ) {
 
   require 'ssh::auth::keyserver'

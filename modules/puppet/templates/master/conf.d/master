@@ -3,4 +3,4 @@
 hiera_config = $confdir/hiera.yaml
 reports = <% if @reportToEmail %>tagmail<% end %>
 <% if !@dnsAltNames.empty? %>dns_alt_names = <%= @dnsAltNames.join(',') %><% end %>
-environmentpath = <%= @environmentpath %>
+<% if @environmentpath %>environmentpath = <%= @environmentpath %><% end %>
