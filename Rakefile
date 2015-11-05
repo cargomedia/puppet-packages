@@ -1,9 +1,12 @@
 require 'rake'
-require 'rspec/core/rake_task'
 require 'puppet-lint/tasks/puppet-lint'
 require 'puppet-syntax/tasks/puppet-syntax'
 require 'pathname'
 require 'shellwords'
+
+require 'komenda'
+require './ruby/puppet_modules/spec_runner'
+require './ruby/puppet_modules/finder'
 
 PuppetLint.configuration.fail_on_warnings = true
 PuppetLint.configuration.send('disable_arrow_alignment')
@@ -15,52 +18,28 @@ PuppetLint.configuration.ignore_paths = ["**/templates/**/*.pp", "vendor/**/*.pp
 
 PuppetSyntax.exclude_paths = ["**/templates/**/*.pp", "vendor/**/*.pp"]
 
-RSpec::Core::RakeTask.new(:test) do |t|
-  t.pattern = 'modules/*/spec/*/spec.rb'
-end
 
-namespace :test do
-  task :cleanup do
-    sh 'vagrant', 'halt', '--force'
-  end
+namespace :spec do
 
-  module_dirs = Pathname.new('modules/').children.select { |c| c.directory? }
-  module_dirs.each do |module_dir|
-    module_name = module_dir.basename
-    specs = Dir.glob("#{module_dir}/spec/**/spec.rb")
+  modules_dir = Pathname.new('modules/')
+  finder = PuppetModules::Finder.new(modules_dir)
 
-    next if specs.empty?
-    RSpec::Core::RakeTask.new(module_name) do |t|
-      t.pattern = "modules/#{module_name}/spec/**/spec.rb"
+  finder.modules.each do |puppet_module|
+    specs = puppet_module.specs
+
+    desc 'Run specs in ' + puppet_module.dir.to_s
+    task puppet_module.name do
+      runner = PuppetModules::SpecRunner.new(specs)
+      runner.run
     end
 
-    next unless specs.count > 1
-    namespace module_name.to_s do
-      specs.each do |spec|
-        specs_dir = "#{module_dir}/spec/"
-        spec_path_relative = File.dirname(spec).sub(Regexp.new(specs_dir), '')
-        spec_name = spec_path_relative.gsub('/', ':')
-
-        RSpec::Core::RakeTask.new(spec_name) do |t|
-          puts t.pattern = "modules/#{module_name}/spec/#{spec_path_relative}/spec.rb"
-        end
+    next unless specs.length > 1
+    specs.each do |spec|
+      desc 'Run spec ' + spec.file.to_s
+      task spec.name do
+        runner = PuppetModules::SpecRunner.new([spec])
+        runner.run
       end
     end
-  end
-
-  desc 'Run all specs affected between `branch` and HEAD'
-  task :changes_from_branch, [:branch] do |task, args|
-    args.with_defaults(:branch => 'master')
-    file_list = `git diff --name-only #{args.branch.shellescape}`.split("\n")
-    module_list = file_list.map do |file|
-      Regexp.last_match(1) if Regexp.new('^modules/(.+?)/').match(file)
-    end
-    module_list.reject! { |mod| mod.nil? }
-    module_list.uniq!
-
-    RSpec::Core::RakeTask.new(:changes_from_branch_specs) do |t|
-      t.pattern = "modules/{#{module_list.join(',')}}/spec/**/spec.rb"
-    end
-    Rake::Task[:changes_from_branch_specs].execute
   end
 end
