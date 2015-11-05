@@ -41,5 +41,11 @@ module PuppetModules
         Module.new(module_dir.basename.to_s, module_dir)
       end
     end
+
+    def specs
+      modules.reduce [] do |memo, item|
+        memo + item.specs
+      end
+    end
   end
 end

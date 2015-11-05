@@ -5,7 +5,6 @@ require 'pathname'
 require 'shellwords'
 require 'json'
 
-require 'komenda'
 require './ruby/puppet_modules/spec_runner'
 require './ruby/puppet_modules/finder'
 
@@ -20,11 +19,17 @@ PuppetLint.configuration.ignore_paths = ["**/templates/**/*.pp", "vendor/**/*.pp
 PuppetSyntax.exclude_paths = ["**/templates/**/*.pp", "vendor/**/*.pp"]
 
 
+modules_dir = Pathname.new('modules/')
+finder = PuppetModules::Finder.new(modules_dir)
+
+desc 'Run all specs'
+task :spec do
+  runner = PuppetModules::SpecRunner.new(finder.specs)
+  result = runner.run
+  puts JSON.pretty_generate(result.summary)
+end
+
 namespace :spec do
-
-  modules_dir = Pathname.new('modules/')
-  finder = PuppetModules::Finder.new(modules_dir)
-
   finder.modules.each do |puppet_module|
     specs = puppet_module.specs
 
