@@ -13,7 +13,8 @@ module PuppetModules
 
     def summary
       @spec_results.reduce Hash.new do |memo, result|
-        memo.merge result.summary do |key, oldval, newval|
+        summary = result.summary || {}
+        memo.merge summary do |key, oldval, newval|
           oldval + newval
         end
       end
@@ -52,15 +53,19 @@ module PuppetModules
     def run
       result = Result.new
       @specs.each do |spec|
-        spec_result = _run(spec)
-        result.spec_results.push(spec_result)
-        result.spec_results.push(spec_result)
+        spec.get_module.operatingsystem_support.each do |data|
+          data['operatingsystemrelease'].each do |osrelease|
+            spec_result = run_specific(spec, data['operatingsystem'], osrelease)
+            result.spec_results.push(spec_result)
+          end
+        end
       end
       result
     end
 
-    def _run(spec)
-      command = 'bundle exec rspec --format json ' + spec.file.to_s
+    def run_specific(spec, os, osrelease)
+      box = map_os_to_box(os, osrelease)
+      command = "box=#{box} bundle exec rspec --format json #{spec.file.to_s}"
       output = {:stdout => '', :stderr => '', :combined => ''}
       status = nil
 
@@ -93,6 +98,16 @@ module PuppetModules
         status = wait_thr.value
       end
       SpecResult.new(status, JSON.parse(output[:stdout]))
+    end
+
+    def map_os_to_box(operatingsystem, release)
+      boxes = {
+        'Debian' => {
+          '7' => 'wheezy'
+        }
+      }
+      raise "No box found for #{operatingsystem} #{release}" unless boxes[operatingsystem] && boxes[operatingsystem][release]
+      boxes[operatingsystem][release]
     end
   end
 end

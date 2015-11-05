@@ -1,3 +1,5 @@
+require 'json'
+
 module PuppetModules
 
   class Finder
@@ -6,9 +8,14 @@ module PuppetModules
 
       attr_reader :name, :file
 
-      def initialize(name, file)
+      def initialize(puppet_module, name, file)
         @name = name
         @file = file
+        @puppet_module = puppet_module
+      end
+
+      def get_module
+        @puppet_module
       end
     end
 
@@ -26,10 +33,17 @@ module PuppetModules
         Pathname.glob("#{@dir}/spec/**/spec.rb").map do |file|
           spec_dir_relative = file.relative_path_from(specs_dir).dirname
           name = spec_dir_relative.to_s.split('/').unshift(@name).join(':')
-          Spec.new(name, file)
+          Spec.new(self, name, file)
         end
       end
 
+      def metadata
+        JSON.parse(@dir.join('metadata.json').read)
+      end
+
+      def operatingsystem_support
+        metadata['operatingsystem_support']
+      end
     end
 
     def initialize(modules_dir)
