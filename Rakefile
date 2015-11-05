@@ -3,6 +3,7 @@ require 'puppet-lint/tasks/puppet-lint'
 require 'puppet-syntax/tasks/puppet-syntax'
 require 'pathname'
 require 'shellwords'
+require 'json'
 
 require 'komenda'
 require './ruby/puppet_modules/spec_runner'
@@ -30,7 +31,8 @@ namespace :spec do
     desc 'Run specs in ' + puppet_module.dir.to_s
     task puppet_module.name do
       runner = PuppetModules::SpecRunner.new(specs)
-      runner.run
+      result = runner.run
+      puts JSON.pretty_generate(result.summary)
     end
 
     next unless specs.length > 1
@@ -38,7 +40,8 @@ namespace :spec do
       desc 'Run spec ' + spec.file.to_s
       task spec.name do
         runner = PuppetModules::SpecRunner.new([spec])
-        runner.run
+        result = runner.run
+        puts JSON.pretty_generate(result.summary)
       end
     end
   end
