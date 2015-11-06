@@ -18,9 +18,9 @@ PuppetLint.configuration.ignore_paths = ["**/templates/**/*.pp", "vendor/**/*.pp
 
 PuppetSyntax.exclude_paths = ["**/templates/**/*.pp", "vendor/**/*.pp"]
 
-
 root_dir = Pathname.new('./')
-runner = PuppetModules::SpecRunner.new
+os_support = JSON.parse(root_dir.join('operatingsystem_support.json').read)
+runner = PuppetModules::SpecRunner.new(os_support)
 finder = PuppetModules::Finder.new(root_dir.join('modules'))
 
 desc 'Run all specs'
