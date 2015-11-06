@@ -34,7 +34,7 @@ namespace :spec do
   finder.modules.each do |puppet_module|
     specs = puppet_module.specs
 
-    desc 'Run specs in ' + puppet_module.dir.to_s
+    desc "Run #{puppet_module.name} specs"
     task puppet_module.name do
       runner.add_specs(specs)
       result = runner.run
@@ -43,7 +43,7 @@ namespace :spec do
 
     next unless specs.length > 1
     specs.each do |spec|
-      desc 'Run spec ' + spec.file.to_s
+      desc "Run #{spec.name} spec"
       task spec.name do
         runner.add_specs([spec])
         result = runner.run
@@ -66,5 +66,9 @@ namespace :spec do
       runner.add_specs(specs)
     end
     runner.run
+  end
+
+  task :cleanup do
+    sh 'vagrant', 'halt', '--force'
   end
 end

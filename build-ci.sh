@@ -3,7 +3,7 @@ cd $(dirname $0)
 
 bundle install --path=.bundle
 
-trap 'bundle exec rake test:cleanup' EXIT
+trap 'bundle exec rake spec:cleanup' EXIT
 
 bundle exec rake syntax
 bundle exec rake lint
