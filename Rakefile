@@ -15,8 +15,14 @@ PuppetLint.configuration.ignore_paths = ["**/templates/**/*.pp", "vendor/**/*.pp
 
 PuppetSyntax.exclude_paths = ["**/templates/**/*.pp", "vendor/**/*.pp"]
 
-RSpec::Core::RakeTask.new(:test) do |t|
-  t.pattern = 'modules/*/spec/*/spec.rb'
+boxes = ['wheezy', 'vivid']
+
+boxes.each do |box|
+  desc "Run all tests which target #{box}"
+  RSpec::Core::RakeTask.new("test_#{box}") do |t|
+    ENV['box'] = box
+    t.pattern = 'modules/*/spec/*/spec.rb'
+  end
 end
 
 namespace :test do
@@ -30,19 +36,24 @@ namespace :test do
     specs = Dir.glob("#{module_dir}/spec/**/spec.rb")
 
     next if specs.empty?
-    RSpec::Core::RakeTask.new(module_name) do |t|
-      t.pattern = "modules/#{module_name}/spec/**/spec.rb"
+    boxes.each do |box|
+      RSpec::Core::RakeTask.new("#{module_name}_#{box}") do |t|
+        print "Entering test #{module_name} targeting #{box}\n\n"
+        ENV['box'] = box
+        t.pattern = "modules/#{module_name}/spec/**/spec.rb"
+      end
     end
-
     next unless specs.count > 1
     namespace module_name.to_s do
       specs.each do |spec|
         specs_dir = "#{module_dir}/spec/"
         spec_path_relative = File.dirname(spec).sub(Regexp.new(specs_dir), '')
         spec_name = spec_path_relative.gsub('/', ':')
-
-        RSpec::Core::RakeTask.new(spec_name) do |t|
-          puts t.pattern = "modules/#{module_name}/spec/#{spec_path_relative}/spec.rb"
+        boxes.each do |box|
+          RSpec::Core::RakeTask.new("#{spec_name}_#{box}") do |t|
+            ENV['box'] = box
+            puts t.pattern = "modules/#{module_name}/spec/#{spec_path_relative}/spec.rb"
+          end
         end
       end
     end
