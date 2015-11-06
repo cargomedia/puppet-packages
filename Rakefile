@@ -18,16 +18,26 @@ PuppetLint.configuration.ignore_paths = ["**/templates/**/*.pp", "vendor/**/*.pp
 
 PuppetSyntax.exclude_paths = ["**/templates/**/*.pp", "vendor/**/*.pp"]
 
+class SpecTask
+  def self.run(os_support, specs)
+    runner = PuppetModules::SpecRunner.new(os_support)
+    runner.on :output do |data|
+      $stderr.print data
+    end
+    runner.add_specs(specs)
+    result = runner.run
+    puts result.summary
+    exit(runner.success?)
+  end
+end
+
 root_dir = Pathname.new('./')
 os_support = JSON.parse(root_dir.join('operatingsystem_support.json').read)
-runner = PuppetModules::SpecRunner.new(os_support)
 finder = PuppetModules::Finder.new(root_dir.join('modules'))
 
 desc 'Run all specs'
 task :spec do
-  runner.add_specs(finder.specs)
-  result = runner.run
-  puts result.summary
+  SpecTask.run(os_support, finder.specs)
 end
 
 namespace :spec do
@@ -36,18 +46,14 @@ namespace :spec do
 
     desc "Run #{puppet_module.name} specs"
     task puppet_module.name do
-      runner.add_specs(specs)
-      result = runner.run
-      puts result.summary
+      SpecTask.run(os_support, specs)
     end
 
     next unless specs.length > 1
     specs.each do |spec|
       desc "Run #{spec.name} spec"
       task spec.name do
-        runner.add_specs([spec])
-        result = runner.run
-        puts result.summary
+        SpecTask.run(os_support, [spec])
       end
     end
   end
@@ -59,13 +65,13 @@ namespace :spec do
     module_list = file_list.map do |file|
       Regexp.last_match(1) if Regexp.new('^modules/(.+?)/').match(file)
     end
-    module_list.reject!(&:nil?)
+    module_list.compact!
     module_list.uniq!
-    module_list.each do |module_name|
-      specs = finder.get_module(module_name).specs
-      runner.add_specs(specs)
+    specs = module_list.map do |module_name|
+      finder.get_module(module_name).specs
     end
-    runner.run
+    specs.flatten!
+    SpecTask.run(os_support, specs)
   end
 
   task :cleanup do

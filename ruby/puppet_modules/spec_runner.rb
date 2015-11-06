@@ -23,6 +23,10 @@ module PuppetModules
         end
       end
 
+      def success?
+        @spec_result_list.all?(&:success?)
+      end
+
       def summary
 
         spec_total_count = @spec_result_list.count
@@ -92,9 +96,6 @@ module PuppetModules
     def initialize(os_support)
       @os_support = os_support
       @specs = []
-      on :output do |data|
-        $stderr.print data
-      end
     end
 
     def add_specs(specs)
