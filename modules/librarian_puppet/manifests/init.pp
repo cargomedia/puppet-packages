@@ -1,5 +1,5 @@
 class librarian_puppet(
-  $version = '1.3.0'
+  $version = '2.2.1'
 ) {
 
   ruby::gem { 'librarian-puppet':
