@@ -27,7 +27,7 @@ class SpecTask
     runner.add_specs(specs)
     result = runner.run
     puts result.summary
-    exit(runner.success?)
+    exit(result.success?)
   end
 end
 
