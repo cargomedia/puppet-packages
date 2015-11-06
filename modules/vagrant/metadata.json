@@ -1,0 +1,18 @@
+{
+  "name": "cargomedia-vagrant",
+  "version": "0.0.1",
+  "author": "Cargo Media",
+  "license": "MIT",
+  "summary": "vagrant",
+  "source": "https://github.com/cargomedia/puppet-packages",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": [
+        "7"
+      ]
+    }
+  ],
+  "dependencies": [
+  ]
+}
