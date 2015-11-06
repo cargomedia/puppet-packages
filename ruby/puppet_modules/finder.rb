@@ -59,6 +59,12 @@ module PuppetModules
       @modules_dir = modules_dir
     end
 
+    def get_module(name)
+      module_dir = @modules_dir.join(name)
+      raise "Module #{name} not found" unless module_dir.directory?
+      Module.new(name, module_dir)
+    end
+
     def modules
       @modules_dir.children.select { |c| c.directory? }.map do |module_dir|
         Module.new(module_dir.basename.to_s, module_dir)
