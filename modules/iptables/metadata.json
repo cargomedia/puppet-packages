@@ -1,0 +1,16 @@
+{
+  "name": "cargomedia-iptables",
+  "version": "0.0.1",
+  "author": "Cargo Media",
+  "license": "MIT",
+  "summary": "iptables",
+  "source": "https://github.com/cargomedia/puppet-packages",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": ["7"]
+    }
+  ],
+  "dependencies": [
+  ]
+}
