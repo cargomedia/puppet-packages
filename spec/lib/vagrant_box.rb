@@ -80,12 +80,12 @@ class VagrantBox
         ch[:output] = ''
 
         channel.on_data do |ch2, data|
-          $stderr.puts data if @verbose
+          $stderr.print data if @verbose
           ch[:output] << data
         end
 
         channel.on_extended_data do |ch2, type, data|
-          $stderr.puts data if @verbose
+          $stderr.print data if @verbose
           ch[:output] << data
         end
 
