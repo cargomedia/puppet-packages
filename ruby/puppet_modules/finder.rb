@@ -38,11 +38,20 @@ module PuppetModules
       end
 
       def metadata
-        JSON.parse(@dir.join('metadata.json').read)
+        JSON.parse(@dir.join('metadata.json').read) rescue raise 'Cannot load metadata'
       end
 
-      def operatingsystem_support
-        metadata['operatingsystem_support']
+      def supported_os_list
+        os_support = []
+        metadata['operatingsystem_support'].each do |data|
+          data['operatingsystemrelease'].each do |release|
+            os_support.push({
+                              :operatingssystem => data['operatingsystem'],
+                              :operatingsystemrelease => release,
+                            })
+          end
+        end
+        os_support
       end
     end
 

@@ -104,11 +104,13 @@ module PuppetModules
     def run
       result = Result.new
       @specs.each do |spec|
-        emit(:output, ('Running ' + spec.name).bold + "\n")
-        box = map_os_to_box({:operatingssystem => 'Debian', :operatingsystemrelease => '7'})
-        example_result = run_in_box(spec, box)
-        emit(:output, example_result.summary)
-        result.spec_result_list.push(example_result)
+        spec.get_module.supported_os_list.each do |os|
+          emit(:output, "Running #{spec.name} for #{os[:operatingssystem]} #{os[:operatingsystemrelease]}\n".bold)
+          box = map_os_to_box(os)
+          example_result = run_in_box(spec, box)
+          emit(:output, example_result.summary)
+          result.spec_result_list.push(example_result)
+        end
       end
       result
     end
@@ -152,7 +154,7 @@ module PuppetModules
       supported_os = @os_support.select { |data|
         data['operatingsystem'] === os[:operatingssystem] and data['operatingsystemrelease'] === os[:operatingsystemrelease]
       }.first
-      raise "Unsupported OS #{os[:operatingssystem]} #{os[:operatingsystemrelease]}" if supported_os.nil?
+      raise 'Unsupported OS' if supported_os.nil?
       supported_os['box']
     end
   end
