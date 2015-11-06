@@ -80,12 +80,12 @@ class VagrantBox
         ch[:output] = ''
 
         channel.on_data do |ch2, data|
-          puts data if @verbose
+          $stderr.puts data if @verbose
           ch[:output] << data
         end
 
         channel.on_extended_data do |ch2, type, data|
-          puts data if @verbose
+          $stderr.puts data if @verbose
           ch[:output] << data
         end
 
@@ -103,7 +103,7 @@ class VagrantBox
   # @param [Hash] env
   def execute_local(command, env = {})
     if @verbose
-      puts command + (env.length > 0 ? ' (' + env.to_s + ')' : '')
+      $stderr.puts command + (env.length > 0 ? ' (' + env.to_s + ')' : '')
     end
 
     # Reset bundler/rubygems environment, so that `vagrant` uses its own ruby environment
