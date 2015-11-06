@@ -2,69 +2,117 @@ require 'open3'
 require 'event_emitter'
 require 'json'
 
+require 'colorize'
+
 module PuppetModules
-  class Result
+  class SpecRunner
 
-    attr_accessor :spec_results
+    class Result
 
-    def initialize
-      @spec_results = []
+      attr_accessor :spec_result_list
+
+      def initialize
+        @spec_result_list = []
+      end
+
+      def examples_summary_hash
+        @spec_result_list.reduce Hash.new do |memo, spec_result|
+          memo.merge spec_result.summary_hash do |key, oldval, newval|
+            oldval + newval
+          end
+        end
+      end
+
+      def summary
+
+        spec_total_count = @spec_result_list.count
+        spec_failures = @spec_result_list.reject(&:success?)
+        summary = "#{spec_total_count} specs run, #{spec_failures.count} failures"
+
+        examples_summary = examples_summary_hash
+        examples_total_count = examples_summary['example_count']
+        examples_failure_count = examples_summary['failure_count']
+        summary << " (#{examples_total_count} examples, #{examples_failure_count} failures)"
+
+
+        duration = examples_summary['duration']
+        minutes = (duration / 60).floor
+        seconds = (duration % 60).floor
+        summary << ', took'
+        summary << " #{minutes} minutes and" if minutes > 0
+        summary << " #{seconds} seconds"
+        summary
+      end
+
     end
 
-    def summary
-      @spec_results.reduce Hash.new do |memo, result|
-        summary = result.summary || {}
-        memo.merge summary do |key, oldval, newval|
-          oldval + newval
+    class ExampleResult
+
+      attr_reader :spec, :os
+
+      def initialize(spec, os, status, stdout)
+        @spec = spec
+        @os = os
+        @status = status
+        @stdout = stdout
+      end
+
+      def success?
+        @status == 0 && failures.count == 0
+      end
+
+      def summary_hash
+        @stdout['summary']
+      end
+
+      def summary
+        headline = [
+          success? ? 'Success!'.green : 'Failure!'.red,
+          @stdout['summary_line']
+        ].join(' ').bold
+
+        lines = []
+        lines.push(headline)
+        lines.push('Failed examples:') unless success?
+        lines += failures.map { |example| '  ' + example['full_description'] }
+        lines.push("\n")
+        lines.join("\n")
+      end
+
+      def failures
+        @stdout['examples'].select do |example|
+          example['status'] === 'failed'
         end
       end
     end
 
-  end
 
-  class SpecRunner
     include EventEmitter
 
-    class SpecResult
-
-      attr_reader :status, :output
-
-      def initialize(status, output)
-        @status = status
-        @output = output
-      end
-
-      def summary
-        @output['summary']
+    def initialize()
+      @specs = []
+      on :output do |data|
+        $stderr.print data
       end
     end
 
-    def initialize(specs = [])
-      @specs = specs
-      on :stderr do |data|
-        $stderr.puts data
-      end
-    end
-
-    def add_spec(spec)
-      @specs.push(spec)
+    def add_specs(specs)
+      @specs.concat(specs)
     end
 
     def run
       result = Result.new
       @specs.each do |spec|
-        spec.get_module.operatingsystem_support.each do |data|
-          data['operatingsystemrelease'].each do |osrelease|
-            spec_result = run_specific(spec, data['operatingsystem'], osrelease)
-            result.spec_results.push(spec_result)
-          end
-        end
+        box = 'wheezy'
+        emit(:output, ('Running ' + spec.name).bold + "\n")
+        example_result = run_in_box(spec, box)
+        emit(:output, example_result.summary)
+        result.spec_result_list.push(example_result)
       end
       result
     end
 
-    def run_specific(spec, os, osrelease)
-      box = map_os_to_box(os, osrelease)
+    def run_in_box(spec, box)
       command = "box=#{box} bundle exec rspec --format json #{spec.file.to_s}"
       output = {:stdout => '', :stderr => '', :combined => ''}
       status = nil
@@ -83,31 +131,20 @@ module PuppetModules
             else
               data = stream.readpartial(4096)
               if stdout === stream
-                emit(:stdout, data)
                 output[:stdout] += data
               end
               if stderr === stream
-                emit(:stderr, data)
+                emit(:output, data)
                 output[:stderr] += data
               end
               output[:combined] += data
-              emit(:output, data)
             end
           end
         end until streams_read_open.empty?
         status = wait_thr.value
       end
-      SpecResult.new(status, JSON.parse(output[:stdout]))
-    end
-
-    def map_os_to_box(operatingsystem, release)
-      boxes = {
-        'Debian' => {
-          '7' => 'wheezy'
-        }
-      }
-      raise "No box found for #{operatingsystem} #{release}" unless boxes[operatingsystem] && boxes[operatingsystem][release]
-      boxes[operatingsystem][release]
+      stdout = JSON.parse(output[:stdout])
+      ExampleResult.new(spec, box, status, stdout)
     end
   end
 end

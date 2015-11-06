@@ -2,6 +2,7 @@ GEM
   remote: https://rubygems.org/
   specs:
     CFPropertyList (2.2.8)
+    colorize (0.7.7)
     diff-lcs (1.2.5)
     event_emitter (0.2.5)
     facter (2.4.4)
@@ -54,7 +55,8 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  event_emitter (= 0.2.5)
+  colorize (~> 0.7.7)
+  event_emitter (~> 0.2.5)
   puppet (~> 3.7)
   puppet-lint (~> 1.1)
   puppet-syntax (~> 1.4)

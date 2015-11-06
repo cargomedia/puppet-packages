@@ -19,14 +19,15 @@ PuppetLint.configuration.ignore_paths = ["**/templates/**/*.pp", "vendor/**/*.pp
 PuppetSyntax.exclude_paths = ["**/templates/**/*.pp", "vendor/**/*.pp"]
 
 
-modules_dir = Pathname.new('modules/')
-finder = PuppetModules::Finder.new(modules_dir)
+root_dir = Pathname.new('./')
+runner = PuppetModules::SpecRunner.new
+finder = PuppetModules::Finder.new(root_dir.join('modules'))
 
 desc 'Run all specs'
 task :spec do
-  runner = PuppetModules::SpecRunner.new(finder.specs)
+  runner.add_specs(finder.specs)
   result = runner.run
-  puts JSON.pretty_generate(result.summary)
+  puts result.summary
 end
 
 namespace :spec do
@@ -35,18 +36,19 @@ namespace :spec do
 
     desc 'Run specs in ' + puppet_module.dir.to_s
     task puppet_module.name do
-      runner = PuppetModules::SpecRunner.new(specs)
+
+      runner.add_specs(specs)
       result = runner.run
-      puts JSON.pretty_generate(result.summary)
+      puts result.summary
     end
 
     next unless specs.length > 1
     specs.each do |spec|
       desc 'Run spec ' + spec.file.to_s
       task spec.name do
-        runner = PuppetModules::SpecRunner.new([spec])
+        runner.add_specs([spec])
         result = runner.run
-        puts JSON.pretty_generate(result.summary)
+        puts result.summary
       end
     end
   end
