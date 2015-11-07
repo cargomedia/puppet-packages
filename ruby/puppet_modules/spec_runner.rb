@@ -39,7 +39,7 @@ module PuppetModules
         spec_failures = @spec_result_list.reject(&:success?)
         summary = "#{spec_total_count} specs run, #{spec_failures.count} failures"
 
-        puts examples_summary = examples_summary_hash
+        examples_summary = examples_summary_hash
         examples_total_count = examples_summary['example_count']
         examples_failure_count = examples_summary['failure_count']
         summary << " (#{examples_total_count} examples, #{examples_failure_count} failures)"
