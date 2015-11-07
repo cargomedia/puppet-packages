@@ -123,11 +123,12 @@ module PuppetModules
     end
 
     def run_in_box(spec, box)
-      command = "box=#{box} bundle exec rspec --format json #{spec.file.to_s}"
+      env = {'box' => box}
+      command = "bundle exec rspec --format json #{spec.file.to_s}"
       output = {:stdout => '', :stderr => '', :combined => ''}
       status = nil
 
-      Open3.popen3(command) do |stdin, stdout, stderr, wait_thr|
+      Open3.popen3(env, command) do |stdin, stdout, stderr, wait_thr|
         stdin.close
 
         streams_read_open = [stdout, stderr]

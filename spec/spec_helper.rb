@@ -6,7 +6,7 @@ RSpec.configure do |configuration|
 
   debug = ENV['debug']
   keep_box = ENV['keep_box']
-  box = ENV['box'] || 'wheezy'
+  box = ENV['box']
   root_dir = Dir.getwd
   vagrant_box = VagrantBox.new(root_dir, box, true)
 
