@@ -1,4 +1,6 @@
 class janus (
+  $ssl_cert,
+  $ssl_key,
   $log_file = '/var/log/janus/janus.log',
 ){
 
@@ -37,7 +39,7 @@ class janus (
 
   helper::script { 'install janus':
     content => template("${module_name}/install.sh"),
-    unless  => false,
+    unless  => 'ls /usr/bin/janus',
     timeout => 900,
   }
 
@@ -48,7 +50,6 @@ class janus (
     group  => 'janus',
     mode   => '0755',
   }
-  ->
 
   file { '/var/log/janus/janus.log':
     ensure => file,
@@ -62,8 +63,47 @@ class janus (
     content => template("${module_name}/logrotate"),
   }
 
+  file { '/etc/janus':
+    ensure => directory,
+    owner  => '0',
+    group  => '0',
+    mode   => '0755',
+  }
+
+  file { '/etc/janus/janus.cfg':
+    ensure  => file,
+    content => template("${module_name}/config"),
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
+  }
+
+  file { '/usr/local/share/janus':
+    ensure => directory,
+    owner  => '0',
+    group  => '0',
+    mode   => '0755',
+  }
+
+  file { '/usr/local/share/janus/cert.pem':
+    ensure  => file,
+    content => $ssl_cert,
+    owner   => 'janus',
+    group   => 'janus',
+    mode    => '0644',
+  }
+
+  file { '/usr/local/share/janus/cert.key':
+    ensure  => file,
+    content => $ssl_key,
+    owner   => 'janus',
+    group   => 'janus',
+    mode    => '0640',
+  }
+
   sysvinit::script { 'janus':
     content           => template("${module_name}/init.sh"),
     require           => [User['janus']],
   }
+
 }
