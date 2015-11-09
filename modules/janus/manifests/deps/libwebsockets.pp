@@ -4,6 +4,7 @@ class janus::deps::libwebsockets(
 
   require 'git'
   package { ['cmake', 'pkg-config']: }
+  ->
 
   helper::script { 'install libwebsockets':
     content => template("${module_name}/deps/libwebsockets_install.sh"),
