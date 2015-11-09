@@ -1,7 +1,6 @@
 require 'open3'
 require 'event_emitter'
 require 'json'
-
 require 'colorize'
 
 module PuppetModules
@@ -16,13 +15,13 @@ module PuppetModules
       end
 
       def examples_summary_hash
-        memo = {
+        initial = {
           'duration' => 0,
           'example_count' => 0,
           'failure_count' => 0,
           'pending_count' => 0,
         }
-        @spec_result_list.reduce memo do |memo, spec_result|
+        @spec_result_list.reduce initial do |memo, spec_result|
           memo.merge spec_result.summary_hash do |key, oldval, newval|
             oldval + newval
           end
@@ -34,7 +33,6 @@ module PuppetModules
       end
 
       def summary
-
         spec_total_count = @spec_result_list.count
         spec_failures = @spec_result_list.reject(&:success?)
         summary = "#{spec_total_count} specs run, #{spec_failures.count} failures"
