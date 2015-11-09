@@ -3,9 +3,11 @@ class janus::deps::libsrtp(
   $build_tests = false,
 ) {
 
+  package { ['pkg-config']: }
+
   helper::script { 'install libsrtp':
     content => template("${module_name}/deps/libsrtp_install.sh"),
-    unless  => " ${version}$'",
+    unless  => "pkg-config --modversion libwebsrtp | grep -qE '^${version}$'",
     timeout => 900,
   }
 }
