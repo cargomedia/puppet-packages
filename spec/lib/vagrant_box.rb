@@ -2,6 +2,7 @@ require 'open3'
 require 'net/ssh'
 require 'tempfile'
 require 'pathname'
+require 'komenda'
 
 class VagrantBox
 
@@ -31,11 +32,11 @@ class VagrantBox
     if has_snapshot
       execute_local("vagrant snapshot go #{@box} default")
     else
-      execute_local("vagrant destroy -f #{@box}")
+      # execute_local("vagrant destroy -f #{@box}")
       execute_local("vagrant up --no-provision #{@box}", {'DISABLE_PROXY' => 'true'})
       execute_local("vagrant provision #{@box}", {'DISABLE_PROXY' => 'true'})
       execute_local("vagrant provision #{@box}")
-      execute_local("vagrant snapshot take #{@box } default")
+      execute_local("vagrant snapshot take #{@box} default")
     end
     ssh_close unless @ssh_connection.nil?
   end
@@ -104,14 +105,14 @@ class VagrantBox
   def execute_local(command, env = {})
     if @verbose
       $stderr.print command
-      $stderr.print "(#{env.to_s})" unless env.empty?
+      $stderr.print ' ' + env.to_s unless env.empty?
       $stderr.puts
     end
 
     # Reset bundler/rubygems environment, so that `vagrant` uses its own ruby environment
     env_override = env
     env = ENV.to_hash
-    %w[BUNDLE_APP_CONFIG BUNDLE_CONFIG BUNDLE_GEMFILE BUNDLE_BIN_PATH RUBYLIB RUBYOPT GEMRC GEM_PATH].inject do |var|
+    %w[BUNDLE_APP_CONFIG BUNDLE_CONFIG BUNDLE_GEMFILE BUNDLE_BIN_PATH RUBYLIB RUBYOPT GEMRC GEM_PATH].each do |var|
       env[var] = nil
     end
     env.merge(env_override)
