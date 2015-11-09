@@ -2,9 +2,13 @@ require 'open3'
 require 'event_emitter'
 require 'json'
 require 'colorize'
+require 'chronic_duration'
+require 'komenda'
 
 module PuppetModules
+
   class SpecRunner
+
 
     class Result
 
@@ -42,16 +46,10 @@ module PuppetModules
         examples_failure_count = examples_summary['failure_count']
         summary << " (#{examples_total_count} examples, #{examples_failure_count} failures)"
 
-
-        duration = examples_summary['duration']
-        minutes = (duration / 60).floor
-        seconds = (duration % 60).floor
-        summary << ', took'
-        summary << " #{minutes} minutes and" if minutes > 0
-        summary << " #{seconds} seconds"
+        duration = examples_summary['duration'].floor
+        summary << ', took ' + ChronicDuration.output(duration)
         summary
       end
-
     end
 
     class ExampleResult
@@ -121,40 +119,17 @@ module PuppetModules
     def run_in_box(spec, box)
       env = {'box' => box}
       command = "bundle exec rspec --format json #{spec.file.to_s}"
-      output = {:stdout => '', :stderr => '', :combined => ''}
-      status = nil
-
-      Open3.popen3(env, command) do |stdin, stdout, stderr, wait_thr|
-        stdin.close
-
-        streams_read_open = [stdout, stderr]
-        begin
-          streams_read_available, _, _ = IO.select(streams_read_open)
-
-          streams_read_available.each do |stream|
-            if stream.eof?
-              stream.close
-              streams_read_open.delete(stream)
-            else
-              data = stream.readpartial(4096)
-              if stdout === stream
-                output[:stdout] += data
-              end
-              if stderr === stream
-                emit(:output, data)
-                output[:stderr] += data
-              end
-              output[:combined] += data
-            end
-          end
-        end until streams_read_open.empty?
-        status = wait_thr.value
+      process = Komenda.create(command, {:env => env})
+      runner = self
+      process.on :stderr do |data|
+        runner.emit(:output, data)
       end
-      stdout = JSON.parse(output[:stdout])
-      ExampleResult.new(spec, box, status, stdout)
+      result = process.run
+      stdout = JSON.parse(result.stdout)
+      ExampleResult.new(spec, box, result.status, stdout)
     end
 
-    def map_os_to_box(os)
+  def map_os_to_box(os)
       "#{os[:operatingssystem]}-#{os[:operatingssystemrelease]}"
     end
   end
