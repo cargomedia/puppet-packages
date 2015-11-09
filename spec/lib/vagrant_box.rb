@@ -32,7 +32,7 @@ class VagrantBox
     if has_snapshot
       execute_local("vagrant snapshot go #{@box} default")
     else
-      # execute_local("vagrant destroy -f #{@box}")
+      execute_local("vagrant destroy -f #{@box}")
       execute_local("vagrant up --no-provision #{@box}", {'DISABLE_PROXY' => 'true'})
       execute_local("vagrant provision #{@box}", {'DISABLE_PROXY' => 'true'})
       execute_local("vagrant provision #{@box}")
@@ -115,7 +115,7 @@ class VagrantBox
     %w[BUNDLE_APP_CONFIG BUNDLE_CONFIG BUNDLE_GEMFILE BUNDLE_BIN_PATH RUBYLIB RUBYOPT GEMRC GEM_PATH].each do |var|
       env[var] = nil
     end
-    env.merge(env_override)
+    env.merge!(env_override)
     cwd = @working_dir.to_s
 
     result = Komenda.run(command, {:env => env, :cwd => cwd})
