@@ -103,32 +103,29 @@ class VagrantBox
   # @param [Hash] env
   def execute_local(command, env = {})
     if @verbose
-      $stderr.puts command + (env.length > 0 ? ' (' + env.to_s + ')' : '')
+      $stderr.print command
+      $stderr.print "(#{env.to_s})" unless env.empty?
+      $stderr.puts
     end
 
     # Reset bundler/rubygems environment, so that `vagrant` uses its own ruby environment
-    env_original = ENV.to_hash
-    %w[BUNDLE_APP_CONFIG BUNDLE_CONFIG BUNDLE_GEMFILE BUNDLE_BIN_PATH RUBYLIB RUBYOPT GEMRC GEM_PATH].each do |var|
-      env_original[var] = nil
+    env_override = env
+    env = ENV.to_hash
+    %w[BUNDLE_APP_CONFIG BUNDLE_CONFIG BUNDLE_GEMFILE BUNDLE_BIN_PATH RUBYLIB RUBYOPT GEMRC GEM_PATH].inject do |var|
+      env[var] = nil
     end
+    env.merge(env_override)
+    cwd = @working_dir.to_s
 
-    output_stdout = output_stderr = exit_code = nil
-    Dir.chdir(@working_dir.to_s) {
-      Open3.popen3(env_original.merge(env), command) { |stdin, stdout, stderr, wait_thr|
-        output_stdout = stdout.read.chomp
-        output_stderr = stderr.read.chomp
-        exit_code = wait_thr.value
-      }
-    }
+    result = Komenda.run(command, {:env => env, :cwd => cwd})
 
-    unless exit_code.success?
+    unless result.success?
       message = ['Command execution failed:', command]
-      message.push 'STDOUT:', output_stdout unless output_stdout.empty?
-      message.push 'STDERR:', output_stderr unless output_stderr.empty?
+      message.push 'STDOUT:', result.stdout unless result.stdout.empty?
+      message.push 'STDERR:', result.stderr unless result.stderr.empty?
       raise message.join("\n")
     end
-
-    output_stdout
+    result.stdout
   end
 
   # @param [Pathname, String] path
