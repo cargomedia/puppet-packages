@@ -42,16 +42,11 @@ module PuppetModules
       end
 
       def supported_os_list
-        os_support = []
-        metadata['operatingsystem_support'].each do |data|
-          data['operatingsystemrelease'].each do |release|
-            os_support.push({
-                              :operatingssystem => data['operatingsystem'],
-                              :operatingsystemrelease => release,
-                            })
+        metadata['operatingsystem_support'].flat_map do |item|
+          item['operatingsystemrelease'].map do |release|
+            item['operatingsystem'] + '-' + release
           end
         end
-        os_support
       end
     end
 

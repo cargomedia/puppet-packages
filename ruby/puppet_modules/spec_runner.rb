@@ -99,8 +99,7 @@ module PuppetModules
 
     include EventEmitter
 
-    def initialize(os_support)
-      @os_support = os_support
+    def initialize
       @specs = []
     end
 
@@ -112,9 +111,8 @@ module PuppetModules
       result = Result.new
       @specs.each do |spec|
         spec.get_module.supported_os_list.each do |os|
-          emit(:output, "Running #{spec.name} for #{os[:operatingssystem]} #{os[:operatingsystemrelease]}\n".bold)
-          box = map_os_to_box(os)
-          example_result = run_in_box(spec, box)
+          emit(:output, "Running #{spec.name} for #{os}\n".bold)
+          example_result = run_in_box(spec, os)
           emit(:output, example_result.summary)
           result.spec_result_list.push(example_result)
         end
@@ -159,11 +157,7 @@ module PuppetModules
     end
 
     def map_os_to_box(os)
-      supported_os = @os_support.select { |data|
-        data['operatingsystem'] === os[:operatingssystem] and data['operatingsystemrelease'] === os[:operatingsystemrelease]
-      }.first
-      raise 'Unsupported OS' if supported_os.nil?
-      supported_os['box']
+      "#{os[:operatingssystem]}-#{os[:operatingssystemrelease]}"
     end
   end
 end

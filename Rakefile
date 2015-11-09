@@ -14,13 +14,13 @@ PuppetLint.configuration.send('disable_80chars')
 PuppetLint.configuration.send('disable_documentation')
 PuppetLint.configuration.send('disable_class_inherits_from_params_class')
 PuppetLint.configuration.send('disable_parameter_order')
-PuppetLint.configuration.ignore_paths = ["**/templates/**/*.pp", "vendor/**/*.pp"]
+PuppetLint.configuration.ignore_paths = %w(**/templates/**/*.pp vendor/**/*.pp)
 
-PuppetSyntax.exclude_paths = ["**/templates/**/*.pp", "vendor/**/*.pp"]
+PuppetSyntax.exclude_paths = %w(**/templates/**/*.pp vendor/**/*.pp)
 
 class SpecTask
-  def self.run(os_support, specs)
-    runner = PuppetModules::SpecRunner.new(os_support)
+  def self.run(specs)
+    runner = PuppetModules::SpecRunner.new
     runner.on :output do |data|
       $stderr.print data
     end
@@ -32,12 +32,11 @@ class SpecTask
 end
 
 root_dir = Pathname.new('./')
-os_support = JSON.parse(root_dir.join('operatingsystem_support.json').read)
 finder = PuppetModules::Finder.new(root_dir.join('modules'))
 
 desc 'Run all specs'
 task :spec do
-  SpecTask.run(os_support, finder.specs)
+  SpecTask.run(finder.specs)
 end
 
 namespace :spec do
@@ -46,14 +45,14 @@ namespace :spec do
 
     desc "Run #{puppet_module.name} specs"
     task puppet_module.name do
-      SpecTask.run(os_support, specs)
+      SpecTask.run(specs)
     end
 
     next unless specs.length > 1
     specs.each do |spec|
       desc "Run #{spec.name} spec"
       task spec.name do
-        SpecTask.run(os_support, [spec])
+        SpecTask.run([spec])
       end
     end
   end
@@ -71,7 +70,7 @@ namespace :spec do
       finder.get_module(module_name).specs
     end
     specs.flatten!
-    SpecTask.run(os_support, specs)
+    SpecTask.run(specs)
   end
 
   task :cleanup do
