@@ -3,8 +3,7 @@ class janus::deps::libsrtp(
   $build_tests = false,
 ) {
 
-  package { ['pkg-config']: }
-  ->
+  require 'build::pkg_config'
 
   helper::script { 'install libsrtp':
     content => template("${module_name}/deps/libsrtp_install.sh"),

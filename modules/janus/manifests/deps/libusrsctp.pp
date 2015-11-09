@@ -1,8 +1,8 @@
 class janus::deps::libusrsctp {
 
   require 'git'
-  package { ['libtool', 'automake']: }
-  ->
+  require 'build::libtool'
+  require 'build::automake'
 
   helper::script { 'install libusrsctp':
     content => template("${module_name}/deps/libusrsctp_install.sh"),
