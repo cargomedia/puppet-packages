@@ -4,6 +4,7 @@ require 'json'
 require 'colorize'
 require 'chronic_duration'
 require 'komenda'
+require 'indentation'
 
 module PuppetModules
 
@@ -80,7 +81,17 @@ module PuppetModules
         lines = []
         lines.push(headline)
         lines.push('Failed examples:') unless success?
-        lines += failures.map { |example| '  ' + example['full_description'] }
+        lines.push("\n")
+        failures.each do |example|
+          example_lines = []
+          example_lines << example['full_description']
+          unless example['exception'].nil?
+            exception = example['exception']
+            example_lines << exception['class'] + ':'
+            example_lines << exception['message'].indent(2)
+          end
+          lines << example_lines.join("\n").indent(4)
+        end
         lines.push("\n")
         lines.join("\n")
       end
