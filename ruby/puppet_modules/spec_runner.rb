@@ -47,7 +47,7 @@ module PuppetModules
         summary << " (#{examples_total_count} examples, #{examples_failure_count} failures)"
 
         duration = examples_summary['duration'].floor
-        summary << ', took ' + ChronicDuration.output(duration)
+        summary << ', took ' + ChronicDuration.output(duration, :keep_zero => true)
         summary
       end
     end
