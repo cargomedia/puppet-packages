@@ -5,8 +5,8 @@ require 'pathname'
 require 'shellwords'
 require 'json'
 
-require './ruby/puppet_modules/spec_runner'
-require './ruby/puppet_modules/finder'
+require './spec/lib/finder'
+require './spec/lib/spec_runner'
 
 PuppetLint.configuration.fail_on_warnings = true
 PuppetLint.configuration.send('disable_arrow_alignment')
