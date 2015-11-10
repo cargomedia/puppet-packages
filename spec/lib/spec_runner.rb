@@ -19,6 +19,7 @@ module PuppetModules
         @spec_result_list = []
       end
 
+      # @return [Hash]
       def examples_summary_hash
         initial = {
           'duration' => 0,
@@ -33,10 +34,12 @@ module PuppetModules
         end
       end
 
+      # @return [TrueClass, FalseClass]
       def success?
         @spec_result_list.all?(&:success?)
       end
 
+      # @return [String]
       def summary
         spec_total_count = @spec_result_list.count
         spec_failures = @spec_result_list.reject(&:success?)
@@ -57,6 +60,10 @@ module PuppetModules
 
       attr_reader :spec, :os
 
+      # @param [Spec] spec
+      # @param [String] os
+      # @param [Number] status
+      # @param [String] stdout
       def initialize(spec, os, status, stdout)
         @spec = spec
         @os = os
@@ -64,14 +71,17 @@ module PuppetModules
         @stdout = JSON.parse(stdout)
       end
 
+      # @return [TrueClass, FalseClass]
       def success?
         @status == 0 && failed_examples.count == 0
       end
 
+      # @return [Hash]
       def summary_hash
         @stdout['summary']
       end
 
+      # @return [String]
       def summary
         headline = [
           success? ? 'Success!'.green : 'Failure!'.red,
@@ -96,6 +106,7 @@ module PuppetModules
         lines.join("\n")
       end
 
+      # @return [Hash[]]
       def failed_examples
         @stdout['examples'].select do |example|
           example['status'] === 'failed'
@@ -110,10 +121,12 @@ module PuppetModules
       @specs = []
     end
 
+    # @param [Spec[]]
     def add_specs(specs)
       @specs.concat(specs)
     end
 
+    # @return [Result]
     def run
       result = Result.new
       @specs.each do |spec|
@@ -127,6 +140,7 @@ module PuppetModules
       result
     end
 
+    # @return [SpecResult]
     def run_spec_in_box(spec, box)
       env = {'box' => box}
       command = "bundle exec rspec --format json #{spec.file.to_s}"
