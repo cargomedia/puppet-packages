@@ -1,6 +1,5 @@
 class janus (
-  $ssl_cert,
-  $ssl_key,
+  $version ='b5865bdd56569ae660bf945323705010ae55d7fc',
   $log_file = '/var/log/janus/janus.log',
 ){
 
@@ -24,7 +23,6 @@ class janus (
     'libjansson-dev',
     'libnice-dev',
     'libssl-dev',
-    'libsrtp-dev',
     'libsofia-sip-ua-dev',
     'libglib2.0-dev',
     'libopus-dev',
@@ -76,6 +74,7 @@ class janus (
     owner   => '0',
     group   => '0',
     mode    => '0644',
+    notify  => Service['janus'],
   }
 
   file { '/usr/local/share/janus':
@@ -91,6 +90,7 @@ class janus (
     owner   => 'janus',
     group   => 'janus',
     mode    => '0644',
+    notify  => Service['janus'],
   }
 
   file { '/usr/local/share/janus/cert.key':
@@ -99,6 +99,7 @@ class janus (
     owner   => 'janus',
     group   => 'janus',
     mode    => '0640',
+    notify  => Service['janus'],
   }
 
   sysvinit::script { 'janus':
