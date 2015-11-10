@@ -120,12 +120,8 @@ class Vagrant
 
     result = Komenda.run(command, {:env => env, :cwd => cwd})
 
-    unless result.success?
-      message = ['Command execution failed:', command]
-      message.push 'STDOUT:', result.stdout unless result.stdout.empty?
-      message.push 'STDERR:', result.stderr unless result.stderr.empty?
-      raise message.join("\n")
-    end
+
+    raise "Command execution failed:\n#{command}\n#{result.output}" unless result.success?
     result.stdout
   end
 
