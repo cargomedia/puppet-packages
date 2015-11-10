@@ -64,6 +64,7 @@ module PuppetModules
       raise "Module #{name} not found" unless module_dir.directory?
       Module.new(name, module_dir)
     end
+
     # @return [Module[]]
     def puppet_modules
       @modules_dir.children.select { |c| c.directory? }.map do |module_dir|
