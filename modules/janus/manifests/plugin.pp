@@ -1,11 +1,10 @@
 define janus::plugin {
 
-  require 'janus'
   include 'janus::service'
 
   if $name =~ /^[audioroom|rtpbroadcast]$/ {
 
-    class { "janus::deps::plugin::${name}":
+    janus::deps::plugin::lib { $name:
       notify  => Service['janus'],
     }
 

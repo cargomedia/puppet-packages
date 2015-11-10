@@ -1,4 +1,4 @@
-class janus::deps::plugin::lib {
+define janus::deps::plugin::lib {
 
   require 'build::autoconf'
 
