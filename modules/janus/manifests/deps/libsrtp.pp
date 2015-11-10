@@ -7,7 +7,7 @@ class janus::deps::libsrtp(
 
   helper::script { 'install libsrtp':
     content => template("${module_name}/deps/libsrtp_install.sh"),
-    unless  => "pkg-config --modversion libwebsrtp | grep -qE '^${version}$'",
+    unless  => "pkg-config --modversion libsrtp | grep -qE '^${version}$'",
     timeout => 900,
   }
 }
