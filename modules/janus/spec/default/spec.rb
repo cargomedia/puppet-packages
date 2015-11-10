@@ -11,7 +11,11 @@ describe 'janus' do
     it { should be_running }
   end
 
-  describe file('/etc/janus/janus.plugin.audioroom.cfg.sample')
+  describe port (8088) do
+    it { should be_listening }
+  end
+
+  describe port (8188) do
     it { should be_listening }
   end
 end

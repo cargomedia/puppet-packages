@@ -1,6 +1,7 @@
 class janus (
   $version ='b5865bdd56569ae660bf945323705010ae55d7fc',
   $log_file = '/var/log/janus/janus.log',
+
 ){
 
   include 'janus::service'
@@ -12,6 +13,9 @@ class janus (
   require 'janus::deps::libsrtp'
   require 'janus::deps::libusrsctp'
   require 'janus::deps::libwebsockets'
+
+  include 'janus::transport::http'
+  include 'janus::transport::websockets'
 
   user { 'janus':
     ensure => present,
@@ -40,7 +44,6 @@ class janus (
     unless  => 'ls /usr/bin/janus',
     timeout => 900,
   }
-
 
   file { '/var/log/janus':
     ensure => directory,
@@ -74,31 +77,6 @@ class janus (
     owner   => '0',
     group   => '0',
     mode    => '0644',
-    notify  => Service['janus'],
-  }
-
-  file { '/usr/local/share/janus':
-    ensure => directory,
-    owner  => '0',
-    group  => '0',
-    mode   => '0755',
-  }
-
-  file { '/usr/local/share/janus/cert.pem':
-    ensure  => file,
-    content => $ssl_cert,
-    owner   => 'janus',
-    group   => 'janus',
-    mode    => '0644',
-    notify  => Service['janus'],
-  }
-
-  file { '/usr/local/share/janus/cert.key':
-    ensure  => file,
-    content => $ssl_key,
-    owner   => 'janus',
-    group   => 'janus',
-    mode    => '0640',
     notify  => Service['janus'],
   }
 
