@@ -11,8 +11,8 @@ class janus::plugin::rtpbroadcast(
   file { '/etc/janus/janus.plugin.rtpbroadcast.cfg':
     ensure    => 'present',
     content   => template("${module_name}/plugin/rtpbroadcast.cfg"),
-    owner     => 'root',
-    group     => 'root',
+    owner     => '0',
+    group     => '0',
     mode      => '0644',
   }
   ->
