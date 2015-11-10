@@ -4,7 +4,7 @@ require 'tempfile'
 require 'pathname'
 require 'komenda'
 
-class VagrantBox
+class Vagrant
 
   attr_reader :working_dir
 

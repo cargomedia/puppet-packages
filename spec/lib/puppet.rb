@@ -2,7 +2,7 @@ require 'json'
 require 'pathname'
 require 'yaml'
 
-class PuppetSpec
+class Puppet
 
   # @param [VagrantBox] vagrant_box
   # @param [RSpec::Core::ExampleGroup] example_group
