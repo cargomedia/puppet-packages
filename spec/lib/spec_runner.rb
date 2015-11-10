@@ -90,8 +90,7 @@ module PuppetModules
 
         lines = []
         lines.push(headline)
-        lines.push('Failed examples:') unless success?
-        lines.push("\n")
+        lines.push('Failed examples:\n') unless success?
         failed_examples.each do |example|
           example_lines = []
           example_lines << example['full_description']
