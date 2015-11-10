@@ -2,8 +2,9 @@ require 'open3'
 require 'net/ssh'
 require 'tempfile'
 require 'pathname'
+require 'komenda'
 
-class VagrantBox
+class Vagrant
 
   attr_reader :working_dir
 
@@ -35,7 +36,7 @@ class VagrantBox
       execute_local("vagrant up --no-provision #{@box}", {'DISABLE_PROXY' => 'true'})
       execute_local("vagrant provision #{@box}", {'DISABLE_PROXY' => 'true'})
       execute_local("vagrant provision #{@box}")
-      execute_local("vagrant snapshot take #{@box } default")
+      execute_local("vagrant snapshot take #{@box} default")
     end
     ssh_close unless @ssh_connection.nil?
   end
@@ -80,12 +81,12 @@ class VagrantBox
         ch[:output] = ''
 
         channel.on_data do |ch2, data|
-          puts data if @verbose
+          $stderr.print data if @verbose
           ch[:output] << data
         end
 
         channel.on_extended_data do |ch2, type, data|
-          puts data if @verbose
+          $stderr.print data if @verbose
           ch[:output] << data
         end
 
@@ -103,32 +104,25 @@ class VagrantBox
   # @param [Hash] env
   def execute_local(command, env = {})
     if @verbose
-      puts command + (env.length > 0 ? ' (' + env.to_s + ')' : '')
+      $stderr.print command
+      $stderr.print ' ' + env.to_s unless env.empty?
+      $stderr.puts
     end
 
     # Reset bundler/rubygems environment, so that `vagrant` uses its own ruby environment
-    env_original = ENV.to_hash
+    env_override = env
+    env = ENV.to_hash
     %w[BUNDLE_APP_CONFIG BUNDLE_CONFIG BUNDLE_GEMFILE BUNDLE_BIN_PATH RUBYLIB RUBYOPT GEMRC GEM_PATH].each do |var|
-      env_original[var] = nil
+      env[var] = nil
     end
+    env.merge!(env_override)
+    cwd = @working_dir.to_s
 
-    output_stdout = output_stderr = exit_code = nil
-    Dir.chdir(@working_dir.to_s) {
-      Open3.popen3(env_original.merge(env), command) { |stdin, stdout, stderr, wait_thr|
-        output_stdout = stdout.read.chomp
-        output_stderr = stderr.read.chomp
-        exit_code = wait_thr.value
-      }
-    }
+    result = Komenda.run(command, {:env => env, :cwd => cwd})
 
-    unless exit_code.success?
-      message = ['Command execution failed:', command]
-      message.push 'STDOUT:', output_stdout unless output_stdout.empty?
-      message.push 'STDERR:', output_stderr unless output_stderr.empty?
-      raise message.join("\n")
-    end
 
-    output_stdout
+    raise "Command execution failed:\n#{command}\n#{result.output}" unless result.success?
+    result.stdout
   end
 
   # @param [Pathname, String] path
