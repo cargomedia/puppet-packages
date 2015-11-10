@@ -7,10 +7,3 @@ cd libsrtp-<%= @version %>
 make libsrtp.so
 make uninstall
 make install
-
-if <%= @build_tests %>; then
-    ./configure --prefix=/usr --enable-openssl
-    make test
-    cp test/rtpw /usr/local/bin/
-    cp test/rtpw_* /usr/local/bin/
-fi

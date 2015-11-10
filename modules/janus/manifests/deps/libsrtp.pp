@@ -1,6 +1,5 @@
 class janus::deps::libsrtp(
   $version = '1.5.0',
-  $build_tests = false,
 ) {
 
   require 'build::pkg_config'
