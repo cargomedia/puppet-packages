@@ -1,7 +1,17 @@
 class janus (
   $version ='b5865bdd56569ae660bf945323705010ae55d7fc',
   $log_file = '/var/log/janus/janus.log',
-
+  $token_auth = 'no',
+  $api_secret = 'cantanapoli',
+  $stun_server = undef,
+  $stun_port = 3478,
+  $turn_server = undef,
+  $turn_port = 3479,
+  $turn_type = 'udp',
+  $turn_user = 'myuser',
+  $turn_pwd = 'mypassword',
+  $turn_rest_api = undef,
+  $turn_rest_api_key = undef
 ){
 
   include 'janus::service'
