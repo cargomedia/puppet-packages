@@ -1,6 +1,7 @@
 require 'open3'
 require 'event_emitter'
 require 'json'
+require 'colorize'
 require 'chronic_duration'
 require 'komenda'
 require 'indentation'
@@ -83,9 +84,9 @@ module PuppetModules
       # @return [String]
       def summary
         headline = [
-          success? ? 'Success!' : 'Failure!',
+          success? ? 'Success!'.green : 'Failure!'.red,
           @stdout['summary_line']
-        ].join(' ')
+        ].join(' ').bold
 
         lines = []
         lines.push(headline)
@@ -129,7 +130,7 @@ module PuppetModules
       result = Result.new
       @specs.each do |spec|
         spec.puppet_module.supported_os_list.each do |os|
-          emit(:output, "Running #{spec.name} for #{os}\n")
+          emit(:output, "Running #{spec.name} for #{os}\n".bold)
           example_result = run_spec_in_box(spec, os)
           emit(:output, example_result.summary)
           result.spec_result_list.push(example_result)
