@@ -61,7 +61,7 @@ module PuppetModules
         @spec = spec
         @os = os
         @status = status
-        @stdout = stdout
+        @stdout = JSON.parse(stdout)
       end
 
       def success?
@@ -136,8 +136,7 @@ module PuppetModules
         runner.emit(:output, data)
       end
       result = process.run
-      stdout = JSON.parse(result.stdout)
-      ExampleResult.new(spec, box, result.status, stdout)
+      ExampleResult.new(spec, box, result.status, result.stdout)
     end
 
   def map_os_to_box(os)
