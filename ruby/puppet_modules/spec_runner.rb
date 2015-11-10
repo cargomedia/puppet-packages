@@ -117,7 +117,7 @@ module PuppetModules
     def run
       result = Result.new
       @specs.each do |spec|
-        spec.get_module.supported_os_list.each do |os|
+        spec.puppet_module.supported_os_list.each do |os|
           emit(:output, "Running #{spec.name} for #{os}\n".bold)
           example_result = run_spec_in_box(spec, os)
           emit(:output, example_result.summary)

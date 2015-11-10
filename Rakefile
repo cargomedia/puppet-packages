@@ -18,8 +18,8 @@ PuppetLint.configuration.ignore_paths = %w(**/templates/**/*.pp vendor/**/*.pp)
 
 PuppetSyntax.exclude_paths = %w(**/templates/**/*.pp vendor/**/*.pp)
 
-class SpecTask
-  def self.run(specs)
+class SpecRunnerTask
+  def self.execute(specs)
     runner = PuppetModules::SpecRunner.new
     runner.on :output do |data|
       $stderr.print data
@@ -36,23 +36,23 @@ finder = PuppetModules::Finder.new(root_dir.join('modules'))
 
 desc 'Run all specs'
 task :spec do
-  SpecTask.run(finder.specs)
+  SpecRunnerTask.execute(finder.specs)
 end
 
 namespace :spec do
-  finder.modules.each do |puppet_module|
+  finder.puppet_modules.each do |puppet_module|
     specs = puppet_module.specs
 
     desc "Run #{puppet_module.name} specs"
     task puppet_module.name do
-      SpecTask.run(specs)
+      SpecRunnerTask.execute(specs)
     end
 
     next unless specs.length > 1
     specs.each do |spec|
       desc "Run #{spec.name} spec"
       task spec.name do
-        SpecTask.run([spec])
+        SpecRunnerTask.execute([spec])
       end
     end
   end
@@ -67,10 +67,10 @@ namespace :spec do
     module_list.compact!
     module_list.uniq!
     specs = module_list.map do |module_name|
-      finder.get_module(module_name).specs
+      finder.puppet_module(module_name).specs
     end
     specs.flatten!
-    SpecTask.run(specs)
+    SpecRunnerTask.execute(specs)
   end
 
   task :cleanup do
