@@ -53,7 +53,7 @@ module PuppetModules
       end
     end
 
-    class ExampleResult
+    class SpecResult
 
       attr_reader :spec, :os
 
@@ -65,7 +65,7 @@ module PuppetModules
       end
 
       def success?
-        @status == 0 && failures.count == 0
+        @status == 0 && failed_examples.count == 0
       end
 
       def summary_hash
@@ -82,7 +82,7 @@ module PuppetModules
         lines.push(headline)
         lines.push('Failed examples:') unless success?
         lines.push("\n")
-        failures.each do |example|
+        failed_examples.each do |example|
           example_lines = []
           example_lines << example['full_description']
           unless example['exception'].nil?
@@ -96,7 +96,7 @@ module PuppetModules
         lines.join("\n")
       end
 
-      def failures
+      def failed_examples
         @stdout['examples'].select do |example|
           example['status'] === 'failed'
         end
@@ -119,7 +119,7 @@ module PuppetModules
       @specs.each do |spec|
         spec.get_module.supported_os_list.each do |os|
           emit(:output, "Running #{spec.name} for #{os}\n".bold)
-          example_result = run_in_box(spec, os)
+          example_result = run_spec_in_box(spec, os)
           emit(:output, example_result.summary)
           result.spec_result_list.push(example_result)
         end
@@ -127,7 +127,7 @@ module PuppetModules
       result
     end
 
-    def run_in_box(spec, box)
+    def run_spec_in_box(spec, box)
       env = {'box' => box}
       command = "bundle exec rspec --format json #{spec.file.to_s}"
       process = Komenda.create(command, {:env => env})
@@ -136,11 +136,7 @@ module PuppetModules
         runner.emit(:output, data)
       end
       result = process.run
-      ExampleResult.new(spec, box, result.status, result.stdout)
-    end
-
-  def map_os_to_box(os)
-      "#{os[:operatingssystem]}-#{os[:operatingssystemrelease]}"
+      SpecResult.new(spec, box, result.status, result.stdout)
     end
   end
 end
