@@ -10,6 +10,8 @@ RSpec.configure do |configuration|
   root_dir = Dir.getwd
   vagrant = Vagrant.new(root_dir, box, true)
 
+  configuration.raise_errors_for_deprecations!
+
   configuration.before :all do
 
     vagrant.reset unless keep_box
