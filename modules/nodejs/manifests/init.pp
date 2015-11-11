@@ -2,6 +2,8 @@ class nodejs(
   $npm_version = '1.4.10'
 ) {
 
+  require 'apt::source::backports'
+
   package { 'nodejs':
     ensure => present,
   }
