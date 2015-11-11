@@ -9,6 +9,6 @@ define janus::deps::plugin::install(
     content => template("${module_name}/plugin_install.sh"),
     unless  => "ls /opt/janus/lib/janus/plugins/libjanus_${name}.so",
     timeout => 900,
-    require => Helper::Exec['install janus'],
+    require => Helper::Script['install janus'],
   }
 }
