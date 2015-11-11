@@ -4,7 +4,7 @@ define janus::plugin {
 
   if $name =~ /^[audioroom|rtpbroadcast]$/ {
 
-    janus::deps::plugin::lib { $name:
+    janus::deps::plugin::install { $name:
       notify  => Service['janus'],
     }
 
