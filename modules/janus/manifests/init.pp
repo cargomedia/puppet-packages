@@ -1,5 +1,5 @@
 class janus (
-  $version ='b5865bdd56569ae660bf945323705010ae55d7fc',
+  $version = janus::version::number,
   $log_file = '/var/log/janus/janus.log',
   $token_auth = 'no',
   $api_secret = 'cantanapoli',
@@ -12,7 +12,7 @@ class janus (
   $turn_pwd = 'mypassword',
   $turn_rest_api = undef,
   $turn_rest_api_key = undef
-){
+) inherits janus::version {
 
   include 'janus::service'
   require 'logrotate'

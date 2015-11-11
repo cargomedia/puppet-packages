@@ -1,5 +1,5 @@
 define janus::deps::plugin::install(
-  $janus_version = 'b5865bdd56569ae660bf945323705010ae55d7fc',
+  $janus_version,
 ) {
 
   require 'build::autoconf'
