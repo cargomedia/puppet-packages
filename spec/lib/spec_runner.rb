@@ -68,7 +68,7 @@ module PuppetModules
         @spec = spec
         @os = os
         @status = status
-        @stdout = JSON.parse(stdout)
+        @stdout = JSON.parse(stdout.lines.to_a.last)
       end
 
       # @return [TrueClass, FalseClass]
@@ -90,7 +90,7 @@ module PuppetModules
 
         lines = []
         lines.push(headline)
-        lines.push('Failed examples:\n') unless success?
+        lines.push('Failed examples:') unless success?
         failed_examples.each do |example|
           example_lines = []
           example_lines << example['full_description']
