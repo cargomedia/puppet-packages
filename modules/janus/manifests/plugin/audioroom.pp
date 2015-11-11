@@ -1,4 +1,6 @@
-class janus::plugin::audioroom {
+class janus::plugin::audioroom(
+  $recording_pattern = 'rec-%1$s-%2$llu-%3$s',
+) {
 
   file { '/etc/janus/janus.plugin.audioroom.cfg':
     ensure    => 'present',
