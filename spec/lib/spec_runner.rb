@@ -68,7 +68,7 @@ module PuppetModules
         @spec = spec
         @os = os
         @status = status
-        @stdout = JSON.parse(stdout.lines.last)
+        @stdout = JSON.parse(stdout.lines.to_a.last)
       end
 
       # @return [TrueClass, FalseClass]
