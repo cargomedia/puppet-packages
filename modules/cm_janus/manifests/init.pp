@@ -1,8 +1,11 @@
 class cm_janus (
   $version = '0.0.1',
-  $http_server_port = 8888,
-  $server_key = 'unknown',
+  $http_server_port = 30000,
+  $http_server_api_key = 'unknown',
+  $websockets_listen_port = 8180,
+  $websockets_janus_destination = 'ws://127.0.0.1:8188/janus',
   $cm_api_base_url = 'http://www.cm.dev',
+  $cm_api_key = 'alsounknown',
   $log_dir = '/var/log/cm-janus',
 ) {
 
@@ -57,6 +60,6 @@ class cm_janus (
     require => Service['cm-janus'],
   }
 
-#TODO: add bipbip
+  #TODO: add bipbip
 
 }
