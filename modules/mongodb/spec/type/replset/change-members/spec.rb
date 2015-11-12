@@ -18,7 +18,7 @@ describe 'mongodb_replset change members' do
     }
 
     it 'repl has name' do
-      status['set'].should eq('my-repl')
+      expect(status['set']).to eq('my-repl')
     end
   end
 end

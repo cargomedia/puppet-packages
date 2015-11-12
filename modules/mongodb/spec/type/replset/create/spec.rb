@@ -18,26 +18,26 @@ describe 'mongodb_replset create' do
     }
 
     it 'repl has name' do
-      status['set'].should eq('my-repl')
+      expect(status['set']).to eq('my-repl')
     end
 
     it 'contains one primary' do
-      members.select { |m| m['stateStr'] == 'PRIMARY' }.count.should eq(1)
+      expect(members.select { |m| m['stateStr'] == 'PRIMARY' }.count).to eq(1)
     end
 
     it 'contains one secondary' do
       primary = members.select { |m| m['stateStr'] == 'PRIMARY' }.first
       secondaries = members.select { |m| m['stateStr'] == 'SECONDARY' }
 
-      secondaries.count.should eq(1)
-      secondaries.first['syncingTo'].should eq(primary['name'])
+      expect(secondaries.count).to eq(1)
+      expect(secondaries.first['syncingTo']).to eq(primary['name'])
     end
 
     it 'contains one arbiter' do
       arbiters = members.select { |m| m['stateStr'] == 'ARBITER' }
 
-      arbiters.count.should eq(1)
-      arbiters.first['name'].should eq('localhost:27003')
+      expect(arbiters.count).to eq(1)
+      expect(arbiters.first['name']).to eq('localhost:27003')
     end
   end
 end
