@@ -1,6 +1,12 @@
 class cm_janus (
   $version = '0.0.1',
-  $logDir = '/var/log/cm-janus',
+  $http_port = 8888,
+  $api_key = 'unknown',
+  $proxy_port = 8188,
+  $proxy_upstream = 'ws://198.23.87.26:8188/janus',
+  $cm_api_base_url = 'http://www.cm.dev',
+  $cm_api_key = 'anotherunknown',
+  $log_file_path = '/var/log/cm-janus/cm-janus.log',
 ) {
 
   require 'nodejs'
@@ -13,6 +19,13 @@ class cm_janus (
     mode   => '0755',
   }
 
+  file { '/etc/cm-janus/config.yaml':
+    ensure => file,
+    owner  => '0',
+    group  => '0',
+    mode   => '0755',
+  }
+
   user { 'cm-janus':
     ensure => present,
     system => true,
@@ -20,8 +33,8 @@ class cm_janus (
 
   file { $logDir:
     ensure  => directory,
-    owner   => 'cm-janus',
-    group   => 'cm-janus',
+    owner   => '0',
+    group   => '0',
     mode    => '0755',
     require => User['cm-janus']
   }

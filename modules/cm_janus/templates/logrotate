@@ -1,4 +1,4 @@
-<%= @logDir %>/*.log {
+<%= @log_file_path %> {
 	rotate 12
 	daily
 	delaycompress
