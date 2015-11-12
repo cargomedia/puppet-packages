@@ -15,7 +15,7 @@ DESC=cm-janus
 DAEMON=/usr/bin/node
 DAEMON_USER=cm-janus:cm-janus
 PIDFILE=/var/run/cm-janus.pid
-LOGDIR="<%= @logDir %>"
+LOGDIR="<%= @log_dir %>"
 DAEMON_ARGS="/usr/bin/cm-janus -c /etc/cm-janus/config.yaml"
 
 test -x $DAEMON || exit 0

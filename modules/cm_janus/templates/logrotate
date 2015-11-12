@@ -1,4 +1,4 @@
-<%= @log_file_path %> {
+<%= @log_dir %>/cm-janus.log {
 	rotate 12
 	daily
 	delaycompress

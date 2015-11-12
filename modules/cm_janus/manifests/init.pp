@@ -1,12 +1,9 @@
 class cm_janus (
   $version = '0.0.1',
-  $http_port = 8888,
-  $api_key = 'unknown',
-  $proxy_port = 8188,
-  $proxy_upstream = 'ws://198.23.87.26:8188/janus',
+  $http_server_port = 8888,
+  $server_key = 'unknown',
   $cm_api_base_url = 'http://www.cm.dev',
-  $cm_api_key = 'anotherunknown',
-  $log_file_path = '/var/log/cm-janus/cm-janus.log',
+  $log_dir = '/var/log/cm-janus',
 ) {
 
   require 'nodejs'
@@ -20,10 +17,12 @@ class cm_janus (
   }
 
   file { '/etc/cm-janus/config.yaml':
-    ensure => file,
-    owner  => '0',
-    group  => '0',
-    mode   => '0755',
+    ensure  => file,
+    content => template("${module_name}/config.yaml"),
+    owner   => '0',
+    group   => '0',
+    mode    => '0755',
+    notify  => Service['cm-janus'],
   }
 
   user { 'cm-janus':
@@ -31,12 +30,12 @@ class cm_janus (
     system => true,
   }
 
-  file { $logDir:
+  file { $log_dir:
     ensure  => directory,
     owner   => '0',
     group   => '0',
     mode    => '0755',
-    require => User['cm-janus']
+    require => User['cm-janus'],
   }
 
   logrotate::entry{ $module_name:
@@ -57,6 +56,7 @@ class cm_janus (
     content => template("${module_name}/monit"),
     require => Service['cm-janus'],
   }
+
 #TODO: add bipbip
 
 }
