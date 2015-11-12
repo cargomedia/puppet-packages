@@ -42,11 +42,23 @@ module PuppetModules
         JSON.parse(@dir.join('metadata.json').read) rescue raise 'Cannot load metadata'
       end
 
+      # @return [String]
+      def pretty(os)
+        case os
+        when 'Debian-7'
+          'wheezy'
+        when 'Ubuntu-1504'
+          'vivid'
+        else
+          os
+        end
+      end
+
       # @return [String[]]
       def supported_os_list
         metadata['operatingsystem_support'].flat_map do |item|
           item['operatingsystemrelease'].map do |release|
-            item['operatingsystem'] + '-' + release
+            pretty(item['operatingsystem'] + '-' + release)
           end
         end
       end
