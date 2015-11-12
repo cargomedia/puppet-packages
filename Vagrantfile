@@ -19,7 +19,7 @@ Vagrant.configure('2') do |config|
     puppet.module_path = 'modules'
   end
 
-  config.vm.define 'wheezy', primary: true do |wheezy|
+  config.vm.define 'Debian-7', primary: true do |wheezy|
     wheezy.vm.box = 'cargomedia/debian-7-amd64-default'
     # Additional network card to test module network (resource type network::interface)
     wheezy.vm.network :private_network, ip: '10.10.20.2', auto_config: false
