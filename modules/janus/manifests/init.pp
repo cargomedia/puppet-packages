@@ -1,5 +1,6 @@
 class janus (
   $version = $janus::version::number,
+  $bind_address = '127.0.0.1',
   $log_file = '/var/log/janus/janus.log',
   $token_auth = 'no',
   $api_secret = 'cantanapoli',
