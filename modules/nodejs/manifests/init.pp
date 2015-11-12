@@ -1,5 +1,4 @@
-class nodejs(
-) {
+class nodejs {
 
   require 'apt::source::nodesource'
 
