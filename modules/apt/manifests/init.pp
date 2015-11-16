@@ -1,6 +1,7 @@
 class apt {
 
   include 'apt::update'
+  include 'apt::transport_https'
 
   file { '/etc/apt/sources.list.d/':
     ensure  => directory,
