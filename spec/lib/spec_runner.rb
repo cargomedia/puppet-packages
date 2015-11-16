@@ -39,26 +39,41 @@ module PuppetModules
         @spec_result_list.all?(&:success?)
       end
 
+      # @return [SpecResult[]]
+      def failed_specs
+        @spec_result_list.reject(&:success?)
+      end
+
       # @return [String]
       def summary
-        spec_total_count = @spec_result_list.count
-        spec_failures = @spec_result_list.reject(&:success?)
-        summary = "#{spec_total_count} specs run, #{spec_failures.count} failures"
-
+        lines = []
         examples_summary = examples_summary_hash
-        examples_total_count = examples_summary['example_count']
-        examples_failure_count = examples_summary['failure_count']
-        summary << " (#{examples_total_count} examples, #{examples_failure_count} failures)"
 
         duration = examples_summary['duration'].floor
-        summary << ', took ' + ChronicDuration.output(duration, :keep_zero => true)
-        summary
+        lines << 'Finished in ' + ChronicDuration.output(duration, :keep_zero => true) + '.'
+
+        headline = success? ? 'Success!'.green : 'Failure!'.red
+        spec_total_count = @spec_result_list.count
+        spec_failures = @spec_result_list.reject(&:success?)
+        examples_total_count = examples_summary['example_count']
+        examples_failure_count = examples_summary['failure_count']
+        headline << " #{spec_total_count} specs run, #{spec_failures.count} failures (#{examples_total_count} examples, #{examples_failure_count} failures)"
+        lines << headline.bold
+
+        lines << "Failed examples:\n" unless success?
+        failed_specs.each do |spec_result|
+          spec_result.failed_examples.each do |example|
+            lines << example['full_description'].indent(4)
+          end
+        end
+        lines << "\n"
+        lines.join("\n")
       end
     end
 
     class SpecResult
 
-      attr_reader :spec, :os
+      attr_reader :spec, :os, :stdout
 
       # @param [Spec] spec
       # @param [String] os
@@ -89,8 +104,8 @@ module PuppetModules
         ].join(' ').bold
 
         lines = []
-        lines.push(headline)
-        lines.push('Failed examples:') unless success?
+        lines << headline
+        lines << "Failed examples:\n" unless success?
         failed_examples.each do |example|
           example_lines = []
           example_lines << example['full_description']
@@ -101,7 +116,7 @@ module PuppetModules
           end
           lines << example_lines.join("\n").indent(4)
         end
-        lines.push("\n")
+        lines << "\n"
         lines.join("\n")
       end
 
