@@ -1,11 +1,11 @@
 app:
   logPath: '<%= @log_dir %>/cm-janus.log'
-  serverKey: '<%= @http_server_api_key %>'
 httpServer:
   port: <%= @http_server_port %>
+  apiKey: '<%= @http_server_api_key %>'
 proxy:
   listenPort: <%= @websockets_listen_port %>
-  janusAddress: '<%= @websockets_janus_destination %>'
+  janusAddress: '<%= @websockets_janus_address %>'
 cmApi:
   baseUrl: '<%= @cm_api_base_url %>'
   apiKey:  '<%= @cm_api_key %>'
