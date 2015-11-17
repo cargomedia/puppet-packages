@@ -4,6 +4,7 @@ class apt::update(
 ) {
 
   require 'apt'
+  require 'apt::transport_https'
 
   $arguments = parse_apt_opts($options)
 
@@ -26,5 +27,5 @@ class apt::update(
     refreshonly => $refreshonly,
   }
 
-  Exec['apt_update'] -> Package <| title != 'apt-transport-https' |>
+  Exec['apt_update'] -> Package <| before != Exec['apt_update'] |>
 }
