@@ -26,5 +26,5 @@ class apt::update(
     refreshonly => $refreshonly,
   }
 
-  Exec['apt_update'] -> Package <| title != 'apt-transport-https' |>
+  Exec['apt_update'] -> Package <| before != Exec['apt_update'] |>
 }
