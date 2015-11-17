@@ -1,4 +1,4 @@
- define apt::source(
+define apt::source(
   $ensure = present,
   $entries = [],
   $keys  = [],
@@ -7,9 +7,9 @@
   require 'apt'
   include 'apt::update'
 
-   if ( $entries =~ /https:\/\// ) {
-     require 'apt::transport_https'
-   }
+  if ( $entries =~ /https:\/\// ) {
+    require 'apt::transport_https'
+  }
 
   $fileIfPresent = $ensure ? { present => file, default => $ensure }
 
