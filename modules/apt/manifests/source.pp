@@ -7,6 +7,10 @@ define apt::source(
   require 'apt'
   include 'apt::update'
 
+  if ( $entries =~ /https:\/\// ) {
+    require 'apt::transport_https'
+  }
+
   $fileIfPresent = $ensure ? { present => file, default => $ensure }
 
   file { "/etc/apt/sources.list.d/${name}.list":
