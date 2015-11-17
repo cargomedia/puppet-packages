@@ -7,7 +7,7 @@ describe 'cm_janus' do
     its(:content) { should match /logPath:.*/ }
     its(:content) { should match /^httpServer:.*/ }
     its(:content) { should match /port: 8800/ }
-    its(:content) { should match /apiKey: 'fish'.*/ }
+    its(:content) { should match /apiKey: 'fishy'.*/ }
     its(:content) { should match /^cmApi:.*/ }
     its(:content) { should match /baseUrl: 'foo'/ }
   end
