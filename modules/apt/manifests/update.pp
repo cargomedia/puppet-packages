@@ -4,6 +4,7 @@ class apt::update(
 ) {
 
   require 'apt'
+  require 'apt::transport_https'
 
   $arguments = parse_apt_opts($options)
 
