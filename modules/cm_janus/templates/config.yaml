@@ -1,7 +1,7 @@
 app:
   logPath: '<%= @log_dir %>/cm-janus.log'
+  serverKey: '<%= @http_server_api_key %>'
 httpServer:
-  apiKey: '<%= @http_server_api_key %>'
   port: <%= @http_server_port %>
 proxy:
   listenPort: <%= @websockets_listen_port %>
