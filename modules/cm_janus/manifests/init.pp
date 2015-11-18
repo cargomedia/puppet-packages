@@ -6,7 +6,10 @@ class cm_janus (
   $websockets_janus_address = 'ws://127.0.0.1:8188/janus',
   $cm_api_base_url = 'http://www.cm.dev',
   $cm_api_key = 'fishy',
+  $log_dir = '/var/log/cm-janus',
 ) {
+
+  $log_path = "${log_dir}/cm-janus.log"
 
   require 'nodejs'
   include 'cm_janus::service'
@@ -59,6 +62,5 @@ class cm_janus (
     require => Service['cm-janus'],
   }
 
-  #TODO: add bipbip
-
+#TODO: add bipbip
 }
