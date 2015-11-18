@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "author": "Cargo Media",
   "license": "MIT",
-  "summary": "socket_redis",
+  "summary": "websocketRTC auth gateway",
   "source": "https://github.com/cargomedia/puppet-packages",
   "operatingsystem_support": [
     {
