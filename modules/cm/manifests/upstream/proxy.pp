@@ -1,6 +1,6 @@
 define cm::upstream::proxy($members) {
 
-  include 'cm::services::webserver'
+  include 'nginx::bipbip_entry'
 
   $upstream_members = suffix($members, ' max_fails=0 fail_timeout=1')
 
