@@ -11,7 +11,7 @@ class cm_janus::proxy(
   include 'cm_janus'
 
   cm::upstream::proxy { 'janus':
-    members => ["127.0.0.1:$cm_janus::websockets_listen_port"]
+    members => ["127.0.0.1:${cm_janus::websockets_listen_port}"]
   }
 
   $hostnames = concat([$hostname], $aliases)
