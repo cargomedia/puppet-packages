@@ -1,5 +1,5 @@
 app:
-  logPath: <%= @log_path %>
+  logPath: '/var/log/cm-janus/cm-janus.log'
 httpServer:
   port: <%= @http_server_port %>
   apiKey: '<%= @http_server_api_key %>'
