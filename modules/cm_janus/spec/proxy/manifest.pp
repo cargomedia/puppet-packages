@@ -1,19 +1,5 @@
 node default {
 
-  host { 'foo':
-    ip => '127.0.0.1',
-  }
-
-  require 'janus::transport::websockets'
-  require 'cm_janus'
-
-  class { 'cm_janus::proxy':
-    hostname  => 'foo',
-    port     => '7999',
-    ssl_cert => $ssl_cert,
-    ssl_key  => $ssl_key,
-  }
-
   $ssl_cert = '-----BEGIN CERTIFICATE-----
 MIIDGDCCAgCgAwIBAgIJAISr5JGTVVfRMA0GCSqGSIb3DQEBCwUAMB8xEDAOBgNV
 BAMMB215LW5hbWUxCzAJBgNVBAYTAlVTMB4XDTE1MTEwMTEzMjYzMFoXDTI1MTAy
@@ -61,5 +47,18 @@ rplIIT/IOy8EONrWlIROjPD8aoHly4SBaAqaq5rh4Sr60z++ElWx2tMA2191D6ax
 cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
 1L/w6N8IQ3u0vAI78UZdZ+8ds9NfUjUJ8SmYmthUFARuvH8j799A
 -----END RSA PRIVATE KEY-----'
+
+  host { 'foo':
+  ip => '127.0.0.1',
+  }
+
+  require 'cm_janus'
+
+  class { 'cm_janus::proxy':
+  hostname  => 'foo',
+  port     => 7999,
+  ssl_cert => $ssl_cert,
+  ssl_key  => $ssl_key,
+  }
 
 }

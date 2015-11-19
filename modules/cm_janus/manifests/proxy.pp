@@ -15,12 +15,12 @@ class cm_janus::proxy(
   }
 
   $hostnames = concat([$hostname], $aliases)
-  $ssl = ($ssl_cert != undef) or ($ssl_key != undef)
 
   nginx::resource::vhost { $hostname:
     server_name         => $hostnames,
-    ssl                 => $ssl,
+    ssl                 => true,
     listen_port         => $port,
+    ssl_port            => $port,
     ssl_cert            => $ssl_cert,
     ssl_key             => $ssl_key,
     location_cfg_append => [
