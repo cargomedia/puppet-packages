@@ -13,9 +13,7 @@ PATH=/sbin:/bin:/usr/sbin:/usr/bin:/usr/local/sbin:/usr/local/bin
 NAME=cm-janus
 DESC=cm-janus
 DAEMON=/usr/bin/node
-#TODO: Set the correct user as soon as it's possible
-#DAEMON_USER=cm-janus:cm-janus
-DAEMON_USER=root:root
+DAEMON_USER=cm-janus:cm-janus
 PIDFILE=/var/run/cm-janus.pid
 LOGDIR=/var/log/cm-janus
 DAEMON_ARGS="/usr/bin/cm-janus -c /etc/cm-janus/config.yaml"

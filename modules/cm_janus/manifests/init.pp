@@ -8,6 +8,7 @@ class cm_janus (
 ) {
 
   require 'nodejs'
+  require 'build::gpp'
   include 'cm_janus::service'
 
   file { '/etc/cm-janus':

@@ -14,14 +14,16 @@ describe 'cm_janus' do
     it { should be_file }
   end
 
-#TODO: Re-enable this once logging works as expected
-  # describe file('/var/log/cm-janus/cm-janus.log') do
-  #   it { should be_file }
-  # end
+  describe file('/var/log/cm-janus/cm-janus.log') do
+    it { should be_file }
+  end
 
   describe service('cm-janus') do
     it { should be_enabled }
     it { should be_running }
   end
 
+  describe port(8800) do
+    it { should be_listening }
+  end
 end
