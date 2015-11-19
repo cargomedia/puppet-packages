@@ -3,8 +3,10 @@ class janus::service {
   require 'janus'
 
   service { 'janus':
+    ensure => running,
     hasrestart => true,
-    enable => true,
+    enable     => true,
+    require    => [ Helper::Script['install janus'], Sysvinit::Script['janus'] ],
   }
 
   @monit::entry { 'janus':

@@ -15,9 +15,6 @@ class janus::transport::http(
   $admin_acl = '127.,192.168.0.'
 ) {
 
-  require 'janus'
-  include 'janus::service'
-
   file { '/etc/janus/janus.transport.http.cfg':
     ensure    => 'present',
     content   => template("${module_name}/transport/http.cfg"),
@@ -26,5 +23,7 @@ class janus::transport::http(
     mode      => '0644',
     notify => Service['janus'],
   }
+  ->
 
+  janus::transport { $name: }
 }
