@@ -1,5 +1,4 @@
 class cm_janus (
-  $version = '0.0.2',
   $http_server_port = 30000,
   $http_server_api_key = 'fish',
   $websockets_listen_port = 8180,
@@ -9,6 +8,7 @@ class cm_janus (
 ) {
 
   require 'nodejs'
+  require 'build::gpp'
   include 'cm_janus::service'
 
   file { '/etc/cm-janus':
@@ -50,7 +50,7 @@ class cm_janus (
   }
 
   package { 'cm-janus':
-    ensure   => $version,
+    ensure   => latest,
     provider => 'npm',
   }
 
