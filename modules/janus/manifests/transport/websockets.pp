@@ -12,7 +12,6 @@ class janus::transport::websockets(
   $admin_ws_acl = '127.,192.168.',
 ) {
 
-  require 'janus'
   include 'janus::service'
 
   file { '/etc/janus/janus.transport.websockets.cfg':

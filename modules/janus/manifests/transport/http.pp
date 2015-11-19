@@ -15,7 +15,6 @@ class janus::transport::http(
   $admin_acl = '127.,192.168.0.'
 ) {
 
-  require 'janus'
   include 'janus::service'
 
   file { '/etc/janus/janus.transport.http.cfg':

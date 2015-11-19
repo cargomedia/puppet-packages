@@ -25,9 +25,6 @@ class janus (
   require 'janus::deps::libusrsctp'
   require 'janus::deps::libwebsockets'
 
-  include 'janus::transport::http'
-  include 'janus::transport::websockets'
-
   user { 'janus':
     ensure => present,
     system => true,
