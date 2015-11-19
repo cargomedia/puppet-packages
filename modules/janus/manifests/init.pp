@@ -92,4 +92,5 @@ class janus (
     content           => template("${module_name}/init.sh"),
     require           => [User['janus']],
   }
+
 }
