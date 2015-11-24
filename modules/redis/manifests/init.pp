@@ -27,8 +27,8 @@ class redis {
   ->
 
   package { 'redis-server':
-    provider => 'apt',
     ensure => present,
+    provider => 'apt',
   }
 
   @monit::entry { 'redis':

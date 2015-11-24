@@ -58,8 +58,8 @@ class php5::fpm {
   }
 
   package { 'php5-fpm':
-    provider => 'apt',
     ensure => present,
+    provider => 'apt',
   }
 
   service { 'php5-fpm':

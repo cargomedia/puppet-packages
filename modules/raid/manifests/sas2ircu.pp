@@ -14,8 +14,8 @@ class raid::sas2ircu {
   ->
 
   package { 'sas2ircu-status':
-    provider => 'apt',
-    ensure => present
+    ensure => present,
+    provider => 'apt'
   }
   ->
 

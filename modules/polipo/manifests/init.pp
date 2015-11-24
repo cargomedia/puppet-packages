@@ -26,7 +26,7 @@ class polipo(
   ->
 
   package { 'polipo':
-    provider => 'apt',
     ensure => present,
+    provider => 'apt',
   }
 }

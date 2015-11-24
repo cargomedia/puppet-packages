@@ -6,8 +6,8 @@ class phpmyadmin {
   require 'php5::extension::mysql'
 
   package { 'phpmyadmin':
-    provider => 'apt',
     ensure => installed,
+    provider => 'apt',
   }
   ->
 

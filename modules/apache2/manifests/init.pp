@@ -29,7 +29,7 @@ class apache2 {
   ->
 
   package { 'apache2':
-    provider => 'apt',
     ensure => present,
+    provider => 'apt',
   }
 }

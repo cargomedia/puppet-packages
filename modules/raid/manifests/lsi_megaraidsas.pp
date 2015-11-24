@@ -4,8 +4,8 @@ class raid::lsi_megaraidsas {
   require 'raid::hwraid_le_vert'
 
   package { 'megaraid-status':
-    provider => 'apt',
-    ensure => present
+    ensure => present,
+    provider => 'apt'
   }
   ->
 

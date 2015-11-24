@@ -3,8 +3,8 @@ class ntp {
   require 'apt'
 
   package { 'ntp':
-    provider => 'apt',
     ensure => present,
+    provider => 'apt',
   }
 
   service { 'ntp':

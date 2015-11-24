@@ -19,8 +19,8 @@ class memcached (
   ->
 
   package { 'memcached':
-    provider => 'apt',
     ensure => present,
+    provider => 'apt',
   }
 
   @monit::entry { 'memcached':

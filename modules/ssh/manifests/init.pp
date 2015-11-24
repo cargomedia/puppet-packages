@@ -31,8 +31,8 @@ class ssh ($permit_root_login = 'yes') {
   ->
 
   package { 'ssh':
-    provider => 'apt',
     ensure => installed,
+    provider => 'apt',
     before => Service['ssh'],
   }
 

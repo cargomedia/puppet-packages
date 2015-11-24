@@ -14,8 +14,8 @@ class deb_multimedia {
   ->
 
   package { 'deb-multimedia-keyring':
-    provider => 'apt',
     ensure => latest,
+    provider => 'apt',
   }
 
 }

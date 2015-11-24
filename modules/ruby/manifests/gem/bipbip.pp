@@ -6,13 +6,13 @@ class ruby::gem::bipbip ($version = 'present') {
   include 'cgi_fcgi'
 
   package { 'libsasl2-dev':
-    provider => 'apt',
-    ensure => present
+    ensure => present,
+    provider => 'apt'
   }
 
   package { 'libmysqlclient-dev':
-    provider => 'apt',
-    ensure => present
+    ensure => present,
+    provider => 'apt'
   }
 
   ruby::gem { 'bipbip':

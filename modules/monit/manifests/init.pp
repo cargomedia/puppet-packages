@@ -89,8 +89,8 @@ class monit ($emailTo = 'root@localhost', $emailFrom = "root@${::domain}", $allo
   ->
 
   package { 'monit':
-    provider => 'apt',
     ensure => present,
+    provider => 'apt',
   }
 
   Monit::Entry <||>

@@ -21,8 +21,8 @@ class ffmpeg ($version = '1.0') {
     'libopencore-amrnb-dev',
     'libopencore-amrwb-dev'
   ]:
-    provider => 'apt',
     ensure => present,
+    provider => 'apt',
   }
   ->
 

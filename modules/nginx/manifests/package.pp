@@ -17,7 +17,7 @@ class nginx::package {
   ->
 
   package { 'nginx':
-    provider => 'apt',
     ensure => present,
+    provider => 'apt',
   }
 }

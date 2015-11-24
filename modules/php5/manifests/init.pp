@@ -48,8 +48,8 @@ class php5 {
   ->
 
   package { ['php5-cli', 'php5-dev', 'libpcre3-dev']:
-    provider => 'apt',
     ensure => present,
+    provider => 'apt',
   }
   ->
 

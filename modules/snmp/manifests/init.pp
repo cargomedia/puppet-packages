@@ -26,14 +26,14 @@ class snmp (
   }
 
   package { 'snmp':
-    provider => 'apt',
     ensure => present,
+    provider => 'apt',
   }
   ->
 
   package { 'snmpd':
-    provider => 'apt',
     ensure => present,
+    provider => 'apt',
   }
 
   @monit::entry { 'snmpd':

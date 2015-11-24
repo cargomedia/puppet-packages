@@ -18,8 +18,8 @@ class nodejs {
   ->
 
   package { 'nodejs':
-    provider => 'apt',
     ensure => present,
+    provider => 'apt',
   }
 
 }

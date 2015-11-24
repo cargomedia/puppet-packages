@@ -20,8 +20,8 @@ class passenger (
   }
 
   package { ['libcurl4-openssl-dev']:
-    provider => 'apt',
     ensure => present,
+    provider => 'apt',
   }
   ->
 

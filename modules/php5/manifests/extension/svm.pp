@@ -8,8 +8,8 @@ class php5::extension::svm (
   require 'php5'
 
   package { ['libsvm-dev', 're2c']:
-    provider => 'apt',
     ensure => present,
+    provider => 'apt',
   }
   ->
 

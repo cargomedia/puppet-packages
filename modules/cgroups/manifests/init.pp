@@ -4,8 +4,8 @@ class cgroups {
   include 'augeas'
 
   package { 'cgroup-bin':
-    provider => 'apt',
     ensure => present,
+    provider => 'apt',
   }
 
   mount::entry { 'mount cgroup':
