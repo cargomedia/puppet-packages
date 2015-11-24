@@ -41,8 +41,8 @@ class php5 {
   }
 
   package { 'php5-common':
-    provider => 'apt',
     ensure  => present,
+    provider => 'apt',
     require => [File['/etc/php5/cli/php.ini'], File['/etc/php5/conf.d']],
   }
   ->

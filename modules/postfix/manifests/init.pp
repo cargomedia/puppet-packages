@@ -66,8 +66,8 @@ class postfix ($aliases = { }, $transports = []) {
   }
 
   package { 'postfix':
-    provider => 'apt',
     ensure  => present,
+    provider => 'apt',
     require => Package['libsasl2-modules'],
   }
 

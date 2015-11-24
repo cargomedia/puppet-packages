@@ -4,8 +4,8 @@ class php5::extension::memcache {
   require 'php5'
 
   package { 'php5-memcache':
-    provider => 'apt',
     ensure  => present,
+    provider => 'apt',
     require => Class['php5'],
   }
   ->

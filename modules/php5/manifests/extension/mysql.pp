@@ -4,8 +4,8 @@ class php5::extension::mysql {
   require 'php5'
 
   package { 'php5-mysql':
-    provider => 'apt',
     ensure  => present,
+    provider => 'apt',
     require => Class['php5'],
   }
 }

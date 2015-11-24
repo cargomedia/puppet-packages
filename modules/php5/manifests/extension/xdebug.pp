@@ -12,8 +12,8 @@ class php5::extension::xdebug(
   $remote_connect_back_int = $remote_connect_back ? { true => 1, false => 0 }
 
   package { 'php5-xdebug':
-    provider => 'apt',
     ensure  => present,
+    provider => 'apt',
     require => Class['php5'],
   }
   ->

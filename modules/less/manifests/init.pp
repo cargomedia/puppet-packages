@@ -4,8 +4,8 @@ class less {
   require 'nodejs'
 
   package { 'less':
-    provider => 'apt',
     ensure   => present,
+    provider => 'apt',
     provider => 'npm',
   }
 }

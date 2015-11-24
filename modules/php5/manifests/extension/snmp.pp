@@ -4,8 +4,8 @@ class php5::extension::snmp {
   require 'php5'
 
   package { 'php5-snmp':
-    provider => 'apt',
     ensure  => present,
+    provider => 'apt',
     require => Class['php5'],
   }
 }

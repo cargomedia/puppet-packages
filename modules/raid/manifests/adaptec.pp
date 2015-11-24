@@ -6,15 +6,15 @@ class raid::adaptec {
   require 'raid::hwraid_le_vert'
 
   package { 'arcconf':
-    provider => 'apt',
     ensure  => present,
+    provider => 'apt',
     require => Class['apt::source::cargomedia'],
   }
   ->
 
   package { 'aacraid-status':
-    provider => 'apt',
     ensure  => present,
+    provider => 'apt',
     require => Class['raid::hwraid_le_vert'],
   }
   ->

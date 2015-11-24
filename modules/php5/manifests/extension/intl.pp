@@ -4,8 +4,8 @@ class php5::extension::intl {
   require 'php5'
 
   package { 'php5-intl':
-    provider => 'apt',
     ensure  => present,
+    provider => 'apt',
     require => Class['php5'],
   }
 }

@@ -14,7 +14,7 @@ PuppetLint.configuration.send('disable_80chars')
 PuppetLint.configuration.send('disable_documentation')
 PuppetLint.configuration.send('disable_class_inherits_from_params_class')
 PuppetLint.configuration.send('disable_parameter_order')
-PuppetLint.configuration.ignore_paths = %w(**/templates/**/*.pp vendor/**/*.pp)
+PuppetLint.configuration.ignore_paths = %w(**/templates/**/*.pp vendor/**/*.pp bundle/**/*.pp .bundle/**/*.pp)
 
 PuppetSyntax.exclude_paths = %w(**/templates/**/*.pp vendor/**/*.pp)
 

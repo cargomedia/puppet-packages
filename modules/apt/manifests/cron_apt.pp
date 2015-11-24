@@ -3,8 +3,8 @@ class apt::cron_apt {
   require 'apt'
 
   package { 'cron-apt':
-    provider => 'apt',
     ensure  => present,
+    provider => 'apt',
     require => File['/etc/cron-apt/config'],
   }
 

@@ -4,8 +4,8 @@ class php5::extension::mcrypt {
   require 'php5'
 
   package { 'php5-mcrypt':
-    provider => 'apt',
     ensure  => present,
+    provider => 'apt',
     require => Class['php5'],
   }
 }

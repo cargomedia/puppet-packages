@@ -41,8 +41,8 @@ class mysql_proxy ($host = '127.0.0.1', $port = 4040, $backend_addresses) {
   }
 
   package { 'mysql-proxy':
-    provider => 'apt',
     ensure  => present,
+    provider => 'apt',
     notify  => Service['mysql-proxy'],
     require => Class['apt::source::cargomedia'],
   }

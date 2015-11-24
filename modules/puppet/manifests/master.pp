@@ -93,8 +93,8 @@ class puppet::master (
   }
 
   package { 'puppetmaster':
-    provider => 'apt',
     ensure  => present,
+    provider => 'apt',
     require => [
       Helper::Script['install puppet apt sources'],
       Exec['/etc/puppet/puppet.conf'],

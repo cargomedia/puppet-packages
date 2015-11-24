@@ -9,8 +9,8 @@ class php5::extension::newrelic(
   require 'apt::source::newrelic'
 
   package { ['newrelic-php5']:
-    provider => 'apt',
     ensure  => present,
+    provider => 'apt',
     require => Class['apt::source::newrelic'],
   }
   ->
