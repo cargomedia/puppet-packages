@@ -2,10 +2,12 @@ class php5::extension::imagick (
   $version = '3.1.2'
 ) {
 
+  require 'apt'
   require 'build'
   require 'php5'
 
   package { 'libmagickwand-dev':
+    provider => 'apt',
     ensure => present,
   }
   ->

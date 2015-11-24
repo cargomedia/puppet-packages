@@ -4,10 +4,12 @@ class php5::extension::newrelic(
   $enabled = true,
   $browser_monitoring_enabled = true) {
 
+  require 'apt'
   require 'php5'
   require 'apt::source::newrelic'
 
   package { ['newrelic-php5']:
+    provider => 'apt',
     ensure  => present,
     require => Class['apt::source::newrelic'],
   }

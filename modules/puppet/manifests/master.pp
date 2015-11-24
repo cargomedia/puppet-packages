@@ -15,6 +15,7 @@ class puppet::master (
   $environmentpath = undef,
 ) {
 
+  require 'apt'
   require 'ssh::auth::keyserver'
   include 'puppet::common'
 
@@ -92,6 +93,7 @@ class puppet::master (
   }
 
   package { 'puppetmaster':
+    provider => 'apt',
     ensure  => present,
     require => [
       Helper::Script['install puppet apt sources'],

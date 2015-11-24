@@ -1,5 +1,7 @@
 class ssh ($permit_root_login = 'yes') {
 
+  require 'apt'
+
   file { '/etc/ssh/ssh_config':
     ensure  => file,
     content => template("${module_name}/ssh_config"),
@@ -29,6 +31,7 @@ class ssh ($permit_root_login = 'yes') {
   ->
 
   package { 'ssh':
+    provider => 'apt',
     ensure => installed,
     before => Service['ssh'],
   }

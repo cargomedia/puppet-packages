@@ -8,6 +8,7 @@ class puppet::agent (
   $environment = 'production',
 ) {
 
+  require 'apt'
   include 'puppet::common'
 
   $splaylimit_final = $splaylimit ? {
@@ -35,6 +36,7 @@ class puppet::agent (
   ->
 
   package { 'puppet':
+    provider => 'apt',
     ensure  => present,
     require => [
       Helper::Script['install puppet apt sources'],

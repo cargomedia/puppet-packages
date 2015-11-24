@@ -1,7 +1,9 @@
 class apache2::dev {
-  require 'package_manager'
+
+  require 'apt'
 
   package{ ['apache2-threaded-dev']:
+    provider => 'apt',
     ensure => present,
   }
 }

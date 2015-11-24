@@ -1,8 +1,10 @@
 class cgroups {
 
+  require 'apt'
   include 'augeas'
 
   package { 'cgroup-bin':
+    provider => 'apt',
     ensure => present,
   }
 

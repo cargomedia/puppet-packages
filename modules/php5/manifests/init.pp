@@ -1,5 +1,7 @@
 class php5 {
 
+  require 'apt'
+
   file { '/etc/php5':
     ensure => directory,
     owner  => '0',
@@ -39,12 +41,14 @@ class php5 {
   }
 
   package { 'php5-common':
+    provider => 'apt',
     ensure  => present,
     require => [File['/etc/php5/cli/php.ini'], File['/etc/php5/conf.d']],
   }
   ->
 
   package { ['php5-cli', 'php5-dev', 'libpcre3-dev']:
+    provider => 'apt',
     ensure => present,
   }
   ->

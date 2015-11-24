@@ -3,10 +3,12 @@ class php5::extension::svm (
   $version_output = '0.1.6'
 ) {
 
+  require 'apt'
   require 'build'
   require 'php5'
 
   package { ['libsvm-dev', 're2c']:
+    provider => 'apt',
     ensure => present,
   }
   ->

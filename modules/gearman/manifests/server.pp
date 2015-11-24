@@ -10,6 +10,7 @@ class gearman::server(
   $jobretries = 25,
 ) {
 
+  require 'apt'
   require 'apt::source::cargomedia'
 
   case $persistence {
@@ -28,6 +29,7 @@ class gearman::server(
   }
 
   package { 'gearman-job-server':
+    provider => 'apt',
     ensure  => present,
     require => Class['apt::source::cargomedia'],
   }

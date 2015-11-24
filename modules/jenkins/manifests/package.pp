@@ -1,5 +1,7 @@
 class jenkins::package {
 
+  require 'apt'
+
   apt::source { 'jenkins':
     entries => [
       'deb http://pkg.jenkins-ci.org/debian binary/',
@@ -14,6 +16,7 @@ class jenkins::package {
   ->
 
   package { 'jenkins':
+    provider => 'apt',
     ensure => present,
   }
 

@@ -1,5 +1,7 @@
 class vim {
 
+  require 'apt'
+
   file { '/etc/vim':
     ensure => directory,
     owner  => '0',
@@ -16,6 +18,7 @@ class vim {
   }
 
   package { 'vim':
+    provider => 'apt',
     ensure => present,
   }
 }

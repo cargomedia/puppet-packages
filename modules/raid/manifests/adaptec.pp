@@ -1,16 +1,19 @@
 class raid::adaptec {
 
+  require 'apt'
   require 'unzip'
   require 'apt::source::cargomedia'
   require 'raid::hwraid_le_vert'
 
   package { 'arcconf':
+    provider => 'apt',
     ensure  => present,
     require => Class['apt::source::cargomedia'],
   }
   ->
 
   package { 'aacraid-status':
+    provider => 'apt',
     ensure  => present,
     require => Class['raid::hwraid_le_vert'],
   }

@@ -1,6 +1,9 @@
 class cron {
 
+  require 'apt'
+
   package { 'cron':
+    provider => 'apt',
     ensure => present,
   }
   ->

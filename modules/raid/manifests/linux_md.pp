@@ -1,5 +1,7 @@
 class raid::linux_md {
 
+  require 'apt'
+
   file { '/etc/mdadm':
     ensure => directory,
     group  => '0',
@@ -24,6 +26,7 @@ class raid::linux_md {
   }
 
   package { 'mdadm':
+    provider => 'apt',
     ensure       => present,
     responsefile =>  '/tmp/mdadm.preseed',
     require      => File['/tmp/mdadm.preseed'],

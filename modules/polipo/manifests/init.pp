@@ -5,6 +5,7 @@ class polipo(
   $objectHighMark = 128,
 ) {
 
+  require 'apt'
   include 'polipo::service'
 
   file { '/etc/polipo':
@@ -25,6 +26,7 @@ class polipo(
   ->
 
   package { 'polipo':
+    provider => 'apt',
     ensure => present,
   }
 }

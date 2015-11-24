@@ -4,6 +4,7 @@ class passenger (
   $gem_home = '/var/lib/gems/1.9.1'
 ){
 
+  require 'apt'
   require 'build'
   require 'apache2'
   require 'apache2::dev'
@@ -19,6 +20,7 @@ class passenger (
   }
 
   package { ['libcurl4-openssl-dev']:
+    provider => 'apt',
     ensure => present,
   }
   ->

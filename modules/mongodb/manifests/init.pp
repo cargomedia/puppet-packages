@@ -1,5 +1,6 @@
 class mongodb {
 
+  require 'apt'
   include 'ntp'
 
   apt::source { 'mongodb':
@@ -48,6 +49,7 @@ class mongodb {
   ->
 
   package { 'mongodb-org':
+    provider => 'apt',
     require => [ Apt::Source['mongodb'] ]
   }
   ->

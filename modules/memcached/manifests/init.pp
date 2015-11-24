@@ -5,6 +5,7 @@ class memcached (
   $max_connections = 10000
 ) {
 
+  require 'apt'
   include 'memcached::service'
 
   file { '/etc/memcached.conf':
@@ -18,6 +19,7 @@ class memcached (
   ->
 
   package { 'memcached':
+    provider => 'apt',
     ensure => present,
   }
 

@@ -1,5 +1,6 @@
 class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
 
+  require 'apt'
   include 'mysql::service'
 
   file { '/root/.my.cnf':
@@ -94,6 +95,7 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
   }
 
   package { 'mysql-server':
+    provider => 'apt',
     ensure => present,
     before => Service['mysql'],
   }

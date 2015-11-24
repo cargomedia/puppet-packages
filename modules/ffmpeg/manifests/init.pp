@@ -1,5 +1,6 @@
 class ffmpeg ($version = '1.0') {
 
+  require 'apt'
   require 'deb_multimedia'
   require 'yasm'
   require 'x264'
@@ -20,6 +21,7 @@ class ffmpeg ($version = '1.0') {
     'libopencore-amrnb-dev',
     'libopencore-amrwb-dev'
   ]:
+    provider => 'apt',
     ensure => present,
   }
   ->

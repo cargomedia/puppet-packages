@@ -5,6 +5,8 @@ class snmp (
   $communityName      = 'public'
 ) {
 
+  require 'apt'
+
   file { '/etc/snmp/snmpd.conf':
     ensure  => file,
     content => template("${module_name}/snmpd.conf"),
@@ -24,11 +26,13 @@ class snmp (
   }
 
   package { 'snmp':
+    provider => 'apt',
     ensure => present,
   }
   ->
 
   package { 'snmpd':
+    provider => 'apt',
     ensure => present,
   }
 

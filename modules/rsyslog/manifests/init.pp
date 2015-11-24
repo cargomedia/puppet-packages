@@ -19,7 +19,10 @@ class rsyslog(
     mode   => $logfile_mode,
   }
 
-  package { 'rsyslog': }
+  package { 'rsyslog':
+    provider => 'apt',
+    ensure => present,
+  }
   ->
 
   service { 'rsyslog':
