@@ -6,9 +6,9 @@ class cm_janus::proxy(
   $aliases = [],
 ){
 
-  include 'nginx'
+  require 'cm_janus'
   include 'cm::services::webserver'
-  include 'cm_janus'
+  include 'nginx'
 
   cm::upstream::proxy { 'cm_janus':
     members => ["127.0.0.1:${cm_janus::websockets_listen_port}"]

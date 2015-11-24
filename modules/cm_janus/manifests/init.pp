@@ -6,7 +6,7 @@ class cm_janus (
   $cm_api_base_url,
   $cm_api_key,
   $cm_application_path,
-  $jobs_path = '/var/lib/janus/jobs',
+  $jobs_path,
 ) {
 
   require 'nodejs'
@@ -26,7 +26,6 @@ class cm_janus (
     owner   => '0',
     group   => '0',
     mode    => '0755',
-    notify  => Service['cm-janus'],
   }
 
   user { 'cm-janus':
@@ -46,22 +45,10 @@ class cm_janus (
     content => template("${module_name}/logrotate")
   }
 
-  sysvinit::script { 'cm-janus':
-    content           => template("${module_name}/init.sh"),
-    require           => [Package['cm-janus'], User['cm-janus']],
-  }
-
   package { 'cm-janus':
     ensure   => latest,
     provider => 'npm',
-    notify  => Service['cm-janus'],
-  }
-
-  @monit::entry { 'cm-janus':
-    content => template("${module_name}/monit"),
-    require => Service['cm-janus'],
   }
 
   #TODO: add bipbip
-
 }
