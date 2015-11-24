@@ -2,11 +2,19 @@ class janus::service {
 
   require 'janus'
 
+  sysvinit::script { 'janus':
+    content => template("${module_name}/init.sh"),
+  }
+  ->
+
   service { 'janus':
-    ensure => running,
-    hasrestart => true,
     enable     => true,
-    require    => [ Helper::Script['install janus'], Sysvinit::Script['janus'] ],
+    hasrestart => true,
+    subscribe  => [
+      Class['janus'],
+      Class['janus::transport::http'],
+      Class['janus::transport::http']
+    ],
   }
 
   @monit::entry { 'janus':

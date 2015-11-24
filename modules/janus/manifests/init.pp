@@ -88,7 +88,6 @@ class janus (
     owner   => '0',
     group   => '0',
     mode    => '0644',
-    notify  => Service['janus'],
   }
 
   file { '/var/lib/janus':
@@ -110,11 +109,6 @@ class janus (
     owner  => 'janus',
     group  => 'janus',
     mode   => '0755',
-  }
-
-  sysvinit::script { 'janus':
-    content           => template("${module_name}/init.sh"),
-    require           => [User['janus']],
   }
 
 }
