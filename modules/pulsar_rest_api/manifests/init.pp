@@ -60,7 +60,6 @@ class pulsar_rest_api (
   }
 
   package { 'pulsar-rest-api':
-    provider => 'apt',
     ensure   => $version,
     provider => 'npm',
     require  => Class['nodejs'],
