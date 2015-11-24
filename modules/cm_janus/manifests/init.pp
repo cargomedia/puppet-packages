@@ -1,10 +1,12 @@
 class cm_janus (
-  $http_server_port = 30000,
-  $http_server_api_key = 'fish',
-  $websockets_listen_port = 8180,
-  $websockets_janus_address = 'ws://127.0.0.1:8188/janus',
-  $cm_api_base_url = 'http://www.cm.dev',
-  $cm_api_key = 'fishy',
+  $http_server_port = 8200,
+  $http_server_api_key,
+  $websockets_listen_port = 8210,
+  $websockets_janus_address = 'ws://127.0.0.1:8300/janus',
+  $cm_api_base_url,
+  $cm_api_key,
+  $cm_application_path,
+  $jobs_path = '/var/lib/janus/jobs',
 ) {
 
   require 'nodejs'
@@ -52,6 +54,7 @@ class cm_janus (
   package { 'cm-janus':
     ensure   => latest,
     provider => 'npm',
+    notify  => Service['cm-janus'],
   }
 
   @monit::entry { 'cm-janus':
