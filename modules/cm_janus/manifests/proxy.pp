@@ -10,7 +10,7 @@ class cm_janus::proxy(
   include 'cm::services::webserver'
   include 'cm_janus'
 
-  cm::upstream::proxy { 'janus':
+  cm::upstream::proxy { 'cm_janus':
     members => ["127.0.0.1:${cm_janus::websockets_listen_port}"]
   }
 
@@ -27,7 +27,7 @@ class cm_janus::proxy(
       'proxy_set_header Host $host;',
       'proxy_set_header X-Real-IP $remote_addr;',
       'proxy_http_version 1.1;',
-      'proxy_pass http://janus;',
+      'proxy_pass http://cm_janus;',
       'proxy_set_header Upgrade $http_upgrade;',
       'proxy_set_header Connection "upgrade";',
       'proxy_read_timeout 999999999;',
