@@ -3,7 +3,7 @@ class cron {
   require 'apt'
 
   package { 'cron':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
   ->

@@ -95,9 +95,9 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
   }
 
   package { 'mysql-server':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
-    before => Service['mysql'],
+    before   => Service['mysql'],
   }
 
   sysctl::entry { 'mysql':

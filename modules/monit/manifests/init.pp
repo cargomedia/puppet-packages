@@ -89,7 +89,7 @@ class monit ($emailTo = 'root@localhost', $emailFrom = "root@${::domain}", $allo
   ->
 
   package { 'monit':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
 

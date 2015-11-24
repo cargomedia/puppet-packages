@@ -49,16 +49,16 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
 -----END RSA PRIVATE KEY-----'
 
   host { 'foo':
-  ip => '127.0.0.1',
+    ip => '127.0.0.1',
   }
 
   require 'cm_janus'
 
   class { 'cm_janus::proxy':
-  hostname  => 'foo',
-  port     => 7999,
-  ssl_cert => $ssl_cert,
-  ssl_key  => $ssl_key,
+    hostname  => 'foo',
+    port      => 7999,
+    ssl_cert  => $ssl_cert,
+    ssl_key   => $ssl_key,
   }
 
 }

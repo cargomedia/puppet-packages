@@ -36,7 +36,7 @@ class puppet::master::puppetdb(
   }
 
   package { 'puppetdb-terminus':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
 }

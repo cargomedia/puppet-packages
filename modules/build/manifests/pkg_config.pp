@@ -3,7 +3,7 @@ class build::pkg_config {
   require 'apt'
 
   package { 'pkg-config':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
 }

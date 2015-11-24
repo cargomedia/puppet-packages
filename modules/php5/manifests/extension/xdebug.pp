@@ -12,9 +12,9 @@ class php5::extension::xdebug(
   $remote_connect_back_int = $remote_connect_back ? { true => 1, false => 0 }
 
   package { 'php5-xdebug':
-    ensure  => present,
+    ensure   => present,
     provider => 'apt',
-    require => Class['php5'],
+    require  => Class['php5'],
   }
   ->
 

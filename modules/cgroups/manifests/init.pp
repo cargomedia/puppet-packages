@@ -4,7 +4,7 @@ class cgroups {
   include 'augeas'
 
   package { 'cgroup-bin':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
 

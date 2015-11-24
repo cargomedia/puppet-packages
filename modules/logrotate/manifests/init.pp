@@ -18,8 +18,8 @@ class logrotate {
   }
 
   package { 'logrotate':
-    ensure  => present,
+    ensure   => present,
     provider => 'apt',
-    require => File['/etc/logrotate.conf', '/etc/logrotate.d'],
+    require  => File['/etc/logrotate.conf', '/etc/logrotate.d'],
   }
 }

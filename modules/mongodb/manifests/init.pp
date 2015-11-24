@@ -50,7 +50,7 @@ class mongodb {
 
   package { 'mongodb-org':
     provider => 'apt',
-    require => [ Apt::Source['mongodb'] ]
+    require  => [ Apt::Source['mongodb'] ]
   }
   ->
 

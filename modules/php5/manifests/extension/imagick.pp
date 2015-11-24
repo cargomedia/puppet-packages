@@ -7,7 +7,7 @@ class php5::extension::imagick (
   require 'php5'
 
   package { 'libmagickwand-dev':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
   ->

@@ -16,7 +16,7 @@ class jenkins::package {
   ->
 
   package { 'jenkins':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
 

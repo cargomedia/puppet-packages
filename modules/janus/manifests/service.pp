@@ -3,7 +3,7 @@ class janus::service {
   require 'janus'
 
   service { 'janus':
-    ensure => running,
+    ensure     => running,
     hasrestart => true,
     enable     => true,
     require    => [ Helper::Script['install janus'], Sysvinit::Script['janus'] ],

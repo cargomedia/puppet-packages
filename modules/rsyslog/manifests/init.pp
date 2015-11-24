@@ -20,7 +20,7 @@ class rsyslog(
   }
 
   package { 'rsyslog':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
   ->

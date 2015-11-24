@@ -61,14 +61,14 @@ class postfix ($aliases = { }, $transports = []) {
   }
 
   package { 'libsasl2-modules':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
 
   package { 'postfix':
-    ensure  => present,
+    ensure   => present,
     provider => 'apt',
-    require => Package['libsasl2-modules'],
+    require  => Package['libsasl2-modules'],
   }
 
   @monit::entry { 'postfix':

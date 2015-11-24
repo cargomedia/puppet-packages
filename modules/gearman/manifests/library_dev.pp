@@ -4,9 +4,9 @@ class gearman::library_dev {
   require 'apt::source::cargomedia'
 
   package { 'libgearman-dev':
-    ensure  => present,
+    ensure   => present,
     provider => 'apt',
-    require => Class['apt::source::cargomedia'],
+    require  => Class['apt::source::cargomedia'],
   }
 
 }

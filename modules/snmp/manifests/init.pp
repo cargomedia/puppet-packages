@@ -26,13 +26,13 @@ class snmp (
   }
 
   package { 'snmp':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
   ->
 
   package { 'snmpd':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
 

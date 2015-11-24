@@ -3,7 +3,7 @@ class iptables {
   require 'apt'
 
   package { 'iptables':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
 }

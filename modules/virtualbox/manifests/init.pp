@@ -16,12 +16,12 @@ class virtualbox {
   ->
 
   package { 'virtualbox-5.0':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
 
   package { 'dkms':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
 }

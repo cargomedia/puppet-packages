@@ -18,7 +18,7 @@ class vim {
   }
 
   package { 'vim':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
 }

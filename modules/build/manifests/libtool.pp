@@ -3,7 +3,7 @@ class build::libtool {
   require 'apt'
 
   package { 'libtool':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
 }

@@ -21,7 +21,7 @@ class janus::transport::http(
     owner     => '0',
     group     => '0',
     mode      => '0644',
-    notify => Service['janus'],
+    notify    => Service['janus'],
   }
   ->
 

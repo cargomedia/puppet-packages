@@ -29,9 +29,9 @@ class gearman::server(
   }
 
   package { 'gearman-job-server':
-    ensure  => present,
+    ensure   => present,
     provider => 'apt',
-    require => Class['apt::source::cargomedia'],
+    require  => Class['apt::source::cargomedia'],
   }
 
   service { 'gearman-job-server':

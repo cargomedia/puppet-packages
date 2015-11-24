@@ -27,7 +27,7 @@ class raid::linux_md {
 
   package { 'mdadm':
     ensure       => present,
-    provider => 'apt',
+    provider     => 'apt',
     responsefile =>  '/tmp/mdadm.preseed',
     require      => File['/tmp/mdadm.preseed'],
   }

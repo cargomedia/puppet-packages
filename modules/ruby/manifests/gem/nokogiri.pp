@@ -5,7 +5,7 @@ class ruby::gem::nokogiri ($version = 'present') {
   require 'build::dev::zlib1g'
 
   package { ['libxslt1-dev', 'libxml2-dev']:
-    ensure => present,
+    ensure   => present,
     provider => 'apt'
   }
 

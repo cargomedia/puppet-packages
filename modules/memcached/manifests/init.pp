@@ -19,7 +19,7 @@ class memcached (
   ->
 
   package { 'memcached':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
 

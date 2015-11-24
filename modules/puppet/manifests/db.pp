@@ -25,7 +25,7 @@ class puppet::db(
   ->
 
   package { 'puppetdb':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
   ->

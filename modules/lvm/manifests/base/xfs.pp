@@ -3,7 +3,7 @@ class lvm::base::xfs {
   require 'apt'
 
   package { 'xfsprogs':
-    ensure => installed,
+    ensure   => installed,
     provider => 'apt',
   }
 }

@@ -58,7 +58,7 @@ class php5::fpm {
   }
 
   package { 'php5-fpm':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
 

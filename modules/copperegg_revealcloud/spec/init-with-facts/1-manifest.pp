@@ -1,4 +1,4 @@
 node default {
 
-  class {'puppet::common':}
+  class { 'puppet::common': }
 }

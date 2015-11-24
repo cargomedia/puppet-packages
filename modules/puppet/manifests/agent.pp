@@ -36,9 +36,9 @@ class puppet::agent (
   ->
 
   package { 'puppet':
-    ensure  => present,
+    ensure   => present,
     provider => 'apt',
-    require => [
+    require  => [
       Helper::Script['install puppet apt sources'],
       Exec['/etc/puppet/puppet.conf'],
       File['/etc/puppet/conf.d/main']

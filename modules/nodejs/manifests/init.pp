@@ -18,7 +18,7 @@ class nodejs {
   ->
 
   package { 'nodejs':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
 

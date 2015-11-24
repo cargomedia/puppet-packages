@@ -4,7 +4,7 @@ node default {
 
   class { 'bipbip':
     frequency => 5,
-    tags => ['foo', 'bar'],
+    tags      => ['foo', 'bar'],
   }
 
   @bipbip::entry { 'memcache':

@@ -27,7 +27,7 @@ class redis {
   ->
 
   package { 'redis-server':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
 

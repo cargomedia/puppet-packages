@@ -3,7 +3,7 @@ class mysqltuner {
   require 'apt'
 
   package { 'mysqltuner':
-    ensure => present,
+    ensure   => present,
     provider => 'apt',
   }
 }
