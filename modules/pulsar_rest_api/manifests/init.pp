@@ -14,7 +14,6 @@ class pulsar_rest_api (
   $authentication = undef,
 ) {
 
-  require 'apt'
   require bower
   require pulsar
   require nodejs
