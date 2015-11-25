@@ -8,3 +8,7 @@ proxy:
 cmApi:
   baseUrl: '<%= @cm_api_base_url %>'
   apiKey:  '<%= @cm_api_key %>'
+cmApplication:
+  path: '<%= @cm_application_path %>'
+jobManager:
+  jobsPath: '<%= @jobs_path %>'
