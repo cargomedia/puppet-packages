@@ -1,5 +1,5 @@
 class janus (
-  $version = $janus::version::number,
+  $version = $janus::version::main,
   $bind_address = '127.0.0.1',
   $log_file = '/var/log/janus/janus.log',
   $token_auth = 'no',
@@ -21,9 +21,12 @@ class janus (
   require 'git'
   require 'build::automake'
   require 'build::libtool'
-  require 'janus::deps::libsrtp'
-  require 'janus::deps::libusrsctp'
-  require 'janus::deps::libwebsockets'
+  class { 'janus::deps::libsrtp': version => $janus::version::srtp, }
+  class { 'janus::deps::libusrsctp': version => $janus::version::usrsctp, }
+  class { 'janus::deps::libwebsockets':
+    version => $janus::version::websockets,
+    version_file_name => $janus::version::websockets_version_filename,
+  }
 
   include 'janus::transport::http'
   include 'janus::transport::websockets'
@@ -50,10 +53,17 @@ class janus (
     'gengetopt',]: }
   ->
 
+  git::repository { 'janus-gateway':
+    remote      => 'https://github.com/meetecho/janus-gateway.git',
+    directory   => '/opt/src/janus',
+    revision    => $janus::version::main,
+  }
+  ~>
+
   helper::script { 'install janus':
-    content => template("${module_name}/install.sh"),
-    unless  => 'ls /usr/bin/janus',
-    timeout => 900,
+    content      => template("${module_name}/install.sh"),
+    refresh_only => true,
+    timeout      => 900,
   }
 
   file { '/var/log/janus':
