@@ -1,9 +1,13 @@
 class janus::service {
 
   require 'janus'
+  require 'janus::transport::http'
+  require 'janus::transport::websockets'
+
+  $log_file = $janus::log_file
 
   sysvinit::script { 'janus':
-    content => template("${module_name}/init.sh"),
+    content    => template("${module_name}/init.sh"),
   }
   ->
 
@@ -13,8 +17,8 @@ class janus::service {
     subscribe  => [
       Class['janus'],
       Class['janus::transport::http'],
-      Class['janus::transport::http']
-    ],
+      Class['janus::transport::websockets'],
+    ]
   }
 
   @monit::entry { 'janus':
