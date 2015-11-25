@@ -1,8 +1,6 @@
 #!/bin/sh -e
 
-rm -rf usrsctp
-git clone https://github.com/sctplab/usrsctp
-cd usrsctp
+cd /opt/src/janus-plugins/usrsctp
 ./bootstrap
 ./configure --prefix=/usr
 make
