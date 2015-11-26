@@ -1,5 +1,5 @@
 class socket_redis (
-  $version = '0.1.4',
+  $version = 'latest',
   $redisHost = 'localhost',
   $socketPorts = [8090],
   $logDir = '/var/log/socket-redis',
