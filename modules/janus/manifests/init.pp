@@ -3,7 +3,7 @@ class janus (
   $bind_address = '127.0.0.1',
   $log_file = '/var/log/janus/janus.log',
   $token_auth = 'no',
-  $api_secret = 'cantanapoli',
+  $api_secret = undef,
   $stun_server = undef,
   $stun_port = 3478,
   $turn_server = undef,

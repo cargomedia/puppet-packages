@@ -32,8 +32,10 @@ class cm::services::janus(
     admin_acl          => '127.',
   }
 
+  $janus_websockets_port = 8310
+
   class { 'janus::transport::websockets':
-    ws_port => 8310,
+    ws_port => $janus_websockets_port,
     ws_acl  => '127.',
   }
 
@@ -47,7 +49,7 @@ class cm::services::janus(
     http_server_port           => $http_server_port,
     http_server_api_key        => $http_server_api_key,
     websockets_listen_port     => 8210,
-    websockets_janus_address   => 'ws://localhost:8120/janus',
+    websockets_janus_address   => "ws://localhost:${janus_websockets_port}/janus",
     cm_api_base_url            => $cm_api_base_url,
     cm_api_key                 => $cm_api_key,
     cm_application_path        => $cm_application_path,
