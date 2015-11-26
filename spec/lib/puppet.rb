@@ -46,8 +46,6 @@ class Puppet
   def apply_manifests
     @spec_dir.entries.sort.each do |relative_path|
       next unless relative_path.extname == '.pp'
-
-      run_apply(@vagrant_box.working_dir.join('spec/spec_before.pp'))
       run_apply(relative_path.expand_path(@spec_dir))
     end
   end

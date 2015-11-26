@@ -15,6 +15,7 @@ class janus (
   $turn_rest_api_key = undef
 ) inherits janus::version {
 
+  require 'apt'
   include 'janus::service'
   require 'logrotate'
 
@@ -47,7 +48,10 @@ class janus (
     'libavutil-dev',
     'libavcodec-dev',
     'libavformat-dev',
-    'gengetopt',]: }
+    'gengetopt',
+  ]:
+    provider => 'apt'
+  }
   ->
 
   helper::script { 'install janus':

@@ -1,6 +1,9 @@
 class java {
 
+  require 'apt'
+
   package { 'openjdk-7-jre-headless':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 }

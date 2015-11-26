@@ -3,6 +3,7 @@ class puppet::db(
   $port_ssl
 ) {
 
+  require 'apt'
   require 'puppet::master'
 
   $path_ssl_private = '/etc/puppetdb/ssl/private.pem'
@@ -24,7 +25,8 @@ class puppet::db(
   ->
 
   package { 'puppetdb':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
   ->
 

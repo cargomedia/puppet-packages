@@ -1,15 +1,18 @@
 class ruby::gem::bipbip ($version = 'present') {
 
+  require 'apt'
   require 'build'
   require 'ruby::gem::nokogiri'
   include 'cgi_fcgi'
 
   package { 'libsasl2-dev':
-    ensure => present
+    ensure   => present,
+    provider => 'apt'
   }
 
   package { 'libmysqlclient-dev':
-    ensure => present
+    ensure   => present,
+    provider => 'apt'
   }
 
   ruby::gem { 'bipbip':

@@ -1,5 +1,7 @@
 class virtualbox {
 
+  require 'apt'
+
   apt::source { 'virtualbox':
     entries => [
       "deb http://download.virtualbox.org/virtualbox/debian ${::lsbdistcodename} contrib non-free",
@@ -14,10 +16,12 @@ class virtualbox {
   ->
 
   package { 'virtualbox-5.0':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 
   package { 'dkms':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 }

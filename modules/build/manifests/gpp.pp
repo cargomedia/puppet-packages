@@ -1,6 +1,9 @@
 class build::gpp {
 
+  require 'apt'
+
   package { 'g++':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 }

@@ -1,6 +1,9 @@
 class unzip {
 
+  require 'apt'
+
   package { 'unzip':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 }

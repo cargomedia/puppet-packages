@@ -1,5 +1,7 @@
 class deb_multimedia {
 
+  require 'apt'
+
   apt::source { 'deb-multimedia':
     entries => [ "deb http://www.deb-multimedia.org ${::lsbdistcodename} main non-free" ],
     keys    => {
@@ -12,7 +14,8 @@ class deb_multimedia {
   ->
 
   package { 'deb-multimedia-keyring':
-    ensure => latest,
+    ensure   => latest,
+    provider => 'apt',
   }
 
 }

@@ -9,3 +9,7 @@ mod 'cargomedia/apache2',
 mod 'cargomedia/ruby',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/ruby'
+
+mod 'cargomedia/apt',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/apt'

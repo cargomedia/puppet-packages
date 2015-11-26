@@ -101,7 +101,7 @@ class socket_redis (
   }
 
   sysvinit::script { 'socket-redis':
-    content => template("${module_name}/init.sh"),
+    content           => template("${module_name}/init.sh"),
     require           => [Package['socket-redis'], User['socket-redis']],
   }
 

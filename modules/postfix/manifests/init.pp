@@ -1,5 +1,5 @@
 class postfix ($aliases = { }, $transports = []) {
-
+  require 'apt'
   require 'ca_certificates'
   include 'postfix::service'
 
@@ -61,12 +61,14 @@ class postfix ($aliases = { }, $transports = []) {
   }
 
   package { 'libsasl2-modules':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 
   package { 'postfix':
-    ensure  => present,
-    require => Package['libsasl2-modules'],
+    ensure   => present,
+    provider => 'apt',
+    require  => Package['libsasl2-modules'],
   }
 
   @monit::entry { 'postfix':

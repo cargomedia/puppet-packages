@@ -15,5 +15,6 @@ node default {
     path    => '/tmp/foo',
     version => '1.3.0',
     user    => 'bob',
+    home    => '/tmp/foo',
   }
 }

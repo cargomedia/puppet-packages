@@ -1,7 +1,8 @@
 node default {
 
   package { ['mount', 'util-linux']:
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
   ->
 

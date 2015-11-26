@@ -1,6 +1,9 @@
 class ruby {
 
+  require 'apt'
+
   package { ['ruby', 'ruby-dev', 'ri']:
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 }

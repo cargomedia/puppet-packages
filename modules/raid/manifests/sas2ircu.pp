@@ -1,5 +1,6 @@
 class raid::sas2ircu {
 
+  require 'apt'
   require 'raid::hwraid_le_vert'
 
   file { '/etc/default/sas2ircu-statusd':
@@ -13,7 +14,8 @@ class raid::sas2ircu {
   ->
 
   package { 'sas2ircu-status':
-    ensure => present
+    ensure   => present,
+    provider => 'apt'
   }
   ->
 
