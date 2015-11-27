@@ -1,15 +1,15 @@
 class cm::services::janus(
-  $hostname,
-  $http_server_api_key,
+  $hostname = 'localhost',
+  $http_server_api_key = 'secret-monkey',
   $http_server_port = 8100,
   $websocket_server_port = 8110,
 
   $ssl_cert = undef,
   $ssl_key = undef,
 
-  $cm_application_path,
-  $cm_api_base_url,
-  $cm_api_key,
+  $cm_application_path = '/home/cm',
+  $cm_api_base_url = 'http://www.cm.dev',
+  $cm_api_key = 'mad-panda',
 
   $rtpbroadcast_minport = 8400,
   $rtpbroadcast_maxport = 9000,
