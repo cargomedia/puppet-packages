@@ -7,7 +7,7 @@ class cm::services::janus(
   $ssl_cert = undef,
   $ssl_key = undef,
 
-  $cm_application_path = '/home/cm',
+  $cm_application_path = '/home/apps/cm',
   $cm_api_base_url = 'http://www.cm.dev',
   $cm_api_key = 'mad-panda',
 
