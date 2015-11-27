@@ -2,7 +2,7 @@ node default {
 
   require 'puppet::common'
 
-  exec { 'apt_update':
+  exec { 'apt update':
     provider    => shell,
     path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     command     => 'apt-get update',
