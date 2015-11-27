@@ -1,15 +1,15 @@
 class cm::services::janus(
-  $hostname,
-  $http_server_api_key,
+  $hostname = 'localhost',
+  $http_server_api_key = 'secret-monkey',
   $http_server_port = 8100,
   $websocket_server_port = 8110,
 
   $ssl_cert = undef,
   $ssl_key = undef,
 
-  $cm_application_path,
-  $cm_api_base_url,
-  $cm_api_key,
+  $cm_application_path = '/home/apps/cm',
+  $cm_api_base_url = 'http://www.cm.dev',
+  $cm_api_key = 'mad-panda',
 
   $rtpbroadcast_minport = 8400,
   $rtpbroadcast_maxport = 9000,
@@ -32,8 +32,10 @@ class cm::services::janus(
     admin_acl          => '127.',
   }
 
+  $janus_websockets_port = 8310
+
   class { 'janus::transport::websockets':
-    ws_port => 8310,
+    ws_port => $janus_websockets_port,
     ws_acl  => '127.',
   }
 
@@ -47,7 +49,7 @@ class cm::services::janus(
     http_server_port           => $http_server_port,
     http_server_api_key        => $http_server_api_key,
     websockets_listen_port     => 8210,
-    websockets_janus_address   => 'ws://localhost:8120/janus',
+    websockets_janus_address   => "ws://localhost:${janus_websockets_port}/janus",
     cm_api_base_url            => $cm_api_base_url,
     cm_api_key                 => $cm_api_key,
     cm_application_path        => $cm_application_path,
