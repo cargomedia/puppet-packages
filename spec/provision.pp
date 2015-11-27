@@ -2,6 +2,14 @@ node default {
 
   require 'puppet::common'
 
+  exec { 'apt update':
+    provider    => shell,
+    path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    command     => 'apt-get update',
+    logoutput   => 'on_failure',
+  }
+  ->
+
   class { 'polipo':
     diskCacheRoot => '/tmp/proxy-cache',
     idleTime      => 0,
