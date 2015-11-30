@@ -54,7 +54,7 @@ class Vagrant
   # @return [Hash]
   def ssh_options
     config = Tempfile.new('')
-    execute_local("vagrant ssh-config > #{config.path}")
+    execute_local("vagrant ssh-config #{@box} > #{config.path}")
     Net::SSH::Config.for(@box, [config.path])
   end
 
