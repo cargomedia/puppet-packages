@@ -65,7 +65,8 @@ namespace :spec do
       Regexp.last_match(1) if Regexp.new('^modules/(.+?)/').match(file)
     end
     if module_list.include? nil
-      SpecRunnerTask.execute(finder.specs)
+      # Run all specs?
+      # SpecRunnerTask.execute(finder.specs)
     else
       module_list.uniq!
       specs = module_list.map do |module_name|
