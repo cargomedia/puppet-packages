@@ -1,5 +1,5 @@
 node default {
 
-  class { 'nginx::bipbip_entry': }
+  class { 'nginx': }
 
 }

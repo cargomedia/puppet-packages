@@ -37,6 +37,7 @@ class nginx (
   }
 
   class { 'nginx::service': }
+  class { 'nginx::bipbip_entry': }
 
   @monit::entry { 'nginx':
     content => template("${module_name}/monit/nginx"),
