@@ -1,5 +1,10 @@
 node default {
 
+  file { '/etc/gitconfig':
+    ensure  => file,
+    content => "[user]\nemail = jfu@foo.net\nname = jfu",
+  }
+
   file { '/tmp/remote':
     ensure => directory,
   }
