@@ -1,6 +1,9 @@
 class build::make {
 
+  require 'apt'
+
   package { 'make':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 }

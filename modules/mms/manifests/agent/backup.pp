@@ -4,7 +4,7 @@ class mms::agent::backup (
   $mms_server = 'api-backup.mongodb.com'
 ){
 
-  # Docu: https://docs.mms.mongodb.com/tutorial/install-backup-agent-with-deb-package/
+# Docu: https://docs.mms.mongodb.com/tutorial/install-backup-agent-with-deb-package/
 
   require 'mms'
 

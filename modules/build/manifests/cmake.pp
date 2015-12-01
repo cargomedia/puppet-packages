@@ -1,6 +1,9 @@
 class build::cmake {
 
+  require 'apt'
+
   package { 'cmake':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 }

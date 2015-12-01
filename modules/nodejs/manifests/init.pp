@@ -1,5 +1,7 @@
 class nodejs {
 
+  require 'apt'
+
   apt::source { 'nodesource':
     entries => [
       "deb https://deb.nodesource.com/node_0.12 ${::lsbdistcodename} main",
@@ -16,7 +18,8 @@ class nodejs {
   ->
 
   package { 'nodejs':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 
 }

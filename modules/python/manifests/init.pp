@@ -1,7 +1,10 @@
 class python {
 
+  require 'apt'
+
   package { ['python', 'python-pip']:
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 
 }

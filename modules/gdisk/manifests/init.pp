@@ -1,6 +1,9 @@
 class gdisk {
 
+  require 'apt'
+
   package { 'gdisk':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 }

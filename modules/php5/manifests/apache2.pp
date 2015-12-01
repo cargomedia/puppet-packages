@@ -1,5 +1,6 @@
 class php5::apache2 {
 
+  require 'apt'
   require 'php5'
   require '::apache2'
   include '::apache2::service'
@@ -17,8 +18,9 @@ class php5::apache2 {
   }
 
   package { 'libapache2-mod-php5':
-    ensure  => present,
-    require => [Class['php5'], Class['::apache2']],
-    notify  => Service['apache2'],
+    ensure   => present,
+    provider => 'apt',
+    require  => [Class['php5'], Class['::apache2']],
+    notify   => Service['apache2'],
   }
 }

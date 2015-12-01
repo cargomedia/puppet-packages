@@ -1,6 +1,9 @@
 class mysql::client {
 
+  require 'apt'
+
   package { 'mysql-client':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 }

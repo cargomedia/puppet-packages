@@ -64,13 +64,17 @@ namespace :spec do
     module_list = file_list.map do |file|
       Regexp.last_match(1) if Regexp.new('^modules/(.+?)/').match(file)
     end
-    module_list.compact!
-    module_list.uniq!
-    specs = module_list.map do |module_name|
-      finder.puppet_module(module_name).specs
+    if module_list.include? nil
+      # Run all specs?
+      # SpecRunnerTask.execute(finder.specs)
+    else
+      module_list.uniq!
+      specs = module_list.map do |module_name|
+        finder.puppet_module(module_name).specs
+      end
+      specs.flatten!
+      SpecRunnerTask.execute(specs)
     end
-    specs.flatten!
-    SpecRunnerTask.execute(specs)
   end
 
   task :cleanup do

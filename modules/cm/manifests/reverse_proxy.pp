@@ -3,7 +3,7 @@ define cm::reverse_proxy(
   $ssl_key = undef,
   $aliases = [],
   $redirects = undef,
-  $upstream_options = {}
+  $upstream_options = { }
 ) {
 
   include 'nginx::bipbip_entry'
@@ -51,19 +51,19 @@ define cm::reverse_proxy(
     }
   }
 
-    $proto = $upstream_opts[ssl] ? { true => 'https', false => 'http' }
-    nginx::resource::vhost { $name:
-      server_name         => $hostnames,
-      ssl                 => $ssl,
-      listen_port         => $port,
-      ssl_cert            => $ssl_cert,
-      ssl_key             => $ssl_key,
-      location_cfg_append => [
-        "proxy_set_header Host '${upstream_opts[header_host]}';",
-        'proxy_set_header X-Real-IP $remote_addr;',
-        "proxy_pass ${proto}://${upstream_name_real};",
-        'proxy_next_upstream error timeout http_502;'
-      ]
-    }
-
+  $proto = $upstream_opts[ssl] ? { true => 'https', false => 'http' }
+  nginx::resource::vhost { $name:
+    server_name         => $hostnames,
+    ssl                 => $ssl,
+    listen_port         => $port,
+    ssl_cert            => $ssl_cert,
+    ssl_key             => $ssl_key,
+    location_cfg_append => [
+      "proxy_set_header Host '${upstream_opts[header_host]}';",
+      'proxy_set_header X-Real-IP $remote_addr;',
+      "proxy_pass ${proto}://${upstream_name_real};",
+      'proxy_next_upstream error timeout http_502;'
+    ]
   }
+
+}

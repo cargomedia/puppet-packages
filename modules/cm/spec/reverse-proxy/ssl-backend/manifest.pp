@@ -68,7 +68,7 @@ inZL8VyT42eLzq/N4eyQ/Xxd7HR0gWmwu+o18FYcrZVbaF3+VyQ=
   }
 
   cm::reverse_proxy { 'foo.xxx':
-    redirects => ['baz.xxx'],
+    redirects        => ['baz.xxx'],
     upstream_options => {
       name => $upstream_name,
     }

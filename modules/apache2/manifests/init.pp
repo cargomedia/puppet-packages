@@ -1,5 +1,6 @@
 class apache2 {
 
+  require 'apt'
   include 'apache2::service'
 
   file { '/etc/apache2':
@@ -28,6 +29,7 @@ class apache2 {
   ->
 
   package { 'apache2':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 }

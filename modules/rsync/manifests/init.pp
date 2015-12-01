@@ -1,6 +1,9 @@
 class rsync {
 
+  require 'apt'
+
   package { 'rsync':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 }

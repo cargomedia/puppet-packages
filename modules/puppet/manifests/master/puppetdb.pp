@@ -2,6 +2,7 @@ class puppet::master::puppetdb(
   $port,
 ) {
 
+  require 'apt'
   include 'puppet::master'
 
   file { '/etc/puppet/puppetdb.conf':
@@ -35,6 +36,7 @@ class puppet::master::puppetdb(
   }
 
   package { 'puppetdb-terminus':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 }

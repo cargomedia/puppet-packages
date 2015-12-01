@@ -1,5 +1,7 @@
 class redis {
 
+  require 'apt'
+
   file { '/etc/redis':
     ensure => directory,
     owner  => '0',
@@ -25,7 +27,8 @@ class redis {
   ->
 
   package { 'redis-server':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 
   @monit::entry { 'redis':

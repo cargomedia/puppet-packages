@@ -1,5 +1,6 @@
 class monit ($emailTo = 'root@localhost', $emailFrom = "root@${::domain}", $allowedHosts = []) {
 
+  require 'apt'
   include 'monit::service'
 
   file { '/etc/default/monit':
@@ -88,7 +89,8 @@ class monit ($emailTo = 'root@localhost', $emailFrom = "root@${::domain}", $allo
   ->
 
   package { 'monit':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 
   Monit::Entry <||>

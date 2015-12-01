@@ -1,6 +1,9 @@
 class build::autoconf {
 
+  require 'apt'
+
   package { 'autoconf':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 }

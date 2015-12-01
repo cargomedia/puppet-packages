@@ -1,5 +1,7 @@
 class logrotate {
 
+  require 'apt'
+
   file { '/etc/logrotate.conf':
     ensure  => file,
     content => template("${module_name}/logrotate.conf"),
@@ -16,7 +18,8 @@ class logrotate {
   }
 
   package { 'logrotate':
-    ensure  => present,
-    require => File['/etc/logrotate.conf', '/etc/logrotate.d'],
+    ensure   => present,
+    provider => 'apt',
+    require  => File['/etc/logrotate.conf', '/etc/logrotate.d'],
   }
 }
