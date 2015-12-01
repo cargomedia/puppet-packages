@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-if [ '<%= @lsbdistcodename %>' -eq 'vivid' ]; then
+if [ '<%= @lsbdistcodename %>' == 'vivid' ]; then
 	# 15.04 is only available as a PC1 (p...-candidate?) dist right now
 	PUPPETLABS_REPO='puppetlabs-release-pc1'
 else
