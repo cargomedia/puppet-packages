@@ -14,6 +14,8 @@ class nginx (
   $confd_purge            = $nginx::params::nx_confd_purge,
 ) inherits nginx::params {
 
+  include 'nginx::bipbip_entry'
+
   class { 'nginx::package':
     notify => Class['nginx::service'],
   }
@@ -37,7 +39,6 @@ class nginx (
   }
 
   class { 'nginx::service': }
-  class { 'nginx::bipbip_entry': }
 
   @monit::entry { 'nginx':
     content => template("${module_name}/monit/nginx"),

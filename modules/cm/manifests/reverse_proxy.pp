@@ -6,7 +6,7 @@ define cm::reverse_proxy(
   $upstream_options = { }
 ) {
 
-  include 'nginx::bipbip_entry'
+  include 'nginx'
 
   $upstream_options_defaults = {
     name => 'reverse-proxy-backend',
