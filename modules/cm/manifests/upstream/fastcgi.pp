@@ -1,6 +1,6 @@
 define cm::upstream::fastcgi($members) {
 
-  include 'cm::services::webserver'
+  include 'nginx'
 
   $upstream_members = suffix($members, ' max_fails=3 fail_timeout=3')
 
