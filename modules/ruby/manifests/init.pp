@@ -2,7 +2,12 @@ class ruby {
 
   require 'apt'
 
-  package { ['ruby', 'ruby-dev', 'ri']:
+  $packages = $::lsbdistcodename ? {
+    /vivid/   => ['rubygems'],
+    default   => ['ruby', 'ruby-dev', 'ri'],
+  }
+
+  package { $packages:
     ensure   => present,
     provider => 'apt',
   }
