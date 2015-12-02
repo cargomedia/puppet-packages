@@ -3,7 +3,7 @@ class ruby {
   require 'apt'
 
   $packages = $::lsbdistcodename ? {
-    /vivid/   => ['rubygems'],
+    /vivid/   => ['ruby'],
     default   => ['ruby', 'ruby-dev', 'ri'],
   }
 
