@@ -15,11 +15,14 @@ class cm::services::janus(
   $rtpbroadcast_maxport = 9000,
 ) {
 
+  $janus_http_port = 8300
+  $janus_websockets_port = 8310
+
   class { 'janus::transport::http':
     base_path          => '/janus',
     threads            => 'unlimited',
     http               => 'yes',
-    port               => 8300,
+    port               => $janus_http_port,
     https              => 'no',
     secure_port        => 8301,
     acl                => '127.',
@@ -31,8 +34,6 @@ class cm::services::janus(
     admin_secure_port  => 8303,
     admin_acl          => '127.',
   }
-
-  $janus_websockets_port = 8310
 
   class { 'janus::transport::websockets':
     ws_port => $janus_websockets_port,
@@ -49,7 +50,8 @@ class cm::services::janus(
     http_server_port           => $http_server_port,
     http_server_api_key        => $http_server_api_key,
     websockets_listen_port     => 8210,
-    websockets_janus_address   => "ws://localhost:${janus_websockets_port}/janus",
+    janus_websocket_address    => "ws://localhost:${janus_websockets_port}/janus",
+    janus_http_address         => "http://localhost:${janus_http_port}/janus",
     cm_api_base_url            => $cm_api_base_url,
     cm_api_key                 => $cm_api_key,
     cm_application_path        => $cm_application_path,
