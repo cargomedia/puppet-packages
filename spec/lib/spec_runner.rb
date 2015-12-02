@@ -131,8 +131,11 @@ module PuppetModules
 
     include EventEmitter
 
+    attr_accessor :filter_os_list
+
     def initialize
       @specs = []
+      @filter_os_list = nil
     end
 
     # @param [Spec[]]
@@ -142,9 +145,11 @@ module PuppetModules
 
     # @return [Result]
     def run
+      emit(:output, "Filtering specs following operating systems: #{@filter_os_list.join(', ')}\n") unless @filter_os_list.nil?
       result = Result.new
       @specs.each do |spec|
         spec.puppet_module.supported_os_list.each do |os|
+          next unless @filter_os_list.nil? or @filter_os_list.include? os
           emit(:output, "Running #{spec.name} for #{os}\n".bold)
           example_result = run_spec_in_box(spec, os)
           emit(:output, example_result.summary)
