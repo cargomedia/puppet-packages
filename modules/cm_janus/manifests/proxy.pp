@@ -7,7 +7,6 @@ class cm_janus::proxy(
 ){
 
   require 'cm_janus'
-  include 'cm::services::webserver'
   include 'nginx'
 
   cm::upstream::proxy { 'cm_janus':
