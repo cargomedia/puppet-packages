@@ -8,15 +8,11 @@
   "operatingsystem_support": [
     {
       "operatingsystem": "Debian",
-      "operatingsystemrelease": [
-        "7"
-      ]
+      "operatingsystemrelease": ["7"]
     },
     {
       "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": [
-        "1504"
-      ]
+      "operatingsystemrelease": ["1504"]
     }
   ],
   "dependencies": [
