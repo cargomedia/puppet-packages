@@ -5,7 +5,7 @@ class janus::plugin::audioroom(
   $job_pattern = 'job-#{md5}'
 ) {
 
-  file { '/etc/janus/janus.plugin.audioroom.cfg':
+  file { '/etc/janus/janus.plugin.cm.audioroom.cfg':
     ensure    => 'present',
     content   => template("${module_name}/plugin/audioroom.cfg"),
     owner     => '0',

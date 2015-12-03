@@ -1,6 +1,9 @@
 class janus::plugin::rtpbroadcast(
   $minport = 8000,
   $maxport = 9000,
+  $source_avg_time = 10,
+  $remb_avg_time = 3,
+  $switching_delay = 1,
   $archive_path = '/var/lib/janus/recordings',
   $recording_pattern = 'rec-#{id}-#{time}-#{type}',
   $thumbnailing_pattern = 'thum-#{id}-#{time}-#{type}',
@@ -10,7 +13,7 @@ class janus::plugin::rtpbroadcast(
   $job_pattern = 'job-#{md5}'
 ) {
 
-  file { '/etc/janus/janus.plugin.rtpbroadcast.cfg':
+  file { '/etc/janus/janus.plugin.cm.rtpbroadcast.cfg':
     ensure    => 'present',
     content   => template("${module_name}/plugin/rtpbroadcast.cfg"),
     owner     => '0',
