@@ -10,7 +10,7 @@ class janus::plugin::rtpbroadcast(
   $job_pattern = 'job-#{md5}'
 ) {
 
-  file { '/etc/janus/janus.plugin.rtpbroadcast.cfg':
+  file { '/etc/janus/janus.plugin.cm.rtpbroadcast.cfg':
     ensure    => 'present',
     content   => template("${module_name}/plugin/rtpbroadcast.cfg"),
     owner     => '0',
