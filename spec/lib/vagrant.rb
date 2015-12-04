@@ -19,9 +19,7 @@ class Vagrant
   end
 
   def reset
-    unless execute_local('vagrant plugin list').match(/vagrant-vbox-snapshot/)
-      execute_local('vagrant plugin install vagrant-vbox-snapshot')
-    end
+    install_plugin('vagrant-vbox-snapshot', '0.0.10')
 
     if status == 'not created'
       has_snapshot = false
@@ -100,7 +98,7 @@ class Vagrant
     channel[:output]
   end
 
-  # @param [String] command
+  # @param [String, Array<String>] command
   # @param [Hash] env
   def execute_local(command, env = {})
     if @verbose
@@ -132,5 +130,13 @@ class Vagrant
     path = path.relative_path_from(@working_dir)
     raise 'Cannot parse path outside of working directory' if path.to_s.match(/^..\//)
     path.expand_path('/vagrant')
+  end
+
+  # @param [String] name
+  # @param [String] version
+  def install_plugin(name, version)
+    unless execute_local('vagrant plugin list').match(/^#{name} \(#{version}\)$/)
+      execute_local(['vagrant', 'plugin', 'install', name, '--plugin-version', version])
+    end
   end
 end
