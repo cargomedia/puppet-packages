@@ -1,5 +1,5 @@
 class php5::extension::apcu (
-  $version = '4.0.4',
+  $version = '4.0.10',
   $shm_size = '256M',
   $enable_cli = true,
   $mmap_file_mask = '/tmp/apc.XXXXXX',
