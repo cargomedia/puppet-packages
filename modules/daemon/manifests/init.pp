@@ -5,7 +5,9 @@ define daemon (
 ) {
 
   service { $title:
-    enable    => true,
+    enable     => true,
+    hasstatus  => true,
+    hasrestart => true,
   }
 
   if ($::operatingsystem == 'debian' and $::operatingsystemmajrelease in [7]) {
