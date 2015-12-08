@@ -14,7 +14,9 @@
     },
     {
       "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": ["1504"]
+      "operatingsystemrelease": [
+        "1504"
+      ]
     }
   ],
   "dependencies": [

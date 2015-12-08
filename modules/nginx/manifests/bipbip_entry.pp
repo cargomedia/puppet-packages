@@ -1,4 +1,4 @@
-class cm::services::webserver {
+class nginx::bipbip_entry {
 
   include 'nginx'
 

@@ -6,7 +6,7 @@ define cm::reverse_proxy(
   $upstream_options = { }
 ) {
 
-  include 'cm::services::webserver'
+  include 'nginx'
 
   $upstream_options_defaults = {
     name => 'reverse-proxy-backend',
