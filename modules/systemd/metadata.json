@@ -1,0 +1,18 @@
+{
+  "name": "cargomedia-systemd",
+  "version": "0.0.1",
+  "author": "Cargo Media",
+  "license": "MIT",
+  "summary": "systemd",
+  "source": "https://github.com/cargomedia/puppet-packages",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "1504"
+      ]
+    }
+  ],
+  "dependencies": [
+  ]
+}
