@@ -145,7 +145,7 @@ module PuppetModules
 
     # @return [Result]
     def run
-      emit(:output, "Filtering specs following operating systems: #{@filter_os_list.join(', ')}\n") unless @filter_os_list.nil?
+      emit(:output, "Filtering specs by operating systems: #{@filter_os_list.join(', ')}\n") unless @filter_os_list.nil?
       result = Result.new
       @specs.each do |spec|
         spec.puppet_module.supported_os_list.each do |os|
