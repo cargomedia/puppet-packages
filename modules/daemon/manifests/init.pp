@@ -2,10 +2,11 @@ define daemon (
   $binary,
   $args = '',
   $user = 'root',
+  $stop_timeout = 20,
 ) {
 
   Service {
-    provider => $::init_system,
+    provider => $::service_provider,
   }
 
   service { $title:
@@ -14,7 +15,7 @@ define daemon (
     hasrestart => true,
   }
 
-  if ($::init_system == 'sysvinit') {
+  if ($::service_provider == 'debian') {
     sysvinit::script { $title:
       content => template("${module_name}/sysvinit.sh.erb"),
       notify  => Service[$title],
@@ -25,7 +26,7 @@ define daemon (
     }
   }
 
-  if ($::init_system == 'systemd') {
+  if ($::service_provider == 'systemd') {
     systemd::unit { $title:
       content => template("${module_name}/systemd.service.erb"),
       notify  => Service[$title],

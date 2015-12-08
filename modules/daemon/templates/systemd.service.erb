@@ -9,9 +9,8 @@ Type=simple
 ExecStart=<%= @binary %> <%= @args %>
 User=<%= @user %>
 #Nice=
-TimeoutStopSec=20
-KillMode=process
-SendSIGKILL=no
+TimeoutStopSec=<%= @stop_timeout %>
+KillMode=mixed
 Restart=always
 
 [Install]

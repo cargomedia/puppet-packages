@@ -13,9 +13,9 @@ node default {
   }
 
   daemon { 'my-program':
-    binary => '/tmp/my-program',
-    args   => '--foo=12',
-    user   => 'alice',
+    binary       => '/tmp/my-program',
+    user         => 'alice',
+    stop_timeout => 3,
   }
 
 }

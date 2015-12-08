@@ -1,4 +1,4 @@
-Facter.add('init_system') do
+Facter.add('service_provider') do
 
   confine :kernel => :linux
 
@@ -8,7 +8,7 @@ Facter.add('init_system') do
     elsif File.exists?('/sbin/upstart-local-bridge')
       'upstart'
     else
-      'sysvinit'
+      'debian'
     end
   end
 end

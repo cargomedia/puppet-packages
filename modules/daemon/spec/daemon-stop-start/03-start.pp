@@ -1,8 +1,8 @@
 node default {
 
   service { 'my-program':
-    provider => $::init_system,
-    ensure => 'running',
+    provider => $::service_provider,
+    ensure   => 'running',
   }
 
 }
