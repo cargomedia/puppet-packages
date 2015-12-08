@@ -21,4 +21,15 @@ define daemon (
     }
   }
 
+  if ($::operatingsystem == 'ubuntu' and $::operatingsystemmajrelease in ['15.04']) {
+    systemd::unit { $title:
+      content => template("${module_name}/systemd.service.erb"),
+      notify  => Service[$title],
+    }
+
+    File <| title == $binary or path == $binary |> {
+      before => Systemd::Unit[$title],
+    }
+  }
+
 }
