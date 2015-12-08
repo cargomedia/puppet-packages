@@ -15,6 +15,10 @@ define daemon (
       content => template("${module_name}/sysvinit.sh.erb"),
       notify  => Service[$title],
     }
+
+    File <| title == $binary or path == $binary |> {
+      before => Sysvinit::Script[$title],
+    }
   }
 
 }
