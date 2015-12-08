@@ -10,11 +10,17 @@ if ! (dpkg -l lsb-release); then
 	apt-get update && apt-get -y install lsb-release
 fi
 
-if (which lsb_release >/dev/null && lsb_release --id | grep -q "Debian$"); then
+if (which lsb_release >/dev/null && lsb_release --id | grep -qE "(Debian|Ubuntu)$"); then
 	LSB_CODENAME=$(lsb_release --codename | sed 's/Codename:\t//')
-	wget -q http://apt.puppetlabs.com/puppetlabs-release-${LSB_CODENAME}.deb
-	dpkg -i puppetlabs-release-${LSB_CODENAME}.deb
-	rm puppetlabs-release-${LSB_CODENAME}.deb
+    if [ "${LSB_CODENAME}" == 'vivid' ]; then
+        # 15.04 is only available as a PC1 (p...-candidate?) dist right now
+        PUPPETLABS_REPO='puppetlabs-release-pc1'
+    else
+        PUPPETLABS_REPO='puppetlabs-release'
+    fi
+	wget -q http://apt.puppetlabs.com/${PUPPETLABS_REPO}-${LSB_CODENAME}.deb
+	dpkg -i ${PUPPETLABS_REPO}-${LSB_CODENAME}.deb
+	rm ${PUPPETLABS_REPO}-${LSB_CODENAME}.deb
 	apt-get update
 
 	apt-get install -qy puppet facter

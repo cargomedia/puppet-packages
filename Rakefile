@@ -24,6 +24,7 @@ class SpecRunnerTask
     runner.on :output do |data|
       $stderr.print data
     end
+    runner.filter_os_list = ENV['os'].split(/,\s*/) if ENV['os']
     runner.add_specs(specs)
     result = runner.run
     puts result.summary
