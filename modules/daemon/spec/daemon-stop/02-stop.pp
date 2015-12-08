@@ -1,7 +1,8 @@
 node default {
 
   service { 'my-program':
-    ensure => 'stopped',
+    provider => $::init_system,
+    ensure   => 'stopped',
   }
 
 }

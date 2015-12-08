@@ -4,13 +4,17 @@ define daemon (
   $user = 'root',
 ) {
 
+  Service {
+    provider => $::init_system,
+  }
+
   service { $title:
     enable     => true,
     hasstatus  => true,
     hasrestart => true,
   }
 
-  if ($::operatingsystem == 'debian' and $::operatingsystemmajrelease in [7]) {
+  if ($::init_system == 'sysvinit') {
     sysvinit::script { $title:
       content => template("${module_name}/sysvinit.sh.erb"),
       notify  => Service[$title],
@@ -21,7 +25,7 @@ define daemon (
     }
   }
 
-  if ($::operatingsystem == 'ubuntu' and $::operatingsystemmajrelease in ['15.04']) {
+  if ($::init_system == 'systemd') {
     systemd::unit { $title:
       content => template("${module_name}/systemd.service.erb"),
       notify  => Service[$title],
