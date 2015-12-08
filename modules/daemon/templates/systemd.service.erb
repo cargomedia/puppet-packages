@@ -1,0 +1,17 @@
+[Unit]
+Description=<%= @name %>
+After=network.target
+
+[Service]
+Type=simple
+#ExecStartPre=
+#ExecStartPre=
+ExecStart=<%= @binary %> <%= @args %>
+User=<%= @user %>
+#Nice=
+TimeoutStopSec=<%= @stop_timeout %>
+KillMode=mixed
+Restart=always
+
+[Install]
+WantedBy=multi-user.target
