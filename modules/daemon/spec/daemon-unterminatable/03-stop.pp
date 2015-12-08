@@ -7,8 +7,8 @@ node default {
   }
   if ($::service_provider == 'systemd') {
     service { 'my-program':
-      provider => $::service_provider,
       ensure   => 'stopped',
+      provider => $::service_provider,
     }
   }
 
