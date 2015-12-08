@@ -19,6 +19,7 @@ define sysvinit::script(
 
   Service <| title == $name |> {
     enable    => true,
+    provider  => 'debian',
     subscribe => File["/etc/init.d/${name}"],
   }
 }
