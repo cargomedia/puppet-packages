@@ -7,7 +7,7 @@ node default {
   }
   ->
 
-  systemd::service{ 'my-daemon':
+  systemd::unit{ 'my-daemon':
     content  => template("systemd/spec/my-daemon.service"),
   }
 

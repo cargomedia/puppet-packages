@@ -1,13 +1,11 @@
 [Unit]
-SourcePath=/tmp/my-daemon
 Description=Test daemon
-Before=runlevel2.target runlevel3.target runlevel4.target runlevel5.target shutdown.target
 After=network.target
 
 [Service]
+Type=simple
 TimeoutSec=5
 KillMode=process
-RemainAfterExit=no
 ExecStart=/tmp/my-daemon
 
 [Install]

@@ -1,4 +1,4 @@
-define systemd::service(
+define systemd::unit(
   $content,
 ) {
 

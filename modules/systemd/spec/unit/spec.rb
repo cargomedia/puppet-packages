@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'systemd::service' do
+describe 'systemd::unit' do
 
   describe file('/etc/systemd/system/my-daemon.service') do
     it { should be_file }
