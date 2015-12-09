@@ -12,7 +12,7 @@
     },
     {
       "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": ["1504"]
+      "operatingsystemrelease": ["15.04"]
     }
   ],
   "dependencies": [

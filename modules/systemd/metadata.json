@@ -1,17 +1,11 @@
 {
-  "name": "cargomedia-git",
+  "name": "cargomedia-systemd",
   "version": "0.0.1",
   "author": "Cargo Media",
   "license": "MIT",
-  "summary": "git",
+  "summary": "systemd",
   "source": "https://github.com/cargomedia/puppet-packages",
   "operatingsystem_support": [
-    {
-      "operatingsystem": "Debian",
-      "operatingsystemrelease": [
-        "7"
-      ]
-    },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [

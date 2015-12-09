@@ -1,9 +1,9 @@
 {
-  "name": "cargomedia-git",
+  "name": "cargomedia-daemon",
   "version": "0.0.1",
   "author": "Cargo Media",
   "license": "MIT",
-  "summary": "git",
+  "summary": "daemon",
   "source": "https://github.com/cargomedia/puppet-packages",
   "operatingsystem_support": [
     {
