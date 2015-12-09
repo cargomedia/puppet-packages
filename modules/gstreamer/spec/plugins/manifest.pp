@@ -1,9 +1,9 @@
 node default {
 
-  class { 'gstreamer::plugins::base': }
-  class { 'gstreamer::plugins::good': }
-  class { 'gstreamer::plugins::libav': }
-  class { 'gstreamer::plugins::bad': }
-  class { 'gstreamer::plugins::ugly': }
+  require 'gstreamer::plugins::base'
+  require 'gstreamer::plugins::good'
+  require 'gstreamer::plugins::libav'
+  require 'gstreamer::plugins::bad'
+  require 'gstreamer::plugins::ugly'
 
 }

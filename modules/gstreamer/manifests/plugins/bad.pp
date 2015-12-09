@@ -1,11 +1,10 @@
 class gstreamer::plugins::bad (
   $version = '1.6.1',
-
-
 ) {
 
-  require 'gstreamer'
   require 'apt::source::cargomedia'
 
-  package { 'gstreamer1.0-plugins-bad': }
+  package { 'gstreamer1.0-plugins-bad':
+    ensure => $version,
+  }
 }
