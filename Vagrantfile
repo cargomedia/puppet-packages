@@ -26,7 +26,7 @@ Vagrant.configure('2') do |config|
     wheezy.vm.network :private_network, ip: '10.10.20.2', auto_config: false
   end
 
-  config.vm.define 'Ubuntu-1504' do |vivid|
+  config.vm.define 'Ubuntu-15.04' do |vivid|
     vivid.vm.box = 'cargomedia/ubuntu-1504-default'
     vivid.vm.network :forwarded_port, guest: 22, host: 2202
     # Additional network card to test module network (resource type network::interface)
