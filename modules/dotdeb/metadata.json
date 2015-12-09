@@ -1,18 +1,16 @@
 {
-  "name": "cargomedia-apt",
+  "name": "cargomedia-dotdeb",
   "version": "0.0.1",
   "author": "Cargo Media",
   "license": "MIT",
-  "summary": "apt",
+  "summary": "dotdeb apt source",
   "source": "https://github.com/cargomedia/puppet-packages",
   "operatingsystem_support": [
     {
       "operatingsystem": "Debian",
-      "operatingsystemrelease": ["7"]
-    },
-    {
-      "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": ["15.04"]
+      "operatingsystemrelease": [
+        "7"
+      ]
     }
   ],
   "dependencies": [
