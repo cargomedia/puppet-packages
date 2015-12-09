@@ -21,14 +21,14 @@ Vagrant.configure('2') do |config|
 
   config.vm.define 'Debian-7' do |wheezy|
     wheezy.vm.box = 'cargomedia/debian-7-amd64-default'
-    wheezy.vm.network :forwarded_port, guest: 22, host: 2201
+    wheezy.vm.network :forwarded_port, guest: 22, host: 22200
     # Additional network card to test module network (resource type network::interface)
     wheezy.vm.network :private_network, ip: '10.10.20.2', auto_config: false
   end
 
   config.vm.define 'Ubuntu-15.04' do |vivid|
     vivid.vm.box = 'cargomedia/ubuntu-1504-default'
-    vivid.vm.network :forwarded_port, guest: 22, host: 2202
+    vivid.vm.network :forwarded_port, guest: 22, host: 22201
     # Additional network card to test module network (resource type network::interface)
     vivid.vm.network :private_network, ip: '10.10.20.3', auto_config: false
   end
