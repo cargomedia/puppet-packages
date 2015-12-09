@@ -1,5 +1,7 @@
-class gstreamer::plugins::bad(
-  $version = '1.6.1'
+class gstreamer::plugins::bad (
+  $version = '1.6.1',
+
+
 ) {
 
   require 'gstreamer'
