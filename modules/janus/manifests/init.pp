@@ -4,6 +4,7 @@ class janus (
   $log_file = '/var/log/janus/janus.log',
   $token_auth = 'no',
   $api_secret = undef,
+  $rtp_port_range = '20000-25000',
   $stun_server = undef,
   $stun_port = 3478,
   $turn_server = undef,
