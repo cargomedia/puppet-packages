@@ -1,5 +1,6 @@
 class janus::deps::libwebsockets(
-  $version = '1.5',
+  $version,
+  $version_file_name,
 ) {
 
   require 'git'
