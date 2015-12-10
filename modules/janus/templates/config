@@ -38,7 +38,7 @@ cert_key = /opt/janus/share/janus/certs/mycert.key
 [media]
 ;ipv6 = true
 ;max_nack_queue = 300
-rtp_port_range = <%= @rtp_port_range %>
+rtp_port_range = <%= @rtp_port_range_min %>-<%= @rtp_port_range_max %>
 ;dtls_mtu = 1200
 ;force-bundle = true
 ;force-rtcp-mux = true
