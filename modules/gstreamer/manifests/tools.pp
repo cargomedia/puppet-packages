@@ -1,5 +1,5 @@
-class gstreamer(
-  $version = '1.6.1'
+class gstreamer::tools(
+  $version = '1.6.1-1',
 ) {
 
   require 'apt::source::cargomedia'
