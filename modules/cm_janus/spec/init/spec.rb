@@ -4,7 +4,7 @@ describe 'cm_janus' do
 
   describe file('/etc/cm-janus/config.yaml') do
     its(:content) { should match /^httpServer:.*/ }
-    its(:content) { should match /port: 8800/ }
+    its(:content) { should match /port: 8801/ }
     its(:content) { should match /apiKey: 'foobar23'.*/ }
     its(:content) { should match /^cmApi:.*/ }
     its(:content) { should match /baseUrl: 'foo'/ }
@@ -23,7 +23,7 @@ describe 'cm_janus' do
     it { should be_running }
   end
 
-  describe port(8800) do
+  describe port(8801) do
     it { should be_listening }
   end
 end
