@@ -44,11 +44,19 @@ class puppet::agent (
       File['/etc/puppet/conf.d/main']
     ]
   }
-  ->
 
-  sysvinit::script { 'puppet':
-    content           => template("${module_name}/agent/init"),
-    require           => Package['puppet'],
+  if ($::service_provider == 'debian') {
+    sysvinit::script { 'puppet':
+      content => template("${module_name}/agent/init"),
+      require => Package['puppet'],
+    }
+  }
+
+  if ($::service_provider == 'systemd') {
+    systemd::unit { 'puppet':
+      content => template("${module_name}/agent/service"),
+      require => Package['puppet'],
+    }
   }
 
   service { 'puppet':
@@ -57,7 +65,7 @@ class puppet::agent (
   }
 
   @monit::entry { 'puppet':
-    content => template("${module_name}/agent/monit"),
+    content => template("${module_name}/agent/monit-${::service_provider}"),
     require => Service['puppet'],
   }
 
