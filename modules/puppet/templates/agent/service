@@ -5,6 +5,7 @@ Description=Puppet agent
 Type=forking
 PIDFile=/run/puppet/agent.pid
 ExecStart=/usr/bin/puppet agent
+Nice=<%= @nice_value %>
 
 [Install]
 WantedBy=multi-user.target
