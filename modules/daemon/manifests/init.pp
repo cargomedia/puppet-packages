@@ -3,6 +3,7 @@ define daemon (
   $args = '',
   $user = 'root',
   $stop_timeout = 20,
+  $nice = undef,
 ) {
 
   Service {

@@ -16,6 +16,7 @@ node default {
     binary => '/tmp/my-program',
     args   => '--foo=12',
     user   => 'alice',
+    nice   => 19,
   }
 
 }
