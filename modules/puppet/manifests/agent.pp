@@ -44,34 +44,16 @@ class puppet::agent (
       File['/etc/puppet/conf.d/main']
     ]
   }
+  ->
 
-  if ($::service_provider == 'debian') {
-    sysvinit::script { 'puppet':
-      content => template("${module_name}/agent/init"),
-      require => Package['puppet'],
-    }
-  }
-
-  if ($::service_provider == 'systemd') {
-    systemd::unit { 'puppet':
-      content => template("${module_name}/agent/service"),
-      require => Package['puppet'],
-    }
-  }
-
-  service { 'puppet':
-    enable    => true,
-    subscribe => Exec['/etc/puppet/puppet.conf'],
-  }
-
-  @monit::entry { 'puppet':
-    content => template("${module_name}/agent/monit-${::service_provider}"),
-    require => Service['puppet'],
+  daemon { 'puppet':
+    binary => '/usr/bin/puppet',
+    args   => 'agent --no-daemonize',
+    nice   => $nice_value,
   }
 
   @bipbip::entry { 'puppet':
     plugin  => 'puppet',
     options => { },
   }
-
 }
