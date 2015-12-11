@@ -25,6 +25,11 @@ define daemon (
     File <| title == $binary or path == $binary |> {
       before => Sysvinit::Script[$title],
     }
+
+    @monit::entry { $title:
+      content => template("${module_name}/monit.erb"),
+      require => Service[$title],
+    }
   }
 
   if ($::service_provider == 'systemd') {
