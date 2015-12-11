@@ -27,6 +27,7 @@ class cm_janus (
     owner   => '0',
     group   => '0',
     mode    => '0755',
+    notify  => Service['cm-janus'],
   }
 
   user { 'cm-janus':
@@ -49,6 +50,7 @@ class cm_janus (
   package { 'cm-janus':
     ensure   => latest,
     provider => 'npm',
+    notify   => Service['cm-janus'],
   }
 
   #TODO: add bipbip
