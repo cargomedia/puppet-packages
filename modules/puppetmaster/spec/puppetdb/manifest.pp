@@ -4,7 +4,7 @@ node default {
     install_options => ['-o', 'Acquire::http::Proxy=""'],
   }
 
-  class { 'puppet::db':
+  class { 'puppetmaster::puppetdb':
     port     => 8080,
     port_ssl => 8081,
   }

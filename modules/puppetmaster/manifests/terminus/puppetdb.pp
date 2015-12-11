@@ -1,9 +1,9 @@
-class puppet::master::puppetdb(
+class puppetmaster::terminus::puppetdb(
   $port,
 ) {
 
   require 'apt'
-  include 'puppet::master'
+  include 'puppetmaster'
 
   file { '/etc/puppet/puppetdb.conf':
     ensure  => file,

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'puppet::master' do
+describe 'puppetmaster' do
 
   describe package('puppetmaster') do
     it { should be_installed }
