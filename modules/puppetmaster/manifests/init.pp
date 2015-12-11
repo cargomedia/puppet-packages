@@ -1,4 +1,4 @@
-class puppet::master (
+class puppetmaster (
   $dnsAltNames = [],
   $hiera_data_dir = '/etc/puppet/data',
   $reportToEmail = 'root',
@@ -109,11 +109,11 @@ class puppet::master (
   }
 
   if $puppetdb {
-    class { 'puppet::db':
+    class { 'puppetmaster::puppetdb':
       port     => $puppetdb_port,
       port_ssl => $puppetdb_port_ssl,
     }
-    class { 'puppet::master::puppetdb':
+    class { 'puppetmaster::terminus::puppetdb':
       port => $puppetdb_port_ssl,
     }
   }
@@ -125,7 +125,7 @@ class puppet::master (
   }
 
   if $port_passenger {
-    class { 'puppet::master::passenger':
+    class { 'puppetmaster::passenger':
       port    => $port_passenger,
       require => [Package['puppetmaster'], Service['puppetmaster']],
     }

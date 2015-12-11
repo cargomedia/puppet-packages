@@ -5,30 +5,26 @@ mod 'cargomedia/ssh',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/ssh'
 
-mod 'cargomedia/helper',
+mod 'cargomedia/monit',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/helper'
+  :path => 'modules/monit'
 
 mod 'cargomedia/git',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/git'
 
-mod 'cargomedia/ruby',
+mod 'cargomedia/passenger',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/ruby'
+  :path => 'modules/passenger'
 
-mod 'cargomedia/librarian_puppet',
+mod 'cargomedia/apache2',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/librarian_puppet'
-
-mod 'cargomedia/rsync',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/rsync'
+  :path => 'modules/apache2'
 
 mod 'cargomedia/apt',
    :git => 'git@github.com:cargomedia/puppet-packages.git',
    :path => 'modules/apt'
 
-mod 'cargomedia/daemon',
+mod 'cargomedia/puppet',
    :git => 'git@github.com:cargomedia/puppet-packages.git',
-   :path => 'modules/daemon'
+   :path => 'modules/puppet'

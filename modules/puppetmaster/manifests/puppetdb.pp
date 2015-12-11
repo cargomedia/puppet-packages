@@ -1,10 +1,10 @@
-class puppet::db(
+class puppetmaster::puppetdb (
   $port,
   $port_ssl
 ) {
 
   require 'apt'
-  require 'puppet::master'
+  require 'puppetmaster'
 
   $path_ssl_private = '/etc/puppetdb/ssl/private.pem'
   $path_ssl_public = '/etc/puppetdb/ssl/public.pem'
@@ -16,7 +16,7 @@ class puppet::db(
 
   file { '/etc/default/puppetdb':
     ensure  => file,
-    content => template("${module_name}/db/default"),
+    content => template("${module_name}/puppetdb/default"),
     group   => '0',
     owner   => '0',
     mode    => '0644',
@@ -65,7 +65,7 @@ class puppet::db(
 
   file { '/etc/puppetdb/conf.d/config.ini':
     ensure  => file,
-    content => template("${module_name}/db/config.ini"),
+    content => template("${module_name}/puppetdb/config.ini"),
     owner   => 'puppetdb',
     group   => 'puppetdb',
     mode    => '0640',
@@ -74,7 +74,7 @@ class puppet::db(
 
   file { '/etc/puppetdb/conf.d/jetty.ini':
     ensure  => file,
-    content => template("${module_name}/db/jetty.ini"),
+    content => template("${module_name}/puppetdb/jetty.ini"),
     owner   => 'puppetdb',
     group   => 'puppetdb',
     mode    => '0640',
@@ -86,7 +86,7 @@ class puppet::db(
   }
 
   @monit::entry { 'puppetdb':
-    content => template("${module_name}/db/monit"),
+    content => template("${module_name}/puppetdb/monit"),
     require => Service['puppetdb'],
   }
 }

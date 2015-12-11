@@ -1,4 +1,4 @@
-class puppet::master::passenger (
+class puppetmaster::passenger (
   $port = 8140
 ){
 

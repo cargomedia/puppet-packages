@@ -1,18 +1,14 @@
 {
-  "name": "cargomedia-puppet",
+  "name": "cargomedia-puppetmaster",
   "version": "0.0.1",
   "author": "Cargo Media",
   "license": "MIT",
-  "summary": "puppet",
+  "summary": "puppetmaster",
   "source": "https://github.com/cargomedia/puppet-packages",
   "operatingsystem_support": [
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": ["7"]
-    },
-    {
-      "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": ["15.04"]
     }
   ],
   "dependencies": [

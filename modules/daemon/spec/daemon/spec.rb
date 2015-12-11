@@ -13,4 +13,9 @@ describe 'daemon' do
     it { should be_running }
   end
 
+  describe command('ps --no-headers -o nice -p $(pgrep -f my-program)') do
+    its(:exit_status) { should eq 0 }
+    its(:stdout) { should match /19/ }
+  end
+
 end

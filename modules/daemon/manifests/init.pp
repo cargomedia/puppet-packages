@@ -3,6 +3,7 @@ define daemon (
   $args = '',
   $user = 'root',
   $stop_timeout = 20,
+  $nice = undef,
 ) {
 
   Service {
@@ -23,6 +24,11 @@ define daemon (
 
     File <| title == $binary or path == $binary |> {
       before => Sysvinit::Script[$title],
+    }
+
+    @monit::entry { $title:
+      content => template("${module_name}/monit.erb"),
+      require => Service[$title],
     }
   }
 
