@@ -30,18 +30,18 @@ class network::hostname(
     group   => 'root',
     mode    => '0644',
     content => "${hostname}\n",
-    notify  => Exec['hostname.sh'],
+    notify  => Exec['apply hostname'],
   }
 
   if ($::service_provider == 'systemd') {
-    exec { 'hostname.sh':
+    exec { 'apply hostname':
       command     => "/bin/hostname ${hostname}",
       refreshonly => true,
     }
   }
 
   if ($::service_provider == 'debian') {
-    exec { 'hostname.sh':
+    exec { 'apply hostname':
       command     => '/etc/init.d/hostname.sh start',
       refreshonly => true,
     }
