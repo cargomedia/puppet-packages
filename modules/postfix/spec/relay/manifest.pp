@@ -4,7 +4,7 @@ node default {
     transports => [
       {
         'protocol' => 'smtp',
-        'host' => '127.0.1.1',
+        'host' => '127.0.0.1',
         'port' => '2525',
         'credentials' => 'foo:bar',
       }
@@ -13,22 +13,22 @@ node default {
 
   exec { 'smtp-sink instance':
     provider    => shell,
-    command     => '(sudo smtp-sink -vu postfix 127.0.1.1:2525 10 2>&1 | tee /tmp/2525)&',
+    command     => '(sudo smtp-sink -vu postfix 127.0.0.1:2525 10 2>&1 | tee /tmp/2525)&',
     path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    require     => Class ['postfix'],
+    require     => Class['postfix'],
   }
 
   exec { 'send test mail #1':
     provider    => shell,
     command     => 'echo "test" | mail -s "test" filter_2525@example.com',
     path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    require     => Exec ['smtp-sink instance'],
+    require     => Exec['smtp-sink instance'],
   }
 
   exec { 'send test mail #2':
     provider    => shell,
     command     => 'echo "test" | mail -s "test" filter_2828@example.com',
     path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    require     => Exec ['smtp-sink instance'],
+    require     => Exec['smtp-sink instance'],
   }
 }

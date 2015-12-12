@@ -60,15 +60,9 @@ class postfix ($aliases = { }, $transports = []) {
     notify      => Service['postfix'],
   }
 
-  package { 'libsasl2-modules':
+  package { ['postfix', 'libsasl2-modules', 'bsd-mailx', 'procmail']:
     ensure   => present,
     provider => 'apt',
-  }
-
-  package { 'postfix':
-    ensure   => present,
-    provider => 'apt',
-    require  => Package['libsasl2-modules'],
   }
 
   @monit::entry { 'postfix':

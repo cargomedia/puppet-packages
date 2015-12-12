@@ -15,14 +15,15 @@ describe 'postfix' do
     it 'is a file' do
       expect(subject).to be_file
     end
-    it 'has a filter for filter_2525' do
-      expect(subject).to contain('filter_2525').after(/^\/\^To:/)
+    it 'has filters' do
+      expect(subject).to contain('filter_11101').after(/^\/\^To:/)
+      expect(subject).to contain('filter_11102').after(/^\/\^To:/)
     end
   end
 
   credentials1 = Base64.strict_encode64("\0foo\0bar")
 
-  describe file('/tmp/2525') do
+  describe file('/tmp/11101') do
     it 'is a file' do
       expect(subject).to be_file
     end
@@ -30,21 +31,21 @@ describe 'postfix' do
       expect(subject).to contain(credentials1).after(/AUTH PLAIN/)
     end
     it 'is a mail filtered correctly' do
-      expect(subject).to contain('<filter_2525@example.com>').after(/RCPT TO/)
+      expect(subject).to contain('<filter_11101@example.com>').after(/RCPT TO/)
     end
   end
 
   credentials2 = Base64.strict_encode64("\0bar\0foo")
 
-  describe file('/tmp/2828') do
+  describe file('/tmp/11102') do
     it 'is a file' do
       expect(subject).to be_file
     end
-    it 'contains credentials 2828_foo:2828_bar' do
+    it 'contains credentials bar:foo' do
       expect(subject).to contain(credentials2).after(/AUTH PLAIN/)
     end
     it 'is a mail filtered correctly' do
-      expect(subject).to contain('<filter_2828@example.com>').after(/RCPT TO/)
+      expect(subject).to contain('<filter_11102@example.com>').after(/RCPT TO/)
     end
   end
 
