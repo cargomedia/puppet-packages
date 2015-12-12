@@ -33,8 +33,17 @@ class network::hostname(
     notify  => Exec['hostname.sh'],
   }
 
-  exec { 'hostname.sh':
-    command     => '/etc/init.d/hostname.sh start',
-    refreshonly => true,
+  if ($::service_provider == 'systemd') {
+    exec { 'hostname.sh':
+      command     => "/bin/hostname ${hostname}",
+      refreshonly => true,
+    }
+  }
+
+  if ($::service_provider == 'debian') {
+    exec { 'hostname.sh':
+      command     => '/etc/init.d/hostname.sh start',
+      refreshonly => true,
+    }
   }
 }
