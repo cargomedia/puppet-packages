@@ -19,6 +19,6 @@ describe 'puppetmaster' do
   end
 
   describe file('/etc/puppet/manifests/site.pp') do
-    its(:content) { should match /'puppet::agent': tag => 'bootstrap'/ }
+    its(:content) { should include 'include hiera_array(\'classes\', [])' }
   end
 end
