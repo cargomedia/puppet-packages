@@ -4,11 +4,9 @@ After=network.target
 
 [Service]
 Type=simple
-#ExecStartPre=
-#ExecStartPre=
 ExecStart=<%= @binary %> <%= @args %>
 User=<%= @user %>
-#Nice=
+<% if @nice %>Nice=<%= @nice %><% end %>
 TimeoutStopSec=<%= @stop_timeout %>
 KillMode=mixed
 Restart=always

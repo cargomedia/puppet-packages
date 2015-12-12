@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'puppet::master with passenger' do
+describe 'puppetmaster with passenger' do
 
   describe package('passenger') do
     it { should be_installed.by('gem') }

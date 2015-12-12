@@ -1,8 +1,8 @@
-define puppet::master::environment (
+define puppetmaster::environment (
   $puppetfile = undef
 ) {
 
-  include 'puppet::master'
+  include 'puppetmaster'
 
   $directory = "/etc/puppet/environments/${name}"
 

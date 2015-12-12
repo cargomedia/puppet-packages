@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'puppet::db' do
+describe 'puppetmaster::puppetdb' do
 
   describe package('puppetdb') do
     it { should be_installed }

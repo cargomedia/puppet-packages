@@ -23,6 +23,10 @@ case "${1}" in
 	start)
 		log_daemon_msg "Starting ${DESC}" "${NAME}"
 		if (start-stop-daemon --start --oknodo --make-pidfile --background --pidfile "${PIDFILE}" --chuid "${USER}" --startas "${DAEMON}" -- ${DAEMON_ARGS}); then
+			<% if @nice %>
+				timeout --signal=9 1 bash -c "while ! (test -e '${PIDFILE}'); do sleep 0.05; done";
+				renice -n <%= @nice %> -p $(cat "${PIDFILE}")
+			<%- end %>
 			log_end_msg 0
 		else
 			log_end_msg 1
