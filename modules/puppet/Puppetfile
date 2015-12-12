@@ -32,3 +32,7 @@ mod 'cargomedia/apt',
 mod 'cargomedia/daemon',
    :git => 'git@github.com:cargomedia/puppet-packages.git',
    :path => 'modules/daemon'
+
+mod 'cargomedia/bipbip',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/bipbip'
