@@ -17,6 +17,6 @@ node default {
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     timeout     => 30,
     user        => 'foo',
-    require     => [User ['foo', 'bar'], Class['postfix']],
+    require     => [User['foo', 'bar'], Class['postfix']],
   }
 }
