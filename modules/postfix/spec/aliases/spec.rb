@@ -24,4 +24,13 @@ describe 'postfix' do
       expect(subject).to contain('foo@localhost').after(/^To:/)
     end
   end
+
+  describe file('/var/spool/mail/nobody') do
+    it 'is a file' do
+      expect(subject).to be_file
+    end
+    it 'is a mail for root forwarded to nobody' do
+      expect(subject).to contain('root@localhost').after(/^To:/)
+    end
+  end
 end
