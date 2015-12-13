@@ -4,6 +4,7 @@ define daemon (
   $user = 'root',
   $stop_timeout = 20,
   $nice = undef,
+  $oom_score_adjust = undef,
 ) {
 
   Service {
