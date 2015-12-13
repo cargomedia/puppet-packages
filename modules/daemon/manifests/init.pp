@@ -7,6 +7,10 @@ define daemon (
   $oom_score_adjust = undef,
 ) {
 
+  if (defined(User[$user])) {
+    User[$user] -> Daemon[$name]
+  }
+
   Service {
     provider => $::service_provider,
   }

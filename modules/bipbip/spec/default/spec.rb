@@ -16,14 +16,6 @@ describe 'bipbip' do
     it { should be_running }
   end
 
-  describe file('/etc/monit/conf.d/bipbip') do
-    it { should be_file }
-  end
-
-  describe file('/etc/init.d/bipbip') do
-    it { should be_executable }
-  end
-
   describe file('/etc/bipbip/services.d') do
     it { should be_directory }
   end
@@ -52,15 +44,11 @@ describe 'bipbip' do
     its(:content) { should match /name:.*oom_killer/ }
   end
 
-  describe file('/etc/logrotate.d/bipbip') do
-    it { should be_file }
-  end
-
   describe command('logrotate -d /etc/logrotate.d/bipbip') do
     its(:exit_status) { should eq 0 }
   end
 
-  describe command('cat /proc/$(cat /var/run/bipbip.pid)/oom_score_adj') do
+  describe command('cat /proc/$(pgrep -f "^/usr/bin/ruby([0-9.]*) /usr/local/bin/bipbip")/oom_score_adj') do
     its(:exit_status) { should eq 0 }
     its(:stdout) { should match '-1000' }
   end
