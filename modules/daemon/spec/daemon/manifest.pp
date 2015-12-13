@@ -13,10 +13,11 @@ node default {
   }
 
   daemon { 'my-program':
-    binary => '/tmp/my-program',
-    args   => '--foo=12',
-    user   => 'alice',
-    nice   => 19,
+    binary           => '/tmp/my-program',
+    args             => '--foo=12',
+    user             => 'alice',
+    nice             => 19,
+    oom_score_adjust => -500,
   }
 
 }
