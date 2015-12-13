@@ -1,7 +1,5 @@
 node default {
 
-  require 'postfix'
-
   class { 'monit': }
   class { 'monit::entry::system': }
 
