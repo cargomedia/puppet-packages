@@ -1,7 +1,7 @@
 class monit ($emailTo = 'root@localhost', $emailFrom = "root@${::domain}", $allowedHosts = []) {
 
   require 'apt'
-  require 'postfix'
+  require 'postfix::service'
   include 'monit::service'
 
   file { '/etc/default/monit':
