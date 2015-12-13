@@ -10,7 +10,7 @@ describe 'monit alerting' do
     it { should be_running }
   end
 
-  describe command('> /var/mail/vagrant') do
+  describe command('> /var/mail/nobody') do
     its(:exit_status) { should eq 0 }
   end
 
@@ -23,10 +23,10 @@ describe 'monit alerting' do
   describe command('monit summary') do
     its(:stdout) { should match /'foo'.*Running/ }
   end
-  describe command('grep -c "Description: Monit reloaded" /var/mail/vagrant') do
+  describe command('grep -c "Description: Monit reloaded" /var/mail/nobody') do
     its(:stdout) { should match '0' }
   end
-  describe command('grep -c "Description: monitor action done" /var/mail/vagrant') do
+  describe command('grep -c "Description: monitor action done" /var/mail/nobody') do
     its(:stdout) { should match '0' }
   end
 
@@ -39,10 +39,10 @@ describe 'monit alerting' do
   describe command('monit summary') do
     its(:stdout) { should match /'foo'.*Not monitored/ }
   end
-  describe command('grep -c "Description: Monit reloaded" /var/mail/vagrant') do
+  describe command('grep -c "Description: Monit reloaded" /var/mail/nobody') do
     its(:stdout) { should match '0' }
   end
-  describe command('grep -c "Description: unmonitor action done" /var/mail/vagrant') do
+  describe command('grep -c "Description: unmonitor action done" /var/mail/nobody') do
     its(:stdout) { should match '0' }
   end
 
@@ -53,7 +53,7 @@ describe 'monit alerting' do
   describe command('monit summary') do
     its(:stdout) { should_not match /'foo'.*Not monitored/ }
   end
-  describe command('grep -c "Description: monitor action done" /var/mail/vagrant') do
+  describe command('grep -c "Description: monitor action done" /var/mail/nobody') do
     its(:stdout) { should match '0' }
   end
 
@@ -66,21 +66,21 @@ describe 'monit alerting' do
   describe command('monit summary') do
     its(:stdout) { should match /'foo'.*Not monitored/ }
   end
-  describe command('grep -c "Description: Monit reloaded" /var/mail/vagrant') do
+  describe command('grep -c "Description: Monit reloaded" /var/mail/nobody') do
     its(:stdout) { should match '1' }
   end
-  describe command('grep -c "Description: unmonitor action done" /var/mail/vagrant') do
+  describe command('grep -c "Description: unmonitor action done" /var/mail/nobody') do
     its(:stdout) { should match '1' }
   end
 
-  describe command('monit monitor foo && sleep 1') do
+  describe command('monit monitor foo && sleep 2') do
     its(:exit_status) { should eq 0 }
   end
 
   describe command('monit summary') do
     its(:stdout) { should_not match /'foo'.*Not monitored/ }
   end
-  describe command('grep -c "Description: monitor action done" /var/mail/vagrant') do
+  describe command('grep -c "Description: monitor action done" /var/mail/nobody') do
     its(:stdout) { should match '1' }
   end
 
