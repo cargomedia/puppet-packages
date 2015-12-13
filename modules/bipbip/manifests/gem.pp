@@ -1,4 +1,4 @@
-class ruby::gem::bipbip ($version = 'present') {
+class bipbip::gem ($version = 'latest') {
 
   require 'apt'
   require 'build'
