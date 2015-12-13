@@ -7,6 +7,7 @@ Type=simple
 ExecStart=<%= @binary %> <%= @args %>
 User=<%= @user %>
 <% if @nice %>Nice=<%= @nice %><% end %>
+<% if @oom_score_adjust %>OOMScoreAdjust=<%= @oom_score_adjust %><% end %>
 TimeoutStopSec=<%= @stop_timeout %>
 KillMode=mixed
 Restart=always

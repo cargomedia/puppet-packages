@@ -40,7 +40,6 @@ class postfix ($aliases = { }, $transports = []) {
     before  => Package['postfix'],
   }
 
-
   file { '/etc/postfix/virtual':
     ensure  => file,
     content => template("${module_name}/virtual"),
@@ -54,6 +53,23 @@ class postfix ($aliases = { }, $transports = []) {
   exec { 'postmap':
     provider    => shell,
     command     => 'bash -c \'postmap /etc/postfix/{virtual,sasl_passwd}\'',
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    refreshonly => true,
+    require     => Package['postfix'],
+    notify      => Service['postfix'],
+  }
+
+  file { '/etc/aliases':
+    ensure => file,
+    content => template("${module_name}/aliases"),
+    group  => '0',
+    owner  => '0',
+    mode   => '0644',
+    notify  => Exec['newaliases'],
+    before  => Package['postfix'],
+  }
+
+  exec { 'newaliases':
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
     require     => Package['postfix'],
