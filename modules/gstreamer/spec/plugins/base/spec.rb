@@ -24,8 +24,6 @@ describe 'gstreamer::plugins::bad' do
     its(:stdout) { should match /vorbis:/ }
     its(:stdout) { should match /cdparanoia:/ }
     its(:stdout) { should match /videoscale:/ }
-
-
   end
 
 end
