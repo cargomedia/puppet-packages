@@ -1,4 +1,4 @@
-class gstreamer::plugins::gentrans (
+class gstreamer::plugins::entrans (
   $version = 'latest',
 ) {
 

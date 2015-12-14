@@ -1,6 +1,6 @@
 node default {
 
-  require 'gstreamer::plugins::gentrans'
+  require 'gstreamer::plugins::entrans'
   require 'gstreamer::tools'
 
 }

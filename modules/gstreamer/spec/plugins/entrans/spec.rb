@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'gstreamer::plugins::gentrans' do
+describe 'gstreamer::plugins::entrans' do
 
   describe package('gst-entrans') do
     it { should be_installed }
