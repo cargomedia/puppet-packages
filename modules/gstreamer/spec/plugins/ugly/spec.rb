@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'gstreamer::plugins::good' do
+describe 'gstreamer::plugins::ugly' do
 
   describe package('gstreamer1.0-plugins-ugly') do
     it { should be_installed }
