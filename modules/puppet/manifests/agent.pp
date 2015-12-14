@@ -17,31 +17,23 @@ class puppet::agent (
   }
 
   file {
-    '/etc/puppet/conf.d/agent':
+    '/etc/puppetlabs/puppet/conf.d/agent':
       ensure  => file,
       content => template("${module_name}/agent/config"),
       group   => '0',
       owner   => '0',
       mode    => '0644',
-      notify  => Exec['/etc/puppet/puppet.conf'];
-
-    '/etc/default/puppet':
-      ensure  => file,
-      content => template("${module_name}/agent/default"),
-      group   => '0',
-      owner   => '0',
-      mode    => '0644',
-      notify  => Service['puppet'];
+      notify  => Exec['/etc/puppetlabs/puppet/puppet.conf'];
   }
   ->
 
-  package { 'puppet':
+  package { 'puppet-agent':
     ensure   => present,
     provider => 'apt',
     require  => [
       Helper::Script['install puppet apt sources'],
-      Exec['/etc/puppet/puppet.conf'],
-      File['/etc/puppet/conf.d/main']
+      Exec['/etc/puppetlabs/puppet/puppet.conf'],
+      File['/etc/puppetlabs/puppet/conf.d/main']
     ]
   }
   ->
@@ -50,6 +42,25 @@ class puppet::agent (
     binary => '/usr/bin/puppet',
     args   => 'agent --no-daemonize',
     nice   => $nice_value,
+  }
+
+  file {
+    '/usr/bin/puppet':
+      ensure  => 'link',
+      target  => '/opt/puppetlabs/bin/puppet',
+      require => Package['puppet-agent'];
+    '/usr/bin/facter':
+      ensure  => 'link',
+      target  => '/opt/puppetlabs/bin/facter',
+      require => Package['puppet-agent'];
+    '/usr/bin/mco':
+      ensure  => 'link',
+      target  => '/opt/puppetlabs/bin/mco',
+      require => Package['puppet-agent'];
+    '/usr/bin/hiera':
+      ensure  => 'link',
+      target  => '/opt/puppetlabs/bin/hiera',
+      require => Package['puppet-agent'];
   }
 
   @bipbip::entry { 'puppet':

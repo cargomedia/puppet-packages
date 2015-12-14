@@ -31,7 +31,7 @@ describe 'puppet::agent' do
     its(:stdout) { should match /^foo$/ }
   end
 
-  describe command('sudo -u vagrant cat /var/lib/puppet/state/last_run_summary.yaml') do
+  describe command('sudo -u vagrant cat /opt/puppetlabs/puppet/cache/state/last_run_summary.yaml') do
     its(:exit_status) { should eq 0 }
     its(:stdout) { should match /puppet/ }
   end

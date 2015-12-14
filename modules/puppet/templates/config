@@ -1,8 +1,13 @@
 [main]
-confdir = /etc/puppet
-ssldir = /etc/puppet/ssl
-logdir = /var/log/puppet
-rundir = /var/run/puppet
 stringify_facts = false
+
+confdir = /etc/puppetlabs/puppet
+ssldir = /etc/puppetlabs/puppet/ssl
+codedir = /etc/puppetlabs/code
+logdir = /var/log/puppetlabs/puppetserver
+rundir = /var/run/puppetlabs/puppetserver
+pidfile = /var/run/puppetlabs/puppetserver/puppetserver.pid
+vardir = /opt/puppetlabs/server/data/puppetserver
+
 basemodulepath = <%= @basemodulepath %>
 certname = <%= @clientcert %>
