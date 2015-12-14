@@ -1,3 +1,5 @@
+Service { provider => $::service_provider }
+
 node default {
 
   if ($bootstrap) {
