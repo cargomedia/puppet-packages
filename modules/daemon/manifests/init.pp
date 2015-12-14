@@ -3,7 +3,13 @@ define daemon (
   $args = '',
   $user = 'root',
   $stop_timeout = 20,
+  $nice = undef,
+  $oom_score_adjust = undef,
 ) {
+
+  if (defined(User[$user])) {
+    User[$user] -> Daemon[$name]
+  }
 
   Service {
     provider => $::service_provider,
@@ -23,6 +29,11 @@ define daemon (
 
     File <| title == $binary or path == $binary |> {
       before => Sysvinit::Script[$title],
+    }
+
+    @monit::entry { $title:
+      content => template("${module_name}/monit.erb"),
+      require => Service[$title],
     }
   }
 

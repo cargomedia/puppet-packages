@@ -13,4 +13,14 @@ describe 'daemon' do
     it { should be_running }
   end
 
+  describe command('ps --no-headers -o nice -p $(pgrep -f "^/bin/bash /tmp/my-program")') do
+    its(:exit_status) { should eq 0 }
+    its(:stdout) { should match /19/ }
+  end
+
+  describe command('cat /proc/$(pgrep -f "^/bin/bash /tmp/my-program")/oom_score_adj') do
+    its(:exit_status) { should eq 0 }
+    its(:stdout) { should match /-500/ }
+  end
+
 end

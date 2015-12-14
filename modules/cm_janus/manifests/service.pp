@@ -9,7 +9,6 @@ class cm_janus::service {
 
   service { 'cm-janus':
     enable  => true,
-    subscribe => Class['cm_janus'],
   }
 
   @monit::entry { 'cm-janus':

@@ -46,24 +46,14 @@ class puppet::agent (
   }
   ->
 
-  sysvinit::script { 'puppet':
-    content           => template("${module_name}/agent/init"),
-    require           => Package['puppet'],
-  }
-
-  service { 'puppet':
-    enable    => true,
-    subscribe => Exec['/etc/puppet/puppet.conf'],
-  }
-
-  @monit::entry { 'puppet':
-    content => template("${module_name}/agent/monit"),
-    require => Service['puppet'],
+  daemon { 'puppet':
+    binary => '/usr/bin/puppet',
+    args   => 'agent --no-daemonize',
+    nice   => $nice_value,
   }
 
   @bipbip::entry { 'puppet':
     plugin  => 'puppet',
     options => { },
   }
-
 }

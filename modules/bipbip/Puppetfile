@@ -1,15 +1,23 @@
-mod 'cargomedia/monit',
+mod 'cargomedia/apt',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/monit'
+  :path => 'modules/apt'
+
+mod 'cargomedia/build',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/build'
+
+mod 'cargomedia/cgi_fcgi',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/cgi_fcgi'
 
 mod 'cargomedia/ruby',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/ruby'
 
+mod 'cargomedia/monit',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/monit'
+
 mod 'cargomedia/logrotate',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/logrotate'
-
-mod 'cargomedia/sysvinit',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/sysvinit'

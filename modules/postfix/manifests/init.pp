@@ -40,7 +40,6 @@ class postfix ($aliases = { }, $transports = []) {
     before  => Package['postfix'],
   }
 
-
   file { '/etc/postfix/virtual':
     ensure  => file,
     content => template("${module_name}/virtual"),
@@ -60,15 +59,26 @@ class postfix ($aliases = { }, $transports = []) {
     notify      => Service['postfix'],
   }
 
-  package { 'libsasl2-modules':
-    ensure   => present,
-    provider => 'apt',
+  file { '/etc/aliases':
+    ensure => file,
+    content => template("${module_name}/aliases"),
+    group  => '0',
+    owner  => '0',
+    mode   => '0644',
+    notify  => Exec['newaliases'],
+    before  => Package['postfix'],
   }
 
-  package { 'postfix':
+  exec { 'newaliases':
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    refreshonly => true,
+    require     => Package['postfix'],
+    notify      => Service['postfix'],
+  }
+
+  package { ['postfix', 'libsasl2-modules', 'bsd-mailx', 'procmail']:
     ensure   => present,
     provider => 'apt',
-    require  => Package['libsasl2-modules'],
   }
 
   @monit::entry { 'postfix':
