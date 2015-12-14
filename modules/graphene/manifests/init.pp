@@ -6,5 +6,6 @@ class graphene (
 
   package { 'graphene':
     ensure => $version,
+    provider => 'apt',
   }
 }

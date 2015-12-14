@@ -7,5 +7,6 @@ class gstreamer::plugins::base (
 
   package { 'gstreamer1.0-plugins-base':
     ensure => $version,
+    provider => 'apt',
   }
 }

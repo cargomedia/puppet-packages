@@ -6,5 +6,6 @@ class gstreamer::plugins::good (
 
   package { 'gstreamer1.0-plugins-good':
     ensure => $version,
+    provider => 'apt',
   }
 }

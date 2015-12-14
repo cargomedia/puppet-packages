@@ -6,5 +6,6 @@ class gstreamer::plugins::orc (
 
   package { 'liborc-0.4-0':
     ensure => $version,
+    provider => 'apt',
   }
 }

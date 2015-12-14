@@ -6,5 +6,6 @@ class gstreamer::tools(
 
   package { 'gstreamer1.0-tools':
     ensure => $version,
+    provider => 'apt',
   }
 }

@@ -6,5 +6,6 @@ class gstreamer::plugins::ugly (
 
   package { 'gstreamer1.0-plugins-ugly':
     ensure => $version,
+    provider => 'apt',
   }
 }

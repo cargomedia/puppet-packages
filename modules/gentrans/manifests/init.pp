@@ -6,5 +6,6 @@ class gentrans(
 
   package { 'gentrans':
     ensure => $version,
+    provider => 'apt',
   }
 }

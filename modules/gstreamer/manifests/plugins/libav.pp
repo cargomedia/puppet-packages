@@ -6,5 +6,6 @@ class gstreamer::plugins::libav (
 
   package { 'gstreamer1.0-libav':
     ensure => $version,
+    provider => 'apt',
   }
 }
