@@ -1,5 +1,5 @@
 class gstreamer::plugins::orc (
-  $version = '1:0.4.24-1',
+  $version = 'latest',
 ) {
 
   require 'apt::source::cargomedia'

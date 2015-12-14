@@ -1,5 +1,5 @@
 class graphene (
-  $version = '1.6.1'
+  $version = 'latest',
 ) {
 
   require 'apt::source::cargomedia'

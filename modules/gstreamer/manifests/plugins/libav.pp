@@ -1,5 +1,5 @@
 class gstreamer::plugins::libav (
-  $version = '1.6.1-1',
+  $version = 'latest',
 ) {
 
   require 'apt::source::cargomedia'

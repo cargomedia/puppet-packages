@@ -1,5 +1,5 @@
 class gstreamer::plugins::good (
-  $version = '1.6.1-1ubuntu1',
+  $version = 'latest',
 ) {
 
   require 'apt::source::cargomedia'
