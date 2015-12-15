@@ -4,7 +4,7 @@ define xpra::display (
 
   include 'xpra'
 
-  daemon { "xpra-display-$name":
+  daemon { "xpra-display-${name}":
     binary           => '/usr/bin/xpra',
     args             => "start :${name} ${extra_params}",
     require          => Class['xpra']

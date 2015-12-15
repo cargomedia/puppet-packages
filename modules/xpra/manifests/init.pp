@@ -3,11 +3,13 @@ class xpra (
 ) {
 
   package { 'xpra':
+    ensure   => present,
+    provider => 'apt',
   }
 
   $xorg_path = $xorg_conf_path ? { undef => '/etc/xpra/xorg.conf', default => $xorg_conf_path }
 
-  if $xorg_conf_path == undef {
+  if ($xorg_conf_path == undef) {
 
     file { $xorg_path:
       ensure   => file,
