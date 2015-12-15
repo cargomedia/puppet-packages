@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe 'xpra' do
 
-  describe file('/etc/systemd/system/xpra-display-199.service') do
-    it { should be_file }
-  end
-
   describe service('xpra-display-199') do
     it { should be_enabled }
     it { should be_running }
@@ -17,6 +13,14 @@ describe 'xpra' do
   end
 
   describe command('DISPLAY=:199 xrefresh') do
+    its(:exit_status) { should eq 0 }
+  end
+
+  describe command('DISPLAY=:199 xrefresh') do
+    its(:exit_status) { should eq 0 }
+  end
+
+  describe command('sudo -u nobody DISPLAY=:199 xrefresh') do
     its(:exit_status) { should eq 0 }
   end
 
