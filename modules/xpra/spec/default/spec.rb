@@ -16,10 +16,6 @@ describe 'xpra' do
     its(:exit_status) { should eq 0 }
   end
 
-  describe command('DISPLAY=:199 xrefresh') do
-    its(:exit_status) { should eq 0 }
-  end
-
   describe command('sudo -u nobody DISPLAY=:199 xrefresh') do
     its(:exit_status) { should eq 0 }
   end
