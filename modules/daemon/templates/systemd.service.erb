@@ -11,6 +11,9 @@ User=<%= @user %>
 TimeoutStopSec=<%= @stop_timeout %>
 KillMode=mixed
 Restart=always
+<% @env.each do |env| -%>
+Environment=<%= env %>
+<% end %>
 
 [Install]
 WantedBy=multi-user.target
