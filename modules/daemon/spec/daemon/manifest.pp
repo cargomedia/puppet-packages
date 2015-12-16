@@ -18,7 +18,7 @@ node default {
     user             => 'alice',
     nice             => 19,
     oom_score_adjust => -500,
-    env              => ['DISPLAY=:99', 'FOO=BOO']
+    env              => { 'DISPLAY' => ':99', 'FOO' => 'BOO' }
   }
 
 }
