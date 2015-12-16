@@ -23,4 +23,10 @@ describe 'daemon' do
     its(:stdout) { should match /-500/ }
   end
 
+  describe command('cat /proc/$(pgrep -f "^/bin/bash /tmp/my-program")/environ') do
+    its(:exit_status) { should eq 0 }
+    its(:stdout) { should match /DISPLAY=:99/ }
+    its(:stdout) { should match /FOO=BOO/ }
+  end
+
 end
