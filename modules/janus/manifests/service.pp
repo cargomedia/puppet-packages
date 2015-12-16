@@ -1,7 +1,6 @@
 class janus::service (
   $config_file = '/etc/janus/janus.cfg',
   $plugin_config_dir = '/etc/janus',
-
 ) {
 
   require 'janus'
