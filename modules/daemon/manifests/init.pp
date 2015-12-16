@@ -53,7 +53,7 @@ define daemon (
         'path' => '/var/log/syslog',
         'matchers' => [
           { 'name' => "${name} failed",
-            'regexp' => "systemd\\[\\d+\\]: Unit ${name}.service failed." },
+            'regexp' => "${name}.service failed." },
         ]
       }
     }
