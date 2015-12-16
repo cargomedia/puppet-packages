@@ -13,6 +13,14 @@ class janus::plugin::rtpbroadcast(
   $job_pattern = 'job-#{md5}'
 ) {
 
+  require 'apt'
+
+  package { [
+    'libsrtp'
+  ]:
+    provider => 'apt'
+  }
+  ->
   file { '/etc/janus/janus.plugin.cm.rtpbroadcast.cfg':
     ensure    => 'present',
     content   => template("${module_name}/plugin/rtpbroadcast.cfg"),
