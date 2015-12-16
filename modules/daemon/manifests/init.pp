@@ -46,6 +46,17 @@ define daemon (
     File <| title == $binary or path == $binary |> {
       before => Systemd::Unit[$title],
     }
+
+    @bipbip::entry { "log-parser-${name}":
+      plugin  => 'log-parser',
+      options => {
+        'path' => '/var/log/syslog',
+        'matchers' => [
+          { 'name' => "${name} failed",
+            'regexp' => "systemd\\[\\d+\\]: Unit ${name}.service failed." },
+        ]
+      }
+    }
   }
 
 }
