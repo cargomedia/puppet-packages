@@ -1,4 +1,5 @@
 class janus (
+  $version = $janus::version::number,
   $bind_address = '127.0.0.1',
   $log_file = '/var/log/janus/janus.log',
   $token_auth = 'no',
@@ -14,11 +15,18 @@ class janus (
   $turn_pwd = 'mypassword',
   $turn_rest_api = undef,
   $turn_rest_api_key = undef
-) {
+) inherits janus::version {
 
   require 'apt'
-  require 'apt::source::cargomedia'
   include 'janus::service'
+  require 'logrotate'
+
+  require 'git'
+  require 'build::automake'
+  require 'build::libtool'
+  require 'janus::deps::libsrtp'
+  require 'janus::deps::libusrsctp'
+  require 'janus::deps::libwebsockets'
 
   include 'janus::transport::http'
   include 'janus::transport::websockets'
@@ -28,14 +36,30 @@ class janus (
     system => true,
   }
 
-  package { 'janus':
-    provider => 'apt',
+  package { [
+    'libmicrohttpd-dev',
+    'libjansson-dev',
+    'libnice-dev',
+    'libssl-dev',
+    'libsofia-sip-ua-dev',
+    'libglib2.0-dev',
+    'libopus-dev',
+    'libogg-dev',
+    'libini-config-dev',
+    'libcollection-dev',
+    'libavutil-dev',
+    'libavcodec-dev',
+    'libavformat-dev',
+    'gengetopt',
+  ]:
+    provider => 'apt'
   }
   ->
 
-  file { '/etc/ssl/private/ssl-cert-snakeoil.key':
-    ensure => file,
-    mode   => '0644',
+  helper::script { 'install janus':
+    content => template("${module_name}/install.sh"),
+    unless  => 'ls /usr/bin/janus',
+    timeout => 900,
   }
 
   file { '/var/log/janus':
@@ -57,7 +81,7 @@ class janus (
     content => template("${module_name}/logrotate"),
   }
 
-  file { ['/etc/janus', '/etc/janus/ssl']:
+  file { '/etc/janus':
     ensure => directory,
     owner  => '0',
     group  => '0',
@@ -70,7 +94,6 @@ class janus (
     owner   => '0',
     group   => '0',
     mode    => '0644',
-    notify  => Service['janus'],
   }
 
   file { '/var/lib/janus':
@@ -89,22 +112,6 @@ class janus (
 
   file { '/var/lib/janus/jobs':
     ensure => directory,
-    owner  => 'janus',
-    group  => 'janus',
-    mode   => '0755',
-  }
-
-  file {'/etc/janus/ssl/cert.pem':
-    ensure => file,
-    content => template("${module_name}/ssl-cert-janus-snakeoil.pem"),
-    owner  => 'janus',
-    group  => 'janus',
-    mode   => '0755',
-  }
-
-  file {'/etc/janus/ssl/cert.key':
-    ensure => file,
-    content => template("${module_name}/ssl-cert-janus-snakeoil.key"),
     owner  => 'janus',
     group  => 'janus',
     mode   => '0755',
