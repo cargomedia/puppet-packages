@@ -18,4 +18,8 @@ describe 'janus' do
   describe port (8310) do
     it { should be_listening }
   end
+
+  describe file ('/var/log/janus/janus.log') do
+
+  end
 end

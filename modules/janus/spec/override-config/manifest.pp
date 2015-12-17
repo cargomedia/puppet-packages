@@ -35,8 +35,8 @@ node default {
     mode      => '0644',
   }
 
-class { 'janus::service':
-    config_file => '/tmp/januxx.foo.conf',
+  class { 'janus::service':
+    config_file       => '/tmp/januxx.foo.conf',
     plugin_config_dir => '/tmp',
   }
 
