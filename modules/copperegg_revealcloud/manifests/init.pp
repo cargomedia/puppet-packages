@@ -16,59 +16,50 @@ class copperegg_revealcloud(
     default: { fail('Unrecognized architecture') }
   }
 
-  file { $dir:
-    ensure => directory,
-    owner  => '0',
-    group  => '0',
-    mode   => '0644',
+  file {
+    $dir:
+      ensure => directory,
+      owner  => '0',
+      group  => '0',
+      mode   => '0644';
+    "${dir}/run":
+      ensure => directory,
+      owner  => '0',
+      group  => '0',
+      mode   => '0644';
+    "${dir}/log":
+      ensure => directory,
+      owner  => '0',
+      group  => '0',
+      mode   => '0644';
   }
-  ->
 
-  file { "${dir}/run":
-    ensure => directory,
-    owner  => '0',
-    group  => '0',
-    mode   => '0644',
-  }
-  ->
-
-  file { "${dir}/log":
-    ensure => directory,
-    owner  => '0',
-    group  => '0',
-    mode   => '0644',
-  }
-  ->
-
-  helper::script { 'download revealcloud':
-    content => template("${module_name}/download.sh"),
-    unless  => "test -x ${dir}/revealcloud && ${dir}/revealcloud -V 2>&1 | grep 'Version: ${version}$'",
-    notify  => Service['revealcloud'],
-  }
-  ->
-
-  sysvinit::script { 'revealcloud':
-    content           => template("${module_name}/init.sh"),
+  exec { 'download revealcloud':
+    provider    => shell,
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    command     => template("${module_name}/download.sh"),
+    unless      => "test -x ${dir}/revealcloud && ${dir}/revealcloud -V 2>&1 | grep 'Version: ${version}$'",
+    require     => File[$dir],
+    notify      => Service['revealcloud'],
   }
 
   if $enable_node {
     exec { 'enable revealcloud node':
-      command     => "/etc/init.d/revealcloud stop && ${dir}/revealcloud -x -a ${api_host} -k ${api_key} -E && /etc/init.d/revealcloud start",
+      path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+      command     => "rm /usr/local/revealcloud/run/revealcloud.pid && ${dir}/revealcloud -x -a ${api_host} -k ${api_key} -E",
       refreshonly => true,
       user        => '0',
       group       => '0',
-      subscribe   => Sysvinit::Script['revealcloud'],
+      subscribe   => Exec['download revealcloud'],
       before      => Service['revealcloud'],
     }
   }
 
-  service { 'revealcloud':
-    ensure  => running,
-    enable  => true,
+  daemon { 'revealcloud':
+    binary           => "${dir}/revealcloud",
+    args             => template("${module_name}/daemon_args.erb"),
+    oom_score_adjust => -1000,
+    require          => Exec['download revealcloud'],
   }
 
-  @monit::entry { 'revealcloud':
-    content => template("${module_name}/monit"),
-    require => Service['revealcloud']
-  }
 }

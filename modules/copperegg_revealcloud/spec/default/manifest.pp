@@ -1,7 +1,5 @@
 node default {
 
-  require 'monit'
-
   class { 'copperegg_revealcloud':
     api_key     => 'my_key',
     label       => 'foo',
