@@ -47,11 +47,14 @@ class copperegg_revealcloud(
     exec { 'enable revealcloud node':
       path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
       command     => "rm /usr/local/revealcloud/run/revealcloud.pid && ${dir}/revealcloud -x -a ${api_host} -k ${api_key} -E",
-      refreshonly => true,
+      unless      => "test -e ${dir}/enabled.lock",
       user        => '0',
       group       => '0',
-      subscribe   => Exec['download revealcloud'],
       before      => Service['revealcloud'],
+    }
+    ->
+    file { "${dir}/enabled.lock":
+      ensure => file,
     }
   }
 
