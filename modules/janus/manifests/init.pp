@@ -14,19 +14,24 @@ class janus (
   $turn_user = 'myuser',
   $turn_pwd = 'mypassword',
   $turn_rest_api = undef,
-  $turn_rest_api_key = undef
+  $turn_rest_api_key = undef,
+  $use_src = false,
 ) inherits janus::version {
 
   require 'apt'
   include 'janus::service'
   require 'logrotate'
 
-  require 'git'
-  require 'build::automake'
-  require 'build::libtool'
-  require 'janus::deps::libsrtp'
-  require 'janus::deps::libusrsctp'
-  require 'janus::deps::libwebsockets'
+  if $use_src {
+    require 'git'
+    require 'build::automake'
+    require 'build::libtool'
+    require 'janus::deps::libsrtp'
+    require 'janus::deps::libusrsctp'
+    require 'janus::deps::libwebsockets'
+  } else {
+    require 'apt::source::cargomedia'
+  }
 
   include 'janus::transport::http'
   include 'janus::transport::websockets'
@@ -36,30 +41,36 @@ class janus (
     system => true,
   }
 
-  package { [
-    'libmicrohttpd-dev',
-    'libjansson-dev',
-    'libnice-dev',
-    'libssl-dev',
-    'libsofia-sip-ua-dev',
-    'libglib2.0-dev',
-    'libopus-dev',
-    'libogg-dev',
-    'libini-config-dev',
-    'libcollection-dev',
-    'libavutil-dev',
-    'libavcodec-dev',
-    'libavformat-dev',
-    'gengetopt',
-  ]:
-    provider => 'apt'
-  }
-  ->
+  if $use_src {
+    package { [
+      'libmicrohttpd-dev',
+      'libjansson-dev',
+      'libnice-dev',
+      'libssl-dev',
+      'libsofia-sip-ua-dev',
+      'libglib2.0-dev',
+      'libopus-dev',
+      'libogg-dev',
+      'libini-config-dev',
+      'libcollection-dev',
+      'libavutil-dev',
+      'libavcodec-dev',
+      'libavformat-dev',
+      'gengetopt',
+    ]:
+      provider => 'apt'
+    }
+    ->
 
-  helper::script { 'install janus':
-    content => template("${module_name}/install.sh"),
-    unless  => 'ls /usr/bin/janus',
-    timeout => 900,
+    helper::script { 'install janus':
+      content => template("${module_name}/install.sh"),
+      unless  => 'ls /usr/bin/janus',
+      timeout => 900,
+    }
+  } else {
+    package { 'janus':
+      provider => 'apt'
+    }
   }
 
   file { '/var/log/janus':
@@ -81,7 +92,7 @@ class janus (
     content => template("${module_name}/logrotate"),
   }
 
-  file { '/etc/janus':
+  file { ['/etc/janus', '/etc/janus/ssl']:
     ensure => directory,
     owner  => '0',
     group  => '0',
@@ -94,6 +105,7 @@ class janus (
     owner   => '0',
     group   => '0',
     mode    => '0644',
+    notify  => Service['janus'],
   }
 
   file { '/var/lib/janus':
@@ -117,4 +129,19 @@ class janus (
     mode   => '0755',
   }
 
+  file {'/etc/janus/ssl/cert.pem':
+    ensure => file,
+    content => template("${module_name}/ssl-cert-janus-snakeoil.pem"),
+    owner  => 'janus',
+    group  => 'janus',
+    mode   => '0755',
+  }
+
+  file {'/etc/janus/ssl/cert.key':
+    ensure => file,
+    content => template("${module_name}/ssl-cert-janus-snakeoil.key"),
+    owner  => 'janus',
+    group  => 'janus',
+    mode   => '0755',
+  }
 }
