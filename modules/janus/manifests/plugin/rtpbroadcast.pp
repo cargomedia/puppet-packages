@@ -10,7 +10,7 @@ class janus::plugin::rtpbroadcast(
   $thumbnailing_interval = 60,
   $thumbnailing_duration = 10,
   $jobs_path = '/var/lib/janus/jobs',
-  $job_pattern = 'job-#{md5}'
+  $job_pattern = 'job-#{md5}',
 ) {
 
   file { '/etc/janus/janus.plugin.cm.rtpbroadcast.cfg':

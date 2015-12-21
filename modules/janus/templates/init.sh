@@ -15,7 +15,7 @@ DAEMON_NAME=janus
 LOG_FILEPATH='<%= @log_file %>'
 
 # Add any command line options for your daemon here
-DAEMON_OPTS="-D -o -F /etc/janus"
+DAEMON_OPTS="-D -o -C <%= @config_file %> -F <%= @plugin_config_dir %>"
 
 # This next line determines what user the script runs as.
 # Root generally not recommended but necessary if you are using the Raspberry Pi GPIO from Python.
