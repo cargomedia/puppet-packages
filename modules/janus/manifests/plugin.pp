@@ -1,10 +1,18 @@
 define janus::plugin {
 
-  require 'apt'
+  require 'build::autoconf'
+  include 'janus::version'
   include 'janus::service'
   include 'janus'
 
-  package { "janus-gateway-${title}":
-    provider => 'apt',
+  $janus_version = $janus::version::number
+
+  helper::script { "install janus plugin ${name}":
+    content => template("${module_name}/plugin_install.sh"),
+    unless  => "ls /opt/janus/lib/janus/plugins/libjanus_${name}.so",
+    timeout => 900,
+    require => Helper::Script['install janus'],
+    notify  => Service['janus'],
   }
+
 }

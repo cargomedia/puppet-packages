@@ -1,7 +1,4 @@
-class janus::service(
-  $config_file = '/etc/janus/janus.cfg',
-  $plugin_config_dir = '/etc/janus',
-) {
+class janus::service {
 
   require 'janus'
   require 'janus::transport::http'
