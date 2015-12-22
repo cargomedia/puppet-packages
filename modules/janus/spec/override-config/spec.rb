@@ -11,7 +11,7 @@ describe 'janus::service::override_config' do
   end
 
   describe command('cat /var/log/janus/janus.log') do
-    its(:stdout) { should match /Reading configuration from \/tmp\/januxx\.foo\.conf/ }
+    its(:stdout) { should match /[januxx\.foo\.conf]/ }
     its(:stdout) { should match /configs_folder: \/tmp/ }
     its(:stdout) { should match /Configuration file: \/tmp\/janus\.plugin\.cm\.rtpbroadcast\.cfg/ }
     its(:stdout) { should match /Configuration file: \/tmp\/janus\.transport\.websockets\.cfg/ }

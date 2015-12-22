@@ -28,18 +28,18 @@ node default {
       mode      => '0644';
     '/tmp/januxx.foo.conf':
       ensure    => file,
-      content   => "[general]\ninterface = 127.0.0.1\ndebug_level=9\nice_lite=false\nice_tcp=false\n${ssl_paths}",
+      content   => "[general]\ninterface = 127.0.0.1\ndebug_level=7\nice_lite=false\nice_tcp=false\n${ssl_paths}",
       owner     => '0',
       group     => '0',
       mode      => '0644';
   }
 
+  class { 'janus':
+    config_file       => '/tmp/januxx.foo.conf',
+    plugin_config_dir => '/tmp',
+  }
+
   require 'janus::transport::http'
   require 'janus::transport::websockets'
   require 'janus::plugin::rtpbroadcast'
-
-  class { 'janus':
-  config_file       => '/tmp/januxx.foo.conf',
-  plugin_config_dir => '/tmp',
-  }
 }
