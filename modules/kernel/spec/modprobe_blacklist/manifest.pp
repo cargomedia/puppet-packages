@@ -1,11 +1,13 @@
 node default {
 
-  kernel::modprobe_blacklist {'foo':
-    modules => ['foo1', 'foo2'],
+  exec { '/sbin/modprobe blowfish_common': }
+  ->
+  kernel::modprobe_blacklist { 'blowfish_common':
+    modules => ['blowfish_common'],
   }
 
-  kernel::modprobe_blacklist {'bar':
-    modules => ['bar1'],
+  kernel::modprobe_blacklist { 'foo':
+    modules => ['foo1', 'foo2'],
   }
 
 }
