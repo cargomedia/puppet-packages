@@ -63,22 +63,15 @@ class janus (
       owner  => 'janus',
       group  => 'janus',
       mode   => '0755';
-    '/var/log/janus/janus.log':
-      ensure => file,
-      owner  => 'janus',
-      group  => 'janus',
-      mode   => '0644',
   }
   ->
 
   file {
-    '/etc/janus/janus.cfg':
-      ensure  => file,
-      content => template("${module_name}/config"),
-      owner   => '0',
-      group   => '0',
-      mode    => '0644',
-      notify  => Service['janus'];
+    '/var/log/janus/janus.log':
+      ensure => file,
+      owner  => 'janus',
+      group  => 'janus',
+      mode   => '0644';
     '/etc/janus/ssl/cert.pem':
       ensure  => file,
       content => template("${module_name}/ssl-cert-janus-snakeoil.pem"),
@@ -90,7 +83,14 @@ class janus (
       content => template("${module_name}/ssl-cert-janus-snakeoil.key"),
       owner   => 'janus',
       group   => 'janus',
-      mode    => '0755',
+      mode    => '0755';
+    '/etc/janus/janus.cfg':
+      ensure  => file,
+      content => template("${module_name}/config"),
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
+      notify  => Service['janus'];
   }
   ->
 

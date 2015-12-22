@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'janus' do
+describe 'janus::from_src' do
 
   describe user('janus') do
     it { should exist }
