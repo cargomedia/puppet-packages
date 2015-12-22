@@ -12,6 +12,8 @@ class janus::transport::websockets(
   $admin_wss_acl = '127.,192.168.',
 ) {
 
+  include 'janus'
+
   file { '/etc/janus/janus.transport.websockets.cfg':
     ensure    => 'present',
     content   => template("${module_name}/transport/websockets.cfg"),
@@ -20,8 +22,4 @@ class janus::transport::websockets(
     mode      => '0644',
     notify    => Service['janus'],
   }
-  ->
-
-  janus::transport { $name: }
-
 }
