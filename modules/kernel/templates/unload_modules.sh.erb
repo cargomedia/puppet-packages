@@ -1,0 +1,3 @@
+<% @modules.each do |mod| -%>
+if (modinfo "<%= mod %>"); then modprobe --remove "<%= mod %>"; fi
+<% end %>
