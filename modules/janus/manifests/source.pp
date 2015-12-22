@@ -32,14 +32,14 @@ class janus::source (
   }
   ->
 
-  git::repository { "Janus Gateway":
+  git::repository { 'Janus Gateway':
     remote    => 'https://github.com/meetecho/janus-gateway.git',
     directory => '/opt/janus-gateway',
-    revision  => "${src_version}",
+    revision  => $version,
   }
   ~>
 
-  exec { "Install Janus from Source":
+  exec { 'Install Janus from Source':
     provider    => shell,
     command     => template("${module_name}/install.sh"),
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],

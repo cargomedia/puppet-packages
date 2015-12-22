@@ -42,7 +42,7 @@ class janus::plugin::audioroom(
       timeout     => 900,
     }
   } else {
-    package { "janus-gateway-audioroom":
+    package { 'janus-gateway-audioroom':
       provider => 'apt',
     }
   }
