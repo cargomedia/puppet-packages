@@ -10,8 +10,12 @@ class janus::plugin::rtpbroadcast(
   $thumbnailing_interval = 60,
   $thumbnailing_duration = 10,
   $jobs_path = '/var/lib/janus/jobs',
-  $job_pattern = 'job-#{md5}'
+  $job_pattern = 'job-#{md5}',
+  $src_version = undef,
 ) {
+  
+  include 'janus'
+  require 'apt'
 
   file { '/etc/janus/janus.plugin.cm.rtpbroadcast.cfg':
     ensure    => 'present',
@@ -20,8 +24,34 @@ class janus::plugin::rtpbroadcast(
     group     => '0',
     mode      => '0644',
   }
-  ->
+  
+  if $src_version {
+    require 'git'
+    require 'build::autoconf'
+    require 'build::libtool'
+    require 'build::dev::libglib2'
+    require 'build::dev::libjansson'
 
-  janus::plugin { 'rtpbroadcast': }
+    #package {[]:
+    #  provider => 'apt'
+    #}
 
+    git::repository { "Janus Plugin ${name}":
+      remote    => 'https://github.com/cargomedia/janus-gateway-rtpbroadcast.git',
+      directory => "/opt/janus/build/${name}",
+      revision  => $src_version,
+    }
+    ~>
+
+    exec { "Install ${name} from Source":
+      provider    => shell,
+      command     => template("${module_name}/plugin_install.sh"),
+      path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+      timeout     => 900,
+    }
+  } else {
+    package { "janus-gateway-rtpbroadcast":
+      provider => 'apt',
+    }
+  }
 }

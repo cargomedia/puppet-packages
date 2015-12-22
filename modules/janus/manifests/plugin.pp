@@ -1,14 +1,25 @@
-define janus::plugin {
+define janus::plugin(
+  $src_version = undef,
+) {
 
   require 'apt'
+  require 'git'
   require 'build::autoconf'
-  include 'janus::version'
-  include 'janus::service'
   include 'janus'
 
-  $janus_version = $janus::version::number
+  if not ($src_version) {
+    package { "janus-gateway-${title}":
+      provider => 'apt',
+    }
+  } else {
+    git::repository { "Janus Plugin ${name}":
+      remote    => 'https://github.com/meetecho/janus-gateway.git',
+      directory => '/opt/janus/',
+      revision  => "${src_version}",
+    }
+    ~>
 
-  if $janus::use_src {
+
     helper::script { "install janus plugin ${name}":
       content => template("${module_name}/plugin_install.sh"),
       unless  => "ls /opt/janus/lib/janus/plugins/libjanus_${name}.so",
@@ -16,10 +27,5 @@ define janus::plugin {
       require => Helper::Script['install janus'],
       notify  => Service['janus'],
     }
-  } else {
-    package { "janus-gateway-${title}":
-      provider => 'apt',
-    }
   }
-
 }
