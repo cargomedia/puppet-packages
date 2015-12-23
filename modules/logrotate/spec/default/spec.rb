@@ -6,8 +6,8 @@ describe 'logrotate' do
     it { should be_installed }
   end
 
-  describe file('/etc/cron.daily/logrotate') do
-    it { should be_file }
-    it { should be_executable }
+  describe command('/etc/cron.daily/logrotate') do
+    its(:exit_status) { should eq 0 }
   end
+
 end
