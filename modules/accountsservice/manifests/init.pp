@@ -6,5 +6,11 @@ class accountsservice {
     ensure   => present,
     provider => 'apt',
   }
+  ~>
+
+  exec { 'wait for dbus reload':
+    command     => '/bin/sleep 1',
+    refreshonly => true,
+  }
 
 }
