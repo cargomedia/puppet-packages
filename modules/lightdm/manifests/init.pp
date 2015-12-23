@@ -17,4 +17,11 @@ class lightdm {
     require => Package['lightdm'],
   }
 
+  file { '/usr/share/xsessions':
+    ensure  => directory,
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
+  }
+
 }

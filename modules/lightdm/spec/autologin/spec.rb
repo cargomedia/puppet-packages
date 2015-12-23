@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'git' do
+describe 'lightdm::autologin' do
 
   describe package('lightdm') do
     it { should be_installed }
