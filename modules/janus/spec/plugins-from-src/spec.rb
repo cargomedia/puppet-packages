@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'janus::plugins' do
+describe 'janus::plugins::from_src' do
 
   describe file('/etc/janus/janus.plugin.cm.audioroom.cfg') do
     it { should be_file }
