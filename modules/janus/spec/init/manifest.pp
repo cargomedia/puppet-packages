@@ -1,5 +1,5 @@
 node default {
 
-  class{ 'janus': }
+  class { ['janus', 'janus::transport::http', 'janus::transport::websockets']: }
 
 }
