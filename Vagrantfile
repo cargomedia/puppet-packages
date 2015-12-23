@@ -19,6 +19,10 @@ Vagrant.configure('2') do |config|
     puppet.module_path = 'modules'
   end
 
+  config.vm.provider 'virtualbox' do |v|
+    v.gui = (ENV['gui'] == 'true')
+  end
+
   config.vm.define 'Debian-7' do |wheezy|
     wheezy.vm.box = 'cargomedia/debian-7-amd64-default'
     wheezy.vm.network :forwarded_port, guest: 22, host: 22200, id: 'ssh'

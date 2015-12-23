@@ -1,0 +1,11 @@
+mod 'cargomedia/apt',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/apt'
+
+mod 'cargomedia/lightdm',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/lightdm'
+
+mod 'cargomedia/accountsservice',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/accountsservice'

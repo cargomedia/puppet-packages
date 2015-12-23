@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+W=$(xrandr --current | grep 'current' | cut -d ',' -f2 | cut -d ' ' -f3)
+H=$(xrandr --current | grep 'current' | cut -d ',' -f2 | cut -d ' ' -f5)
+chromium-browser --kiosk --window-position=0,0 --window-size=${W},${H} '<%= @url %>'
