@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe 'coturn' do
 
-  describe user('coturn') do
-    it { should exist }
+  describe package('coturn') do
+    it { should be_installed }
   end
 
   describe service('coturn') do
@@ -11,4 +11,7 @@ describe 'coturn' do
     it { should be_running }
   end
 
+  describe port(3478) do
+    it { should be_listening }
+  end
 end
