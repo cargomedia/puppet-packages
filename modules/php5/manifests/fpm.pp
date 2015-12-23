@@ -1,5 +1,6 @@
 class php5::fpm {
 
+  require 'apt'
   require 'php5'
   include 'php5::config_extension_change'
 
@@ -57,7 +58,8 @@ class php5::fpm {
   }
 
   package { 'php5-fpm':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 
   service { 'php5-fpm':

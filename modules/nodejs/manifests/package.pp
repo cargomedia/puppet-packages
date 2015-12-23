@@ -2,6 +2,7 @@ define nodejs::package(
   $path,
   $version = 'latest',
   $user = 'root',
+  $home = '/root',
 ) {
 
   require 'nodejs'
@@ -20,6 +21,7 @@ define nodejs::package(
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     unless      => $install_check,
     user        => $user,
+    environment => ["HOME=${home}"],
     cwd         => $path,
     require     => Class['nodejs'],
   }

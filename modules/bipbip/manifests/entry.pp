@@ -3,7 +3,7 @@ define bipbip::entry (
   $options
 ){
 
-  require 'bipbip'
+  include 'bipbip'
 
   file { "/etc/bipbip/services.d/${name}.yml":
     ensure  => file,

@@ -1,4 +1,7 @@
 node default {
 
-  class { 'puppet::agent': }
+  @monit::entry { 'filesystem':
+    content => 'check filesystem root with path /'
+  }
+
 }

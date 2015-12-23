@@ -1,6 +1,9 @@
 class ca_certificates {
 
+  require 'apt'
+
   package { 'ca-certificates':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 }

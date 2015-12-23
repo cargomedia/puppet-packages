@@ -49,16 +49,24 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
 -----END RSA PRIVATE KEY-----'
 
   host { 'foo':
-  ip => '127.0.0.1',
+    ip => '127.0.0.1',
   }
 
-  require 'cm_janus'
+  class { 'cm_janus':
+    websockets_listen_port => 7888,
+    http_server_api_key    => 'fish',
+    cm_api_base_url        => 'http://www.cm.dev',
+    cm_api_key             => 'cm-fish',
+    cm_application_path    => '/home/cm',
+    jobs_path              => '/tmp',
+  }
+  ->
 
   class { 'cm_janus::proxy':
-  hostname  => 'foo',
-  port     => 7999,
-  ssl_cert => $ssl_cert,
-  ssl_key  => $ssl_key,
+    hostname  => 'foo',
+    port      => 7999,
+    ssl_cert  => $ssl_cert,
+    ssl_key   => $ssl_key,
   }
 
 }

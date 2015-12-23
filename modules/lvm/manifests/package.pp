@@ -1,6 +1,9 @@
 class lvm::package {
 
+  require 'apt'
+
   package { 'lvm2':
-    ensure => installed,
+    ensure   => installed,
+    provider => 'apt',
   }
 }

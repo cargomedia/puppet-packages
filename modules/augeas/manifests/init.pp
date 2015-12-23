@@ -1,6 +1,9 @@
 class augeas {
 
+  require 'apt'
+
   package { 'libaugeas-ruby':
-    ensure => installed,
+    ensure   => installed,
+    provider => 'apt',
   }
 }

@@ -1,8 +1,11 @@
 class janus::plugin::audioroom(
-  $recording_pattern = 'rec-%1$s-%2$llu-%3$s',
+  $archive_path = '/var/lib/janus/recordings',
+  $recording_pattern = 'rec-#{id}-#{time}-#{type}',
+  $jobs_path = '/var/lib/janus/jobs',
+  $job_pattern = 'job-#{md5}'
 ) {
 
-  file { '/etc/janus/janus.plugin.audioroom.cfg':
+  file { '/etc/janus/janus.plugin.cm.audioroom.cfg':
     ensure    => 'present',
     content   => template("${module_name}/plugin/audioroom.cfg"),
     owner     => '0',

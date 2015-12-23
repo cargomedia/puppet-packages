@@ -30,11 +30,11 @@ class network::hostname(
     group   => 'root',
     mode    => '0644',
     content => "${hostname}\n",
-    notify  => Exec['hostname.sh'],
+    notify  => Exec['apply hostname'],
   }
 
-  exec { 'hostname.sh':
-    command     => '/etc/init.d/hostname.sh start',
+  exec { 'apply hostname':
+    command     => "/bin/hostname ${hostname}",
     refreshonly => true,
   }
 }

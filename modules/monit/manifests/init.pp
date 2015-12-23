@@ -1,6 +1,17 @@
-class monit ($emailTo = 'root@localhost', $emailFrom = "root@${::domain}", $allowedHosts = []) {
+class monit ($emailTo = 'root@localhost', $emailFrom = undef, $allowedHosts = []) {
 
+  require 'apt'
+  require 'postfix::service'
   include 'monit::service'
+
+  $domainWithDefault = $::domain ? {
+    undef => 'localhost',
+    default => $::domain,
+  }
+  $emailFromWithDefault = $emailFrom ? {
+    undef => "root@${domainWithDefault}",
+    default => $emailFrom,
+  }
 
   file { '/etc/default/monit':
     ensure  => file,
@@ -88,7 +99,8 @@ class monit ($emailTo = 'root@localhost', $emailFrom = "root@${::domain}", $allo
   ->
 
   package { 'monit':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 
   Monit::Entry <||>

@@ -1,6 +1,5 @@
 class php5::extension::runkit (
-  $version = '1.0.4',
-  $commit = '5e179e978af79444d3c877d5681ea91d15134a01'
+  $version = '1.0.4'
 ) {
 
   require 'build'

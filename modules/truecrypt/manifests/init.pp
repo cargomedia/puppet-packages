@@ -2,9 +2,18 @@ class truecrypt(
   $version = '7.2'
 ) {
 
+  require 'apt'
   require 'build'
 
-  package { ['libfuse-dev', 'nasm', 'libpkcs11-helper1-dev', 'libwxbase2.8-dev', 'pkg-config']: }
+  package { [
+    'libfuse-dev',
+    'nasm',
+    'libpkcs11-helper1-dev',
+    'libwxbase2.8-dev',
+    'pkg-config'
+  ]:
+    provider => 'apt',
+  }
   ->
 
   helper::script { 'install truecrypt':

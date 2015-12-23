@@ -1,0 +1,8 @@
+deb http://archive.ubuntu.com/ubuntu vivid main universe
+deb-src http://archive.ubuntu.com/ubuntu vivid main universe
+
+deb http://archive.ubuntu.com/ubuntu vivid-security main universe
+deb-src http://archive.ubuntu.com/ubuntu vivid-security main universe
+
+deb http://archive.ubuntu.com/ubuntu vivid-updates main universe
+deb-src http://archive.ubuntu.com/ubuntu vivid-updates main universe

@@ -1,6 +1,9 @@
 class sudo {
 
+  require 'apt'
+
   package { 'sudo':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 }

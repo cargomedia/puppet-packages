@@ -9,7 +9,7 @@ define cm::vhost(
   $upstream_options = { },
 ) {
 
-  include 'cm::services::webserver'
+  include 'nginx'
 
   $upstream_options_defaults = {
     name => 'fastcgi-backend',

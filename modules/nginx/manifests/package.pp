@@ -1,5 +1,7 @@
 class nginx::package {
 
+  require 'apt'
+
   apt::source { 'nginx':
     entries => [
       "deb http://nginx.org/packages/debian/ ${::lsbdistcodename} nginx",
@@ -15,6 +17,7 @@ class nginx::package {
   ->
 
   package { 'nginx':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 }

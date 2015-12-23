@@ -3,7 +3,9 @@ class janus (
   $bind_address = '127.0.0.1',
   $log_file = '/var/log/janus/janus.log',
   $token_auth = 'no',
-  $api_secret = 'cantanapoli',
+  $api_secret = undef,
+  $rtp_port_range_min = 20000,
+  $rtp_port_range_max = 25000,
   $stun_server = undef,
   $stun_port = 3478,
   $turn_server = undef,
@@ -15,6 +17,7 @@ class janus (
   $turn_rest_api_key = undef
 ) inherits janus::version {
 
+  require 'apt'
   include 'janus::service'
   require 'logrotate'
 
@@ -47,7 +50,10 @@ class janus (
     'libavutil-dev',
     'libavcodec-dev',
     'libavformat-dev',
-    'gengetopt',]: }
+    'gengetopt',
+  ]:
+    provider => 'apt'
+  }
   ->
 
   helper::script { 'install janus':
@@ -88,12 +94,27 @@ class janus (
     owner   => '0',
     group   => '0',
     mode    => '0644',
-    notify  => Service['janus'],
   }
 
-  sysvinit::script { 'janus':
-    content           => template("${module_name}/init.sh"),
-    require           => [User['janus']],
+  file { '/var/lib/janus':
+    ensure => directory,
+    owner  => 'janus',
+    group  => 'janus',
+    mode   => '0755',
+  }
+
+  file { '/var/lib/janus/recordings':
+    ensure => directory,
+    owner  => 'janus',
+    group  => 'janus',
+    mode   => '0755',
+  }
+
+  file { '/var/lib/janus/jobs':
+    ensure => directory,
+    owner  => 'janus',
+    group  => 'janus',
+    mode   => '0755',
   }
 
 }

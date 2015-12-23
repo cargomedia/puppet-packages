@@ -1,6 +1,9 @@
 class build::gcc {
 
+  require 'apt'
+
   package { 'gcc':
-    ensure => present,
+    ensure   => present,
+    provider => 'apt',
   }
 }

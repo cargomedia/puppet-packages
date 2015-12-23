@@ -2,6 +2,8 @@ class rsyslog(
   $logfile_mode = '0644',
 ) {
 
+  require 'apt'
+
   file { '/etc/rsyslog.conf':
     ensure  => file,
     owner   => '0',
@@ -19,7 +21,10 @@ class rsyslog(
     mode   => $logfile_mode,
   }
 
-  package { 'rsyslog': }
+  package { 'rsyslog':
+    ensure   => present,
+    provider => 'apt',
+  }
   ->
 
   service { 'rsyslog':

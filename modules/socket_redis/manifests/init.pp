@@ -1,5 +1,5 @@
 class socket_redis (
-  $version = '0.1.4',
+  $version = 'latest',
   $redisHost = 'localhost',
   $socketPorts = [8090],
   $logDir = '/var/log/socket-redis',
@@ -101,7 +101,7 @@ class socket_redis (
   }
 
   sysvinit::script { 'socket-redis':
-    content => template("${module_name}/init.sh"),
+    content           => template("${module_name}/init.sh"),
     require           => [Package['socket-redis'], User['socket-redis']],
   }
 

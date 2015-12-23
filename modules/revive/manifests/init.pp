@@ -9,7 +9,7 @@ class revive (
   $dbPassword = 'revive'
 ) {
 
-  require 'apt::source::dotdeb' # Revive requires php 5.4.20+
+  require 'dotdeb' # Revive requires php 5.4.20+
   require 'php5'
   require 'php5::apache2'
   require 'php5::extension::apc'
