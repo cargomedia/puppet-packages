@@ -2,7 +2,7 @@ define lightdm::xsession(
   $exec,
 ) {
 
-  require 'lightdm'
+  include 'lightdm'
 
   file { "/usr/share/xsessions/${title}.desktop":
     ensure  => file,
@@ -10,6 +10,7 @@ define lightdm::xsession(
     owner   => '0',
     group   => '0',
     mode    => '0644',
+    notify  => Service['lightdm'],
   }
 
 }
