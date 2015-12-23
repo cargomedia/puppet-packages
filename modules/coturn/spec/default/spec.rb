@@ -11,7 +11,7 @@ describe 'coturn' do
     it { should be_running }
   end
 
-  describe port(3478) do
+  describe port(5766) do
     it { should be_listening }
   end
 end

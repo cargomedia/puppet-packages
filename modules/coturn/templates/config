@@ -373,12 +373,12 @@ max-port=<%= @relay_max_port %>
 # Uncomment if no TLS client listener is desired.
 # By default TLS client listener is always started.
 #
-#no-tls
+no-tls
 
 # Uncomment if no DTLS client listener is desired.
 # By default DTLS client listener is always started.
 #
-#no-dtls
+no-dtls
 
 # Uncomment if no UDP relay endpoints are allowed.
 # By default UDP relay endpoints are enabled (like in RFC 5766).

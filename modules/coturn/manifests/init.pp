@@ -1,7 +1,7 @@
 class coturn (
   $port = 3478,
   $port_alt = 0,
-  $listening_ip = ['127.0.0.1', '192.168.1.13'],
+  $listening_ip = ['127.0.0.1'],
   $relay_ip = [],
   $external_ip = [],
   $no_multicast_peers = true,
@@ -28,7 +28,7 @@ class coturn (
 
   daemon { 'coturn':
     binary => '/usr/bin/turnserver',
-    args   => '-c /etc/turnserver.conf -o -v',
+    args   => '-c /etc/turnserver.conf -o -v --pidfile /var/run/coturn.pid',
     user   => 'turnserver',
   }
 }
