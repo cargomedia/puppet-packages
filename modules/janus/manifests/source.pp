@@ -34,7 +34,7 @@ class janus::source (
 
   git::repository { 'Janus Gateway':
     remote    => 'https://github.com/meetecho/janus-gateway.git',
-    directory => '/opt/janus-gateway',
+    directory => '/opt/janus/janus-gateway',
     revision  => $version,
   }
   ~>
@@ -43,6 +43,7 @@ class janus::source (
     provider    => shell,
     command     => template("${module_name}/install.sh"),
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    refreshonly => true,
     timeout     => 900,
   }
 }

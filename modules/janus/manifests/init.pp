@@ -32,11 +32,13 @@ class janus (
     class { 'janus::source':
       version => $src_version,
       before  => Daemon['janus'],
+      notify  => Service['janus'],
     }
   } else {
     package { 'janus':
       provider => 'apt',
       before   => Daemon['janus'],
+      notify   => Service['janus'],
     }
   }
 
@@ -52,17 +54,17 @@ class janus (
       ensure => directory,
       owner  => '0',
       group  => '0',
-      mode   => '0755';
+      mode   => '0644';
     ['/var/lib/janus', '/var/lib/janus/recordings', '/var/lib/janus/jobs']:
       ensure => directory,
       owner  => 'janus',
       group  => 'janus',
-      mode   => '0755';
+      mode   => '0644';
     '/var/log/janus':
       ensure => directory,
       owner  => 'janus',
       group  => 'janus',
-      mode   => '0755';
+      mode   => '0644';
   }
   ->
 
@@ -77,20 +79,20 @@ class janus (
       content => template("${module_name}/ssl-cert-janus-snakeoil.pem"),
       owner   => 'janus',
       group   => 'janus',
-      mode    => '0755';
+      mode    => '0644';
     '/etc/janus/ssl/cert.key':
       ensure  => file,
       content => template("${module_name}/ssl-cert-janus-snakeoil.key"),
       owner   => 'janus',
       group   => 'janus',
-      mode    => '0755';
+      mode    => '0640';
     '/etc/janus/janus.cfg':
-      ensure  => file,
-      content => template("${module_name}/config"),
-      owner   => '0',
-      group   => '0',
-      mode    => '0644',
-      notify  => Service['janus'];
+      ensure   => file,
+      content  => template("${module_name}/config"),
+      owner    => '0',
+      group    => '0',
+      mode     => '0644',
+      notify   => Service['janus'],
   }
   ->
 

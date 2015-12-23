@@ -7,7 +7,7 @@ node default {
       ensure    => directory,
       owner     => '0',
       group     => '0',
-      mode      => '0755';
+      mode      => '0644';
     '/tmp/janus.transport.http.cfg':
       ensure    => file,
       content   => "[general]\nhttp=true\nport = 55555\n",

@@ -1,6 +1,6 @@
 #!/bin/sh -e
 
-cd /opt/janus/build/<%= @name %>
+cd /opt/janus/<%= @plugin_repo %>
 ./autogen.sh
 ./configure --prefix=/usr
 make

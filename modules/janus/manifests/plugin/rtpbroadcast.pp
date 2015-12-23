@@ -13,7 +13,7 @@ class janus::plugin::rtpbroadcast(
   $job_pattern = 'job-#{md5}',
   $src_version = undef,
 ) {
-  
+
   include 'janus'
   require 'apt'
 
@@ -23,8 +23,9 @@ class janus::plugin::rtpbroadcast(
     owner     => '0',
     group     => '0',
     mode      => '0644',
+    notify    => Service['janus'],
   }
-  
+
   if $src_version {
     require 'git'
     require 'build::autoconf'
@@ -32,13 +33,11 @@ class janus::plugin::rtpbroadcast(
     require 'build::dev::libglib2'
     require 'build::dev::libjansson'
 
-    #package {[]:
-    #  provider => 'apt'
-    #}
+    $plugin_repo = 'janus-gateway-rtpbroadcast'
 
-    git::repository { "Janus Plugin ${name}":
-      remote    => 'https://github.com/cargomedia/janus-gateway-rtpbroadcast.git',
-      directory => "/opt/janus/build/${name}",
+    git::repository { $plugin_repo:
+      remote    => "https://github.com/cargomedia/${plugin_repo}.git",
+      directory => "/opt/janus/${plugin_repo}",
       revision  => $src_version,
     }
     ~>
@@ -47,11 +46,15 @@ class janus::plugin::rtpbroadcast(
       provider    => shell,
       command     => template("${module_name}/plugin_install.sh"),
       path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+      refreshonly => true,
       timeout     => 900,
+      notify      => Service['janus'],
     }
   } else {
     package { 'janus-gateway-rtpbroadcast':
       provider => 'apt',
+      notify   => Service['janus'],
     }
   }
+
 }
