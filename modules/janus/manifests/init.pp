@@ -42,9 +42,6 @@ class janus (
     }
   }
 
-  include 'janus::transport::http'
-  include 'janus::transport::websockets'
-
   logrotate::entry{ $module_name:
     content => template("${module_name}/logrotate"),
   }
