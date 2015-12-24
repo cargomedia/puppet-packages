@@ -14,8 +14,4 @@ describe 'coturn' do
   describe port(5766) do
     it { should be_listening }
   end
-
-  describe command('/var/log/coturn/turnserver.log') do
-    it { should match /Server/}
-  end
 end
