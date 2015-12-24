@@ -11,6 +11,15 @@ class coturn (
   require 'apt'
   require 'apt::source::cargomedia'
 
+  file { '/etc/default/coturn':
+    ensure  => file,
+    content => 'TURNSERVER_ENABLED=1',
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
+    notify  => Service['coturn'],
+  }
+
   file { '/etc/turnserver.conf':
     ensure  => file,
     content => template("${module_name}/config"),
@@ -28,7 +37,7 @@ class coturn (
 
   daemon { 'coturn':
     binary => '/usr/bin/turnserver',
-    args   => '-c /etc/turnserver.conf -o -v --pidfile /var/run/coturn.pid',
+    args   => '-c /etc/turnserver.conf -v --pidfile /var/run/coturn.pid',
     user   => 'turnserver',
   }
 }
