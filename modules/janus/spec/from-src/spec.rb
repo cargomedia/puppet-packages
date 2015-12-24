@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'janus' do
+describe 'janus::from_src' do
 
   describe user('janus') do
     it { should exist }
@@ -12,10 +12,6 @@ describe 'janus' do
   end
 
   describe port(8310) do
-    it { should be_listening }
-  end
-
-  describe port(8300) do
     it { should be_listening }
   end
 end
