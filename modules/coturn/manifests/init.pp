@@ -11,24 +11,43 @@ class coturn (
   require 'apt'
   require 'apt::source::cargomedia'
 
-  file { '/etc/default/coturn':
-    ensure  => file,
-    content => 'TURNSERVER_ENABLED=1',
-    owner   => '0',
-    group   => '0',
-    mode    => '0644',
-    notify  => Service['coturn'],
-  }
-
-  file { '/etc/turnserver.conf':
-    ensure  => file,
-    content => template("${module_name}/config"),
-    owner   => '0',
-    group   => '0',
-    mode    => '0644',
-    notify  => Service['coturn'],
+  user { 'turnserver':
+    ensure => present,
+    system => true,
   }
   ->
+
+  file {
+    '/var/log/coturn':
+      ensure => directory,
+      owner  => 'turnserver',
+      group  => 'turnserver',
+      mode   => '0644';
+    '/var/log/coturn/turnserver.log':
+      ensure => file,
+      owner  => 'turnserver',
+      group  => 'turnserver',
+      mode   => '0644';
+    '/etc/default/coturn':
+      ensure  => file,
+      content => "TURNSERVER_ENABLED=1\n",
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
+      before  => Package['coturn'],
+      notify  => Service['coturn'];
+    '/etc/turnserver.conf':
+      ensure  => file,
+      content => template("${module_name}/config"),
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
+      notify  => Service['coturn'],
+  }
+
+  logrotate::entry{ $module_name:
+    content => template("${module_name}/logrotate")
+  }
 
   package { 'coturn':
     provider => 'apt',
@@ -37,7 +56,7 @@ class coturn (
 
   daemon { 'coturn':
     binary => '/usr/bin/turnserver',
-    args   => '-c /etc/turnserver.conf -v --pidfile /var/run/coturn.pid',
+    args   => '-c /etc/turnserver.conf -v -l /var/log/coturn/turnserver.log --no-stdout-log --no-dtls --no-tls',
     user   => 'turnserver',
   }
 }
