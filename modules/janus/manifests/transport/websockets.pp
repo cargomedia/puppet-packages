@@ -9,8 +9,10 @@ class janus::transport::websockets(
   $admin_ws_port = 8312,
   $admin_wss = 'no',
   $admin_wss_port = 8313,
-  $admin_ws_acl = '127.,192.168.',
+  $admin_wss_acl = '127.,192.168.',
 ) {
+
+  include 'janus'
 
   file { '/etc/janus/janus.transport.websockets.cfg':
     ensure    => 'present',
@@ -20,8 +22,4 @@ class janus::transport::websockets(
     mode      => '0644',
     notify    => Service['janus'],
   }
-  ->
-
-  janus::transport { $name: }
-
 }
