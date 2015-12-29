@@ -1,4 +1,4 @@
-define chromium::extension(
+define chromium::policy::extension(
   $id,
   $update_url = 'https://clients2.google.com/service/update2/crx',
 ) {

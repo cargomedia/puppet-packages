@@ -1,9 +1,14 @@
 class chromium::kiosk(
   $user,
   $url,
+  $hide_ui = false
 ) {
 
   require 'chromium'
+
+  class { 'chromium::policy::homepage':
+    url => $url,
+  }
 
   $script = '/usr/local/bin/chromium-kiosk.sh'
   file { $script:
