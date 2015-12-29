@@ -15,16 +15,16 @@ class cm_janus (
 
   file { '/etc/cm-janus':
     ensure => directory,
-    owner  => 'cm-janus',
-    group  => 'cm-janus',
+    owner  => '0',
+    group  => '0',
     mode   => '0755',
   }
 
   file { '/etc/cm-janus/config.yaml':
     ensure  => file,
     content => template("${module_name}/config.yaml"),
-    owner   => 'cm-janus',
-    group   => 'cm-janus',
+    owner   => '0',
+    group   => '0',
     mode    => '0755',
     notify  => Service['cm-janus'],
   }
@@ -56,8 +56,9 @@ class cm_janus (
     binary  => '/usr/bin/node',
     args    => '/usr/bin/cm-janus -c /etc/cm-janus/config.yaml',
     user    => 'cm-janus',
-    require => File['/var/log/cm-janus'],
+    require => [
+      File['/var/log/cm-janus'],
+      File['/etc/cm-janus/config.yaml']
+    ]
   }
-
-  #TODO: add bipbip
 }
