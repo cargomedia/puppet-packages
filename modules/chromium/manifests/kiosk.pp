@@ -6,6 +6,10 @@ class chromium::kiosk(
 
   require 'chromium'
 
+  class { 'chromium::policy::homepage':
+    url => $url,
+  }
+
   $script = '/usr/local/bin/chromium-kiosk.sh'
   file { $script:
     ensure  => file,
