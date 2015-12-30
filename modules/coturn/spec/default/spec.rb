@@ -18,8 +18,16 @@ describe 'coturn' do
   describe file('/etc/turnserver.conf') do
     its(:content) { should match /^mobility/ }
     its(:content) { should match /^user=admin:admin/ }
-    its(:content) { should match /^user=super:super/ }
+    its(:content) { should match /^user=super:0x892bd158de5ce05f7792112eca1be3ca/ }
     its(:content) { should match /^realm=mydomain.com$/ }
+  end
+
+  describe command('turnutils_uclient -u super -w super1 -m 1 -n 1 -B -z 1 127.0.0.1') do
+    its(:stdout) { should match /0: ERROR: Cannot complete Allocation/ }
+  end
+
+  describe command('timeout 2 turnutils_uclient -u super -w super -m 1 -n 1 -B -z 1 127.0.0.1') do
+    its(:stdout) { should match /1: start_mclient: msz=2, tot_send_msgs=0, tot_recv_msgs=0, tot_send_bytes ~ 0, tot_recv_bytes ~ 0/ }
   end
 
 end
