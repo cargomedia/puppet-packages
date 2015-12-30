@@ -12,7 +12,6 @@ class cm_janus (
 
   require 'nodejs'
   require 'build::gpp'
-  include 'cm_janus::service'
 
   file { '/etc/cm-janus':
     ensure => directory,
@@ -37,8 +36,8 @@ class cm_janus (
 
   file { '/var/log/cm-janus':
     ensure  => directory,
-    owner   => '0',
-    group   => '0',
+    owner   => 'cm-janus',
+    group   => 'cm-janus',
     mode    => '0755',
     require => User['cm-janus'],
   }
@@ -53,5 +52,13 @@ class cm_janus (
     notify   => Service['cm-janus'],
   }
 
-  #TODO: add bipbip
+  daemon { 'cm-janus':
+    binary  => '/usr/bin/node',
+    args    => '/usr/bin/cm-janus -c /etc/cm-janus/config.yaml',
+    user    => 'cm-janus',
+    require => [
+      File['/var/log/cm-janus'],
+      File['/etc/cm-janus/config.yaml']
+    ]
+  }
 }
