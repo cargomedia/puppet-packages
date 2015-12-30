@@ -6,6 +6,9 @@ class coturn (
   $external_ip = [],
   $no_multicast_peers = true,
   $mice = false,
+  $static_user_accounts = ['coturn:coturn'],
+  $realm = 'example.com',
+  $mobility = true
 ) {
 
   require 'apt'
