@@ -14,4 +14,12 @@ describe 'coturn' do
   describe port(5766) do
     it { should be_listening }
   end
+
+  describe file('/etc/turnserver.conf') do
+    its(:content) { should match /^mobility/ }
+    its(:content) { should match /^user=admin:admin/ }
+    its(:content) { should match /^user=super:super/ }
+    its(:content) { should match /^realm=mydomain.com$/ }
+  end
+
 end
