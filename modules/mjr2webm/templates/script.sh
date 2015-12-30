@@ -21,9 +21,6 @@ myhelp () {
     echo '   if specified, it must end with filetype ".webm"'
 }
 
-video=-v
-audio=-a
-out=default.webm
 
 if test $# -eq 0; then
    myhelp
@@ -78,27 +75,29 @@ do
   shift
 done
 
-
-if ! [ -f $video ]; then
-   echo "Videofile $video does not exist"
-   exit 1
-else
-   if ! [[ "$video" == *.mjr ]]; then
-      echo "Video file must end with .mjr"
-      exit 1
-   fi
+if ! [ -z $video ]; then
+  if ! [ -f $video ]; then
+     echo "Videofile $video does not exist"
+     exit 1
+  else
+     if ! [[ "$video" == *.mjr ]]; then
+        echo "Video file must end with .mjr"
+        exit 1
+     fi
+  fi
 fi
 if ! [ -f $audio ]; then
    echo "Audio $audio does not exist"
    exit 1
 else
    if ! [[ "$audio" == *.mjr ]]; then
-      echo "Video file must end with .mjr"janus-pp-rec
-      exit 1janus-pp-rec
+      echo "Audio file must end with .mjr"
+      exit 1
    fi
 fi
 if [ -z "$1" ]; then
     echo "Using default.webm as output file"
+    out=default.webm
 else
     out=$1
     if ! [[ "$out" == *.webm ]]; then
@@ -114,22 +113,15 @@ webm=$TFILE.webm
 
 # convert audio to opus
 janus-pp-rec $audio $opus
-
-# convert video to webm
-janus-pp-rec $video $webm
-
-# mix the two:
-# file gets large with high fr.
-# by re-coding it we loose quality but reduce the bitrate to 1/4
-# however, takes quite some time...
-$ffmpeg -i $webm -i $opus -c:v libvpx -b:v 500k -c:a libopus -b:a 64k -r 25 $out
-
-# fast modus
-#$ffmpeg -i $webm -i $opus -c:v copy -c:a copy $out
-
-# remove temp files
+if [ -z $video ]; then
+  $ffmpeg -i $opus -c:v libvpx -b:v 500k -c:a libopus -b:a 64k -r 25 $out
+else
+  janus-pp-rec $video $webm
+  $ffmpeg -i $webm -i $opus -c:v libvpx -b:v 500k -c:a libopus -b:a 64k -r 25 $out
+  rm $webm
+fi
 rm $opus
-rm $webm
+
 # done
 echo "done!"
 #------- end
