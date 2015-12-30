@@ -5,9 +5,11 @@ class coturn (
   $relay_ip = [],
   $external_ip = [],
   $no_multicast_peers = true,
+  $relay_min_port = 49152,
+  $relay_max_port = 65535,
   $mice = false,
-  $static_user_accounts = [],
-  $realm = undef
+  $realm = undef,
+  $static_user_accounts = []
 ) {
 
   require 'apt'
@@ -51,7 +53,7 @@ class coturn (
     content => template("${module_name}/logrotate")
   }
 
-  $daemon_extra_args='--no-auth --no-dtls --no-tls --simple-log --no-stdout-log'
+  $daemon_extra_args='--simple-log --no-stdout-log'
 
   package { 'coturn':
     provider => 'apt',
