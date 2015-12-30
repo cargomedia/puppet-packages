@@ -14,11 +14,12 @@
 # mjr2webm -v myvideo.mjr -a myaudio.mjr out.webm
 myhelp () {
     echo $0
-    echo 'Usage: mjr2webm -v videofile -a audiofile [outputfile]'
-    echo '   "videofile" must be a .mjr video file output from Janus'
-    echo '   "audiofile" must be a .mjr audio file output from Janus'
-    echo '   "outputfile", if not specified, is "default.webm"'
-    echo '   if specified, it must end with filetype ".webm"'
+    echo 'Usage: mjr2webm -v [videofile] -a [audiofile] --ffmpegVideoParams [ffmpegVideoParams] --ffmpegAudioParams [ffmpegAudioParams] [outputfile]'
+    echo '   "[videofile]" must be a .mjr video file output from Janus'
+    echo '   "[audiofile]" must be a .mjr audio file output from Janus'
+    echo '   "[ffmpegVideoParams]" overwrite video ffmpeg params'
+    echo '   "[ffmpegAudioParams]" overwrite audio ffmpeg params'
+    echo '   "[outputfile]", if not specified, is "default.webm"; if specified, it must end with filetype ".webm"'
 }
 
 
@@ -43,6 +44,10 @@ if ! which janus-pp-rec > /dev/null; then
      exit 1
 fi
 
+
+ffmpegVideoParams = "-c:v libvpx -b:v 500k -r 25"
+ffmpegAudioParams = "-c:a libopus -b:a 64k"
+
 while test $# -gt 0
 do
   case $1 in
@@ -62,15 +67,20 @@ do
       shift
       audio=$1
       ;;
+    --ffmpeg-audio-params)
+      shift
+      ffmpegAudioParams=$1
+      ;;
+    --ffmpeg-video-params)
+      shift
+      ffmpegVideoParams=$1
+      ;;
   # ...
   # Done with options
     *)
       break
       ;;
   esac
-
-  # for testing purposes:
-  echo "param $1"
 
   shift
 done
@@ -95,6 +105,7 @@ else
       exit 1
    fi
 fi
+
 if [ -z "$1" ]; then
     echo "Using default.webm as output file"
     out=default.webm
@@ -106,22 +117,30 @@ else
     fi
 fi
 
-# make temp files
 TFILE="$$"
 opus=$TFILE.opus
 webm=$TFILE.webm
+ffmpegParams=""
+
+# convert video to webm
+if ! [ -z $video ]; then
+  janus-pp-rec $video $webm
+  ffmpegParams="$ffmpegParams -i $webm $ffmpegVideoParams"
+fi
 
 # convert audio to opus
-janus-pp-rec $audio $opus
-if [ -z $video ]; then
-  $ffmpeg -i $opus -c:v libvpx -b:v 500k -c:a libopus -b:a 64k -r 25 $out
-else
-  janus-pp-rec $video $webm
-  $ffmpeg -i $webm -i $opus -c:v libvpx -b:v 500k -c:a libopus -b:a 64k -r 25 $out
+if ! [ -z $audio ]; then
+  janus-pp-rec $audio $opus
+  ffmpegParams="$ffmpegParams -i $opus $ffmpegAudioParams"
+fi
+echo $ffmpeg $ffmpegParams $out
+$ffmpeg $ffmpegParams $out
+
+if [ -e $webm ]; then
   rm $webm
 fi
-rm $opus
+if [ -e $opus ]; then
+  rm $opus
+fi
 
-# done
 echo "done!"
-#------- end
