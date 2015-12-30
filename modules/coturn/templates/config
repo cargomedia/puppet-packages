@@ -40,7 +40,7 @@ listening-port=<%= @port %>
 # are listening to that endpoint only for "symmetry".
 #
 #alt-listening-port=0
-alt-listening-port=<% @port_alt %>
+alt-listening-port=<%= @port_alt %>
 
 # Alternative listening port for TLS and DTLS protocols.
 # Default (or zero) value means "TLS listening port plus one".
@@ -324,7 +324,7 @@ max-port=<%= @relay_max_port %>
 # and the userdb file). Must be used with long-term credentials
 # mechanism or with TURN REST API.
 #
-#realm=mycompany.org
+realm=<%= @realm %>
 
 # The flag that sets the origin consistency
 # check: across the session, all requests must have the same
