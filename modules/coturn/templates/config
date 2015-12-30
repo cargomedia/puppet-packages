@@ -261,6 +261,9 @@ max-port=<%= @relay_max_port %>
 # Or, equivalently, with open clear password (less secure):
 #user=ninefingers:youhavetoberealistic
 #
+<% @static_user_accounts.each do |account| -%>
+user=<%= account %>
+<% end -%>
 
 # SQLite database file name.
 #
