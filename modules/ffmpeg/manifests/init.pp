@@ -17,6 +17,7 @@ class ffmpeg ($version = '1.0') {
     'libgpac-dev',
     'libxfixes-dev',
     'libvpx-dev',
+    'libopus-dev',
     'libvdpau-dev',
     'libopencore-amrnb-dev',
     'libopencore-amrwb-dev'
