@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'lightdm::autologin' do
+describe 'lightdm::config::autologin' do
 
   describe package('lightdm') do
     it { should be_installed }
