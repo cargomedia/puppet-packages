@@ -1,4 +1,4 @@
-class ffmpeg ($version = '1.0') {
+class ffmpeg ($version = '2.6') {
 
   require 'apt'
   require 'deb_multimedia'

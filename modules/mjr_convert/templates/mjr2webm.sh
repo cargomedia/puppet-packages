@@ -1,4 +1,5 @@
 #!/bin/bash
+set -e
 #
 # Copyright (c) 2015 Me
 # Rev: PA1
