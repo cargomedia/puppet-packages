@@ -108,6 +108,7 @@ class socket_redis (
   package { 'socket-redis':
     ensure   => $version,
     provider => 'npm',
+    notify   => Service['socket-redis'],
   }
 
   @monit::entry { 'socket-redis':
