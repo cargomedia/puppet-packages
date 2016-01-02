@@ -50,7 +50,7 @@ class cm_janus (
   }
 
   package { 'cm-janus':
-    ensure   => latest,
+    ensure   => '0.1.2',
     provider => 'npm',
     before  => Daemon['cm-janus'],
     notify   => Service['cm-janus'],
