@@ -4,7 +4,7 @@ node default {
     ensure => present,
   }
 
-  class { 'lightdm::autologin':
+  class { 'lightdm::config::autologin':
     user    => 'bob',
   }
 

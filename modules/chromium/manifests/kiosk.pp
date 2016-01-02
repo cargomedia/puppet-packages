@@ -24,7 +24,7 @@ class chromium::kiosk(
     require => File[$script],
   }
 
-  class { 'lightdm::autologin':
+  class { 'lightdm::config::autologin':
     user => $user,
   }
 
