@@ -8,7 +8,7 @@ class coturn (
   $no_multicast_peers = true,
   $relay_port_min = 49152,
   $relay_port_max = 65535,
-  $mice = false,
+  $mice = true,
   $static_user_accounts = [],
   $lt_cred_mech = true
 ) {
