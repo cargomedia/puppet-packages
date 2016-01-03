@@ -53,10 +53,8 @@ alt-listening-port=<%= @port_alt %>
 #listening-ip=172.17.19.101
 #listening-ip=10.207.21.238
 #listening-ip=2607:f0d0:1002:51::4
-<% if @listening_ip and not @listening_ip.empty? -%>
 <% @listening_ip.each do |ip| -%>
 listening-ip=<%= ip %>
-<% end -%>
 <% end -%>
 
 # Auxiliary STUN/TURN server listening endpoint.
@@ -102,10 +100,8 @@ listening-ip=<%= ip %>
 #
 #relay-ip=172.17.19.105
 #relay-ip=2607:f0d0:1002:51::5
-<% if @relay_ip and not @relay_ip.empty? -%>
 <% @relay_ip.each do |ip| -%>
 relay-ip=<%= ip %>
-<% end -%>
 <% end -%>
 
 # For Amazon EC2 users:
@@ -134,10 +130,8 @@ relay-ip=<%= ip %>
 #
 #external-ip=60.70.80.91/172.17.19.101
 #external-ip=60.70.80.92/172.17.19.102
-<% if @external_ip and not @external_ip.empty? -%>
 <% @external_ip.each do |ip| -%>
 external-ip=<%= ip %>
-<% end -%>
 <% end -%>
 
 
