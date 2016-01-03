@@ -46,8 +46,6 @@ class coturn (
     content => template("${module_name}/logrotate")
   }
 
-  $daemon_extra_args='--simple-log --no-dtls --no-tls --no-stdout-log'
-
   package { 'coturn':
     provider => 'apt',
   }
@@ -55,7 +53,7 @@ class coturn (
 
   daemon { 'coturn':
     binary => '/usr/bin/turnserver',
-    args   => "-c /etc/turnserver.conf -v -l /var/log/coturn/turnserver.log ${daemon_extra_args}",
+    args   => "-c /etc/turnserver.conf -v -l /var/log/coturn/turnserver.log --simple-log --no-dtls --no-tls --no-stdout-log",
     user   => 'turnserver',
   }
 }
