@@ -5,8 +5,8 @@ class coturn (
   $relay_ip = [],
   $external_ip = [],
   $no_multicast_peers = true,
-  $relay_min_port = 49152,
-  $relay_max_port = 65535,
+  $relay_port_min = 49152,
+  $relay_port_max = 65535,
   $mice = false,
   $realm = undef,
   $static_user_accounts = []

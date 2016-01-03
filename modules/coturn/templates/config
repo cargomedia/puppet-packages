@@ -164,8 +164,8 @@ external-ip=<%= ip %>
 #
 #min-port=49152
 #max-port=65535
-min-port=<%= @relay_min_port %>
-max-port=<%= @relay_max_port %>
+min-port=<%= @relay_port_min %>
+max-port=<%= @relay_port_max %>
 
 # Uncomment to run TURN server in 'normal' 'moderate' verbose mode.
 # By default the verbose mode is off.
