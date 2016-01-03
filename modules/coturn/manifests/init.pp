@@ -1,7 +1,7 @@
 class coturn (
   $port = 3478,
   $port_alt = 0,
-  $listening_ip = ['127.0.0.1'],
+  $listening_ip = [],
   $relay_ip = [],
   $external_ip = [],
   $no_multicast_peers = true,
