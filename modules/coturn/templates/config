@@ -327,7 +327,9 @@ user=<%= account %>
 # and the userdb file). Must be used with long-term credentials
 # mechanism or with TURN REST API.
 #
+<% if @realm -%>
 realm=<%= @realm %>
+<% end -%>
 
 # The flag that sets the origin consistency
 # check: across the session, all requests must have the same
