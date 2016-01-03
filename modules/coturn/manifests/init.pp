@@ -28,12 +28,17 @@ class coturn (
       owner  => 'turnserver',
       group  => 'turnserver',
       mode   => '0644';
+    '/etc/coturn':
+      ensure => directory,
+      owner  => '0',
+      group  => '0',
+      mode   => '0644';
     '/var/log/coturn/turnserver.log':
       ensure => file,
       owner  => 'turnserver',
       group  => 'turnserver',
       mode   => '0644';
-    '/etc/turnserver.conf':
+    '/etc/coturn/turnserver.conf':
       ensure  => file,
       content => template("${module_name}/config"),
       owner   => '0',
@@ -53,8 +58,8 @@ class coturn (
 
   daemon { 'coturn':
     binary  => '/usr/bin/turnserver',
-    args    => "-c /etc/turnserver.conf -v -l /var/log/coturn/turnserver.log --simple-log --no-dtls --no-tls --no-stdout-log",
+    args    => "-c /etc/coturn/turnserver.conf -v -l /var/log/coturn/turnserver.log --simple-log --no-dtls --no-tls --no-stdout-log",
     user    => 'turnserver',
-    require => [ File['/etc/turnserver.conf'], File['/var/log/coturn/turnserver.log'] ]
+    require => [ File['/etc/coturn/turnserver.conf'], File['/var/log/coturn/turnserver.log'] ]
   }
 }
