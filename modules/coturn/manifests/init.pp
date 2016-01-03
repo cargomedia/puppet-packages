@@ -1,4 +1,5 @@
 class coturn (
+  $realm,
   $port = 3478,
   $port_alt = 0,
   $listening_ip = [],
@@ -8,7 +9,6 @@ class coturn (
   $relay_port_min = 49152,
   $relay_port_max = 65535,
   $mice = false,
-  $realm = undef,
   $static_user_accounts = []
 ) {
 
