@@ -52,8 +52,9 @@ class coturn (
   ->
 
   daemon { 'coturn':
-    binary => '/usr/bin/turnserver',
-    args   => "-c /etc/turnserver.conf -v -l /var/log/coturn/turnserver.log --simple-log --no-dtls --no-tls --no-stdout-log",
-    user   => 'turnserver',
+    binary  => '/usr/bin/turnserver',
+    args    => "-c /etc/turnserver.conf -v -l /var/log/coturn/turnserver.log --simple-log --no-dtls --no-tls --no-stdout-log",
+    user    => 'turnserver',
+    require => [ File['/etc/turnserver.conf'], File['/var/log/coturn/turnserver.log'] ]
   }
 }
