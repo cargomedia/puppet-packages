@@ -33,14 +33,6 @@ class coturn (
       owner  => 'turnserver',
       group  => 'turnserver',
       mode   => '0644';
-    '/etc/default/coturn':
-      ensure  => file,
-      content => "TURNSERVER_ENABLED=1\n",
-      owner   => '0',
-      group   => '0',
-      mode    => '0644',
-      before  => Package['coturn'],
-      notify  => Service['coturn'];
     '/etc/turnserver.conf':
       ensure  => file,
       content => template("${module_name}/config"),
