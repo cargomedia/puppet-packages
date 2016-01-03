@@ -179,7 +179,9 @@ max-port=<%= @relay_port_max %>
 # Uncomment to use long-term credential mechanism.
 # By default no credentials mechanism is used (any user allowed).
 #
-#lt-cred-mech
+<% if @lt_cred_mech -%>
+lt-cred-mech
+<% end -%>
 
 # This option is opposite to lt-cred-mech.
 # (TURN Server with no-auth option allows anonymous access).

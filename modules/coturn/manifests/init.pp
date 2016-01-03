@@ -9,7 +9,8 @@ class coturn (
   $relay_port_min = 49152,
   $relay_port_max = 65535,
   $mice = false,
-  $static_user_accounts = []
+  $static_user_accounts = [],
+  $lt_cred_mech = true
 ) {
 
   require 'apt'
