@@ -48,13 +48,13 @@ define daemon (
       before => Systemd::Unit[$title],
     }
 
-    @bipbip::entry { "log-parser-${name}":
+    @bipbip::entry { "log-parser-daemon-${name}":
       plugin  => 'log-parser',
       options => {
-        'metric_group' => 'systemd',
+        'metric_group' => "daemon {$name}",
         'path' => '/var/log/syslog',
         'matchers' => [
-          { 'name' => "${name} failed",
+          { 'name' => "${name} daemon failed",
             'regexp' => "${name}.service failed." },
         ]
       }
