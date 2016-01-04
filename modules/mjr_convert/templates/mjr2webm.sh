@@ -15,7 +15,7 @@ set -e
 # mjr2webm -v myvideo.mjr -a myaudio.mjr out.webm
 myhelp () {
     echo $0
-    echo 'Usage: mjr2webm -v [videofile] -a [audiofile] --ffmpegVideoParams [ffmpegVideoParams] --ffmpegAudioParams [ffmpegAudioParams] [outputfile]'
+    echo 'Usage: mjr2webm --video [videofile] --audio [audiofile] --ffmpegVideoParams [ffmpegVideoParams] --ffmpegAudioParams [ffmpegAudioParams] [outputfile]'
     echo '   "[videofile]" must be a .mjr video file output from Janus'
     echo '   "[audiofile]" must be a .mjr audio file output from Janus'
     echo '   "[ffmpegVideoParams]" overwrite video ffmpeg params'
@@ -46,25 +46,25 @@ if ! which janus-pp-rec > /dev/null; then
 fi
 
 
-ffmpegVideoParams = "-c:v libvpx -b:v 500k -r 25"
-ffmpegAudioParams = "-c:a libopus -b:a 64k"
+ffmpegVideoParams="-c:v libvpx -b:v 500k -r 25"
+ffmpegAudioParams="-c:a libopus -b:a 64k"
 
 while test $# -gt 0
 do
   case $1 in
 
   # Normal option processing
-    -h | --help)
+    --help)
       # usage and help
       myhelp
       exit 0
       break
       ;;
-    -v | --video)
+    --video)
       shift
       video=$1
       ;;
-    -a | --audio)
+    --audio)
       shift
       audio=$1
       ;;
@@ -121,21 +121,24 @@ fi
 TFILE="$$"
 opus=$TFILE.opus
 webm=$TFILE.webm
-ffmpegParams=""
+inputs=""
+params=""
 
 # convert video to webm
 if ! [ -z $video ]; then
   janus-pp-rec $video $webm
-  ffmpegParams="$ffmpegParams -i $webm $ffmpegVideoParams"
+  inputs="$inputs -i $webm"
+  params="$params $ffmpegVideoParams"
 fi
 
 # convert audio to opus
 if ! [ -z $audio ]; then
   janus-pp-rec $audio $opus
-  ffmpegParams="$ffmpegParams -i $opus $ffmpegAudioParams"
+  inputs="$inputs -i $opus"
+  params="$params$ffmpegAudioParams"
 fi
-echo $ffmpeg $ffmpegParams $out
-$ffmpeg $ffmpegParams $out
+echo $ffmpeg $inputs $params $out
+$ffmpeg $inputs $params $out
 
 if [ -e $webm ]; then
   rm $webm

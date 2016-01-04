@@ -15,7 +15,7 @@ set -e
 # mjr2png -v myvideo.mjr out.png
 myhelp () {
     echo $0
-    echo 'Usage: mjr2png -v videofile -h height -w width [outputfile]'
+    echo 'Usage: mjr2png --video videofile --height height --width width [outputfile]'
     echo '   "videofile" must be a .mjr video file output from Janus'
     echo '   "height" height of the png'
     echo '   "width" width of the png'
@@ -44,29 +44,26 @@ if ! which janus-pp-rec > /dev/null; then
      exit 1
 fi
 
-
-ffmpegVideoParams = "-c:v libvpx -b:v 500k -r 25"
-
 while test $# -gt 0
 do
   case $1 in
 
   # Normal option processing
-    -h | --help)
+    --help)
       # usage and help
       myhelp
       exit 0
       break
       ;;
-    -v | --video)
+    --video)
       shift
       video=$1
       ;;
-    -h | --height)
+    --height)
       shift
       height=$1
       ;;
-    -w | --width)
+    --width)
       shift
       width=$1
       ;;
