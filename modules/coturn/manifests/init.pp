@@ -16,7 +16,7 @@ class coturn (
   require 'apt'
   require 'apt::source::cargomedia'
 
-  class { 'ulimit':
+  ulimit::entry { 'turnserver':
     limits => [
       {
         'domain' => 'turnserver',
