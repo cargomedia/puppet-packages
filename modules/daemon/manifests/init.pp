@@ -6,6 +6,7 @@ define daemon (
   $nice = undef,
   $oom_score_adjust = undef,
   $env = {},
+  $limit_nofile = 4096
 ) {
 
   if (defined(User[$user])) {
