@@ -11,6 +11,7 @@ User=<%= @user %>
 TimeoutStopSec=<%= @stop_timeout %>
 KillMode=mixed
 Restart=always
+LimitNOFILE=<%= @limit_nofile %>
 <% @env.each do |name, value| -%>
 Environment=<%= name %>=<%= value %>
 <% end %>
