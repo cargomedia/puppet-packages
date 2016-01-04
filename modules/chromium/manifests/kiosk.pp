@@ -1,9 +1,14 @@
 class chromium::kiosk(
   $user,
   $url,
+  $hide_ui = false
 ) {
 
   require 'chromium'
+
+  class { 'chromium::policy::homepage':
+    url => $url,
+  }
 
   $script = '/usr/local/bin/chromium-kiosk.sh'
   file { $script:
@@ -19,7 +24,7 @@ class chromium::kiosk(
     require => File[$script],
   }
 
-  class { 'lightdm::autologin':
+  class { 'lightdm::config::autologin':
     user => $user,
   }
 

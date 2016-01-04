@@ -4,30 +4,44 @@ class rsyslog(
 
   require 'apt'
 
-  file { '/etc/rsyslog.conf':
+  file {
+    '/etc/rsyslog.conf':
+      ensure  => file,
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
+      content => template("${module_name}/rsyslog.conf.erb"),
+      notify  => Service['rsyslog'];
+    '/etc/rsyslog.d':
+      ensure    => directory,
+      owner     => '0',
+      group     => '0',
+      mode      => '0644',
+      notify    => Service['rsyslog'];
+    '/etc/rsyslog.d/50-default.conf':
+      ensure  => file,
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
+      content => template("${module_name}/rules.conf.erb"),
+      notify    => Service['rsyslog'];
+  }
+
+  file { '/var/log/syslog':
     ensure  => file,
     owner   => '0',
     group   => '0',
-    mode    => '0644',
-    content => template("${module_name}/rsyslog.conf"),
-    notify  => Service['rsyslog']
-  }
-  ~>
-
-  file { '/var/log/syslog':
-    ensure => file,
-    owner  => '0',
-    group  => '0',
-    mode   => $logfile_mode,
+    mode    => $logfile_mode,
+    require => Package['rsyslog'],
   }
 
   package { 'rsyslog':
     ensure   => present,
     provider => 'apt',
   }
-  ->
 
   service { 'rsyslog':
-    enable => true,
+    enable  => true,
+    require => Package['rsyslog'],
   }
 }

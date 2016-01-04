@@ -1,5 +1,5 @@
 {
   "ExtensionInstallForcelist": [
-    "<%= @id %>;<%= @update_url %>"
+    <%= require 'json'; JSON.dump("#{@id};#{@update_url}") %>
   ]
 }

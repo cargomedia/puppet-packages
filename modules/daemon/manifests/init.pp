@@ -51,6 +51,7 @@ define daemon (
     @bipbip::entry { "log-parser-${name}":
       plugin  => 'log-parser',
       options => {
+        'metric_group' => 'systemd',
         'path' => '/var/log/syslog',
         'matchers' => [
           { 'name' => "${name} failed",

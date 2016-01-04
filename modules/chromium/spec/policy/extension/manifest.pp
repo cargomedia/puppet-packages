@@ -1,6 +1,6 @@
 node default {
 
-  chromium::extension{ 'lgtm':
+  chromium::policy::extension{ 'lgtm':
     id => 'oeacdmeoegfagkmiecjjikpfgebmalof',
   }
   ->

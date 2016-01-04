@@ -12,7 +12,6 @@ class cm_janus (
 
   require 'nodejs'
   require 'build::gpp'
-  include 'cm_janus::service'
 
   file { '/etc/cm-janus':
     ensure => directory,
@@ -27,20 +26,23 @@ class cm_janus (
     owner   => '0',
     group   => '0',
     mode    => '0755',
+    before  => Daemon['cm-janus'],
     notify  => Service['cm-janus'],
   }
 
   user { 'cm-janus':
     ensure => present,
     system => true,
+    before  => Daemon['cm-janus'],
   }
 
-  file { '/var/log/cm-janus':
+  file { ['/var/log/cm-janus', '/var/lib/cm-janus', '/var/lib/cm-janus/jobs-temp-files']:
     ensure  => directory,
-    owner   => '0',
-    group   => '0',
+    owner   => 'cm-janus',
+    group   => 'cm-janus',
     mode    => '0755',
     require => User['cm-janus'],
+    before  => Daemon['cm-janus'],
   }
 
   logrotate::entry{ $module_name:
@@ -50,8 +52,13 @@ class cm_janus (
   package { 'cm-janus':
     ensure   => latest,
     provider => 'npm',
+    before  => Daemon['cm-janus'],
     notify   => Service['cm-janus'],
   }
 
-  #TODO: add bipbip
+  daemon { 'cm-janus':
+    binary  => '/usr/bin/node',
+    args    => '/usr/bin/cm-janus -c /etc/cm-janus/config.yaml',
+    user    => 'cm-janus',
+  }
 }
