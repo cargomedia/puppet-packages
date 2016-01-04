@@ -86,6 +86,11 @@ do
   shift
 done
 
+if [ -z $audio ] && [ -z $video ]; then
+  echo "Must provide audio or video params (or both)"
+  exit 1
+fi
+
 if ! [ -z $video ]; then
   if ! [ -f $video ]; then
      echo "Videofile $video does not exist"
@@ -97,14 +102,16 @@ if ! [ -z $video ]; then
      fi
   fi
 fi
-if ! [ -f $audio ]; then
-   echo "Audio $audio does not exist"
-   exit 1
-else
-   if ! [[ "$audio" == *.mjr ]]; then
-      echo "Audio file must end with .mjr"
-      exit 1
-   fi
+if ! [ -z $audio ]; then
+  if ! [ -f $audio ]; then
+     echo "Audio $audio does not exist"
+     exit 1
+  else
+     if ! [[ "$audio" == *.mjr ]]; then
+        echo "Audio file must end with .mjr"
+        exit 1
+     fi
+  fi
 fi
 
 if [ -z "$1" ]; then
