@@ -16,6 +16,17 @@ class coturn (
   require 'apt'
   require 'apt::source::cargomedia'
 
+  class { 'ulimit':
+    limits => [
+      {
+        'domain' => 'turnserver',
+        'type' => '-',
+        'item' => 'nofile',
+        'value' => 65536,
+      }
+    ]
+  }
+
   user { 'turnserver':
     ensure => present,
     system => true,
@@ -44,7 +55,7 @@ class coturn (
       owner   => '0',
       group   => '0',
       mode    => '0644',
-      notify  => Service['coturn'],
+      notify  => Service['coturn'];
   }
 
   logrotate::entry{ $module_name:
