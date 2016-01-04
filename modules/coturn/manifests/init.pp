@@ -16,17 +16,6 @@ class coturn (
   require 'apt'
   require 'apt::source::cargomedia'
 
-  ulimit::entry { 'turnserver':
-    limits => [
-      {
-        'domain' => 'turnserver',
-        'type' => '-',
-        'item' => 'nofile',
-        'value' => 65536,
-      }
-    ]
-  }
-
   user { 'turnserver':
     ensure => present,
     system => true,
@@ -68,9 +57,10 @@ class coturn (
   ->
 
   daemon { 'coturn':
-    binary  => '/usr/bin/turnserver',
-    args    => '-c /etc/coturn/turnserver.conf -v -l /var/log/coturn/turnserver.log --simple-log --no-dtls --no-tls --no-stdout-log',
-    user    => 'turnserver',
-    require => [ File['/etc/coturn/turnserver.conf'], File['/var/log/coturn/turnserver.log'] ]
+    binary       => '/usr/bin/turnserver',
+    args         => '-c /etc/coturn/turnserver.conf -v -l /var/log/coturn/turnserver.log --simple-log --no-dtls --no-tls --no-stdout-log',
+    user         => 'turnserver',
+    limit_nofile => 65536,
+    require      => [ File['/etc/coturn/turnserver.conf'], File['/var/log/coturn/turnserver.log'] ]
   }
 }
