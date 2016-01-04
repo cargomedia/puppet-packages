@@ -46,9 +46,10 @@ class cm_janus (
     content => template("${module_name}/logrotate")
   }
 
-  @bipbip::entry { 'logparser':
+  @bipbip::entry { 'logparser-cm-janus':
     plugin  => 'log-parser',
     options => {
+      'metric_group' => 'cm-janus',
       'path' => '/var/log/cm-janus/cm-janus.log',
       'matchers' => [
         { 'name' => 'error',
