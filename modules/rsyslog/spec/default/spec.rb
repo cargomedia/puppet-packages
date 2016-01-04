@@ -4,7 +4,10 @@ describe 'rsyslog' do
 
   describe file('/etc/rsyslog.conf') do
     it { should be_file }
-    its(:content) { should match /\$FileCreateMode 0707/ }
+  end
+
+  describe command('grep -r "/var/log/syslog" /etc/rsyslog.d | wc -l') do
+    its(:stdout) { should match('1') }
   end
 
   describe package('rsyslog') do
@@ -18,5 +21,9 @@ describe 'rsyslog' do
   describe file('/var/log/syslog') do
     it { should be_file }
     it { should be_mode 707 }
+    its(:content) { should match(/my-test$/) }
+    it 'logs only once' do
+      expect(subject.content.scan(/my-test/).count).to eq(1)
+    end
   end
 end
