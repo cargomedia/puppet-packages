@@ -1,18 +1,9 @@
-class iptables(
-  $stateful = true,
-) {
+class iptables {
 
   require 'apt'
 
   package { 'iptables':
     ensure   => present,
     provider => 'apt',
-  }
-
-  if ($stateful) {
-    iptables::entry { 'Stateful firewall init':
-      chain => 'INPUT',
-      rule  => '-m state --state RELATED,ESTABLISHED -j ACCEPT',
-    }
   }
 }
