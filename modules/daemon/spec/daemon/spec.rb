@@ -29,4 +29,9 @@ describe 'daemon' do
     its(:stdout) { should match /FOO=BOO/ }
   end
 
+  describe command('cat /proc/$(pgrep -f "^/bin/bash /tmp/my-program")/limits') do
+    its(:exit_status) { should eq 0 }
+    its(:stdout) { should match /Max open files(.*)9999(.*)9999(.*)files/ }
+  end
+
 end
