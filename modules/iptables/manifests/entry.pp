@@ -5,7 +5,7 @@ define iptables::entry (
   $rule = undef
 ) {
 
-  include 'iptables'
+  require 'iptables'
 
   exec { $title:
     provider => shell,
