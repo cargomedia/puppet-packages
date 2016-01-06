@@ -7,4 +7,7 @@ class ufw {
     ensure   => present,
     provider => 'apt',
   }
+
+  Ufw::Application <| |>
+  Ufw::Rule <| |>
 }
