@@ -54,7 +54,7 @@ define daemon (
         'metric_group' => "daemon-${name}",
         'path' => '/var/log/syslog',
         'matchers' => [
-          { 'name' => "${name} daemon failed",
+          { 'name' => 'process failed',
             'regexp' => "${name}.service failed." },
         ]
       }
