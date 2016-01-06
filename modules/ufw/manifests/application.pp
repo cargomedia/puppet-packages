@@ -17,7 +17,7 @@ define ufw::application(
   }
   ->
 
-  ufw::rule {"Allow ${app_name}":
+  ufw::rule { "Allow ${app_name}":
     app_or_port => $app_name,
   }
 }
