@@ -2,7 +2,8 @@ class ufw::service {
 
   exec { 'Activate ufw':
     provider => shell,
-    command  => 'echo "y" | sudo ufw enable >/dev/null',
+    command  => 'echo "y" | ufw enable >/dev/null',
+    unless   => 'ufw status | grep -q \'Status: inactive\'',
     path     => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     user     => 'root',
     require  => Package['ufw'],
