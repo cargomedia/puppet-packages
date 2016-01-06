@@ -2,8 +2,7 @@ require 'spec_helper'
 
 describe 'ufw::app-profile' do
 
-  describe command('ufw app info foo') {
-    its(:stdout) { should match /Description: weird server/ }
+  describe command('ufw app info food') {
     its(:stdout) { should match /21,23:25\/tcp/ }
     its(:stdout) { should match /10000:15000\/udp/ }
   }

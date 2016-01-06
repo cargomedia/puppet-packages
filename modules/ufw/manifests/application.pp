@@ -7,12 +7,17 @@ define ufw::application(
 
   require 'ufw'
 
-  file { "/etc/ufw/applications.d/${title}" :
+  file { "/etc/ufw/applications.d/${app_name}" :
     ensure  => file,
     content => template("${module_name}/application.erb"),
     owner   => '0',
     group   => '0',
     mode    => '0644',
     notify  => Service['ufw'],
+  }
+  ->
+
+  ufw::rule {"Allow ${app_name}":
+    app_or_port => $app_name,
   }
 }
