@@ -51,6 +51,14 @@ class coturn (
     content => template("${module_name}/logrotate")
   }
 
+  @bipbip::entry { 'coturn':
+    plugin  => 'coturn',
+    options => {
+      'hostname' => 'localhost',
+      'port' => 5766,
+    }
+  }
+
   package { 'coturn':
     provider => 'apt',
   }
