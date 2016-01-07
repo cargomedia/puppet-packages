@@ -12,6 +12,7 @@ class cm_janus (
 
   require 'nodejs'
   require 'build::gpp'
+  require 'mjr_convert'
 
   file { '/etc/cm-janus':
     ensure => directory,
