@@ -56,7 +56,7 @@ class coturn (
     plugin  => 'coturn',
     options => {
       'hostname' => 'localhost',
-      'port' => 5766,
+      'port'     => 5766,
     }
   }
 
@@ -73,18 +73,14 @@ class coturn (
     require      => [ File['/etc/coturn/turnserver.conf'], File['/var/log/coturn/turnserver.log'] ]
   }
 
-  if ($port_alt > 0) {
-    $port_alt_string = ",${port_alt}"
+  if ($ufw_app_profile) {
+    @ufw::application { 'turnserver':
+      app_ports       => $ufw_app_profile,
+    }
+  } else {
+    @ufw::rule { 'activate coturn rule':
+      app_or_port => 'turnserver'
+    }
   }
 
-  $ufw_default = "${port}${port_alt_string}/tcp"
-
-  $ufw_rule = $ufw_app_profile ? {
-    undef => $ufw_default,
-    default => $ufw_app_profile,
-  }
-
-  @ufw::application { 'coturn':
-    app_ports       => $ufw_rule,
-  }
 }
