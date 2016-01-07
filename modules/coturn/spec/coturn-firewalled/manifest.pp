@@ -7,8 +7,11 @@ node default {
     mice => true,
     static_user_accounts => ['admin:admin', 'super:0x892bd158de5ce05f7792112eca1be3ca'],
     realm => 'mydomain.com',
-    port_alt => 8540,
   }
 
   include 'ufw'
+
+  ufw::rule { 'ssh':
+    app_or_port => 'OpenSSH',
+  }
 }
