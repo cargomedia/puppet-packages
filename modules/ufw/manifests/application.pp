@@ -19,12 +19,10 @@ define ufw::application(
   exec { "Refresh rule for ${app_name}":
     provider    => shell,
     command     => "ufw app update ${app_name}",
-    unless      => "! ufw status | grep -qE '^${app_or_port}+.+ALLOW'",
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     user        => 'root',
     refreshonly => true,
-    require     => Package['ufw'],
-    refresh     => Service['ufw'],
+    notify      => Service['ufw'],
   }
   ->
 
