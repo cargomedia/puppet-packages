@@ -29,7 +29,7 @@ class ffmpeg ($version = '2.6') {
 
   helper::script { 'install ffmpeg':
     content => template("${module_name}/install.sh"),
-    unless  => "ffmpeg -version | grep -q '^ffmpeg version ${version}$'",
+    unless  => "ffmpeg -version | grep -q '^ffmpeg version ${version} '",
     timeout => 900,
   }
 
