@@ -24,7 +24,7 @@ define ufw::application(
     user        => 'root',
     refreshonly => true,
     require     => Package['ufw'],
-    refresh     => Service['ufw'],
+    notify      => Service['ufw'],
   }
   ->
 
