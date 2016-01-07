@@ -13,7 +13,16 @@ define ufw::application(
     owner   => '0',
     group   => '0',
     mode    => '0644',
-    notify  => Service['ufw'],
+  }
+  ~>
+
+  exec { "Refresh rule for ${app_name}":
+    provider    => shell,
+    command     => "ufw app update ${app_name}",
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    user        => 'root',
+    refreshonly => true,
+    notify      => Service['ufw'],
   }
   ->
 
