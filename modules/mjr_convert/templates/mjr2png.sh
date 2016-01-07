@@ -11,7 +11,7 @@ while test $# -gt 0
 do
   case $1 in
     --help)
-      echo "Usage: mjr2webm [--ffmpeg-params <ffmpeg-params>] <audio-mjr-source> <width> <height> <output-file>"
+      echo "Usage: mjr2webm [--ffmpeg-params <ffmpeg-params>] <video-mjr-source> <width> <height> <output-file>"
       exit 1
       ;;
     --ffmpeg-params)

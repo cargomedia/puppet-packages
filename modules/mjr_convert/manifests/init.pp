@@ -7,7 +7,7 @@ class mjr_convert {
     ensure  => 'file',
     owner   => '0',
     group   => '0',
-    content => template('mjr_convert/mjr2webm.sh'),
+    content => template("${module_name}/mjr2webm.sh"),
     mode    => '0755',
   }
 
@@ -15,7 +15,7 @@ class mjr_convert {
     ensure  => 'file',
     owner   => '0',
     group   => '0',
-    content => template('mjr_convert/mjr2png.sh'),
+    content => template("${module_name}/mjr2png.sh"),
     mode    => '0755',
   }
 }
