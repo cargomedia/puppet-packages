@@ -77,3 +77,7 @@ mod 'cargomedia/cm_janus',
 mod 'cargomedia/janus',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/janus'
+
+mod 'cargomedia/ufw',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/ufw'

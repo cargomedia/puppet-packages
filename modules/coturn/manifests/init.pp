@@ -10,7 +10,8 @@ class coturn (
   $relay_port_max = 65535,
   $mice = true,
   $static_user_accounts = [],
-  $lt_cred_mech = true
+  $lt_cred_mech = true,
+  $ufw_app_profile = undef,
 ) {
 
   require 'apt'
@@ -70,5 +71,20 @@ class coturn (
     user         => 'turnserver',
     limit_nofile => 65536,
     require      => [ File['/etc/coturn/turnserver.conf'], File['/var/log/coturn/turnserver.log'] ]
+  }
+
+  if ($port_alt > 0) {
+    $port_alt_string = ",${port_alt}"
+  }
+
+  $ufw_default = "${port}${port_alt_string}/tcp"
+
+  $ufw_rule = $ufw_app_profile ? {
+    undef => $ufw_default,
+    default => $ufw_app_profile,
+  }
+
+  @ufw::application { 'coturn':
+    app_ports       => $ufw_rule,
   }
 }
