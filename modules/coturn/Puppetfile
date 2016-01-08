@@ -10,3 +10,6 @@ mod 'cargomedia/daemon',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/daemon'
 
+mod 'cargomedia/ufw',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/ufw'
