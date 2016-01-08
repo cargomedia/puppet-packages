@@ -11,13 +11,21 @@ class cm::services::janus(
   $cm_api_base_url = 'http://www.cm.dev',
   $cm_api_key = 'mad-panda',
 
+  $webrtc_media_minport = 20000,
+  $webrtc_media_maxport = 25000,
   $rtpbroadcast_minport = 8400,
   $rtpbroadcast_maxport = 9000,
+
   $ufw_app_profile = undef,
 ) {
 
   $janus_http_port = 8300
   $janus_websockets_port = 8310
+
+  class { 'janus':
+    rtp_port_range_min => $webrtc_media_minport,
+    rtp_port_range_max => $webrtc_media_maxport,
+  }
 
   class { 'janus::transport::http':
     base_path          => '/janus',
@@ -68,10 +76,11 @@ class cm::services::janus(
     ssl_cert  => $ssl_cert,
   }
 
-  $ufw_default = "${http_server_port},${websocket_server_port}/tcp"
+  $ufw_default_tcp = "${http_server_port},${websocket_server_port},${webrtc_media_minport}:${webrtc_media_maxport}/tcp"
+  $ufw_default_udp = "${webrtc_media_minport}:${webrtc_media_maxport},${rtpbroadcast_minport}:${rtpbroadcast_maxport}/udp"
 
   $ufw_rule = $ufw_app_profile ? {
-    undef => $ufw_default,
+    undef => "${ufw_default_tcp}|${ufw_default_udp}",
     default => $ufw_app_profile,
   }
 
