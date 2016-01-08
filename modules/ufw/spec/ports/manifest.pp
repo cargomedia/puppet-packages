@@ -1,7 +1,7 @@
 node default {
 
   class { 'coturn':
-    realm=>'me',
+    realm => 'me',
   }
 
 
