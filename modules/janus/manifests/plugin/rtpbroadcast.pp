@@ -12,6 +12,7 @@ class janus::plugin::rtpbroadcast(
   $jobs_path = '/var/lib/janus/jobs',
   $job_pattern = 'job-#{md5}',
   $src_version = undef,
+  $ufw_app_profile = undef
 ) {
 
   include 'janus'
@@ -57,4 +58,14 @@ class janus::plugin::rtpbroadcast(
     }
   }
 
+  $ufw_default = "${minport}:${maxport}/udp"
+
+  $ufw_rule = $ufw_app_profile ? {
+    undef => $ufw_default,
+    default => $ufw_app_profile,
+  }
+
+  @ufw::application { 'janus-rtpbroadcast':
+    app_ports       => $ufw_rule,
+  }
 }
