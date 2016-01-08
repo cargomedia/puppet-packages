@@ -68,7 +68,6 @@ class cm::services::janus(
     ssl_cert  => $ssl_cert,
   }
 
-
   $ufw_default = "${http_server_port},${websocket_server_port}/tcp"
 
   $ufw_rule = $ufw_app_profile ? {

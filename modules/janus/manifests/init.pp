@@ -101,7 +101,7 @@ class janus (
     require => [File[$config_file, $plugin_config_dir, $log_file]],
   }
 
-  $ufw_default = "${rtp_port_range_min}:${$rtp_port_range_max}/tcp|${rtp_port_range_min}:${$rtp_port_range_max}/udp"
+  $ufw_default = "${rtp_port_range_min}:${rtp_port_range_max}/tcp|${rtp_port_range_min}:${$rtp_port_range_max}/udp"
 
   $ufw_rule = $ufw_app_profile ? {
     undef => $ufw_default,
