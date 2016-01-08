@@ -69,7 +69,7 @@ class cm::services::janus(
   }
 
 
-  $ufw_default = "${http_server_port},${websocket_server_port}/tcp|${$rtpbroadcast_minport}:${$rtpbroadcast_maxport}/udp"
+  $ufw_default = "${http_server_port},${websocket_server_port}/tcp"
 
   $ufw_rule = $ufw_app_profile ? {
     undef => $ufw_default,
