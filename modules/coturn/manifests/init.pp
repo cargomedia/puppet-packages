@@ -73,7 +73,13 @@ class coturn (
     require      => [ File['/etc/coturn/turnserver.conf'], File['/var/log/coturn/turnserver.log'] ]
   }
 
-  $ufw_default = "${port},${relay_port_min}:${relay_port_max}/tcp|${port},${relay_port_min}:${relay_port_max}/udp"
+  if ($port_alt == 0) {
+    $port_alt_real = $port + 1
+  } else {
+    $port_alt_real = $port_alt
+  }
+
+  $ufw_default = "${port},${port_alt_real},${relay_port_min}:${relay_port_max}/tcp|${port},${port_alt_real},${relay_port_min}:${relay_port_max}/udp"
 
   $ufw_rule = $ufw_app_profile ? {
     undef => $ufw_default,
