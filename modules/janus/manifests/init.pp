@@ -17,7 +17,6 @@ class janus (
   $turn_rest_api = undef,
   $turn_rest_api_key = undef,
   $src_version = undef,
-  $ufw_app_profile = undef,
 ) {
 
   require 'apt'
@@ -99,16 +98,5 @@ class janus (
     args    => "-o -C ${config_file} -F ${plugin_config_dir} -L ${log_file}",
     user    => 'janus',
     require => [File[$config_file, $plugin_config_dir, $log_file]],
-  }
-
-  $ufw_default = "${rtp_port_range_min}:${rtp_port_range_max}/tcp|${rtp_port_range_min}:${$rtp_port_range_max}/udp"
-
-  $ufw_rule = $ufw_app_profile ? {
-    undef => $ufw_default,
-    default => $ufw_app_profile,
-  }
-
-  @ufw::application { 'janus':
-    app_ports       => $ufw_rule,
   }
 }
