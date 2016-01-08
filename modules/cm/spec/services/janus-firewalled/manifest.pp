@@ -14,12 +14,6 @@ node default {
     rtpbroadcast_maxport  => 15000,
   }
 
-  class { 'coturn':
-    realm                => 'foox',
-    static_user_accounts => ['foox:barx'],
-    port                 => 747,
-  }
-
   include 'ufw'
 
   @ufw::rule { 'ssh':
