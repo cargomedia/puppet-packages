@@ -13,6 +13,7 @@ class cm::services::janus(
 
   $rtpbroadcast_minport = 8400,
   $rtpbroadcast_maxport = 9000,
+  $ufw_app_profile = undef,
 ) {
 
   $janus_http_port = 8300
@@ -65,5 +66,17 @@ class cm::services::janus(
     port      => $websocket_server_port,
     ssl_key   => $ssl_key,
     ssl_cert  => $ssl_cert,
+  }
+
+
+  $ufw_default = "${http_server_port},${websocket_server_port}/tcp|${$rtpbroadcast_minport}:${$rtpbroadcast_maxport}/udp"
+
+  $ufw_rule = $ufw_app_profile ? {
+    undef => $ufw_default,
+    default => $ufw_app_profile,
+  }
+
+  @ufw::application { 'cm-janus':
+    app_ports       => $ufw_rule,
   }
 }
