@@ -56,5 +56,4 @@ class janus::plugin::rtpbroadcast(
       notify   => Service['janus'],
     }
   }
-
 }
