@@ -22,7 +22,7 @@ class cm::services::janus(
   $janus_http_port = 8300
   $janus_websockets_port = 8310
 
-  class { 'janus':
+  class { '::janus':
     rtp_port_range_min => $webrtc_media_minport,
     rtp_port_range_max => $webrtc_media_maxport,
   }
