@@ -73,14 +73,14 @@ class coturn (
     require      => [ File['/etc/coturn/turnserver.conf'], File['/var/log/coturn/turnserver.log'] ]
   }
 
-  if ($ufw_app_profile) {
-    @ufw::application { 'turnserver':
-      app_ports       => $ufw_app_profile,
-    }
-  } else {
-    @ufw::rule { 'activate coturn rule':
-      app_or_port => 'turnserver'
-    }
+  $ufw_default = "${port},${relay_port_min}:${relay_port_max}/tcp|${port},${relay_port_min}:${relay_port_max}/udp"
+
+  $ufw_rule = $ufw_app_profile ? {
+    undef => $ufw_default,
+    default => $ufw_app_profile,
   }
 
+  @ufw::application { 'turnserver':
+    app_ports       => $ufw_rule,
+  }
 }
