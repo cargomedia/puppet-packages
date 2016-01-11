@@ -43,5 +43,4 @@ class ssh ($permit_root_login = 'yes') {
   @ufw::application { 'openSSH':
     app_ports => "${port}/tcp",
   }
-
 }
