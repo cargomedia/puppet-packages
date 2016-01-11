@@ -8,6 +8,15 @@ class ufw {
     provider => 'apt',
   }
 
+  file { '/etc/ufw/applications.d':
+    ensure  => directory,
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
+    purge   => true,
+    recurse => true,
+  }
+
   Ufw::Application <| |>
   Ufw::Rule <| |>
 }

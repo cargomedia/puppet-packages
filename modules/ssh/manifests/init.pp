@@ -1,4 +1,7 @@
-class ssh ($permit_root_login = 'yes') {
+class ssh (
+  $permit_root_login = 'yes',
+  $port = 22,
+) {
 
   require 'apt'
 
@@ -38,5 +41,9 @@ class ssh ($permit_root_login = 'yes') {
 
   service { 'ssh':
     enable => true,
+  }
+
+  @ufw::application { 'OpenSSH':
+    app_ports => "${port}/tcp"
   }
 }
