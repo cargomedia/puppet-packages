@@ -43,7 +43,7 @@ class ssh (
     enable => true,
   }
 
-  @ufw::application { 'openSSH':
+  @ufw::application { 'OpenSSH':
     app_ports => "${port}/tcp"
   }
 }
