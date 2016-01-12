@@ -10,9 +10,9 @@ class ufw::service {
   }
   ->
 
-  service {'ufw':
-    enable => true,
+  service { 'ufw':
+    enable     => true,
     hasrestart => true,
-    hasstatus => true,
+    hasstatus  => true,
   }
 }
