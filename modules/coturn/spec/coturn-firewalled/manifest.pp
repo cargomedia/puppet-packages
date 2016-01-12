@@ -9,9 +9,6 @@ node default {
     realm => 'mydomain.com',
   }
 
+  include 'ssh'
   include 'ufw'
-
-  ufw::rule { 'ssh':
-    app_or_port => 'OpenSSH',
-  }
 }
