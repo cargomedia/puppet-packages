@@ -45,6 +45,5 @@ class ssh (
 
   @ufw::application { 'OpenSSH':
     app_ports => "${port}/tcp",
-    before    => Exec['Activate ufw'],
   }
 }

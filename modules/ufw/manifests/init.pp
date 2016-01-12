@@ -17,6 +17,6 @@ class ufw {
     recurse => true,
   }
 
-  Ufw::Application <| |>
-  Ufw::Rule <| |>
+  Ufw::Application <| |> -> Exec['Activate ufw']
+  Ufw::Rule <| |> -> Exec['Activate ufw']
 }
