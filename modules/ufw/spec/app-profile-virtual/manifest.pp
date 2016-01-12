@@ -6,5 +6,6 @@ node default {
     app_ports       => '21,23:25/tcp|10000:15000/udp',
   }
 
+  include 'ssh'
   include 'ufw'
 }

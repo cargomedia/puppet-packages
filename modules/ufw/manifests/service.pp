@@ -11,6 +11,7 @@ class ufw::service {
   ->
 
   service {'ufw':
+    provider => $::service_provider, # Workaround for https://github.com/cargomedia/puppet-packages/issues/1071
     enable => true,
     hasrestart => true,
     hasstatus => true,
