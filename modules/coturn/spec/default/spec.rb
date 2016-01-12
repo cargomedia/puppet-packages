@@ -22,11 +22,16 @@ describe 'coturn' do
     its(:content) { should match /^realm=mydomain.com$/ }
   end
 
+  # Wait for coturn to start up
+  describe command('timeout --signal=9 30 bash -c "while ! (curl -s http://localhost:3478/ | grep -q \"TURN Server\"); do sleep 0.5; done"') do
+    its(:exit_status) { should eq 0 }
+  end
+
   describe command('turnutils_uclient -u super -w supper-bad-pass -m 1 -n 1 -M -B -z 1 127.0.0.1') do
     its(:stdout) { should match /0: ERROR: Cannot complete Allocation/ }
   end
 
-  describe command('timeout 2 turnutils_uclient -u super -w super -m 1 -n 1 -M -B -z 1 127.0.0.1') do
+  describe command('turnutils_uclient -u super -w super -m 1 -n 1 -M -B -z 1 127.0.0.1') do
     its(:stdout) { should match /1: start_mclient: msz=2, tot_send_msgs=0, tot_recv_msgs=0, tot_send_bytes ~ 0, tot_recv_bytes ~ 0/ }
   end
 
