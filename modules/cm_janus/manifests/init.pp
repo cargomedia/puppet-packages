@@ -8,6 +8,7 @@ class cm_janus (
   $cm_api_key,
   $cm_application_path,
   $jobs_path,
+  $jobs_priority = 10
 ) {
 
   require 'nodejs'

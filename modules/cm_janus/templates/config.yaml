@@ -15,4 +15,11 @@ cmApplication:
 jobManager:
   jobsPath: '<%= @jobs_path %>'
   tempFilesPath: '/var/lib/cm-janus/jobs-temp-files'
+  handlersConfiguration:
+    'janus.plugin.cm.audioroom:audio-recording-finished':
+      convertCommand: 'nice -n <%= @jobs_priority %>  lame <%%= wavFile %> <%%= mp3File %>'
+    'janus.plugin.cm.rtpbroadcast:recording-finished':
+      mergeCommand: 'nice -n <%= @jobs_priority %> mjr2webm <%%= audioMjrFile %> <%%= videoMjrFile %> <%%= webmFile %>'
+    'janus.plugin.cm.rtpbroadcast:thumbnailing-finished':
+      createThumbnailCommand: 'nice -n <%= @jobs_priority %> mjr2png <%%= videoMjrFile %> <%%= width %> <%%= height %> <%%= pngFile %>'
 
