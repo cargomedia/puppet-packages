@@ -1,8 +1,6 @@
 node default {
 
-  if ($::service_provider == 'debian') {
-    require 'monit'
-  }
+  require 'monit'
 
   file { '/tmp/my-program':
     ensure  => file,
