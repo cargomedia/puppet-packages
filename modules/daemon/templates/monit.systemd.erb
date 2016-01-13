@@ -1,5 +1,2 @@
-<% pattern = "@binary" %>
-<% pattern = pattern + " @args" if @args %>
-check process <%= @name %> matching '^<%= pattern %>$'
-	start program = "/bin/systemctl start <%= @name %>"
-	stop program = "/bin/systemctl stop <%= @name %>"
+check program <%= @name %> path "/bin/systemctl status <%= @name %>"
+	if status != 0 then alert
