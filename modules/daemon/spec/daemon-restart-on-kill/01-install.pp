@@ -12,5 +12,6 @@ node default {
 
   daemon { 'my-program':
     binary => '/tmp/my-program',
+    args => '-a bar -c foo'
   }
 }
