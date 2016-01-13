@@ -6,15 +6,15 @@ describe 'raid::adaptec' do
     it { should be_installed }
   end
 
-  describe package('aacraid-status') do
-    it { should be_installed }
+  describe command('arcconf getversion') do
+    its(:exit_status) { should eq 0 }
   end
 
-  describe command('arcconf') do
-    its(:stdout) { should match /Adaptec by PMC/ }
+  describe command('aacraid-status') do
+    its(:exit_status) { should eq 0 }
   end
 
   describe command('monit summary') do
-    its(:stdout) { should match /Process 'aacraid-statusd'/ }
+    its(:stdout) { should match /Program 'raid-adaptec'/ }
   end
 end
