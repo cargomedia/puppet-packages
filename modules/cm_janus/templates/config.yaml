@@ -15,4 +15,5 @@ cmApplication:
 jobManager:
   jobsPath: '<%= @jobs_path %>'
   tempFilesPath: '/var/lib/cm-janus/jobs-temp-files'
+  handlersConfiguration: {}
 
