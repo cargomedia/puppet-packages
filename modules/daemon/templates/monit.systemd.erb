@@ -1,3 +1,3 @@
-check process <%= @name %> procmatch '<%= @binary %>'
+check process <%= @name %> matching '<%= @binary %>'
 	start program = "/bin/systemctl start <%= @name %>"
 	stop program = "/bin/systemctl stop <%= @name %>"
