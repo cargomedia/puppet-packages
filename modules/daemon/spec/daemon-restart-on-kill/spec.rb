@@ -7,14 +7,21 @@ describe 'daemon' do
     it { should be_running }
   end
 
-# With *sysvinit* we only check monit and for a different output
-  check_initv = "monit summary | grep -E \"Process 'my-program'\"",
+# With *sysvinit* we check monit for process
+  check_initv = "monit summary | grep -qE 'Process+.+my-program'"
 
-# With *systemd* we check monit and that it has given an alert
-  check_systemd = [
-          "monit summary | grep -E \"Program 'my-program'\"",
-          "journalctl -u monit --no-pager | grep -E \"'my-program' '\/bin\/systemctl' failed with exit status \(3\)\"",
-      ].join(' && ')
+# With *systemd* we check monit for program
+  check_systemd = "monit summary | grep -qE 'Program+.+my-program+.+ok$'"
+
+  describe command("if (test -e /bin/systemctl); then #{check_systemd}; else #{check_initv}; fi") do
+    its(:exit_status) { should eq 0 }
+  end
+
+# With *sysvinit* we don't test anything
+  check_initv = "echo ok"
+
+# With *systemd* we check that monit has alerted
+  check_systemd = "journalctl -u monit --no-pager | grep -qE 'my-program+.+\/bin\/systemctl+.+failed'"
 
   describe command("if (test -e /bin/systemctl); then #{check_systemd}; else #{check_initv}; fi") do
     its(:exit_status) { should eq 0 }

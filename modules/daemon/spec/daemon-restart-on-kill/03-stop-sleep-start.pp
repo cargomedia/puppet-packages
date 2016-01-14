@@ -8,7 +8,7 @@ node default {
   }
 
   if ($::service_provider == 'systemd') {
-    exec { 'systemctl stop my-program && sleep 20 && systemctl start my-program':
+    exec { 'systemctl stop my-program && sleep 15 && systemctl start my-program':
       path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin']
     }
   }
