@@ -1,3 +1,2 @@
-check process megaraidsas-statusd with pidfile /var/run/megaraidsas-statusd.pid
-	start program = "/etc/init.d/megaraidsas-statusd start"
-	stop program = "/etc/init.d/megaraidsas-statusd stop"
+check program raid-lsi path /usr/local/sbin/lsi-raid-status
+    if status != 0 then alert

@@ -2,45 +2,17 @@ class raid::linux_md {
 
   require 'apt'
 
-  file { '/etc/mdadm':
-    ensure => directory,
-    group  => '0',
-    owner  => '0',
-    mode   => '0755',
-  }
-
-  file { '/etc/mdadm/mdadm.conf':
+  file { '/usr/local/sbin/md-status':
     ensure  => file,
-    content => template("${module_name}/linux_md/mdadm.conf"),
-    group   => '0',
+    content => template("${module_name}/linux_md/md-status"),
     owner   => '0',
-    mode    => '0644',
-    notify  => Service['mdadm'],
-    before  => Package['mdadm'],
+    group   => '0',
+    mode    => '0755',
   }
 
-  file { '/tmp/mdadm.preseed':
-    ensure  => file,
-    content => template("${module_name}/linux_md/mdadm.preseed"),
-    mode    => '0644',
-  }
-
-  package { 'mdadm':
-    ensure       => present,
-    provider     => 'apt',
-    responsefile =>  '/tmp/mdadm.preseed',
-    require      => File['/tmp/mdadm.preseed'],
-  }
-  ->
-
-  service { 'mdadm':
-    hasstatus => false,
-    enable    => true,
-  }
-
-  @monit::entry { 'mdadm-status':
+  @monit::entry { 'raid-md (Linux software RAID)':
     content => template("${module_name}/linux_md/monit"),
-    require => Service['mdadm'],
+    require => File['/usr/local/sbin/md-status'],
   }
 
 }

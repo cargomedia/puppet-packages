@@ -1,21 +1,18 @@
 class raid::lsi_megaraidsas {
 
-  require 'apt'
-  require 'raid::hwraid_le_vert'
+  require 'python'
 
-  package { 'megaraid-status':
-    ensure   => present,
-    provider => 'apt'
-  }
-  ->
-
-  service { 'megaraidsas-statusd':
-    hasstatus => false,
-    enable    => true,
+  file { '/usr/local/sbin/lsi-raid-status':
+    ensure  => file,
+    content => template("${module_name}/lsi_megaraidsas/lsi-raid-status"),
+    owner   => '0',
+    group   => '0',
+    mode    => '0755',
   }
 
-  @monit::entry { 'megaraidsas-statusd':
+  @monit::entry { 'raid-lsi':
     content => template("${module_name}/lsi_megaraidsas/monit"),
-    require => Service['megaraidsas-statusd'],
+    require => File['/usr/local/sbin/lsi-raid-status'],
   }
+
 }

@@ -1,3 +1,2 @@
-check process mdadm-status with pidfile /var/run/mdadm/monitor.pid
-	start program = "/etc/init.d/mdadm start"
-	stop program = "/etc/init.d/mdadm stop"
+check program raid-linux-md path /usr/local/sbin/md-status
+    if status != 0 then alert
