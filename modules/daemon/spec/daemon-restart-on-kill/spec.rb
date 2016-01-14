@@ -11,7 +11,7 @@ describe 'daemon' do
   check_initv = "monit summary | grep -qE 'Process+.+my-program'"
 
 # With *systemd* we check monit for program
-  check_systemd = "monit summary | grep -qE 'Program+.+my-program+.+ok$'"
+  check_systemd = "monit summary | grep -qE 'Program+.+my-program+.+ok'"
 
   describe command("if (test -e /bin/systemctl); then #{check_systemd}; else #{check_initv}; fi") do
     its(:exit_status) { should eq 0 }
