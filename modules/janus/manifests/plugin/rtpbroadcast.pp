@@ -4,6 +4,8 @@ class janus::plugin::rtpbroadcast(
   $source_avg_time = 10,
   $remb_avg_time = 3,
   $switching_delay = 1,
+  $session_info_update_time = 10,
+  $keyframe_distance_alert = 600,
   $archive_path = '/var/lib/janus/recordings',
   $recording_pattern = 'rec-#{id}-#{time}-#{type}',
   $thumbnailing_pattern = 'thum-#{id}-#{time}-#{type}',

@@ -9,7 +9,7 @@ class accountsservice {
   ~>
 
   exec { 'wait for dbus reload':
-    command     => '/bin/sleep 1',
+    command     => '/bin/sleep 10',
     refreshonly => true,
   }
 

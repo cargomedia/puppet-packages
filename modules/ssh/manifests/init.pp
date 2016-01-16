@@ -24,7 +24,7 @@ class ssh (
     notify  => Service['ssh'],
   }
 
-# Workaround for http://projects.puppetlabs.com/issues/2014
+  # Workaround for http://projects.puppetlabs.com/issues/2014
   file { '/etc/ssh/ssh_known_hosts':
     ensure => file,
     owner  => 'root',
@@ -44,6 +44,6 @@ class ssh (
   }
 
   @ufw::application { 'OpenSSH':
-    app_ports => "${port}/tcp"
+    app_ports => "${port}/tcp",
   }
 }
