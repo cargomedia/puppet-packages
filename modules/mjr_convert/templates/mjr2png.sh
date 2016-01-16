@@ -32,10 +32,6 @@ if [ -z $videoMjr ] || [ ! -f $videoMjr ] || [[ "$videoMjr" != *.mjr ]]; then
   error "Must specify existing <video-mjr-source>"
 fi
 
-if [ -z $width ] || [ -z $height ]; then
-    error "Must specify <width> and <height>"
-fi
-
 if [ -z $outputFile ]; then
   error "Must specify <output-file>"
 fi
