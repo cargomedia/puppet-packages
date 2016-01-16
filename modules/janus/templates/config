@@ -1,5 +1,5 @@
 [general]
-<% if !@bind_address %>;<% end %>interface = <%= @bind_address %>	; Interface to use (will be used in SDP)
+<% if @bind_address.nil? %>;<% end %>interface = <%= @bind_address %>	; Interface to use (will be used in SDP)
 debug_level = 4				; Debug/logging level, valid values are 0-7
 debug_timestamps = yes		; Whether to show a timestamp for each log line
 debug_colors = no			; Whether colors should be disabled in the log
