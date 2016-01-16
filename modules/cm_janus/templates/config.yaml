@@ -21,5 +21,5 @@ jobManager:
     'janus.plugin.cm.rtpbroadcast:recording-finished':
       mergeCommand: 'nice -n <%= @jobs_priority %> mjr2webm <%%= videoMjrFile %> <%%= audioMjrFile %> <%%= webmFile %>'
     'janus.plugin.cm.rtpbroadcast:thumbnailing-finished':
-      createThumbnailCommand: 'nice -n <%= @jobs_priority %> mjr2png <%%= videoMjrFile %> <%%= width %> <%%= height %> <%%= pngFile %>'
+      createThumbnailCommand: 'nice -n <%= @jobs_priority %> mjr2png <%%= videoMjrFile %> <%= @thumbnailWidth %> <%= @thumbnailHeight %> <%%= pngFile %>'
 
