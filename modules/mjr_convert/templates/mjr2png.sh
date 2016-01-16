@@ -11,7 +11,7 @@ while test $# -gt 0
 do
   case $1 in
     --help)
-      echo "Usage: mjr2webm [--ffmpeg-params <ffmpeg-params>] <video-mjr-source> <width> <height> <output-file>"
+      echo "Usage: mjr2webm [--ffmpeg-params <ffmpeg-params>] <video-mjr-source> <output-file>"
       exit 1
       ;;
     --ffmpeg-params)
@@ -26,16 +26,10 @@ do
 done
 
 videoMjr=$1
-width=$2
-height=$3
-outputFile=$4
+outputFile=$2
 
 if [ -z $videoMjr ] || [ ! -f $videoMjr ] || [[ "$videoMjr" != *.mjr ]]; then
   error "Must specify existing <video-mjr-source>"
-fi
-
-if [ -z $width ] || [ -z $height ]; then
-    error "Must specify <width> and <height>"
 fi
 
 if [ -z $outputFile ]; then
@@ -48,7 +42,7 @@ fi
 
 videoSource="$$.webm"
 janus-pp-rec $videoMjr $videoSource
-command="ffmpeg -i ${videoSource} $ffmpegParams -s ${width}x${height} ${outputFile}"
+command="ffmpeg -i ${videoSource} $ffmpegParams ${outputFile}"
 echo $command
 $command
 rm $videoSource
