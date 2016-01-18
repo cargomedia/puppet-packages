@@ -16,6 +16,7 @@ class cm_janus (
   require 'nodejs'
   require 'build::gpp'
   require 'mjr_convert'
+  require 'lame'
 
   file { '/etc/cm-janus':
     ensure => directory,
