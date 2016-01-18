@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'raid' do
 
   describe command('facter raid') do
-    its(:stdout) { should match /adaptec+.+sas2ircu/ }
+    its(:stdout) { should match /adaptec.+sas2ircu.+linux_md/ }
   end
 
   describe package('arcconf') do
@@ -23,6 +23,10 @@ describe 'raid' do
   end
 
   describe package('sas2ircu') do
+    it { should be_installed }
+  end
+
+  describe package('mdadm') do
     it { should be_installed }
   end
 

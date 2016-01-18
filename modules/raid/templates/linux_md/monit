@@ -1,2 +1,0 @@
-check program raid-linux-md path /usr/local/sbin/md-status
-    if status != 0 then alert
