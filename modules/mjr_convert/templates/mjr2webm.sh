@@ -52,7 +52,7 @@ janus-pp-rec $audioMjr $audioSource
 
 command="ffmpeg -i $videoSource -i $audioSource $ffmpegParams $outputFile"
 echo $command
-$command || test "69" = "$?"
+$command
 
 rm $videoSource
 rm $audioSource
