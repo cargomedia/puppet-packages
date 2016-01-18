@@ -1,2 +1,2 @@
-check program raid-sas path /usr/sbin/sas2ircu
+check program raid-sas path /usr/local/sbin/sas2ircu-status
     if status != 0 then alert

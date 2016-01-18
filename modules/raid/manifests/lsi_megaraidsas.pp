@@ -14,5 +14,4 @@ class raid::lsi_megaraidsas {
     content => template("${module_name}/lsi_megaraidsas/monit"),
     require => File['/usr/local/sbin/lsi-raid-status'],
   }
-
 }
