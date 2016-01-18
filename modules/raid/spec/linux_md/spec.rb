@@ -14,7 +14,7 @@ describe 'raid::linux_md' do
     it { should be_readable }
   end
 
-  describe command('monit summary') do
-    its(:stdout) { should match /Process 'mdadm-status'/ }
+  describe command("monit summary | grep -E 'Pro.+raid-md.+[Running|ok]'") do
+    its(:exit_status) { should eq 0 }
   end
 end
