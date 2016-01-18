@@ -50,5 +50,5 @@ videoSource="$$.webm"
 janus-pp-rec $videoMjr $videoSource
 command="ffmpeg -i ${videoSource} $ffmpegParams -s ${width}x${height} ${outputFile}"
 echo $command
-$command
+$command || test -f "${outputFile}"
 rm $videoSource
