@@ -2,15 +2,15 @@ require 'spec_helper'
 
 describe 'raid::sas2ircu' do
 
-  describe package('sas2ircu-status') do
+  describe package('sas2ircu') do
     it { should be_installed }
   end
 
-  describe command('monit summary') do
-    its(:stdout) { should match /Process 'sas2ircu-statusd'/ }
+  describe command('sas2ircu-status') do
+    its(:exit_status) { should eq 0 }
   end
 
-  describe file('/etc/default/sas2ircu-statusd') do
-    it { should be_file }
+  describe command('monit summary') do
+    its(:stdout) { should match /Program 'raid-sas'/ }
   end
 end

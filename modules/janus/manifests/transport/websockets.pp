@@ -4,7 +4,7 @@ class janus::transport::websockets(
   $wss = 'no',
   $wss_port = 8311,
   $ws_logging = 0,
-  $ws_acl = '127.,192.168.',
+  $ws_acl = undef,
   $admin_ws = 'no',
   $admin_ws_port = 8312,
   $admin_wss = 'no',

@@ -1,4 +1,4 @@
 node default {
 
-  require 'raid'
+  require ['raid', 'monit']
 }

@@ -1,5 +1,5 @@
 class janus (
-  $bind_address = '127.0.0.1',
+  $bind_address = undef,
   $log_file = '/var/log/janus/janus.log',
   $token_auth = 'no',
   $api_secret = undef,

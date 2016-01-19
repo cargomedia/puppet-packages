@@ -1,0 +1,2 @@
+check program raid-md path "/bin/systemctl status mdadm"
+  if status != 0 then alert

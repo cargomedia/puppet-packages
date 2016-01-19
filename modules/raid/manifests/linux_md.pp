@@ -39,8 +39,7 @@ class raid::linux_md {
   }
 
   @monit::entry { 'mdadm-status':
-    content => template("${module_name}/linux_md/monit"),
+    content => template("${module_name}/linux_md/monit.${::service_provider}.erb"),
     require => Service['mdadm'],
   }
-
 }

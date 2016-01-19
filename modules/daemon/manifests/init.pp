@@ -33,33 +33,21 @@ define daemon (
       before => Sysvinit::Script[$title],
     }
 
-    @monit::entry { $title:
-      content => template("${module_name}/monit.erb"),
-      require => Service[$title],
-    }
   }
 
   if ($::service_provider == 'systemd') {
     systemd::unit { $title:
-      content => template("${module_name}/systemd.service.erb"),
-      notify  => Service[$title],
-    }
-
-    File <| title == $binary or path == $binary |> {
-      before => Systemd::Unit[$title],
-    }
-
-    @bipbip::entry { "log-parser-daemon-${name}":
-      plugin  => 'log-parser',
-      options => {
-        'metric_group' => "daemon-${name}",
-        'path' => '/var/log/syslog',
-        'matchers' => [
-          { 'name' => 'process_failed',
-            'regexp' => "${name}.service failed." },
-        ]
-      }
-    }
+    content => template("${module_name}/systemd.service.erb"),
+    notify  => Service[$title],
   }
 
+    File <| title == $binary or path == $binary |> {
+    before => Systemd::Unit[$title],
+  }
+  }
+
+  @monit::entry { $title:
+    content => template("${module_name}/monit.${::service_provider}.erb"),
+    require => Service[$title],
+  }
 }

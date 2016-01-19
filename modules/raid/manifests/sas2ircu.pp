@@ -1,31 +1,24 @@
 class raid::sas2ircu {
 
   require 'apt'
-  require 'raid::hwraid_le_vert'
+  require 'apt::source::cargomedia'
+  require 'python'
 
-  file { '/etc/default/sas2ircu-statusd':
+  package { 'sas2ircu':
+    provider => 'apt',
+  }
+
+  file { '/usr/local/sbin/sas2ircu-status':
     ensure  => file,
-    content => template("${module_name}/sas2ircu/config"),
+    content => template("${module_name}/sas2ircu/sas2ircu-status"),
     owner   => '0',
     group   => '0',
-    mode    => '0644',
-    notify  => Service['sas2ircu-statusd'],
-  }
-  ->
-
-  package { 'sas2ircu-status':
-    ensure   => present,
-    provider => 'apt'
-  }
-  ->
-
-  service { 'sas2ircu-statusd':
-    hasstatus => false,
-    enable    => true,
+    mode    => '0755',
+    require => Package['sas2ircu'],
   }
 
-  @monit::entry { 'sas2ircu-statusd':
+  @monit::entry { 'raid-sas':
     content => template("${module_name}/sas2ircu/monit"),
-    require => Service['sas2ircu-statusd'],
+    require => File['/usr/local/sbin/sas2ircu-status'],
   }
 }

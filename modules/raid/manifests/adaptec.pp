@@ -3,30 +3,25 @@ class raid::adaptec {
   require 'apt'
   require 'unzip'
   require 'apt::source::cargomedia'
-  require 'raid::hwraid_le_vert'
+  require 'python'
 
   package { 'arcconf':
     ensure   => present,
     provider => 'apt',
     require  => Class['apt::source::cargomedia'],
   }
-  ->
 
-  package { 'aacraid-status':
-    ensure   => present,
-    provider => 'apt',
-    require  => Class['raid::hwraid_le_vert'],
-  }
-  ->
-
-  service { 'aacraid-statusd':
-    hasstatus => false,
-    enable    => true,
+  file { '/usr/local/sbin/aacraid-status':
+    ensure  => file,
+    content => template("${module_name}/adaptec/aacraid-status"),
+    owner   => '0',
+    group   => '0',
+    mode    => '0755',
   }
 
-  @monit::entry { 'aacraid-statusd':
+  @monit::entry { 'raid-adaptec':
     content => template("${module_name}/adaptec/monit"),
-    require => Service['aacraid-statusd'],
+    require => File['/usr/local/sbin/aacraid-status'],
   }
 
   file { '/usr/local/sbin/arcconf-write-cache-on-devices.pl':
