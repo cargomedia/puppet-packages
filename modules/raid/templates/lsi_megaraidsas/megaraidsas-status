@@ -5,7 +5,7 @@ import os
 import re
 import sys
 
-binarypath = "/usr/sbin/megasasctl"
+binarypath = "/usr/sbin/storcli"
 
 if len(sys.argv) > 2:
     print 'Usage: megaraidsas-status [-d]'
