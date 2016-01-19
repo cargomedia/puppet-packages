@@ -25,3 +25,7 @@ mod 'cargomedia/nginx',
 mod 'cargomedia/mjr_convert',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/mjr_convert'
+
+mod 'cargomedia/lame',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/lame'
