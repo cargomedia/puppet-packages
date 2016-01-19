@@ -14,6 +14,7 @@ class raid::sas2ircu {
     owner   => '0',
     group   => '0',
     mode    => '0755',
+    require => Package['sas2ircu'],
   }
 
   @monit::entry { 'raid-sas':
