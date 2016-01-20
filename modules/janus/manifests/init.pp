@@ -52,11 +52,16 @@ class janus (
       owner  => '0',
       group  => '0',
       mode   => '0644';
-    ['/var/lib/janus', '/var/lib/janus/recordings', '/var/lib/janus/jobs']:
+    ['/var/lib/janus']:
       ensure => directory,
       owner  => 'janus',
       group  => 'janus',
       mode   => '0644';
+    ['/var/lib/janus/recordings', '/var/lib/janus/jobs']:
+      ensure => directory,
+      owner  => 'janus',
+      group  => 'janus',
+      mode   => '0666';
     '/var/log/janus':
       ensure => directory,
       owner  => 'janus',
