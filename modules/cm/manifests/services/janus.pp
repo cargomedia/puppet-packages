@@ -24,6 +24,7 @@ class cm::services::janus(
   $janus_websockets_port = 8310
 
   class { '::janus':
+    bind_address       => '127.0.0.1',
     rtp_port_range_min => $webrtc_media_minport,
     rtp_port_range_max => $webrtc_media_maxport,
   }
