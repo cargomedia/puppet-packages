@@ -8,11 +8,15 @@ class cm_janus (
   $cm_api_key,
   $cm_application_path,
   $jobs_path,
+  $jobs_priority = 10,
+  $thumbnailWidth = 1920,
+  $thumbnailHeight = 540,
 ) {
 
   require 'nodejs'
   require 'build::gpp'
   require 'mjr_convert'
+  require 'lame'
 
   file { '/etc/cm-janus':
     ensure => directory,
