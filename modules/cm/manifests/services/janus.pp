@@ -16,6 +16,7 @@ class cm::services::janus(
   $rtpbroadcast_minport = 8400,
   $rtpbroadcast_maxport = 9000,
 
+  $recording_enabled = 'yes',
   $ufw_app_profile = undef,
 ) {
 
@@ -50,10 +51,13 @@ class cm::services::janus(
     ws_acl  => '127.',
   }
 
-  class { 'janus::plugin::audioroom': }
+  class { 'janus::plugin::audioroom':
+    recording_enabled => $recording_enabled,
+  }
   class { 'janus::plugin::rtpbroadcast':
     minport => $rtpbroadcast_minport,
     maxport => $rtpbroadcast_maxport,
+    recording_enabled => $recording_enabled,
   }
 
   class { 'cm_janus':

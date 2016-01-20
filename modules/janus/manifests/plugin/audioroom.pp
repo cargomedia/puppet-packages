@@ -1,4 +1,5 @@
 class janus::plugin::audioroom(
+  $recording_enabled = 'yes',
   $archive_path = '/var/lib/janus/recordings',
   $recording_pattern = 'rec-#{id}-#{time}-#{type}',
   $jobs_path = '/var/lib/janus/jobs',
