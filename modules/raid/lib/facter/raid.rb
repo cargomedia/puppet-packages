@@ -21,6 +21,11 @@ if Facter.value(:kernel) == 'Linux'
         raid_list << 'adaptec' if lspci_adaptec_output
       end
 
+      lspci_hp_output = `lspci -d 103c: 2>/dev/null | grep -E 'RAID bus controller.+Smart Array'`
+      if $?.success?
+        raid_list << 'hpssacli' if lspci_hp_output
+      end
+
       lspci_lsi_output = `lspci -d 1000: 2>/dev/null | grep -E 'RAID|SCSI'`
       if $?.success?
         lspci_lsi_output.each_line do |l|
