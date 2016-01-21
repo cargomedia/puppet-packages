@@ -54,4 +54,11 @@ class janus::plugin::audioroom(
     }
   }
 
+  @bipbip::entry { 'janus-audioroom':
+    plugin  => 'janus-audioroom',
+    options => {
+      'hostname' => '127.0.0.1',
+      'port'     => 8300,
+    }
+  }
 }

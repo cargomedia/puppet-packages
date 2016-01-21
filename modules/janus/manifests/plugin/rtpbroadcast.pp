@@ -59,4 +59,12 @@ class janus::plugin::rtpbroadcast(
       notify   => Service['janus'],
     }
   }
+
+  @bipbip::entry { 'janus-rtpbroadcast':
+    plugin  => 'janus-rtpbroadcast',
+    options => {
+      'hostname' => '127.0.0.1',
+      'port'     => 8300,
+    }
+  }
 }
