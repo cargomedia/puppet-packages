@@ -15,6 +15,7 @@ class janus::plugin::rtpbroadcast(
   $jobs_path = '/var/lib/janus/jobs',
   $job_pattern = 'job-#{md5}',
   $src_version = undef,
+  $rest_url = 'http://127.0.0.1:8088/janus',
 ) {
 
   include 'janus'
@@ -57,6 +58,13 @@ class janus::plugin::rtpbroadcast(
     package { 'janus-gateway-rtpbroadcast':
       provider => 'apt',
       notify   => Service['janus'],
+    }
+  }
+
+  @bipbip::entry { 'janus-rtpbroadcast':
+    plugin  => 'janus-rtpbroadcast',
+    options => {
+      'url' => $rest_url,
     }
   }
 }
