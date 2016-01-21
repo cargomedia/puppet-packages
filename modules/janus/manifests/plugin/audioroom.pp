@@ -5,6 +5,7 @@ class janus::plugin::audioroom(
   $jobs_path = '/var/lib/janus/jobs',
   $job_pattern = 'job-#{md5}',
   $src_version = undef,
+  $rest_url = 'http://127.0.0.1:8088/janus',
 ) {
 
   include 'janus'
@@ -57,8 +58,7 @@ class janus::plugin::audioroom(
   @bipbip::entry { 'janus-audioroom':
     plugin  => 'janus-audioroom',
     options => {
-      'hostname' => '127.0.0.1',
-      'port'     => 8300,
+      'url' => $rest_url,
     }
   }
 }

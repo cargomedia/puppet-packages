@@ -53,11 +53,13 @@ class cm::services::janus(
 
   class { 'janus::plugin::audioroom':
     recording_enabled => $recording_enabled,
+    rest_url => "http://127.0.0.1:${janus_http_port}",
   }
   class { 'janus::plugin::rtpbroadcast':
     minport => $rtpbroadcast_minport,
     maxport => $rtpbroadcast_maxport,
     recording_enabled => $recording_enabled,
+    rest_url => "http://127.0.0.1:${janus_http_port}/janus",
   }
 
   class { 'cm_janus':
