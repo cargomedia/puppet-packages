@@ -32,5 +32,12 @@ class ffmpeg ($version = '2.6') {
     unless  => "ffmpeg -version | grep -q '^ffmpeg version ${version} '",
     timeout => 900,
   }
+  ->
+
+  # Workaround until we have a DEB for ffmpeg - https://github.com/cargomedia/debian-packages/issues/82
+  file { '/usr/bin/ffmpeg':
+    ensure => link,
+    target => '/usr/local/bin/ffmpeg',
+  }
 
 }
