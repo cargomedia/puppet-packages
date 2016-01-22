@@ -61,7 +61,7 @@ class cm_janus (
       'path' => '/var/log/cm-janus/cm-janus.log',
       'matchers' => [
         { 'name' => 'error',
-          'regexp' => 'app error' }
+          'regexp' => '^[\d\-\:\s\.]+ERROR' }
       ]
     }
   }
