@@ -11,6 +11,11 @@ node default {
     content  => template('systemd/spec/my-daemon.service'),
   }
 
+  class { 'systemd::coredump':
+    compress => 'no',
+    max_use  => 10000,
+  }
+
   service { 'my-daemon':
   }
 

@@ -15,4 +15,10 @@ describe 'systemd::unit' do
     it { should be_running }
   end
 
+  describe file('/etc/systemd/coredump.conf') do
+    it { should be_file }
+    its(:content) { should match /Compress=no/ }
+    its(:content) { should match /MaxUse=10000/ }
+  end
+
 end
