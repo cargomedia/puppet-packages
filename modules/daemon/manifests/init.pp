@@ -6,11 +6,18 @@ define daemon (
   $nice = undef,
   $oom_score_adjust = undef,
   $env = {},
-  $limit_nofile = undef
+  $limit_nofile = undef,
+  $core_dump = false,
 ) {
 
   if (defined(User[$user])) {
     User[$user] -> Daemon[$name]
+  }
+
+  if $core_dump {
+    ulimit::entry { "coredump-${name}":
+      limits => [{ 'domain' => $user, 'type' => '-', 'item' => 'core', 'value' => 'unlimited' }]
+    }
   }
 
   Service {
