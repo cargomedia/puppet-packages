@@ -104,16 +104,4 @@ class janus (
     user    => 'janus',
     require => [File[$config_file, $plugin_config_dir, $log_file]],
   }
-
-  @bipbip::entry { 'logparser-janus-keyframe-overdue':
-    plugin  => 'log-parser',
-    options => {
-      'metric_group' => 'janus-rtpbroadcast',
-      'path' => $log_file,
-      'matchers' => [
-        { 'name' => 'streams_keyframe_overdue',
-          'regexp' => 'Key frame overdue on source' },
-      ]
-    },
-  }
 }
