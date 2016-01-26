@@ -72,7 +72,7 @@ class janus::plugin::rtpbroadcast(
     plugin  => 'log-parser',
     options => {
       'metric_group' => 'janus-rtpbroadcast',
-      'path' => janus::log_file,
+      'path' => $janus::log_file,
       'matchers' => [
         { 'name' => 'streams_keyframe_overdue',
           'regexp' => 'Key frame overdue on source' },
