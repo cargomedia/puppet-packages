@@ -25,6 +25,9 @@ set -e
 case "${1}" in
 	start)
 		log_daemon_msg "Starting ${DESC}" "${NAME}"
+		<% if @core_dump %>
+		ulimit -c unlimited
+		<%- end %>
 		<% if @limit_nofile %>
 		ulimit -n <%= @limit_nofile %>
 		<%- end %>

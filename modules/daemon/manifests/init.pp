@@ -14,12 +14,6 @@ define daemon (
     User[$user] -> Daemon[$name]
   }
 
-  if $core_dump {
-    ulimit::entry { "coredump-${name}":
-      limits => [{ 'domain' => $user, 'type' => '-', 'item' => 'core', 'value' => 'unlimited' }]
-    }
-  }
-
   Service {
     provider => $::service_provider,
   }
@@ -44,13 +38,17 @@ define daemon (
 
   if ($::service_provider == 'systemd') {
     systemd::unit { $title:
-    content => template("${module_name}/systemd.service.erb"),
-    notify  => Service[$title],
-  }
+      content => template("${module_name}/systemd.service.erb"),
+      notify  => Service[$title],
+    }
+
+    if $core_dump == true {
+      class { 'systemd::coredump': }
+    }
 
     File <| title == $binary or path == $binary |> {
-    before => Systemd::Unit[$title],
-  }
+      before => Systemd::Unit[$title],
+    }
   }
 
   @monit::entry { $title:
