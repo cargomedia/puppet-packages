@@ -11,12 +11,6 @@
       "operatingsystemrelease": [
         "7"
       ]
-    },
-    {
-      "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": [
-        "15.04"
-      ]
     }
   ],
   "dependencies": [
