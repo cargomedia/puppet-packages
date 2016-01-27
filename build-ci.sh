@@ -1,7 +1,7 @@
 #!/bin/bash -e
 cd $(dirname $0)
 
-bundle install --path=.bundle
+bundle install
 
 trap 'bundle exec rake spec:cleanup' EXIT
 
