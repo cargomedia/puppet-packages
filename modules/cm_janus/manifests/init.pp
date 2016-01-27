@@ -8,7 +8,7 @@ class cm_janus (
   $cm_api_key,
   $cm_application_path,
   $jobs_path,
-  $jobs_priority = 10,
+  $job_prefix = 'ionice -c 2 -n 7 nice -n 19',
   $thumbnailWidth = 1920,
   $thumbnailHeight = 540,
 ) {

@@ -8,6 +8,7 @@ describe 'cm_janus' do
     its(:content) { should match /apiKey: 'foobar23'.*/ }
     its(:content) { should match /^cmApi:.*/ }
     its(:content) { should match /baseUrl: 'foo'/ }
+    its(:content) { should match /convertCommand: 'ionice -c 2 -n 7 nice -n 19 lame <%= wavFile %> <%= mp3File %>'/ }
   end
 
   describe file('/etc/monit/conf.d/cm-janus') do
