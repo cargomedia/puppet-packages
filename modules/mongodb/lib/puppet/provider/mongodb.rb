@@ -41,7 +41,9 @@ class Puppet::Provider::Mongodb < Puppet::Provider
     defaults = {:skip_fail => false}
     options = defaults.merge(options)
 
-    args = ['--quiet', '--host', host, '--eval', command]
+    pre_command = File.exist?('/root/.mongorc.js') ? 'load("/root/.mongorc.js");' : ''
+
+    args = ['--quiet', '--host', host, '--eval', "#{pre_command}#{command}"]
     unless database.nil?
       args.unshift(database)
     end
