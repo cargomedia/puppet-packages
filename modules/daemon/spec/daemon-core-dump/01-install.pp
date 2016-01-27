@@ -2,12 +2,6 @@ node default {
 
   require 'monit'
 
-  sysctl::entry { 'kernel-core-pattern':
-    entries => {
-      'kernel.core_pattern' => '/tmp/core.%e.%p.%h.%t',
-    }
-  }
-
   user { 'myuser':
     ensure => present,
   }
