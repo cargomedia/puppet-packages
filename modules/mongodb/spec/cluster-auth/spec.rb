@@ -12,6 +12,5 @@ describe 'mongodb::cluster' do
     its(:stdout) { should match /"host" : "rep1\/localhost:27001,localhost:27002"/ }
     its(:stdout) { should match /"host" : "rep2\/localhost:27006,localhost:27007"/ }
     its(:stdout) { should match /"testdb",  "partitioned" : true,  "primary" : "rep[1-2]"/ }
-    its(:stdout) { should match /"dummydb",  "partitioned" : true,  "primary" : "rep[1-2]"/ }
   end
 end
