@@ -92,5 +92,3 @@ keyFile=<%= @key_file_path %>
 <% @options.each do |key, value| %>
 <%= key %>=<%= value %>
 <% end %>
-
-smallfiles=true
