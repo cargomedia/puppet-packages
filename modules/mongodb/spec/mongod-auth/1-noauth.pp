@@ -14,8 +14,9 @@ node default {
   ->
 
   mongodb_user { 'siteRootAdmin':
-    database => 'admin',
-    password => 'abc123',
-    roles    => [ { 'role' => 'root', 'db' => 'admin' } ],
+    database          => 'admin',
+    password          => 'abc123',
+    roles             => [ { 'role' => 'root', 'db' => 'admin' } ],
+    mongorc_autologin => true
   }
 }
