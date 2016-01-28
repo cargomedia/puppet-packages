@@ -3,6 +3,7 @@ class mongodb::role::standalone (
   $bind_ip = '0.0.0.0',
   $hostname = 'localhost',
   $rest = true,
+  $auth = false,
   $options = { }
 ) {
 
@@ -11,6 +12,7 @@ class mongodb::role::standalone (
     bind_ip => $bind_ip,
     rest    => $rest,
     options => $options,
+    auth    => $auth,
   }
 
 }

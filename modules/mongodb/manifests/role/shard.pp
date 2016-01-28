@@ -6,15 +6,17 @@ class mongodb::role::shard (
   $repl_members = undef,
   $repl_arbiters = undef,
   $router,
-  $options = { }
+  $options = { },
+  $key_file_content = undef,
 ) {
 
   mongodb::core::mongod { 'shard':
-    port         => $port,
-    bind_ip      => $bind_ip,
-    shard_server => true,
-    repl_set     => $repl_set,
-    options      => $options,
+    port             => $port,
+    bind_ip          => $bind_ip,
+    shard_server     => true,
+    repl_set         => $repl_set,
+    options          => $options,
+    key_file_content => $key_file_content,
   }
 
   if $repl_set {
