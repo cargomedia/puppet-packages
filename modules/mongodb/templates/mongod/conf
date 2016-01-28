@@ -85,8 +85,12 @@ replSet=<%= @repl_set %>
 #oplogSize=1024
 # path to a key file storing authentication info for connections
 # between replica set members
-#keyFile=/path/to/keyfile
+<% if @key_file_path %>
+keyFile=<%= @key_file_path %>
+<% end %>
 
 <% @options.each do |key, value| %>
 <%= key %>=<%= value %>
 <% end %>
+
+smallfiles=true

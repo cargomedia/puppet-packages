@@ -7,13 +7,28 @@ define mongodb::core::mongod (
   $rest = false,
   $fork = false,
   $auth = false,
-  $options = { }
+  $options = { },
+  $key_file_content = undef,
 ) {
 
   require 'mongodb'
 
   $daemon = 'mongod'
   $instance_name = "${daemon}_${name}"
+
+  if $key_file_content {
+    $key_file_path = '/var/lib/mongodb/cluster-key-file'
+    if !defined(File[$key_file_path]) {
+      file { $key_file_path:
+        ensure  => file,
+        content => $key_file_content,
+        mode    => '0400',
+        owner   => 'mongodb',
+        group   => 'mongodb',
+        notify  => Service[$instance_name],
+      }
+    }
+  }
 
   file {
     "/var/lib/mongodb/${instance_name}":
