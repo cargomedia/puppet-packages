@@ -1,0 +1,19 @@
+{
+  "mongodb_config": {
+
+    "admin-users": {
+      "su": {
+        "database": "admin",
+        "password": "password",
+        "roles": [
+          {
+            "role": "root",
+            "db": "admin"
+          }
+        ]
+      }
+    },
+
+    "mongorc-autologin-user": "su"
+  }
+}
