@@ -1,5 +1,11 @@
 node default {
 
+  sysctl::entry { 'kernel-core-pattern':
+    entries => {
+      'kernel.core_pattern' => '/tmp/foo.%e.%p.%h.%t',
+    }
+  }
+
   file { '/tmp/my-daemon':
     ensure  => file,
     mode    => '0755',
@@ -14,7 +20,6 @@ node default {
   class { 'systemd::coredump':
     compress => 'no',
     max_use  => 10000,
-    core_dump_pattern => '/tmp/foo.%e.%p.%h.%t',
   }
 
   service { 'my-daemon':
