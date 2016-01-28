@@ -42,10 +42,6 @@ define daemon (
       notify  => Service[$title],
     }
 
-    if $core_dump == true {
-      class { 'systemd::coredump': }
-    }
-
     File <| title == $binary or path == $binary |> {
       before => Systemd::Unit[$title],
     }
