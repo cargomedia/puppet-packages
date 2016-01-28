@@ -1,8 +1,12 @@
 try {
-  login_db = db.getSiblingDB('<%= @database %>');
+  var login_db = db.getSiblingDB('<%= @database %>');
   try {
-    list = db.getUsers();
+    // will fail if authentication is required
+    // otherwise will continue without authentication
+    var list = db.getUsers();
   } catch(e) {
+    // auth() can be called only if authentication is enabled
+    // and will throw if not enabled or if credentials are incorrect
     login_db.auth('<%= @username %>', '<%= @password %>')
   }
-} catch(e) {}
+}
