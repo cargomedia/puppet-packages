@@ -1,0 +1,8 @@
+try {
+  login_db = db.getSiblingDB('<%= @database %>');
+  try {
+    list = db.getUsers();
+  } catch(e) {
+    login_db.auth('<%= @username %>', '<%= @password %>')
+  }
+} catch(e) {}
