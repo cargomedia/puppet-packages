@@ -71,7 +71,7 @@ class janus (
   ->
 
   file {
-    '/var/log/janus/janus.log':
+    $log_file:
       ensure => file,
       owner  => 'janus',
       group  => 'janus',
