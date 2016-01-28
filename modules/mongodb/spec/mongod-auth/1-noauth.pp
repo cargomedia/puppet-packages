@@ -1,22 +1,25 @@
 node default {
 
+  $root_username = 'siteRootAdmin'
+  $root_password = 'abc123'
+  $root_dbname = 'admin'
+
   mongodb::core::mongod { 'server':
     port => 27017,
     auth => false,
   }
   ->
 
-  mongodb_user { 'myUserAdmin':
-    database => 'admin',
-    password => 'abc123',
-    roles    => [ { 'role' => 'userAdminAnyDatabase', 'db' => 'admin' } ],
+  mongodb_user { $root_username:
+    database => $root_dbname,
+    password => $root_password,
+    roles    => [ { 'role' => 'root', 'db' => $root_dbname } ]
   }
   ->
 
-  mongodb_user { 'siteRootAdmin':
-    database          => 'admin',
-    password          => 'abc123',
-    roles             => [ { 'role' => 'root', 'db' => 'admin' } ],
-    mongorc_autologin => true
+  mongodb::mongorc::autologin { 'autologin-root':
+    username => $root_username,
+    password => $root_password,
+    database => $root_dbname,
   }
 }
