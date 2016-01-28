@@ -14,9 +14,6 @@ Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::
       :roles => @resource[:roles],
       :customData => {:puppetPasswordHash => password_hash}
     }
-
-    create_mongorc_autologin(@resource[:database], @resource[:name], @resource[:password]) if @resource[:mongorc_autologin] == :true
-
     mongo_command("db.createUser(#{JSON.dump data})", find_master, @resource[:database])
   end
 
@@ -81,12 +78,4 @@ Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::
   def create_password_hash(password, salt)
     Digest::MD5.hexdigest("#{salt}:mongo:#{password}")
   end
-
-  def create_mongorc_autologin(mongo_db, mongo_user, mongo_password)
-    content = "try { login_db = db.getSiblingDB('#{mongo_db}'); try { list = db.getUsers(); } catch(e) { login_db.auth('#{mongo_user}', '#{mongo_password}') } } catch(e) {}";
-    path = "/root/.mongorc.js"
-
-    File.write(path, content)
-  end
-
 end

@@ -47,12 +47,6 @@ Puppet::Type.newtype(:mongodb_user) do
     defaultto 'localhost:27017'
   end
 
-  newparam(:mongorc_autologin, :boolean => true) do
-    desc 'Autologin using .mongorc.js script'
-    newvalues(:true, :false)
-    defaultto :false
-  end
-
   autorequire(:mongodb_database) do
     self.catalog.resources.select { |res|
       res.type == :mongodb_database and res[:name] == self[:database]
