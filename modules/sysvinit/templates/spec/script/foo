@@ -24,6 +24,7 @@ set -e
 case "${1}" in
 	start)
 		log_daemon_msg "Starting ${DESC}" "${NAME}"
+		ulimit -c unlimited
 		if (start-stop-daemon --start --pidfile ${PID_FILE} --make-pidfile --background --startas ${DAEMON} --chuid ${DAEMON_USER} --umask 0 -- start); then
 			log_end_msg 0
 		else
