@@ -67,4 +67,16 @@ class janus::plugin::rtpbroadcast(
       'url' => $rest_url,
     }
   }
+
+  @bipbip::entry { 'logparser-janus-keyframe-overdue':
+    plugin  => 'log-parser',
+    options => {
+      'metric_group' => 'janus-rtpbroadcast',
+      'path' => $janus::log_file,
+      'matchers' => [
+        { 'name' => 'streams_keyframe_overdue',
+          'regexp' => 'Key frame overdue on source' },
+      ]
+    },
+  }
 }
