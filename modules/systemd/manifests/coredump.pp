@@ -6,9 +6,17 @@ class systemd::coredump(
   $journal_size_max = undef,
   $max_use = undef,
   $keep_use = undef,
+  $core_dump_pattern = '/tmp/core.%e.%p.%h.%t',
 ) {
 
   include 'systemd::daemon_reload'
+
+  sysctl::entry { 'kernel-core-pattern':
+    entries => {
+      'kernel.core_pattern' => $core_dump_pattern,
+    }
+  }
+  ->
 
   file { '/etc/systemd/coredump.conf':
     ensure  => file,
