@@ -1,0 +1,3 @@
+mod 'cargomedia/sysctl',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/sysctl'

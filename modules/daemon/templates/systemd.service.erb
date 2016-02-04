@@ -12,6 +12,7 @@ TimeoutStopSec=<%= @stop_timeout %>
 KillMode=mixed
 Restart=always
 <% if @limit_nofile %>LimitNOFILE=<%= @limit_nofile %><% end %>
+<% if @core_dump %>LimitCORE=infinity<% end %>
 <% @env.each do |name, value| -%>
 Environment=<%= name %>=<%= value %>
 <% end %>

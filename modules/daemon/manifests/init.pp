@@ -6,7 +6,8 @@ define daemon (
   $nice = undef,
   $oom_score_adjust = undef,
   $env = {},
-  $limit_nofile = undef
+  $limit_nofile = undef,
+  $core_dump = false,
 ) {
 
   if (defined(User[$user])) {
@@ -37,13 +38,13 @@ define daemon (
 
   if ($::service_provider == 'systemd') {
     systemd::unit { $title:
-    content => template("${module_name}/systemd.service.erb"),
-    notify  => Service[$title],
-  }
+      content => template("${module_name}/systemd.service.erb"),
+      notify  => Service[$title],
+    }
 
     File <| title == $binary or path == $binary |> {
-    before => Systemd::Unit[$title],
-  }
+      before => Systemd::Unit[$title],
+    }
   }
 
   @monit::entry { $title:
