@@ -2,12 +2,6 @@ node default {
 
   service { 'foo': }
 
-  sysctl::entry { 'kernel-core-pattern':
-    entries => {
-      'kernel.core_pattern' => '/tmp/core.%e.%p.%h.%t',
-    }
-  }
-
   file{ '/tmp/bar':
     ensure  => file,
     content => template('sysvinit/spec/script/bar'),
