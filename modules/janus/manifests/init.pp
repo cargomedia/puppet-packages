@@ -17,6 +17,7 @@ class janus (
   $turn_rest_api = undef,
   $turn_rest_api_key = undef,
   $src_version = undef,
+  $core_dump = true,
 ) {
 
   require 'apt'
@@ -99,9 +100,10 @@ class janus (
   ->
 
   daemon { 'janus':
-    binary  => '/usr/bin/janus',
-    args    => "-o -C ${config_file} -F ${plugin_config_dir} -L ${log_file}",
-    user    => 'janus',
-    require => [File[$config_file, $plugin_config_dir, $log_file]],
+    binary    => '/usr/bin/janus',
+    args      => "-o -C ${config_file} -F ${plugin_config_dir} -L ${log_file}",
+    user      => 'janus',
+    core_dump => $core_dump,
+    require   => [File[$config_file, $plugin_config_dir, $log_file]],
   }
 }
