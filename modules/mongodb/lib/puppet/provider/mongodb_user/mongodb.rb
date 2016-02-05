@@ -78,5 +78,4 @@ Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::
   def create_password_hash(password, salt)
     Digest::MD5.hexdigest("#{salt}:mongo:#{password}")
   end
-
 end

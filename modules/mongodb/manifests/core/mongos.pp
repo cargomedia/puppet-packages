@@ -3,13 +3,28 @@ define mongodb::core::mongos (
   $port = 27017,
   $bind_ip = undef,
   $fork = false,
-  $options = { }
+  $options = { },
+  $auth_key = undef,
 ) {
 
   require 'mongodb'
 
   $daemon = 'mongos'
   $instance_name = "${daemon}_${name}"
+
+  if $auth_key {
+    $key_file_path = '/var/lib/mongodb/cluster-key-file'
+    if !defined(File[$key_file_path]) {
+      file { $key_file_path:
+        ensure  => file,
+        content => $auth_key,
+        mode    => '0400',
+        owner   => 'mongodb',
+        group   => 'mongodb',
+        notify  => Service[$instance_name],
+      }
+    }
+  }
 
   file {
     "/etc/mongodb/${instance_name}.conf":

@@ -3,14 +3,16 @@ class mongodb::role::router (
   $bind_ip = '0.0.0.0',
   $hostname = 'localhost',
   $config_servers,
-  $options = { }
+  $options = { },
+  $auth_key = undef,
 ) {
 
   mongodb::core::mongos { 'router':
-    config_servers => $config_servers,
-    port           => $port,
-    bind_ip        => $bind_ip,
-    options        => $options,
+    config_servers   => $config_servers,
+    port             => $port,
+    bind_ip          => $bind_ip,
+    options          => $options,
+    auth_key         => $auth_key,
   }
 
 }
