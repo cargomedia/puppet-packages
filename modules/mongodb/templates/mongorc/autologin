@@ -4,6 +4,11 @@ var password = '<%= @password %>'
 
 function login(database, username, password) {
   try {
+    var status = db.isMaster();
+    if (status['arbiterOnly'] == true) {
+        return true;
+    }
+
     var login_db = db.getSiblingDB(database);
     try {
       // will fail if authentication is required
