@@ -3,7 +3,7 @@ class mongodb::role::config (
   $bind_ip = '0.0.0.0',
   $hostname = 'localhost',
   $options = { },
-  $key_file_content = undef,
+  $auth_key = undef,
 ) {
 
   mongodb::core::mongod { 'config':
@@ -11,7 +11,7 @@ class mongodb::role::config (
     port             => $port,
     bind_ip          => $bind_ip,
     options          => $options,
-    key_file_content => $key_file_content,
+    auth_key         => $auth_key,
   }
 
 }

@@ -7,7 +7,7 @@ class mongodb::role::shard (
   $repl_arbiters = undef,
   $router,
   $options = { },
-  $key_file_content = undef,
+  $auth_key = undef,
 ) {
 
   mongodb::core::mongod { 'shard':
@@ -16,7 +16,7 @@ class mongodb::role::shard (
     shard_server     => true,
     repl_set         => $repl_set,
     options          => $options,
-    key_file_content => $key_file_content,
+    auth_key         => $auth_key,
   }
 
   if $repl_set {

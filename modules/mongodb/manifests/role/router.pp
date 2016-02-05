@@ -4,7 +4,7 @@ class mongodb::role::router (
   $hostname = 'localhost',
   $config_servers,
   $options = { },
-  $key_file_content = undef,
+  $auth_key = undef,
 ) {
 
   mongodb::core::mongos { 'router':
@@ -12,7 +12,7 @@ class mongodb::role::router (
     port             => $port,
     bind_ip          => $bind_ip,
     options          => $options,
-    key_file_content => $key_file_content,
+    auth_key         => $auth_key,
   }
 
 }

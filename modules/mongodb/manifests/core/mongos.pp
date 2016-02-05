@@ -4,7 +4,7 @@ define mongodb::core::mongos (
   $bind_ip = undef,
   $fork = false,
   $options = { },
-  $key_file_content = undef,
+  $auth_key = undef,
 ) {
 
   require 'mongodb'
@@ -12,12 +12,12 @@ define mongodb::core::mongos (
   $daemon = 'mongos'
   $instance_name = "${daemon}_${name}"
 
-  if $key_file_content {
+  if $auth_key {
     $key_file_path = '/var/lib/mongodb/cluster-key-file'
     if !defined(File[$key_file_path]) {
       file { $key_file_path:
         ensure  => file,
-        content => $key_file_content,
+        content => $auth_key,
         mode    => '0400',
         owner   => 'mongodb',
         group   => 'mongodb',

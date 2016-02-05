@@ -2,26 +2,26 @@ node default {
 
   include 'monit'
 
-  $key_file_content = 'superpassword'
+  $auth_key = 'superpassword'
 
   mongodb::core::mongod { 'config1':
     config_server => true,
     port          => 28000,
-    key_file_content => $key_file_content,
+    auth_key      => $auth_key,
   }
   ->
 
   mongodb::core::mongod { 'config2':
     config_server => true,
     port          => 28001,
-    key_file_content => $key_file_content,
+    auth_key      => $auth_key,
   }
   ->
 
   mongodb::core::mongod { 'config3':
     config_server => true,
     port          => 28002,
-    key_file_content => $key_file_content,
+    auth_key      => $auth_key,
   }
   ->
 
@@ -29,7 +29,7 @@ node default {
     port         => 27000,
     shard_server => true,
     repl_set     => 'rep1',
-    key_file_content => $key_file_content,
+    auth_key     => $auth_key,
   }
   ->
 
@@ -37,7 +37,7 @@ node default {
     port         => 27001,
     shard_server => true,
     repl_set     => 'rep1',
-    key_file_content => $key_file_content,
+    auth_key     => $auth_key,
   }
   ->
 
@@ -45,7 +45,7 @@ node default {
     port         => 27002,
     shard_server => true,
     repl_set     => 'rep1',
-    key_file_content => $key_file_content,
+    auth_key     => $auth_key,
   }
   ->
 
@@ -53,7 +53,7 @@ node default {
     port         => 27005,
     shard_server => true,
     repl_set     => 'rep2',
-    key_file_content => $key_file_content,
+    auth_key     => $auth_key,
   }
   ->
 
@@ -61,7 +61,7 @@ node default {
     port         => 27006,
     shard_server => true,
     repl_set     => 'rep2',
-    key_file_content => $key_file_content,
+    auth_key     => $auth_key,
   }
   ->
 
@@ -69,14 +69,14 @@ node default {
     port         => 27007,
     shard_server => true,
     repl_set     => 'rep2',
-    key_file_content => $key_file_content,
+    auth_key     => $auth_key,
   }
   ->
 
   mongodb::core::mongos { 'router1':
     port           => 27017,
     config_servers => ['127.0.0.1:28000', '127.0.0.1:28001', '127.0.0.1:28002'],
-    key_file_content => $key_file_content,
+    auth_key       => $auth_key,
   }
   ->
 
