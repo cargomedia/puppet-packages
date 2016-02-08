@@ -28,7 +28,8 @@ define ufw::application(
 
   if $auto_allow {
     ufw::rule { "Allow ${app_name}":
-      app_or_port => $app_name
+      app_or_port => $app_name,
+      require     => Exec["Refresh rule for ${app_name}"],
     }
   }
 }
