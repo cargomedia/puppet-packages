@@ -15,7 +15,7 @@ node default {
 
   ufw::rule { 'food from 192.0.0.0/8 with port 23,24':
     app_or_port => '23,24',
-    proto       => 'tcp',
+    protocol    => 'tcp',
     from        => '192.0.0.0/8'
   }
   ->

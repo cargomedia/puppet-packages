@@ -10,12 +10,12 @@ node default {
 
   @ufw::rule { 'allow 25/udp':
     app_or_port => '25',
-    proto       => 'udp',
+    protocol    => 'udp',
   }
 
   @ufw::rule { 'deny 80/tcp':
     app_or_port => '80',
-    proto       => 'tcp',
+    protocol    => 'tcp',
     allow       => false,
   }
 
