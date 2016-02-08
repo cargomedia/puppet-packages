@@ -9,6 +9,7 @@ node default {
 
   ufw::rule { 'food from 127.0.0.0/8 with port 25':
     app_or_port => 25,
+    protocol    => 'udp',
     from        => '127.0.0.0/8'
   }
   ->
@@ -16,13 +17,16 @@ node default {
   ufw::rule { 'food from 192.0.0.0/8 with port 23,24':
     app_or_port => '23,24',
     protocol    => 'tcp',
-    from        => '192.0.0.0/8'
+    from        => '192.0.0.0/8',
+    to          => '190.0.0.0/8',
   }
   ->
 
   ufw::rule { 'food to 10.0.0.0/8':
-    app_or_port => 'food',
-    to          => '10.0.0.0/8'
+    app_or_port   => 'food',
+    to            => '10.0.0.0/8',
+    from          => '10.0.0.0/8'
   }
 
+  include 'ssh'
 }
