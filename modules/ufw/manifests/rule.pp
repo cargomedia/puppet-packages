@@ -8,7 +8,7 @@ define ufw::rule(
 
   include 'ufw'
 
-  $verb_allow = $allow? { false   => 'deny', default => 'allow' }
+  $verb_allow = $allow? { false => 'deny', default => 'allow' }
   $proto = $protocol ? { undef => '', default => "proto ${protocol}" }
   $is_port = ((count(split($app_or_port, ',')) > 1) or is_integer($app_or_port))
 
