@@ -4,15 +4,17 @@ class mongodb::role::standalone (
   $hostname = 'localhost',
   $rest = true,
   $auth = false,
-  $options = { }
+  $options = { },
+  $monitoring_credentials = { },
 ) {
 
   mongodb::core::mongod { 'standalone':
-    port    => $port,
-    bind_ip => $bind_ip,
-    rest    => $rest,
-    options => $options,
-    auth    => $auth,
+    port                   => $port,
+    bind_ip                => $bind_ip,
+    rest                   => $rest,
+    options                => $options,
+    auth                   => $auth,
+    monitoring_credentials => $monitoring_credentials,
   }
 
 }

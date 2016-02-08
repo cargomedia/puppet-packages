@@ -5,6 +5,7 @@ define mongodb::core::mongos (
   $fork = false,
   $options = { },
   $auth_key = undef,
+  $monitoring_credentials = { },
 ) {
 
   require 'mongodb'
@@ -74,6 +75,8 @@ define mongodb::core::mongos (
     options => {
       'hostname' => $hostName,
       'port' => $port,
+      'user' => $monitoring_credentials['user'],
+      'password' => $monitoring_credentials['password'],
     }
   }
 

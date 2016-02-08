@@ -4,14 +4,16 @@ class mongodb::role::config (
   $hostname = 'localhost',
   $options = { },
   $auth_key = undef,
+  $monitoring_credentials = { },
 ) {
 
   mongodb::core::mongod { 'config':
-    config_server    => true,
-    port             => $port,
-    bind_ip          => $bind_ip,
-    options          => $options,
-    auth_key         => $auth_key,
+    config_server          => true,
+    port                   => $port,
+    bind_ip                => $bind_ip,
+    options                => $options,
+    auth_key               => $auth_key,
+    monitoring_credentials => $monitoring_credentials,
   }
 
 }

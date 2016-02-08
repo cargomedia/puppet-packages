@@ -6,6 +6,7 @@ class mongodb::role::arbiter (
   $repl_members,
   $options = { },
   $auth_key = undef,
+  $monitoring_credentials = { },
 ) {
 
   $defaults = {
@@ -15,12 +16,13 @@ class mongodb::role::arbiter (
   }
 
   mongodb::core::mongod { 'arbiter':
-    port          => $port,
-    bind_ip       => $bind_ip,
-    shard_server  => true,
-    repl_set      => $repl_set,
-    options       => merge($defaults, $options),
-    auth_key      => $auth_key,
+    port                   => $port,
+    bind_ip                => $bind_ip,
+    shard_server           => true,
+    repl_set               => $repl_set,
+    options                => merge($defaults, $options),
+    auth_key               => $auth_key,
+    monitoring_credentials => $monitoring_credentials,
   }
 
   mongodb_replset { $repl_set:
