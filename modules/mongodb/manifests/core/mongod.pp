@@ -9,6 +9,7 @@ define mongodb::core::mongod (
   $auth = false,
   $options = { },
   $auth_key = undef,
+  $monitoring_credentials = { },
 ) {
 
   require 'mongodb'
@@ -84,6 +85,8 @@ define mongodb::core::mongod (
     options => {
       'hostname' => $hostName,
       'port' => $port,
+      'user' => $monitoring_credentials['user'],
+      'password' => $monitoring_credentials['password'],
     }
   }
 
