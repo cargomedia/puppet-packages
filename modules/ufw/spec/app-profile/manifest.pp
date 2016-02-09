@@ -28,6 +28,18 @@ node default {
     from        => '192.0.0.0/8',
     to          => '190.0.0.0/8',
   }
+  ->
+
+  ufw::rule { 'food from any with port 50:60':
+    app_or_port => '50:60',
+    protocol    => 'tcp',
+  }
+  ->
+
+  ufw::rule { 'food from any with port 100:150,200':
+    app_or_port => '100:150,200',
+    protocol    => 'tcp',
+  }
 
   include 'ssh'
 }
