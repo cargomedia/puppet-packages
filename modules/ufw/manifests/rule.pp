@@ -15,8 +15,8 @@ define ufw::rule(
   $target = $is_port ? { true => "port ${$app_or_port}", default => "app ${app_or_port}" }
 
   $proto_unless = $protocol ? { undef => '', default => "/${protocol}" }
-  $to_unless = $to == 'any' ? { true => $app_or_port, default => "${to} ${app_or_port}${proto_unless}" }
-  $from_unless = $from == 'any' ? { true => 'Anywere', default => $from }
+  $to_unless = $to ? { 'any' => $app_or_port, default => "${to} ${app_or_port}${proto_unless}" }
+  $from_unless = $from ? { 'any' => 'Anywhere', default => $from }
 
   $ufw_unless = "ufw status | grep -iqE '^${to_unless}+.+${verb_allow}+.+${from_unless}'"
 
