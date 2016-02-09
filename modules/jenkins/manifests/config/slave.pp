@@ -7,13 +7,20 @@ define jenkins::config::slave(
 
   include 'jenkins::config::main'
 
-  file { "/var/lib/jenkins/config.d/20-slaves-10-${host}.xml":
-    ensure    => 'present',
-    content   => template("${module_name}/config/main/20-slaves-10-entry.xml"),
+  file { "/var/lib/jenkins/nodes/${host}":
+    ensure    => 'directory',
     owner     => 'jenkins',
     group     => 'nogroup',
     mode      => '0644',
-    notify    => Exec['/var/lib/jenkins/config.xml'],
+  }
+
+  file { "/var/lib/jenkins/nodes/${host}/config.xml":
+    ensure    => 'present',
+    content   => template("${module_name}/config/slave.xml"),
+    owner     => 'jenkins',
+    group     => 'nogroup',
+    mode      => '0644',
+    notify    => Service['jenkins'],
   }
 
 }

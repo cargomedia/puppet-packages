@@ -17,3 +17,7 @@ configdb = <%= @config_servers.join(",") %>
 <% @options.each do |key, value| %>
 <%= key %>=<%= value %>
 <% end %>
+
+<% if @key_file_path %>
+keyFile=<%= @key_file_path %>
+<% end %>
