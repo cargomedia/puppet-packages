@@ -4,6 +4,14 @@ node default {
     app_name        => 'food',
     app_description => 'food - the foo daemon',
     app_ports       => '21,23:25/tcp|10000:15000/udp',
+    auto_allow      => false,
+  }
+  ->
+
+  ufw::rule { 'food to 10.0.0.0/8':
+    app_or_port   => 'food',
+    to            => '10.0.0.0/8',
+    from          => '10.0.0.0/8'
   }
   ->
 
@@ -19,13 +27,6 @@ node default {
     protocol    => 'tcp',
     from        => '192.0.0.0/8',
     to          => '190.0.0.0/8',
-  }
-  ->
-
-  ufw::rule { 'food to 10.0.0.0/8':
-    app_or_port   => 'food',
-    to            => '10.0.0.0/8',
-    from          => '10.0.0.0/8'
   }
 
   include 'ssh'
