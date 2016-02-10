@@ -8,7 +8,7 @@ define mongodb::mongorc::autologin (
   file { $path:
     ensure   => file,
     content  => template("${module_name}/mongorc/autologin"),
-    mode     => '0544',
+    mode     => '0700',
     group    => '0',
     owner    => '0',
   }
