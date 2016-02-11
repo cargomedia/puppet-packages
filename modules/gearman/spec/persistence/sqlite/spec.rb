@@ -7,8 +7,8 @@ describe 'gearman persistence sqlite' do
     it { should be_owned_by 'gearman' }
   end
 
-  describe file('/etc/default/gearman-job-server') do
-    it { should be_file }
+  describe command('cat /proc/$(pgrep gearman)/cmdline') do
+    its(:stdout) { should_not match /-q mysql/ }
     its(:content) { should match /-q libsqlite3/ }
   end
 
