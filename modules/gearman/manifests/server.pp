@@ -51,10 +51,26 @@ class gearman::server(
     binary => '/usr/sbin/gearmand',
     args   => $daemon_args,
     user => 'gearman',
+    require => File["/var/log/${fullname}/gearman.log"],
   }
 
   file { "/etc/default/${fullname}":
     ensure  => absent,
     before => Daemon[$fullname],
+  }
+
+  file { "/var/log/${fullname}":
+    ensure => directory,
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
+  }
+
+  file { "/var/log/${fullname}/gearman.log":
+    ensure  => file,
+    content => template("${module_name}/default"),
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
   }
 }
