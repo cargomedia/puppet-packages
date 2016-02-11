@@ -3,7 +3,6 @@ define php5::config_extension (
   $content = ''
 ) {
 
-
   file { "/etc/php5/mods-available/${extension}.ini":
     ensure  => file,
     content => $content,

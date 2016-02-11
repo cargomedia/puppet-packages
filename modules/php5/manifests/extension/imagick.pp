@@ -3,10 +3,10 @@ class php5::extension::imagick (
 ) {
 
   require 'apt'
+  require 'php5'
 
   if $::lsbdistcodename == 'wheezy' {
     require 'build'
-    require 'php5'
 
     package { 'libmagickwand-dev':
       ensure   => present,
@@ -19,10 +19,6 @@ class php5::extension::imagick (
       unless  => "php --re imagick | grep -w 'imagick version ${version}'",
       require => Class['php5'],
     }
-    ->
-    php5::config_extension { 'imagick':
-      content => template("${module_name}/extension/imagick/conf.ini"),
-    }
 
   } else {
     package { 'php5-imagick':
@@ -31,4 +27,9 @@ class php5::extension::imagick (
     }
   }
 
+  if !(defined(Php5::Config_extension['imagick'])) {
+    php5::config_extension { 'imagick':
+      content => template("${module_name}/extension/imagick/conf.ini"),
+    }
+  }
 }
