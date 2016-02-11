@@ -68,7 +68,6 @@ class gearman::server(
 
   file { "/var/log/${fullname}/gearman.log":
     ensure  => file,
-    content => template("${module_name}/default"),
     owner   => '0',
     group   => '0',
     mode    => '0644',
