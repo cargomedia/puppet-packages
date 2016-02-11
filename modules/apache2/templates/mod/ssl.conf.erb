@@ -52,15 +52,14 @@ SSLMutex  file:${APACHE_RUN_DIR}/ssl_mutex
 #   List the ciphers that the client is permitted to negotiate.
 #   See the mod_ssl documentation for a complete list.
 #   enable only secure ciphers:
-SSLCipherSuite HIGH:MEDIUM:!ADH
-#   Use this instead if you want to allow cipher upgrades via SGC facility.
-#   In this case you also have to use something like
-#        SSLRequire %{SSL_CIPHER_USEKEYSIZE} >= 128
-#   see http://httpd.apache.org/docs/2.2/ssl/ssl_howto.html.en#upgradeenc
-#SSLCipherSuite ALL:!ADH:!EXPORT56:RC4+RSA:+HIGH:+MEDIUM:+LOW:+SSLv2:+EXP:+eNULL
 
-# enable only secure protocols: SSLv3 and TLSv1, but not SSLv2
-SSLProtocol all -SSLv2
+#   Config according to https://raymii.org/s/tutorials/Strong_SSL_Security_On_Apache2.html
+SSLHonorCipherOrder On
+SSLCipherSuite EECDH+AESGCM:EDH+AESGCM:AES256+EECDH:AES256+EDH
+<% if @::lsbmajdistrelease > 7 %>
+SSLCompression Off
+<% end -%>
+SSLProtocol all -SSLv2 -SSLv3
 
 # Allow insecure renegotiation with clients which do not yet support the
 # secure renegotiation protocol. Default: Off
