@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'gearman persistence sqlite' do
+describe 'gearman::persistence::sqlite' do
 
   describe file('/var/log/gearman-job-server/gearman-persist.sqlite3') do
     it { should be_file }
@@ -8,8 +8,8 @@ describe 'gearman persistence sqlite' do
   end
 
   describe command('cat /proc/$(pgrep gearman)/cmdline') do
-    its(:stdout) { should_not match /-q mysql/ }
-    its(:content) { should match /-q libsqlite3/ }
+    its(:stdout) { should_not match /-q+.*mysql/ }
+    its(:stdout) { should match /-q+.*libsqlite3/ }
   end
 
   describe service('gearman-job-server') do
