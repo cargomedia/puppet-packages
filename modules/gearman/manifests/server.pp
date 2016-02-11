@@ -24,7 +24,7 @@ class gearman::server(
     default: { fail('Only sqlite3 or mysql-based persistent queues supported right now') }
   }
 
-  $daemon_args = "--listen=${bind_ip} --job-retries=${jobretries} ${bind_ip_arg} ${persistence_args} --log-file=/var/log/${fullname}/gearman.log"
+  $daemon_args = "--listen=${bind_ip} --job-retries=${jobretries} ${persistence_args} --log-file=/var/log/${fullname}/gearman.log"
 
   package { $fullname:
     ensure   => present,
