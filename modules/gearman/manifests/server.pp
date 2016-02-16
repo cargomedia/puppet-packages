@@ -51,7 +51,6 @@ class gearman::server(
     binary => '/usr/sbin/gearmand',
     args   => $daemon_args,
     user => 'gearman',
-    require => File["/var/log/${fullname}/gearman.log"],
   }
 
   file { "/etc/default/${fullname}":
@@ -59,17 +58,4 @@ class gearman::server(
     before => Daemon[$fullname],
   }
 
-  file { "/var/log/${fullname}":
-    ensure => directory,
-    owner   => '0',
-    group   => '0',
-    mode    => '0644',
-  }
-
-  file { "/var/log/${fullname}/gearman.log":
-    ensure  => file,
-    owner   => '0',
-    group   => '0',
-    mode    => '0644',
-  }
 }
