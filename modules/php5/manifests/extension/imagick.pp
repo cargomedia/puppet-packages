@@ -1,5 +1,6 @@
 class php5::extension::imagick (
-  $version = '3.1.2'
+  $version = '3.1.2',
+  $ini_content = 'extension=imagick.so'
 ) {
 
   require 'apt'
@@ -27,9 +28,7 @@ class php5::extension::imagick (
     }
   }
 
-  if !(defined(Php5::Config_extension['imagick'])) {
-    php5::config_extension { 'imagick':
-      content => template("${module_name}/extension/imagick/conf.ini"),
-    }
+  php5::config_extension { 'imagick':
+    content => $ini_content,
   }
 }
