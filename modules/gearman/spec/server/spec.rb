@@ -19,11 +19,12 @@ describe 'gearman::server' do
     it { should be_listening }
   end
 
-  describe command('cat /proc/$(pgrep gearman)/cmdline') do
-    its(:stdout) { should match /--job-retries=255/ }
+  describe file('/etc/default/gearman-job-server') do
+    it { should be_file }
+    its(:content) { should match /--job-retries=255/ }
   end
 
   describe command('monit summary') do
-    its(:stdout) { should match /gearman-job-server.+[Running|ok]/ }
+    its(:stdout) { should match /gearman-job-server/ }
   end
 end
