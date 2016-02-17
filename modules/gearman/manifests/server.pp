@@ -52,10 +52,4 @@ class gearman::server(
     args   => $daemon_args,
     user => 'gearman',
   }
-
-  file { "/etc/default/${fullname}":
-    ensure  => absent,
-    before => Daemon[$fullname],
-  }
-
 }
