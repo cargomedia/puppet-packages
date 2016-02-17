@@ -12,6 +12,7 @@ class janus (
   $turn_type = 'udp',
   $turn_user = 'myuser',
   $turn_pwd = 'mypassword',
+  $nat_1_1_mapping = undef,
   $config_file = '/etc/janus/janus.cfg',
   $plugin_config_dir = '/etc/janus',
   $turn_rest_api = undef,
