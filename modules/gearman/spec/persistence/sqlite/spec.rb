@@ -11,7 +11,7 @@ describe 'gearman::persistence::sqlite' do
   describe command('cat /proc/$(pgrep gearman)/cmdline') do
     its(:stdout) { should_not match /-q+.*mysql/ }
     its(:stdout) { should match /-q+.*libsqlite3/ }
-    its(:stdout) { should match /--listen+.*127\.\0\.0\.1/ }
+    its(:stdout) { should match /--listen=127\.0\.0\.1/ }
   end
 
   describe service('gearman-job-server') do
