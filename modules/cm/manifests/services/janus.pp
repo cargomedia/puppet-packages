@@ -3,6 +3,7 @@ class cm::services::janus(
   $http_server_api_key = 'secret-monkey',
   $http_server_port = 8100,
   $websocket_server_port = 8110,
+  $nat_1_1_mapping = undef,
 
   $ssl_cert = undef,
   $ssl_key = undef,
@@ -25,6 +26,7 @@ class cm::services::janus(
 
   class { '::janus':
     bind_address       => '127.0.0.1',
+    nat_1_1_mapping    => $nat_1_1_mapping,
     rtp_port_range_min => $webrtc_media_minport,
     rtp_port_range_max => $webrtc_media_maxport,
   }
@@ -53,13 +55,13 @@ class cm::services::janus(
 
   class { 'janus::plugin::audioroom':
     recording_enabled => $recording_enabled,
-    rest_url => "http://127.0.0.1:${janus_http_port}/janus",
+    rest_url          => "http://127.0.0.1:${janus_http_port}/janus",
   }
   class { 'janus::plugin::rtpbroadcast':
-    minport => $rtpbroadcast_minport,
-    maxport => $rtpbroadcast_maxport,
+    minport           => $rtpbroadcast_minport,
+    maxport           => $rtpbroadcast_maxport,
     recording_enabled => $recording_enabled,
-    rest_url => "http://127.0.0.1:${janus_http_port}/janus",
+    rest_url          => "http://127.0.0.1:${janus_http_port}/janus",
   }
 
   class { 'cm_janus':
