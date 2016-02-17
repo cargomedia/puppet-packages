@@ -37,6 +37,7 @@ node default {
   class { 'janus':
     config_file       => '/tmp/januxx.foo.conf',
     plugin_config_dir => '/tmp',
+    nat_1_1_mapping   => '10.10.10.10',
   }
 
   require 'janus::transport::http'
