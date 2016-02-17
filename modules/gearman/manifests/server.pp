@@ -6,50 +6,62 @@ class gearman::server(
   $mysql_password = 'gearman',
   $mysql_db = 'gearman',
   $mysql_table = 'gearman_queue',
-  $bind_ip = '127.0.0.1',
+  $bind_ip = undef,
   $jobretries = 25,
 ) {
 
   require 'apt'
   require 'apt::source::cargomedia'
 
-  $fullname = 'gearman-job-server'
-
   case $persistence {
-    none: { $persistence_args = '' }
-    sqlite3: { $persistence_args = "-q libsqlite3 --libsqlite3-db=/var/log/${fullname}/gearman-persist.sqlite3" }
-    mysql: {
-      $persistence_args = "-q mysql --mysql-host=${mysql_host} --mysql-port=${mysql_port} --mysql-user=${mysql_user} --mysql-password=${mysql_password} --mysql-db=${mysql_db} --mysql-table=${mysql_table}"
-    }
-    default: { fail('Only sqlite3 or mysql-based persistent queues supported right now') }
+    none: { $daemon_args = [] }
+    sqlite3: { $daemon_args = ['-q libsqlite3', '--libsqlite3-db=/var/log/gearman-job-server/gearman-persist.sqlite3'] }
+    mysql: { $daemon_args = [
+      '--queue-type=mysql',
+      "--mysql-host=${mysql_host}",
+      "--mysql-port=${mysql_port}",
+      "--mysql-user=${mysql_user}",
+      "--mysql-password=${mysql_password}",
+      "--mysql-db=${mysql_db}",
+      "--mysql-table=${mysql_table}"
+    ] }
+    default: { fail('Only sqlite3-based persistent queues supported right now') }
   }
 
-  $daemon_args = "--listen=${bind_ip} --job-retries=${jobretries} ${persistence_args} --log-file=/var/log/${fullname}/gearman.log"
-
-  package { $fullname:
+  package { 'gearman-job-server':
     ensure   => present,
     provider => 'apt',
-    require  => [Class['apt::source::cargomedia'], Daemon[$fullname]],
+    require  => Class['apt::source::cargomedia'],
   }
 
-  @bipbip::entry { $fullname:
+  service { 'gearman-job-server':
+    hasrestart => true,
+    enable     => true,
+    require    => Package['gearman-job-server'],
+  }
+
+  @monit::entry { 'gearman-job-server':
+    content => template("${module_name}/monit"),
+    require => Service['gearman-job-server'],
+  }
+
+  @bipbip::entry { 'gearman-job-server':
     plugin  => 'gearman',
     options => {
       'hostname' => 'localhost',
-      'port'     => '4730',
+      'port' => '4730',
     },
-    require => Service[$fullname],
+    require => Service['gearman-job-server'],
   }
 
-  user {'gearman':
-    ensure => present,
-    system => true,
+  file { '/etc/default/gearman-job-server':
+    ensure  => file,
+    content => template("${module_name}/default"),
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
+    before  => Package['gearman-job-server'],
+    notify  => Service['gearman-job-server'],
   }
-  ->
 
-  daemon { $fullname:
-    binary => '/usr/sbin/gearmand',
-    args   => $daemon_args,
-    user => 'gearman',
-  }
 }
