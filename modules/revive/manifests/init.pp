@@ -8,14 +8,15 @@ class revive (
   $dbPassword = 'revive'
 ) {
 
-  require 'dotdeb' # Revive requires php 5.4.20+
+  if $::lsbdistcodename == 'wheezy' {
+    require 'dotdeb' # Revive requires php 5.4.20+
+    require 'php5::extension::opcache'
+  }
   require 'php5'
   require 'php5::fpm'
   require 'php5::extension::apcu'
-  require 'php5::extension::opcache'
   require 'php5::extension::mysql'
   require 'php5::extension::gd'
-  require 'openssl'
   require 'mysql::server'
   require 'rsync'
   include 'nginx'
