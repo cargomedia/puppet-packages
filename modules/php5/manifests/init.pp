@@ -30,6 +30,11 @@ class php5 {
     mode   => '0755',
   }
 
+  if $::lsbmajdistrelease >= 8 {
+    # opcache extension built-in in php v5.6 and later
+    include 'php5::extension::opcache'
+  }
+
   logrotate::entry { $module_name:
     content => template("${module_name}/logrotate")
   }
