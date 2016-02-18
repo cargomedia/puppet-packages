@@ -4,8 +4,8 @@ append_dot_mydomain = no
 myhostname = <%= @domain || 'localhost' %>
 mydestination = localhost
 virtual_alias_maps = hash:/etc/postfix/virtual
-alias_database = hash:/etc/aliases
-alias_maps = hash:/etc/aliases
+alias_database =
+alias_maps =
 
 inet_interfaces = 127.0.0.1
 biff = no
