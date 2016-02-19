@@ -41,7 +41,7 @@ class Puppet::Provider::Mongodb < Puppet::Provider
     defaults = {:skip_fail => false}
     options = defaults.merge(options)
 
-    mongorc_path = options[:mongorc_path] || '/etc/mongorc.js'
+    mongorc_path = options[:mongorc_path] || File.expand_path('~/.mongorc.js')
     pre_command = File.exist?(mongorc_path) ? "load('#{mongorc_path}');" : ''
 
     args = ['--quiet', '--host', host, '--eval', "#{pre_command}#{command}"]
