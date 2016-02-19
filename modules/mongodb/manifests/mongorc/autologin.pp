@@ -6,7 +6,7 @@ define mongodb::mongorc::autologin (
   $user_home = '/root'
 ) {
 
-  file { "${user_path}/.mongorc.js":
+  file { "${user_home}/.mongorc.js":
     ensure   => file,
     content  => template("${module_name}/mongorc/autologin"),
     mode     => '0700',
