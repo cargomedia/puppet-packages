@@ -2,14 +2,15 @@ define mongodb::mongorc::autologin (
   $database,
   $username,
   $password,
-  $path = '/etc/mongorc.js'
+  $user = 'root',
+  $user_home = '/root'
 ) {
 
-  file { $path:
+  file { "${user_path}/.mongorc.js":
     ensure   => file,
     content  => template("${module_name}/mongorc/autologin"),
     mode     => '0700',
-    group    => '0',
-    owner    => '0',
+    group    => $user,
+    owner    => $user,
   }
 }
