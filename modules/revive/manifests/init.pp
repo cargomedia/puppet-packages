@@ -56,7 +56,7 @@ class revive (
       'gzip on;',
       'gzip_proxied any;',
       'gzip_http_version 1.0;',
-      'gzip_types application/x-javascript text/css text/plain application/xml image/svg+xml image/x-icon image/gif image/png;',
+      'gzip_types application/x-javascript text/css text/plain application/xml image/svg+xml;',
     ],
   }
 
