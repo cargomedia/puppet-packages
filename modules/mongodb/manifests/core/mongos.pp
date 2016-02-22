@@ -70,15 +70,13 @@ define mongodb::core::mongos (
   }
 
   $hostName = $bind_ip? { undef => 'localhost', default => $bind_ip }
-  $monitoringUser = $monitoring_credentials['user'] ? { undef => undef, default => $monitoring_credentials['user'] }
-  $monitoringPassword = $monitoring_credentials['password'] ? { undef => undef, default => $monitoring_credentials['password'] }
   @bipbip::entry { $instance_name:
     plugin  => 'mongodb',
     options => {
       'hostname' => $hostName,
       'port' => $port,
-      'user' => $monitoringUser,
-      'password' => $monitoringPassword,
+      'user' => $monitoring_credentials['user'],
+      'password' => $monitoring_credentials['password'],
     }
   }
 
