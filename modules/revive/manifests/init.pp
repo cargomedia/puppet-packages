@@ -53,7 +53,6 @@ class revive (
     location_cfg_append => [
       'root /var/revive/www;',
       'index index.php;',
-      'expires 1y;',
       'gzip on;',
       'gzip_proxied any;',
       'gzip_http_version 1.0;',
