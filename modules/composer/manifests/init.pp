@@ -4,7 +4,6 @@ class composer($version = '1.0.0-alpha10') {
 
   $phar = '/usr/local/lib/composer.phar'
   $binary = '/usr/local/bin/composer'
-  $config = '/etc/php5/conf.d/composer.ini'
 
   exec { "curl ${phar}":
     command => "curl -sL http://getcomposer.org/download/${version}/composer.phar > ${phar}",
@@ -21,14 +20,4 @@ class composer($version = '1.0.0-alpha10') {
     mode    => '0755',
   }
 
-  if $::lsbdistcodename == 'wheezy' {
-    file { $config:
-      ensure  => file,
-      content => template("${module_name}/composer.ini"),
-      owner   => '0',
-      group   => '0',
-      mode    => '0644',
-      before => Exec["curl ${phar}"],
-    }
-  }
 }
