@@ -18,12 +18,14 @@ class php5::extension::imagick (
       content => template("${module_name}/extension/imagick/install.sh"),
       unless  => "php --re imagick | grep -w 'imagick version ${version}'",
       require => Class['php5'],
+      before => Php5::Config_extension['imagick'],
     }
 
   } else {
     package { 'php5-imagick':
       ensure   => present,
       provider => 'apt',
+      before => Php5::Config_extension['imagick'],
     }
   }
 

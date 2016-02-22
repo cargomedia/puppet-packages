@@ -2,6 +2,7 @@ class php5::fpm {
 
   require 'apt'
   require 'php5'
+  include 'php5::config_extension_change'
 
   file { '/etc/php5/fpm':
     ensure => directory,
@@ -64,6 +65,7 @@ class php5::fpm {
   service { 'php5-fpm':
     enable    => true,
     require   => Package['php5-fpm'],
+    subscribe => Class['php5::config_extension_change'],
   }
 
   @monit::entry { 'php5-fpm':

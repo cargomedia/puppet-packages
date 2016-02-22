@@ -10,9 +10,10 @@ class php5::extension::opcache (
   $validate_timestamps = false
 ) {
 
-  if $::lsbmajdistrelease < 8 {
+  require 'php5'
 
-    require 'php5'
+  if $::lsbdistcodename == 'wheezy' {
+
     require 'build'
 
     helper::script { 'install php5::extension::opcache':
