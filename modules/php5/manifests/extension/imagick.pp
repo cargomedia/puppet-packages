@@ -1,6 +1,5 @@
 class php5::extension::imagick (
   $version = '3.1.2',
-  $ini_content = 'extension=imagick.so'
 ) {
 
   require 'apt'
@@ -29,6 +28,6 @@ class php5::extension::imagick (
   }
 
   php5::config_extension { 'imagick':
-    content => $ini_content,
+    content => template("${module_name}/extension/imagick/conf.ini"),
   }
 }
