@@ -25,4 +25,7 @@ Puppet::Type.newtype(:mongodb_shard) do
     end
   end
 
+  autorequire(:file) do
+    '/etc/mongorc.js'
+  end
 end
