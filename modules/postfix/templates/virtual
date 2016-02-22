@@ -1,3 +1,5 @@
+mailer-daemon	postmaster
+postmaster	root
 <% @aliases.each do |from, to| -%>
 <%= from %> 	<%= to %>
 <% end %>
