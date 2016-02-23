@@ -10,8 +10,8 @@ describe 'revive' do
     it { should be_listening }
   end
 
-  describe command('env no_proxy=example.com curl http://example.com -L') do
-    its(:stdout) { should match 'Revive Adserver' }
+  describe command('env no_proxy=example.com curl http://example.com -v') do
+    its(:stderr) { should match 'Location: https://example.com/' }
   end
 
   describe command('env no_proxy=example.com curl https://example.com -Lk') do
