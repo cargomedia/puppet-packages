@@ -44,9 +44,18 @@ class revive (
     user => "${dbUser}@localhost",
   }
 
+  nginx::resource::vhost{ "${module_name}-https-redirect":
+    listen_port         => 80,
+    ssl                 => false,
+    server_name         => [$host],
+    location_cfg_append => [
+      'return 301 https://$host$request_uri;',
+    ],
+  }
+
   nginx::resource::vhost { $module_name:
     server_name         => [$host],
-    listen_port         => 80,
+    listen_port         => 443,
     ssl                 => true,
     ssl_cert            => $ssl_cert,
     ssl_key             => $ssl_key,
@@ -64,6 +73,7 @@ class revive (
     location            => '~ \.php$',
     vhost               =>  $module_name,
     ssl                 =>  true,
+    ssl_only => true,
     location_cfg_append => [
       'root /var/revive/www;',
       'index index.php;',
