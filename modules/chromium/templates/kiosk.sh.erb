@@ -2,4 +2,4 @@
 
 W=$(xrandr --current | grep 'current' | cut -d ',' -f2 | cut -d ' ' -f3)
 H=$(xrandr --current | grep 'current' | cut -d ',' -f2 | cut -d ' ' -f5)
-chromium-browser <% if @hide_ui %>--kiosk <% end %>--window-position=0,0 --window-size=${W},${H} '<%= @url %>'
+chromium-browser <% if @hide_ui %>--kiosk <% end %>--window-position=0,0 --window-size=${W},${H} --disable-pinch '<%= @url %>'
