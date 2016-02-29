@@ -5,12 +5,12 @@ node default {
 
   $prefix = '/opt/janus-cluster'
 
-  $orgin_name = 'origin'
+  $origin_name = 'origin'
   $edge1_name = 'edge1'
   $edge2_name = 'edge2'
   $edge3_name = 'edge3'
 
-  janus::core::janus { $orgin_name:
+  janus::core::janus { $origin_name:
     prefix => "${prefix}/${origin_name}"
   }
 

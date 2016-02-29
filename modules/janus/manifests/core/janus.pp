@@ -46,7 +46,7 @@ define janus::core::janus (
   }
 
   file {
-    [$config_dir, "${home_path}/etc/janus/ssl"]:
+    [$config_dir, "${home_path}/etc/janus/ssl", $plugins_folder, $transports_folder]:
       ensure => directory,
       owner  => '0',
       group  => '0',
