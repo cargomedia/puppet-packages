@@ -1,6 +1,6 @@
-class janus (
+define janus::core::janus (
+  $prefix = '/',
   $bind_address = undef,
-  $log_file = '/var/log/janus/janus.log',
   $token_auth = 'no',
   $api_secret = undef,
   $rtp_port_range_min = 20000,
@@ -13,58 +13,54 @@ class janus (
   $turn_user = 'myuser',
   $turn_pwd = 'mypassword',
   $nat_1_1_mapping = undef,
-  $config_file = '/etc/janus/janus.cfg',
-  $plugin_config_dir = '/etc/janus',
   $turn_rest_api = undef,
   $turn_rest_api_key = undef,
-  $src_version = undef,
   $core_dump = true,
 ) {
 
-  require 'apt'
-  require 'apt::source::cargomedia'
+  require 'janus::common'
   require 'logrotate'
 
-  user { 'janus':
-    ensure => present,
-    system => true,
-  }
+  $instance_name = "janus_${name}"
 
-  if $src_version {
-    class { 'janus::source':
-      version => $src_version,
-      before  => Daemon['janus'],
-      notify  => Service['janus'],
+  if ($prefix != '/') {
+    $home_path = "${prefix}/${name}"
+    exec { "${home_path} for ${name}":
+      command => "mkdir -p ${home_path}/etc && mkdir -p ${home_path}/var/lib && mkdir -p ${home_path}/var/log",
+      path    => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     }
+    notify {$home_path:}
   } else {
-    package { 'janus':
-      provider => 'apt',
-      before   => Daemon['janus'],
-      notify   => Service['janus'],
-    }
+    $home_path = ''
   }
 
-  logrotate::entry{ $module_name:
+  $log_file = "${home_path}/var/log/janus/janus.log"
+  $config_file = "${home_path}/etc/janus/janus.cfg"
+  $plugin_config_dir = "${home_path}/etc/janus"
+  $ssl_config_dir = "${home_path}/etc/janus/ssl"
+
+  logrotate::entry{ $instance_name:
     content => template("${module_name}/logrotate"),
   }
 
   file {
-    ['/etc/janus', '/etc/janus/ssl']:
+    ["${home_path}/etc/janus", "${home_path}/etc/janus/ssl"]:
       ensure => directory,
       owner  => '0',
       group  => '0',
-      mode   => '0644';
-    ['/var/lib/janus']:
+      mode   => '0644',
+      require => Exec["${home_path} for ${name}"];
+    ["${home_path}/var/lib/janus"]:
       ensure => directory,
       owner  => 'janus',
       group  => 'janus',
       mode   => '0644';
-    ['/var/lib/janus/recordings', '/var/lib/janus/jobs']:
+    ["${home_path}/var/lib/janus/recordings", "${home_path}/var/lib/janus/jobs"]:
       ensure => directory,
       owner  => 'janus',
       group  => 'janus',
       mode   => '0666';
-    '/var/log/janus':
+    "${home_path}/var/log/janus":
       ensure => directory,
       owner  => 'janus',
       group  => 'janus',
@@ -78,30 +74,30 @@ class janus (
       owner  => 'janus',
       group  => 'janus',
       mode   => '0644';
-    '/etc/janus/ssl/cert.pem':
+    "${ssl_config_dir}/cert.pem":
       ensure  => file,
       content => template("${module_name}/ssl-cert-janus-snakeoil.pem"),
       owner   => 'janus',
       group   => 'janus',
       mode    => '0644';
-    '/etc/janus/ssl/cert.key':
+    "${ssl_config_dir}/cert.key":
       ensure  => file,
       content => template("${module_name}/ssl-cert-janus-snakeoil.key"),
       owner   => 'janus',
       group   => 'janus',
       mode    => '0640';
-    '/etc/janus/janus.cfg':
+    $config_file:
       ensure   => file,
       content  => template("${module_name}/config"),
       owner    => '0',
       group    => '0',
       mode     => '0644',
-      notify   => Service['janus'],
+      notify   => Service[$instance_name],
   }
   ->
 
-  daemon { 'janus':
-    binary    => '/usr/bin/janus',
+  daemon { $instance_name:
+    binary    => "/usr/bin/janus",
     args      => "-o -C ${config_file} -F ${plugin_config_dir} -L ${log_file}",
     user      => 'janus',
     core_dump => $core_dump,

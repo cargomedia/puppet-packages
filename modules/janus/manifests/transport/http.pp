@@ -1,4 +1,5 @@
-class janus::transport::http(
+define janus::transport::http(
+  $prefix = '/',
   $base_path = '/janus',
   $threads = 'unlimited',
   $http = 'yes',
@@ -15,14 +16,20 @@ class janus::transport::http(
   $admin_acl = '127.'
 ) {
 
-  include 'janus'
+  if ($prefix != '/') {
+    $home_path = "${prefix}/${name}"
+    $instance_name = "janus_${name}"
+  } else {
+    $home_path = ''
+    $instance_name = 'janus'
+  }
 
-  file { '/etc/janus/janus.transport.http.cfg':
+  file { "${home_path}/etc/janus/janus.transport.http.cfg":
     ensure    => 'present',
     content   => template("${module_name}/transport/http.cfg"),
     owner     => '0',
     group     => '0',
     mode      => '0644',
-    notify    => Service['janus'],
+    notify    => Service[$instance_name],
   }
 }

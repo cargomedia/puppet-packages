@@ -1,4 +1,5 @@
-class janus::transport::websockets(
+define janus::transport::websockets(
+  $prefix = '/',
   $ws = 'yes',
   $ws_port = 8310,
   $wss = 'no',
@@ -12,14 +13,20 @@ class janus::transport::websockets(
   $admin_wss_acl = '127.,192.168.',
 ) {
 
-  include 'janus'
+  if ($prefix != '/') {
+    $home_path = "${prefix}/${name}"
+    $instance_name = "janus_${name}"
+  } else {
+    $home_path = ''
+    $instance_name = 'janus'
+  }
 
-  file { '/etc/janus/janus.transport.websockets.cfg':
+  file { "${home_path}/etc/janus/janus.transport.websockets.cfg":
     ensure    => 'present',
     content   => template("${module_name}/transport/websockets.cfg"),
     owner     => '0',
     group     => '0',
     mode      => '0644',
-    notify    => Service['janus'],
+    notify    => Service[$instance_name],
   }
 }
