@@ -14,7 +14,7 @@ define janus::transport::websockets(
 ) {
 
   if ($prefix != '/') {
-    $home_path = "${prefix}/${name}"
+    $home_path = $prefix
     $instance_name = "janus_${name}"
   } else {
     $home_path = ''
@@ -29,4 +29,6 @@ define janus::transport::websockets(
     mode      => '0644',
     notify    => Service[$instance_name],
   }
+
+  # symlink to /prefix/usr/lin/transport/lib_webscoket***** from /usr/lin/transport/lib_websocket***
 }

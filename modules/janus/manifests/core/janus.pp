@@ -24,19 +24,21 @@ define janus::core::janus (
   $instance_name = "janus_${name}"
 
   if ($prefix != '/') {
-    $home_path = "${prefix}/${name}"
-    exec { "${home_path} for ${name}":
-      command => "mkdir -p ${home_path}/etc && mkdir -p ${home_path}/var/lib && mkdir -p ${home_path}/var/log",
+    exec { "${prefix} for ${name}":
+      command => "mkdir -p ${prefix}/etc && mkdir -p ${prefix}/var/lib && mkdir -p ${prefix}/var/log && mkdir -p ${prefix}/usr/lib/janus",
       path    => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     }
-    notify {$home_path:}
+    $home_path = $prefix
   } else {
     $home_path = ''
   }
 
+  $plugins_folder = "${home_path}/usr/lib/janus/plugins"
+  $transports_folder = "${home_path}/usr/lib/janus/transports"
+
+  $config_dir = "${home_path}/etc/janus"
   $log_file = "${home_path}/var/log/janus/janus.log"
   $config_file = "${home_path}/etc/janus/janus.cfg"
-  $plugin_config_dir = "${home_path}/etc/janus"
   $ssl_config_dir = "${home_path}/etc/janus/ssl"
 
   logrotate::entry{ $instance_name:
@@ -44,7 +46,7 @@ define janus::core::janus (
   }
 
   file {
-    ["${home_path}/etc/janus", "${home_path}/etc/janus/ssl"]:
+    [$config_dir, "${home_path}/etc/janus/ssl"]:
       ensure => directory,
       owner  => '0',
       group  => '0',
@@ -98,9 +100,9 @@ define janus::core::janus (
 
   daemon { $instance_name:
     binary    => "/usr/bin/janus",
-    args      => "-o -C ${config_file} -F ${plugin_config_dir} -L ${log_file}",
+    args      => "-o -C ${config_file} -L ${log_file}",
     user      => 'janus',
     core_dump => $core_dump,
-    require   => [File[$config_file, $plugin_config_dir, $log_file]],
+    require   => [File[$config_file, $config_dir, $log_file]],
   }
 }

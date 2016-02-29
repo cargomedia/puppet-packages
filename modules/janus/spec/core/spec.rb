@@ -6,7 +6,7 @@ describe 'janus' do
     it { should exist }
   end
 
-  describe service('janus1') do
+  describe service('janus_edge1') do
     it { should be_enabled }
     it { should be_running }
   end
