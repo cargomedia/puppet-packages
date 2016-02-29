@@ -16,7 +16,7 @@ class janus::common_rtpbroadcast(
     git::repository { "${name}-${plugin_repo}":
       name      => $plugin_repo,
       remote    => "https://github.com/cargomedia/${plugin_repo}.git",
-      directory => "${prefix}/opt/janus/${plugin_repo}",
+      #directory => "${prefix}/opt/janus/${plugin_repo}",
       revision  => $src_version,
     }
     ~>

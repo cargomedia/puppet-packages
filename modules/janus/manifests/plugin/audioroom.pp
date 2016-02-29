@@ -1,5 +1,5 @@
 define janus::plugin::audioroom(
-  $prefix = '/',
+  $origin = false,
   $recording_enabled = 'yes',
   $recording_pattern = 'rec-#{id}-#{time}-#{type}',
   $job_pattern = 'job-#{md5}',
@@ -7,18 +7,21 @@ define janus::plugin::audioroom(
   $rest_url = 'http://127.0.0.1:8088/janus',
 ) {
 
-  if ($prefix != '/') {
-    $home_path = $prefix
-    $instance_name = "janus_${name}"
-  } else {
-    $home_path = ''
-    $instance_name = 'janus'
+  require '::janus::common_audioroom'
+  $instance_name = $origin ? {
+    true     => 'janus',
+    default  => "janus_${title}",
   }
 
-  $archive_path = "${home_path}/var/lib/janus/recordings"
-  $jobs_path = "${home_path}/var/lib/janus/jobs"
+  $base_dir = $origin ? {
+    true    => '',
+    default => "/opt/janus-cluster/${title}",
+  }
 
-  file { "${home_path}/etc/janus/janus.plugin.cm.audioroom.cfg":
+  $archive_path = "${base_dir}/var/lib/janus/recordings"
+  $jobs_path = "${base_dir}/var/lib/janus/jobs"
+
+  file { "${base_dir}/etc/janus/janus.plugin.cm.audioroom.cfg":
     ensure    => 'present',
     content   => template("${module_name}/plugin/audioroom.cfg"),
     owner     => '0',
@@ -27,9 +30,12 @@ define janus::plugin::audioroom(
     notify    => Service[$instance_name],
   }
 
-  # symlink to /prefix/usr/lib/plugins/lib_***** from /usr/lib/plugins/lib_***
+  file { "${base_dir}/usr/lib/janus/plugins/libjanus_audioroom.so":
+    ensure => link,
+    target => '/usr/lib/janus/plugins/libjanus_audioroom.so',
+  }
 
-  @bipbip::entry { "${name}-janus-audioroom":
+  @bipbip::entry { "janus-audioroom-${title}":
     plugin  => 'janus-audioroom',
     options => {
       'url' => $rest_url,

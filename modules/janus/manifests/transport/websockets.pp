@@ -1,5 +1,5 @@
 define janus::transport::websockets(
-  $prefix = '/',
+  $origin = false,
   $ws = 'yes',
   $ws_port = 8310,
   $wss = 'no',
@@ -13,15 +13,23 @@ define janus::transport::websockets(
   $admin_wss_acl = '127.,192.168.',
 ) {
 
-  if ($prefix != '/') {
-    $home_path = $prefix
-    $instance_name = "janus_${name}"
-  } else {
-    $home_path = ''
-    $instance_name = 'janus'
+  $instance_name = $origin ? {
+    true     => 'janus',
+    default  => "janus_${title}",
   }
 
-  file { "${home_path}/etc/janus/janus.transport.websockets.cfg":
+  $base_dir = $origin ? {
+    true    => '',
+    default => "/opt/janus-cluster/${title}",
+  }
+
+  file { "${base_dir}/usr/lib/janus/transports/libjanus_websockets.so":
+    ensure => link,
+    target => '/usr/lib/janus/transports/libjanus_websockets.so',
+  }
+  ->
+
+  file { "${base_dir}/etc/janus/janus.transport.websockets.cfg":
     ensure    => 'present',
     content   => template("${module_name}/transport/websockets.cfg"),
     owner     => '0',
@@ -29,6 +37,4 @@ define janus::transport::websockets(
     mode      => '0644',
     notify    => Service[$instance_name],
   }
-
-  # symlink to /prefix/usr/lin/transport/lib_webscoket***** from /usr/lin/transport/lib_websocket***
 }

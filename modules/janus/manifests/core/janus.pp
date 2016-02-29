@@ -1,5 +1,5 @@
 define janus::core::janus (
-  $prefix = '/',
+  $origin = false,
   $bind_address = undef,
   $token_auth = 'no',
   $api_secret = undef,
@@ -21,48 +21,51 @@ define janus::core::janus (
   require 'janus::common'
   require 'logrotate'
 
-  $instance_name = "janus_${name}"
-
-  if ($prefix != '/') {
-    exec { "${prefix} for ${name}":
-      command => "mkdir -p ${prefix}/etc && mkdir -p ${prefix}/var/lib && mkdir -p ${prefix}/var/log && mkdir -p ${prefix}/usr/lib/janus",
-      path    => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    }
-    $home_path = $prefix
-  } else {
-    $home_path = ''
+  $instance_name = $origin ? {
+    true     => 'janus',
+    default  => "janus_${title}",
   }
 
-  $plugins_folder = "${home_path}/usr/lib/janus/plugins"
-  $transports_folder = "${home_path}/usr/lib/janus/transports"
+  $base_dir = $origin ? {
+    true    => '',
+    default => "/opt/janus-cluster/${title}",
+  }
 
-  $config_dir = "${home_path}/etc/janus"
-  $log_file = "${home_path}/var/log/janus/janus.log"
-  $config_file = "${home_path}/etc/janus/janus.cfg"
-  $ssl_config_dir = "${home_path}/etc/janus/ssl"
+  exec { "Create ${base_dir} dirs for ${title}":
+    command => "mkdir -p ${base_dir}/etc && mkdir -p ${base_dir}/var/lib && mkdir -p ${base_dir}/var/log && mkdir -p ${base_dir}/usr/lib/janus",
+    path    => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+  }
+
+  $plugins_folder = "${base_dir}/usr/lib/janus/plugins"
+  $transports_folder = "${base_dir}/usr/lib/janus/transports"
+
+  $config_dir = "${base_dir}/etc/janus"
+  $log_file = "${base_dir}/var/log/janus/janus.log"
+  $config_file = "${base_dir}/etc/janus/janus.cfg"
+  $ssl_config_dir = "${base_dir}/etc/janus/ssl"
 
   logrotate::entry{ $instance_name:
     content => template("${module_name}/logrotate"),
   }
 
   file {
-    [$config_dir, "${home_path}/etc/janus/ssl", $plugins_folder, $transports_folder]:
-      ensure => directory,
-      owner  => '0',
-      group  => '0',
-      mode   => '0644',
-      require => Exec["${home_path} for ${name}"];
-    ["${home_path}/var/lib/janus"]:
+    [$config_dir, "${base_dir}/etc/janus/ssl", $plugins_folder, $transports_folder]:
+      ensure  => directory,
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
+      require => Exec["Create ${base_dir} dirs for ${title}"];
+    ["${base_dir}/var/lib/janus"]:
       ensure => directory,
       owner  => 'janus',
       group  => 'janus',
       mode   => '0644';
-    ["${home_path}/var/lib/janus/recordings", "${home_path}/var/lib/janus/jobs"]:
+    ["${base_dir}/var/lib/janus/recordings", "${base_dir}/var/lib/janus/jobs"]:
       ensure => directory,
       owner  => 'janus',
       group  => 'janus',
       mode   => '0666';
-    "${home_path}/var/log/janus":
+    "${base_dir}/var/log/janus":
       ensure => directory,
       owner  => 'janus',
       group  => 'janus',
@@ -96,11 +99,10 @@ define janus::core::janus (
       mode     => '0644',
       notify   => Service[$instance_name],
   }
-  ->
 
   daemon { $instance_name:
-    binary    => "/usr/bin/janus",
-    args      => "-o -C ${config_file} -L ${log_file}",
+    binary    => '/usr/bin/janus',
+    args      => "-o -C ${config_file} -L ${log_file} -F ${config_dir}",
     user      => 'janus',
     core_dump => $core_dump,
     require   => [File[$config_file, $config_dir, $log_file]],
