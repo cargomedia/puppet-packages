@@ -16,10 +16,14 @@ define janus::core::janus (
   $turn_rest_api = undef,
   $turn_rest_api_key = undef,
   $core_dump = true,
+  $ssl_cert = undef,
+  $ssl_key = undef,
 ) {
 
   require 'janus::common'
   require 'logrotate'
+
+  $janus_cluster_basedir = '/opt/janus-cluster'
 
   $instance_name = $origin ? {
     true     => 'janus',
@@ -28,76 +32,66 @@ define janus::core::janus (
 
   $base_dir = $origin ? {
     true    => '',
-    default => "/opt/janus-cluster/${title}",
+    default => "${janus_cluster_basedir}/${title}",
   }
 
-  exec { "Create ${base_dir} dirs for ${title}":
-    command => "mkdir -p ${base_dir}/etc && mkdir -p ${base_dir}/var/lib && mkdir -p ${base_dir}/var/log && mkdir -p ${base_dir}/usr/lib/janus",
-    path    => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+  $ssl_config_dir = "${base_dir}/etc/janus/ssl"
+
+  $ssl_cert_content = $ssl_cert ? {
+    undef => template("${module_name}/ssl-cert-janus-snakeoil.pem"),
+    default => $ssl_cert,
+  }
+  $ssl_key_content = $ssl_key ? {
+    undef => template("${module_name}/ssl-cert-janus-snakeoil.key"),
+    default => $ssl_key,
   }
 
-  $plugins_folder = "${base_dir}/usr/lib/janus/plugins"
-  $transports_folder = "${base_dir}/usr/lib/janus/transports"
-
+  $plugins_folder = "${base_dir}/usr/lib/janus/plugins.enabled"
+  $transports_folder = "${base_dir}/usr/lib/janus/transports.enabled"
   $config_dir = "${base_dir}/etc/janus"
+
+  janus::core::mkdir { $instance_name:
+    base_dir          => $base_dir,
+    config_dir        => $config_dir,
+    plugins_folder    => $plugins_folder,
+    transports_folder => $transports_folder,
+    ssl_config_dir    => $ssl_config_dir,
+  }
+
   $log_file = "${base_dir}/var/log/janus/janus.log"
   $config_file = "${base_dir}/etc/janus/janus.cfg"
-  $ssl_config_dir = "${base_dir}/etc/janus/ssl"
 
   logrotate::entry{ $instance_name:
     content => template("${module_name}/logrotate"),
   }
 
   file {
-    [$config_dir, "${base_dir}/etc/janus/ssl", $plugins_folder, $transports_folder]:
-      ensure  => directory,
-      owner   => '0',
-      group   => '0',
-      mode    => '0644',
-      require => Exec["Create ${base_dir} dirs for ${title}"];
-    ["${base_dir}/var/lib/janus"]:
-      ensure => directory,
-      owner  => 'janus',
-      group  => 'janus',
-      mode   => '0644';
-    ["${base_dir}/var/lib/janus/recordings", "${base_dir}/var/lib/janus/jobs"]:
-      ensure => directory,
-      owner  => 'janus',
-      group  => 'janus',
-      mode   => '0666';
-    "${base_dir}/var/log/janus":
-      ensure => directory,
-      owner  => 'janus',
-      group  => 'janus',
-      mode   => '0644';
-  }
-  ->
-
-  file {
-    $log_file:
-      ensure => file,
-      owner  => 'janus',
-      group  => 'janus',
-      mode   => '0644';
-    "${ssl_config_dir}/cert.pem":
-      ensure  => file,
-      content => template("${module_name}/ssl-cert-janus-snakeoil.pem"),
-      owner   => 'janus',
-      group   => 'janus',
-      mode    => '0644';
-    "${ssl_config_dir}/cert.key":
-      ensure  => file,
-      content => template("${module_name}/ssl-cert-janus-snakeoil.key"),
-      owner   => 'janus',
-      group   => 'janus',
-      mode    => '0640';
     $config_file:
       ensure   => file,
       content  => template("${module_name}/config"),
       owner    => '0',
       group    => '0',
       mode     => '0644',
-      notify   => Service[$instance_name],
+      notify   => Service[$instance_name];
+    "${ssl_config_dir}/cert.pem":
+      ensure   => file,
+      content  => $ssl_cert_content,
+      owner    => 'janus',
+      group    => 'janus',
+      mode     => '0644',
+      notify   => Service[$instance_name];
+    "${ssl_config_dir}/cert.key":
+      ensure   => file,
+      content  => $ssl_key_content,
+      owner    => 'janus',
+      group    => 'janus',
+      mode     => '0640',
+      notify   => Service[$instance_name];
+    $log_file:
+      ensure => file,
+      owner  => 'janus',
+      group  => 'janus',
+      mode   => '0644';
   }
 
   daemon { $instance_name:

@@ -7,7 +7,10 @@ define janus::plugin::audioroom(
   $rest_url = 'http://127.0.0.1:8088/janus',
 ) {
 
-  require '::janus::common_audioroom'
+  require 'janus::common_audioroom'
+
+  $janus_cluster_basedir = '/opt/janus-cluster'
+
   $instance_name = $origin ? {
     true     => 'janus',
     default  => "janus_${title}",
@@ -15,11 +18,18 @@ define janus::plugin::audioroom(
 
   $base_dir = $origin ? {
     true    => '',
-    default => "/opt/janus-cluster/${title}",
+    default => "${janus_cluster_basedir}/${title}",
   }
 
   $archive_path = "${base_dir}/var/lib/janus/recordings"
   $jobs_path = "${base_dir}/var/lib/janus/jobs"
+
+  file { "${base_dir}/usr/lib/janus/plugins.enabled/libjanus_audioroom.so":
+    ensure    => link,
+    target    => '/usr/lib/janus/plugins/libjanus_audioroom.so',
+    require   => Janus::Core::Mkdir[$instance_name],
+  }
+  ->
 
   file { "${base_dir}/etc/janus/janus.plugin.cm.audioroom.cfg":
     ensure    => 'present',
@@ -28,11 +38,7 @@ define janus::plugin::audioroom(
     group     => '0',
     mode      => '0644',
     notify    => Service[$instance_name],
-  }
-
-  file { "${base_dir}/usr/lib/janus/plugins/libjanus_audioroom.so":
-    ensure => link,
-    target => '/usr/lib/janus/plugins/libjanus_audioroom.so',
+    require   => Janus::Core::Mkdir[$instance_name],
   }
 
   @bipbip::entry { "janus-audioroom-${title}":

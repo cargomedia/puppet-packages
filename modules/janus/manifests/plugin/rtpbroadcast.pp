@@ -17,28 +17,40 @@ define janus::plugin::rtpbroadcast(
   $rest_url = 'http://127.0.0.1:8088/janus',
 ) {
 
-  if ($prefix != '/') {
-    $home_path = $prefix
-    $instance_name = "janus_${name}"
-  } else {
-    $home_path = ''
-    $instance_name = 'janus'
+  require 'janus::common_rtpbroadcast'
+
+  $janus_cluster_basedir = '/opt/janus-cluster'
+
+  $instance_name = $origin ? {
+    true     => 'janus',
+    default  => "janus_${title}",
   }
 
-  $archive_path = "${home_path}/var/lib/janus/recordings"
-  $jobs_path = "${home_path}/var/lib/janus/jobs"
-  $log_file = "${home_path}/var/log/janus/janus.log"
+  $base_dir = $origin ? {
+    true    => '',
+    default => "${janus_cluster_basedir}/${title}",
+  }
 
-  file { "${home_path}/etc/janus/janus.plugin.cm.rtpbroadcast.cfg":
+  $archive_path = "${base_dir}/var/lib/janus/recordings"
+  $jobs_path = "${base_dir}/var/lib/janus/jobs"
+  $log_file = "${base_dir}/var/log/janus/janus.log"
+
+  file { "${base_dir}/usr/lib/janus/plugins.enabled/libjanus_rtpbroadcast.so":
+    ensure    => link,
+    target    => '/usr/lib/janus/plugins/libjanus_rtpbroadcast.so',
+    require   => Janus::Core::Mkdir[$instance_name],
+  }
+  ->
+
+  file { "${base_dir}/etc/janus/janus.plugin.cm.rtpbroadcast.cfg":
     ensure    => 'present',
     content   => template("${module_name}/plugin/rtpbroadcast.cfg"),
     owner     => '0',
     group     => '0',
     mode      => '0644',
     notify    => Service[$instance_name],
+    require   => Janus::Core::Mkdir[$instance_name],
   }
-
-  # symlink to /prefix/usr/lib/plugins/lib_***** from /usr/lib/plugins/lib_***
 
   @bipbip::entry { "${name}-rtpbroadcast":
     plugin  => 'janus-rtpbroadcast',
@@ -51,9 +63,9 @@ define janus::plugin::rtpbroadcast(
     plugin  => 'log-parser',
     options => {
       'metric_group' => 'janus-rtpbroadcast',
-      'path' => $log_file,
-      'matchers' => [
-        { 'name' => 'streams_keyframe_overdue',
+      'path'         => $log_file,
+      'matchers'     => [
+        { 'name'   => 'streams_keyframe_overdue',
           'regexp' => 'Key frame overdue on source' },
       ]
     },

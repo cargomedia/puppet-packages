@@ -3,6 +3,7 @@ class janus::common_audioroom(
 ) {
 
   require 'apt'
+  require 'janus::common'
 
   if $src_version {
     require 'git'
@@ -31,13 +32,11 @@ class janus::common_audioroom(
       path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
       refreshonly => true,
       timeout     => 900,
-      notify      => Service['janus'],
     }
   } else {
     package { "${name}-package":
       name     => 'janus-gateway-audioroom',
       provider => 'apt',
-      notify   => Service['janus'],
     }
   }
 }

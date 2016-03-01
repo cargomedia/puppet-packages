@@ -16,6 +16,8 @@ define janus::transport::http(
   $admin_acl = '127.'
 ) {
 
+  $janus_cluster_basedir = '/opt/janus-cluster'
+
   $instance_name = $origin ? {
     true     => 'janus',
     default  => "janus_${title}",
@@ -23,15 +25,15 @@ define janus::transport::http(
 
   $base_dir = $origin ? {
     true    => '',
-    default => "/opt/janus-cluster/${title}",
+    default => "${janus_cluster_basedir}/${title}",
   }
 
-  file { "${base_dir}/usr/lib/janus/transports/libjanus_http.so":
+  file { "${base_dir}/usr/lib/janus/transports.enabled/libjanus_http.so":
     ensure    => link,
     target    => '/usr/lib/janus/transports/libjanus_http.so',
-    notify    => Service[$instance_name],
-    require   =>  Exec["Create ${base_dir} dirs for ${title}"],
+    require   => Janus::Core::Mkdir[$instance_name],
   }
+  ->
 
   file { "${base_dir}/etc/janus/janus.transport.http.cfg":
     ensure    => 'present',
@@ -40,6 +42,6 @@ define janus::transport::http(
     group     => '0',
     mode      => '0644',
     notify    => Service[$instance_name],
-    require   =>  Exec["Create ${base_dir} dirs for ${title}"],
+    require   => Janus::Core::Mkdir[$instance_name],
   }
 }

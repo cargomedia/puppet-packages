@@ -3,6 +3,7 @@ class janus::common_rtpbroadcast(
 ) {
 
   require 'apt'
+  require 'janus::common'
 
   if $src_version {
     require 'git'
@@ -16,7 +17,7 @@ class janus::common_rtpbroadcast(
     git::repository { "${name}-${plugin_repo}":
       name      => $plugin_repo,
       remote    => "https://github.com/cargomedia/${plugin_repo}.git",
-      #directory => "${prefix}/opt/janus/${plugin_repo}",
+      directory => "/opt/janus/${plugin_repo}",
       revision  => $src_version,
     }
     ~>
@@ -27,13 +28,11 @@ class janus::common_rtpbroadcast(
       path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
       refreshonly => true,
       timeout     => 900,
-      notify      => Service['janus'],
     }
   } else {
-    package { "${name}-janus-gateway-rtpbroadcast":
+    package { "${name}-package":
       name     => 'janus-gateway-rtpbroadcast',
       provider => 'apt',
-      notify   => Service['janus'],
     }
   }
 }
