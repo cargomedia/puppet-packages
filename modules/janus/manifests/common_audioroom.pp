@@ -34,7 +34,7 @@ class janus::common_audioroom(
       timeout     => 900,
     }
   } else {
-    package { "${name}-package":
+    package { "${name}-audioroom-plugin":
       name     => 'janus-gateway-audioroom',
       provider => 'apt',
     }

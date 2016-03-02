@@ -67,26 +67,26 @@ define janus::core::janus (
 
   file {
     $config_file:
-      ensure   => file,
-      content  => template("${module_name}/config"),
-      owner    => '0',
-      group    => '0',
-      mode     => '0644',
-      notify   => Service[$instance_name];
+      ensure    => file,
+      content   => template("${module_name}/config"),
+      owner     => '0',
+      group     => '0',
+      mode      => '0644',
+      notify    => Service[$instance_name];
     "${ssl_config_dir}/cert.pem":
-      ensure   => file,
-      content  => $ssl_cert_content,
-      owner    => 'janus',
-      group    => 'janus',
-      mode     => '0644',
-      notify   => Service[$instance_name];
+      ensure    => file,
+      content   => $ssl_cert_content,
+      owner     => 'janus',
+      group     => 'janus',
+      mode      => '0644',
+      notify    => Service[$instance_name];
     "${ssl_config_dir}/cert.key":
-      ensure   => file,
-      content  => $ssl_key_content,
-      owner    => 'janus',
-      group    => 'janus',
-      mode     => '0640',
-      notify   => Service[$instance_name];
+      ensure    => file,
+      content   => $ssl_key_content,
+      owner     => 'janus',
+      group     => 'janus',
+      mode      => '0640',
+      notify    => Service[$instance_name];
     $log_file:
       ensure => file,
       owner  => 'janus',
@@ -99,6 +99,6 @@ define janus::core::janus (
     args      => "-o -C ${config_file} -L ${log_file} -F ${config_dir}",
     user      => 'janus',
     core_dump => $core_dump,
-    require   => [File[$config_file, $config_dir, $log_file]],
+    require   => [File[$config_file, $config_dir, $log_file, "${ssl_config_dir}/cert.key", "${ssl_config_dir}/cert.pem"]],
   }
 }

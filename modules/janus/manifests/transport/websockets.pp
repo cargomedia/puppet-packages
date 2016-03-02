@@ -38,7 +38,7 @@ define janus::transport::websockets(
     owner     => '0',
     group     => '0',
     mode      => '0644',
-    notify    => Service[$instance_name],
+#    notify    => Service[$instance_name],
     require   => Janus::Core::Mkdir[$instance_name],
   }
 }

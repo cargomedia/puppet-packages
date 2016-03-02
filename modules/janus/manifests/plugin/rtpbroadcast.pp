@@ -1,5 +1,5 @@
 define janus::plugin::rtpbroadcast(
-  $prefix = '/',
+  $origin = false,
   $minport = 8000,
   $maxport = 9000,
   $source_avg_time = 10,
@@ -21,12 +21,12 @@ define janus::plugin::rtpbroadcast(
 
   $janus_cluster_basedir = '/opt/janus-cluster'
 
-  $instance_name = $janus::plugin::rtpbroadcast::origin ? {
+  $instance_name = $origin ? {
     true     => 'janus',
     default  => "janus_${title}",
   }
 
-  $base_dir = $janus::plugin::rtpbroadcast::origin ? {
+  $base_dir = $origin ? {
     true    => '',
     default => "${janus_cluster_basedir}/${title}",
   }
@@ -48,7 +48,7 @@ define janus::plugin::rtpbroadcast(
     owner     => '0',
     group     => '0',
     mode      => '0644',
-    notify    => Service[$instance_name],
+#    notify    => Service[$instance_name],
     require   => Janus::Core::Mkdir[$instance_name],
   }
 
