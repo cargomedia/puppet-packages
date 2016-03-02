@@ -5,6 +5,7 @@ class janus::plugin::audioroom(
   $jobs_path = '/var/lib/janus/jobs',
   $job_pattern = 'job-#{md5}',
   $src_version = undef,
+  $src_repo = undef,
   $rest_url = 'http://127.0.0.1:8088/janus',
 ) {
 
@@ -31,11 +32,11 @@ class janus::plugin::audioroom(
       provider => 'apt'
     }
 
-    $plugin_repo = 'janus-gateway-audioroom'
-
-    git::repository { $plugin_repo:
-      remote    => "https://github.com/cargomedia/${plugin_repo}.git",
-      directory => "/opt/janus/${plugin_repo}",
+    $src_path = '/opt/janus/janus-gateway-audioroom'
+    $src_remote = $src_repo ? { undef => 'https://github.com/cargomedia/janus-gateway-audioroom.git',  default => $src_repo }
+    git::repository { 'janus-gateway-audioroom':
+      remote    => $src_remote,
+      directory => $src_path,
       revision  => $src_version,
     }
     ~>
