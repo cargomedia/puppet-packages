@@ -11,12 +11,12 @@ define janus::plugin::audioroom(
 
   $janus_cluster_basedir = '/opt/janus-cluster'
 
-  $instance_name = $origin ? {
+  $instance_name = $janus::plugin::audioroom::origin ? {
     true     => 'janus',
     default  => "janus_${title}",
   }
 
-  $base_dir = $origin ? {
+  $base_dir = $janus::plugin::audioroom::origin ? {
     true    => '',
     default => "${janus_cluster_basedir}/${title}",
   }

@@ -21,12 +21,12 @@ define janus::plugin::rtpbroadcast(
 
   $janus_cluster_basedir = '/opt/janus-cluster'
 
-  $instance_name = $origin ? {
+  $instance_name = $janus::plugin::rtpbroadcast::origin ? {
     true     => 'janus',
     default  => "janus_${title}",
   }
 
-  $base_dir = $origin ? {
+  $base_dir = $janus::plugin::rtpbroadcast::origin ? {
     true    => '',
     default => "${janus_cluster_basedir}/${title}",
   }

@@ -17,7 +17,7 @@ define janus::core::mkdir (
   ->
 
   file {
-    [ $config_dir, "$config_dir/ssl"]:
+    [ $config_dir, "${config_dir}/ssl"]:
       ensure  => directory,
       owner   => '0',
       group   => '0',
