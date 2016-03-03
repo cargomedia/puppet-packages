@@ -1,5 +1,4 @@
 define janus::transport::websockets(
-  $origin = false,
   $ws = 'yes',
   $ws_port = 8310,
   $wss = 'no',
@@ -13,32 +12,23 @@ define janus::transport::websockets(
   $admin_wss_acl = '127.,192.168.',
 ) {
 
-  $janus_cluster_basedir = '/opt/janus-cluster'
+  $instance_base_dir =  "/opt/janus-cluster/${title}"
+  $instance_name = "janus_${title}"
 
-  $instance_name = $origin ? {
-    true     => 'janus',
-    default  => "janus_${title}",
-  }
-
-  $base_dir = $origin ? {
-    true    => '',
-    default => "${janus_cluster_basedir}/${title}",
-  }
-
-  file { "${base_dir}/usr/lib/janus/transports.enabled/libjanus_websockets.so":
+  file { "${instance_base_dir}/usr/lib/janus/transports.enabled/libjanus_websockets.so":
     ensure    => link,
     target    => '/usr/lib/janus/transports/libjanus_websockets.so',
     require   => Janus::Core::Mkdir[$instance_name],
   }
   ->
 
-  file { "${base_dir}/etc/janus/janus.transport.websockets.cfg":
+  file { "${instance_base_dir}/etc/janus/janus.transport.websockets.cfg":
     ensure    => 'present',
     content   => template("${module_name}/transport/websockets.cfg"),
     owner     => '0',
     group     => '0',
     mode      => '0644',
-#    notify    => Service[$instance_name],
+    notify    => Service[$instance_name],
     require   => Janus::Core::Mkdir[$instance_name],
   }
 }

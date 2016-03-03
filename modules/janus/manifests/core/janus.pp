@@ -1,5 +1,4 @@
 define janus::core::janus (
-  $origin = false,
   $bind_address = undef,
   $token_auth = 'no',
   $api_secret = undef,
@@ -23,19 +22,10 @@ define janus::core::janus (
   require 'janus::common'
   require 'logrotate'
 
-  $janus_cluster_basedir = '/opt/janus-cluster'
+  $instance_base_dir =  "/opt/janus-cluster/${title}"
+  $instance_name = "janus_${title}"
 
-  $instance_name = $origin ? {
-    true     => 'janus',
-    default  => "janus_${title}",
-  }
-
-  $base_dir = $origin ? {
-    true    => '',
-    default => "${janus_cluster_basedir}/${title}",
-  }
-
-  $ssl_config_dir = "${base_dir}/etc/janus/ssl"
+  $ssl_config_dir = "${instance_base_dir}/etc/janus/ssl"
 
   $ssl_cert_content = $ssl_cert ? {
     undef => template("${module_name}/ssl-cert-janus-snakeoil.pem"),
@@ -46,20 +36,20 @@ define janus::core::janus (
     default => $ssl_key,
   }
 
-  $plugins_folder = "${base_dir}/usr/lib/janus/plugins.enabled"
-  $transports_folder = "${base_dir}/usr/lib/janus/transports.enabled"
-  $config_dir = "${base_dir}/etc/janus"
+  $plugins_folder = "${instance_base_dir}/usr/lib/janus/plugins.enabled"
+  $transports_folder = "${instance_base_dir}/usr/lib/janus/transports.enabled"
+  $config_dir = "${instance_base_dir}/etc/janus"
 
   janus::core::mkdir { $instance_name:
-    base_dir          => $base_dir,
+    base_dir          => $instance_base_dir,
     config_dir        => $config_dir,
     plugins_folder    => $plugins_folder,
     transports_folder => $transports_folder,
     ssl_config_dir    => $ssl_config_dir,
   }
 
-  $log_file = "${base_dir}/var/log/janus/janus.log"
-  $config_file = "${base_dir}/etc/janus/janus.cfg"
+  $log_file = "${instance_base_dir}/var/log/janus/janus.log"
+  $config_file = "${instance_base_dir}/etc/janus/janus.cfg"
 
   logrotate::entry{ $instance_name:
     content => template("${module_name}/logrotate"),

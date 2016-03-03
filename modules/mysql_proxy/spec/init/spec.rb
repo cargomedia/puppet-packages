@@ -28,6 +28,6 @@ describe 'mysql_proxy' do
   end
 
   describe command('mysql-proxy --version') do
-    its(:stdout) { should match /mysql-proxy 0.8.4/ }
+    its(:exit_status) { should eq 0 }
   end
 end

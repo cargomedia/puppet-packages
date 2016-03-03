@@ -1,5 +1,4 @@
 define janus::plugin::rtpbroadcast(
-  $origin = false,
   $minport = 8000,
   $maxport = 9000,
   $source_avg_time = 10,
@@ -13,42 +12,32 @@ define janus::plugin::rtpbroadcast(
   $thumbnailing_interval = 60,
   $thumbnailing_duration = 10,
   $job_pattern = 'job-#{md5}',
-  $src_version = undef,
   $rest_url = 'http://127.0.0.1:8088/janus',
 ) {
 
   require 'janus::common_rtpbroadcast'
 
-  $janus_cluster_basedir = '/opt/janus-cluster'
+  $instance_base_dir =  "/opt/janus-cluster/${title}"
+  $instance_name = "janus_${title}"
 
-  $instance_name = $origin ? {
-    true     => 'janus',
-    default  => "janus_${title}",
-  }
+  $archive_path = "${instance_base_dir}/var/lib/janus/recordings"
+  $jobs_path = "${instance_base_dir}/var/lib/janus/jobs"
+  $log_file = "${instance_base_dir}/var/log/janus/janus.log"
 
-  $base_dir = $origin ? {
-    true    => '',
-    default => "${janus_cluster_basedir}/${title}",
-  }
-
-  $archive_path = "${base_dir}/var/lib/janus/recordings"
-  $jobs_path = "${base_dir}/var/lib/janus/jobs"
-  $log_file = "${base_dir}/var/log/janus/janus.log"
-
-  file { "${base_dir}/usr/lib/janus/plugins.enabled/libjanus_rtpbroadcast.so":
+  file { "${instance_base_dir}/usr/lib/janus/plugins.enabled/libjanus_rtpbroadcast.so":
     ensure    => link,
     target    => '/usr/lib/janus/plugins/libjanus_rtpbroadcast.so',
     require   => Janus::Core::Mkdir[$instance_name],
   }
   ->
 
-  file { "${base_dir}/etc/janus/janus.plugin.cm.rtpbroadcast.cfg":
+  file { "${instance_base_dir}/etc/janus/janus.plugin.cm.rtpbroadcast.cfg":
     ensure    => 'present',
     content   => template("${module_name}/plugin/rtpbroadcast.cfg"),
     owner     => '0',
     group     => '0',
     mode      => '0644',
-#    notify    => Service[$instance_name],
+    notify    => Service[$instance_name],
     require   => Janus::Core::Mkdir[$instance_name],
   }
 

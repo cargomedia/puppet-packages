@@ -9,17 +9,13 @@ node default {
   $edge3_name = 'edge3'
 
   # origin node
-  janus::core::janus { $origin_name:
-    origin => true,
-  }
+  janus::core::janus { $origin_name: }
 
   janus::transport::websockets { $origin_name:
-    origin   => true,
     ws_port  => 10000,
   }
 
   janus::transport::http { $origin_name:
-    origin   => true,
     port  => 8000,
   }
 
@@ -68,6 +64,5 @@ node default {
 
   janus::plugin::rtpbroadcast { $edge3_name:
     rest_url => 'http://127.0.0.1:8003/janus',
-
   }
 }

@@ -6,7 +6,7 @@ describe 'janus::cluster' do
     it { should exist }
   end
 
-  describe command('lsof -P -p $(cat /var/run/janus.pid)| grep -E "IPv4+.*TCP"') do
+  describe command('lsof -P -p $(cat /var/run/janus_origin.pid)| grep -E "IPv4+.*TCP"') do
     its(:stdout) { should match /10000+.*LISTEN\)$/ }
     its(:stdout) { should match /8000+.*LISTEN\)$/ }
   end

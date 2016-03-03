@@ -1,5 +1,6 @@
 class janus::source (
-  $version
+  $version,
+  $repo = undef
 ) {
 
   require 'apt'
@@ -10,6 +11,8 @@ class janus::source (
   require 'build::libtool'
   require 'build::dev::libglib2'
   require 'build::dev::libjansson'
+
+  $src_remote = $repo ? { undef => 'https://github.com/meetecho/janus-gateway.git',  default => $repo }
 
   package { [
     'libsrtp',
@@ -33,7 +36,7 @@ class janus::source (
   ->
 
   git::repository { 'Janus Gateway':
-    remote    => 'https://github.com/meetecho/janus-gateway.git',
+    remote    => $src_remote,
     directory => '/opt/janus/janus-gateway',
     revision  => $version,
   }
