@@ -1,4 +1,5 @@
 define janus::transport::websockets(
+  $prefix = undef,
   $ws = 'yes',
   $ws_port = 8310,
   $wss = 'no',
@@ -12,13 +13,19 @@ define janus::transport::websockets(
   $admin_wss_acl = '127.,192.168.',
 ) {
 
-  $instance_base_dir =  "/opt/janus-cluster/${title}"
-  $instance_name = "janus_${title}"
+  $instance_name = $prefix? {
+    undef => 'janus',
+    default => "janus_${name}"
+  }
+
+  $instance_base_dir = $prefix? {
+    undef => '',
+    default =>"${prefix}/${title}"
+  }
 
   file { "${instance_base_dir}/usr/lib/janus/transports.enabled/libjanus_websockets.so":
     ensure    => link,
     target    => '/usr/lib/janus/transports/libjanus_websockets.so',
-    require   => Janus::Core::Mkdir[$instance_name],
   }
   ->
 
@@ -29,6 +36,5 @@ define janus::transport::websockets(
     group     => '0',
     mode      => '0644',
     notify    => Service[$instance_name],
-    require   => Janus::Core::Mkdir[$instance_name],
   }
 }

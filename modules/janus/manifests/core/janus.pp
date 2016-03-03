@@ -1,4 +1,5 @@
 define janus::core::janus (
+  $prefix = undef,
   $bind_address = undef,
   $token_auth = 'no',
   $api_secret = undef,
@@ -22,8 +23,15 @@ define janus::core::janus (
   require 'janus::common'
   require 'logrotate'
 
-  $instance_base_dir =  "/opt/janus-cluster/${title}"
-  $instance_name = "janus_${title}"
+  $instance_name = $prefix? {
+    undef => 'janus',
+    default => "janus_${title}"
+  }
+
+  $instance_base_dir = $prefix? {
+    undef => '',
+    default =>"${prefix}/${title}"
+  }
 
   $ssl_config_dir = "${instance_base_dir}/etc/janus/ssl"
 
@@ -40,12 +48,8 @@ define janus::core::janus (
   $transports_folder = "${instance_base_dir}/usr/lib/janus/transports.enabled"
   $config_dir = "${instance_base_dir}/etc/janus"
 
-  janus::core::mkdir { $instance_name:
-    base_dir          => $instance_base_dir,
-    config_dir        => $config_dir,
-    plugins_folder    => $plugins_folder,
-    transports_folder => $transports_folder,
-    ssl_config_dir    => $ssl_config_dir,
+  janus::core::setup_dirs { $instance_name:
+    base_dir     => $instance_base_dir,
   }
 
   $log_file = "${instance_base_dir}/var/log/janus/janus.log"
@@ -61,22 +65,19 @@ define janus::core::janus (
       content   => template("${module_name}/config"),
       owner     => '0',
       group     => '0',
-      mode      => '0644',
-      notify    => Service[$instance_name];
+      mode      => '0644';
     "${ssl_config_dir}/cert.pem":
       ensure    => file,
       content   => $ssl_cert_content,
       owner     => 'janus',
       group     => 'janus',
-      mode      => '0644',
-      notify    => Service[$instance_name];
+      mode      => '0644';
     "${ssl_config_dir}/cert.key":
       ensure    => file,
       content   => $ssl_key_content,
       owner     => 'janus',
       group     => 'janus',
-      mode      => '0640',
-      notify    => Service[$instance_name];
+      mode      => '0640';
     $log_file:
       ensure => file,
       owner  => 'janus',
@@ -90,5 +91,13 @@ define janus::core::janus (
     user      => 'janus',
     core_dump => $core_dump,
     require   => [File[$config_file, $config_dir, $log_file, "${ssl_config_dir}/cert.key", "${ssl_config_dir}/cert.pem"]],
+  }
+
+  if $instance_name != 'janus' {
+    if ! defined(Service['janus']) {
+      service { 'janus':
+        ensure => stopped,
+      }
+    }
   }
 }

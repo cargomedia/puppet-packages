@@ -1,4 +1,5 @@
 define janus::plugin::audioroom(
+  $prefix = undef,
   $recording_enabled = 'yes',
   $recording_pattern = 'rec-#{id}-#{time}-#{type}',
   $job_pattern = 'job-#{md5}',
@@ -7,9 +8,15 @@ define janus::plugin::audioroom(
 
   require 'janus::common_audioroom'
 
+  $instance_name = $prefix? {
+    undef => 'janus',
+    default => "janus_${name}"
+  }
 
-  $instance_base_dir =  "/opt/janus-cluster/${title}"
-  $instance_name = "janus_${title}"
+  $instance_base_dir = $prefix? {
+    undef => '',
+    default =>"${prefix}/${title}"
+  }
 
   $archive_path = "${instance_base_dir}/var/lib/janus/recordings"
   $jobs_path = "${instance_base_dir}/var/lib/janus/jobs"
@@ -17,8 +24,8 @@ define janus::plugin::audioroom(
   file { "${instance_base_dir}/usr/lib/janus/plugins.enabled/libjanus_audioroom.so":
     ensure    => link,
     target    => '/usr/lib/janus/plugins/libjanus_audioroom.so',
-    require   => Janus::Core::Mkdir[$instance_name],
   }
+  ->
 
   file { "${instance_base_dir}/etc/janus/janus.plugin.cm.audioroom.cfg":
     ensure    => 'present',
@@ -27,7 +34,6 @@ define janus::plugin::audioroom(
     group     => '0',
     mode      => '0644',
     notify    => Service[$instance_name],
-    require   => Janus::Core::Mkdir[$instance_name],
   }
 
   @bipbip::entry { "janus-audioroom-${title}":

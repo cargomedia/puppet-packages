@@ -3,12 +3,40 @@ node default {
   include 'monit'
   include 'bipbip'
 
+  #
+  # # defaults
   $origin_name = 'origin'
   $edge1_name = 'edge1'
   $edge2_name = 'edge2'
   $edge3_name = 'edge3'
+  $cluster_base_dir = '/opt/janus-cluster'
 
-  # origin node
+  Janus::Core::Janus {
+    prefix => $cluster_base_dir,
+  }
+
+  Janus::Transport::Websockets {
+    prefix => $cluster_base_dir,
+  }
+
+  Janus::Transport::Http {
+    prefix => $cluster_base_dir,
+  }
+
+  Janus::Plugin::Audioroom {
+    prefix => $cluster_base_dir,
+  }
+
+  Janus::Plugin::Rtpbroadcast {
+    prefix => $cluster_base_dir,
+  }
+
+  service{ 'janus':
+    ensure => stopped,
+  }
+
+    #
+  # # origin node
   janus::core::janus { $origin_name: }
 
   janus::transport::websockets { $origin_name:
@@ -18,8 +46,8 @@ node default {
   janus::transport::http { $origin_name:
     port  => 8000,
   }
-
-  # 1st edge node
+  #
+  #  # 1st edge node
   janus::core::janus { $edge1_name: }
 
   janus::transport::http { $edge1_name:
@@ -34,10 +62,8 @@ node default {
     rest_url => 'http://127.0.0.1:8001/janus',
   }
 
-  #
-  #  2nd edge node
-  #
-  #
+  #  #
+  #  #  2nd edge node
   janus::core::janus { $edge2_name: }
 
   janus::transport::http { $edge2_name:
@@ -48,10 +74,8 @@ node default {
     rest_url => 'http://127.0.0.1:8002/janus',
   }
 
-  #
-  #  3rd edge node
-  #}
-  #
+  #  #
+  #  #  3rd edge node
   janus::core::janus { $edge3_name: }
 
   janus::transport::websockets { $edge3_name:

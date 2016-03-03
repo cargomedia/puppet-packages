@@ -1,4 +1,5 @@
 define janus::transport::http(
+  $prefix = undef,
   $threads = 'unlimited',
   $http = 'yes',
   $http_base_path = '/janus',
@@ -15,22 +16,29 @@ define janus::transport::http(
   $admin_acl = '127.'
 ) {
 
-  $instance_base_dir =  "/opt/janus-cluster/${title}"
-  $instance_name = "janus_${title}"
+
+  $instance_name = $prefix? {
+    undef => 'janus',
+    default => "janus_${name}"
+  }
+
+  $instance_base_dir = $prefix? {
+    undef => '',
+    default =>"${prefix}/${title}"
+  }
 
   file { "${instance_base_dir}/usr/lib/janus/transports.enabled/libjanus_http.so":
     ensure    => link,
     target    => '/usr/lib/janus/transports/libjanus_http.so',
-    require   => Janus::Core::Mkdir[$instance_name],
   }
+  ->
 
   file { "${instance_base_dir}/etc/janus/janus.transport.http.cfg":
-    ensure    => 'present',
-    content   => template("${module_name}/transport/http.cfg"),
-    owner     => '0',
-    group     => '0',
-    mode      => '0644',
-    notify    => Service[$instance_name],
-    require   => Janus::Core::Mkdir[$instance_name],
+    ensure     => 'present',
+    content    => template("${module_name}/transport/http.cfg"),
+    owner      => '0',
+    group      => '0',
+    mode       => '0644',
+    notify     => Service[$instance_name],
   }
 }

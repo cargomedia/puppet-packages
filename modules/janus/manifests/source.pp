@@ -11,6 +11,7 @@ class janus::source (
   require 'build::libtool'
   require 'build::dev::libglib2'
   require 'build::dev::libjansson'
+  require 'build::dev::libopus'
 
   $src_remote = $repo ? { undef => 'https://github.com/meetecho/janus-gateway.git',  default => $repo }
 
@@ -22,7 +23,6 @@ class janus::source (
     'libnice-dev',
     'libssl-dev',
     'libsofia-sip-ua-dev',
-    'libopus-dev',
     'libogg-dev',
     'libini-config-dev',
     'libcollection-dev',

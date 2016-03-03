@@ -1,5 +1,6 @@
 class janus::common_rtpbroadcast(
   $src_version = undef,
+  $src_repo = undef,
 ) {
 
   require 'apt'
@@ -12,12 +13,11 @@ class janus::common_rtpbroadcast(
     require 'build::dev::libglib2'
     require 'build::dev::libjansson'
 
-    $plugin_repo = 'janus-gateway-rtpbroadcast'
-
-    git::repository { "${name}-${plugin_repo}":
-      name      => $plugin_repo,
-      remote    => "https://github.com/cargomedia/${plugin_repo}.git",
-      directory => "/opt/janus/${plugin_repo}",
+    $src_path = '/opt/janus/janus-gateway-rtpbroadcast'
+    $src_remote = $src_repo ? { undef => 'https://github.com/cargomedia/janus-gateway-rtpbroadcast.git',  default => $src_repo }
+    git::repository { 'janus-gateway-rtpbroadcast':
+      remote    => $src_remote,
+      directory => $src_path,
       revision  => $src_version,
     }
     ~>
@@ -30,8 +30,7 @@ class janus::common_rtpbroadcast(
       timeout     => 900,
     }
   } else {
-    package { "${name}-rtpbroadcast-package":
-      name     => 'janus-gateway-rtpbroadcast',
+    package { 'janus-gateway-rtpbroadcast':
       provider => 'apt',
     }
   }

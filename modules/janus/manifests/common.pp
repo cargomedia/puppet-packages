@@ -1,5 +1,6 @@
 class janus::common (
   $src_version = undef,
+  $src_repo = undef,
 ) {
 
   require 'apt'
@@ -13,16 +14,12 @@ class janus::common (
   if $src_version {
     class { 'janus::source':
       version => $src_version,
-      before  => Service['janus'],
+      repo    => $src_repo,
     }
   } else {
     package { 'janus':
       provider => 'apt',
-      before   => Service['janus'],
     }
   }
 
-  service { 'janus':
-    ensure => stopped,
-  }
 }

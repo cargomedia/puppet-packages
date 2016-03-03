@@ -1,10 +1,11 @@
-define janus::core::mkdir (
-  $base_dir = $title,
-  $config_dir = "${base_dir}/etc/janus",
-  $ssl_config_dir = "${base_dir}/etc/janus/ssl",
-  $plugins_folder = "${base_dir}/usr/lib/janus/plugins.enabled",
-  $transports_folder = "${base_dir}/usr/lib/janus/transports.enabled"
+define janus::core::setup_dirs (
+  $base_dir,
 ) {
+
+  $config_dir = "${base_dir}/etc/janus"
+  $ssl_config_dir = "${base_dir}/etc/janus/ssl"
+  $plugins_folder = "${base_dir}/usr/lib/janus/plugins.enabled"
+  $transports_folder = "${base_dir}/usr/lib/janus/transports.enabled"
 
   $base_dirs = "${base_dir}/etc ${base_dir}/var/lib ${base_dir}/var/log ${base_dir}/usr/lib/janus"
 

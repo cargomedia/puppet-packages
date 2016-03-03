@@ -1,4 +1,5 @@
 define janus::plugin::rtpbroadcast(
+  $prefix = undef,
   $minport = 8000,
   $maxport = 9000,
   $source_avg_time = 10,
@@ -17,8 +18,15 @@ define janus::plugin::rtpbroadcast(
 
   require 'janus::common_rtpbroadcast'
 
-  $instance_base_dir =  "/opt/janus-cluster/${title}"
-  $instance_name = "janus_${title}"
+  $instance_name = $prefix? {
+    undef => 'janus',
+    default => "janus_${name}"
+  }
+
+  $instance_base_dir = $prefix? {
+    undef => '',
+    default =>"${prefix}/${title}"
+  }
 
   $archive_path = "${instance_base_dir}/var/lib/janus/recordings"
   $jobs_path = "${instance_base_dir}/var/lib/janus/jobs"
@@ -27,7 +35,6 @@ define janus::plugin::rtpbroadcast(
   file { "${instance_base_dir}/usr/lib/janus/plugins.enabled/libjanus_rtpbroadcast.so":
     ensure    => link,
     target    => '/usr/lib/janus/plugins/libjanus_rtpbroadcast.so',
-    require   => Janus::Core::Mkdir[$instance_name],
   }
   ->
 
@@ -38,7 +45,6 @@ define janus::plugin::rtpbroadcast(
     group     => '0',
     mode      => '0644',
     notify    => Service[$instance_name],
-    require   => Janus::Core::Mkdir[$instance_name],
   }
 
   @bipbip::entry { "${name}-rtpbroadcast":

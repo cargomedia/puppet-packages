@@ -22,8 +22,6 @@ define janus::role::standalone (
   $transport_ws_logging = 0,
   $transport_ws_acl = undef,
   $transport_http_port = 8300,
-  $transport_https = false,
-  $transport_https_port = 8301,
   $transport_http_base_path = '/janus',
 
   $plugin_recording_enabled = true,
@@ -48,14 +46,14 @@ define janus::role::standalone (
   # rtp plugin
   # audio plugin
   # ufw
-  # bipbip
   # cm-janus
   # cm-janus-proxy
-
-
 {
 
+  $cluster_base_dir = '/opt/janus-cluster'
+
   janus::core::janus { $title:
+    prefix             => $cluster_base_dir,
     bind_address       => $bind_address,
     token_auth         => $token_auth,
     api_secret         => $api_secret,
@@ -77,28 +75,17 @@ define janus::role::standalone (
   }
 
   janus::transport::websockets { $title:
+    prefix     => $cluster_base_dir,
     ws_port    => $transport_ws_port,
     ws_logging => $transport_ws_logging,
     ws_acl     => $transport_ws_acl,
-    require    => Janus::Core::Janus[$title],
-  }
-
-  if $transport_https {
-    $https_conf = 'yes'
-    $rest_protocol = 'https'
-    $rest_port = $transport_https_port
-  } else {
-    $https_conf = 'no'
-    $rest_protocol = 'http'
-    $rest_port = $transport_http_port
   }
 
   janus::transport::http { $title:
-    port           => 8300,
-    http_base_path => $rest_base_path,
-    https          => $https_conf,
-    secure_port    => 8343,
-    require        => Janus::Core::Janus[$title],
+    prefix         => $cluster_base_dir,
+    port           => $transport_http_port,
+    http_base_path => $transport_http_base_path,
+
   }
 
   $rec_enabled = $plugin_recording_enabled ? {
@@ -107,14 +94,15 @@ define janus::role::standalone (
   }
 
   janus::plugin::audioroom { $title:
+    prefix            => $cluster_base_dir,
     recording_enabled => $rec_enabled,
     recording_pattern => $plugin_recording_pattern,
     job_pattern       => $plugin_job_pattern,
-    rest_url          => "${rest_protocol}://localhost:${rest_port}/janus",
-    require           => Janus::Core::Janus[$title],
+    rest_url          => "http://localhost:${transport_http_port}${transport_http_base_path}",
   }
 
   janus::plugin::rtpbroadcast { $title:
+    prefix                   => $cluster_base_dir,
     minport                  => $plugin_rtpb_minport,
     maxport                  => $plugin_rtpb_maxport,
     source_avg_time          => $plugin_rtpb_source_avg_time,
@@ -127,8 +115,6 @@ define janus::role::standalone (
     thumbnailing_duration    => $plugin_rtpb_thumbnailing_duration,
     thumbnailing_interval    => $plugin_rtpb_thumbnailing_interval,
     thumbnailing_pattern     => $plugin_thumbnailing_pattern,
-    rest_url                 => "${rest_protocol}://localhost:${rest_port}/janus",
-    require                  => Janus::Core::Janus[$title],
+    rest_url                 => "http://localhost:${transport_http_port}${transport_http_base_path}",
   }
-
 }

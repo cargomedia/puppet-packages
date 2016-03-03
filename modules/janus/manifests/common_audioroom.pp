@@ -1,5 +1,6 @@
 class janus::common_audioroom(
   $src_version = undef,
+  $src_repo = undef,
 ) {
 
   require 'apt'
@@ -11,17 +12,14 @@ class janus::common_audioroom(
     require 'build::libtool'
     require 'build::dev::libglib2'
     require 'build::dev::libjansson'
+    require 'build::dev::libopus'
 
-    package { ['libopus-dev']:
-      provider => 'apt'
-    }
 
-    $plugin_repo = 'janus-gateway-audioroom'
-
-    git::repository { "${name}-${plugin_repo}":
-      name      => $plugin_repo,
-      remote    => "https://github.com/cargomedia/${plugin_repo}.git",
-      directory => "/opt/janus/${plugin_repo}",
+    $src_path = '/opt/janus/janus-gateway-audioroom'
+    $src_remote = $src_repo ? { undef => 'https://github.com/cargomedia/janus-gateway-audioroom.git',  default => $src_repo }
+    git::repository { 'janus-gateway-audioroom':
+      remote    => $src_remote,
+      directory => $src_path,
       revision  => $src_version,
     }
     ~>
@@ -34,8 +32,7 @@ class janus::common_audioroom(
       timeout     => 900,
     }
   } else {
-    package { "${name}-audioroom-plugin":
-      name     => 'janus-gateway-audioroom',
+    package { 'janus-gateway-audioroom':
       provider => 'apt',
     }
   }
