@@ -1,4 +1,4 @@
-class cm::services::janus(
+define cm::services::janus(
   $hostname = 'localhost',
   $http_server_api_key = 'secret-monkey',
   $http_server_port = 8100,
@@ -24,44 +24,30 @@ class cm::services::janus(
   $janus_http_port = 8300
   $janus_websockets_port = 8310
 
-  class { '::janus':
-    bind_address       => '127.0.0.1',
-    nat_1_1_mapping    => $nat_1_1_mapping,
-    rtp_port_range_min => $webrtc_media_minport,
-    rtp_port_range_max => $webrtc_media_maxport,
-  }
+  janus::role::standalone { $title:
+    bind_address                     => '127.0.0.1',
+    nat_1_1_mapping                  => $nat_1_1_mapping,
+    rtp_port_range_min               => $webrtc_media_minport,
+    rtp_port_range_max               => $webrtc_media_maxport,
 
-  class { 'janus::transport::http':
-    base_path          => '/janus',
-    threads            => 'unlimited',
-    http               => 'yes',
-    port               => $janus_http_port,
-    https              => 'no',
-    secure_port        => 8301,
-    acl                => '127.',
-    admin_base_path    => '/admin',
-    admin_threads      => 'unlimited',
-    admin_http         => 'yes',
-    admin_port         => 8302,
-    admin_https        => 'no',
-    admin_secure_port  => 8303,
-    admin_acl          => '127.',
-  }
+    transport_ws_port                => $janus_websockets_port,
+    transport_ws_logging             => 0,
+    transport_ws_acl                 => '127.',
 
-  class { 'janus::transport::websockets':
-    ws_port => $janus_websockets_port,
-    ws_acl  => '127.',
-  }
+    transport_http_port              => $janus_http_port,
+    transport_http_base_path         => '/janus',
+    transport_http_admin_base_path   => '/admin',
+    transport_http_acl               => '127.',
+    transport_http_admin_acl         => '127.',
+    transport_http_secure_port       => 8301,
+    transport_http_admin_port        => 8302,
+    transport_http_admin_secure_port => 8303,
 
-  class { 'janus::plugin::audioroom':
-    recording_enabled => $recording_enabled,
-    rest_url          => "http://127.0.0.1:${janus_http_port}/janus",
-  }
-  class { 'janus::plugin::rtpbroadcast':
-    minport           => $rtpbroadcast_minport,
-    maxport           => $rtpbroadcast_maxport,
-    recording_enabled => $recording_enabled,
-    rest_url          => "http://127.0.0.1:${janus_http_port}/janus",
+    plugin_recording_enabled         => $recording_enabled,
+    plugin_rest_url                  => "http://127.0.0.1:${janus_http_port}/janus",
+
+    plugin_rtpb_minport              => $rtpbroadcast_minport,
+    plugin_rtpb_maxport              => $rtpbroadcast_maxport,
   }
 
   class { 'cm_janus':
