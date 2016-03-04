@@ -12,6 +12,7 @@ class janus::common_rtpbroadcast(
     require 'build::libtool'
     require 'build::dev::libglib2'
     require 'build::dev::libjansson'
+    require 'build::dev::libini_config'
 
     $src_path = '/opt/janus/janus-gateway-rtpbroadcast'
     $src_remote = $src_repo ? { undef => 'https://github.com/cargomedia/janus-gateway-rtpbroadcast.git',  default => $src_repo }
