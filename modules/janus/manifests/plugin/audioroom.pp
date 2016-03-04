@@ -8,6 +8,9 @@ define janus::plugin::audioroom(
 
   require 'janus::common_audioroom'
 
+  Class['janus::common'] -> Janus::Plugin::Audioroom[$name]
+  Janus::Core::Setup_dirs[$name] -> Janus::Plugin::Audioroom[$name]
+
   $instance_name = $prefix? {
     undef => 'janus',
     default => "janus_${name}"
@@ -42,6 +45,4 @@ define janus::plugin::audioroom(
       'url' => $rest_url,
     }
   }
-
-  Janus::Plugin::Audioroom[$name] -> Service[$instance_name]
 }

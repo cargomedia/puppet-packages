@@ -18,6 +18,9 @@ define janus::plugin::rtpbroadcast(
 
   require 'janus::common_rtpbroadcast'
 
+  Class['janus::common'] -> Janus::Plugin::Rtpbroadcast[$name]
+  Janus::Core::Setup_dirs[$name] -> Janus::Plugin::Rtpbroadcast[$name]
+
   $instance_name = $prefix? {
     undef => 'janus',
     default => "janus_${name}"
@@ -65,6 +68,4 @@ define janus::plugin::rtpbroadcast(
       ]
     },
   }
-
-  Janus::Plugin::Rtpbroadcast[$name] -> Service[$instance_name]
 }

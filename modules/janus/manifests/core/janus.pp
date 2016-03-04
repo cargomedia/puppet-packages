@@ -48,8 +48,8 @@ define janus::core::janus (
   $transports_folder = "${instance_base_dir}/usr/lib/janus/transports.enabled"
   $config_dir = "${instance_base_dir}/etc/janus"
 
-  janus::core::setup_dirs { $instance_name:
-    base_dir     => $instance_base_dir,
+  janus::core::setup_dirs { $title:
+    base_dir => $instance_base_dir,
   }
 
   $log_file = "${instance_base_dir}/var/log/janus/janus.log"
@@ -65,19 +65,22 @@ define janus::core::janus (
       content   => template("${module_name}/config"),
       owner     => '0',
       group     => '0',
-      mode      => '0644';
+      mode      => '0644',
+      notify    => Service[$instance_name];
     "${ssl_config_dir}/cert.pem":
       ensure    => file,
       content   => $ssl_cert_content,
       owner     => 'janus',
       group     => 'janus',
-      mode      => '0644';
+      mode      => '0644',
+      notify    => Service[$instance_name];
     "${ssl_config_dir}/cert.key":
       ensure    => file,
       content   => $ssl_key_content,
       owner     => 'janus',
       group     => 'janus',
-      mode      => '0640';
+      mode      => '0640',
+      notify    => Service[$instance_name];
     $log_file:
       ensure => file,
       owner  => 'janus',

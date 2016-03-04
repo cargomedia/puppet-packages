@@ -13,6 +13,9 @@ define janus::transport::websockets(
   $admin_wss_acl = '127.,192.168.',
 ) {
 
+  Class['janus::common'] -> Janus::Transport::Websockets[$name]
+  Janus::Core::Setup_dirs[$name] -> Janus::Transport::Websockets[$name]
+
   $instance_name = $prefix? {
     undef => 'janus',
     default => "janus_${name}"
@@ -36,6 +39,4 @@ define janus::transport::websockets(
     mode      => '0644',
     notify    => Service[$instance_name],
   }
-
-  Janus::Transport::Websockets[$name] -> Service[$instance_name]
 }
