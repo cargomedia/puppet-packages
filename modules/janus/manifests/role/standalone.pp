@@ -38,17 +38,7 @@ define janus::role::standalone (
   $plugin_rtpb_keyframe_distance_alert = 600,
   $plugin_rtpb_thumbnailing_interval = 60,
   $plugin_rtpb_thumbnailing_duration = 10,
-)
-
-  # core
-  # ws transport
-  # http transport
-  # rtp plugin
-  # audio plugin
-  # ufw
-  # cm-janus
-  # cm-janus-proxy
-{
+) {
 
   $cluster_base_dir = '/opt/janus-cluster'
 
