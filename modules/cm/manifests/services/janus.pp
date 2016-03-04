@@ -19,6 +19,8 @@ define cm::services::janus(
 
   $recording_enabled = 'yes',
   $ufw_app_profile = undef,
+
+  $jobs_path = '/var/lib/janus/jobs'
 ) {
 
   $janus_http_port = 8300
@@ -59,7 +61,7 @@ define cm::services::janus(
     cm_api_base_url            => $cm_api_base_url,
     cm_api_key                 => $cm_api_key,
     cm_application_path        => $cm_application_path,
-    jobs_path                  => '/var/lib/janus/jobs',
+    jobs_path                  => $jobs_path,
     require                    => Service['janus'],
   }
   ->
