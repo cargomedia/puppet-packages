@@ -14,7 +14,6 @@ class janus::common_audioroom(
     require 'build::dev::libjansson'
     require 'build::dev::libopus'
 
-
     $src_path = '/opt/janus/janus-gateway-audioroom'
     $src_remote = $src_repo ? { undef => 'https://github.com/cargomedia/janus-gateway-audioroom.git',  default => $src_repo }
     git::repository { 'janus-gateway-audioroom':
