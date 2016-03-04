@@ -42,4 +42,6 @@ define janus::plugin::audioroom(
       'url' => $rest_url,
     }
   }
+
+  Janus::Plugin::Audioroom[$name] -> Service[$instance_name]
 }

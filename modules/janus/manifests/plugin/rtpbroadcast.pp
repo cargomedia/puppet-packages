@@ -65,4 +65,6 @@ define janus::plugin::rtpbroadcast(
       ]
     },
   }
+
+  Janus::Plugin::Rtpbroadcast[$name] -> Service[$instance_name]
 }

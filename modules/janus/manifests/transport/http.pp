@@ -16,7 +16,6 @@ define janus::transport::http(
   $admin_acl = '127.'
 ) {
 
-
   $instance_name = $prefix? {
     undef => 'janus',
     default => "janus_${name}"
@@ -41,4 +40,6 @@ define janus::transport::http(
     mode       => '0644',
     notify     => Service[$instance_name],
   }
+
+  Janus::Transport::Http[$name] -> Service[$instance_name]
 }
