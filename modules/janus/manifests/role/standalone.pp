@@ -23,11 +23,18 @@ define janus::role::standalone (
   $transport_ws_acl = undef,
   $transport_http_port = 8300,
   $transport_http_base_path = '/janus',
+  $transport_http_admin_base_path = '/janus',
+  $transport_http_acl = undef,
+  $transport_http_admin_acl = '127.',
+  $transport_http_secure_port = 8301,
+  $transport_http_admin_port = 8302,
+  $transport_http_admin_secure_port = 8303,
 
   $plugin_recording_enabled = true,
   $plugin_recording_pattern = 'rec-#{id}-#{time}-#{type}',
   $plugin_thumbnailing_pattern = 'thum-#{id}-#{time}-#{type}',
   $plugin_job_pattern = 'job-#{md5}',
+  $plugin_rest_url = undef,
 
   $plugin_rtpb_minport = 8000,
   $plugin_rtpb_maxport = 9000,
@@ -72,10 +79,12 @@ define janus::role::standalone (
   }
 
   janus::transport::http { $title:
-    prefix         => $cluster_base_dir,
-    port           => $transport_http_port,
-    http_base_path => $transport_http_base_path,
-
+    prefix          => $cluster_base_dir,
+    port            => $transport_http_port,
+    http_base_path  => $transport_http_base_path,
+    admin_base_path => $transport_http_admin_base_path,
+    acl             => $transport_http_acl,
+    admin_acl       => $transport_http_admin_acl
   }
 
   $rec_enabled = $plugin_recording_enabled ? {
@@ -83,12 +92,14 @@ define janus::role::standalone (
     default => 'yes'
   }
 
+  $rest_url = $plugin_rest_url ? { undef => "http://localhost:${transport_http_port}${transport_http_base_path}", default => $plugin_rest_url }
+
   janus::plugin::audioroom { $title:
     prefix            => $cluster_base_dir,
     recording_enabled => $rec_enabled,
     recording_pattern => $plugin_recording_pattern,
     job_pattern       => $plugin_job_pattern,
-    rest_url          => "http://localhost:${transport_http_port}${transport_http_base_path}",
+    rest_url          => $rest_url,
   }
 
   janus::plugin::rtpbroadcast { $title:
@@ -105,6 +116,6 @@ define janus::role::standalone (
     thumbnailing_duration    => $plugin_rtpb_thumbnailing_duration,
     thumbnailing_interval    => $plugin_rtpb_thumbnailing_interval,
     thumbnailing_pattern     => $plugin_thumbnailing_pattern,
-    rest_url                 => "http://localhost:${transport_http_port}${transport_http_base_path}",
+    rest_url                 => $rest_url,
   }
 }
