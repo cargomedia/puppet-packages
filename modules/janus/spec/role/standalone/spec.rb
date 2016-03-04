@@ -9,7 +9,7 @@ describe 'janus::role::standalone' do
 
   describe command('lsof -P -p $(cat /var/run/janus_instance2.pid)| grep -E "IPv4+.*TCP"') do
     its(:stdout) { should match /10001+.*LISTEN\)$/ }
-    its(:stdout) { should match /8301+.*LISTEN\)$/ }
+    its(:stdout) { should match /9300+.*LISTEN\)$/ }
   end
 
 

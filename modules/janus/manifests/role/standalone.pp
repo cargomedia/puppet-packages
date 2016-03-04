@@ -79,12 +79,15 @@ define janus::role::standalone (
   }
 
   janus::transport::http { $title:
-    prefix          => $cluster_base_dir,
-    port            => $transport_http_port,
-    http_base_path  => $transport_http_base_path,
-    admin_base_path => $transport_http_admin_base_path,
-    acl             => $transport_http_acl,
-    admin_acl       => $transport_http_admin_acl
+    prefix            => $cluster_base_dir,
+    port              => $transport_http_port,
+    http_base_path    => $transport_http_base_path,
+    admin_base_path   => $transport_http_admin_base_path,
+    acl               => $transport_http_acl,
+    admin_acl         => $transport_http_admin_acl,
+    secure_port       => $transport_http_secure_port,
+    admin_port        => $transport_http_admin_port,
+    admin_secure_port => $transport_http_admin_secure_port,
   }
 
   $rec_enabled = $plugin_recording_enabled ? {
