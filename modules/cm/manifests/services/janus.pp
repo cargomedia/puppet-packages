@@ -24,7 +24,7 @@ define cm::services::janus(
   $janus_http_port = 8300
   $janus_websockets_port = 8310
 
-  janus::role::standalone { $title:
+  ::janus::role::standalone { $title:
     bind_address                     => '127.0.0.1',
     nat_1_1_mapping                  => $nat_1_1_mapping,
     rtp_port_range_min               => $webrtc_media_minport,

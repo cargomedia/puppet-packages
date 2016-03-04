@@ -48,7 +48,7 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
 1L/w6N8IQ3u0vAI78UZdZ+8ds9NfUjUJ8SmYmthUFARuvH8j799A
 -----END RSA PRIVATE KEY-----'
 
-  class { 'cm::services::janus':
+  cm::services::janus { 'standalone':
     hostname              => 'foohost',
     http_server_api_key   => 'janus-fish',
     http_server_port      => 8100,

@@ -1,4 +1,5 @@
 node default {
 
-  require 'cm::services::janus'
+  cm::services::janus { 'default':
+  }
 }
