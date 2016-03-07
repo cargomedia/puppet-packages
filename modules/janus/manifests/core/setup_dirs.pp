@@ -13,7 +13,7 @@ define janus::core::setup_dirs (
 
   $base_dirs = "${base_dir}/etc ${base_dir}/var/lib ${base_dir}/var/log ${base_dir}/usr/lib/janus"
 
-  exec { "Create base dirs in ${title}":
+  exec { "Create base dirs in janus-cluster for ${title}":
     provider    => shell,
     command     => "for i in ${base_dirs}; do mkdir -p \$i; done",
     unless      => "for i in ${base_dirs}; do if ! [ -d \$i ]; then exit 1; fi; done",
@@ -29,24 +29,24 @@ define janus::core::setup_dirs (
       mode    => '0644',
       purge   => true,
       recurse => true,
-      require => Exec["Create base dirs in ${title}"];
+      require => Exec["Create base dirs in janus-cluster for ${title}"];
     [ $plugins_folder_default, $transports_folder_default ]:
       ensure  => directory,
       owner   => 'janus',
       group   => 'janus',
       mode    => '0644',
-      require => Exec["Create base dirs in ${title}"];
+      require => Exec["Create base dirs in janus-cluster for ${title}"];
     [ "${base_dir}/var/lib/janus", "${base_dir}/var/lib/janus/recordings", "${base_dir}/var/lib/janus/jobs" ]:
       ensure  => directory,
       owner   => 'janus',
       group   => 'janus',
       mode    => '0666',
-      require => Exec["Create base dirs in ${title}"];
+      require => Exec["Create base dirs in janus-cluster for ${title}"];
     "${base_dir}/var/log/janus":
       ensure  => directory,
       owner   => 'janus',
       group   => 'janus',
       mode    => '0644',
-      require => Exec["Create base dirs in ${title}"];
+      require => Exec["Create base dirs in janus-cluster for ${title}"];
   }
 }

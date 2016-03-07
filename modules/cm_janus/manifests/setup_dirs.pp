@@ -4,7 +4,7 @@ define cm_janus::setup_dirs (
 
   $base_dirs = "${base_dir}/etc ${base_dir}/var/lib ${base_dir}/var/log"
 
-  exec { "Create base dirs in ${title}":
+  exec { "Create base dirs in cm-janus-cluster for ${title}":
     provider    => shell,
     command     => "for i in ${base_dirs}; do mkdir -p \$i; done",
     unless      => "for i in ${base_dirs}; do if ! [ -d \$i ]; then exit 1; fi; done",
@@ -20,18 +20,18 @@ define cm_janus::setup_dirs (
       mode    => '0644',
       purge   => true,
       recurse => true,
-      require => Exec["Create base dirs in ${title}"];
+      require => Exec["Create base dirs in cm-janus-cluster for ${title}"];
     [ "${base_dir}/var/lib/cm-janus", "${base_dir}/var/lib/cm-janus/jobs-temp-files" ]:
       ensure  => directory,
       owner   => 'cm-janus',
       group   => 'cm-janus',
       mode    => '0666',
-      require => Exec["Create base dirs in ${title}"];
+      require => Exec["Create base dirs in cm-janus-cluster for ${title}"];
     "${base_dir}/var/log/cm-janus":
       ensure  => directory,
       owner   => 'cm-janus',
       group   => 'cm-janus',
       mode    => '0644',
-      require => Exec["Create base dirs in ${title}"];
+      require => Exec["Create base dirs in cm-janus-cluster for ${title}"];
   }
 }
