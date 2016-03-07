@@ -1,12 +1,6 @@
 class network {
 
-  exec { 'Backup existing network config':
-    provider => shell,
-    command  => 'cp /etc/network/interfaces /etc/network/interfaces.bak',
-    unless   => 'ls /etc/network/interfaces.bak',
-    path     => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    user     => 'root',
-  }
+  require 'network::interfaces_backup'
 
   $interfaces = hiera_hash('network::interfaces', { })
   create_resources('network::interface', $interfaces)
