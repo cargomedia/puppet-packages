@@ -22,6 +22,7 @@ define daemon (
     enable     => true,
     hasstatus  => true,
     hasrestart => true,
+    ensure     => running,
   }
 
   if ($::service_provider == 'debian') {

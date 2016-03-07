@@ -28,7 +28,7 @@ define cm_janus::proxy(
       'proxy_set_header Host $host;',
       'proxy_set_header X-Real-IP $remote_addr;',
       'proxy_http_version 1.1;',
-      'proxy_pass http://cm-janus;',
+      "proxy_pass http://${title};",
       'proxy_set_header Upgrade $http_upgrade;',
       'proxy_set_header Connection "upgrade";',
       'proxy_read_timeout 999999999;',
