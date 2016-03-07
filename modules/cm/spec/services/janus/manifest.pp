@@ -60,17 +60,18 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
     ssl_key               => $ssl_key,
 
     cm_application_path   => '/home/cm',
-    cm_api_base_url       => 'http://www.cm.dev',
+    cm_api_base_url       => 'http://www.cm-api.dev',
     cm_api_key            => 'cm-fish',
 
     rtpbroadcast_minport  => 8400,
     rtpbroadcast_maxport  => 9000,
 
-    jobs_path             => '/opt/janus-cluster/standalone/var/lib/janus/jobs/'
+    jobs_path             => '/opt/janus-cluster/standalone/var/lib/janus/jobs/',
+    require               => Nginx::Resource::Vhost['cm-api-mock'],
   }
 
-  host { 'cm.dev':
-    host_aliases => ['www.cm.dev'],
+  host { 'cm-api.dev':
+    host_aliases => ['www.cm-api.dev'],
     ip           => '127.0.0.1',
   }
 
@@ -79,12 +80,15 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
     content => '{"success": { "result": {}}}', # workaround with fake cm-app-api https://github.com/cargomedia/puppet-packages/issues/1196
   }
 
-  nginx::resource::vhost { 'proxy-destination':
-    server_name         => ['bar.xxx'],
+  nginx::resource::vhost { 'cm-api-mock':
+    server_name         => ['cm-api.dev'],
     www_root            => '/tmp',
-    require             => File['/tmp/index.html'],
     vhost_cfg_prepend   => [
       'error_page  405  =200 $uri;' # workaround to make nginx accept POST for static files
+    ],
+    require             => [
+      File['/tmp/index.html'],
+      Host['cm-api.dev'],
     ]
   }
 }
