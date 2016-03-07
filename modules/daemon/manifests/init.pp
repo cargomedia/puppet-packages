@@ -22,7 +22,7 @@ define daemon (
     enable     => true,
     hasstatus  => true,
     hasrestart => true,
-    ensure     => running,
+    ensure     => running, # should be done here https://github.com/cargomedia/puppet-packages/issues/1197
   }
 
   if ($::service_provider == 'debian') {
