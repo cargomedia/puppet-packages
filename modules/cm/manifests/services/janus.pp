@@ -20,12 +20,16 @@ define cm::services::janus(
   $recording_enabled = 'yes',
   $ufw_app_profile = undef,
 
+  $janus_http_port = 8300,
+  $janus_websockets_port = 8310,
+  $cm_janus_websocket_port = 8210,
+
+  $transport_http_secure_port = 8301,
+  $transport_http_admin_port = 8302,
+  $transport_http_admin_secure_port = 8303,
+
   $jobs_path = '/var/lib/janus/jobs'
 ) {
-
-  $janus_http_port = 8300
-  $janus_websockets_port = 8310
-  $cm_janus_websocket_port = 8210
 
   ::janus::role::standalone { $title:
     bind_address                     => '127.0.0.1',
@@ -42,9 +46,9 @@ define cm::services::janus(
     transport_http_admin_base_path   => '/admin',
     transport_http_acl               => '127.',
     transport_http_admin_acl         => '127.',
-    transport_http_secure_port       => 8301,
-    transport_http_admin_port        => 8302,
-    transport_http_admin_secure_port => 8303,
+    transport_http_secure_port       => $transport_http_secure_port,
+    transport_http_admin_port        => $transport_http_admin_port,
+    transport_http_admin_secure_port => $transport_http_admin_secure_port,
 
     plugin_recording_enabled         => $recording_enabled,
     plugin_rest_url                  => "http://127.0.0.1:${janus_http_port}/janus",
@@ -53,7 +57,7 @@ define cm::services::janus(
     plugin_rtpb_maxport              => $rtpbroadcast_maxport,
   }
 
-  $cm_janus_prefix = '/opt/cm_janus-cluster'
+  $cm_janus_prefix = '/opt/cm-janus-cluster'
 
   cm_janus { $title:
     prefix                     => $cm_janus_prefix,
