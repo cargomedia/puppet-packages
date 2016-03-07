@@ -1,5 +1,7 @@
 node default {
 
+  include 'nginx'
+
   $ssl_cert = '-----BEGIN CERTIFICATE-----
 MIIDGDCCAgCgAwIBAgIJAISr5JGTVVfRMA0GCSqGSIb3DQEBCwUAMB8xEDAOBgNV
 BAMMB215LW5hbWUxCzAJBgNVBAYTAlVTMB4XDTE1MTEwMTEzMjYzMFoXDTI1MTAy
@@ -48,12 +50,29 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
 1L/w6N8IQ3u0vAI78UZdZ+8ds9NfUjUJ8SmYmthUFARuvH8j799A
 -----END RSA PRIVATE KEY-----'
 
-  host { 'foo':
-    ip => '127.0.0.1',
+  host { 'cm.dev':
+    host_aliases => ['www.cm.dev'],
+    ip           => '127.0.0.1',
   }
 
-  class { 'cm_janus':
-    websockets_listen_port => 7888,
+  file { '/tmp/index.html':
+    ensure  => file,
+    content => '{"success": { "result": {}}}', # workaround with fake cm-app-api https://github.com/cargomedia/puppet-packages/issues/1196
+  }
+
+  nginx::resource::vhost { 'proxy-destination':
+    server_name         => ['bar.xxx'],
+    www_root            => '/tmp',
+    require             => File['/tmp/index.html'],
+    vhost_cfg_prepend   => [
+      'error_page  405  =200 $uri;' # workaround to make nginx accept POST for static files
+    ]
+  }
+
+  $websockets_listen_port = 7888
+
+  cm_janus { 'cm-janus':
+    websockets_listen_port => $websockets_listen_port,
     http_server_api_key    => 'fish',
     cm_api_base_url        => 'http://www.cm.dev',
     cm_api_key             => 'cm-fish',
@@ -62,11 +81,12 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
   }
   ->
 
-  class { 'cm_janus::proxy':
-    hostname  => 'foo',
-    port      => 7999,
-    ssl_cert  => $ssl_cert,
-    ssl_key   => $ssl_key,
+  cm_janus::proxy { 'cm-janus':
+    hostname      => 'www.cm.dev',
+    port          => 7999,
+    upstream_port => $websockets_listen_port,
+    ssl_cert      => $ssl_cert,
+    ssl_key       => $ssl_key,
   }
 
 }
