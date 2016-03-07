@@ -1,6 +1,5 @@
 define cm_janus (
   $prefix = undef,
-  $version = latest,
   $http_server_port = 8200,
   $http_server_api_key,
   $websockets_listen_port = 8210,

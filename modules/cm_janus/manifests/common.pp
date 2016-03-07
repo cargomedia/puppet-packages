@@ -1,4 +1,6 @@
-class cm_janus::common {
+class cm_janus::common (
+  $version = latest
+) {
 
   user { 'cm-janus':
     ensure  => present,
