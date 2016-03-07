@@ -15,14 +15,14 @@ define network::interface (
   $applyconfig  = true,
 ) {
 
-  include 'augeas'
+  include ['augeas', 'network']
 
   case $method {
     'dhcp': {
       augeas { "main-${device}" :
         context => '/files/etc/network/interfaces',
         changes => template("${module_name}/interface/dhcp"),
-        require => Class['augeas'],
+        require => [Class['augeas'], Exec['Backup existing network config']],
       }
     }
     'static': {
@@ -35,14 +35,14 @@ define network::interface (
       augeas { "main-${device}" :
         context => '/files/etc/network/interfaces',
         changes => template("${module_name}/interface/static_manual"),
-        require => Class['augeas'],
+        require => [Class['augeas'], Exec['Backup existing network config']],
       }
     }
     'manual': {
       augeas { "main-${device}" :
         context => '/files/etc/network/interfaces',
         changes => template("${module_name}/interface/static_manual"),
-        require => Class['augeas'],
+        require => [Class['augeas'], Exec['Backup existing network config']],
       }
     }
     default: {
