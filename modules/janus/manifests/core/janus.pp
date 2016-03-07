@@ -49,7 +49,11 @@ define janus::core::janus (
   $config_dir = "${instance_base_dir}/etc/janus"
 
   janus::core::setup_dirs { $title:
-    base_dir => $instance_base_dir,
+    base_dir          => $instance_base_dir,
+    config_dir        => $config_dir,
+    plugins_folder    => $plugins_folder,
+    transports_folder => $transports_folder,
+    ssl_config_dir    => $ssl_config_dir,
   }
 
   $log_file = "${instance_base_dir}/var/log/janus/janus.log"
@@ -93,7 +97,10 @@ define janus::core::janus (
     args      => "-o -C ${config_file} -L ${log_file} -F ${config_dir}",
     user      => 'janus',
     core_dump => $core_dump,
-    require   => [File[$config_file, $config_dir, $log_file, "${ssl_config_dir}/cert.key", "${ssl_config_dir}/cert.pem"]],
+    require   => [
+      File[$config_file, $log_file, "${ssl_config_dir}/cert.key", "${ssl_config_dir}/cert.pem"],
+      Janus::Core::Setup_dirs[$title],
+    ],
   }
 
   if $instance_name != 'janus' {

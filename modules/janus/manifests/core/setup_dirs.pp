@@ -1,11 +1,15 @@
 define janus::core::setup_dirs (
   $base_dir,
+  $config_dir = undef,
+  $plugins_folder = undef,
+  $transports_folder = undef,
+  $ssl_config_dir = undef,
 ) {
 
-  $config_dir = "${base_dir}/etc/janus"
-  $ssl_config_dir = "${base_dir}/etc/janus/ssl"
-  $plugins_folder = "${base_dir}/usr/lib/janus/plugins.enabled"
-  $transports_folder = "${base_dir}/usr/lib/janus/transports.enabled"
+  $config_dir_default = $config_dir ? { undef => "${base_dir}/etc/janus", default => $config_dir }
+  $ssl_config_dir_default = $ssl_config_dir_default ? { undef => "${base_dir}/etc/janus/ssl", default => $ssl_config_dir_default }
+  $plugins_folder_default = $plugins_folder_default ? { undef => "${base_dir}/usr/lib/janus/plugins.enabled", default => $plugins_folder_default }
+  $transports_folder_default = $transports_folder_default ? { undef => "${base_dir}/usr/lib/janus/transports.enabled", default => $transports_folder_default }
 
   $base_dirs = "${base_dir}/etc ${base_dir}/var/lib ${base_dir}/var/log ${base_dir}/usr/lib/janus"
 
@@ -18,7 +22,7 @@ define janus::core::setup_dirs (
   ->
 
   file {
-    [ $config_dir, "${config_dir}/ssl"]:
+    [ $config_dir_default, $ssl_config_dir_default]:
       ensure  => directory,
       owner   => '0',
       group   => '0',
@@ -26,7 +30,7 @@ define janus::core::setup_dirs (
       purge   => true,
       recurse => true,
       require => Exec["Create base dirs in ${title}"];
-    [ $plugins_folder, $transports_folder ]:
+    [ $plugins_folder_default, $transports_folder_default ]:
       ensure  => directory,
       owner   => 'janus',
       group   => 'janus',
