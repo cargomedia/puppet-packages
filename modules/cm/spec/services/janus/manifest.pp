@@ -66,4 +66,23 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
 
     jobs_path             => '/opt/janus-cluster/standalone/var/lib/janus/jobs/'
   }
+
+  host { 'cm.dev':
+    host_aliases => ['www.cm.dev'],
+    ip           => '127.0.0.1',
+  }
+
+  file { '/tmp/index.html':
+    ensure  => file,
+    content => '{"success": { "result": {}}}', # workaround with fake cm-app-api https://github.com/cargomedia/puppet-packages/issues/1196
+  }
+
+  nginx::resource::vhost { 'proxy-destination':
+    server_name         => ['bar.xxx'],
+    www_root            => '/tmp',
+    require             => File['/tmp/index.html'],
+    vhost_cfg_prepend   => [
+      'error_page  405  =200 $uri;' # workaround to make nginx accept POST for static files
+    ]
+  }
 }
