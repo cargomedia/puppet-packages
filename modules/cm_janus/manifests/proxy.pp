@@ -1,22 +1,23 @@
-class cm_janus::proxy(
+define cm_janus::proxy(
   $hostname,
   $port,
+  $upstream_port,
   $ssl_cert = undef,
   $ssl_key = undef,
   $aliases = [],
 ){
 
-  require 'cm_janus'
   include 'nginx'
 
-  cm::upstream::proxy { 'cm_janus':
-    members => ["127.0.0.1:${cm_janus::websockets_listen_port}"]
+  cm::upstream::proxy { $title:
+    members => ["127.0.0.1:${upstream_port}"]
   }
 
   $hostnames = concat([$hostname], $aliases)
 
   $ssl = ($ssl_cert != undef) or ($ssl_key != undef)
-  nginx::resource::vhost { $hostname:
+  nginx::resource::vhost { "${hostname} for ${title}":
+    name                => $hostname,
     server_name         => $hostnames,
     ssl                 => $ssl,
     listen_port         => $port,
@@ -27,7 +28,7 @@ class cm_janus::proxy(
       'proxy_set_header Host $host;',
       'proxy_set_header X-Real-IP $remote_addr;',
       'proxy_http_version 1.1;',
-      'proxy_pass http://cm_janus;',
+      'proxy_pass http://cm-janus;',
       'proxy_set_header Upgrade $http_upgrade;',
       'proxy_set_header Connection "upgrade";',
       'proxy_read_timeout 999999999;',

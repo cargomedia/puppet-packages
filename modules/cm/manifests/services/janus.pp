@@ -25,6 +25,7 @@ define cm::services::janus(
 
   $janus_http_port = 8300
   $janus_websockets_port = 8310
+  $cm_janus_websocket_port = 8210
 
   ::janus::role::standalone { $title:
     bind_address                     => '127.0.0.1',
@@ -52,25 +53,26 @@ define cm::services::janus(
     plugin_rtpb_maxport              => $rtpbroadcast_maxport,
   }
 
-  class { 'cm_janus':
+  cm_janus { 'cm-janus':
     http_server_port           => $http_server_port,
     http_server_api_key        => $http_server_api_key,
-    websockets_listen_port     => 8210,
+    websockets_listen_port     => $cm_janus_websocket_port,
     janus_websocket_address    => "ws://localhost:${janus_websockets_port}/janus",
     janus_http_address         => "http://localhost:${janus_http_port}/janus",
     cm_api_base_url            => $cm_api_base_url,
     cm_api_key                 => $cm_api_key,
     cm_application_path        => $cm_application_path,
     jobs_path                  => $jobs_path,
-    require                    => Service['janus'],
+    require                    => Janus::Role::Standalone[$title],
   }
   ->
 
-  class { 'cm_janus::proxy':
-    hostname  => $hostname,
-    port      => $websocket_server_port,
-    ssl_key   => $ssl_key,
-    ssl_cert  => $ssl_cert,
+  cm_janus::proxy { 'cm-janus':
+    hostname      => $hostname,
+    port          => $websocket_server_port,
+    upstream_port => $cm_janus_websocket_port,
+    ssl_key       => $ssl_key,
+    ssl_cert      => $ssl_cert,
   }
 
   $ufw_default_tcp = "${http_server_port},${websocket_server_port},${webrtc_media_minport}:${webrtc_media_maxport}/tcp"
