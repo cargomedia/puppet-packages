@@ -18,6 +18,7 @@ class janus (
   $turn_rest_api = undef,
   $turn_rest_api_key = undef,
   $src_version = undef,
+  $src_repo = undef,
   $core_dump = true,
 ) {
 
@@ -33,6 +34,7 @@ class janus (
   if $src_version {
     class { 'janus::source':
       version => $src_version,
+      repo    => $src_repo,
       before  => Daemon['janus'],
       notify  => Service['janus'],
     }

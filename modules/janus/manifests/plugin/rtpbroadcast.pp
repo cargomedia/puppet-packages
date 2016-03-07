@@ -15,6 +15,7 @@ class janus::plugin::rtpbroadcast(
   $jobs_path = '/var/lib/janus/jobs',
   $job_pattern = 'job-#{md5}',
   $src_version = undef,
+  $src_repo = undef,
   $rest_url = 'http://127.0.0.1:8088/janus',
 ) {
 
@@ -37,11 +38,11 @@ class janus::plugin::rtpbroadcast(
     require 'build::dev::libglib2'
     require 'build::dev::libjansson'
 
-    $plugin_repo = 'janus-gateway-rtpbroadcast'
-
-    git::repository { $plugin_repo:
-      remote    => "https://github.com/cargomedia/${plugin_repo}.git",
-      directory => "/opt/janus/${plugin_repo}",
+    $src_path = '/opt/janus/janus-gateway-rtpbroadcast'
+    $src_remote = $src_repo ? { undef => 'https://github.com/cargomedia/janus-gateway-rtpbroadcast.git',  default => $src_repo }
+    git::repository { 'janus-gateway-rtpbroadcast':
+      remote    => $src_remote,
+      directory => $src_path,
       revision  => $src_version,
     }
     ~>
@@ -72,9 +73,9 @@ class janus::plugin::rtpbroadcast(
     plugin  => 'log-parser',
     options => {
       'metric_group' => 'janus-rtpbroadcast',
-      'path' => $janus::log_file,
-      'matchers' => [
-        { 'name' => 'streams_keyframe_overdue',
+      'path'         => $janus::log_file,
+      'matchers'     => [
+        { 'name'   => 'streams_keyframe_overdue',
           'regexp' => 'Key frame overdue on source' },
       ]
     },

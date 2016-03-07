@@ -1,4 +1,5 @@
 class cm_janus (
+  $version = latest,
   $http_server_port = 8200,
   $http_server_api_key,
   $websockets_listen_port = 8210,
@@ -67,7 +68,7 @@ class cm_janus (
   }
 
   package { 'cm-janus':
-    ensure   => latest,
+    ensure   => $version,
     provider => 'npm',
     before  => Daemon['cm-janus'],
     notify   => Service['cm-janus'],
