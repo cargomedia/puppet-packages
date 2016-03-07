@@ -15,10 +15,6 @@ define cm_janus (
 ) {
 
   require 'cm_janus::common'
-  require 'nodejs'
-  require 'build::gpp'
-  require 'mjr_convert'
-  require 'lame'
 
   $instance_name = $prefix? {
     undef => 'cm-janus',

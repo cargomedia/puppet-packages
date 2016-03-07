@@ -23,14 +23,14 @@ define cm_janus::setup_dirs (
       require => Exec["Create base dirs in ${title}"];
     [ "${base_dir}/var/lib/cm-janus", "${base_dir}/var/lib/cm-janus/jobs-temp-files" ]:
       ensure  => directory,
-      owner   => 'janus',
-      group   => 'janus',
+      owner   => 'cm-janus',
+      group   => 'cm-janus',
       mode    => '0666',
       require => Exec["Create base dirs in ${title}"];
     "${base_dir}/var/log/cm-janus":
       ensure  => directory,
-      owner   => 'janus',
-      group   => 'janus',
+      owner   => 'cm-janus',
+      group   => 'cm-janus',
       mode    => '0644',
       require => Exec["Create base dirs in ${title}"];
   }
