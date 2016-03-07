@@ -1,5 +1,4 @@
 define ufw::application(
-  $name = $title,
   $app_name = $name,
   $app_title = $name,
   $app_description = $name,
