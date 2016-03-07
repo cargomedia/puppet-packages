@@ -6,7 +6,7 @@ describe 'cm::services::janus' do
     it { should be_listening }
   end
 
-  describe service('cm-janus') do
+  describe service('cm-janus_standalone') do
     it { should be_enabled }
     it { should be_running }
   end
