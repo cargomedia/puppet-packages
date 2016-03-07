@@ -53,7 +53,7 @@ define cm::services::janus(
     plugin_rtpb_maxport              => $rtpbroadcast_maxport,
   }
 
-  cm_janus { 'cm-janus':
+  cm_janus { 'cm_janus':
     http_server_port           => $http_server_port,
     http_server_api_key        => $http_server_api_key,
     websockets_listen_port     => $cm_janus_websocket_port,
@@ -67,7 +67,7 @@ define cm::services::janus(
   }
   ->
 
-  cm_janus::proxy { 'cm-janus':
+  cm_janus::proxy { 'cm_janus':
     hostname      => $hostname,
     port          => $websocket_server_port,
     upstream_port => $cm_janus_websocket_port,
@@ -83,7 +83,8 @@ define cm::services::janus(
     default => $ufw_app_profile,
   }
 
-  @ufw::application { 'cm-janus':
+  @ufw::application { "ufw cm_janus for ${title}":
+    name            => 'cm_janus',
     app_ports       => $ufw_rule,
   }
 }
