@@ -27,7 +27,7 @@ define cm_janus::setup_dirs (
       group   => 'janus',
       mode    => '0666',
       require => Exec["Create base dirs in ${title}"];
-    "${base_dir}/var/log/janus":
+    "${base_dir}/var/log/cm-janus":
       ensure  => directory,
       owner   => 'janus',
       group   => 'janus',
