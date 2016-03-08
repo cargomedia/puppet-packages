@@ -99,4 +99,30 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
 
     jobs_path                        => '/opt/janus-cluster/standalone2/var/lib/janus/jobs',
   }
+
+  cm::services::janus { 'standalone3':
+    hostname                         => 'foohost3',
+    http_server_api_key              => 'janus-fish',
+    http_server_port                 => 28100,
+    websocket_server_port            => 28110,
+
+    ssl_cert                         => $ssl_cert,
+    ssl_key                          => $ssl_key,
+
+    cm_application_path              => '/home/cm',
+    cm_api_base_url                  => 'http://www.cm-api.dev',
+    cm_api_key                       => 'cm-fish',
+
+    rtpbroadcast_minport             => 28400,
+    rtpbroadcast_maxport             => 29000,
+
+    janus_http_port                  => 28300,
+    janus_websockets_port            => 28310,
+    cm_janus_websocket_port          => 28210,
+    transport_http_secure_port       => 28301,
+    transport_http_admin_port        => 28302,
+    transport_http_admin_secure_port => 28303,
+
+    jobs_path                        => '/opt/janus-cluster/standalone2/var/lib/janus/jobs',
+  }
 }
