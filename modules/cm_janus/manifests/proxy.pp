@@ -9,10 +9,12 @@ define cm_janus::proxy(
 
   include 'nginx'
 
-  $upstream_name = "cm-janus_${title}"
-
-  cm::upstream::proxy { $upstream_name:
-    members => ["127.0.0.1:${upstream_port}"]
+  nginx::resource::upstream { $title:
+    ensure              => present,
+    members             => ["127.0.0.1:${upstream_port} max_fails=0 fail_timeout=1"],
+    upstream_cfg_append => [
+      'keepalive 400;',
+    ],
   }
 
   $hostnames = concat([$hostname], $aliases)
@@ -30,7 +32,7 @@ define cm_janus::proxy(
       'proxy_set_header Host $host;',
       'proxy_set_header X-Real-IP $remote_addr;',
       'proxy_http_version 1.1;',
-      "proxy_pass http://${upstream_name};",
+      "proxy_pass http://${title};",
       'proxy_set_header Upgrade $http_upgrade;',
       'proxy_set_header Connection "upgrade";',
       'proxy_read_timeout 999999999;',
