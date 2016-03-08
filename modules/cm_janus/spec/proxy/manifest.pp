@@ -1,7 +1,5 @@
 node default {
 
-  include 'nginx'
-
   $ssl_cert = '-----BEGIN CERTIFICATE-----
 MIIDGDCCAgCgAwIBAgIJAISr5JGTVVfRMA0GCSqGSIb3DQEBCwUAMB8xEDAOBgNV
 BAMMB215LW5hbWUxCzAJBgNVBAYTAlVTMB4XDTE1MTEwMTEzMjYzMFoXDTI1MTAy
@@ -49,25 +47,6 @@ rplIIT/IOy8EONrWlIROjPD8aoHly4SBaAqaq5rh4Sr60z++ElWx2tMA2191D6ax
 cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
 1L/w6N8IQ3u0vAI78UZdZ+8ds9NfUjUJ8SmYmthUFARuvH8j799A
 -----END RSA PRIVATE KEY-----'
-
-  host { 'cm.dev':
-    host_aliases => ['www.cm.dev'],
-    ip           => '127.0.0.1',
-  }
-
-  file { '/tmp/index.html':
-    ensure  => file,
-    content => '{"success": { "result": {}}}', # workaround with fake cm-app-api https://github.com/cargomedia/puppet-packages/issues/1196
-  }
-
-  nginx::resource::vhost { 'proxy-destination':
-    server_name         => ['bar.xxx'],
-    www_root            => '/tmp',
-    require             => File['/tmp/index.html'],
-    vhost_cfg_prepend   => [
-      'error_page  405  =200 $uri;' # workaround to make nginx accept POST for static files
-    ]
-  }
 
   $websockets_listen_port = 7888
 

@@ -1,7 +1,5 @@
 node default {
 
-  include 'nginx'
-
   $ssl_cert = '-----BEGIN CERTIFICATE-----
 MIIDGDCCAgCgAwIBAgIJAISr5JGTVVfRMA0GCSqGSIb3DQEBCwUAMB8xEDAOBgNV
 BAMMB215LW5hbWUxCzAJBgNVBAYTAlVTMB4XDTE1MTEwMTEzMjYzMFoXDTI1MTAy
@@ -50,30 +48,6 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
 1L/w6N8IQ3u0vAI78UZdZ+8ds9NfUjUJ8SmYmthUFARuvH8j799A
 -----END RSA PRIVATE KEY-----'
 
-
-  host { 'cm-api.dev':
-    host_aliases => ['www.cm-api.dev'],
-    ip           => '127.0.0.1',
-  }
-
-  file { '/tmp/index.html':
-    ensure  => file,
-    content => '{"success": { "result": {}}}', # workaround with fake cm-app-api https://github.com/cargomedia/puppet-packages/issues/1196
-  }
-
-  nginx::resource::vhost { 'cm-api-mock':
-    server_name         => ['cm-api.dev'],
-    www_root            => '/tmp',
-    vhost_cfg_prepend   => [
-      'error_page  405  =200 $uri;' # workaround to make nginx accept POST for static files
-    ],
-    require             => [
-      File['/tmp/index.html'],
-      Host['cm-api.dev'],
-    ]
-  }
-  ->
-
   cm::services::janus { 'standalone1':
     hostname                         => 'foohost1',
     http_server_api_key              => 'janus-fish',
@@ -99,7 +73,6 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
 
     jobs_path                        => '/opt/janus-cluster/standalone1/var/lib/janus/jobs',
   }
-  ->
 
   cm::services::janus { 'standalone2':
     hostname                         => 'foohost2',
