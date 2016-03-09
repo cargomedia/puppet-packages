@@ -31,6 +31,8 @@ define cm::services::janus(
   $jobs_path = '/var/lib/janus/jobs'
 ) {
 
+  include 'cm_janus::cluster'
+
   ::janus::role::standalone { $title:
     bind_address                     => '127.0.0.1',
     nat_1_1_mapping                  => $nat_1_1_mapping,
@@ -57,10 +59,8 @@ define cm::services::janus(
     plugin_rtpb_maxport              => $rtpbroadcast_maxport,
   }
 
-  $cm_janus_prefix = '/opt/cm-janus-cluster'
-
   cm_janus { $title:
-    prefix                     => $cm_janus_prefix,
+    prefix                     => $cm_janus::cluster::prefix,
     http_server_port           => $http_server_port,
     http_server_api_key        => $http_server_api_key,
     websockets_listen_port     => $cm_janus_websocket_port,
