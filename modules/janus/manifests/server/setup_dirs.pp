@@ -23,25 +23,21 @@ define janus::server::setup_dirs (
       group   => '0',
       mode    => '0644',
       purge   => true,
-      recurse => true,
-      require => Exec["Create base dirs in janus-cluster for ${title}"];
+      recurse => true;
     [ $plugins_folder, $transports_folder ]:
       ensure  => directory,
       owner   => 'janus',
       group   => 'janus',
-      mode    => '0644',
-      require => Exec["Create base dirs in janus-cluster for ${title}"];
+      mode    => '0644';
     [ "${base_dir}/var/lib/janus", "${base_dir}/var/lib/janus/recordings", "${base_dir}/var/lib/janus/jobs" ]:
       ensure  => directory,
       owner   => 'janus',
       group   => 'janus',
-      mode    => '0666',
-      require => Exec["Create base dirs in janus-cluster for ${title}"];
+      mode    => '0666';
     "${base_dir}/var/log/janus":
       ensure  => directory,
       owner   => 'janus',
       group   => 'janus',
-      mode    => '0644',
-      require => Exec["Create base dirs in janus-cluster for ${title}"];
+      mode    => '0644';
   }
 }
