@@ -20,6 +20,11 @@ describe 'cm::services::janus' do
     it { should be_running }
   end
 
+  describe service('janus') do
+    it { should_not be_enabled }
+    it { should_not be_running }
+  end
+
   describe service('janus_standalone1') do
     it { should be_enabled }
     it { should be_running }
