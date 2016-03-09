@@ -49,7 +49,7 @@ define janus::role::standalone (
 
   $cluster_base_dir = '/opt/janus-cluster'
 
-  janus::core::janus { $title:
+  janus::server { $title:
     prefix             => $cluster_base_dir,
     bind_address       => $bind_address,
     token_auth         => $token_auth,

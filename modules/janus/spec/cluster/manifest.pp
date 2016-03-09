@@ -9,7 +9,7 @@ node default {
   $edge3_name = 'edge3'
   $cluster_base_dir = '/opt/janus-cluster'
 
-  Janus::Core::Janus {
+  Janus::Server {
     prefix => $cluster_base_dir,
   }
 
@@ -30,7 +30,7 @@ node default {
   }
 
   # origin node
-  janus::core::janus { $origin_name: }
+  janus::server { $origin_name: }
 
   janus::transport::websockets { $origin_name:
     ws_port  => 10000,
@@ -41,7 +41,7 @@ node default {
   }
 
   #  1st edge node
-  janus::core::janus { $edge1_name: }
+  janus::server { $edge1_name: }
 
   janus::transport::http { $edge1_name:
     port => 8001,
@@ -56,7 +56,7 @@ node default {
   }
 
   #  2nd edge node
-  janus::core::janus { $edge2_name: }
+  janus::server { $edge2_name: }
 
   janus::transport::http { $edge2_name:
     port => 8002,
@@ -67,7 +67,7 @@ node default {
   }
 
   #  3rd edge node
-  janus::core::janus { $edge3_name: }
+  janus::server { $edge3_name: }
 
   janus::transport::websockets { $edge3_name:
     ws_port  => 10003,

@@ -1,6 +1,6 @@
 node default {
 
-  janus::core::janus { 'http': }
+  janus::server { 'http': }
 
   janus::transport::http { 'http':
     port => 1337,

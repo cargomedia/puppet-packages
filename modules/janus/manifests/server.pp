@@ -1,4 +1,4 @@
-define janus::core::janus (
+define janus::server (
   $prefix = undef,
   $bind_address = undef,
   $token_auth = 'no',
