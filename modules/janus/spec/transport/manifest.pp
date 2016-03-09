@@ -1,10 +1,12 @@
 node default {
 
-  class { 'janus::transport::http':
-  port => 1337,
+  janus::server { 'http': }
+
+  janus::transport::http { 'http':
+    port => 1337,
   }
 
-  class { 'janus::transport::websockets':
-  ws_port => 7017,
+  janus::transport::websockets { 'http':
+    ws_port => 7017,
   }
 }

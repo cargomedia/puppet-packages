@@ -1,7 +1,7 @@
 define ufw::application(
-  $app_name = $title,
-  $app_title = $title,
-  $app_description = $title,
+  $app_name = $name,
+  $app_title = $name,
+  $app_description = $name,
   $app_ports,
   $auto_allow = true
 ){

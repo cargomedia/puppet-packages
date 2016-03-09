@@ -48,12 +48,10 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
 1L/w6N8IQ3u0vAI78UZdZ+8ds9NfUjUJ8SmYmthUFARuvH8j799A
 -----END RSA PRIVATE KEY-----'
 
-  host { 'foo':
-    ip => '127.0.0.1',
-  }
+  $websockets_listen_port = 7888
 
-  class { 'cm_janus':
-    websockets_listen_port => 7888,
+  cm_janus { 'cm-janus':
+    websockets_listen_port => $websockets_listen_port,
     http_server_api_key    => 'fish',
     cm_api_base_url        => 'http://www.cm.dev',
     cm_api_key             => 'cm-fish',
@@ -62,11 +60,12 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
   }
   ->
 
-  class { 'cm_janus::proxy':
-    hostname  => 'foo',
-    port      => 7999,
-    ssl_cert  => $ssl_cert,
-    ssl_key   => $ssl_key,
+  cm_janus::proxy { 'cm-janus':
+    hostname      => 'www.cm.dev',
+    port          => 7999,
+    upstream_port => $websockets_listen_port,
+    ssl_cert      => $ssl_cert,
+    ssl_key       => $ssl_key,
   }
 
 }
