@@ -54,6 +54,7 @@ define cm::services::janus(
 
     plugin_recording_enabled         => $recording_enabled,
     plugin_rest_url                  => "http://127.0.0.1:${janus_http_port}/janus",
+    plugin_jobs_path                 => $jobs_path,
 
     plugin_rtpb_minport              => $rtpbroadcast_minport,
     plugin_rtpb_maxport              => $rtpbroadcast_maxport,

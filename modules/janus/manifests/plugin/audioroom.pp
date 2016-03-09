@@ -4,6 +4,7 @@ define janus::plugin::audioroom(
   $recording_pattern = 'rec-#{id}-#{time}-#{type}',
   $job_pattern = 'job-#{md5}',
   $rest_url = 'http://127.0.0.1:8088/janus',
+  $jobs_path = undef,
 ) {
 
   require 'janus::common'
@@ -22,7 +23,7 @@ define janus::plugin::audioroom(
   }
 
   $archive_path = "${instance_base_dir}/var/lib/janus/recordings"
-  $jobs_path = "${instance_base_dir}/var/lib/janus/jobs"
+  $jobs_path_final = $jobs_path ? { undef => "${instance_base_dir}/var/lib/janus/jobs", default => $jobs_path }
 
   file { "${instance_base_dir}/usr/lib/janus/plugins.enabled/libjanus_audioroom.so":
     ensure    => link,

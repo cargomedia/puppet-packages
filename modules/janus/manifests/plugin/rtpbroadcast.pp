@@ -14,6 +14,7 @@ define janus::plugin::rtpbroadcast(
   $thumbnailing_duration = 10,
   $job_pattern = 'job-#{md5}',
   $rest_url = 'http://127.0.0.1:8088/janus',
+  $jobs_path = undef,
 ) {
 
   require 'janus::common'
@@ -32,7 +33,7 @@ define janus::plugin::rtpbroadcast(
   }
 
   $archive_path = "${instance_base_dir}/var/lib/janus/recordings"
-  $jobs_path = "${instance_base_dir}/var/lib/janus/jobs"
+  $jobs_path_final = $jobs_path ? { undef => "${instance_base_dir}/var/lib/janus/jobs", default => $jobs_path }
   $log_file = "${instance_base_dir}/var/log/janus/janus.log"
 
   file { "${instance_base_dir}/usr/lib/janus/plugins.enabled/libjanus_rtpbroadcast.so":
