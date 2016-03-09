@@ -13,7 +13,8 @@ define janus::transport::websockets(
   $admin_wss_acl = '127.,192.168.',
 ) {
 
-  Class['janus::common'] -> Janus::Transport::Websockets[$name]
+  require 'janus::common'
+
   Janus::Server::Setup_dirs[$name] -> Janus::Transport::Websockets[$name]
 
   $instance_name = $prefix? {

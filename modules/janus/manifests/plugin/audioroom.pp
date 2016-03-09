@@ -6,9 +6,9 @@ define janus::plugin::audioroom(
   $rest_url = 'http://127.0.0.1:8088/janus',
 ) {
 
+  require 'janus::common'
   require 'janus::common_audioroom'
 
-  Class['janus::common'] -> Janus::Plugin::Audioroom[$name]
   Janus::Server::Setup_dirs[$name] -> Janus::Plugin::Audioroom[$name]
 
   $instance_name = $prefix? {

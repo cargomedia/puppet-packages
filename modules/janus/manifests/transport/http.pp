@@ -16,7 +16,8 @@ define janus::transport::http(
   $admin_acl = '127.'
 ) {
 
-  Class['janus::common'] -> Janus::Transport::Http[$name]
+  require 'janus::common'
+
   Janus::Server::Setup_dirs[$name] -> Janus::Transport::Http[$name]
 
   $instance_name = $prefix? {

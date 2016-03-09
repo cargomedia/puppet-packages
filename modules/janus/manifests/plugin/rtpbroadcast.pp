@@ -16,9 +16,9 @@ define janus::plugin::rtpbroadcast(
   $rest_url = 'http://127.0.0.1:8088/janus',
 ) {
 
+  require 'janus::common'
   require 'janus::common_rtpbroadcast'
 
-  Class['janus::common'] -> Janus::Plugin::Rtpbroadcast[$name]
   Janus::Server::Setup_dirs[$name] -> Janus::Plugin::Rtpbroadcast[$name]
 
   $instance_name = $prefix? {
