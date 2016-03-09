@@ -14,7 +14,7 @@ define janus::transport::websockets(
 ) {
 
   Class['janus::common'] -> Janus::Transport::Websockets[$name]
-  Janus::Core::Setup_dirs[$name] -> Janus::Transport::Websockets[$name]
+  Janus::Server::Setup_dirs[$name] -> Janus::Transport::Websockets[$name]
 
   $instance_name = $prefix? {
     undef => 'janus',

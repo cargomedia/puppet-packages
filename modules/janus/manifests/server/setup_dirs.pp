@@ -1,4 +1,4 @@
-define janus::core::setup_dirs (
+define janus::server::setup_dirs (
   $base_dir,
   $config_dir = undef,
   $plugins_folder = undef,

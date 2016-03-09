@@ -48,7 +48,7 @@ define janus::core::janus (
   $transports_folder = "${instance_base_dir}/usr/lib/janus/transports.enabled"
   $config_dir = "${instance_base_dir}/etc/janus"
 
-  janus::core::setup_dirs { $title:
+  janus::server::setup_dirs { $title:
     base_dir          => $instance_base_dir,
     config_dir        => $config_dir,
     plugins_folder    => $plugins_folder,
@@ -99,7 +99,7 @@ define janus::core::janus (
     core_dump => $core_dump,
     require   => [
       File[$config_file, $log_file, "${ssl_config_dir}/cert.key", "${ssl_config_dir}/cert.pem"],
-      Janus::Core::Setup_dirs[$title],
+      Janus::Server::Setup_dirs[$title],
     ],
   }
 

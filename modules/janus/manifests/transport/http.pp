@@ -17,7 +17,7 @@ define janus::transport::http(
 ) {
 
   Class['janus::common'] -> Janus::Transport::Http[$name]
-  Janus::Core::Setup_dirs[$name] -> Janus::Transport::Http[$name]
+  Janus::Server::Setup_dirs[$name] -> Janus::Transport::Http[$name]
 
   $instance_name = $prefix? {
     undef => 'janus',
