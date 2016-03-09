@@ -106,8 +106,8 @@ define janus::server (
   if $instance_name != 'janus' {
     if ! defined(Service['janus']) {
       service { 'janus':
-        enable => false,
         ensure => stopped,
+        enable => false,
       }
     }
   }
