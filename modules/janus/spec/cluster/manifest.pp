@@ -2,27 +2,26 @@ node default {
 
   include 'monit'
   include 'bipbip'
-
-  $cluster_base_dir = '/opt/janus-cluster'
+  include 'janus::cluster'
 
   Janus::Server {
-    prefix => $cluster_base_dir,
+    prefix => $janus::cluster::prefix,
   }
 
   Janus::Transport::Websockets {
-    prefix => $cluster_base_dir,
+    prefix => $janus::cluster::prefix,
   }
 
   Janus::Transport::Http {
-    prefix => $cluster_base_dir,
+    prefix => $janus::cluster::prefix,
   }
 
   Janus::Plugin::Audioroom {
-    prefix => $cluster_base_dir,
+    prefix => $janus::cluster::prefix,
   }
 
   Janus::Plugin::Rtpbroadcast {
-    prefix => $cluster_base_dir,
+    prefix => $janus::cluster::prefix,
   }
 
   # origin node

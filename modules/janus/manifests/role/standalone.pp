@@ -47,10 +47,10 @@ define janus::role::standalone (
   $plugin_rtpb_thumbnailing_duration = 10,
 ) {
 
-  $cluster_base_dir = '/opt/janus-cluster'
+  include 'janus::cluster'
 
   janus::server { $title:
-    prefix             => $cluster_base_dir,
+    prefix             => $janus::cluster::prefix,
     bind_address       => $bind_address,
     token_auth         => $token_auth,
     api_secret         => $api_secret,
@@ -72,14 +72,14 @@ define janus::role::standalone (
   }
 
   janus::transport::websockets { $title:
-    prefix     => $cluster_base_dir,
+    prefix     => $janus::cluster::prefix,
     ws_port    => $transport_ws_port,
     ws_logging => $transport_ws_logging,
     ws_acl     => $transport_ws_acl,
   }
 
   janus::transport::http { $title:
-    prefix            => $cluster_base_dir,
+    prefix            => $janus::cluster::prefix,
     port              => $transport_http_port,
     http_base_path    => $transport_http_base_path,
     admin_base_path   => $transport_http_admin_base_path,
@@ -98,7 +98,7 @@ define janus::role::standalone (
   $rest_url = $plugin_rest_url ? { undef => "http://localhost:${transport_http_port}${transport_http_base_path}", default => $plugin_rest_url }
 
   janus::plugin::audioroom { $title:
-    prefix            => $cluster_base_dir,
+    prefix            => $janus::cluster::prefix,
     recording_enabled => $rec_enabled,
     recording_pattern => $plugin_recording_pattern,
     job_pattern       => $plugin_job_pattern,
@@ -106,7 +106,7 @@ define janus::role::standalone (
   }
 
   janus::plugin::rtpbroadcast { $title:
-    prefix                   => $cluster_base_dir,
+    prefix                   => $janus::cluster::prefix,
     minport                  => $plugin_rtpb_minport,
     maxport                  => $plugin_rtpb_maxport,
     source_avg_time          => $plugin_rtpb_source_avg_time,
