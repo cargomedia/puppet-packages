@@ -2,7 +2,7 @@ class ffmpeg {
 
   require 'apt::source::cargomedia'
 
-  package { 'ffmpeg':
+  package { 'ffmpeg-cm':
     provider => 'apt',
   }
 }
