@@ -1,10 +1,10 @@
 class apt::transport_https {
 
-  require 'apt'
+  include 'apt'
 
   package { 'apt-transport-https':
     provider => 'apt',
-    before   => Exec['apt_update']
+    before   => Exec['apt_update'],
   }
 
 }

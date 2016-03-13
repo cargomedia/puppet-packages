@@ -1,56 +1,30 @@
 class revive (
   $host,
-  $certificatePem,
-  $certificateKey,
-  $certificateCa = undef,
+  $ssl_cert,
+  $ssl_key,
   $version = '3.1.0',
   $dbName = 'revive',
   $dbUser = 'revive',
   $dbPassword = 'revive'
 ) {
 
-  require 'dotdeb' # Revive requires php 5.4.20+
+  if $::lsbdistcodename == 'wheezy' {
+    require 'dotdeb' # Revive requires php 5.4.20+
+    require 'php5::extension::opcache'
+  }
   require 'php5'
-  require 'php5::apache2'
-  require 'php5::extension::apc'
+  require 'php5::fpm'
+  require 'php5::extension::apcu'
   require 'php5::extension::mysql'
   require 'php5::extension::gd'
-  require 'openssl'
-  require 'apache2::mod::ssl'
   require 'mysql::server'
   require 'rsync'
+  include 'nginx'
 
   helper::script { 'install revive':
     content => template("${module_name}/install.sh"),
     unless  => "grep -w \"define('VERSION', '${version}')\" /var/revive/constants.php",
     require => Class['rsync'],
-  }
-
-  file { "/etc/apache2/ssl/${host}.pem":
-    ensure  => present,
-    content => $certificatePem,
-    group   => 'www-data',
-    owner   => 'www-data',
-    mode    => '0644',
-    require => Class['apache2::mod::ssl'],
-    before  => Apache2::Vhost[$host],
-  }
-
-  file { "/etc/apache2/ssl/${host}.key":
-    ensure  => present,
-    content => $certificateKey,
-    group   => 'www-data',
-    owner   => 'www-data',
-    mode    => '0644',
-    require => Class['apache2::mod::ssl'],
-    before  => Apache2::Vhost[$host],
-  }
-
-  if $certificateCa {
-    apache2::ssl_ca { $host:
-      content => $certificateCa,
-      before  => Apache2::Vhost[$host],
-    }
   }
 
   file { '/var/revive/www/delivery/ajs-proxy.php':
@@ -70,8 +44,44 @@ class revive (
     user => "${dbUser}@localhost",
   }
 
-  apache2::vhost { $host:
-    content => template("${module_name}/vhost"),
+  nginx::resource::vhost{ "${module_name}-https-redirect":
+    listen_port         => 80,
+    ssl                 => false,
+    server_name         => [$host],
+    location_cfg_append => [
+      'return 301 https://$host$request_uri;',
+    ],
+  }
+
+  nginx::resource::vhost { $module_name:
+    server_name         => [$host],
+    listen_port         => 443,
+    ssl                 => true,
+    ssl_cert            => $ssl_cert,
+    ssl_key             => $ssl_key,
+    location_cfg_append => [
+      'root /var/revive/www;',
+      'index index.php;',
+      'gzip on;',
+      'gzip_proxied any;',
+      'gzip_http_version 1.0;',
+      'gzip_types application/x-javascript text/css text/plain application/xml image/svg+xml;',
+    ],
+  }
+
+  nginx::resource::location { "${module_name}-php":
+    location            => '~ \.php$',
+    vhost               =>  $module_name,
+    ssl                 =>  true,
+    ssl_only => true,
+    location_cfg_append => [
+      'root /var/revive/www;',
+      'index index.php;',
+      'include fastcgi_params;',
+      'fastcgi_index index.php;',
+      'fastcgi_param PHP_VALUE "include_path=.:/var/revive/lib/pear/";',
+      'fastcgi_pass localhost:9000;',
+    ],
   }
 
   cron { "cron revive maintenance ${host}":

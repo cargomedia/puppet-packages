@@ -1,5 +1,7 @@
 class network {
 
+  require 'network::interfaces_backup'
+
   $interfaces = hiera_hash('network::interfaces', { })
   create_resources('network::interface', $interfaces)
 

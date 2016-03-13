@@ -1,0 +1,31 @@
+var database = '<%= @database %>'
+var username = '<%= @username %>'
+var password = '<%= @password %>'
+
+function login(database, username, password) {
+  try {
+    var status = db.isMaster();
+    if (status['arbiterOnly'] == true) {
+        return true;
+    }
+
+    var login_db = db.getSiblingDB(database);
+    try {
+      // will fail if authentication is required
+      // otherwise will continue without authentication
+      var list = db.getUsers();
+      return true;
+    } catch(e) {
+      // auth() can be called only if authentication is enabled
+      // and will throw if not enabled or if credentials are incorrect
+      return login_db.auth(username, password);
+    }
+  } catch(e) {
+    return false;
+  }
+  return false;
+}
+
+if(!login(database, username, password)) {
+  throw new Error("`.mongorc.js` authentication failed for database `" + database + " ` with user `" + username + "`");
+}

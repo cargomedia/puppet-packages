@@ -1,6 +1,6 @@
 class mjr_convert {
 
-  require 'janus'
+  require 'janus::common'
   require 'ffmpeg'
 
   file { '/usr/bin/mjr2webm':

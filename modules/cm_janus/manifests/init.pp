@@ -1,4 +1,5 @@
-class cm_janus (
+define cm_janus (
+  $prefix = undef,
   $http_server_port = 8200,
   $http_server_api_key,
   $websockets_listen_port = 8210,
@@ -13,52 +14,45 @@ class cm_janus (
   $thumbnailHeight = 540,
 ) {
 
-  require 'nodejs'
-  require 'build::gpp'
-  require 'mjr_convert'
-  require 'lame'
+  require 'cm_janus::common'
 
-  file { '/etc/cm-janus':
-    ensure => directory,
-    owner  => '0',
-    group  => '0',
-    mode   => '0755',
+  $instance_name = $prefix? {
+    undef => 'cm-janus',
+    default => "cm-janus_${title}"
   }
 
-  file { '/etc/cm-janus/config.yaml':
+  $instance_base_dir = $prefix? {
+    undef => '',
+    default =>"${prefix}/${title}"
+  }
+
+  cm_janus::setup_dirs { $title:
+    base_dir => $instance_base_dir,
+  }
+
+  $config_file = "${instance_base_dir}/etc/cm-janus/config.yaml"
+  $log_file = "${instance_base_dir}/var/log/cm-janus/cm-janus.log"
+  $job_temp_dir = "${instance_base_dir}/var/lib/cm-janus/jobs-temp-files"
+
+  file { $config_file:
     ensure  => file,
     content => template("${module_name}/config.yaml"),
     owner   => '0',
     group   => '0',
     mode    => '0755',
-    before  => Daemon['cm-janus'],
-    notify  => Service['cm-janus'],
+    before  => Daemon[$instance_name],
+    notify  => Service[$instance_name],
   }
 
-  user { 'cm-janus':
-    ensure => present,
-    system => true,
-    before  => Daemon['cm-janus'],
-  }
-
-  file { ['/var/log/cm-janus', '/var/lib/cm-janus', '/var/lib/cm-janus/jobs-temp-files']:
-    ensure  => directory,
-    owner   => 'cm-janus',
-    group   => 'cm-janus',
-    mode    => '0755',
-    require => User['cm-janus'],
-    before  => Daemon['cm-janus'],
-  }
-
-  logrotate::entry{ $module_name:
+  logrotate::entry{ $instance_name:
     content => template("${module_name}/logrotate")
   }
 
-  @bipbip::entry { 'logparser-cm-janus':
+  @bipbip::entry { "logparser-${instance_name}":
     plugin  => 'log-parser',
     options => {
       'metric_group' => 'cm-janus',
-      'path' => '/var/log/cm-janus/cm-janus.log',
+      'path' => $log_file,
       'matchers' => [
         { 'name' => 'error',
           'regexp' => '^[\d\-\:\s\.]+ERROR' }
@@ -66,16 +60,9 @@ class cm_janus (
     }
   }
 
-  package { 'cm-janus':
-    ensure   => latest,
-    provider => 'npm',
-    before  => Daemon['cm-janus'],
-    notify   => Service['cm-janus'],
-  }
-
-  daemon { 'cm-janus':
+  daemon { $instance_name:
     binary  => '/usr/bin/node',
-    args    => '/usr/bin/cm-janus -c /etc/cm-janus/config.yaml',
+    args    => "/usr/bin/cm-janus -c ${config_file}",
     user    => 'cm-janus',
   }
 }

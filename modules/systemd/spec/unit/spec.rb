@@ -11,8 +11,13 @@ describe 'systemd::unit' do
     it { should be_running }
   end
 
-  describe process('my-daemon') do
-    it { should be_running }
+  describe file('/etc/systemd/coredump.conf') do
+    it { should be_file }
+    its(:content) { should match /Compress=no/ }
+    its(:content) { should match /MaxUse=10000/ }
   end
 
+  describe command('ls /tmp/foo.my-daemon.*') do
+    its(:exit_status) { should eq 0 }
+  end
 end

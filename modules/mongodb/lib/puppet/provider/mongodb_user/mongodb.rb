@@ -9,7 +9,7 @@ Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::
   def create
     password_hash = create_password_hash('puppet-mongodb', @resource[:password])
     data = {
-      :user => @resource[:name],
+      :user => @resource[:username],
       :pwd => @resource[:password],
       :roles => @resource[:roles],
       :customData => {:puppetPasswordHash => password_hash}
@@ -18,7 +18,7 @@ Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::
   end
 
   def destroy
-    mongo_command("db.dropUser(#{JSON.dump @resource[:name]})", find_master, @resource[:database])
+    mongo_command("db.dropUser(#{JSON.dump @resource[:username]})", find_master, @resource[:database])
   end
 
   def exists?
@@ -56,7 +56,7 @@ Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::
     ismaster_info = db_ismaster_info(host)
     unless ismaster_info['ismaster']
       unless ismaster_info.has_key?('primary')
-        raise Puppet::Error, "Cannot detect primary on `#{host}` to create user `#{@resource[:name]}`."
+        raise Puppet::Error, "Cannot detect primary on `#{host}` to create user `#{@resource[:username]}`."
       end
       host = ismaster_info['primary']
     end
@@ -68,15 +68,14 @@ Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::
   end
 
   def db_find_user
-    mongo_command_json("db.getUser(\"#{@resource[:name]}\")", find_master, @resource[:database])
+    mongo_command_json("db.getUser(\"#{@resource[:username]}\")", find_master, @resource[:database])
   end
 
   def db_update_user(data)
-    mongo_command("db.updateUser(#{JSON.dump @resource[:name]}, #{JSON.dump data})", find_master, @resource[:database])
+    mongo_command("db.updateUser(#{JSON.dump @resource[:username]}, #{JSON.dump data})", find_master, @resource[:database])
   end
 
   def create_password_hash(password, salt)
     Digest::MD5.hexdigest("#{salt}:mongo:#{password}")
   end
-
 end

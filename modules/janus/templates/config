@@ -1,4 +1,9 @@
 [general]
+
+configs_folder = <%= @config_dir %>
+plugins_folder = <%= @plugins_folder %>
+transports_folder = <%= @transports_folder %>
+
 <% if @bind_address.nil? %>;<% end %>interface = <%= @bind_address %>	; Interface to use (will be used in SDP)
 debug_level = 4				; Debug/logging level, valid values are 0-7
 debug_timestamps = yes		; Whether to show a timestamp for each log line
@@ -22,11 +27,19 @@ token_auth = <%= @token_auth %>  ; Enable a token based authentication
 
 
 [plugins]
-disable = libjanus_echotest.so,libjanus_audiobridge.so,libjanus_recordplay.so,libjanus_sip.so,libjanus_streaming.so,libjanus_videocall.so,libjanus_videoroom.so,libjanus_voicemail.so
+;disable = libjanus_echotest.so,libjanus_audiobridge.so,libjanus_recordplay.so,libjanus_sip.so,libjanus_streaming.so,libjanus_videocall.so,libjanus_videoroom.so,libjanus_voicemail.so
+
+; You can choose which of the available transports should be enabled or
+; not. Use the 'disable' directive to prevent Janus from loading one
+; or more transport: use a comma separated list of transport file names
+; to identify the transports to disable. By default all available
+; transports are enabled and loaded at startup.
+[transports]
+; disable = libjanus_rabbitmq.so
 
 [certificates]
-cert_pem = /etc/janus/ssl/cert.pem
-cert_key = /etc/janus/ssl/cert.key
+cert_pem = <%= @ssl_config_dir %>/cert.pem
+cert_key = <%= @ssl_config_dir %>/cert.key
 
 ; Media-related stuff: you can configure whether if you want
 ; to enable IPv6 support (still WIP, so handle with care), the maximum size
@@ -73,7 +86,11 @@ nice_debug = false
 ; all host candidates (which normally have a private IP address) to
 ; be rewritten with the public address provided in the settings. As
 ; such, use the option with caution and only if you know what you're doing.
+<% if @nat_1_1_mapping %>
+nat_1_1_mapping = <%= @nat_1_1_mapping %>
+<% else %>
 ;nat_1_1_mapping = 1.2.3.4
+<% end %>
 
 ; You can configure a TURN server in two different ways: specifying a
 ; statically configured TURN server, and thus provide the address of the

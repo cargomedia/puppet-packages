@@ -1,4 +1,4 @@
-/var/log/janus/*.log {
+<%= @log_file %> {
 	rotate 7
 	daily
 	delaycompress

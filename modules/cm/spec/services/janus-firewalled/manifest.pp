@@ -1,6 +1,6 @@
 node default {
 
-  class { 'cm::services::janus':
+  cm::services::janus { 'standalone':
     hostname              => 'foohost',
     http_server_api_key   => 'janus-fish',
     http_server_port      => 8100,

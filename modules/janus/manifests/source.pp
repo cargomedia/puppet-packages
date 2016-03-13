@@ -1,5 +1,6 @@
 class janus::source (
-  $version
+  $version,
+  $repo = undef
 ) {
 
   require 'apt'
@@ -10,6 +11,10 @@ class janus::source (
   require 'build::libtool'
   require 'build::dev::libglib2'
   require 'build::dev::libjansson'
+  require 'build::dev::libopus'
+  require 'build::dev::libini_config'
+
+  $src_remote = $repo ? { undef => 'https://github.com/meetecho/janus-gateway.git',  default => $repo }
 
   package { [
     'libsrtp',
@@ -19,9 +24,7 @@ class janus::source (
     'libnice-dev',
     'libssl-dev',
     'libsofia-sip-ua-dev',
-    'libopus-dev',
     'libogg-dev',
-    'libini-config-dev',
     'libcollection-dev',
     'libavutil-dev',
     'libavcodec-dev',
@@ -33,7 +36,7 @@ class janus::source (
   ->
 
   git::repository { 'Janus Gateway':
-    remote    => 'https://github.com/meetecho/janus-gateway.git',
+    remote    => $src_remote,
     directory => '/opt/janus/janus-gateway',
     revision  => $version,
   }

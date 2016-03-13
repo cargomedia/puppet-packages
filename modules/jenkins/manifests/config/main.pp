@@ -9,32 +9,26 @@ class jenkins::config::main(
     ensure    => 'directory',
     owner     => 'jenkins',
     group     => 'nogroup',
-    mode      => '0755',
+    mode      => '0644',
     purge     => true,
     recurse   => true,
     notify    => Exec['/var/lib/jenkins/config.xml'],
+  }
+
+  file { '/var/lib/jenkins/nodes':
+    ensure    => 'directory',
+    owner     => 'jenkins',
+    group     => 'nogroup',
+    mode      => '0644',
+    purge     => true,
+    recurse   => true,
+    notify    => Service['jenkins'],
   }
 
   file {
     '/var/lib/jenkins/config.d/00-header.xml':
       ensure    => 'present',
       content   => template("${module_name}/config/main/00-header.xml"),
-      owner     => 'jenkins',
-      group     => 'nogroup',
-      mode      => '0644',
-      notify    => Exec['/var/lib/jenkins/config.xml'];
-
-    '/var/lib/jenkins/config.d/20-slaves-00-header.xml':
-      ensure    => 'present',
-      content   => template("${module_name}/config/main/20-slaves-00-header.xml"),
-      owner     => 'jenkins',
-      group     => 'nogroup',
-      mode      => '0644',
-      notify    => Exec['/var/lib/jenkins/config.xml'];
-
-    '/var/lib/jenkins/config.d/20-slaves-99-footer.xml':
-      ensure    => 'present',
-      content   => template("${module_name}/config/main/20-slaves-99-footer.xml"),
       owner     => 'jenkins',
       group     => 'nogroup',
       mode      => '0644',

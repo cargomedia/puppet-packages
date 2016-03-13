@@ -1,8 +1,9 @@
 define ufw::application(
-  $app_name = $title,
-  $app_title = $title,
-  $app_description = $title,
+  $app_name = $name,
+  $app_title = $name,
+  $app_description = $name,
   $app_ports,
+  $auto_allow = true
 ){
 
   require 'ufw'
@@ -24,9 +25,11 @@ define ufw::application(
     refreshonly => true,
     notify      => Service['ufw'],
   }
-  ->
 
-  ufw::rule { "Allow ${app_name}":
-    app_or_port => $app_name,
+  if $auto_allow {
+    ufw::rule { "Allow ${app_name}":
+      app_or_port => $app_name,
+      require     => Exec["Refresh rule for ${app_name}"],
+    }
   }
 }

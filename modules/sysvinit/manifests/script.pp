@@ -2,6 +2,8 @@ define sysvinit::script(
   $content,
 ) {
 
+  include 'sysctl::entry::core_pattern'
+
   file { "/etc/init.d/${name}":
     ensure  => file,
     content => $content,

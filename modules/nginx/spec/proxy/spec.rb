@@ -9,6 +9,7 @@ describe 'nginx proxy' do
     its(:content) { should match /worker_connections(.*)10000/ }
     its(:content) { should match /keepalive_timeout(.*)30/ }
     its(:content) { should match /access_log(.*)off/ }
+    its(:content) { should_not match /server_names_hash_bucket_size/}
   end
 
   describe file('/etc/nginx/conf.d/proxy.conf') do

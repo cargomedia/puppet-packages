@@ -10,7 +10,7 @@ node default {
 
   class { 'revive':
     host           => 'example.com',
-    certificatePem => '-----BEGIN CERTIFICATE-----
+    ssl_cert => '-----BEGIN CERTIFICATE-----
 MIIDJjCCAg6gAwIBAgIJALz0SCS44yRnMA0GCSqGSIb3DQEBBQUAMBYxFDASBgNV
 BAMTC2V4YW1wbGUuY29tMB4XDTEzMTAzMDEzMDcxNVoXDTIzMTAyODEzMDcxNVow
 FjEUMBIGA1UEAxMLZXhhbXBsZS5jb20wggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAw
@@ -30,7 +30,7 @@ abjF+8PLHVPo8Dzkeo9LS1FHnTu2QPr3vUC1qec14/shDQY9CVc/Kcx4cnTReaMI
 GKZzkhQsDIR77OgSy/dkzhPI9EbGu1mketb7Ro8V+vo1XEH5aG3TJtcp
 -----END CERTIFICATE-----
 ',
-    certificateKey => '-----BEGIN RSA PRIVATE KEY-----
+    ssl_key => '-----BEGIN RSA PRIVATE KEY-----
 MIIEowIBAAKCAQEA0BcbugpgsjHv1cTh/qXViYwTxZWWJkJXIc25k33gffdNuE2j
 OcicCAPFY+4X06DQA+X6cvvh2y8S4U9vSqer2l+7UosDEtwPBKVpsQBtsQzUDTXL
 6C30htCEsXxJHf9N9NMEw9kO5++QQQv/LeNheJtgJwSAUKCJpVvdmD2RUzXeO/aU

@@ -1,14 +1,10 @@
 require 'spec_helper'
 
-describe 'gearman persistence none' do
+describe 'gearman::persistence::none' do
 
-  describe file('/var/log/gearman-job-server/gearman-persist.sqlite3') do
-    it { should_not be_file }
-  end
-
-  describe file('/etc/default/gearman-job-server') do
-    it { should be_file }
-    its(:content) { should_not match /^PARAMS=".*-q\s.*"$/ }
+  describe command('cat /proc/$(pgrep gearman)/cmdline') do
+    its(:stdout) { should_not match /-q+.*mysql/ }
+    its(:stdout) { should_not match /-q+.*libsqlite3/ }
   end
 
   describe service('gearman-job-server') do
@@ -18,4 +14,5 @@ describe 'gearman persistence none' do
   describe port(4730) do
     it { should be_listening }
   end
+
 end

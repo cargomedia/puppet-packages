@@ -59,23 +59,6 @@ class postfix ($aliases = { }, $transports = []) {
     notify      => Service['postfix'],
   }
 
-  file { '/etc/aliases':
-    ensure => file,
-    content => template("${module_name}/aliases"),
-    group  => '0',
-    owner  => '0',
-    mode   => '0644',
-    notify  => Exec['newaliases'],
-    before  => Package['postfix'],
-  }
-
-  exec { 'newaliases':
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    refreshonly => true,
-    require     => Package['postfix'],
-    notify      => Service['postfix'],
-  }
-
   package { ['postfix', 'libsasl2-modules', 'bsd-mailx', 'procmail']:
     ensure   => present,
     provider => 'apt',

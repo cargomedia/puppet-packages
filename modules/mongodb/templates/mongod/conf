@@ -26,7 +26,7 @@ configsvr=<%= @config_server %>
 
 port = <%= @port %>
 
-# Listen to local interface only. Comment out to listen on all interfaces. 
+# Listen to local interface only. Comment out to listen on all interfaces.
 <% if @bind_ip and !@bind_ip.empty? -%>
 bind_ip = <%= @bind_ip %>
 <% end %>
@@ -36,7 +36,7 @@ bind_ip = <%= @bind_ip %>
 
 # Turn on/off security.  Off is currently the default
 #noauth = true
-#auth = true
+auth=<%= @auth %>
 
 # Verbose logging output.
 #verbose = true
@@ -85,7 +85,9 @@ replSet=<%= @repl_set %>
 #oplogSize=1024
 # path to a key file storing authentication info for connections
 # between replica set members
-#keyFile=/path/to/keyfile
+<% if @key_file_path %>
+keyFile=<%= @key_file_path %>
+<% end %>
 
 <% @options.each do |key, value| %>
 <%= key %>=<%= value %>

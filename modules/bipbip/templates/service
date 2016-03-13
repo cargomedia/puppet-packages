@@ -1,2 +1,2 @@
 <% require 'psych' -%>
-<%= Psych.dump({'plugin' => @plugin}.merge(@options)) %>
+<%= Psych.dump({'plugin' => @plugin}.merge(@options).reject{|k, v| v.nil? || v == :undef }) %>

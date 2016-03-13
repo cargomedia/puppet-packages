@@ -15,5 +15,13 @@ node default {
     password => 'my-password2',
     roles    => [ { 'role' => 'dbAdmin', 'db' => 'testdb' } ],
   }
+  ->
+
+  mongodb_user { 'testuser-admin':
+    username => 'testuser',
+    database => 'admin',
+    password => 'my-password2',
+    roles    => [ 'userAdminAnyDatabase' ],
+  }
 
 }

@@ -7,6 +7,14 @@ Puppet::Type.newtype(:mongodb_user) do
     desc 'The name of the user.'
   end
 
+  newparam(:username) do
+    desc 'The name of the user.'
+    newvalues(/^\w+$/)
+    defaultto do
+      @resource[:name]
+    end
+  end
+
   newparam(:database) do
     desc "The user's target database."
     defaultto do

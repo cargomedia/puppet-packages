@@ -1,0 +1,20 @@
+[Coredump]
+Storage=<%= @storage %>
+<% if @compress -%>
+Compress=<%= @compress %>
+<% end -%>
+<% if @process_size_max -%>
+ProcessSizeMax=<%= @process_size_max %>
+<% end -%>
+<% if @external_size_max -%>
+ExternalSizeMax=<%= @external_size_max %>
+<% end -%>
+<% if @external_size_max -%>
+JournalSizeMax=<%= @external_size_max %>
+<% end -%>
+<% if @max_use -%>
+MaxUse=<%= @max_use %>
+<% end -%>
+<% if @keep_use -%>
+KeepFree=<%= @keep_use %>
+<% end -%>

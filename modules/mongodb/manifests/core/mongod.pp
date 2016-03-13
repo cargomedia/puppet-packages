@@ -6,13 +6,30 @@ define mongodb::core::mongod (
   $shard_server = false,
   $rest = false,
   $fork = false,
-  $options = { }
+  $auth = false,
+  $options = { },
+  $auth_key = undef,
+  $monitoring_credentials = { },
 ) {
 
   require 'mongodb'
 
   $daemon = 'mongod'
   $instance_name = "${daemon}_${name}"
+
+  if $auth_key {
+    $key_file_path = '/var/lib/mongodb/cluster-key-file'
+    if !defined(File[$key_file_path]) {
+      file { $key_file_path:
+        ensure  => file,
+        content => $auth_key,
+        mode    => '0400',
+        owner   => 'mongodb',
+        group   => 'mongodb',
+        notify  => Service[$instance_name],
+      }
+    }
+  }
 
   file {
     "/var/lib/mongodb/${instance_name}":
@@ -68,6 +85,8 @@ define mongodb::core::mongod (
     options => {
       'hostname' => $hostName,
       'port' => $port,
+      'user' => $monitoring_credentials['user'],
+      'password' => $monitoring_credentials['password'],
     }
   }
 

@@ -1,7 +1,7 @@
 class vagrant {
 
   $version = '1.7.3'
-  $url = 'https://dl.bintray.com/mitchellh/vagrant/vagrant_1.7.3_x86_64.deb'
+  $url = 'https://releases.hashicorp.com/vagrant/1.7.3/vagrant_1.7.3_x86_64.deb'
 
   helper::script { 'install vagrant':
     content     => template("${module_name}/install.sh"),

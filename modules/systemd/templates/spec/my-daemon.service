@@ -6,7 +6,9 @@ After=network.target
 Type=simple
 TimeoutSec=5
 KillMode=process
+Restart=always
 ExecStart=/tmp/my-daemon
+LimitCORE=infinity
 
 [Install]
 WantedBy=multiuser.target
