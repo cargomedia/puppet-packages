@@ -59,7 +59,6 @@ define cm::services::janus(
     plugin_rtpb_minport              => $rtpbroadcast_minport,
     plugin_rtpb_maxport              => $rtpbroadcast_maxport,
   }
-  ->
 
   cm_janus { $title:
     prefix                     => $cm_janus::cluster::prefix,
