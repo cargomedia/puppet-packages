@@ -96,8 +96,8 @@ define janus::role::standalone (
   file { $plugin_jobs_path:
     ensure  => directory,
     owner   => 'janus',
-    group   => '0',
-    mode    => '0644',
+    group   => 'janus',
+    mode    => '0777',
   }
 
   janus::plugin::audioroom { $title:
