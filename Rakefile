@@ -68,7 +68,7 @@ namespace :spec do
     module_list.compact!
     module_list.uniq!
     specs = module_list.map do |module_name|
-      finder.puppet_module(module_name).specs
+      finder.puppet_module(module_name).specs if finder.puppet_module(module_name)
     end
     specs.flatten!
     SpecRunnerTask.execute(specs)

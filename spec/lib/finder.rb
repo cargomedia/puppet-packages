@@ -61,7 +61,6 @@ module PuppetModules
     # @return [Module]
     def puppet_module(name)
       module_dir = @modules_dir.join(name)
-      raise "Module #{name} not found" unless module_dir.directory?
       Module.new(name, module_dir)
     end
 
