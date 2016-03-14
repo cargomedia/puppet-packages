@@ -6,7 +6,7 @@ define janus::role::streaming::cluster_member (
   $rtp_port_range_max = 25000,
   $nat_1_1_mapping = undef,
   $core_dump = true,
-  $http_port = 8310,
+  $http_port = 8300,
   $http_base_path = '/janus',
   $http_admin_base_path = '/janus',
   $http_acl = undef,
@@ -20,6 +20,9 @@ define janus::role::streaming::cluster_member (
   $rtpb_minport = 8000,
   $rtpb_maxport = 9000,
   $rtpb_source_avg_time = 10,
+  $rtpb_switching_delay = 1,
+  $rtpb_session_info_update_time = 10,
+  $rtpb_keyframe_distance_alert = 600,
   $rest_url = undef,
 ) {
 
@@ -55,7 +58,7 @@ define janus::role::streaming::cluster_member (
     ws_acl     => $ws_acl,
   }
 
-  $rest_url_final = $plugin_rest_url ? { undef => "http://localhost:${http_port}${http_base_path}", default => $rest_url }
+  $rest_url_final = $rest_url ? { undef => "http://localhost:${http_port}${http_base_path}", default => $rest_url }
 
   janus::plugin::rtpbroadcast { $name:
     prefix                   => $janus::cluster::prefix,
