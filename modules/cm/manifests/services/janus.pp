@@ -17,7 +17,7 @@ define cm::services::janus(
   $rtpbroadcast_minport = 8400,
   $rtpbroadcast_maxport = 9000,
 
-  $recording_enabled = 'yes',
+  $recording_enabled = true,
   $ufw_app_profile = undef,
 
   $janus_http_port = 8300,
