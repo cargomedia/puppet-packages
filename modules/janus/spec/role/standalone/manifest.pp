@@ -11,6 +11,7 @@ node default {
       transport_http_admin_secure_port  => 8303,
       plugin_rtpb_minport               => 18000,
       plugin_rtpb_maxport               => 20000,
+      plugin_jobs_path                  => '/var/lib/janus/jobs1',
     },
     'instance2' => {
       rtp_port_range_min                => 15000,
@@ -22,6 +23,7 @@ node default {
       transport_http_admin_secure_port  => 9303,
       plugin_rtpb_minport               => 20001,
       plugin_rtpb_maxport               => 22000,
+      plugin_jobs_path                  => '/var/lib/janus/jobs2',
     }
   }
 

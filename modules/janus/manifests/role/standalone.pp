@@ -93,6 +93,13 @@ define janus::role::standalone (
 
   $rest_url = $plugin_rest_url ? { undef => "http://localhost:${transport_http_port}${transport_http_base_path}", default => $plugin_rest_url }
 
+  file { $plugin_jobs_path:
+    ensure  => directory,
+    owner   => 'janus',
+    group   => 'janus',
+    mode    => '0777',
+  }
+
   janus::plugin::audioroom { $title:
     prefix            => $janus::cluster::prefix,
     recording_enabled => $plugin_recording_enabled,

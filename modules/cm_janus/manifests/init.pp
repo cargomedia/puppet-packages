@@ -65,4 +65,8 @@ define cm_janus (
     args    => "/usr/bin/cm-janus -c ${config_file}",
     user    => 'cm-janus',
   }
+
+  if defined(File[$jobs_path]) {
+    File[$jobs_path] -> Daemon[$instance_name]
+  }
 }
