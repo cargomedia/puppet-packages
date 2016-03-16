@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'ffmpeg' do
 
-  describe package('ffmpeg') do
+  describe package('ffmpeg-cm') do
     it { should be_installed }
   end
 
