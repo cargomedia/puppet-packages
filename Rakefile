@@ -67,6 +67,7 @@ namespace :spec do
     end
     module_list.compact!
     module_list.uniq!
+    module_list.select! { |module_name| finder.puppet_module?(module_name) }
     specs = module_list.map do |module_name|
       finder.puppet_module(module_name).specs
     end
