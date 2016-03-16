@@ -2,9 +2,12 @@ class puppet::common(
   $basemodulepath = '/etc/puppet/modules'
 ) {
 
+  require 'apt'
+
   helper::script { 'install puppet apt sources':
     content => template("${module_name}/install-apt-sources.sh"),
     unless  => "dpkg-query -f '\${Status}\n' -W puppetlabs-release* | grep -q 'ok installed'",
+    require => Class['apt::update'],
   }
 
   file { '/var/lib/puppet':
