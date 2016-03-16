@@ -3,6 +3,7 @@ class rsyslog(
 ) {
 
   require 'apt'
+  include 'rsyslog::service'
 
   file {
     '/etc/rsyslog.conf':
@@ -38,10 +39,5 @@ class rsyslog(
   package { 'rsyslog':
     ensure   => present,
     provider => 'apt',
-  }
-
-  service { 'rsyslog':
-    enable  => true,
-    require => Package['rsyslog'],
   }
 }

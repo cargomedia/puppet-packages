@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'rsyslog' do
+describe 'rsyslog::default' do
 
   describe file('/etc/rsyslog.conf') do
     it { should be_file }
