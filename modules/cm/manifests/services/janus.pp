@@ -29,6 +29,8 @@ define cm::services::janus(
   $transport_http_admin_secure_port = 8303,
 ) {
 
+  include 'janus::cluster'
+
   $jobs_path = "${::janus::cluster::prefix}/${title}/var/lib/janus/jobs"
 
   include 'cm_janus::cluster'
