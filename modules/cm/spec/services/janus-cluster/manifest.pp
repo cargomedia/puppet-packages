@@ -70,8 +70,6 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
     transport_http_secure_port       => 8301,
     transport_http_admin_port        => 8302,
     transport_http_admin_secure_port => 8303,
-
-    jobs_path                        => '/opt/janus-cluster/standalone1/var/lib/janus/jobs',
   }
 
   cm::services::janus { 'standalone2':
@@ -96,8 +94,6 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
     transport_http_secure_port       => 18301,
     transport_http_admin_port        => 18302,
     transport_http_admin_secure_port => 18303,
-
-    jobs_path                        => '/opt/janus-cluster/standalone2/var/lib/janus/jobs',
   }
 
   cm::services::janus { 'standalone3':
@@ -122,7 +118,5 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
     transport_http_secure_port       => 28301,
     transport_http_admin_port        => 28302,
     transport_http_admin_secure_port => 28303,
-
-    jobs_path                        => '/opt/janus-cluster/standalone2/var/lib/janus/jobs',
   }
 }

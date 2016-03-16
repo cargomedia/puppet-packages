@@ -1,6 +1,6 @@
 define janus::plugin::audioroom(
   $prefix = undef,
-  $recording_enabled = 'yes',
+  $recording_enabled = true,
   $recording_pattern = 'rec-#{id}-#{time}-#{type}',
   $job_pattern = 'job-#{md5}',
   $rest_url = 'http://127.0.0.1:8088/janus',
