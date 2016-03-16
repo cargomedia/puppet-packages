@@ -91,16 +91,11 @@ define janus::role::standalone (
     admin_secure_port => $transport_http_admin_secure_port,
   }
 
-  $rec_enabled = $plugin_recording_enabled ? {
-    false => 'no',
-    default => 'yes'
-  }
-
   $rest_url = $plugin_rest_url ? { undef => "http://localhost:${transport_http_port}${transport_http_base_path}", default => $plugin_rest_url }
 
   janus::plugin::audioroom { $title:
     prefix            => $janus::cluster::prefix,
-    recording_enabled => $rec_enabled,
+    recording_enabled => $plugin_recording_enabled,
     recording_pattern => $plugin_recording_pattern,
     job_pattern       => $plugin_job_pattern,
     jobs_path         => $plugin_jobs_path,
@@ -115,7 +110,7 @@ define janus::role::standalone (
     switching_delay          => $plugin_rtpb_switching_delay,
     session_info_update_time => $plugin_rtpb_session_info_update_time,
     keyframe_distance_alert  => $plugin_rtpb_keyframe_distance_alert,
-    recording_enabled        => $rec_enabled,
+    recording_enabled        => $plugin_recording_enabled,
     recording_pattern        => $plugin_recording_pattern,
     job_pattern              => $plugin_job_pattern,
     jobs_path                => $plugin_jobs_path,

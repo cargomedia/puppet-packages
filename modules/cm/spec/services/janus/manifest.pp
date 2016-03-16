@@ -65,8 +65,6 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
 
     rtpbroadcast_minport  => 8400,
     rtpbroadcast_maxport  => 9000,
-
-    jobs_path             => '/opt/janus-cluster/standalone/var/lib/janus/jobs/',
     require               => Nginx::Resource::Vhost['cm-api-mock'],
   }
 
