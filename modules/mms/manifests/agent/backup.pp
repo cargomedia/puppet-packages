@@ -6,6 +6,7 @@ class mms::agent::backup (
 
 # Docu: https://docs.mms.mongodb.com/tutorial/install-backup-agent-with-deb-package/
 
+  require 'apt'
   require 'mms'
 
   $agent_name = 'mms-backup'
@@ -14,6 +15,7 @@ class mms::agent::backup (
   helper::script { 'install-mms-backup':
     content => template("${module_name}/install.sh"),
     unless  => "(test -x /usr/bin/mongodb-${agent_name}-agent) && (/usr/bin/mongodb-${agent_name}-agent -version | grep -q ${version})",
+    require => Class['apt::update'],
   }
 
   file { '/etc/mongodb-mms/backup-agent.config':
