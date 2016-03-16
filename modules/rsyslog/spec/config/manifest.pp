@@ -8,7 +8,7 @@ node default {
   }
   ->
 
-  rsyslog::entry { 'foo':
+  rsyslog::config { 'foo':
     content => ':msg,contains,"[FOO]" /var/log/foo.log',
   }
 

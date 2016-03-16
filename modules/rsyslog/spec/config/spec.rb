@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'rsyslog::entry' do
+describe 'rsyslog::config' do
 
   describe file('/var/log/foo.log') do
     it { should be_file }

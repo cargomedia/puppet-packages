@@ -1,4 +1,4 @@
-define rsyslog::entry($content) {
+define rsyslog::config($content) {
 
   include 'rsyslog'
 
