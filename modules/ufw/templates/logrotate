@@ -1,0 +1,12 @@
+/var/log/ufw/ufw.log {
+	rotate 7
+	daily
+	delaycompress
+	compress
+	notifempty
+	missingok
+	create 644
+	postrotate
+		/etc/init.d/rsyslog rotate > /dev/null 2>&1 || true
+	endscript
+}
