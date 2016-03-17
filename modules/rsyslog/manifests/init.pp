@@ -19,13 +19,10 @@ class rsyslog(
       group     => '0',
       mode      => '0644',
       notify    => Service['rsyslog'];
-    '/etc/rsyslog.d/50-default.conf':
-      ensure  => file,
-      owner   => '0',
-      group   => '0',
-      mode    => '0644',
-      content => template("${module_name}/rules.conf.erb"),
-      notify    => Service['rsyslog'];
+  }
+
+  rsyslog::config { '50-default':
+    content => template("${module_name}/rules.conf.erb"),
   }
 
   file { '/var/log/syslog':
