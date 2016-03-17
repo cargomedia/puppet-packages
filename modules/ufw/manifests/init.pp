@@ -8,6 +8,11 @@ class ufw {
     provider => 'apt',
   }
 
+  $rsyslog_stop_command = $::lsbdistcodename ? {
+    'wheezy' => '~',
+    default => 'stop',
+  }
+
   file { '/etc/ufw/applications.d':
     ensure  => directory,
     owner   => '0',
@@ -33,7 +38,7 @@ class ufw {
   ->
 
   rsyslog::config { '20-ufw':
-    content => template("${module_name}/rsyslog"),
+    content => template("${module_name}/rsyslog.erb"),
   }
   ->
 
