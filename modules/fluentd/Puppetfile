@@ -1,0 +1,11 @@
+mod 'cargomedia/ruby',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/ruby'
+
+mod 'cargomedia/daemon',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/daemon'
+
+mod 'cargomedia/logrotate',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/logrotate'
