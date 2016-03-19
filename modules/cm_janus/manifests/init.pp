@@ -52,11 +52,23 @@ define cm_janus (
     plugin  => 'log-parser',
     options => {
       'metric_group' => 'cm-janus',
-      'path' => $log_file,
-      'matchers' => [
-        { 'name' => 'error',
+      'path'         => $log_file,
+      'matchers'     => [
+        { 'name'   => 'error',
           'regexp' => '^[\d\-\:\s\.]+ERROR' }
       ]
+    }
+  }
+
+  @fluentd::config::source{ $instance_name:
+    type   => 'tail',
+    config => {
+      path        => $log_file,
+      pos_file    => "${log_file}.pos",
+      format      => 'json',
+      time_key    => 'time',
+      time_format => '%FT%T%:z',
+      tag         => 'cm-janus',
     }
   }
 
