@@ -161,9 +161,12 @@ module PuppetModules
 
     # @return [SpecResult]
     def run_spec_in_box(spec, box)
-      env = {'box' => box}
+      env = { 'box' => box }
+      env['debug'] = ENV['debug'] if ENV.key?('debug')
+      env['keep_box'] = ENV['keep_box'] if ENV.key?('keep_box')
+
       command = ['bundle', 'exec', 'rspec', '--format', 'json', spec.file.to_s]
-      process = Komenda.create(command, {:env => env})
+      process = Komenda.create(command, { :env => env })
       runner = self
       process.on :stderr do |data|
         runner.emit(:output, data)
