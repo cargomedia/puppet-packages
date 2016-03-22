@@ -1,9 +1,5 @@
 class fluentd {
 
-  # If "ruby" is not included, specs fail on Debian-7, because the fluentd ruby process can't be restarted
-  # Possibly related to https://github.com/fluent/fluentd/issues/672
-  include 'ruby'
-
   ruby::gem { 'fluentd':
     ensure => latest,
   }
@@ -51,7 +47,7 @@ class fluentd {
 
   daemon { 'fluentd':
     binary  => '/usr/local/bin/fluentd',
-    args    => '-c /etc/fluentd/fluent.conf -o /var/log/fluentd/fluentd.log',
+    args    => '-c /etc/fluentd/fluent.conf -o /var/log/fluentd/fluentd.log --no-supervisor',
     user    => 'fluentd',
     require => [Ruby::Gem['fluentd'], File['/etc/fluentd/fluent.conf'], File['/var/log/fluentd'], User['fluentd']],
   }
