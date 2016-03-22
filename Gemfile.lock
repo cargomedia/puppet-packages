@@ -14,12 +14,12 @@ GEM
       json_pure
     indentation (0.1.1)
     json_pure (1.8.3)
-    komenda (0.1.4)
+    komenda (0.1.5)
       events (~> 0.9.8)
     multi_json (1.11.2)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
-    net-ssh (3.0.2)
+    net-ssh (2.9.4)
     net-telnet (0.1.1)
     numerizer (0.1.1)
     puppet (3.8.6)
@@ -52,7 +52,7 @@ GEM
       rspec-its
       specinfra (~> 2.53)
     sfl (2.2)
-    specinfra (2.53.1)
+    specinfra (2.54.1)
       net-scp
       net-ssh (>= 2.7, < 3.1)
       net-telnet
@@ -67,6 +67,7 @@ DEPENDENCIES
   event_emitter (~> 0.2.5)
   indentation (~> 0.1.1)
   komenda (~> 0.1.4)
+  net-ssh (~> 2.9.4)
   puppet (~> 3.7)
   puppet-lint (~> 1.1)
   puppet-syntax (~> 1.4)
