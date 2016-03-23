@@ -60,16 +60,12 @@ define cm_janus (
     }
   }
 
-  @fluentd::config::source{ $instance_name:
-    type   => 'tail',
-    config => {
-      path        => $log_file,
-      pos_file    => "${log_file}.pos",
-      format      => 'json',
-      time_key    => 'time',
-      time_format => '%FT%T%:z',
-      tag         => 'cm-janus',
-    }
+  @fluentd::config::source_tail{ $instance_name:
+    path        => $log_file,
+    fluentd_tag => 'cm-janus',
+    format      => 'json',
+    time_key    => 'time',
+    time_format => '%FT%T.%L%:z',
   }
 
   daemon { $instance_name:
