@@ -29,6 +29,13 @@ class fluentd {
     recurse => true,
   }
 
+  file { '/var/lib/fluentd':
+    ensure => directory,
+    owner  => 'fluentd',
+    group  => 'fluentd',
+    mode   => '0644',
+  }
+
   file { '/var/lib/fluentd/tail_pos':
     ensure => file,
     owner  => 'fluentd',
