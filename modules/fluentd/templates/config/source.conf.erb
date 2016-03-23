@@ -1,6 +1,6 @@
 <source>
   @type <%= @type %>
-<% @config.each do |key, val| -%>
+<% @config.reject {|_,v| v == :undef}.each do |key, val| -%>
   <%= key %> <%= val %>
 <% end -%>
 </source>
