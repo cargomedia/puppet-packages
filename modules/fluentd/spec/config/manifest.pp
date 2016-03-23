@@ -23,6 +23,16 @@ node default {
     priority => 2,
   }
 
+  fluentd::config::source_tail{ 'my-source-3':
+    path        => '/tmp/foo3',
+    fluentd_tag => 'my-source',
+  }
+
+  fluentd::config::source_tail{ 'my-source-4':
+    path        => '/tmp/foo4',
+    fluentd_tag => 'my-source',
+  }
+
   fluentd::config::match{ 'my-match-1':
     type     => 'file',
     pattern  => 'match1.**',

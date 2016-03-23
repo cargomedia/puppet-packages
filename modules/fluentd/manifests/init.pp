@@ -29,6 +29,13 @@ class fluentd {
     recurse => true,
   }
 
+  file { '/var/lib/fluentd/tail_pos':
+    ensure => file,
+    owner  => 'fluentd',
+    group  => 'fluentd',
+    mode   => '0644',
+  }
+
   file { '/var/log/fluentd':
     ensure => directory,
     owner  => 'fluentd',
@@ -52,7 +59,8 @@ class fluentd {
     require => [Ruby::Gem['fluentd'], File['/etc/fluentd/fluent.conf'], File['/var/log/fluentd'], User['fluentd']],
   }
 
-  Fluentd::Config::Source <||>
   Fluentd::Config::Match <||>
+  Fluentd::Config::Source <||>
+  Fluentd::Config::Source_tail <||>
 
 }
