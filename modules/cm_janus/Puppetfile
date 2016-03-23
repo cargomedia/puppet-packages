@@ -29,3 +29,7 @@ mod 'cargomedia/mjr_convert',
 mod 'cargomedia/lame',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/lame'
+
+mod 'cargomedia/fluentd',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/fluentd'
