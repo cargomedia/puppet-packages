@@ -28,7 +28,7 @@ describe 'satis::repo' do
     it { should be_readable.by_user('nginx') }
   end
 
-  describe command('grep -r "https://example.com/bar/dist/twig-twig-ca445842fcea4f844d68203ffa2d00f5e3cdea64-zip-db7c39.zip" /var/lib/satis/public/bar/include') do
+  describe command('grep -r "https://example.local/bar/dist/twig-twig-ca445842fcea4f844d68203ffa2d00f5e3cdea64-zip-db7c39.zip" /var/lib/satis/public/bar/include') do
     its(:exit_status) { should eq 0 }
   end
 
@@ -38,7 +38,7 @@ describe 'satis::repo' do
     it { should be_readable.by_user('nginx') }
   end
 
-  describe command('curl --proxy "" -vkL http://example.local') do
+  describe command('curl --proxy "" -vkL http://example.local/foo') do
     its(:stderr) { should match /https+.*example\.local/}
     its(:stderr) { should match /200 OK/}
     its(:stdout) { should match /foo Composer Repository/}
