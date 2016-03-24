@@ -1,9 +1,0 @@
-<VirtualHost *:80>
-	ServerName <%= @hostname %>
-	DocumentRoot /var/lib/satis/public/
-
-	<Directory /var/lib/satis/public>
-		Options FollowSymlinks
-		AllowOverride None
-	</Directory>
-</VirtualHost>
