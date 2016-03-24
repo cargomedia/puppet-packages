@@ -72,6 +72,6 @@ define cm_janus (
     binary    => '/usr/bin/node',
     args      => "/usr/bin/cm-janus -c ${config_file}",
     user      => 'cm-janus',
-    subscribe => Package['cm-janus']
+    subscribe => Package['cm-janus'],
   }
 }
