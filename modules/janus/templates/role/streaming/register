@@ -1,0 +1,3 @@
+#!/bin/bash
+
+curl -XPOST -H 'Content-Type: application/json' -d '<%= @content %>' <%= @url %>
