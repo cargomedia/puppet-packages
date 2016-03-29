@@ -12,7 +12,8 @@ describe 'satis' do
     it { should be_owned_by 'satis' }
   end
 
-  describe port(80) do
-    it { should be_listening }
+  describe command('curl --proxy "" -vkL http://foo.local') do
+    its(:stderr) { should match /https+.*foo\.local/}
+    its(:stderr) { should match /403 Forbidden/}
   end
 end
