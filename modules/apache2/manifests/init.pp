@@ -32,4 +32,13 @@ class apache2 {
     ensure   => present,
     provider => 'apt',
   }
+  ~>
+
+  exec { 'Disable 000-default page and ports':
+    command     => 'a2dissite 000-default',
+    provider    => shell,
+    path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    refreshonly => true,
+    notify => Service['apache2'],
+  }
 }
