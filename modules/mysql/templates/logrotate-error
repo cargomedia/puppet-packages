@@ -1,9 +1,0 @@
-/var/log/mysql.err {
-	rotate 12
-	weekly
-	create 0644 mysql root
-	missingok
-	notifempty
-	compress
-	delaycompress
-}
