@@ -1,15 +1,9 @@
-$logrotate_conf = '
-/var/log/foo/*.log {
-  create
-  rotate 7
-  daily
-  missingok
-  delaycompress
-  compress
+$additional_config = '
+  ifempty
   postrotate
     echo "*" >> /tmp/test
   endscript
-}'
+'
 
 node default {
 
@@ -23,6 +17,10 @@ node default {
   ->
 
   logrotate::entry{ 'foo':
-    content => $logrotate_conf,
+    path => '/var/log/foo/*.log',
+    rotation_frequency => 'daily',
+    rotation_newfile => 'copytruncate',
+    versions_to_keep => 10,
+    additional_config => $additional_config,
   }
 }

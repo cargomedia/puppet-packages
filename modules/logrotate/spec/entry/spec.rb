@@ -1,12 +1,10 @@
 require 'spec_helper'
 
 spec_commands = [
-  'rotate 7',
-  'compress',
+  'rotate 10',
   'daily',
-  'create',
-  'delaycompress',
-  'missingok'
+  'copytruncate',
+  'ifempty',
 ]
 
 logrotate_file = '/etc/logrotate.d/foo'
@@ -25,7 +23,7 @@ describe 'logrotate::entry' do
   end
 
   2.times do
-    describe command("logrotate -f " + logrotate_file) do
+    describe command("logrotate -f /etc/logrotate.conf") do
       its(:exit_status) { should eq 0 }
     end
   end
