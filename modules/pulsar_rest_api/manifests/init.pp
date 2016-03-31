@@ -81,7 +81,10 @@ class pulsar_rest_api (
   }
 
   logrotate::entry{ $module_name:
-    content => template("${module_name}/logrotate")
+    path => "${log_dir}/*.log",
+    rotation_frequency => 12,
+    rotation_newfile => 'copytruncate',
+    require => File[$log_dir],
   }
 
   @monit::entry { 'pulsar-rest-api':
