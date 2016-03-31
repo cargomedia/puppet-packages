@@ -80,7 +80,14 @@ define mongodb::core::mongos (
     }
   }
 
-  logrotate::entry{ $instance_name:
-    content => template("${module_name}/logrotate")
+  $postrotate = "
+	postrotate
+		kill -USR1 $(cat /var/run/${instance_name}.pid)
+	endscript"
+
+  logrotate::entry { $instance_name:
+    path               => "/var/log/mongodb/${instance_name}.log",
+    rotation_frequency => 12,
+    additional_config  => $postrotate,
   }
 }

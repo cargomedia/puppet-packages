@@ -84,13 +84,21 @@ define mongodb::core::mongod (
     plugin  => 'mongodb',
     options => {
       'hostname' => $hostName,
-      'port' => $port,
-      'user' => $monitoring_credentials['user'],
+      'port'     => $port,
+      'user'     => $monitoring_credentials['user'],
       'password' => $monitoring_credentials['password'],
     }
   }
 
-  logrotate::entry{ $instance_name:
-    content => template("${module_name}/logrotate")
+  $postrotate = "
+	postrotate
+		kill -USR1 $(cat /var/run/${instance_name}.pid)
+	endscript"
+
+  logrotate::entry { $instance_name:
+    path               => "/var/log/mongodb/${instance_name}.log",
+    rotation_frequency => 12,
+    additional_config  => $postrotate,
   }
+
 }
