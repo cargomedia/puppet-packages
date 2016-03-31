@@ -40,10 +40,18 @@ class ufw {
   rsyslog::config { '20-ufw':
     content => template("${module_name}/rsyslog.erb"),
   }
-  ->
 
-  logrotate::entry { $module_name:
-    content => template("${module_name}/logrotate")
+  $logrotate_additional = '
+	postrotate
+		/etc/init.d/rsyslog rotate > /dev/null 2>&1 || true
+	endscript
+'
+
+  logrotate::entry{ $module_name:
+    path              => '/var/log/ufw/ufw.log',
+    rotation_newfile  => 'create 644',
+    additional_config => $logrotate_additional,
+    require           => [File['/var/log/ufw'],Rsyslog::Config['20-ufw']],
   }
 
   Ufw::Application <| |> -> Exec['Activate ufw']
