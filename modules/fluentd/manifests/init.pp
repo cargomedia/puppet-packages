@@ -51,7 +51,9 @@ class fluentd {
   }
 
   logrotate::entry{ $module_name:
-    content => template("${module_name}/logrotate"),
+    path             => '/var/log/fluentd/*.log',
+    rotation_newfile => 'copytruncate',
+    require          => File['/var/log/fluentd'],
   }
 
   user { 'fluentd':
