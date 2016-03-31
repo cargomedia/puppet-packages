@@ -97,8 +97,12 @@ class socket_redis (
   }
 
   logrotate::entry{ $module_name:
-    content => template("${module_name}/logrotate")
+    path               => "${logDir}/*.log",
+    versions_to_keep   => 12,
+    rotation_newfile   => 'copytruncate',
+    require            => File[$log_dir],
   }
+
 
   sysvinit::script { 'socket-redis':
     content           => template("${module_name}/init.sh"),

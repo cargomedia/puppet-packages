@@ -97,7 +97,7 @@ define mongodb::core::mongod (
 
   logrotate::entry { $instance_name:
     path               => "/var/log/mongodb/${instance_name}.log",
-    rotation_frequency => 12,
+    versions_to_keep   => 12,
     additional_config  => $postrotate,
   }
 

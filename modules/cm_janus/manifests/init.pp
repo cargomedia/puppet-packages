@@ -46,7 +46,7 @@ define cm_janus (
 
   logrotate::entry { $instance_name:
     path               => $log_file,
-    rotation_frequency => 12,
+    versions_to_keep   => 12,
     rotation_newfile   => 'copytruncate',
   }
 
