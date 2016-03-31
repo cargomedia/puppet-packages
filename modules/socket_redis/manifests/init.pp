@@ -100,7 +100,7 @@ class socket_redis (
     path               => "${logDir}/*.log",
     versions_to_keep   => 12,
     rotation_newfile   => 'copytruncate',
-    require            => File[$log_dir],
+    require            => File[$socket_redis::log_dir],
   }
 
 
