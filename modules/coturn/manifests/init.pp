@@ -49,7 +49,9 @@ class coturn (
   }
 
   logrotate::entry{ $module_name:
-    content => template("${module_name}/logrotate")
+    path             => '/var/log/coturn/*.log',
+    rotation_newfile => 'copytruncate',
+    require          => File['/var/log/coturn'],
   }
 
   @bipbip::entry { 'coturn':
