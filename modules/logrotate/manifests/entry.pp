@@ -1,9 +1,11 @@
 define logrotate::entry (
   $path,
-  $versions_to_keep = 12,
+  $versions_to_keep = 14,
   $rotation_frequency = 'daily',
-  $rotation_newfile = 'create',
-  $additional_config = undef,
+  $rotation_newfile = 'copytruncate',
+  $rotate_ifempty = false,
+  $postrotate_script = undef,
+
 ) {
 
   require 'logrotate'

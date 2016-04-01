@@ -1,10 +1,3 @@
-$additional_config = '
-  ifempty
-  postrotate
-    echo "*" >> /tmp/test
-  endscript
-'
-
 node default {
 
   file { '/var/log/foo':
@@ -19,8 +12,9 @@ node default {
   logrotate::entry{ 'foo':
     path => '/var/log/foo/*.log',
     rotation_frequency => 'daily',
-    rotation_newfile => 'copytruncate',
+    rotation_newfile => 'create 0640',
     versions_to_keep => 10,
-    additional_config => $additional_config,
+    postrotate_script => 'echo "*" >> /tmp/test',
+    rotate_ifempty => true,
   }
 }

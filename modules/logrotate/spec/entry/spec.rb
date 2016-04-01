@@ -3,7 +3,7 @@ require 'spec_helper'
 spec_commands = [
   'rotate 10',
   'daily',
-  'copytruncate',
+  'create 0640',
   'ifempty',
 ]
 
