@@ -95,12 +95,11 @@ class socket_redis (
     mode    => '0755',
     require => User['socket-redis']
   }
+  ->
 
   logrotate::entry { $module_name:
     path    => "${logDir}/*.log",
-    require => File[$socket_redis::log_dir],
   }
-
 
   sysvinit::script { 'socket-redis':
     content           => template("${module_name}/init.sh"),
