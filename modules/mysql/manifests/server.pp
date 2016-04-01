@@ -123,8 +123,6 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
 
   logrotate::entry { 'mysql-server-error':
     path               => $error_log,
-    rotation_frequency => 'weekly',
-    versions_to_keep   => 12,
     rotation_newfile   => 'create 0644 mysql root',
     before             => Package['mysql-server'],
     require            => File[$error_log],

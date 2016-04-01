@@ -9,7 +9,7 @@ node default {
   }
   ->
 
-  logrotate::entry{ 'foo':
+  logrotate::entry { 'foo':
     path => '/var/log/foo/*.log',
     rotation_frequency => 'daily',
     rotation_newfile => 'create 0640',

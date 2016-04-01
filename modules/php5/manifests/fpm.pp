@@ -52,20 +52,13 @@ class php5::fpm {
     notify => Service['php5-fpm'],
   }
 
-  $logrotate_postrotate = '
-  	postrotate
-		invoke-rc.d php5-fpm reopen-logs > /dev/null
-	endscript
-'
-
-  logrotate::entry{ 'php5-fpm':
-    path               => '/var/log/php5-fpm/php5-fpm.log',
-    rotation_newfile   => 'create 0644 root root',
-    rotation_frequency => 'weekly',
-    before             => Package['php5-fpm'],
-    require            => File['/var/log/php5-fpm'],
+  logrotate::entry { 'php5-fpm':
+    path              => '/var/log/php5-fpm/php5-fpm.log',
+    rotation_newfile  => 'create 0644',
+    postrotate_script => 'invoke-rc.d php5-fpm reopen-logs > /dev/null',
+    before            => Package['php5-fpm'],
+    require           => File['/var/log/php5-fpm'],
   }
-
 
   package { 'php5-fpm':
     ensure   => present,

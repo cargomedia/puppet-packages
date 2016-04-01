@@ -50,10 +50,9 @@ class fluentd {
     mode   => '0644',
   }
 
-  logrotate::entry{ $module_name:
-    path             => '/var/log/fluentd/*.log',
-    rotation_newfile => 'copytruncate',
-    require          => File['/var/log/fluentd'],
+  logrotate::entry { $module_name:
+    path    => '/var/log/fluentd/*.log',
+    require => File['/var/log/fluentd'],
   }
 
   user { 'fluentd':

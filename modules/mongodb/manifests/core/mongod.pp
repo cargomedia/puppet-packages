@@ -90,15 +90,9 @@ define mongodb::core::mongod (
     }
   }
 
-  $postrotate = "
-	postrotate
-		kill -USR1 $(cat /var/run/${instance_name}.pid)
-	endscript"
-
   logrotate::entry { $instance_name:
-    path               => "/var/log/mongodb/${instance_name}.log",
-    versions_to_keep   => 12,
-    additional_config  => $postrotate,
+    path              => "/var/log/mongodb/${instance_name}.log",
+    postrotate_script => "kill -USR1 $(cat /var/run/${instance_name}.pid)",
+    require           => File['/var/log/mongodb'],
   }
-
 }

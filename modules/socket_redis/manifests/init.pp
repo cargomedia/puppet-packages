@@ -96,11 +96,9 @@ class socket_redis (
     require => User['socket-redis']
   }
 
-  logrotate::entry{ $module_name:
-    path               => "${logDir}/*.log",
-    versions_to_keep   => 12,
-    rotation_newfile   => 'copytruncate',
-    require            => File[$socket_redis::log_dir],
+  logrotate::entry { $module_name:
+    path    => "${logDir}/*.log",
+    require => File[$socket_redis::log_dir],
   }
 
 

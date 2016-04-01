@@ -48,10 +48,9 @@ class coturn (
       notify  => Service['coturn'];
   }
 
-  logrotate::entry{ $module_name:
-    path             => '/var/log/coturn/*.log',
-    rotation_newfile => 'copytruncate',
-    require          => File['/var/log/coturn'],
+  logrotate::entry { $module_name:
+    path    => '/var/log/coturn/*.log',
+    require => File['/var/log/coturn'],
   }
 
   @bipbip::entry { 'coturn':

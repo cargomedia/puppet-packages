@@ -60,8 +60,8 @@ define janus::server (
   $config_file = "${instance_base_dir}/etc/janus/janus.cfg"
 
   logrotate::entry { $instance_name:
-    path             => $log_file,
-    rotation_newfile => 'copytruncate',
+    path    => $log_file,
+    require => File[$log_file],
   }
 
   file {

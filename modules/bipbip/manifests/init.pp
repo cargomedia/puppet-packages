@@ -60,9 +60,8 @@ class bipbip (
   }
 
   logrotate::entry { $module_name:
-    path             => '/var/log/bipbip/*.log',
-    rotation_newfile => 'copytruncate',
-    require          => File['/var/log/bipbip'],
+    path    => '/var/log/bipbip/*.log',
+    require => File['/var/log/bipbip'],
   }
 
   daemon { 'bipbip':

@@ -30,11 +30,9 @@ class php5 {
     mode   => '0755',
   }
 
-  logrotate::entry{ $module_name:
-    path               => '/var/log/php/error.log',
-    rotation_frequency => 'weekly',
-    rotation_newfile   => 'copytruncate',
-    require            => File['/var/log/php'],
+  logrotate::entry { $module_name:
+    path    => '/var/log/php/error.log',
+    require => File['/var/log/php'],
   }
 
   php5::config { '/etc/php5/cli/php.ini':
