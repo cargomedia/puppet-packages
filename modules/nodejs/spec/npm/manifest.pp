@@ -2,7 +2,7 @@ node default {
 
   require 'nodejs'
 
-  package { 'redis':
+  package { 'socket-redis':
     provider => 'npm',
     require  => Class['nodejs'],
   }
