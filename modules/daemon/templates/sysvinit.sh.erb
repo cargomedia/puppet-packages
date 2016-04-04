@@ -18,7 +18,7 @@ USER='<%= @user %>'
 <% unless @env.empty? %>
 export<% @env.each do |name, value| -%> <%= name %>='<%= value %>'<% end -%>
 <% end %>
-<% @final_signal = @forced_exit ? 'KILL' : 'TERM' -%>
+<% @final_signal = @sysvinit_kill ? 'KILL' : 'TERM' -%>
 
 set -e
 . /lib/lsb/init-functions
