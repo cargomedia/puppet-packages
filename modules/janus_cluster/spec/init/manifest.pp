@@ -1,6 +1,6 @@
 node default {
 
-  class { janus_cluster:
+  class { 'janus_cluster':
     port =>  8801,
   }
 }
