@@ -10,7 +10,7 @@ User=<%= @user %>
 <% if @oom_score_adjust %>OOMScoreAdjust=<%= @oom_score_adjust %><% end %>
 TimeoutStopSec=<%= @stop_timeout %>
 KillMode=mixed
-Restart=always
+Restart=<% @forced_exit ? 'no' : 'always' %>
 <% if @limit_nofile %>LimitNOFILE=<%= @limit_nofile %><% end %>
 <% if @core_dump %>LimitCORE=infinity<% end %>
 <% @env.each do |name, value| -%>

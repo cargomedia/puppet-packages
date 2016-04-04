@@ -8,6 +8,7 @@ define daemon (
   $env = {},
   $limit_nofile = undef,
   $core_dump = false,
+  $forced_exit = false,
 ) {
 
   if (defined(User[$user])) {

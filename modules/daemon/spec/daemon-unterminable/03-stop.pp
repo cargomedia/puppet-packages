@@ -5,6 +5,7 @@ node default {
       command => '/etc/init.d/my-program stop || echo "stop failed" >> /tmp/spec-log'
     }
   }
+
   if ($::service_provider == 'systemd') {
     service { 'my-program':
       ensure   => 'stopped',
@@ -12,4 +13,8 @@ node default {
     }
   }
 
+  service { 'my-program-killable':
+    ensure   => 'stopped',
+    provider => $::service_provider,
+  }
 }

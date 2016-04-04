@@ -18,4 +18,10 @@ node default {
     stop_timeout => 3,
   }
 
+  daemon { 'my-program-killable':
+    binary       => '/tmp/my-program',
+    user         => 'alice',
+    forced_exit  => true,
+    stop_timeout => 3,
+  }
 }

@@ -18,6 +18,7 @@ USER='<%= @user %>'
 <% unless @env.empty? %>
 export<% @env.each do |name, value| -%> <%= name %>='<%= value %>'<% end -%>
 <% end %>
+<% @final_signal = @forced_exit ? 'KILL' : 'TERM' -%>
 
 set -e
 . /lib/lsb/init-functions
@@ -47,7 +48,7 @@ case "${1}" in
 	;;
 	stop)
 		log_daemon_msg "Stopping ${DESC}" "${NAME}"
-		if (start-stop-daemon --stop --oknodo --retry TERM/<%= @stop_timeout %>/TERM/<%= @stop_timeout %> --pidfile "${PIDFILE}" --user "${USER}"); then
+		if (start-stop-daemon --stop --oknodo --retry TERM/<%= @stop_timeout %>/<%= @final_signal %>/<%= @stop_timeout %> --pidfile "${PIDFILE}" --user "${USER}"); then
 			rm -f "${PIDFILE}"
 			log_end_msg 0
 		else
