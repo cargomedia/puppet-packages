@@ -53,6 +53,7 @@ janus-pp-rec $audioMjr $audioSource
 command="ffmpeg -i $videoSource -i $audioSource $ffmpegParams $outputFile"
 echo $command
 $command
+test -f "${outputFile}" || error "No output file generated"
 
 rm $videoSource
 rm $audioSource
