@@ -1,0 +1,12 @@
+<match <%= @pattern %>>
+  @type <%= @type %>
+  subtype <%= @subtype %>
+<% @config.reject {|_,v| v == :undef}.each do |key, val| -%>
+  <%= key %> <%= val %>
+<% end -%>
+  <template>
+<% @template.reject {|_,v| v == :undef}.each do |key, val| -%>
+    <%= key %> <%= val %>
+<% end -%>
+  </template>
+</match>
