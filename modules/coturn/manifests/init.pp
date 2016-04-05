@@ -50,7 +50,6 @@ class coturn (
 
   logrotate::entry { $module_name:
     path    => '/var/log/coturn/*.log',
-    require => File['/var/log/coturn'],
   }
 
   @bipbip::entry { 'coturn':

@@ -57,7 +57,6 @@ class php5::fpm {
     rotation_newfile  => 'create 0644',
     postrotate_script => 'invoke-rc.d php5-fpm reopen-logs > /dev/null',
     before            => Package['php5-fpm'],
-    require           => File['/var/log/php5-fpm'],
   }
 
   package { 'php5-fpm':

@@ -61,7 +61,6 @@ define janus::server (
 
   logrotate::entry { $instance_name:
     path    => $log_file,
-    require => File[$log_file],
   }
 
   file {

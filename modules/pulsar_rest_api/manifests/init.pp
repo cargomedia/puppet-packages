@@ -82,7 +82,6 @@ class pulsar_rest_api (
 
   logrotate::entry { $module_name:
     path    => "${log_dir}/*.log",
-    require => File[$log_dir],
   }
 
   @monit::entry { 'pulsar-rest-api':

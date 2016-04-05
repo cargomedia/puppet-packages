@@ -32,7 +32,6 @@ class php5 {
 
   logrotate::entry { $module_name:
     path    => '/var/log/php/error.log',
-    require => File['/var/log/php'],
   }
 
   php5::config { '/etc/php5/cli/php.ini':

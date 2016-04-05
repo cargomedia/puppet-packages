@@ -125,7 +125,6 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
     path               => $error_log,
     rotation_newfile   => 'create 0644 mysql root',
     before             => Package['mysql-server'],
-    require            => File[$error_log],
   }
 
   @monit::entry { 'mysql':

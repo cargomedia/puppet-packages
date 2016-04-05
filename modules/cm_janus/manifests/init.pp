@@ -46,7 +46,6 @@ define cm_janus (
 
   logrotate::entry { $instance_name:
     path => $log_file,
-    require => Cm_janus::Setup_dirs[$title],
   }
 
   @bipbip::entry { "logparser-${instance_name}":

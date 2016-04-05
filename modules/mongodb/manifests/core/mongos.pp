@@ -83,6 +83,5 @@ define mongodb::core::mongos (
   logrotate::entry { $instance_name:
     path              => "/var/log/mongodb/${instance_name}.log",
     postrotate_script => "kill -USR1 $(cat /var/run/${instance_name}.pid)",
-    require           => File['/var/log/mongodb'],
   }
 }
