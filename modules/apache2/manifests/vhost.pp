@@ -11,7 +11,6 @@ define apache2::vhost ($content, $enabled = true) {
     group   => '0',
     owner   => '0',
     mode    => '0644',
-    notify  => Service['apache2'],
   }
   ->
 
@@ -21,6 +20,9 @@ define apache2::vhost ($content, $enabled = true) {
     group  => '0',
     owner  => '0',
     mode   => '0644',
-    notify => Service['apache2'],
+    notify => [
+      Service['apache2'],
+      Exec['start apache2'], # Start apache if it didn't have any vhosts, and was not running before
+    ],
   }
 }
