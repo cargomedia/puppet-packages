@@ -10,11 +10,11 @@ node default {
   ->
 
   logrotate::entry { 'foo':
-    path => '/var/log/foo/*.log',
+    path               => '/var/log/foo/*.log',
     rotation_frequency => 'daily',
-    rotation_newfile => 'create 0640',
-    versions_to_keep => 10,
-    postrotate_script => 'echo "*" >> /tmp/test',
-    rotate_ifempty => true,
+    rotation_newfile   => 'create 0640',
+    versions_to_keep   => 10,
+    postrotate_script  => 'echo "*" >> /tmp/test',
+    rotate_ifempty     => true,
   }
 }
