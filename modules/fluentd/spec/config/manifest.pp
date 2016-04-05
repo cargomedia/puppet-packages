@@ -3,6 +3,8 @@ node default {
   class { 'fluentd':
   }
 
+  ## Source
+
   fluentd::config::source{ 'my-source-1':
     type     => 'tail',
     config   => {
@@ -33,6 +35,8 @@ node default {
     fluentd_tag => 'my-source',
   }
 
+  ## Match
+
   fluentd::config::match{ 'my-match-1':
     type     => 'file',
     pattern  => 'match1.**',
@@ -48,6 +52,24 @@ node default {
       path   => '/tmp/my-match-2',
     },
     priority => 99,
+  }
+
+  ## Filter
+
+  fluentd::config::filter{ 'my-filter-1':
+    pattern  => 'filter1.**',
+    type     => 'grep',
+    config   => {
+      regexp1   => 'message cool',
+    },
+  }
+
+  fluentd::config::filter_record_transformer{ 'my-hostname':
+    pattern  => '**',
+    record   => {
+      hostname => $::fqdn,
+    },
+    priority => 1,
   }
 
 }
