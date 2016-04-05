@@ -91,6 +91,7 @@ define mongodb::core::mongod (
 
   logrotate::entry { $instance_name:
     path              => "/var/log/mongodb/${instance_name}.log",
+    rotation_newfile  => 'create',
     postrotate_script => "kill -USR1 $(cat /var/run/${instance_name}.pid)",
   }
 }

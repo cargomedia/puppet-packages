@@ -55,7 +55,7 @@ define mongodb::core::mongos (
   exec { "wait for ${instance_name} up":
     command     => "while ! (mongo --quiet --port ${port} --eval 'db.getMongo()'); do sleep 0.5; done",
     provider    => shell,
-    timeout     => 100,
+    timeout     => 300, # Might take long due to journal file preallocation
     refreshonly => true,
   }
 
@@ -82,6 +82,7 @@ define mongodb::core::mongos (
 
   logrotate::entry { $instance_name:
     path              => "/var/log/mongodb/${instance_name}.log",
+    rotation_newfile  => 'create',
     postrotate_script => "kill -USR1 $(cat /var/run/${instance_name}.pid)",
   }
 }
