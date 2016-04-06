@@ -76,7 +76,6 @@ define mongodb::core::mongod (
 
   @monit::entry { $instance_name:
     content => template("${module_name}/monit"),
-    require => Service[$instance_name],
   }
 
   $hostName = $bind_ip? { undef => 'localhost', default => $bind_ip }
@@ -84,13 +83,15 @@ define mongodb::core::mongod (
     plugin  => 'mongodb',
     options => {
       'hostname' => $hostName,
-      'port' => $port,
-      'user' => $monitoring_credentials['user'],
+      'port'     => $port,
+      'user'     => $monitoring_credentials['user'],
       'password' => $monitoring_credentials['password'],
     }
   }
 
-  logrotate::entry{ $instance_name:
-    content => template("${module_name}/logrotate")
+  logrotate::entry { $instance_name:
+    path              => "/var/log/mongodb/${instance_name}.log",
+    rotation_newfile  => 'create',
+    postrotate_script => "kill -USR1 $(cat /var/run/${instance_name}.pid)",
   }
 }

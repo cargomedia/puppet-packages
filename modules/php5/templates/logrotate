@@ -1,9 +1,0 @@
-/var/log/php/error.log {
-	rotate 12
-	weekly
-	missingok
-	notifempty
-	compress
-	delaycompress
-	copytruncate
-}

@@ -52,9 +52,11 @@ class php5::fpm {
     notify => Service['php5-fpm'],
   }
 
-  logrotate::entry{ 'php5-fpm':
-    content => template("${module_name}/logrotate-fpm"),
-    before  => Package['php5-fpm'],
+  logrotate::entry { 'php5-fpm':
+    path              => '/var/log/php5-fpm/php5-fpm.log',
+    rotation_newfile  => 'create 0644',
+    postrotate_script => 'invoke-rc.d php5-fpm reopen-logs > /dev/null',
+    before            => Package['php5-fpm'],
   }
 
   package { 'php5-fpm':
@@ -86,9 +88,9 @@ class php5::fpm {
     plugin  => 'log-parser',
     options => {
       'metric_group' => 'logparser-php5-fpm',
-      'path' => '/var/log/php5-fpm/php5-fpm.log',
-      'matchers' => [
-        { 'name' => 'segfaults',
+      'path'         => '/var/log/php5-fpm/php5-fpm.log',
+      'matchers'     => [
+        { 'name'   => 'segfaults',
           'regexp' => 'SIGSEGV' }
       ]
     },

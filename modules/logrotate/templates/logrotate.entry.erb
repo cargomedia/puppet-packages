@@ -1,0 +1,13 @@
+<%= @path %> {
+	<%= @rotation_frequency %>
+	rotate <%= @versions_to_keep %>
+	<%= @rotation_newfile %>
+<% if @rotate_ifempty -%>
+	ifempty
+<% end -%>
+<% if @postrotate_script -%>
+	postrotate
+		<%= @postrotate_script %>
+	endscript
+<% end -%>
+}

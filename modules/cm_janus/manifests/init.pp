@@ -44,8 +44,8 @@ define cm_janus (
     notify  => Service[$instance_name],
   }
 
-  logrotate::entry{ $instance_name:
-    content => template("${module_name}/logrotate")
+  logrotate::entry { $instance_name:
+    path => $log_file,
   }
 
   @bipbip::entry { "logparser-${instance_name}":

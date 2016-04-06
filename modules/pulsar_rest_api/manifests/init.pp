@@ -80,8 +80,8 @@ class pulsar_rest_api (
     require => Package['pulsar-rest-api'],
   }
 
-  logrotate::entry{ $module_name:
-    content => template("${module_name}/logrotate")
+  logrotate::entry { $module_name:
+    path    => "${log_dir}/*.log",
   }
 
   @monit::entry { 'pulsar-rest-api':

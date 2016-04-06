@@ -59,8 +59,8 @@ define janus::server (
   $log_file = "${instance_base_dir}/var/log/janus/janus.log"
   $config_file = "${instance_base_dir}/etc/janus/janus.cfg"
 
-  logrotate::entry{ $instance_name:
-    content => template("${module_name}/logrotate"),
+  logrotate::entry { $instance_name:
+    path    => $log_file,
   }
 
   file {

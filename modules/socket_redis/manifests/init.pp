@@ -96,8 +96,8 @@ class socket_redis (
     require => User['socket-redis']
   }
 
-  logrotate::entry{ $module_name:
-    content => template("${module_name}/logrotate")
+  logrotate::entry { $module_name:
+    path    => "${logDir}/*.log",
   }
 
   sysvinit::script { 'socket-redis':

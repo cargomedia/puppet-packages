@@ -1,16 +1,3 @@
-$logrotate_conf = '
-/var/log/foo/*.log {
-  create
-  rotate 7
-  daily
-  missingok
-  delaycompress
-  compress
-  postrotate
-    echo "*" >> /tmp/test
-  endscript
-}'
-
 node default {
 
   file { '/var/log/foo':
@@ -22,7 +9,12 @@ node default {
   }
   ->
 
-  logrotate::entry{ 'foo':
-    content => $logrotate_conf,
+  logrotate::entry { 'foo':
+    path               => '/var/log/foo/*.log',
+    rotation_frequency => 'daily',
+    rotation_newfile   => 'create 0640',
+    versions_to_keep   => 10,
+    postrotate_script  => 'echo "*" >> /tmp/test',
+    rotate_ifempty     => true,
   }
 }
