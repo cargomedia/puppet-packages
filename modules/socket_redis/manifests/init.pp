@@ -95,7 +95,6 @@ class socket_redis (
     mode    => '0755',
     require => User['socket-redis']
   }
-  ->
 
   logrotate::entry { $module_name:
     path    => "${logDir}/*.log",
