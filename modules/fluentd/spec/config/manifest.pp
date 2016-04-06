@@ -54,6 +54,14 @@ node default {
     priority => 99,
   }
 
+  fluentd::config::match_forest{ 'my-forest-1':
+    pattern  => '**',
+    subtype  => 'file',
+    template => {
+      path => '/tmp/fluentd-forest-__TAG__.log',
+    },
+  }
+
   ## Filter
 
   fluentd::config::filter{ 'my-filter-1':
