@@ -1,6 +1,7 @@
 class puppetmaster (
   $dnsAltNames = [],
   $hiera_data_dir = '/etc/puppet/data',
+  $hiera_environment = 'production',
   $reportToEmail = 'root',
   $puppetdb = false,
   $puppetdb_port = 8080,
