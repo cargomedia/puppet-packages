@@ -72,12 +72,8 @@ node default {
     },
   }
 
-  fluentd::config::filter_record_transformer{ 'my-hostname':
-    pattern  => '**',
-    record   => {
-      hostname => $::fqdn,
-    },
-    priority => 1,
+  fluentd::config::filter_add_hostname{ 'add-hostname':
+    pattern => '**',
   }
 
 }
