@@ -1,7 +1,7 @@
 define fluentd::config::source (
   $type,
   $config = { },
-  $priority = 50,
+  $priority = 10,
 ) {
 
   fluentd::config { "source-${title}":

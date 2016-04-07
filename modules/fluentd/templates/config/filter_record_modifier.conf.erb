@@ -1,5 +1,5 @@
 <filter <%= @pattern %>>
-  @type record_transformer
+  @type record_modifier
 <% @config.reject {|_,v| v == :undef}.each do |key, val| -%>
   <%= key %> <%= val %>
 <% end -%>

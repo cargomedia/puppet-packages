@@ -2,7 +2,7 @@ define fluentd::config::match (
   $pattern,
   $type,
   $config = { },
-  $priority = 50,
+  $priority = 80,
 ) {
 
   fluentd::config { "match-${title}":
