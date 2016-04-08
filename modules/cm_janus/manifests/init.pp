@@ -48,18 +48,6 @@ define cm_janus (
     path => $log_file,
   }
 
-  @bipbip::entry { "logparser-${instance_name}":
-    plugin  => 'log-parser',
-    options => {
-      'metric_group' => 'cm-janus',
-      'path'         => $log_file,
-      'matchers'     => [
-        { 'name'   => 'error',
-          'regexp' => '^[\d\-\:\s\.]+ERROR' }
-      ]
-    }
-  }
-
   @fluentd::config::source_tail{ $instance_name:
     path        => $log_file,
     fluentd_tag => 'cm-janus',
