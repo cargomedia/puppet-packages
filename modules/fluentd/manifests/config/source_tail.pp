@@ -4,7 +4,7 @@ define fluentd::config::source_tail (
   $format = 'json',
   $time_key = undef,
   $time_format = undef,
-  $priority = 50,
+  $priority = 10,
 ) {
 
   fluentd::config::source{ $title:

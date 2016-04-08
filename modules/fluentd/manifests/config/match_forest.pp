@@ -3,7 +3,7 @@ define fluentd::config::match_forest (
   $subtype,
   $config = { },
   $template = { },
-  $priority = 50,
+  $priority = 80,
 ) {
 
   include 'fluentd::plugin::forest'
