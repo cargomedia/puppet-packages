@@ -63,6 +63,12 @@ define janus::server (
     path    => $log_file,
   }
 
+  @fluentd::config::source_tail{ $instance_name:
+    path        => $log_file,
+    fluentd_tag => 'janus',
+    format      => '/(\[(?<time>[^\]]+)\] )?(?<message>.*)/',
+  }
+
   file {
     $config_file:
       ensure    => file,
