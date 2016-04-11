@@ -164,6 +164,7 @@ module PuppetModules
       env = { 'box' => box }
       env['debug'] = ENV['debug'] if ENV.key?('debug')
       env['keep_box'] = ENV['keep_box'] if ENV.key?('keep_box')
+      env['gui'] = ENV['gui'] if ENV.key?('gui')
 
       command = ['bundle', 'exec', 'rspec', '--format', 'json', spec.file.to_s]
       process = Komenda.create(command, { :env => env })
