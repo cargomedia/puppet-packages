@@ -44,4 +44,7 @@ Puppet::Type.newtype(:mongodb_collection) do
     }
   end
 
+  autorequire(:file) do
+    '/etc/mongorc.js'
+  end
 end

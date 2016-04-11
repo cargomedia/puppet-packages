@@ -63,4 +63,7 @@ Puppet::Type.newtype(:mongodb_user) do
     }
   end
 
+  autorequire(:file) do
+    '/etc/mongorc.js'
+  end
 end

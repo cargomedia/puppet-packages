@@ -27,4 +27,7 @@ Puppet::Type.newtype(:mongodb_database) do
     defaultto :false
   end
 
+  autorequire(:file) do
+    '/etc/mongorc.js'
+  end
 end

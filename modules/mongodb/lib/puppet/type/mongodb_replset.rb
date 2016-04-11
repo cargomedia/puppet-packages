@@ -31,4 +31,8 @@ Puppet::Type.newtype(:mongodb_replset) do
   autorequire(:service) do
     'mongodb'
   end
+
+  autorequire(:file) do
+    '/etc/mongorc.js'
+  end
 end
