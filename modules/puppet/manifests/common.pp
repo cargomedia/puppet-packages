@@ -10,7 +10,7 @@ class puppet::common(
     require => Class['apt::update'],
   }
 
-  file { ['/etc/puppetlabs', '/etc/puppetlabs/puppet']:
+  file { ['/etc/puppetlabs', '/etc/puppetlabs/puppet', '/etc/puppetlabs/code']:
     ensure => directory,
     group  => '0',
     owner  => '0',
@@ -21,7 +21,7 @@ class puppet::common(
     ensure  => directory,
     group   => '0',
     owner   => '0',
-    mode    => '0755',
+    mode    => '0644',
     purge   => true,
     recurse => true,
   }

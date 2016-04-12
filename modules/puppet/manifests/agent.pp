@@ -39,9 +39,10 @@ class puppet::agent (
   ->
 
   daemon { 'puppet':
-    binary => '/usr/bin/puppet',
-    args   => 'agent --no-daemonize',
-    nice   => $nice_value,
+    binary  => '/usr/bin/puppet',
+    args    => 'agent --no-daemonize',
+    nice    => $nice_value,
+    require => File['/usr/bin/puppet'],
   }
 
   file {
