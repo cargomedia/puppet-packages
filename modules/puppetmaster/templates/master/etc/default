@@ -11,4 +11,4 @@ START=yes
 DAEMON_OPTS=""
 
 # On what port should the puppet master listen? (default: 8140)
-PORT=<%= @port_webrick %>
+PORT=<%= @port %>

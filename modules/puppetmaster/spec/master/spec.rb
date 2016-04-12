@@ -14,7 +14,7 @@ describe 'puppetmaster' do
     it { should be_installed.by('gem').with_version('1.1.0') }
   end
 
-  describe port(8140) do
+  describe port(1234) do
     it { should be_listening }
   end
 

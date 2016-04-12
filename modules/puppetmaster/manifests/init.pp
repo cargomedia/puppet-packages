@@ -10,8 +10,7 @@ class puppetmaster (
     'puppet::agent',
   ],
   $puppetfile = undef,
-  $port_webrick = 8140,
-  $port_passenger = undef,
+  $port = 8140,
   $environmentpath = undef,
 ) {
 
@@ -121,13 +120,6 @@ class puppetmaster (
   if $puppetfile {
     puppet::puppetfile { '/etc/puppet' :
       content => $puppetfile,
-    }
-  }
-
-  if $port_passenger {
-    class { 'puppetmaster::passenger':
-      port    => $port_passenger,
-      require => [Package['puppetmaster'], Service['puppetmaster']],
     }
   }
 
