@@ -1,6 +1,6 @@
 
 [master]
-hiera_config = $confdir/hiera.yaml
+hiera_config = /etc/puppetlabs/code/hiera.yaml
+environmentpath = /etc/puppetlabs/code/environments
 reports = <% if @reportToEmail %>tagmail<% end %>
 <% if !@dnsAltNames.empty? %>dns_alt_names = <%= @dnsAltNames.join(',') %><% end %>
-<% if @environmentpath %>environmentpath = <%= @environmentpath %><% end %>

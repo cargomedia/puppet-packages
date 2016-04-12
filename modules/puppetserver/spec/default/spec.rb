@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe 'puppetmaster' do
+describe 'puppetserver' do
 
-  describe package('puppetmaster') do
+  describe package('puppetserver') do
     it { should be_installed }
   end
 
@@ -18,7 +18,11 @@ describe 'puppetmaster' do
     it { should be_listening }
   end
 
-  describe file('/etc/puppet/manifests/site.pp') do
+  describe command('/opt/puppetlabs/bin/puppet master --configprint environmentpath') do
+    its(:stdout) { should match('/etc/puppetlabs/code/environments') }
+  end
+
+  describe file('/etc/puppetlabs/code/environments/production/manifests/site.pp') do
     its(:content) { should include 'include hiera_array(\'classes\', [])' }
   end
 end

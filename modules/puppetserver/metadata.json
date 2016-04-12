@@ -1,9 +1,9 @@
 {
-  "name": "cargomedia-puppetmaster",
+  "name": "cargomedia-puppetserver",
   "version": "0.0.1",
   "author": "Cargo Media",
   "license": "MIT",
-  "summary": "puppetmaster",
+  "summary": "puppetserver",
   "source": "https://github.com/cargomedia/puppet-packages",
   "operatingsystem_support": [
     {

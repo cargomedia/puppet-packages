@@ -1,10 +1,10 @@
-class puppetmaster::puppetdb (
+class puppetserver::puppetdb (
   $port,
   $port_ssl
 ) {
 
   require 'apt'
-  require 'puppetmaster'
+  require 'puppetserver'
 
   $path_ssl_private = '/etc/puppetdb/ssl/private.pem'
   $path_ssl_public = '/etc/puppetdb/ssl/public.pem'

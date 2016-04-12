@@ -1,6 +1,6 @@
 node default {
 
-  class { 'puppetmaster':
+  class { 'puppetserver':
     port => 1234,
   }
 
