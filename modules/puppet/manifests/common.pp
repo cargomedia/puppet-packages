@@ -36,7 +36,7 @@ class puppet::common(
   }
 
   exec { '/etc/puppetlabs/puppet/puppet.conf':
-    command     => 'cat /etc/puppet/conf.d/* > /etc/puppet/puppet.conf',
+    command     => 'cat /etc/puppetlabs/puppet/conf.d/* > /etc/puppetlabs/puppet/puppet.conf',
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
     require     => File['/etc/puppetlabs/puppet'],

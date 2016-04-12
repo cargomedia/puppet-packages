@@ -65,6 +65,8 @@ class puppet::agent (
 
   @bipbip::entry { 'puppet':
     plugin  => 'puppet',
-    options => { },
+    options => {
+      lastrunfile => '/opt/puppetlabs/puppet/cache/state/last_run_summary.yaml',
+    },
   }
 }

@@ -31,8 +31,13 @@ describe 'puppet::agent' do
     its(:stdout) { should match /^foo$/ }
   end
 
-  describe command('sudo -u vagrant cat /opt/puppetlabs/puppet/cache/state/last_run_summary.yaml') do
-    its(:exit_status) { should eq 0 }
-    its(:stdout) { should match /puppet/ }
+  describe command('puppet agent --configprint lastrunfile') do
+    its(:stdout) { should match('/opt/puppetlabs/puppet/cache/state/last_run_summary.yaml') }
+  end
+
+  describe file('/opt/puppetlabs/puppet/cache/state/last_run_summary.yaml') do
+    it { should be_file }
+    its(:content) { should match /version:/ }
+    it { should be_readable.by('others') }
   end
 end

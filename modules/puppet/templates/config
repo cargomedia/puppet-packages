@@ -4,10 +4,9 @@ stringify_facts = false
 confdir = /etc/puppetlabs/puppet
 ssldir = /etc/puppetlabs/puppet/ssl
 codedir = /etc/puppetlabs/code
-logdir = /var/log/puppetlabs/puppetserver
-rundir = /var/run/puppetlabs/puppetserver
-pidfile = /var/run/puppetlabs/puppetserver/puppetserver.pid
-vardir = /opt/puppetlabs/server/data/puppetserver
+logdir = /var/log/puppetlabs/puppet
+rundir = /var/run/puppetlabs
+vardir = /opt/puppetlabs/puppet/cache
 
 basemodulepath = <%= @basemodulepath %>
 certname = <%= @clientcert %>
