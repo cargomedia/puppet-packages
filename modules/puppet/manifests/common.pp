@@ -10,6 +10,34 @@ class puppet::common(
     require => Class['apt::update'],
   }
 
+  package { 'puppet-agent':
+    ensure   => present,
+    provider => 'apt',
+    require  => [
+      Helper::Script['install puppet apt sources'],
+      Exec['/etc/puppetlabs/puppet/puppet.conf'],
+    ]
+  }
+
+  file {
+    '/usr/bin/puppet':
+      ensure  => 'link',
+      target  => '/opt/puppetlabs/bin/puppet',
+      require => Package['puppet-agent'];
+    '/usr/bin/facter':
+      ensure  => 'link',
+      target  => '/opt/puppetlabs/bin/facter',
+      require => Package['puppet-agent'];
+    '/usr/bin/mco':
+      ensure  => 'link',
+      target  => '/opt/puppetlabs/bin/mco',
+      require => Package['puppet-agent'];
+    '/usr/bin/hiera':
+      ensure  => 'link',
+      target  => '/opt/puppetlabs/bin/hiera',
+      require => Package['puppet-agent'];
+  }
+
   file { ['/etc/puppetlabs', '/etc/puppetlabs/puppet', '/etc/puppetlabs/code']:
     ensure => directory,
     group  => '0',
