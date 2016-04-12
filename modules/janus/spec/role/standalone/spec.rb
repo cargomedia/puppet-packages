@@ -2,14 +2,11 @@ require 'spec_helper'
 
 describe 'janus::role::standalone' do
 
-  describe command('lsof -P -p $(cat /var/run/janus_instance1.pid)| grep -E "IPv4+.*TCP"') do
-    its(:stdout) { should match /10000+.*LISTEN\)$/ }
-    its(:stdout) { should match /8300+.*LISTEN\)$/ }
-  end
-
-  describe command('lsof -P -p $(cat /var/run/janus_instance2.pid)| grep -E "IPv4+.*TCP"') do
-    its(:stdout) { should match /10001+.*LISTEN\)$/ }
-    its(:stdout) { should match /9300+.*LISTEN\)$/ }
+  describe command ('netstat -tnalp |grep -E "LISTEN+.+janus"') do
+    its(:stdout) { should match /8300+.+LISTEN/ }
+    its(:stdout) { should match /9300+.+LISTEN/ }
+    its(:stdout) { should match /10000+.+LISTEN/ }
+    its(:stdout) { should match /10001+.+LISTEN/ }
   end
 
   describe file('/opt/janus-cluster/instance1/var/log/janus/janus.log') do
