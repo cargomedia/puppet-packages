@@ -10,7 +10,7 @@ class ffmpeg {
   }
 
   package { $package_name:
-    provider => 'apt',
     ensure   => present,
+    provider => 'apt',
   }
 }
