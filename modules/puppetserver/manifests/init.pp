@@ -56,8 +56,8 @@ class puppetserver(
   }
 
   file { '/etc/puppetlabs/puppetserver/conf.d/webserver.conf':
-    content => template("${module_name}/puppetserver/conf.d/webserver.conf.erb"),
     ensure => file,
+    content => template("${module_name}/puppetserver/conf.d/webserver.conf.erb"),
     group  => '0',
     owner  => '0',
     mode   => '0644',
