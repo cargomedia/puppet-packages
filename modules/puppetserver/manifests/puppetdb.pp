@@ -1,18 +1,14 @@
 class puppetserver::puppetdb (
   $port,
-  $port_ssl
+  $port_ssl,
+  $vardir = '/var/lib/puppetdb',
 ) {
 
   require 'apt'
   require 'puppetserver'
 
-  $path_ssl_private = '/etc/puppetlabs/puppetdb/ssl/private.pem'
-  $path_ssl_public = '/etc/puppetlabs/puppetdb/ssl/public.pem'
-  $path_ssl_ca = '/etc/puppetlabs/puppetdb/ssl/ca.pem'
-
-  Exec {
-    path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-  }
+  include 'puppetserver::puppetdb::certs'
+  include 'puppetserver::puppetdb::postgresql'
 
   file { '/etc/default/puppetdb':
     ensure  => file,
@@ -28,40 +24,6 @@ class puppetserver::puppetdb (
     ensure   => present,
     provider => 'apt',
   }
-  ->
-
-  file { '/etc/puppetlabs/puppetdb/ssl':
-    ensure => directory,
-    owner  => 'puppetdb',
-    group  => 'puppetdb',
-    mode   => '0700',
-  }
-  ->
-
-  exec { 'ensure puppet master certs are created':
-    command => '/etc/init.d/puppetserver start',
-    unless  => 'test -f $(puppet master --configprint hostprivkey)',
-    path    => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-  }
-  ->
-
-  exec { $path_ssl_private:
-    command => "cp $(puppet master --configprint hostprivkey) ${path_ssl_private} && chown puppetdb:puppetdb ${path_ssl_private} && chmod 600 ${path_ssl_private}",
-    creates => $path_ssl_private,
-  }
-  ->
-
-  exec { $path_ssl_public:
-    command => "cp $(puppet master --configprint hostcert) ${path_ssl_public} && chown puppetdb:puppetdb ${path_ssl_public} && chmod 600 ${path_ssl_public}",
-    creates => $path_ssl_public,
-  }
-  ->
-
-  exec { $path_ssl_ca:
-    command => "cp $(puppet master --configprint localcacert) ${path_ssl_ca} && chown puppetdb:puppetdb ${path_ssl_ca} && chmod 600 ${path_ssl_ca}",
-    creates => $path_ssl_ca,
-  }
-  ->
 
   file { '/etc/puppetlabs/puppetdb/conf.d':
     ensure => directory,
@@ -88,12 +50,22 @@ class puppetserver::puppetdb (
     notify  => Service['puppetdb'],
   }
 
+  file { $vardir:
+    ensure  => directory,
+    owner   => 'puppetdb',
+    group   => 'puppetdb',
+    mode    => '0640',
+    notify  => Service['puppetdb'],
+  }
+
   service { 'puppetdb':
-    enable => true,
+    enable     => true,
+    hasrestart => true,
   }
 
   @monit::entry { 'puppetdb':
     content => template("${module_name}/puppetdb/monit"),
     require => Service['puppetdb'],
   }
+
 }

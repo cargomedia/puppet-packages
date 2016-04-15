@@ -28,3 +28,7 @@ mod 'cargomedia/apt',
 mod 'cargomedia/puppet',
    :git => 'git@github.com:cargomedia/puppet-packages.git',
    :path => 'modules/puppet'
+
+mod 'cargomedia/postgresql',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/postgresql'
