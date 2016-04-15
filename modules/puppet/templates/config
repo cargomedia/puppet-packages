@@ -1,6 +1,5 @@
 [main]
-stringify_facts = false
-
+# These are all defaults
 confdir = /etc/puppetlabs/puppet
 ssldir = /etc/puppetlabs/puppet/ssl
 codedir = /etc/puppetlabs/code
