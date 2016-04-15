@@ -62,6 +62,12 @@ class puppetserver::puppetdb (
     enable     => true,
     hasrestart => true,
   }
+  ~>
+  exec { 'start puppetdb':
+    command     => 'service puppetdb start',
+    refreshonly => true,
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+  }
 
   @monit::entry { 'puppetdb':
     content => template("${module_name}/puppetdb/monit"),

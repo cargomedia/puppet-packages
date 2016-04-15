@@ -23,4 +23,9 @@ describe 'puppetserver::puppetdb' do
   describe port(8081) do
     it { should be_listening }
   end
+
+  describe command('monit summary') do
+    its(:stdout) { should match /'puppetdb'.*Running/ }
+  end
+
 end
