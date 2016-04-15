@@ -2,33 +2,21 @@
 # Init settings for puppetdb
 ###########################################
 
-# Location of your Java binary
-# Debian
-if [ -f /usr/lib/jvm/java-7-openjdk-amd64/bin/java ]; then
-	JAVA_BIN="/usr/lib/jvm/java-7-openjdk-amd64/bin/java"
-elif [ -f /usr/lib/jvm/java-7-openjdk-i386/bin/java ]; then
-	JAVA_BIN="/usr/lib/jvm/java-7-openjdk-i386/bin/java"
-# Support make-jpkg packaged Oracle Java 1.7
-elif [ -f /usr/lib/jvm/j2re1.7-oracle/bin/java ]; then
-	JAVA_BIN="/usr/lib/jvm/j2re1.7-oracle/bin/java"
-elif [ -f /usr/lib/jvm/j2sdk1.7-oracle/bin/java ]; then
-	JAVA_BIN="/usr/lib/jvm/j2sdk1.7-oracle/bin/java"
-# OpenSUSE
-elif [ -f /usr/lib64/jvm/jre-1.7.0-openjdk/bin/java ]; then
-	JAVA_BIN="/usr/lib64/jvm/jre-1.7.0/bin/java"
-# EL/Fedora
-elif [ -f /usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java ]; then
-    JAVA_BIN="/usr/lib/jvm/jre-1.7.0-openjdk.x86_64/bin/java"
-elif [ -f /usr/lib/jvm/jre-1.7.0-openjdk/bin/java ]; then
-	JAVA_BIN="/usr/lib/jvm/jre-1.7.0-openjdk/bin/java"
-# Fall back to system default Java
-else
-	JAVA_BIN="/usr/bin/java"
-fi
+# Location of your Java binary (version 7 or higher)
+JAVA_BIN="/usr/bin/java"
+
 # Modify this if you'd like to change the memory allocation, enable JMX, etc
-JAVA_ARGS="-Xmx1g -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/var/log/puppetdb/puppetdb-oom.hprof -Djava.security.egd=file:/dev/urandom"
+JAVA_ARGS="-Xmx192m"
 
 # These normally shouldn't need to be edited if using OS packages
 USER="puppetdb"
-INSTALL_DIR="/usr/share/puppetdb"
-CONFIG="/etc/puppetdb/conf.d"
+GROUP="puppetdb"
+INSTALL_DIR="/opt/puppetlabs/server/apps/puppetdb"
+CONFIG="/etc/puppetlabs/puppetdb/conf.d"
+BOOTSTRAP_CONFIG="/etc/puppetlabs/puppetdb/bootstrap.cfg"
+SERVICE_STOP_RETRIES=60
+
+# START_TIMEOUT can be set here to alter the default startup timeout in
+# seconds.  This is used in System-V style init scripts only, and will have no
+# effect in systemd.
+# START_TIMEOUT=300

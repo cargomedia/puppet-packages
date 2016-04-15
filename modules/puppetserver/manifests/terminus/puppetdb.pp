@@ -22,7 +22,6 @@ class puppetserver::terminus::puppetdb(
     owner   => '0',
     mode    => '0644',
     notify  => Exec['/etc/puppetlabs/puppet/puppet.conf'],
-    before  => Package['puppetserver'],
   }
 
   file { '/etc/puppetlabs/puppet/routes.yaml':
@@ -35,7 +34,7 @@ class puppetserver::terminus::puppetdb(
     before  => Package['puppetserver'],
   }
 
-  package { 'puppetdb-terminus':
+  package { 'puppetdb-termini':
     ensure   => present,
     provider => 'apt',
   }

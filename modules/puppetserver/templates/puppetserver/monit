@@ -1,4 +1,4 @@
 check process puppetserver with pidfile /var/run/puppetlabs/puppetserver/puppetserver.pid
 	start program = "/etc/init.d/puppetserver start"
 	stop program = "/etc/init.d/puppetserver stop"
-	if failed port <%= @port %> with timeout 10 seconds for 2 cycles then restart
+	if failed port <%= @port %> with timeout 60 seconds for 2 cycles then restart

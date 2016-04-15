@@ -6,9 +6,9 @@ class puppetserver::puppetdb (
   require 'apt'
   require 'puppetserver'
 
-  $path_ssl_private = '/etc/puppetdb/ssl/private.pem'
-  $path_ssl_public = '/etc/puppetdb/ssl/public.pem'
-  $path_ssl_ca = '/etc/puppetdb/ssl/ca.pem'
+  $path_ssl_private = '/etc/puppetlabs/puppetdb/ssl/private.pem'
+  $path_ssl_public = '/etc/puppetlabs/puppetdb/ssl/public.pem'
+  $path_ssl_ca = '/etc/puppetlabs/puppetdb/ssl/ca.pem'
 
   Exec {
     path => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
@@ -30,11 +30,18 @@ class puppetserver::puppetdb (
   }
   ->
 
-  file { '/etc/puppetdb/ssl':
+  file { '/etc/puppetlabs/puppetdb/ssl':
     ensure => directory,
     owner  => 'puppetdb',
     group  => 'puppetdb',
     mode   => '0700',
+  }
+  ->
+
+  exec { 'ensure puppet master certs are created':
+    command => '/etc/init.d/puppetserver start',
+    unless  => 'test -f $(puppet master --configprint hostprivkey)',
+    path    => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
   ->
 
@@ -56,14 +63,14 @@ class puppetserver::puppetdb (
   }
   ->
 
-  file { '/etc/puppetdb/conf.d':
+  file { '/etc/puppetlabs/puppetdb/conf.d':
     ensure => directory,
     owner  => 'puppetdb',
     group  => 'puppetdb',
     mode   => '0640',
   }
 
-  file { '/etc/puppetdb/conf.d/config.ini':
+  file { '/etc/puppetlabs/puppetdb/conf.d/config.ini':
     ensure  => file,
     content => template("${module_name}/puppetdb/config.ini"),
     owner   => 'puppetdb',
@@ -72,7 +79,7 @@ class puppetserver::puppetdb (
     notify  => Service['puppetdb'],
   }
 
-  file { '/etc/puppetdb/conf.d/jetty.ini':
+  file { '/etc/puppetlabs/puppetdb/conf.d/jetty.ini':
     ensure  => file,
     content => template("${module_name}/puppetdb/jetty.ini"),
     owner   => 'puppetdb',
