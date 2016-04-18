@@ -34,4 +34,12 @@ describe 'daemon' do
     its(:stdout) { should match /Max open files(.*)9999(.*)9999(.*)files/ }
   end
 
+
+  describe command('find /tmp/created_by_pre -type f ! -mmin +1') do
+    its(:exit_status) { should eq 0 }
+  end
+
+  describe file('/tmp/copied_by_post') do
+    it { should be_file }
+  end
 end

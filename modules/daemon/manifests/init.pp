@@ -9,6 +9,8 @@ define daemon (
   $limit_nofile = undef,
   $core_dump = false,
   $sysvinit_kill = false,
+  $pre_command = undef,
+  $post_command = undef
 ) {
 
   if (defined(User[$user])) {
