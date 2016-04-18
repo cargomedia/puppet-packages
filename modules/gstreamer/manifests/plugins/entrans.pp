@@ -1,5 +1,5 @@
 class gstreamer::plugins::entrans (
-  $version = 'latest',
+  $version = 'present',
 ) {
 
   require 'apt::source::cargomedia'
