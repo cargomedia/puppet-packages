@@ -4,11 +4,11 @@ After=network.target
 
 [Service]
 Type=simple
-ExecStartPre=<%= @exec_start_pre %>
+ExecStartPre=<%= @pre_command %>
 ExecStart=<%= @binary %> <%= @args %>
-ExecStartPost=<%= @exec_start_post %>
+ExecStartPost=<%= @post_command %>
 User=<%= @user %>
-PermissionsStartOnly=<%= @permissions_start_only %>
+PermissionsStartOnly=true
 <% if @nice %>Nice=<%= @nice %><% end %>
 <% if @oom_score_adjust %>OOMScoreAdjust=<%= @oom_score_adjust %><% end %>
 TimeoutStopSec=<%= @stop_timeout %>

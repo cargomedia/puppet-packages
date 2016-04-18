@@ -32,6 +32,7 @@ case "${1}" in
 		<% if @limit_nofile %>
 		ulimit -n <%= @limit_nofile %>
 		<%- end %>
+		<%= @pre_command %>
 		if (start-stop-daemon --start --oknodo --make-pidfile --background --pidfile "${PIDFILE}" --chuid "${USER}" --startas "${DAEMON}" -- ${DAEMON_ARGS}); then
 		  timeout --signal=9 1 bash -c "while ! (test -e '${PIDFILE}'); do sleep 0.05; done";
 		  PID=$(cat "${PIDFILE}")
@@ -42,6 +43,7 @@ case "${1}" in
 				echo <%= @oom_score_adjust %> > /proc/${PID}/oom_score_adj
 			<%- end %>
 			log_end_msg 0
+			<%= @post_command %>
 		else
 			log_end_msg 1
 		fi
