@@ -25,7 +25,6 @@ class redis {
     group  => '0',
     mode   => '0644',
   }
-  ->
 
   file { '/etc/redis/redis.conf':
     ensure  => file,
@@ -34,23 +33,30 @@ class redis {
     group   => '0',
     mode    => '0644',
   }
-  ->
 
   sysctl::entry { 'redis':
     entries => $sysctl_entries,
   }
   ->
-
-  package { 'redis-server':
-    ensure   => present,
-    provider => 'apt',
+  # Ugly hack to prevent postinstall trying to start redis-server
+  exec { 'truncate /etc/init.d/redis-server':
+    command     => "echo -e '#!/bin/sh\n\nexit 0' > /etc/init.d/redis-server",
+    unless      => 'dpkg-query -W redis-server',
+    provider    => shell,
+    path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
   ->
 
+  package { 'redis-server':
+    provider => 'apt',
+    require  => File['/etc/redis/redis.conf'],
+  }
+
   daemon { 'redis-server':
-    binary => '/usr/bin/redis-server',
-    args   => '/etc/redis/redis.conf',
-    user   => 'redis',
+    binary  => '/usr/bin/redis-server',
+    args    => '/etc/redis/redis.conf',
+    user    => 'redis',
+    require => Package['redis-server'],
   }
 
   @bipbip::entry { 'redis':
