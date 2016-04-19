@@ -1,5 +1,4 @@
 class socket_redis (
-  $version = 'latest',
   $redisHost = 'localhost',
   $socketPorts = [8090],
   $logDir = '/var/log/socket-redis',
@@ -15,7 +14,6 @@ class socket_redis (
   if $redisHost == 'localhost' {
     require 'redis'
   }
-  include 'socket_redis::service'
 
   file { '/etc/socket-redis':
     ensure => directory,
@@ -97,23 +95,30 @@ class socket_redis (
   }
 
   logrotate::entry { $module_name:
-    path    => "${logDir}/*.log",
+    path => "${logDir}/*.log",
   }
 
-  sysvinit::script { 'socket-redis':
-    content           => template("${module_name}/init.sh"),
-    require           => [Package['socket-redis'], User['socket-redis']],
+  $arg1 = '/usr/bin/socket-redis'
+  $arg2 = "--log-dir=${logDir} --status-port=${statusPort} --redis-host=${redisHost}"
+  $arg3 = inline_template("--socket-ports=<%= @socketPorts.join(',')%>")
+  if $sslKeyFile { $arg4 = "--ssl-key=${sslKeyFile} " }
+  if $sslCertFile { $arg5 = "--ssl-cert=${sslCertFile} " }
+  if $sslPfxFile { $arg6 = "--ssl-pfx=${sslPfxFile} " }
+  if $sslPassphraseFile { $arg7 = "--ssl-passphrase=${sslPassphraseFile}" }
+  $optional_args=" ${arg4}${arg5}${arg6}${arg7}"
+
+  daemon { 'socket-redis':
+    binary       => '/usr/bin/node',
+    args         => "${arg1} ${arg2} ${arg3}${optional_args}",
+    user         => 'socket-redis',
+    limit_nofile => 10000,
+    require      => Package['socket-redis'],
   }
 
   package { 'socket-redis':
-    ensure   => $version,
+    ensure   => present,
     provider => 'npm',
     notify   => Service['socket-redis'],
-  }
-
-  @monit::entry { 'socket-redis':
-    content => template("${module_name}/monit"),
-    require => Service['socket-redis'],
   }
 
   @bipbip::entry { 'socket-redis':
