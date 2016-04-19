@@ -56,11 +56,11 @@ class puppetserver(
   }
 
   file { '/etc/puppetlabs/puppetserver/conf.d/webserver.conf':
-    ensure => file,
+    ensure  => file,
     content => template("${module_name}/puppetserver/conf.d/webserver.conf.erb"),
-    group  => '0',
-    owner  => '0',
-    mode   => '0644',
+    group   => '0',
+    owner   => '0',
+    mode    => '0644',
     before  => Package['puppetserver'],
     notify  => Service['puppetserver'],
   }
@@ -98,8 +98,15 @@ class puppetserver(
   ->
 
   service { 'puppetserver':
-    enable    => true,
-    subscribe => Exec['/etc/puppetlabs/puppet/puppet.conf'],
+    enable     => true,
+    hasrestart => true,
+    subscribe  => Exec['/etc/puppetlabs/puppet/puppet.conf'],
+  }
+  ~>
+  exec { 'start puppetserver':
+    command     => 'service puppetserver start',
+    refreshonly => true,
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
 
   if $puppetdb {
