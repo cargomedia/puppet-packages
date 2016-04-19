@@ -3,8 +3,8 @@ class redis {
   require 'apt'
 
   $config_file = $::lsbdistcodename ? {
-    'wheezy' => 'redis.conf.wheezy',
-    default => 'redis.conf',
+    'wheezy' => 'redis-2.4.conf',
+    default => 'redis-2.6.conf',
   }
 
   if $::lsbdistcodename == 'wheezy' {
@@ -48,9 +48,9 @@ class redis {
   ->
 
   daemon { 'redis-server':
-    binary           => '/usr/bin/redis-server',
-    args             => '/etc/redis/redis.conf',
-    user             => 'redis',
+    binary => '/usr/bin/redis-server',
+    args   => '/etc/redis/redis.conf',
+    user   => 'redis',
   }
 
   @bipbip::entry { 'redis':
@@ -59,6 +59,6 @@ class redis {
       'hostname' => 'localhost',
       'port'     => '6379',
     },
-    require => Package['redis-server'],
+    require => Daemon['redis-server'],
   }
 }
