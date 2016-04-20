@@ -1,0 +1,17 @@
+{
+  "name": "cargomedia-loggly_github",
+  "version": "0.0.1",
+  "author": "Cargo Media",
+  "license": "MIT",
+  "summary": "loggly-github",
+  "source": "https://github.com/cargomedia/puppet-packages",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": ["7", "8"]
+    }
+  ],
+  "dependencies": [
+
+  ]
+}
