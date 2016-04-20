@@ -4,7 +4,7 @@ class redis {
 
   $config_file = $::lsbdistcodename ? {
     'wheezy' => 'redis-2.4.conf',
-    default => 'redis-2.6.conf',
+    default  => 'redis-2.6.conf',
   }
 
   if $::lsbdistcodename == 'wheezy' {
@@ -17,6 +17,10 @@ class redis {
       'net.core.somaxconn'           => 512,
       'net.ipv4.tcp_max_syn_backlog' => 512,
     }
+  }
+
+  sysctl::entry { 'redis':
+    entries => $sysctl_entries,
   }
 
   file { '/etc/redis':
@@ -34,18 +38,14 @@ class redis {
     mode    => '0644',
   }
 
-  sysctl::entry { 'redis':
-    entries => $sysctl_entries,
-  }
-  ->
   # Ugly hack to prevent postinstall trying to start redis-server
   exec { 'truncate /etc/init.d/redis-server':
-    command     => "echo -e '#!/bin/sh\n\nexit 0' > /etc/init.d/redis-server",
-    unless      => 'dpkg-query -W redis-server',
-    provider    => shell,
-    path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    command  => "echo -e '#!/bin/sh\n\nexit 0' > /etc/init.d/redis-server",
+    unless   => 'dpkg-query -W redis-server',
+    provider => shell,
+    path     => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    before   => Package['redis-server'],
   }
-  ->
 
   package { 'redis-server':
     provider => 'apt',
