@@ -30,26 +30,28 @@ class redis {
     mode   => '0644',
   }
 
+  # Changing the config after package install (no daemonizing, listen to network)
   file { '/etc/redis/redis.conf':
-    ensure  => file,
-    content => template("${module_name}/${config_file}"),
-    owner   => '0',
-    group   => '0',
-    mode    => '0644',
-  }
-
-  # Ugly hack to prevent postinstall trying to start redis-server
-  exec { 'truncate /etc/init.d/redis-server':
-    command  => "echo -e '#!/bin/sh\n\nexit 0' > /etc/init.d/redis-server",
-    unless   => 'dpkg-query -W redis-server',
-    provider => shell,
-    path     => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    before   => Package['redis-server'],
+    ensure    => file,
+    content   => template("${module_name}/${config_file}"),
+    owner     => '0',
+    group     => '0',
+    mode      => '0644',
+    require   => Package['redis-server'],
   }
 
   package { 'redis-server':
     provider => 'apt',
-    require  => File['/etc/redis/redis.conf'],
+  }
+
+  # Ugly hack to cleanly adapt redis-server
+  exec { 'stop redis-server':
+    command  => '/etc/init.d/redis-server stop',
+    unless   => '/etc/init.d/redis-server status',
+    provider => shell,
+    path     => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    before   => Service['redis-server'],
+    require => Package['redis-server'],
   }
 
   daemon { 'redis-server':
