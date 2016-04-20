@@ -4,7 +4,7 @@ class redis {
 
   $config_file = $::lsbdistcodename ? {
     'wheezy' => 'redis-2.4.conf',
-    default => 'redis-2.6.conf',
+    default  => 'redis-2.6.conf',
   }
 
   if $::lsbdistcodename == 'wheezy' {
@@ -19,13 +19,16 @@ class redis {
     }
   }
 
+  sysctl::entry { 'redis':
+    entries => $sysctl_entries,
+  }
+
   file { '/etc/redis':
     ensure => directory,
     owner  => '0',
     group  => '0',
     mode   => '0644',
   }
-  ->
 
   file { '/etc/redis/redis.conf':
     ensure  => file,
@@ -34,23 +37,26 @@ class redis {
     group   => '0',
     mode    => '0644',
   }
-  ->
 
-  sysctl::entry { 'redis':
-    entries => $sysctl_entries,
+  # Ugly hack to prevent postinstall trying to start redis-server
+  exec { 'truncate /etc/init.d/redis-server':
+    command  => "echo -e '#!/bin/sh\n\nexit 0' > /etc/init.d/redis-server",
+    unless   => 'dpkg-query -W redis-server',
+    provider => shell,
+    path     => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    before   => Package['redis-server'],
   }
-  ->
 
   package { 'redis-server':
-    ensure   => present,
     provider => 'apt',
+    require  => File['/etc/redis/redis.conf'],
   }
-  ->
 
   daemon { 'redis-server':
-    binary => '/usr/bin/redis-server',
-    args   => '/etc/redis/redis.conf',
-    user   => 'redis',
+    binary  => '/usr/bin/redis-server',
+    args    => '/etc/redis/redis.conf',
+    user    => 'redis',
+    require => Package['redis-server'],
   }
 
   @bipbip::entry { 'redis':
