@@ -4,8 +4,8 @@ class nodejs {
 
   apt::source { 'nodesource':
     entries => [
-      "deb https://deb.nodesource.com/node_0.12 ${::lsbdistcodename} main",
-      "deb-src https://deb.nodesource.com/node_0.12 ${::lsbdistcodename} main",
+      "deb https://deb.nodesource.com/node_5.x ${::lsbdistcodename} main",
+      "deb-src https://deb.nodesource.com/node_5.x ${::lsbdistcodename} main",
     ],
     keys    => {
       'nodesource' => {
