@@ -20,9 +20,6 @@ http {
   <% end %>
   client_max_body_size      <%= @client_max_body_size %>;
   keepalive_timeout         <%= @keepalive_timeout %>;
-  <% if scope.lookupvar('nginx::params::nx_tcp_nopush') == 'on'%>
-  tcp_nopush                on;
-  <% end %>
   client_body_timeout       <%= @client_body_timeout %>;
   client_header_timeout     <%= @client_header_timeout %>;
   send_timeout              <%= @send_timeout %>;
