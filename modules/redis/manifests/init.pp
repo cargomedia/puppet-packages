@@ -32,12 +32,13 @@ class redis {
 
   # Changing the config after package install (no daemonizing, listen to network)
   file { '/etc/redis/redis.conf':
-    ensure    => file,
-    content   => template("${module_name}/${config_file}"),
-    owner     => '0',
-    group     => '0',
-    mode      => '0644',
-    require   => Package['redis-server'],
+    ensure  => file,
+    content => template("${module_name}/${config_file}"),
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
+    require => Package['redis-server'],
+    notify  => Service['redis-server'],
   }
 
   package { 'redis-server':
@@ -51,7 +52,7 @@ class redis {
     provider => shell,
     path     => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     before   => Service['redis-server'],
-    require => Package['redis-server'],
+    require  => Package['redis-server'],
   }
 
   daemon { 'redis-server':
