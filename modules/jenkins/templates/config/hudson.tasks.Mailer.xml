@@ -1,5 +1,5 @@
 <?xml version='1.0' encoding='UTF-8'?>
-<hudson.tasks.Mailer_-DescriptorImpl plugin="mailer@1.5">
+<hudson.tasks.Mailer_-DescriptorImpl plugin="mailer@1.17">
   <defaultSuffix><%= @email_suffix %></defaultSuffix>
   <hudsonUrl>http://<%= @hostname %>:<%= @port %>/</hudsonUrl>
   <adminAddress><%= @email_admin %></adminAddress>
