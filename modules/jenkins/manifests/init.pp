@@ -30,6 +30,14 @@ class jenkins(
     mode   => '0755',
   }
 
+  file { '/var/lib/jenkins/installPlugin.sh':
+    ensure  => file,
+    content => template("${module_name}/installPlugin.sh.erb"),
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    mode    => '0755',
+  }
+
   file { '/etc/default/jenkins':
     ensure  => file,
     content => template("${module_name}/default"),
@@ -48,7 +56,7 @@ class jenkins(
 
     jenkins::config::credential::ssh{ 'cluster-credential':
       username    => 'jenkins',
-      private_key => $ssh_keys[private]
+      private_key => $ssh_keys['private']
     }
 
     Jenkins::Config::Slave <<| cluster_id == $cluster_id |>>
