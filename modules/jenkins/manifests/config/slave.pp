@@ -5,6 +5,7 @@ define jenkins::config::slave(
   $cluster_id = undef, # For filtering exported resource
 ) {
 
+  include 'jenkins::plugin::ssh_slaves'
   include 'jenkins::config::main'
 
   file { "/var/lib/jenkins/nodes/${host}":
