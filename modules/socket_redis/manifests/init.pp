@@ -11,13 +11,6 @@ class socket_redis (
     require 'redis'
   }
 
-  file { '/etc/socket-redis':
-    ensure => directory,
-    owner  => '0',
-    group  => '0',
-    mode   => '0755',
-  }
-
   user { 'socket-redis':
     ensure => present,
     system => true,
