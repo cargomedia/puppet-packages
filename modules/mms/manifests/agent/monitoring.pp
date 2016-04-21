@@ -1,5 +1,5 @@
 class mms::agent::monitoring (
-  $version = '4.1.0.251',
+  $version = '4.2.0.263',
   $api_key,
   $auth_username = undef,
   $auth_password = undef,
