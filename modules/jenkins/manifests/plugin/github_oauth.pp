@@ -5,6 +5,7 @@ class jenkins::plugin::github_oauth(
   $client_secret
 ) {
 
+  require 'jenkins::plugin::matrix_auth'
   require 'jenkins::plugin::github_api'
 
   file { '/var/lib/jenkins/config.d/30-github-oauth.xml':
