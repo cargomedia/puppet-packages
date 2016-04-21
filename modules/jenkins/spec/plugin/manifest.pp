@@ -4,11 +4,12 @@ node default {
     hostname => 'example.com'
   }
 
-  jenkins::plugin { 'ssh-agent':
-    version => '1.3',
+  jenkins::plugin { 'avatar':
+    version => '1.2',
   }
 
-  jenkins::plugin { 'git-client':
-    version => '1.2.0',
+  jenkins::plugin { 'pagerduty':
+    version => '0.2.4',
   }
+
 }
