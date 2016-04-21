@@ -1,1 +1,7 @@
-<%= require 'json'; JSON.dump(@config) %>
+{
+  "port": <%= @port %>,
+  "secret": "<%= @secret %>",
+  "github": {
+    "token": "<%= @github_token %>"
+  }
+}

@@ -23,14 +23,6 @@ class loggly_github (
     mode   => '0644',
   }
 
-  $config = {
-    port   => $port,
-    secret => $secret,
-    github => {
-      token => $github_token,
-    },
-  }
-
   file { '/etc/loggly-github/config.json':
     ensure  => file,
     content => template("${module_name}/config.json.erb"),
