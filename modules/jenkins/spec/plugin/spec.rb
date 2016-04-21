@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'jenkins::plugin' do
 
-  describe file('/var/lib/jenkins/plugins/avatar.hpi') do
+  describe file('/var/lib/jenkins/plugins/git.hpi') do
     it { should be_file }
     it { should be_owned_by 'jenkins' }
   end
@@ -17,8 +17,13 @@ describe 'jenkins::plugin' do
     its(:exit_status) { should eq 0 }
   end
 
+  describe file('/var/log/jenkins/jenkins.log') do
+    its(:content) { should_not match('Failed Loading plugin') }
+  end
+
   describe command('curl -s http://localhost:8080/pluginManager/installed') do
-    its(:stdout) { should match /avatar/ }
+    its(:stdout) { should match /git/ }
     its(:stdout) { should match /pagerduty/ }
   end
+
 end

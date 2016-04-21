@@ -30,6 +30,14 @@ class jenkins(
     mode   => '0755',
   }
 
+  file { '/var/lib/jenkins/installPlugin.sh':
+    ensure  => file,
+    content => template("${module_name}/installPlugin.sh.erb"),
+    owner   => 'jenkins',
+    group   => 'jenkins',
+    mode    => '0755',
+  }
+
   file { '/etc/default/jenkins':
     ensure  => file,
     content => template("${module_name}/default"),

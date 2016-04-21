@@ -4,8 +4,8 @@ node default {
     hostname => 'example.com'
   }
 
-  jenkins::plugin { 'avatar':
-    version => '1.2',
+  jenkins::plugin { 'git':
+    version => '2.4.4',
   }
 
   jenkins::plugin { 'pagerduty':
