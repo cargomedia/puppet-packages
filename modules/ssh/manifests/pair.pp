@@ -8,14 +8,14 @@ define ssh::pair (
 
   @@ssh::key { $title:
     user    => $user,
-    content => $keys[private],
+    content => $keys['private'],
     id      => $id,
     fqdn    => $fqdn,
   }
 
   @@ssh::key { "${title}.pub":
     user    => $user,
-    content => $keys[public],
+    content => $keys['public'],
     id      => $id,
     fqdn    => $fqdn,
   }
@@ -23,6 +23,6 @@ define ssh::pair (
   @@ssh::authorized_key { $title:
     id      => $id,
     user    => $user,
-    content => $keys[public],
+    content => $keys['public'],
   }
 }

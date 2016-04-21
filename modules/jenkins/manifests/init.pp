@@ -48,7 +48,7 @@ class jenkins(
 
     jenkins::config::credential::ssh{ 'cluster-credential':
       username    => 'jenkins',
-      private_key => $ssh_keys[private]
+      private_key => $ssh_keys['private']
     }
 
     Jenkins::Config::Slave <<| cluster_id == $cluster_id |>>
