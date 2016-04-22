@@ -1,22 +1,29 @@
 class redis {
 
   require 'apt'
+  include 'redis::service'
 
   $config_file = $::lsbdistcodename ? {
     'wheezy' => 'redis-2.4.conf',
-    default => 'redis-2.6.conf',
+    default  => 'redis-2.6.conf',
   }
 
   if $::lsbdistcodename == 'wheezy' {
     $sysctl_entries = {
       'vm.overcommit_memory' => '1',
     }
+    $init_system = 'sysvinit'
   } else {
     $sysctl_entries = {
       'vm.overcommit_memory'         => '1',
       'net.core.somaxconn'           => 512,
       'net.ipv4.tcp_max_syn_backlog' => 512,
     }
+    $init_system = 'systemd'
+  }
+
+  sysctl::entry { 'redis':
+    entries => $sysctl_entries,
   }
 
   file { '/etc/redis':
@@ -25,7 +32,6 @@ class redis {
     group  => '0',
     mode   => '0644',
   }
-  ->
 
   file { '/etc/redis/redis.conf':
     ensure  => file,
@@ -33,24 +39,16 @@ class redis {
     owner   => '0',
     group   => '0',
     mode    => '0644',
+    notify  => Service['redis-server'],
   }
-  ->
-
-  sysctl::entry { 'redis':
-    entries => $sysctl_entries,
-  }
-  ->
 
   package { 'redis-server':
-    ensure   => present,
     provider => 'apt',
   }
-  ->
 
-  daemon { 'redis-server':
-    binary => '/usr/bin/redis-server',
-    args   => '/etc/redis/redis.conf',
-    user   => 'redis',
+  @monit::entry { 'redis':
+    content => template("${module_name}/monit.${init_system}.erb"),
+    require => Package['redis-server'],
   }
 
   @bipbip::entry { 'redis':
@@ -59,6 +57,6 @@ class redis {
       'hostname' => 'localhost',
       'port'     => '6379',
     },
-    require => Daemon['redis-server'],
+    require => Service['redis-server'],
   }
 }
