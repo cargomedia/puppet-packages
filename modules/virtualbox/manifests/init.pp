@@ -24,4 +24,13 @@ class virtualbox {
     ensure   => present,
     provider => 'apt',
   }
+
+  file { '/usr/local/bin/deleteAllVirtualboxVms':
+    ensure  => file,
+    content => template("${module_name}/deleteAllVirtualboxVms.sh"),
+    group   => '0',
+    owner   => '0',
+    mode    => '0755',
+  }
+
 }
