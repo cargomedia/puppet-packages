@@ -1,5 +1,7 @@
 node default {
 
+  require 'git'
+
   file { '/etc/gitconfig':
     ensure  => file,
     content => "[user]\nemail = jfu@foo.net\nname = jfu",

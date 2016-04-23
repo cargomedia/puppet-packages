@@ -1,6 +1,6 @@
 node default {
 
-  class { 'Sysctl::Entry::Core_pattern':
+  class { 'sysctl::entry::core_pattern':
     pattern => '/tmp/foo.%e.%p.%h.%t'
   }
 

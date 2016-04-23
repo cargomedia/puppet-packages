@@ -1,4 +1,9 @@
 node default {
 
-  require ['raid', 'monit']
+  require 'monit'
+
+  class { 'raid':
+    controllers => ['adaptec', 'sas2ircu', 'linux_md'],
+  }
+
 }
