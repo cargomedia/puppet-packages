@@ -1,5 +1,12 @@
-class raid {
+class raid(
+  $controllers = undef
+) {
 
-  $raid_list = split($::raid, ',')
-  include $raid_list
+  $controller_list = $controllers ? {
+    undef => split($facts['raid'], ','),
+    default => $controllers,
+  }
+
+  include prefix($controller_list, 'raid::')
+
 }
