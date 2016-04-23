@@ -40,4 +40,10 @@ describe 'puppet::agent' do
     its(:content) { should match /version:/ }
     it { should be_readable.by('others') }
   end
+
+  describe command('/opt/puppetlabs/puppet/bin/gem list') do
+    its(:stdout) { should match('deep_merge') }
+    its(:stdout) { should match('i18n') }
+  end
+
 end

@@ -1,5 +1,9 @@
 class puppet::common(
-  $basemodulepath = '/etc/puppetlabs/code/modules'
+  $basemodulepath = '/etc/puppetlabs/code/modules',
+  $gems = [
+    'deep_merge',
+    'ipaddress',
+  ],
 ) {
 
   require 'apt'
@@ -70,9 +74,6 @@ class puppet::common(
     require     => File['/etc/puppetlabs/puppet'],
   }
 
-  package { 'ipaddress':
-    ensure   => present,
-    provider => puppet_gem
-  }
+  puppet::gem { $gems: }
 
 }

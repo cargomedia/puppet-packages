@@ -21,4 +21,10 @@ describe 'puppetserver' do
   describe file('/etc/puppetlabs/code/environments/production/manifests/site.pp') do
     its(:content) { should include 'include hiera_array(\'classes\', [])' }
   end
+
+  describe command('/opt/puppetlabs/bin/puppetserver gem list') do
+    its(:stdout) { should match('deep_merge') }
+    its(:stdout) { should match('i18n') }
+  end
+
 end

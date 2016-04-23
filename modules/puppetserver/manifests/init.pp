@@ -111,6 +111,8 @@ class puppetserver(
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
 
+  puppetserver::gem { $puppet::common::gems: }
+
   if $puppetdb {
     class { 'puppetserver::puppetdb':
       port     => $puppetdb_port,
