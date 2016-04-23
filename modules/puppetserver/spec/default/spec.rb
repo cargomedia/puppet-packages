@@ -10,10 +10,6 @@ describe 'puppetserver' do
     it { should be_installed.by('gem') }
   end
 
-  describe package('hiera-file') do
-    it { should be_installed.by('gem').with_version('1.1.0') }
-  end
-
   describe port(1234) do
     it { should be_listening }
   end

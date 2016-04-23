@@ -74,9 +74,6 @@ class puppet::common(
     'deep_merge':
       ensure => present;
 
-    'hiera-file':
-      ensure => '1.1.0';
-
     'ipaddress':
       ensure => present;
   }
