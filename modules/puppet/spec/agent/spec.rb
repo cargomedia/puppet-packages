@@ -16,7 +16,7 @@ describe 'puppet::agent' do
   end
 
   describe command('puppet agent --configprint masterport') do
-    its(:stdout) { should match /^8141$/ }
+    its(:stdout) { should match /^1234$/ }
   end
 
   describe command('puppet agent --configprint splay') do
