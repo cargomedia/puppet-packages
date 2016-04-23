@@ -70,11 +70,9 @@ class puppet::common(
     require     => File['/etc/puppetlabs/puppet'],
   }
 
-  ruby::gem {
-    'deep_merge':
-      ensure => present;
-
-    'ipaddress':
-      ensure => present;
+  package { 'ipaddress':
+    ensure   => present,
+    provider => puppet_gem
   }
+
 }
