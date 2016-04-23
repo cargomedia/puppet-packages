@@ -11,6 +11,7 @@ class puppetserver(
   ],
   $puppetfile = undef,
   $port = 8140,
+  $heap_size = '1g',
 ) {
 
   require 'apt'
