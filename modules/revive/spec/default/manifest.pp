@@ -1,9 +1,5 @@
 node default {
 
-  class { 'apt::update':
-    before => Class['php5'],
-  }
-
   host { 'example.com':
     ip => '127.0.0.1',
   }

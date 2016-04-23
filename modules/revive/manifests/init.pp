@@ -59,6 +59,7 @@ class revive (
     ssl                 => true,
     ssl_cert            => $ssl_cert,
     ssl_key             => $ssl_key,
+    ssl_port            => 443,
     location_cfg_append => [
       'root /var/revive/www;',
       'index index.php;',
@@ -73,7 +74,7 @@ class revive (
     location            => '~ \.php$',
     vhost               =>  $module_name,
     ssl                 =>  true,
-    ssl_only => true,
+    ssl_only            => true,
     location_cfg_append => [
       'root /var/revive/www;',
       'index index.php;',
