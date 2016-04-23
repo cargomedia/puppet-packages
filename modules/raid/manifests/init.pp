@@ -3,7 +3,7 @@ class raid(
 ) {
 
   $controller_list = $controllers ? {
-    undef => split($facts['raid'], ','),
+    undef => split($::facts['raid'], ','),
     default => $controllers,
   }
 
