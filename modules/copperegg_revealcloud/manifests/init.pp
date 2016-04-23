@@ -1,7 +1,7 @@
 class copperegg_revealcloud(
   $api_key,
   $label = $::clientcert,
-  $tags = $::copperegg_tags,
+  $tags = $facts['copperegg_tags'],
   $version = 'v3.3-118-g5f871c6',
   $enable_node = true
 ) {
