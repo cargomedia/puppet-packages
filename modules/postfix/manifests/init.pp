@@ -3,9 +3,9 @@ class postfix ($aliases = { }, $transports = []) {
   require 'ca_certificates'
   include 'postfix::service'
 
-  $myhostname = $facts['domain'] ? {
+  $myhostname = $::facts['domain'] ? {
     undef => 'localhost',
-    default => $facts['domain'],
+    default => $::facts['domain'],
   }
 
   file { '/etc/postfix':
