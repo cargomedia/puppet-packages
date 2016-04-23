@@ -1,6 +1,7 @@
 class puppetserver(
   $dnsAltNames = [],
   $hiera_data_dir = '/etc/puppetlabs/code/environments/%{::environment}/hieradata',
+  $hiera_environment = 'production',
   $reportToEmail = 'root',
   $puppetdb = false,
   $puppetdb_port = 8080,
