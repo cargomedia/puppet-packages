@@ -7,6 +7,13 @@ class snmp (
 
   require 'apt'
 
+  file { '/etc/snmp':
+    ensure  => directory,
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
+  }
+
   file { '/etc/snmp/snmpd.conf':
     ensure  => file,
     content => template("${module_name}/snmpd.conf"),
