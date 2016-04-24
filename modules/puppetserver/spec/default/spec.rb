@@ -6,10 +6,6 @@ describe 'puppetserver' do
     it { should be_installed }
   end
 
-  describe package('deep_merge') do
-    it { should be_installed.by('gem') }
-  end
-
   describe port(1234) do
     it { should be_listening }
   end
