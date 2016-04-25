@@ -29,18 +29,21 @@ class puppetserver::puppetdb::certs (
   exec { $path_ssl_private:
     command => "cp $(puppet master --configprint hostprivkey) ${path_ssl_private} && chown puppetdb:puppetdb ${path_ssl_private} && chmod 600 ${path_ssl_private}",
     creates => $path_ssl_private,
+    notify  => Service['puppetdb'],
   }
   ->
 
   exec { $path_ssl_public:
     command => "cp $(puppet master --configprint hostcert) ${path_ssl_public} && chown puppetdb:puppetdb ${path_ssl_public} && chmod 600 ${path_ssl_public}",
     creates => $path_ssl_public,
+    notify  => Service['puppetdb'],
   }
   ->
 
   exec { $path_ssl_ca:
     command => "cp $(puppet master --configprint localcacert) ${path_ssl_ca} && chown puppetdb:puppetdb ${path_ssl_ca} && chmod 600 ${path_ssl_ca}",
     creates => $path_ssl_ca,
+    notify  => Service['puppetdb'],
   }
 
 
