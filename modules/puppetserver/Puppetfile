@@ -13,14 +13,6 @@ mod 'cargomedia/git',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/git'
 
-mod 'cargomedia/passenger',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/passenger'
-
-mod 'cargomedia/apache2',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/apache2'
-
 mod 'cargomedia/apt',
    :git => 'git@github.com:cargomedia/puppet-packages.git',
    :path => 'modules/apt'
