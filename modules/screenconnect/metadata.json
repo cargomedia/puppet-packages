@@ -1,0 +1,18 @@
+{
+  "name": "cargomedia-screenconnect",
+  "version": "0.0.1",
+  "author": "Cargo Media",
+  "license": "MIT",
+  "summary": "screenconnect.com",
+  "source": "https://github.com/cargomedia/puppet-packages",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "15.04"
+      ]
+    }
+  ],
+  "dependencies": [
+  ]
+}
