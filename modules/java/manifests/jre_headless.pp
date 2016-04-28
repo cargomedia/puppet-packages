@@ -1,4 +1,4 @@
-class java {
+class java::jre_headless {
 
   require 'apt'
 
@@ -6,4 +6,5 @@ class java {
     ensure   => present,
     provider => 'apt',
   }
+
 }
