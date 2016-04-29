@@ -10,6 +10,10 @@ class virtualbox {
       'virtualbox' => {
         key     => '98AB5139',
         key_url => 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox.asc',
+      },
+      'virtualbox-2016' => {
+        key     => '2980AECF',
+        key_url => 'http://download.virtualbox.org/virtualbox/debian/oracle_vbox_2016.asc',
       }
     }
   }
