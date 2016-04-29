@@ -1,7 +1,7 @@
 class jenkins::common {
 
   include 'ntp'
-  include 'java'
+  include 'java::jre_headless'
 
   user { 'jenkins':
     ensure     => present,

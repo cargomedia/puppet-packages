@@ -1,17 +1,11 @@
 {
-  "name": "cargomedia-java",
+  "name": "cargomedia-screenconnect",
   "version": "0.0.1",
   "author": "Cargo Media",
   "license": "MIT",
-  "summary": "java",
+  "summary": "screenconnect.com",
   "source": "https://github.com/cargomedia/puppet-packages",
   "operatingsystem_support": [
-    {
-      "operatingsystem": "Debian",
-      "operatingsystemrelease": [
-        "7"
-      ]
-    },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [

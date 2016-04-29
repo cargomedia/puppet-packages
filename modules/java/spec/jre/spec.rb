@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'java' do
+describe 'java::jre' do
 
   describe command('java -version') do
     its(:exit_status) { should eq 0 }
@@ -9,4 +9,5 @@ describe 'java' do
   describe command('ls -d /usr/lib/jvm/java-7-openjdk*') do
     its(:exit_status) { should eq 0 }
   end
+
 end
