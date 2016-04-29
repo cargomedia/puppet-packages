@@ -5,8 +5,8 @@ define xorg::config (
   $config_path = undef,
 ) {
 
-  include 'xorg'
-  include 'augeas'
+  require 'xorg'
+  require 'augeas'
 
   $xorg_path_final = $config_path ? { undef => $xorg::config_path, default => $config_path }
 
