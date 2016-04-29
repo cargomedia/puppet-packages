@@ -10,7 +10,7 @@ define xorg::config (
 
   $xorg_path_final = $config_path ? { undef => $xorg::config_path, default => $config_path }
 
-  augeas { "section-file-${name}":
+  augeas { "xorg::config: ${name}":
     context => "/files${xorg_path_final}",
     onlyif  => "match ${section}/${key}[. = '${value}'] size==0",
     changes => "set ${section}/${key}[last() + 1] '${value}'",
