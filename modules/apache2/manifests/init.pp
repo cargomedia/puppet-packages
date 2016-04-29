@@ -5,7 +5,9 @@ class apache2 {
 
   file { '/etc/apache2':
     ensure => directory,
-
+    owner  => '0',
+    group  => '0',
+    mode   => '0755',
   }
 
   file { '/etc/apache2/httpd.conf':
