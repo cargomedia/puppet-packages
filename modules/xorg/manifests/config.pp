@@ -2,13 +2,13 @@ define xorg::config (
   $section,
   $key,
   $value,
-  $config_path = undef,
+  $config_name = undef,
 ) {
 
   require 'xorg'
   require 'augeas'
 
-  $xorg_path_final = $config_path ? { undef => $xorg::config_path, default => $config_path }
+  $xorg_path_final = $config_name ? { undef => $xorg::config_path, default => "${xorg::config_path_dir}/${config_name}.conf" }
 
   augeas { "xorg::config: ${name}":
     context => "/files${xorg_path_final}",
