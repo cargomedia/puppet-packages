@@ -24,7 +24,7 @@ node default {
     value   => 'dummy'
   }
 
-  # HID multitouch
+  # HID multitouch example
 
   $xorg_hid_config = '/etc/X11/xorg-multitouch.conf'
 
@@ -32,20 +32,20 @@ node default {
     section => 'InputClass',
     key     => 'MatchIsTouchpad',
     value   => 'true',
-    xorg_config_path => $xorg_hid_config,
+    config_path => $xorg_hid_config,
   }
 
   xorg::config { 'set multitouch HID device = identifier':
     section => 'InputClass',
     key     => 'Identifier',
     value   => 'Multitouch Touchpad',
-    xorg_config_path => $xorg_hid_config,
+    config_path => $xorg_hid_config,
   }
 
   xorg::config { 'set multitouch HID device - driver':
     section => 'InputClass',
     key     => 'Driver',
     value   => 'hid-multitouch',
-    xorg_config_path => $xorg_hid_config,
+    config_path => $xorg_hid_config,
   }
 }

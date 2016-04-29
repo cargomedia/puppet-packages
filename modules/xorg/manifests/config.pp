@@ -2,13 +2,13 @@ define xorg::config (
   $section,
   $key,
   $value,
-  $xorg_config_path = undef,
+  $config_path = undef,
 ) {
 
   include 'augeas'
   include 'xorg::common'
 
-  $xorg_path_final = $xorg_config_path ? { undef => $xorg::common::config_path, default => $xorg_config_path }
+  $xorg_path_final = $config_path ? { undef => $xorg::common::config_path, default => $config_path }
 
   augeas { "section-file-${name}":
     context => "/files${xorg_path_final}",
