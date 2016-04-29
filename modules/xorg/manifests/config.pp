@@ -8,13 +8,13 @@ define xorg::config (
   require 'xorg'
   require 'augeas'
 
-  $xorg_path_final = $config_name ? { undef => $xorg::config_path, default => "${xorg::config_path_dir}/${config_name}.conf" }
+  $config_path = $config_name ? { undef => $xorg::config_path, default => "${xorg::config_path_dir}/${config_name}.conf" }
 
   augeas { "xorg::config: ${name}":
-    context => "/files${xorg_path_final}",
+    context => "/files${config_path}",
     onlyif  => "match ${section}/${key}[. = '${value}'] size==0",
     changes => "set ${section}/${key}[last() + 1] '${value}'",
-    incl    => $xorg_path_final,
+    incl    => $config_path,
     lens    => 'Xorg.lns',
     require => Class['augeas'],
   }
