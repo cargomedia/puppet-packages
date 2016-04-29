@@ -10,7 +10,7 @@ describe 'xorg::config' do
     its(:content) { should match /Driver "dummy"/ }
   end
 
-  describe file('/etc/X11/xorg-multitouch.conf') do
+  describe file('/etc/X11/xorg.conf.d/xorg-multitouch.conf') do
     its(:content) { should match /Section "InputClass"/ }
     its(:content) { should match /Driver "hid-multitouch"/ }
   end
