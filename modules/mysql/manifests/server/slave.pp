@@ -1,7 +1,5 @@
 class mysql::server::slave ($replication_id, $server_id) {
 
-  include 'mysql::server'
-
   Mysql::Server::Instance <<| title == $replication_id |>>
 
   file { '/etc/mysql/conf.d/slave.cnf':
