@@ -2,7 +2,7 @@ class puppetserver::puppetdb (
   $port,
   $port_ssl,
   $vardir = '/var/lib/puppetdb',
-  $heap_size = '1g',
+  $heap_size = '100m',
 ) {
 
   require 'apt'
