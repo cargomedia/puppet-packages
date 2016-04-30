@@ -41,6 +41,10 @@ describe 'puppet::agent' do
     it { should be_readable.by('others') }
   end
 
+  describe command('sudo -u otheruser cat /opt/puppetlabs/puppet/cache/state/last_run_summary.yaml') do
+    its(:exit_status) { should eq 0 }
+  end
+
   describe command('/opt/puppetlabs/puppet/bin/gem list') do
     its(:stdout) { should match('deep_merge') }
     its(:stdout) { should match('i18n') }
