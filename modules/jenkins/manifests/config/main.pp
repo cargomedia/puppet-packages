@@ -1,5 +1,9 @@
 class jenkins::config::main(
-  $num_executors
+  $num_executors,
+  $email_admin,
+  $email_suffix,
+  $hostname,
+  $port,
 ) {
 
   require 'jenkins::package'
