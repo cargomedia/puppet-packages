@@ -2,7 +2,6 @@ class puppetserver(
   $dnsAltNames = [],
   $hiera_data_dir = '/etc/puppetlabs/code/environments/%{::environment}/hieradata',
   $hiera_environment = 'production',
-  $reportToEmail = 'root',
   $puppetdb = false,
   $puppetdb_port = 8080,
   $puppetdb_port_ssl = 8081,
@@ -75,18 +74,6 @@ class puppetserver(
     mode    => '0644',
     before  => Package['puppetserver'],
     notify  => Service['puppetserver'],
-  }
-
-  if $reportToEmail {
-    file { '/etc/puppetlabs/puppet/tagmail.conf':
-      ensure  => file,
-      content => template("${module_name}/puppet/tagmail.conf"),
-      group   => '0',
-      owner   => '0',
-      mode    => '0644',
-      before  => Package['puppetserver'],
-      notify  => Service['puppetserver'],
-    }
   }
 
   package { 'puppetserver':
