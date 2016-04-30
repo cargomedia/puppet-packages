@@ -3,8 +3,8 @@ define puppet::gem {
   include 'puppet::common'
 
   package { "${title} (puppet)":
-    name  => $title,
     ensure   => present,
+    name  => $title,
     provider => puppet_gem,
     require  => Package['puppet-agent'],
   }
