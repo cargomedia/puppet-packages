@@ -4,7 +4,7 @@ Service { provider => $::service_provider }
 
 node default {
 
-  if ($bootstrap) {
+  if ($facts['bootstrap']) {
     <% @bootstrap_classes.each do |bootstrap_class| -%>
     class { '<%= bootstrap_class %>': }
     <% end %>
