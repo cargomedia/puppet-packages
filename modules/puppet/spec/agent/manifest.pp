@@ -15,4 +15,8 @@ node default {
     environment => 'foo',
   }
 
+  user { 'otheruser':
+    ensure => present,
+  }
+
 }
