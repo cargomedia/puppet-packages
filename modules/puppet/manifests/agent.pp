@@ -8,7 +8,6 @@ class puppet::agent (
   $environment = 'production',
 ) {
 
-  require 'apt'
   include 'puppet::common'
 
   $splaylimit_final = $splaylimit ? {
@@ -17,43 +16,26 @@ class puppet::agent (
   }
 
   file {
-    '/etc/puppet/conf.d/agent':
+    '/etc/puppetlabs/puppet/conf.d/agent':
       ensure  => file,
       content => template("${module_name}/agent/config"),
       group   => '0',
       owner   => '0',
       mode    => '0644',
-      notify  => Exec['/etc/puppet/puppet.conf'];
-
-    '/etc/default/puppet':
-      ensure  => file,
-      content => template("${module_name}/agent/default"),
-      group   => '0',
-      owner   => '0',
-      mode    => '0644',
-      notify  => Service['puppet'];
+      notify  => Exec['/etc/puppetlabs/puppet/puppet.conf'];
   }
-  ->
-
-  package { 'puppet':
-    ensure   => present,
-    provider => 'apt',
-    require  => [
-      Helper::Script['install puppet apt sources'],
-      Exec['/etc/puppet/puppet.conf'],
-      File['/etc/puppet/conf.d/main']
-    ]
-  }
-  ->
 
   daemon { 'puppet':
-    binary => '/usr/bin/puppet',
-    args   => 'agent --no-daemonize',
-    nice   => $nice_value,
+    binary  => '/opt/puppetlabs/bin/puppet',
+    args    => 'agent --no-daemonize',
+    nice    => $nice_value,
+    require => Package['puppet-agent'];
   }
 
   @bipbip::entry { 'puppet':
     plugin  => 'puppet',
-    options => { },
+    options => {
+      lastrunfile => '/opt/puppetlabs/puppet/cache/state/last_run_summary.yaml',
+    },
   }
 }

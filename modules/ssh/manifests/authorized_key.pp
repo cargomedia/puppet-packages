@@ -11,7 +11,7 @@ define ssh::authorized_key (
   ssh_authorized_key { $title:
     ensure => present,
     user   => $user,
-    type   => $key[type],
-    key    => $key[sha],
+    type   => $key['type'],
+    key    => $key['sha'],
   }
 }

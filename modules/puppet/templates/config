@@ -1,8 +1,11 @@
 [main]
-confdir = /etc/puppet
-ssldir = /etc/puppet/ssl
-logdir = /var/log/puppet
-rundir = /var/run/puppet
-stringify_facts = false
+# These are all defaults
+confdir = /etc/puppetlabs/puppet
+ssldir = /etc/puppetlabs/puppet/ssl
+codedir = /etc/puppetlabs/code
+logdir = /var/log/puppetlabs/puppet
+rundir = /var/run/puppetlabs
+vardir = /opt/puppetlabs/puppet/cache
+
 basemodulepath = <%= @basemodulepath %>
 certname = <%= @clientcert %>
