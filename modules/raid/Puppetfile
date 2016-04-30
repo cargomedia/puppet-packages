@@ -13,3 +13,7 @@ mod 'cargomedia/helper',
 mod 'cargomedia/python',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/python'
+
+mod 'cargomedia/unzip',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/unzip'
