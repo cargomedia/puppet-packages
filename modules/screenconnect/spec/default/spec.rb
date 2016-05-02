@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe 'screenconnect' do
 
-  describe process('java') do
-    its(:args) { should match('-classpath /opt/screenconnect-') }
+  describe command('pgrep -f screenconnect') do
+    its(:exit_status) { should eq 0 }
   end
 
 end
