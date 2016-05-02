@@ -2,8 +2,7 @@ class network::hostname(
   $fqdn
 ) {
 
-  # Disabled due to problems with puppet4
-  #include 'network::host::purge'
+  include 'network::host::purge'
 
   $hostname = regsubst($fqdn, '^([^.]*).*$', '\1')
   $aliases = $hostname ? {
@@ -14,7 +13,7 @@ class network::hostname(
   network::host { $fqdn:
     ipaddr  => '127.0.0.1',
     aliases => $aliases,
-    #before  => Class['network::host::purge'],
+    before  => Class['network::host::purge'],
   }
 
   file { '/etc/mailname':
