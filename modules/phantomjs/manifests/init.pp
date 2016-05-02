@@ -1,12 +1,6 @@
 class phantomjs($version = '2.1.1') {
 
-  require 'apt'
-  require 'build'
-
-  package {['unp', 'fontconfig']:
-    provider => 'apt',
-  }
-  ->
+  ensure_packages(['fontconfig'])
 
   helper::script { 'install phantomjs':
     content => template("${module_name}/install.sh"),
