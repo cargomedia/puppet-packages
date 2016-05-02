@@ -1,7 +1,3 @@
-# Workaround until upgrading to puppet 4.4
-# See https://github.com/cargomedia/puppet-packages/issues/1071
-Service { provider => $::service_provider }
-
 node default {
 
   if ($facts['bootstrap']) {
