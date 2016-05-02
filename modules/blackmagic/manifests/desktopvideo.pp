@@ -10,11 +10,12 @@ class blackmagic::desktopvideo {
     provider => 'apt',
   }
 
-  $url = 'http://puppet-packages.cargomedia.ch/blackmagic/Blackmagic_Desktop_Video_Linux_10.6.2.tar.gz'
+  $deb_url = 'http://puppet-packages.cargomedia.ch/blackmagic/desktopvideo_10.6.2a3_amd64.deb'
 
   helper::script { 'install blackmagic desktopvideo':
     content => template("${module_name}/desktopvideo/install.sh.erb"),
     unless  => "dpkg-query -f '\${Status} \${Version}\n' -W desktopvideo | grep -q 'ok installed ${version}'",
+    timeout => 1000,
     require => [
       Class['apt::update'],
       Class['kernel::headers'],

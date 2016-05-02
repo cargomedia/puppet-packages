@@ -1,5 +1,4 @@
 #!/bin/bash -e
 
-curl -sL '<%= @url %>' | tar -xzf -
-cd Blackmagic_Desktop_Video_Linux_*
-dpkg -i --force-confold deb/amd64/desktopvideo_*_amd64.deb
+curl -sL '<%= @deb_url %>' > desktopvideo.deb
+dpkg -i --force-confold desktopvideo.deb
