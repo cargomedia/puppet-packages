@@ -7,7 +7,7 @@ class nvidia {
   }
   ->
 
-  package { ['nvidia-346', 'nvidia-346-updates']:
+  package { 'nvidia-346':
     ensure   => present,
     provider => apt,
   }
@@ -24,13 +24,6 @@ class nvidia {
     section => 'Files',
     key     => 'ModulePath',
     value   => '/usr/lib/nvidia-346/xorg/'
-  }
-  ->
-
-  xorg::config { 'nvidia: add updates module path':
-    section => 'Files',
-    key     => 'ModulePath',
-    value   => '/usr/lib/nvidia-346-updates/xorg/'
   }
 
   @bipbip::entry { 'logparser-nvidia-gpu':
