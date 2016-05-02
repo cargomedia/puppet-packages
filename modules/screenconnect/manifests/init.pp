@@ -12,7 +12,7 @@ class screenconnect(
 
   helper::script { 'install screenconnect':
     content => template("${module_name}/install.sh.erb"),
-    unless  => 'dpkg -l screenconnect-*',
+    unless  => "dpkg-query -f '\${Status}\n' -W screenconnect-* | grep -q 'ok installed'",
     require => Class['apt::update'],
   }
 
