@@ -3,4 +3,8 @@ mod 'puppetlabs/stdlib',
 
 mod 'cargomedia/helper',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/helper
+  :path => 'modules/helper'
+
+mod 'cargomedia/apt',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/apt'
