@@ -1,18 +1,11 @@
 {
-  "name": "cargomedia-kernel",
+  "name": "cargomedia-blackmagic",
   "version": "0.0.1",
   "author": "Cargo Media",
   "license": "MIT",
-  "summary": "kernel",
+  "summary": "blackmagic",
   "source": "https://github.com/cargomedia/puppet-packages",
   "operatingsystem_support": [
-    {
-      "operatingsystem": "Debian",
-      "operatingsystemrelease": [
-        "7",
-        "8"
-      ]
-    },
     {
       "operatingsystem": "Ubuntu",
       "operatingsystemrelease": [
