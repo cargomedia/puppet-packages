@@ -2,7 +2,12 @@ class nvidia {
 
   require 'apt'
 
-  package { 'nvidia-346':
+  kernel::modprobe_blacklist { 'nvidia: blacklist and unload nouveau module':
+    modules => ['nouveau'],
+  }
+  ->
+
+  package { ['nvidia-346', 'nvidia-346-updates']:
     ensure   => present,
     provider => apt,
   }
@@ -12,6 +17,20 @@ class nvidia {
     content => template("${module_name}/configure_x.sh"),
     unless  => 'cat /etc/X11/xorg.conf | grep nvidia',
     require => Package['nvidia-346'],
+  }
+  ->
+
+  xorg::config { 'nvidia: add module path':
+    section => 'Files',
+    key     => 'ModulePath',
+    value   => '/usr/lib/nvidia-346/xorg/'
+  }
+  ->
+
+  xorg::config { 'nvidia: add updates module path':
+    section => 'Files',
+    key     => 'ModulePath',
+    value   => '/usr/lib/nvidia-346-updates/xorg/'
   }
 
   @bipbip::entry { 'logparser-nvidia-gpu':
