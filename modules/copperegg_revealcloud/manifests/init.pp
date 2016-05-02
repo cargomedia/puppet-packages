@@ -1,7 +1,7 @@
 class copperegg_revealcloud(
   $api_key,
   $label = $::clientcert,
-  $tags = $::copperegg_tags,
+  $tags = $::facts['copperegg_tags'],
   $version = 'v3.3-118-g5f871c6',
   $enable_node = true
 ) {
@@ -46,7 +46,7 @@ class copperegg_revealcloud(
   if $enable_node {
     exec { 'enable revealcloud node':
       path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-      command     => "rm /usr/local/revealcloud/run/revealcloud.pid && ${dir}/revealcloud -x -a ${api_host} -k ${api_key} -E",
+      command     => "rm -f /usr/local/revealcloud/run/revealcloud.pid && ${dir}/revealcloud -x -a ${api_host} -k ${api_key} -E",
       unless      => "test -e ${dir}/enabled.lock",
       user        => '0',
       group       => '0',

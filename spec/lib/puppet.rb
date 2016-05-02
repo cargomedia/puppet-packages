@@ -55,10 +55,10 @@ class Puppet
   # @param [Pathname] manifest_path
   def run_apply(manifest_path)
     manifest_path_vagrant = @vagrant_box.parse_external_path(manifest_path)
-    module_path = '/etc/puppet/modules:/vagrant/modules'
+    module_path = '/etc/puppetlabs/code/modules:/vagrant/modules'
     hiera_path = '/etc/hiera.yaml'
 
-    command = "sudo puppet apply --modulepath #{module_path.shellescape} --hiera_config=#{hiera_path.shellescape}"
+    command = "sudo puppet apply --basemodulepath #{module_path.shellescape} --hiera_config=#{hiera_path.shellescape}"
     command += ' --verbose --debug --trace' if @verbose
     command += ' ' + manifest_path_vagrant.to_s.shellescape
     command += ' --detailed-exitcodes || [ $? -eq 2 ]'

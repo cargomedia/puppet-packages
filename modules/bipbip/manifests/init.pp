@@ -2,7 +2,7 @@ class bipbip (
   $api_key = undef,
   $version = 'latest',
   $frequency = 15,
-  $tags = $::copperegg_tags,
+  $tags = $::facts['copperegg_tags'],
   $log_file = '/var/log/bipbip/bipbip.log',
   $log_level = 'INFO',
 ){
