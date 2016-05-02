@@ -9,9 +9,9 @@ define cm::reverse_proxy(
   include 'nginx'
 
   $upstream_options_defaults = {
-    name => 'reverse-proxy-backend',
-    members => ['localhost:443'],
-    ssl => true,
+    name        => 'reverse-proxy-backend',
+    members     => ['localhost:443'],
+    ssl         => true,
     header_host => '$host',
   }
 
@@ -54,8 +54,9 @@ define cm::reverse_proxy(
   $proto = $upstream_opts[ssl] ? { true => 'https', false => 'http' }
   nginx::resource::vhost { $name:
     server_name         => $hostnames,
-    ssl                 => $ssl,
     listen_port         => $port,
+    ssl                 => $ssl,
+    ssl_port            => $port,
     ssl_cert            => $ssl_cert,
     ssl_key             => $ssl_key,
     location_cfg_append => [
