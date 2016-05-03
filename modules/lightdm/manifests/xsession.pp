@@ -1,5 +1,6 @@
 define lightdm::xsession(
   $exec,
+  $entries = { },
 ) {
 
   include 'lightdm'
