@@ -12,10 +12,12 @@ class nvidia {
     provider => apt,
   }
 
-  helper::script { 'nvidia: configure X server':
-    content => template("${module_name}/configure_x.sh"),
-    unless  => 'cat /etc/X11/xorg.conf | grep nvidia-xconfig',
-    require => Package['nvidia-346'],
+  exec { 'nvidia: configure X server':
+    provider    => shell,
+    command     => 'nvidia-xconfig',
+    unless      => 'cat /etc/X11/xorg.conf | grep nvidia-xconfig',
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    require     => Package['nvidia-346'],
   }
 
   @bipbip::entry { 'logparser-nvidia-gpu':
