@@ -1,8 +1,5 @@
 #!/bin/bash -e
 
-# NOTA BENE: this is expected to run AFTER the reboot from apt-get install nvidia-drivers or
-# after removing nouveau modules manually
-
 MODESETTING_PATH=/usr/lib/xorg/modules/drivers/modesetting_drv.so
 MODESETTING_BACKUP_PATH=/usr/lib/xorg/modules/drivers/modesetting_drv.so.bak
 XORG_PATH=/etc/X11/xorg.conf
