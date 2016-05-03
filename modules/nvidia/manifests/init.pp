@@ -4,14 +4,13 @@ class nvidia {
 
   kernel::modprobe_blacklist { 'nvidia: blacklist and unload nouveau module':
     modules => ['nouveau'],
+    before  => Package['nvidia-346'],
   }
-  ->
 
   package { 'nvidia-346':
     ensure   => present,
     provider => apt,
   }
-  ->
 
   helper::script { 'nvidia: configure X server':
     content => template("${module_name}/configure_x.sh"),
