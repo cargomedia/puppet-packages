@@ -15,7 +15,7 @@ class nvidia {
 
   helper::script { 'nvidia: configure X server':
     content => template("${module_name}/configure_x.sh"),
-    unless  => 'cat /etc/X11/xorg.conf | grep nvidia',
+    unless  => 'cat /etc/X11/xorg.conf | grep nvidia-xconfig',
     require => Package['nvidia-346'],
   }
   ->
