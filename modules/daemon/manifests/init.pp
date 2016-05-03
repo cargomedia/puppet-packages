@@ -5,7 +5,7 @@ define daemon (
   $stop_timeout = 20,
   $nice = undef,
   $oom_score_adjust = undef,
-  $env = {},
+  $env = { },
   $limit_nofile = undef,
   $core_dump = false,
   $sysvinit_kill = false,
@@ -13,12 +13,10 @@ define daemon (
   $post_command = undef
 ) {
 
+  $service_provider = $::facts['service_provider']
+
   if (defined(User[$user])) {
     User[$user] -> Daemon[$name]
-  }
-
-  Service {
-    provider => $::service_provider,
   }
 
   service { $title:
@@ -27,7 +25,7 @@ define daemon (
     hasrestart => true,
   }
 
-  if ($::service_provider == 'debian') {
+  if ($service_provider == 'debian') {
     sysvinit::script { $title:
       content => template("${module_name}/sysvinit.sh.erb"),
       notify  => Service[$title],
@@ -39,7 +37,7 @@ define daemon (
 
   }
 
-  if ($::service_provider == 'systemd') {
+  if ($service_provider == 'systemd') {
     systemd::unit { $title:
       content => template("${module_name}/systemd.service.erb"),
       notify  => Service[$title],
@@ -51,7 +49,7 @@ define daemon (
   }
 
   @monit::entry { $title:
-    content => template("${module_name}/monit.${::service_provider}.erb"),
+    content => template("${module_name}/monit.${service_provider}.erb"),
     require => Service[$title],
   }
 }

@@ -10,7 +10,6 @@ class lightdm {
   service { 'lightdm':
     enable   => true,
     require  => Package['lightdm'],
-    provider => $::service_provider, # Workaround for https://github.com/cargomedia/puppet-packages/issues/1071
   }
 
   file { '/etc/lightdm/lightdm.conf.d':
