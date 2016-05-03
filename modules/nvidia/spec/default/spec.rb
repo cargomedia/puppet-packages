@@ -6,4 +6,9 @@ describe 'nvidia' do
     it { should be_installed }
   end
 
+  describe file('/etc/X11/xorg.conf') do
+    it { should be_file }
+    its(:content) { should match /nvidia-xconfig/ }
+  end
+
 end
