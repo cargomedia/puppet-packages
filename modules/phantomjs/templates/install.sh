@@ -1,7 +1,7 @@
 #!/bin/bash -e
 
 PHANTOMJS='phantomjs-<%= @version %>-linux-x86_64'
-PHANTOMJS_URL='https://bitbucket.org/ariya/phantomjs/downloads/${PHANTOMJS}.tar.bz2'
+PHANTOMJS_URL="https://bitbucket.org/ariya/phantomjs/downloads/${PHANTOMJS}.tar.bz2"
 
 function download_and_unpack_phantomjs {
     curl --fail --retry 5 -sL ${PHANTOMJS_URL} > ${PHANTOMJS}
