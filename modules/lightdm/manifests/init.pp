@@ -28,6 +28,8 @@ class lightdm {
     owner   => '0',
     group   => '0',
     mode    => '0644',
+    purge   => true,
+    recurse => true,
     notify  => Service['lightdm'],
   }
 
