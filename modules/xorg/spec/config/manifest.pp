@@ -31,7 +31,7 @@ node default {
   xorg::config { 'set multitouch HID device - definition':
     section     => 'InputClass',
     key         => 'MatchIsTouchpad',
-    value       => true,
+    value       => 0,
     config_name => $hid_config_name,
   }
 
