@@ -12,7 +12,7 @@ class xorg::config::multitouch (
   xorg::config { 'multitouch support - definition':
     section     => 'InputClass',
     key         => 'MatchIsTouchpad',
-    value       => true,
+    value       => '"true"',
     config_name => $config_name,
     require     => Package['xserver-xorg-input-multitouch'],
   }
