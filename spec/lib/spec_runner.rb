@@ -20,15 +20,14 @@ module PuppetModules
       end
 
       # @return [Hash]
-      def examples_summary_hash
+      def summary_data
         initial = {
-          'duration' => 0,
-          'example_count' => 0,
-          'failure_count' => 0,
-          'pending_count' => 0,
+          :duration => 0,
+          :example_count => 0,
+          :failure_count => 0,
         }
         @spec_result_list.reduce initial do |memo, spec_result|
-          memo.merge spec_result.summary_hash do |key, oldval, newval|
+          memo.merge spec_result.summary_data do |key, oldval, newval|
             oldval + newval
           end
         end
@@ -47,23 +46,23 @@ module PuppetModules
       # @return [String]
       def summary
         lines = []
-        examples_summary = examples_summary_hash
+        examples_summary = summary_data
 
-        duration = examples_summary['duration'].floor
+        duration = examples_summary[:duration].floor
         lines << 'Finished in ' + ChronicDuration.output(duration, :keep_zero => true) + '.'
 
         headline = success? ? 'Success!'.green : 'Failure!'.red
         spec_total_count = @spec_result_list.count
         spec_failures = @spec_result_list.reject(&:success?)
-        examples_total_count = examples_summary['example_count']
-        examples_failure_count = examples_summary['failure_count']
+        examples_total_count = examples_summary[:example_count]
+        examples_failure_count = examples_summary[:failure_count]
         headline << " #{spec_total_count} specs run, #{spec_failures.count} failures (#{examples_total_count} examples, #{examples_failure_count} failures)"
         lines << headline.bold
 
         lines << "Failed examples:\n" unless success?
         failed_specs.each do |spec_result|
           spec_result.failed_examples.each do |example|
-            lines << example['full_description'].indent(4)
+            lines << example.description.indent(4)
           end
         end
         lines << "\n"
@@ -73,34 +72,38 @@ module PuppetModules
 
     class SpecResult
 
-      attr_reader :spec, :os, :stdout
+      attr_accessor :success, :duration, :summary, :examples
+      attr_reader :os
 
-      # @param [Spec] spec
       # @param [String] os
-      # @param [Number] status
-      # @param [String] stdout
-      def initialize(spec, os, status, stdout)
-        @spec = spec
+      # @param [TrueClass, FalseClass] success
+      def initialize(os, success)
         @os = os
-        @status = status
-        @stdout = JSON.parse(stdout.lines.to_a.last)
+        @success = success
+        @duration = nil
+        @summary = nil
+        @examples = []
       end
 
       # @return [TrueClass, FalseClass]
       def success?
-        @status == 0 && failed_examples.count == 0
+        @success === true and failed_examples.count == 0
       end
 
       # @return [Hash]
-      def summary_hash
-        @stdout['summary']
+      def summary_data
+        {
+          :duration => @duration.to_i,
+          :example_count => @examples.count,
+          :failure_count => failed_examples.count,
+        }
       end
 
       # @return [String]
       def summary
         headline = [
           success? ? 'Success!'.green : 'Failure!'.red,
-          @stdout['summary_line']
+          @summary.to_s
         ].join(' ').bold
 
         lines = []
@@ -108,12 +111,7 @@ module PuppetModules
         lines << "Failed examples:\n" unless success?
         failed_examples.each do |example|
           example_lines = []
-          example_lines << example['full_description']
-          unless example['exception'].nil?
-            exception = example['exception']
-            example_lines << exception['class'] + ':'
-            example_lines << exception['message'].indent(2)
-          end
+          example_lines << example.summary
           lines << example_lines.join("\n").indent(4)
         end
         lines << "\n"
@@ -122,9 +120,42 @@ module PuppetModules
 
       # @return [Hash[]]
       def failed_examples
-        @stdout['examples'].select do |example|
-          example['status'] === 'failed'
+        examples.reject do |example|
+          example.success?
         end
+      end
+    end
+
+
+    class ExampleResult
+
+      attr_reader :description, :stdout
+
+      def initialize(description, success, summary)
+        @description = description
+        @success = success
+        @summary = summary
+      end
+
+      def success?
+        @success === true
+      end
+
+      def summary
+        @description + "\n" + @summary
+      end
+
+      def self.from_stdout(stdout)
+        description = stdout['full_description']
+        summary_lines = []
+        unless stdout['exception'].nil?
+          exception = stdout['exception']
+          summary_lines << exception['class'] + ':'
+          summary_lines << exception['message'].indent(2)
+        end
+        summary = summary_lines.join("\n")
+        status = stdout['status'] === 'passed'
+        ExampleResult.new(description, status, summary)
       end
     end
 
@@ -172,8 +203,23 @@ module PuppetModules
       process.on :stderr do |data|
         runner.emit(:output, data)
       end
-      result = process.run
-      SpecResult.new(spec, box, result.status, result.stdout)
+      process_result = process.run
+
+      success = (process_result.status === 0)
+      spec_result = SpecResult.new(box, success)
+      begin
+        stdout = JSON.parse(process_result.stdout.lines.to_a.last)
+      rescue Exception => e
+        spec_result.success = false
+        spec_result.summary = "#{e.message}\nStdout:\n`#{process_result.stdout}`"
+      else
+        spec_result.duration = stdout['summary']['duration']
+        spec_result.summary = stdout['summary']['summary_line']
+        stdout['examples'].each do |example_stdout|
+          spec_result.examples << ExampleResult.from_stdout(example_stdout)
+        end
+      end
+      spec_result
     end
   end
 end
