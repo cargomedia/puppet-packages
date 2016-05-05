@@ -131,20 +131,27 @@ module PuppetModules
 
       attr_reader :description, :stdout
 
+      # @param [String] description
+      # @param [TrueClass, FalseClass] success
+      # @param [String] summary
       def initialize(description, success, summary)
         @description = description
         @success = success
         @summary = summary
       end
 
+      # @return [TrueClass, FalseClass]
       def success?
         @success === true
       end
 
+      # @return [String]
       def summary
         @description + "\n" + @summary
       end
 
+      # @param [String] stdout
+      # @return [ExampleResult]
       def self.from_stdout(stdout)
         description = stdout['full_description']
         summary_lines = []
@@ -205,13 +212,12 @@ module PuppetModules
       end
       process_result = process.run
 
-      success = (process_result.status === 0)
-      spec_result = SpecResult.new(box, success)
+      spec_result = SpecResult.new(box, process_result.success?)
       begin
         stdout = JSON.parse(process_result.stdout.lines.to_a.last)
       rescue Exception => e
         spec_result.success = false
-        spec_result.summary = "#{e.message}\nStdout:\n`#{process_result.stdout}`"
+        spec_result.summary = "#{e.message}\nOutput:\n`#{process_result.output}`"
       else
         spec_result.duration = stdout['summary']['duration']
         spec_result.summary = stdout['summary']['summary_line']
