@@ -1,6 +1,5 @@
 class php5::extension::imagick (
-  $version = '3.1.2',
-  $policy_config = true,
+  $version = '3.1.2'
 ) {
 
   require 'apt'
@@ -32,14 +31,12 @@ class php5::extension::imagick (
     $imagemagick_dir = '/etc/ImageMagick-6'
   }
 
-  if $policy_config {
-    file { "${imagemagick_dir}/policy.xml":
-      ensure  => file,
-      content => template("${module_name}/extension/imagick/policy.xml"),
-      owner   => '0',
-      group   => '0',
-      mode    => '0644',
-    }
+  file { "${imagemagick_dir}/policy.xml":
+    ensure  => file,
+    content => template("${module_name}/extension/imagick/policy.xml"),
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
   }
 
   php5::config_extension { 'imagick':
