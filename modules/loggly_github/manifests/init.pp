@@ -33,9 +33,9 @@ class loggly_github (
   }
 
   daemon { 'loggly-github':
-    binary  => '/usr/bin/node',
-    args    => '/usr/bin/loggly-github --config /etc/loggly-github/config.json',
-    user    => 'loggly-github',
-    require => Package['loggly-github'],
+    binary    => '/usr/bin/node',
+    args      => '/usr/bin/loggly-github --config /etc/loggly-github/config.json',
+    user      => 'loggly-github',
+    subscribe => Package['loggly-github'],
   }
 }
