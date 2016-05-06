@@ -67,7 +67,7 @@ class Puppet
       $stderr.puts "Puppet applying: `#{manifest_path_vagrant.to_s}`"
       @vagrant_box.execute_ssh command
     rescue Exception => e
-      abort "Command failed: #{e.message}"
+      raise "Puppet apply failed: #{e.message}"
     end
   end
 
