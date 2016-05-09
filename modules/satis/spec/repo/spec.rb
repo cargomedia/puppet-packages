@@ -43,4 +43,8 @@ describe 'satis::repo' do
     its(:stderr) { should match /200 OK/}
     its(:stdout) { should match /foo Composer Repository/}
   end
+
+  describe file('/var/spool/cron/crontabs/satis') do
+    its(:content) { should match /MAILTO=root/ }
+  end
 end
