@@ -25,7 +25,7 @@ define satis::repo (
   ->
 
   cron { "cron satis repo ${name}":
-    command => "/var/lib/satis/satis/bin/satis --no-interaction build ${specificationPath} ${outputPath} >/dev/null",
+    command => "/var/lib/satis/satis/bin/satis --no-interaction build ${specificationPath} ${outputPath} >/dev/null 2>&1 || echo \"An error occured - Exit code: $?\"",
     user    => 'satis',
     environment => $cron_environment,
   }
