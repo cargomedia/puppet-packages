@@ -1,4 +1,6 @@
-define satis::repo ($content) {
+define satis::repo (
+  $content,
+  $cron_environment = 'MAILTO=root') {
 
   require 'satis'
 
@@ -25,5 +27,6 @@ define satis::repo ($content) {
   cron { "cron satis repo ${name}":
     command => "/var/lib/satis/satis/bin/satis --no-interaction build ${specificationPath} ${outputPath} >/dev/null",
     user    => 'satis',
+    environment => $cron_environment,
   }
 }
