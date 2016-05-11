@@ -110,7 +110,7 @@ define janus::server (
   }
 
   if $instance_name != 'janus' {
-    if ! defined(Daemon['janus']) {
+    if ! defined(Service['janus']) {
       service { 'janus':
         ensure => stopped,
         enable => false,
