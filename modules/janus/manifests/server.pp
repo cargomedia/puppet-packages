@@ -76,21 +76,21 @@ define janus::server (
       owner     => '0',
       group     => '0',
       mode      => '0644',
-      notify    => Service[$instance_name];
+      notify    => Daemon[$instance_name];
     "${ssl_config_dir}/cert.pem":
       ensure    => file,
       content   => $ssl_cert_content,
       owner     => 'janus',
       group     => 'janus',
       mode      => '0644',
-      notify    => Service[$instance_name];
+      notify    => Daemon[$instance_name];
     "${ssl_config_dir}/cert.key":
       ensure    => file,
       content   => $ssl_key_content,
       owner     => 'janus',
       group     => 'janus',
       mode      => '0640',
-      notify    => Service[$instance_name];
+      notify    => Daemon[$instance_name];
     $log_file:
       ensure => file,
       owner  => 'janus',
@@ -110,7 +110,7 @@ define janus::server (
   }
 
   if $instance_name != 'janus' {
-    if ! defined(Service['janus']) {
+    if ! defined(Daemon['janus']) {
       service { 'janus':
         ensure => stopped,
         enable => false,
