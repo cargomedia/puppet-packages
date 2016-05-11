@@ -40,8 +40,7 @@ define cm_janus (
     owner   => '0',
     group   => '0',
     mode    => '0755',
-    before  => Daemon[$instance_name],
-    notify  => Service[$instance_name],
+    notify  => Daemon[$instance_name],
   }
 
   logrotate::entry { $instance_name:

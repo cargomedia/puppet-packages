@@ -29,7 +29,7 @@ class loggly_github (
     owner   => '0',
     group   => '0',
     mode    => '0644',
-    notify  => Service['loggly-github'],
+    notify  => Daemon['loggly-github'],
   }
 
   daemon { 'loggly-github':

@@ -40,7 +40,7 @@ class copperegg_revealcloud(
     command     => template("${module_name}/download.sh"),
     unless      => "test -x ${dir}/revealcloud && ${dir}/revealcloud -V 2>&1 | grep 'Version: ${version}$'",
     require     => File[$dir],
-    notify      => Service['revealcloud'],
+    notify      => Daemon['revealcloud'],
   }
 
   if $enable_node {
@@ -50,7 +50,7 @@ class copperegg_revealcloud(
       unless      => "test -e ${dir}/enabled.lock",
       user        => '0',
       group       => '0',
-      before      => Service['revealcloud'],
+      before      => Daemon['revealcloud'],
     }
     ->
     file { "${dir}/enabled.lock":
