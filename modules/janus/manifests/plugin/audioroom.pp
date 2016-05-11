@@ -37,8 +37,7 @@ define janus::plugin::audioroom(
     owner     => '0',
     group     => '0',
     mode      => '0644',
-    before    => Daemon[$instance_name],
-    notify    => Service[$instance_name],
+    notify    => Daemon[$instance_name],
   }
 
   @bipbip::entry { "janus-audioroom-${title}":
