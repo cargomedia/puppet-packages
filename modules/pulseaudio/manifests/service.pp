@@ -11,8 +11,8 @@ define pulseaudio::service (
   }
 
   daemon { $service_name:
-    binary            => '/usr/bin/pulseaudio',
-    args              => "--start --daemonize=false",
-    user              => $user,
+    binary => '/usr/bin/pulseaudio',
+    args   => "--start --daemonize=false",
+    user   => $user,
   }
 }
