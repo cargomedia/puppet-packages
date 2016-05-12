@@ -23,6 +23,8 @@ Vagrant.configure('2') do |config|
 
   config.vm.provider 'virtualbox' do |v|
     v.gui = (ENV['gui'] == 'true')
+    # Soundcard to test audio-related modules
+    v.customize ["modifyvm", :id, '--audio', 'coreaudio', '--audiocontroller', 'hda']
   end
 
   config.vm.define 'Debian-7' do |wheezy|

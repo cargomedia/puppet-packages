@@ -1,12 +1,10 @@
 class pulseaudio (
   $autospawn = false,
-  $user = 'root',
-  $daemon_binary = '/usr/bin/pulseaudio',
-  $daemon_daemonize = false,
 ){
 
+  require 'apt'
+
   package { 'pulseaudio':
-    ensure   => installed,
     provider => apt,
   }
 
@@ -18,12 +16,4 @@ class pulseaudio (
     require => Package['pulseaudio'],
   }
 
-  daemon { "pulseaudio-${user}":
-    binary            => $daemon_binary,
-    args              => "--start --daemonize=${daemon_daemonize}",
-    user              => $user,
-    require           => [
-      Package['pulseaudio'],
-    ]
-  }
 }
