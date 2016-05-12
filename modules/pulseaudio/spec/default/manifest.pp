@@ -1,5 +1,12 @@
 node default {
 
-  class {'pulseaudio':
+  user { 'dj':
+    ensure     => present,
+    managehome => true,
+  }
+
+  class { 'pulseaudio':
+    user    => 'dj',
+    require => User['dj'],
   }
 }
