@@ -1,5 +1,5 @@
 class pulseaudio (
-  $client_autospawn = false,
+  $autospawn = false,
   $user = 'performer',
   $daemon_binary = '/usr/bin/pulseaudio',
   $daemon_daemonize = false,
@@ -12,6 +12,14 @@ class pulseaudio (
   package { 'pulseaudio':
     ensure   => installed,
     provider => apt,
+  }
+
+  file { '/etc/pulse/client.conf':
+    ensure  => file,
+    content => template("${module_name}/client"),
+    mode    => '0644',
+    owner   => 0,
+    require => Package['pulseaudio'],
   }
 
   daemon { "pulseaudio-${user}":
