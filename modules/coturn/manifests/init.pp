@@ -45,7 +45,7 @@ class coturn (
       owner   => '0',
       group   => '0',
       mode    => '0644',
-      notify  => Service['coturn'];
+      notify  => Daemon['coturn'];
   }
 
   logrotate::entry { $module_name:
