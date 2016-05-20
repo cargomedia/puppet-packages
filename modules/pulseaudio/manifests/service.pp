@@ -1,8 +1,5 @@
 define pulseaudio::service (
   $user = 'root',
-  $display,
-  $xauthority,
-  $xdg_runtime_dir,
 ) {
 
   require 'pulseaudio'
@@ -17,10 +14,5 @@ define pulseaudio::service (
     binary => '/usr/bin/pulseaudio',
     args   => '--start --daemonize=false',
     user   => $user,
-    env    => {
-      'DISPLAY' => $display,
-      'XAUTHORITY' => $xauthority,
-      'XDG_RUNTIME_DIR' => $xdg_runtime_dir,
-    }
   }
 }
