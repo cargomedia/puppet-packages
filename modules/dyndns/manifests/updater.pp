@@ -1,8 +1,8 @@
-define dyndns_updater(
+define dyndns::updater(
   $fqdn = $title,
   $server = 'update.dyndns.com',
   $key_name,   # Keyname and Key secret have to be set up with a *paid* account at dyn.com
-  $key_secret, #
+  $key_secret, # https://account.dyn.com/profile/tsig.html
   $ttl = 60,
   $ip_address = undef,
   $cron_interval_minutes = 10,
@@ -20,7 +20,7 @@ define dyndns_updater(
       mode    => '0644';
     '/etc/dyndns_updater/script':
       ensure  => file,
-      content => template("dyndns_updater/script.erb"),
+      content => template("${module_name}/script.erb"),
       owner   => '0',
       group   => '0',
       mode    => '0644',
