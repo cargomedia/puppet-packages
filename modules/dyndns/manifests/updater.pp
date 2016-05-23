@@ -8,23 +8,7 @@ define dyndns::updater(
   $cron_interval_minutes = 10,
 ) {
 
-  require ['apt', 'cron']
-
-  ensure_packages(['dnsutils'], { provider => 'apt' })
-
-  file {
-    '/etc/dyndns_updater':
-      ensure  => directory,
-      owner   => '0',
-      group   => '0',
-      mode    => '0644';
-    '/etc/dyndns_updater/script':
-      ensure  => file,
-      content => template("${module_name}/script.erb"),
-      owner   => '0',
-      group   => '0',
-      mode    => '0644',
-  }
+  include 'dyndns'
 
   $external_ip_address = $::facts['external_ip']
 
@@ -37,9 +21,23 @@ define dyndns::updater(
     fail('ERROR - Could not establish an IP address to use. Set it up manually, please.')
   }
 
+  file {
+    '/etc/dyndns_updater':
+      ensure  => directory,
+      owner   => '0',
+      group   => '0',
+      mode    => '0644';
+    "/etc/dyndns_updater/script_${name}":
+      ensure  => file,
+      content => template("${module_name}/script.erb"),
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
+  }
+
   cron { "Update ${name} at dyndns":
     command => " 2>&1 /usr/bin/nsupdate /etc/dyndns_updater/script >/dev/null || echo 'An error occured updating Dyndns'",
     minute  => "*/${cron_interval_minutes}",
-    require => File['/etc/dyndns_updater/script'],
+    require => File["/etc/dyndns_updater/script_${name}"],
   }
 }
