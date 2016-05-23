@@ -56,9 +56,10 @@ define cm_janus (
   }
 
   daemon { $instance_name:
-    binary    => '/usr/bin/node',
-    args      => "/usr/bin/cm-janus -c ${config_file}",
-    user      => 'cm-janus',
-    subscribe => Package['cm-janus'],
+    binary       => '/usr/bin/node',
+    args         => "/usr/bin/cm-janus -c ${config_file}",
+    user         => 'cm-janus',
+    limit_nofile => 20000,
+    subscribe    => Package['cm-janus'],
   }
 }

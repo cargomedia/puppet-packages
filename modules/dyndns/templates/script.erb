@@ -1,0 +1,6 @@
+server <%= @server %>
+zone <%= @fqdn %>
+key <%= @key_name %> <%= @key_secret %>
+update add <%= @fqdn %> <%= @ttl %> A <%= @ip_address_final %>
+send
+quit
