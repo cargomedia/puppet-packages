@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'dyndns_updater:default' do
 
-  describe file('/etc/dyndns_updater/script') do
+  describe file('/etc/dyndns_updater/script_zone.example.com') do
     it { should be_file }
     its(:content) { should match /server dyndns\.example\.com/ }
     its(:content) { should match /zone zone\.example\.com/ }
