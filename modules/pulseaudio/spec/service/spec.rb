@@ -12,7 +12,7 @@ describe 'pulseaudio::service' do
   end
 
   describe command('sudo -u dj -H sh -c "pacmd list-cards"') do
-    its(:stdout) { should match /0 card\(s\) available./ }
+    its(:stdout) { should match /1 card\(s\) available(.*)/ }
     its(:exit_status) { should eq 0 }
   end
 
