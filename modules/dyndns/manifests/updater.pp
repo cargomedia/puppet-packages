@@ -8,9 +8,18 @@ define dyndns::updater(
   $cron_interval_minutes = 10,
 ) {
 
-  require ['apt', 'cron']
+  include 'dyndns'
 
-  ensure_packages(['dnsutils'], { provider => 'apt' })
+  $external_ip_address = $::facts['external_ip']
+
+  $ip_address_final = $ip_address ? {
+    undef =>  $external_ip_address,
+    default => $ip_address,
+  }
+
+  if ($ip_address_final == '') {
+    fail('ERROR - Could not establish an IP address to use. Set it up manually, please.')
+  }
 
   file {
     '/etc/dyndns_updater':
@@ -24,17 +33,6 @@ define dyndns::updater(
       owner   => '0',
       group   => '0',
       mode    => '0644',
-  }
-
-  $external_ip_address = $::facts['external_ip']
-
-  $ip_address_final = $ip_address ? {
-    undef =>  $external_ip_address,
-    default => $ip_address,
-  }
-
-  if ($ip_address_final == '') {
-    fail('ERROR - Could not establish an IP address to use. Set it up manually, please.')
   }
 
   cron { "Update ${name} at dyndns":
