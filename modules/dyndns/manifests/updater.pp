@@ -36,7 +36,7 @@ define dyndns::updater(
   }
 
   cron { "Update ${name} at dyndns":
-    command => " 2>&1 /usr/bin/nsupdate /etc/dyndns_updater/script >/dev/null || echo 'An error occured updating Dyndns'",
+    command => " 2>&1 /usr/bin/nsupdate /etc/dyndns_updater/script_${name} >/dev/null || echo 'An error occured updating Dyndns'",
     minute  => "*/${cron_interval_minutes}",
     require => File["/etc/dyndns_updater/script_${name}"],
   }

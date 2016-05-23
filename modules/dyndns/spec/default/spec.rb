@@ -19,7 +19,7 @@ describe 'dyndns_updater:default' do
   end
 
   describe cron do
-    it { should have_entry "*/10 * * * * 2>&1 /usr/bin/nsupdate /etc/dyndns_updater/script >/dev/null || echo 'An error occured updating Dyndns'" }
+    it { should have_entry "*/10 * * * * 2>&1 /usr/bin/nsupdate /etc/dyndns_updater/script_zone.example.com >/dev/null || echo 'An error occured updating Dyndns'" }
   end
 
 end
