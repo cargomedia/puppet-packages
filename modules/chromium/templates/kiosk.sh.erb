@@ -2,4 +2,10 @@
 
 W=$(xrandr --current | grep 'current' | cut -d ',' -f2 | cut -d ' ' -f3)
 H=$(xrandr --current | grep 'current' | cut -d ',' -f2 | cut -d ' ' -f5)
+<% if @pulseaudio %>
+if (test -x /usr/bin/start-pulseaudio-x11); then
+  unset XDG_RUNTIME_DIR
+  /usr/bin/start-pulseaudio-x11
+fi
+<% end %>
 chromium-browser <% if @hide_ui %>--kiosk <% end %>--window-position=0,0 --window-size=${W},${H} --disable-pinch '<%= @url %>'
