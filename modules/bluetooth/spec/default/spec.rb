@@ -14,10 +14,6 @@ describe 'bluetooth' do
     it { should be_installed }
   end
 
-  describe package('bluez-cups') do
-    it { should be_installed }
-  end
-
   describe file('/etc/bluetooth/audio.conf') do
     its(:content) { should match /AutoConnect=true/ }
     its(:content) { should match /FastConnectable=true/ }

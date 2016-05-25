@@ -1,6 +1,6 @@
 class bluetooth::bluez {
 
-  package { ['bluez', 'bluez-alsa', 'bluez-cups']:
+  package { ['bluez', 'bluez-alsa']:
     provider => apt,
   }
 }
