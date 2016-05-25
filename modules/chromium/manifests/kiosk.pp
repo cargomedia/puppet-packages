@@ -2,7 +2,7 @@ class chromium::kiosk(
   $user,
   $url,
   $hide_ui = false,
-  $pulseaudio = true,
+  $pulseaudio = false,
 ) {
 
   require 'chromium'
