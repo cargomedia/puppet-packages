@@ -1,8 +1,13 @@
 define pulseaudio::service (
   $user = 'root',
+  $modules = undef,
 ) {
 
   require 'pulseaudio'
+
+  if $modules {
+    include prefix($modules, 'pulseaudio::module::')
+  }
 
   $service_name = "pulseaudio-${user}"
 
