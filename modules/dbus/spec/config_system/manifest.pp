@@ -13,7 +13,7 @@ node default {
     </policy>
   '
 
-  dbus::entry::systemd { 'pulseaudio-system':
+  dbus::config::system { 'pulseaudio-system':
     content => $policy
   }
 }
