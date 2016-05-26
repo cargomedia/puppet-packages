@@ -10,7 +10,7 @@ define pulseaudio::service (
     User[$user] -> Daemon[$service_name]
   }
 
-  dbus::entry::systemd { "pulseaudio-${user}":
+  dbus::config::system { "pulseaudio-${user}":
     content => template("${module_name}/dbus")
   }
 

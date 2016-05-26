@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'dbus::service' do
+describe 'dbus::config::system' do
 
   describe service('dbus') do
     it { should be_enabled }

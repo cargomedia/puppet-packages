@@ -1,4 +1,4 @@
-define dbus::entry::systemd (
+define dbus::config::system (
   $content
 ){
 
@@ -6,7 +6,7 @@ define dbus::entry::systemd (
 
   file { "/etc/dbus-1/system.d/${name}.conf":
     ensure  => file,
-    content => template("${module_name}/systemd"),
+    content => template("${module_name}/config_system"),
     mode    => '0644',
     owner   => '0',
   }
