@@ -6,6 +6,14 @@ describe 'pulseaudio::service' do
     it { should be_installed }
   end
 
+  describe package('pulseaudio-module-x11') do
+    it { should be_installed }
+  end
+
+  describe package('pulseaudio-module-bluetooth') do
+    it { should be_installed }
+  end
+
   describe service('pulseaudio-dj') do
     it { should be_enabled }
     it { should be_running }

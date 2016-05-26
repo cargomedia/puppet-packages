@@ -9,6 +9,7 @@ node default {
   }
 
   pulseaudio::service { 'audio-service':
-    user => 'dj'
+    user    => 'dj',
+    modules => ['x11', 'bluetooth']
   }
 }
