@@ -5,3 +5,7 @@ mod 'cargomedia/apt',
 mod 'cargomedia/daemon',
    :git => 'git@github.com:cargomedia/puppet-packages.git',
    :path => 'modules/daemon'
+
+mod 'cargomedia/dbus',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/dbus'

@@ -10,6 +10,10 @@ define pulseaudio::service (
     User[$user] -> Daemon[$service_name]
   }
 
+  dbus::config::system { "pulseaudio-${user}":
+    content => template("${module_name}/dbus")
+  }
+
   daemon { $service_name:
     binary => '/usr/bin/pulseaudio',
     args   => '--start --daemonize=false',
