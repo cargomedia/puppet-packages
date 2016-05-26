@@ -6,7 +6,4 @@ class dbus {
     provider => apt,
   }
 
-  service { 'dbus':
-    enable => true,
-  }
 }
