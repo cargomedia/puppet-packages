@@ -3,6 +3,7 @@ class bluetooth (
   $audio_fastconnectable = true,
 ){
 
+  require 'apt'
   include 'bluetooth::bluez'
 
   package { 'bluetooth':
