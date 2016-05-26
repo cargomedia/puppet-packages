@@ -1,5 +1,7 @@
 node default {
 
+  require 'bluetooth::bluez'
+
   user { 'dj':
     ensure     => present,
     managehome => true,
