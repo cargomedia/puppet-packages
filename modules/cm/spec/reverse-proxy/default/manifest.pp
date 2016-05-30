@@ -1,6 +1,5 @@
 node default {
 
-  $domain_xxx = 'foo.xxx'
   $upstream_name = 'nine-five-nine-five'
 
   host { 'proxy.xxx':
@@ -21,18 +20,19 @@ node default {
     members => ['bar.xxx:9595'],
   }
 
-  cm::reverse_proxy { $domain_xxx:
+  cm::reverse_proxy { 'foo.xxx':
+    ssl_cert         => template('cm/spec/spec-ssl.pem'),
+    ssl_key          => template('cm/spec/spec-ssl.key'),
     upstream_options => {
-      name => $upstream_name,
-      ssl => false,
-      header_host => 'bar.xxx'
+      name        => $upstream_name,
+      header_host => 'bar.xxx',
     }
   }
 
   nginx::resource::vhost { 'proxy-destination':
-    server_name         => ['bar.xxx'],
-    listen_port         => 9595,
-    www_root            => '/var/www/',
-    require             => File['/var/www/index.html'],
+    server_name => ['bar.xxx'],
+    listen_port => 9595,
+    www_root    => '/var/www/',
+    require     => File['/var/www/index.html'],
   }
 }

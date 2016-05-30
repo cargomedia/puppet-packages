@@ -1,24 +1,24 @@
 require 'spec_helper'
 
-describe 'cm::vhost' do
+describe 'cm::reverse-proxy::ssl-backend' do
 
-  describe command("curl --proxy '' -L http://bar.xxx") do
+  describe command("curl --proxy '' --location --insecure https://bar.xxx") do
     its(:stdout) { should match /foobar/ }
   end
 
   describe command("curl --proxy '' -v http://baz.xxx") do
-    its(:stderr) { should match /< Location: http:\/\/foo\.xxx\// }
+    its(:stderr) { should match /< Location: https:\/\/foo\.xxx\// }
   end
 
-  describe command("curl --proxy '' -L http://baz.xxx") do
+  describe command("curl --proxy '' --location --insecure http://baz.xxx") do
     its(:stdout) { should match /foobar/ }
   end
 
-  describe command("curl --proxy '' -k https://bar.xxx") do
+  describe command("curl --proxy '' --insecure https://bar.xxx") do
     its(:stdout) { should match /foobar/ }
   end
 
-  describe command("curl --proxy '' -k https://foo.xxx") do
+  describe command("curl --proxy '' --insecure https://foo.xxx") do
     its(:stdout) { should match /foobar/ }
   end
 
