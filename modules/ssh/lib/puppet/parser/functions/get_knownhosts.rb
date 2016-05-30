@@ -4,10 +4,15 @@ module Puppet::Parser::Functions
     hostname = fqdn.split('.').shift
     aliases = []
     aliases.push hostname
-    lookupvar('::interfaces').split(',').each do |interface|
-      next if interface == 'lo'
-      ipaddress = lookupvar('::ipaddress_' + interface)
-      aliases.push ipaddress if ipaddress
+
+    networking_fact = lookupvar('networking')
+    interfaces = networking_fact['interfaces']
+
+    exclude_interfaces = [/^lo$/, /^vboxnet[\d]{1,2}$/]
+
+    interfaces.each do |interface|
+      next if interface[0] =~ Regexp.union(exclude_interfaces)
+      aliases.push interface[1]['ip'] if interface[1]['ip']
     end
     aliases
   end
