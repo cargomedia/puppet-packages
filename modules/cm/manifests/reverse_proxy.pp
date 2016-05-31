@@ -56,7 +56,7 @@ define cm::reverse_proxy(
   nginx::resource::vhost { $name:
     server_name         => $hostnames,
     listen_port         => $ssl_port,
-    ssl                 => $ssl,
+    ssl                 => true,
     ssl_port            => $ssl_port,
     ssl_cert            => $ssl_cert,
     ssl_key             => $ssl_key,

@@ -10,6 +10,7 @@ node default {
     command => 'socat -v openssl-listen:1337,fork,reuseaddr,cert=/etc/nginx/ssl/www.example.com.pem,key=/etc/nginx/ssl/www.example.com.key,verify=0 echo 2>/tmp/https.log &',
     unless  => 'pgrep socat',
     path    => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    require => Cm::Reverse_proxy['www.example.com'],
   }
 
   cm::reverse_proxy { 'www.example.com':
@@ -17,7 +18,7 @@ node default {
     ssl_key          => template('cm/spec/spec-ssl.key'),
     upstream_options => {
       members => ['localhost:1337'],
-      ssl => true,
+      ssl     => true,
     }
   }
 }

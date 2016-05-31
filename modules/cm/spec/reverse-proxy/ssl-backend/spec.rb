@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe 'cm::reverse-proxy::ssl-backend' do
 
-  describe command("curl --proxy '' --location --insecure https://bar.xxx") do
-    its(:stdout) { should match /foobar/ }
-  end
-
   describe command("curl --proxy '' -v http://baz.xxx") do
     its(:stderr) { should match /< Location: https:\/\/foo\.xxx\// }
   end
