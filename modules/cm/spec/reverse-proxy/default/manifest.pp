@@ -26,6 +26,7 @@ node default {
     upstream_options => {
       name        => $upstream_name,
       header_host => 'bar.xxx',
+      ssl         => false,
     }
   }
 

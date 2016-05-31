@@ -45,7 +45,6 @@ node default {
     ssl_key  => template('cm/spec/spec-ssl.key'),
     upstream_options => {
       name   => $upstream2_name,
-      ssl    => true,
     },
   }
 

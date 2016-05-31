@@ -18,7 +18,6 @@ node default {
     ssl_key          => template('cm/spec/spec-ssl.key'),
     upstream_options => {
       members => ['localhost:1337'],
-      ssl     => true,
     }
   }
 }

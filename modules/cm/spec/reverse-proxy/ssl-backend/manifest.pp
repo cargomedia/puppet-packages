@@ -18,7 +18,7 @@ node default {
     redirects        => ['baz.xxx'],
     ssl_cert         => template('cm/spec/spec-ssl.pem'),
     ssl_key          => template('cm/spec/spec-ssl.key'),
-    upstream_options => { members => ['baz.xxx:4433'], ssl => true },
+    upstream_options => { members => ['baz.xxx:4433']},
   }
 
   nginx::resource::vhost { 'upstream-server':
