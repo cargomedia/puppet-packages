@@ -3,12 +3,12 @@ class redis {
   require 'apt'
   include 'redis::service'
 
-  $config_file = $::lsbdistcodename ? {
+  $config_file = $::facts['lsbdistcodename'] ? {
     'wheezy' => 'redis-2.4.conf',
     default  => 'redis-2.6.conf',
   }
 
-  if $::lsbdistcodename == 'wheezy' {
+  if $::facts['lsbdistcodename'] == 'wheezy' {
     $sysctl_entries = {
       'vm.overcommit_memory' => '1',
     }

@@ -1,5 +1,5 @@
 class screenconnect(
-  $machine_name = $::clientcert,
+  $machine_name = $::facts['clientcert'],
   $account,
   $server,
   $key

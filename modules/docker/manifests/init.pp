@@ -5,7 +5,7 @@ class docker {
 
   apt::source { 'docker':
     entries => [
-      "deb https://apt.dockerproject.org/repo debian-${::lsbdistcodename} main",
+      "deb https://apt.dockerproject.org/repo debian-${::facts['lsbdistcodename']} main",
     ],
     keys    => {
       'docker' => {

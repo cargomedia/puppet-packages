@@ -1,6 +1,6 @@
 class copperegg_revealcloud(
   $api_key,
-  $label = $::clientcert,
+  $label = $::facts['clientcert'],
   $tags = $::facts['copperegg_tags'],
   $version = 'v3.3-118-g5f871c6',
   $enable_node = true
@@ -10,7 +10,7 @@ class copperegg_revealcloud(
   $api_host = 'api.copperegg.com'
   $tag_list = $tags ? { undef => [], default => $tags }
 
-  case $::architecture {
+  case $::facts['architecture'] {
     i386: { $url = "http://cdn.copperegg.com/revealcloud/${version}/linux-2.6/i386/revealcloud" }
     amd64: { $url = "http://cdn.copperegg.com/revealcloud/${version}/linux-2.6/x86_64/revealcloud" }
     default: { fail('Unrecognized architecture') }

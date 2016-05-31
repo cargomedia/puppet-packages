@@ -1,7 +1,7 @@
 class ffmpeg {
 
 
-  if $::lsbdistcodename == 'jessie' {
+  if $::facts['lsbdistcodename'] == 'jessie' {
     require 'apt::source::backports'
     $package_name = 'ffmpeg'
   } else {
