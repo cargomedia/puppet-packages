@@ -18,7 +18,6 @@ define cm::reverse_proxy(
 
   $upstream_opts = merge($upstream_options_defaults, $upstream_options)
   $upstream_name_real = $upstream_options[name] ? { default => $upstream_opts[name], undef => $upstream_options_defaults[name] }
-  $ssl = $upstream_options[ssl] ? { default => $upstream_opts[ssl], undef => $upstream_options_defaults[ssl] }
 
   if ($upstream_options[name] == undef) {
     if !(defined(Cm::Upstream::Proxy[$upstream_opts[name]])) {
@@ -48,7 +47,7 @@ define cm::reverse_proxy(
     ],
   }
 
-  $proto = $ssl? { false => 'http', default => 'https'}
+  $proto = $upstream_opts['ssl']? { false => 'http', default => 'https'}
 
   nginx::resource::vhost { $name:
     server_name         => $hostnames,
