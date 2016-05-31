@@ -12,8 +12,8 @@ define cm::reverse_proxy(
   $upstream_options_defaults = {
     name        => 'reverse-proxy-backend',
     members     => ['localhost:80'],
+    ssl         => true,
     header_host => '$host',
-    ssl         => false,
   }
 
   $upstream_opts = merge($upstream_options_defaults, $upstream_options)
@@ -48,10 +48,7 @@ define cm::reverse_proxy(
     ],
   }
 
-  $proto = $ssl? {
-    true => 'https',
-    default => 'http',
-  }
+  $proto = $ssl? { false => 'http', default => 'https'}
 
   nginx::resource::vhost { $name:
     server_name         => $hostnames,
