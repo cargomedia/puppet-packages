@@ -1,7 +1,14 @@
 class fluentd {
 
+  # Version 0.14.0 breaks wheezy
+  # Dep strptime requires Ruby version ~> 2.0
+  $fluentd_version = $::facts['lsbdistcodename'] ? {
+    'wheezy' => '0.12.26',
+    default  => latest,
+  }
+
   ruby::gem { 'fluentd':
-    ensure => latest,
+    ensure => $fluentd_version,
   }
 
   file { '/etc/fluentd':

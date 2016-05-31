@@ -19,16 +19,4 @@ class nvidia {
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     require     => Package['nvidia-346'],
   }
-
-  @bipbip::entry { 'logparser-nvidia-gpu':
-    plugin  => 'log-parser',
-    options => {
-      'metric_group' => 'nvidia-gpu',
-      'path' => '/var/log/syslog',
-      'matchers' => [
-        { 'name' => 'nvrm::xid',
-          'regexp' => 'NVRM: Xid' }
-      ]
-    }
-  }
 }
