@@ -105,7 +105,6 @@ define cm::vhost(
     ssl                 => $ssl,
     ssl_only            => $ssl,
     location_cfg_append => [
-      'expires 1y;',
       'gzip on;',
       'gzip_proxied any;',
       'gzip_http_version 1.0;',
