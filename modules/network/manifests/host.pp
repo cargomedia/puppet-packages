@@ -8,4 +8,5 @@ define network::host (
     host_aliases => $aliases,
     ip           => $ipaddr,
   }
+
 }

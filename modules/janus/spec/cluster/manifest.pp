@@ -22,6 +22,7 @@ node default {
 
   Janus::Plugin::Rtpbroadcast {
     prefix => $janus::cluster::prefix,
+    hostname => '127.0.0.1',
   }
 
   # origin node

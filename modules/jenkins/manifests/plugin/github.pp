@@ -18,7 +18,7 @@ class jenkins::plugin::github(
   ->
 
   jenkins::plugin { 'github':
-    version => '1.8',
+    version => '1.18.2',
   }
 
 }

@@ -1,5 +1,7 @@
 class jenkins::service {
 
+  $port = $jenkins::port
+
   require 'jenkins::package'
 
   service { 'jenkins':

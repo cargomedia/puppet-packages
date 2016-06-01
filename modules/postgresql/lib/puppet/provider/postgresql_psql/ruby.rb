@@ -12,7 +12,9 @@ Puppet::Type.type(:postgresql_psql).provide(:ruby) do
     command.push("-p", resource[:port]) if resource[:port]
     command.push("-t", "-c", '"' + sql.gsub('"', '\"') + '"')
 
-    run_command(command, 'postgres', 'postgres')
+    Dir.chdir '/tmp' do
+      run_command(command, 'postgres', 'postgres')
+    end
   end
 
   private

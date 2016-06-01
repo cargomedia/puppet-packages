@@ -1,0 +1,4 @@
+node default {
+  class { 'nvidia':
+  }
+}

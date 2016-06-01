@@ -27,4 +27,8 @@ describe 'jenkins server' do
   describe file('/var/lib/jenkins/config.xml') do
     its(:content) { should match '<numExecutors>2</numExecutors>' }
   end
+
+  describe file('/var/lib/jenkins/jenkins.model.JenkinsLocationConfiguration.xml') do
+    its(:content) { should match '<adminAddress>admin@example.com</adminAddress>' }
+  end
 end

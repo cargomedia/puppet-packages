@@ -1,4 +1,0 @@
-check process puppetmaster with pidfile /var/run/puppet/master.pid
-	start program = "/etc/init.d/puppetmaster start"
-	stop program = "/etc/init.d/puppetmaster stop"
-	if failed port 8140 with timeout 10 seconds for 2 cycles then restart

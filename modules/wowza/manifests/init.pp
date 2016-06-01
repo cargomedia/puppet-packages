@@ -5,7 +5,7 @@ class wowza (
   $admin_password = 'root'
 ) {
 
-  require 'java'
+  require 'java::jre_headless'
   require 'ffmpeg'
 
   include 'wowza::service'

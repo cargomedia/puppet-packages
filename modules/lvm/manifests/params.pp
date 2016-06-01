@@ -1,32 +1,10 @@
 class lvm::params {
 
-  $volumeGroupName = $::volumeGroupName ? {
-    undef => 'vg01',
-    default => $::volumeGroupName,
-  }
+  $volumeGroupName = 'vg01'
+  $logicalVolumeFilesystem = 'xfs'
+  $logicalVolumeSize = '90%'
+  $logicalVolumeMountpoint = undef
+  $logicalVolumeMountOptions = 'defaults'
+  $expandTools = false
 
-  $logicalVolumeFilesystem = $::logicalVolumeFilesystem ? {
-    undef => 'xfs',
-    default => $::logicalVolumeFilesystem,
-  }
-
-  $logicalVolumeSize = $::logicalVolumeSize ? {
-    undef => '90%',
-    default => $::logicalVolumeSize,
-  }
-
-  $logicalVolumeMountpoint = $::logicalVolumeMountpoint ? {
-    undef => undef,
-    default => $::logicalVolumeMountpoint,
-  }
-
-  $logicalVolumeMountOptions = $::logicalVolumeMountOptions ? {
-    undef => 'defaults',
-    default => $::logicalVolumeMountOptions,
-  }
-
-  $expandTools = $::expandTools ? {
-    undef => false,
-    default => $::expandTools,
-  }
 }

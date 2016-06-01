@@ -2,10 +2,6 @@ require 'spec_helper'
 
 describe 'raid' do
 
-  describe command('facter raid') do
-    its(:stdout) { should match /adaptec.+sas2ircu.+linux_md/ }
-  end
-
   describe package('arcconf') do
     it { should be_installed }
   end
@@ -33,4 +29,5 @@ describe 'raid' do
   describe command('monit summary') do
     its(:stdout) { should match /Program 'raid-sas'/ }
   end
+
 end

@@ -1,6 +1,6 @@
 class cm::services(
-  $ssl_cert = undef,
-  $ssl_key = undef,
+  $ssl_cert,
+  $ssl_key,
 ) {
 
   include 'redis'
@@ -14,5 +14,4 @@ class cm::services(
     ssl_cert => $ssl_cert,
     ssl_key  => $ssl_key,
   }
-
 }

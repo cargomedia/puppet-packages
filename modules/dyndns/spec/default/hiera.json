@@ -1,0 +1,9 @@
+{
+  "dyndns_updaters": {
+    "zone.example.com": {
+      "key_name": "alice",
+      "key_secret": "secret",
+      "server": "dyndns.example.com"
+    }
+  }
+}

@@ -11,7 +11,7 @@ define ufw::rule(
   $verb_allow = $allow? { false => 'deny', default => 'allow' }
   $proto = $protocol ? { undef => '', default => "proto ${protocol}" }
 
-  $is_port = (($app_or_port =~ /[,|:]/) or is_integer($app_or_port))
+  $is_port = (is_integer($app_or_port) or ($app_or_port =~ /[,|:]/))
   $target = $is_port ? { true => "port ${$app_or_port}", default => "app ${app_or_port}" }
 
   $proto_unless = $protocol ? { undef => '', default => "/${protocol}" }

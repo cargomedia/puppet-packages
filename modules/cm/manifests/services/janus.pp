@@ -36,6 +36,7 @@ define cm::services::janus(
   include 'cm_janus::cluster'
 
   ::janus::role::standalone { $title:
+    hostname                         => $hostname,
     bind_address                     => '127.0.0.1',
     nat_1_1_mapping                  => $nat_1_1_mapping,
     rtp_port_range_min               => $webrtc_media_minport,

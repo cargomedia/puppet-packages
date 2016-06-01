@@ -10,4 +10,5 @@ node default {
     client_id              => 'xxx',
     client_secret          => 'yyy',
   }
+
 }
