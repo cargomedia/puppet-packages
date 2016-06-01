@@ -18,4 +18,8 @@ describe 'socket_redis' do
   describe port(8090) do
     it { should be_listening }
   end
+
+  describe port(8091) do
+    it { should be_listening }
+  end
 end
