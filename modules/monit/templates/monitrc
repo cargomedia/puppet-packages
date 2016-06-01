@@ -4,7 +4,7 @@ set logfile syslog facility log_daemon
 set mailserver localhost
 set mail-format {
 	from: <%= @emailFromWithDefault %>
-	subject: monit $ACTION - $EVENT: $SERVICE on <%= @trusted['clientcert'] %>
+	subject: monit $ACTION - $EVENT: $SERVICE on <%= @facts['clientcert'] %>
 }
 
 include /etc/monit/conf.d/*
