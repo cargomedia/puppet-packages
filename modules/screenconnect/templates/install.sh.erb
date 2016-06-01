@@ -1,0 +1,4 @@
+#!/bin/bash -e
+
+curl -sL '<%= @deb_url %>' > screenconnect.deb
+dpkg -i --force-confold screenconnect.deb

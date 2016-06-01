@@ -1,7 +1,8 @@
 class chromium::kiosk(
   $user,
   $url,
-  $hide_ui = false
+  $hide_ui = false,
+  $pulseaudio = false,
 ) {
 
   require 'chromium'

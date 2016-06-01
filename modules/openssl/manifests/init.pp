@@ -2,8 +2,9 @@ class openssl {
 
   require 'apt'
 
-  package { 'openssl':
+  package { ['openssl', 'libssl-dev']:
     ensure   => present,
     provider => 'apt',
   }
+
 }

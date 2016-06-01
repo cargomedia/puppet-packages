@@ -16,7 +16,7 @@ describe 'puppet::agent' do
   end
 
   describe command('puppet agent --configprint masterport') do
-    its(:stdout) { should match /^8141$/ }
+    its(:stdout) { should match /^1234$/ }
   end
 
   describe command('puppet agent --configprint splay') do
@@ -31,8 +31,23 @@ describe 'puppet::agent' do
     its(:stdout) { should match /^foo$/ }
   end
 
-  describe command('sudo -u vagrant cat /var/lib/puppet/state/last_run_summary.yaml') do
-    its(:exit_status) { should eq 0 }
-    its(:stdout) { should match /puppet/ }
+  describe command('puppet agent --configprint lastrunfile') do
+    its(:stdout) { should match('/opt/puppetlabs/puppet/cache/state/last_run_summary.yaml') }
   end
+
+  describe file('/opt/puppetlabs/puppet/cache/state/last_run_summary.yaml') do
+    it { should be_file }
+    its(:content) { should match /version:/ }
+    it { should be_readable.by('others') }
+  end
+
+  describe command('sudo -u otheruser cat /opt/puppetlabs/puppet/cache/state/last_run_summary.yaml') do
+    its(:exit_status) { should eq 0 }
+  end
+
+  describe command('/opt/puppetlabs/puppet/bin/gem list') do
+    its(:stdout) { should match('deep_merge') }
+    its(:stdout) { should match('i18n') }
+  end
+
 end

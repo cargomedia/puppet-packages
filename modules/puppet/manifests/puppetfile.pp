@@ -5,6 +5,7 @@ define puppet::puppetfile(
 
   require 'librarian_puppet'
   require 'rsync'
+  require 'git'
 
   librarian_puppet::config { "rsync for ${directory}":
     path  => $directory,

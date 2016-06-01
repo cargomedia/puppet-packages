@@ -6,5 +6,6 @@ node default {
     hostname      => 'example.com',
     port          => 1234,
     num_executors => 2,
+    email_admin   => 'admin@example.com',
   }
 }

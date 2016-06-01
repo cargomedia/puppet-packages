@@ -8,7 +8,7 @@ class network::host::advertise (
   if $ipaddr {
     $aliases_list = $aliases? {
       undef => [$::fqdn],
-      default => [$aliases, $::fqdn]
+      default => concat($aliases, [$::fqdn])
     }
     @@network::host{ "advertised.${::clientcert}":
       ipaddr  => $ipaddr,

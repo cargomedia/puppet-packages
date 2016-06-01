@@ -1,2 +1,3 @@
-check program redis path "/bin/systemctl status redis-server"
-	if status != 0 then alert
+check process redis with pidfile /var/run/redis/redis-server.pid
+  start program = "/etc/init.d/redis-server start"
+  stop  program = "/etc/init.d/redis-server stop"

@@ -13,6 +13,10 @@ class jenkins(
 
   class { 'jenkins::config::main':
     num_executors => $num_executors,
+    email_admin   => $email_admin,
+    email_suffix  => $email_suffix,
+    hostname      => $hostname,
+    port          => $port,
   }
   include 'jenkins::config::credentials'
 

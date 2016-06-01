@@ -1,0 +1,13 @@
+#!/bin/sh -e
+
+<% unless @env.empty? -%>
+export<% @env.each do |name, value| %> <%= name %>='<%= value %>'<% end %>
+<% end -%>
+<% if @core_dump -%>
+ulimit -c unlimited
+<%- end -%>
+<% if @limit_nofile -%>
+ulimit -n <%= @limit_nofile %>
+<%- end -%>
+
+sudo -u <%= @user %> <%= @binary %> <%= @args %>
