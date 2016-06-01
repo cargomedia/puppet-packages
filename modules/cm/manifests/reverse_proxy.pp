@@ -11,7 +11,7 @@ define cm::reverse_proxy(
 
   $upstream_options_defaults = {
     name        => 'reverse-proxy-backend',
-    members     => ['localhost:80'],
+    members     => ['localhost:443'],
     ssl         => true,
     header_host => '$host',
   }
