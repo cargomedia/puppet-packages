@@ -32,7 +32,7 @@ class jenkins::plugin::ghprb(
   ->
 
   jenkins::plugin { 'ghprb':
-    version => '1.31.4',
+    version => '1.32.2',
   }
 
 }
