@@ -1,6 +1,6 @@
 [Unit]
 Description=<%= @name %>
-After=network.target
+After=<%= @after.join(' ') %>
 
 [Service]
 Type=simple

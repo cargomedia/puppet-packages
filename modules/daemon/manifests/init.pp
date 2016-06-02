@@ -10,7 +10,8 @@ define daemon (
   $core_dump = false,
   $sysvinit_kill = false,
   $pre_command = undef,
-  $post_command = undef
+  $post_command = undef,
+  $after = ['network.target'],
 ) {
 
   $virtual = $::facts['virtual']
