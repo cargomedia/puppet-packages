@@ -13,7 +13,3 @@ mod 'cargomedia/ntp',
 mod 'cargomedia/ssh',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/ssh'
-
-mod 'cargomedia/unzip',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/unzip'

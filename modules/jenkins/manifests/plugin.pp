@@ -1,6 +1,5 @@
 define jenkins::plugin($version) {
 
-  require 'unzip'
   require 'jenkins'
   include 'jenkins::service'
 
