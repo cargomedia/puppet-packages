@@ -7,7 +7,9 @@ node default {
   }
 
   cm::vhost { 'www.example.com':
-    path       => '/tmp/example'
+    path     => '/tmp/example',
+    ssl_cert => template('cm/spec/spec-ssl.pem'),
+    ssl_key  => template('cm/spec/spec-ssl.key'),
   }
 
   file { ['/tmp/example', '/tmp/example/public']:
