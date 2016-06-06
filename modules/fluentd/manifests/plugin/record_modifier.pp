@@ -1,6 +1,6 @@
 class fluentd::plugin::record_modifier {
 
-  include 'fluentd'
+  require 'fluentd'
 
   ruby::gem { 'fluent-plugin-record-modifier':
     ensure => latest,
