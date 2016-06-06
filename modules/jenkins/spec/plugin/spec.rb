@@ -9,6 +9,7 @@ describe 'jenkins::plugin' do
 
   describe file('/var/log/jenkins/jenkins.log') do
     its(:content) { should_not match('Failed Loading plugin') }
+    its(:content) { should_not match('SEVERE:') }
   end
 
   describe command('curl -s http://localhost:8080/pluginManager/installed') do

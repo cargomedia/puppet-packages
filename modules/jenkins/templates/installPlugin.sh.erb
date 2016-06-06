@@ -40,7 +40,7 @@ installPlugin() {
     echo " Installing: ${name}/${version}"
     url="https://updates.jenkins.io/download/plugins/${name}/${version}/${name}.hpi"
   fi
-  curl -sL --output "${plugins_dir}/${name}.hpi" "${url}"
+  curl -sfL --output "${plugins_dir}/${name}.hpi" "${url}"
   installDependencies "${name}"
 }
 

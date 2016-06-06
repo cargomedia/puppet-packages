@@ -1,6 +1,7 @@
 define cm::reverse_proxy(
-  $ssl_cert = undef,
-  $ssl_key = undef,
+  $ssl_cert,
+  $ssl_key,
+  $ssl_port = 443,
   $aliases = [],
   $redirects = undef,
   $upstream_options = { }
@@ -27,36 +28,32 @@ define cm::reverse_proxy(
   }
 
   $hostnames = concat([$name], $aliases)
-  $ssl = ($ssl_cert != undef) or ($ssl_key != undef)
-  $port = $ssl ? { true => 443, false => 80 }
 
   if ($redirects) {
-    $protocol = $ssl ? { true => 'https', false => 'http' }
     nginx::resource::vhost{ "${name}-redirect":
       listen_port         => 80,
       server_name         => $redirects,
       location_cfg_append => [
-        "return 301 ${protocol}://${name}\$request_uri;",
+        "return 301 https://${name}\$request_uri;",
       ],
     }
   }
 
-  if ($ssl) {
-    nginx::resource::vhost{ "${name}-https-redirect":
-      listen_port         => 80,
-      server_name         => $hostnames,
-      location_cfg_append => [
-        'return 301 https://$host$request_uri;',
-      ],
-    }
+  nginx::resource::vhost{ "${name}-https-redirect":
+    listen_port         => 80,
+    server_name         => $hostnames,
+    location_cfg_append => [
+      'return 301 https://$host$request_uri;',
+    ],
   }
 
-  $proto = $upstream_opts[ssl] ? { true => 'https', false => 'http' }
+  $proto = $upstream_opts['ssl']? { false => 'http', default => 'https'}
+
   nginx::resource::vhost { $name:
     server_name         => $hostnames,
-    listen_port         => $port,
-    ssl                 => $ssl,
-    ssl_port            => $port,
+    listen_port         => $ssl_port,
+    ssl                 => true,
+    ssl_port            => $ssl_port,
     ssl_cert            => $ssl_cert,
     ssl_key             => $ssl_key,
     location_cfg_append => [
@@ -66,5 +63,4 @@ define cm::reverse_proxy(
       'proxy_next_upstream error timeout http_502;'
     ]
   }
-
 }

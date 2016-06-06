@@ -1,7 +1,7 @@
 class cm::services::stream(
   $port = 8090,
-  $ssl_cert = undef,
-  $ssl_key = undef,
+  $ssl_cert,
+  $ssl_key,
   $redis_host = '127.0.0.1',
   $socket_ports = [8091, 8092, 8093, 8094],
   $status_port = 8085
@@ -9,11 +9,9 @@ class cm::services::stream(
 
   include 'nginx'
 
-  $ssl = ($ssl_cert != undef) or ($ssl_key != undef)
-
   nginx::resource::vhost { 'stream-server':
     listen_port         => $port,
-    ssl                 => $ssl,
+    ssl                 => true,
     ssl_port            => $port,
     ssl_cert            => $ssl_cert,
     ssl_key             => $ssl_key,
