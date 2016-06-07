@@ -11,7 +11,8 @@ define daemon (
   $sysvinit_kill = false,
   $pre_command = undef,
   $post_command = undef,
-  $after = ['network.target'],
+  $systemd_after = ['network.target'],
+  $systemd_before = [],
 ) {
 
   $virtual = $::facts['virtual']

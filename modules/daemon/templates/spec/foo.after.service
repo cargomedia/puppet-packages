@@ -1,0 +1,7 @@
+[Unit]
+Description=Foo After Service
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/my-program-after
