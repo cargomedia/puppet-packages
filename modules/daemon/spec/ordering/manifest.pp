@@ -20,11 +20,11 @@ node default {
 
   if ($::facts['service_provider'] == 'systemd') {
     systemd::unit {
-      'foo.before':
-        content => template('daemon/spec/foo.before.service'),
+      'foo-before':
+        content => template('daemon/spec/foo-before.service'),
         require => File['/usr/local/bin/my-program-before'];
-      'foo.after':
-        content => template('daemon/spec/foo.after.service'),
+      'foo-after':
+        content => template('daemon/spec/foo-after.service'),
         require => File['/usr/local/bin/my-program-after'],
     }
   } else {
@@ -33,15 +33,14 @@ node default {
       '/tmp/TS_before':
         ensure  => file;
       '/tmp/TS_after':
-        ensure  => file,
-        content => 'active (running)';
+        ensure  => file;
     }
   }
 
   daemon { 'my-program':
     binary  => '/usr/local/bin/my-program',
-    systemd_before  => [ 'foo.after.service' ],
-    systemd_after   => [ 'network.target', 'foo.before.service'],
-    require => File['/usr/local/bin/my-program'],
+    systemd_before  => [ 'foo-after.service' ],
+    systemd_after   => [ 'network.target', 'foo-before.service'],
+    require => [File['/usr/local/bin/my-program']],
   }
 }

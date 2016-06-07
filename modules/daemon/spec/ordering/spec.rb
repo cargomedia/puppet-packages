@@ -3,7 +3,7 @@ require 'spec_helper'
 describe 'daemon:ordering' do
 
   # To really test the expected order of execution of these services
-  # my-program-before -> my-program -> my-program-after
+  # foo-before -> my-program -> foo-after
   # A reboot is needed
   describe service('my-program') do
     it { should be_enabled }

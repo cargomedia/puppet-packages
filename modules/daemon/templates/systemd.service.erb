@@ -1,7 +1,7 @@
 [Unit]
 Description=<%= @name %>
-Before=<%= @before.join(' ') unless @before.nil? %>
-After=<%= @after.join(' ') unless @after.nil? %>
+Before=<%= @daemon_before.join(' ') unless @daemon_before.nil? %>
+After=network.target <%= @daemon_after.join(' ') unless @daemon_after.nil? %>
 
 [Service]
 Type=simple
