@@ -39,8 +39,8 @@ node default {
 
   daemon { 'my-program':
     binary  => '/usr/local/bin/my-program',
-    systemd_before  => [ 'foo-after.service' ],
-    systemd_after   => [ 'network.target', 'foo-before.service'],
+    daemon_before  => [ 'foo-after.service' ],
+    daemon_after   => [ 'network.target', 'foo-before.service'],
     require => [File['/usr/local/bin/my-program']],
   }
 }
