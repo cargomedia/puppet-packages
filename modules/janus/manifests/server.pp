@@ -18,7 +18,6 @@ define janus::server (
   $core_dump = true,
   $ssl_cert = undef,
   $ssl_key = undef,
-  $debug_level = 2,
 ) {
 
   require 'janus::common'
