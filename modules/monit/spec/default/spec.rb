@@ -15,8 +15,8 @@ describe 'monit' do
     it 'is a file' do
       expect(subject).to be_file
     end
-    it 'default from address is root@$::facts['domain'] ' do
-      expect(subject).to contain('root@test').after(/from:/)
+    it "default from address is root@$::trusted['domain']"  do
+      expect(subject).to contain('root@vagrantup.com').after(/from:/)
     end
   end
 end
