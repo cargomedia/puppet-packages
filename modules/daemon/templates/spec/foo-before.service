@@ -1,0 +1,6 @@
+[Unit]
+Description=Foo Before Service
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/my-program-before

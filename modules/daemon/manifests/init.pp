@@ -10,7 +10,9 @@ define daemon (
   $core_dump = false,
   $sysvinit_kill = false,
   $pre_command = undef,
-  $post_command = undef
+  $post_command = undef,
+  $daemon_after = [],
+  $daemon_before = [],
 ) {
 
   $virtual = $::facts['virtual']
