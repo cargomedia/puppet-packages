@@ -1,5 +1,9 @@
 node default {
 
+  Janus::Server {
+    debug_level => 4,
+  }
+
   $instances = {
     'instance1' => {
       hostname                          => 'instance1.example.com',
