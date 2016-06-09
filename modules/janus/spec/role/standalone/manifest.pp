@@ -1,7 +1,7 @@
 node default {
 
   Janus::Server {
-    debug_level => 4,
+    log_level => 4,
   }
 
   $instances = {

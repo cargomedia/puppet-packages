@@ -6,7 +6,7 @@ node default {
 
   Janus::Server {
     prefix => $janus::cluster::prefix,
-    debug_level => 4,
+    log_level => 4,
   }
 
   Janus::Transport::Websockets {
