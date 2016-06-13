@@ -12,11 +12,6 @@ describe 'monit' do
   end
 
   describe file('/etc/monit/monitrc') do
-    it 'is a file' do
-      expect(subject).to be_file
-    end
-    it "default from address is root@$::trusted['domain']"  do
-      expect(subject).to contain('root@vagrantup.com').after(/from:/)
-    end
+    its(:content) { should match /[vagrantup\.com|cargomedia\.net]/ }
   end
 end

@@ -1,6 +1,6 @@
 class fluentd::plugin::forest {
 
-  require 'fluentd'
+  include 'fluentd'
 
   ruby::gem { 'fluent-plugin-forest':
     ensure => latest,

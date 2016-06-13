@@ -1,6 +1,6 @@
 class fluentd::plugin::sentry {
 
-  require 'fluentd'
+  include 'fluentd'
 
   ruby::gem { 'fluent-plugin-sentry':
     ensure => latest,

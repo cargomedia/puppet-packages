@@ -1,6 +1,6 @@
 class fluentd::plugin::loggly {
 
-  require 'fluentd'
+  include 'fluentd'
 
   ruby::gem { 'fluent-plugin-loggly':
     ensure => latest,
