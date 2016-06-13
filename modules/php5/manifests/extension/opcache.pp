@@ -12,7 +12,7 @@ class php5::extension::opcache (
 
   require 'php5'
 
-  if $::lsbdistcodename == 'wheezy' {
+  if $::facts['lsbdistcodename'] == 'wheezy' {
 
     require 'build'
 

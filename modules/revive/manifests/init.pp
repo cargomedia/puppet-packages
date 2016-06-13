@@ -8,7 +8,7 @@ class revive (
   $dbPassword = 'revive'
 ) {
 
-  if $::lsbdistcodename == 'wheezy' {
+  if $::facts['lsbdistcodename'] == 'wheezy' {
     require 'dotdeb' # Revive requires php 5.4.20+
     require 'php5::extension::opcache'
   }

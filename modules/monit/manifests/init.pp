@@ -4,9 +4,9 @@ class monit ($emailTo = 'root@localhost', $emailFrom = undef, $allowedHosts = []
   require 'postfix::service'
   include 'monit::service'
 
-  $domainWithDefault = $::facts['domain'] ? {
+  $domainWithDefault = $::trusted['domain'] ? {
     undef => 'localhost',
-    default => $::facts['domain'],
+    default => $::trusted['domain'],
   }
   $emailFromWithDefault = $emailFrom ? {
     undef => "root@${domainWithDefault}",

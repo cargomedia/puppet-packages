@@ -8,7 +8,7 @@ class nginx::params {
   $nx_pid                           = '/var/run/nginx.pid'
   $nx_conf_dir                      = '/etc/nginx'
   $nx_confd_purge                   = true
-  $nx_worker_processes              = $::processorcount
+  $nx_worker_processes              = $::facts['processorcount']
   $nx_worker_connections            = 10000
   $nx_worker_rlimit_nofile          = 20000
   $nx_sendfile                      = 'on'

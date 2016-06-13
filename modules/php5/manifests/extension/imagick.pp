@@ -5,7 +5,7 @@ class php5::extension::imagick (
   require 'apt'
   require 'php5'
 
-  if $::lsbdistcodename == 'wheezy' {
+  if $::facts['lsbdistcodename'] == 'wheezy' {
     require 'build'
 
     package { 'libmagickwand-dev':
