@@ -19,8 +19,6 @@ class Vagrant
   end
 
   def reset
-    install_plugin('vagrant-vbox-snapshot', '0.0.10')
-
     if status == 'not created'
       has_snapshot = false
     else
