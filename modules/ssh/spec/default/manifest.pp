@@ -7,7 +7,7 @@ node default {
   ssh::pair { 'my-pair':
     id   => 'my-id',
     user => 'root',
-    fqdn => $::fqdn,
+    fqdn => $::facts['fqdn'],
   }
 
 }

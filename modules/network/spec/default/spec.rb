@@ -44,11 +44,6 @@ describe 'network' do
     it { should be_resolvable }
   end
 
-  describe file('/etc/resolv.conf') do
-    it { should be_file }
-    its(:content) { should match('example.local') }
-  end
-
   describe interface('eth1') do
     it { should have_ipv4_address("10.10.20.122") }
   end

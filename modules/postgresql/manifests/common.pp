@@ -4,7 +4,7 @@ class postgresql::common {
 
   apt::source { 'postgresql':
     entries => [
-      "deb http://apt.postgresql.org/pub/repos/apt/ ${::lsbdistcodename}-pgdg main",
+      "deb http://apt.postgresql.org/pub/repos/apt/ ${::facts['lsbdistcodename']}-pgdg main",
     ],
     keys    => {
       'postgresql' => {

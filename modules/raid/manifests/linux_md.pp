@@ -2,7 +2,7 @@ class raid::linux_md {
 
   require 'apt'
 
-  if ($::lsbdistcodename == 'vivid') {
+  if ($::facts['lsbdistcodename'] == 'vivid') {
     $mdamd_service_name = 'mdadm'
   } else {
     $mdamd_service_name = 'mdadm-raid'
