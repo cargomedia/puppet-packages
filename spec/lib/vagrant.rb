@@ -22,17 +22,17 @@ class Vagrant
     if status == 'not created'
       has_snapshot = false
     else
-      has_snapshot = execute_local("vagrant snapshot list #{@box}").match(/Name: default /)
+      has_snapshot = execute_local("vagrant snapshot list #{@box}").match(/^default$/)
     end
 
     if has_snapshot
-      execute_local("vagrant snapshot go #{@box} default")
+      execute_local("vagrant snapshot restore #{@box} default")
     else
       execute_local("vagrant destroy -f #{@box}")
       execute_local("vagrant up --no-provision #{@box}", {'DISABLE_PROXY' => 'true'})
       execute_local("vagrant provision #{@box}", {'DISABLE_PROXY' => 'true'})
       execute_local("vagrant provision #{@box}")
-      execute_local("vagrant snapshot take #{@box} default")
+      execute_local("vagrant snapshot save #{@box} default")
     end
     ssh_close unless @ssh_connection.nil?
   end
