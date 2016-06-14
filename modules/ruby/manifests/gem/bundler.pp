@@ -1,8 +1,6 @@
-class ruby::gem::bundler (
-  $version = '1.10.5', # Compatible with Vagrant 1.7.3
-) {
+class ruby::gem::bundler {
 
   ruby::gem { 'bundler':
-    ensure => $version,
+    ensure => latest,
   }
 }

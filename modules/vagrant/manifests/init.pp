@@ -1,7 +1,7 @@
 class vagrant {
 
-  $version = '1.7.3'
-  $url = 'https://releases.hashicorp.com/vagrant/1.7.3/vagrant_1.7.3_x86_64.deb'
+  $version = '1.8.4'
+  $url = "https://releases.hashicorp.com/vagrant/${version}/vagrant_${version}_x86_64.deb"
 
   require 'apt'
 
