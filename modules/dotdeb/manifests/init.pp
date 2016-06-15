@@ -2,8 +2,8 @@ class dotdeb() {
 
     apt::source { 'dotdeb':
       entries => [
-        "deb http://packages.dotdeb.org ${::lsbdistcodename} all",
-        "deb-src http://packages.dotdeb.org ${::lsbdistcodename} all",
+        "deb http://packages.dotdeb.org ${::facts['lsbdistcodename']} all",
+        "deb-src http://packages.dotdeb.org ${::facts['lsbdistcodename']} all",
       ],
       keys    => {
         'dotdeb' => {

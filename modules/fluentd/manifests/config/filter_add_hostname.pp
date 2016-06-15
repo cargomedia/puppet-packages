@@ -6,7 +6,7 @@ define fluentd::config::filter_add_hostname (
   fluentd::config::filter_record_modifier{ 'hostname':
     pattern  => '**',
     record   => {
-      hostname => $::fqdn,
+      hostname => $::facts['fqdn'],
     },
     priority => 50,
   }

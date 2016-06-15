@@ -5,14 +5,14 @@ class jenkins::slave(
 
   require 'jenkins::common'
 
-  ssh::auth::grant { "jenkins@${::clientcert} for jenkins@cluster-${cluster_id}":
+  ssh::auth::grant { "jenkins@${::facts['clientcert']} for jenkins@cluster-${cluster_id}":
     id   => "jenkins@cluster-${cluster_id}",
     user => 'jenkins',
   }
 
-  @@jenkins::config::slave { "slave-${::clientcert}":
+  @@jenkins::config::slave { "slave-${::facts['clientcert']}":
     cluster_id    => $cluster_id,
-    host          => $::fqdn,
+    host          => $::facts['fqdn'],
     num_executors => $num_executors,
   }
 
