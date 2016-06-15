@@ -1,2 +1,2 @@
-check program <%= @name %> path "/bin/systemctl status <%= @name %> 1>/dev/null 2>/dev/null"
+check program <%= @name %> path "/bin/systemctl status <%= @name %> 2>&1 >/dev/null"
 	if status != 0 then alert
