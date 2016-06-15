@@ -1,6 +1,7 @@
 define pulseaudio::service (
   $user = 'root',
   $modules = undef,
+  $post_command = undef,
 ) {
 
   require 'pulseaudio'
@@ -20,8 +21,9 @@ define pulseaudio::service (
   }
 
   daemon { $service_name:
-    binary => '/usr/bin/pulseaudio',
-    args   => '--start --daemonize=false',
-    user   => $user,
+    binary       => '/usr/bin/pulseaudio',
+    args         => '--start --daemonize=false',
+    user         => $user,
+    post_command => $post_command,
   }
 }
