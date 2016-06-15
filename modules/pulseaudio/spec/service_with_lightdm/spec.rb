@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'pulseaudio::service' do
+describe 'pulseaudio::service::service_with_lightdm' do
 
   describe service('pulseaudio-dj') do
     it { should be_enabled }
