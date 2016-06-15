@@ -10,6 +10,5 @@ node default {
 
   pulseaudio::service { 'audio-service':
     user         => 'dj',
-    post_command => '/bin/systemctl restart lightdm'
   }
 }
