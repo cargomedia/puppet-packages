@@ -1,7 +1,7 @@
 node default {
 
-  require 'rsyslog'
-
-  monit::entry::status { 'rsyslog': }
+  @monit::entry { 'filesystem':
+    content => 'check filesystem root with path /'
+  }
 
 }
