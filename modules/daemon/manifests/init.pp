@@ -58,12 +58,8 @@ define daemon (
         before => Systemd::Unit[$title],
       }
 
-      file { "/usr/local/bin/${title}-status":
-        ensure  => file,
-        content => template("${module_name}/service-status.sh.erb"),
-        owner   => '0',
-        group   => '0',
-        mode    => '0755',
+      class { 'daemon::service_status':
+        before => Monit::Entry[$title],
       }
     }
 
