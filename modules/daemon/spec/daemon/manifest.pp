@@ -1,5 +1,7 @@
 node default {
 
+  include 'monit'
+
   user { 'alice':
     ensure => present,
   }

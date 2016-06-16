@@ -1,2 +1,2 @@
-check program <%= @name %> path "/bin/systemctl status <%= @name %>"
+check program <%= @name %> path "/usr/local/bin/<%= @name %>-status"
 	if status != 0 then alert

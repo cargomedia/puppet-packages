@@ -57,6 +57,14 @@ define daemon (
       File <| title == $binary or path == $binary |> {
         before => Systemd::Unit[$title],
       }
+
+      file { "/usr/local/bin/${title}-status":
+        ensure  => file,
+        content => template("${module_name}/service_status.sh.erb"),
+        owner   => '0',
+        group   => '0',
+        mode    => '0755',
+      }
     }
 
     @monit::entry { $title:
