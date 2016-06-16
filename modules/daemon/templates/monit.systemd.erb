@@ -1,2 +1,2 @@
-check program <%= @name %> path "/usr/local/bin/<%= @name %>-status"
+check program <%= @name %> path "/usr/local/bin/service-status <%= @name %>"
 	if status != 0 then alert

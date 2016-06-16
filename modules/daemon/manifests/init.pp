@@ -60,7 +60,7 @@ define daemon (
 
       file { "/usr/local/bin/${title}-status":
         ensure  => file,
-        content => template("${module_name}/service_status.sh.erb"),
+        content => template("${module_name}/service-status.sh.erb"),
         owner   => '0',
         group   => '0',
         mode    => '0755',

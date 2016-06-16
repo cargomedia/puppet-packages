@@ -1,0 +1,14 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]; then
+    echo <<EOF
+
+Usage:
+       service-status <UnitName>
+
+EOF
+    exit 1
+fi
+
+( 2>&1 1>/dev/null /bin/systemctl status $1 )
+exit $?
