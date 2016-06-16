@@ -2,6 +2,5 @@ node default {
 
   require 'rsyslog'
 
-  monit::entry::status { 'rsyslog': }
-
+  monit::service_status { 'rsyslog': }
 }

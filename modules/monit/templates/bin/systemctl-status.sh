@@ -2,7 +2,7 @@
 
 if [ $# -eq 0 ]; then
     echo 'Usage:'
-    echo '   service-status <UnitName>'
+    echo '   systemctl-status <UnitName>'
     exit 1
 fi
 

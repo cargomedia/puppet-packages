@@ -57,14 +57,9 @@ define daemon (
       File <| title == $binary or path == $binary |> {
         before => Systemd::Unit[$title],
       }
-
-      class { 'daemon::service_status':
-        before => Monit::Entry[$title],
-      }
     }
 
-    @monit::entry { $title:
-      content => template("${module_name}/monit.${service_provider}.erb"),
+    @monit::service_status { $title:
       require => Service[$title],
     }
   }
