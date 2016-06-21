@@ -1,0 +1,19 @@
+## built-in TCP input
+## $ echo <json> | fluent-cat <tag>
+<source>
+  @type forward
+  @id forward_input
+</source>
+
+# Listen HTTP for monitoring
+# http://localhost:24220/api/plugins
+# http://localhost:24220/api/plugins?type=TYPE
+# http://localhost:24220/api/plugins?tag=MYTAG
+<source>
+  @type monitor_agent
+  @id monitor_agent_input
+
+  port 24220
+</source>
+
+@include config.d/*.conf

@@ -31,7 +31,7 @@ class php5 {
   }
 
   logrotate::entry { $module_name:
-    content => template("${module_name}/logrotate")
+    path    => '/var/log/php/error.log',
   }
 
   php5::config { '/etc/php5/cli/php.ini':

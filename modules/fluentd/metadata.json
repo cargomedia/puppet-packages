@@ -1,0 +1,20 @@
+{
+  "name": "cargomedia-fluentd",
+  "version": "0.0.1",
+  "author": "Cargo Media",
+  "license": "MIT",
+  "summary": "fluentd",
+  "source": "https://github.com/cargomedia/puppet-packages",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": ["8"]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": ["15.04"]
+    }
+  ],
+  "dependencies": [
+  ]
+}

@@ -35,7 +35,6 @@ Spec helper will also automatically apply all puppet manifests from the same dir
 
 To test specific module run `rake spec:<module-name>`. To learn about other available tasks please run `rake --tasks`.
 Our test tasks recognize following rake options:
-- `verbose=true` verbose output
 - `debug=true` running puppet apply with `--debug` flag
 - `keep_box=true` do not roll back the vm to a clean state
 - `gui=true` show virtualbox GUI

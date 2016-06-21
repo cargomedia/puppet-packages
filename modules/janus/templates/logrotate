@@ -1,9 +1,0 @@
-<%= @log_file %> {
-	rotate 7
-	daily
-	delaycompress
-	compress
-	notifempty
-	missingok
-	copytruncate
-}

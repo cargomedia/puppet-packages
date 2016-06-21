@@ -45,11 +45,11 @@ class coturn (
       owner   => '0',
       group   => '0',
       mode    => '0644',
-      notify  => Service['coturn'];
+      notify  => Daemon['coturn'];
   }
 
-  logrotate::entry{ $module_name:
-    content => template("${module_name}/logrotate")
+  logrotate::entry { $module_name:
+    path    => '/var/log/coturn/*.log',
   }
 
   @bipbip::entry { 'coturn':

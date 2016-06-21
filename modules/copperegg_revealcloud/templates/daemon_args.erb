@@ -1,1 +1,1 @@
-<% require 'shellwords' %>-x -a <%= @api_host.shellescape %> -k <%= @api_key.shellescape %> -l <%= @label.shellescape %> <%= @tag_list.map { |t| "-t #{t.shellescape}" }.join(' ') %>"
+<% require 'shellwords' %>-x -a <%= @api_host.shellescape %> -k <%= @api_key.shellescape %> -l <%= @label.shellescape %> <%= @tag_list.map { |t| "-t #{t.shellescape}" }.join(' ') %>

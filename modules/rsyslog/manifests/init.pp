@@ -3,6 +3,7 @@ class rsyslog(
 ) {
 
   require 'apt'
+  include 'rsyslog::service'
 
   file {
     '/etc/rsyslog.conf':
@@ -18,13 +19,10 @@ class rsyslog(
       group     => '0',
       mode      => '0644',
       notify    => Service['rsyslog'];
-    '/etc/rsyslog.d/50-default.conf':
-      ensure  => file,
-      owner   => '0',
-      group   => '0',
-      mode    => '0644',
-      content => template("${module_name}/rules.conf.erb"),
-      notify    => Service['rsyslog'];
+  }
+
+  rsyslog::config { '50-default':
+    content => template("${module_name}/rules.conf.erb"),
   }
 
   file { '/var/log/syslog':
@@ -40,8 +38,10 @@ class rsyslog(
     provider => 'apt',
   }
 
-  service { 'rsyslog':
-    enable  => true,
-    require => Package['rsyslog'],
+  @fluentd::config::source_tail{ 'syslog':
+    path        => '/var/log/syslog',
+    fluentd_tag => 'syslog',
+    format      => '/^(?<time>[^ ]*) (?<host>[^ ]*) (?<ident>[a-zA-Z0-9_\/\.\-]*)(?:\[(?<pid>[0-9]+)\])?(?:[^\:]*\:)? *(?<message>.*)$/',
+    time_format => '%FT%T.%L%:z',
   }
 }

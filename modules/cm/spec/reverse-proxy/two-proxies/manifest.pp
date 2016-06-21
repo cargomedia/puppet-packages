@@ -28,10 +28,12 @@ node default {
   }
 
   cm::upstream::proxy { $upstream2_name:
-    members => ['upstream:8041'],
+    members => ['upstream:8043'],
   }
 
   cm::reverse_proxy { 'foobar':
+    ssl_cert => template('cm/spec/spec-ssl.pem'),
+    ssl_key  => template('cm/spec/spec-ssl.key'),
     upstream_options => {
       name  => $upstream1_name,
       ssl   => false,
@@ -39,23 +41,28 @@ node default {
   }
 
   cm::reverse_proxy { 'alicebob':
+    ssl_cert => template('cm/spec/spec-ssl.pem'),
+    ssl_key  => template('cm/spec/spec-ssl.key'),
     upstream_options => {
       name   => $upstream2_name,
-      ssl    => false,
     },
   }
 
   nginx::resource::vhost { 'destination1':
-    server_name         => ['upstream'],
-    listen_port         => 8040,
-    www_root            => '/var/www1/',
-    require             => File['/var/www1/index.html'],
+    server_name => ['upstream'],
+    listen_port => 8040,
+    www_root    => '/var/www1/',
+    require     => File['/var/www1/index.html'],
   }
 
   nginx::resource::vhost { 'destination2':
-    server_name         => ['upstream'],
-    listen_port         => 8041,
-    www_root            => '/var/www2/',
-    require             => File['/var/www2/index.html'],
+    server_name => ['upstream'],
+    listen_port => 8043,
+    ssl         => true,
+    ssl_port    => 8043,
+    ssl_cert    => template('cm/spec/spec-ssl.pem'),
+    ssl_key     => template('cm/spec/spec-ssl.key'),
+    www_root    => '/var/www2/',
+    require     => File['/var/www2/index.html'],
   }
 }

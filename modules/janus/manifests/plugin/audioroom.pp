@@ -1,6 +1,6 @@
 define janus::plugin::audioroom(
   $prefix = undef,
-  $recording_enabled = 'yes',
+  $recording_enabled = true,
   $recording_pattern = 'rec-#{id}-#{time}-#{type}',
   $job_pattern = 'job-#{md5}',
   $rest_url = 'http://127.0.0.1:8088/janus',
@@ -37,8 +37,7 @@ define janus::plugin::audioroom(
     owner     => '0',
     group     => '0',
     mode      => '0644',
-    before    => Daemon[$instance_name],
-    notify    => Service[$instance_name],
+    notify    => Daemon[$instance_name],
   }
 
   @bipbip::entry { "janus-audioroom-${title}":

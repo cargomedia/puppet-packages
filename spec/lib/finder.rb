@@ -58,6 +58,12 @@ module PuppetModules
     end
 
     # @param [String] name
+    # @return [Boolean]
+    def puppet_module?(name)
+      @modules_dir.join(name).directory?
+    end
+
+    # @param [String] name
     # @return [Module]
     def puppet_module(name)
       module_dir = @modules_dir.join(name)

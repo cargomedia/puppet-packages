@@ -1,4 +1,0 @@
-node default {
-
-  require 'yasm'
-}

@@ -18,6 +18,7 @@ define janus::server (
   $core_dump = true,
   $ssl_cert = undef,
   $ssl_key = undef,
+  $log_level = 3,
 ) {
 
   require 'janus::common'
@@ -59,8 +60,14 @@ define janus::server (
   $log_file = "${instance_base_dir}/var/log/janus/janus.log"
   $config_file = "${instance_base_dir}/etc/janus/janus.cfg"
 
-  logrotate::entry{ $instance_name:
-    content => template("${module_name}/logrotate"),
+  logrotate::entry { $instance_name:
+    path    => $log_file,
+  }
+
+  @fluentd::config::source_tail{ $instance_name:
+    path        => $log_file,
+    fluentd_tag => 'janus',
+    format      => '/(\[(?<time>[^\]]+)\] )?(?<message>.*)/',
   }
 
   file {
@@ -70,21 +77,21 @@ define janus::server (
       owner     => '0',
       group     => '0',
       mode      => '0644',
-      notify    => Service[$instance_name];
+      notify    => Daemon[$instance_name];
     "${ssl_config_dir}/cert.pem":
       ensure    => file,
       content   => $ssl_cert_content,
       owner     => 'janus',
       group     => 'janus',
       mode      => '0644',
-      notify    => Service[$instance_name];
+      notify    => Daemon[$instance_name];
     "${ssl_config_dir}/cert.key":
       ensure    => file,
       content   => $ssl_key_content,
       owner     => 'janus',
       group     => 'janus',
       mode      => '0640',
-      notify    => Service[$instance_name];
+      notify    => Daemon[$instance_name];
     $log_file:
       ensure => file,
       owner  => 'janus',

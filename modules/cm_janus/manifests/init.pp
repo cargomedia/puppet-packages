@@ -40,29 +40,26 @@ define cm_janus (
     owner   => '0',
     group   => '0',
     mode    => '0755',
-    before  => Daemon[$instance_name],
-    notify  => Service[$instance_name],
+    notify  => Daemon[$instance_name],
   }
 
-  logrotate::entry{ $instance_name:
-    content => template("${module_name}/logrotate")
+  logrotate::entry { $instance_name:
+    path => $log_file,
   }
 
-  @bipbip::entry { "logparser-${instance_name}":
-    plugin  => 'log-parser',
-    options => {
-      'metric_group' => 'cm-janus',
-      'path' => $log_file,
-      'matchers' => [
-        { 'name' => 'error',
-          'regexp' => '^[\d\-\:\s\.]+ERROR' }
-      ]
-    }
+  @fluentd::config::source_tail{ $instance_name:
+    path        => $log_file,
+    fluentd_tag => 'cm-janus',
+    format      => 'json',
+    time_key    => 'time',
+    time_format => '%FT%T.%L%:z',
   }
 
   daemon { $instance_name:
-    binary  => '/usr/bin/node',
-    args    => "/usr/bin/cm-janus -c ${config_file}",
-    user    => 'cm-janus',
+    binary       => '/usr/bin/node',
+    args         => "/usr/bin/cm-janus -c ${config_file}",
+    user         => 'cm-janus',
+    limit_nofile => 20000,
+    subscribe    => Package['cm-janus'],
   }
 }

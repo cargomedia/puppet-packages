@@ -1,0 +1,11 @@
+<filter <%= @pattern %>>
+  @type record_modifier
+<% @config.reject {|_,v| v == :undef}.each do |key, val| -%>
+  <%= key %> <%= val %>
+<% end -%>
+  <record>
+  <% @record.reject {|_,v| v == :undef}.each do |key, val| -%>
+    <%= key %> <%= val %>
+  <% end -%>
+  </record>
+</filter>

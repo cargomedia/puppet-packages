@@ -1,7 +1,8 @@
 define cm::vhost(
   $path,
-  $ssl_cert = undef,
-  $ssl_key = undef,
+  $ssl_cert,
+  $ssl_key,
+  $ssl_port = 443,
   $aliases = [],
   $redirects = undef,
   $cdn_origin = undef,
@@ -29,37 +30,32 @@ define cm::vhost(
 
   $hostnames = concat([$name], $aliases)
   $debug_int = $debug ? { true => 1, false => 0 }
-  $ssl = ($ssl_cert != undef) or ($ssl_key != undef)
-  $port = $ssl ? { true => 443, false => 80 }
 
   if ($redirects) {
-    $protocol = $ssl ? { true => 'https', false => 'http' }
     nginx::resource::vhost{ "${name}-redirect":
       listen_port         => 80,
       server_name         => $redirects,
       location_cfg_append => [
-        "return 301 ${protocol}://${name}\$request_uri;",
+        "return 301 https://${name}\$request_uri;",
       ],
     }
   }
 
-  if ($ssl) {
-    nginx::resource::vhost{ "${name}-https-redirect":
-      listen_port         => 80,
-      server_name         => $hostnames,
-      location_cfg_append => [
-        'return 301 https://$host$request_uri;',
-      ],
-    }
+  nginx::resource::vhost{ "${name}-https-redirect":
+    listen_port         => 80,
+    server_name         => $hostnames,
+    location_cfg_append => [
+      'return 301 https://$host$request_uri;',
+    ],
   }
 
   nginx::resource::vhost { $name:
     server_name         => $hostnames,
-    listen_port         => $port,
-    ssl                 => $ssl,
+    listen_port         => $ssl_port,
+    ssl                 => true,
     ssl_cert            => $ssl_cert,
     ssl_key             => $ssl_key,
-    ssl_port            => $port,
+    ssl_port            => $ssl_port,
     location_cfg_append => [
       'include fastcgi_params;',
       'set_real_ip_from 0.0.0.0/0;',
@@ -73,24 +69,23 @@ define cm::vhost(
 
   nginx::resource::location{ "${name}-maintenance":
     vhost     => $name,
-    ssl       => $ssl,
-    ssl_only  => $ssl,
+    ssl       => true,
+    ssl_only  => true,
     location  => '/maintenance',
     www_root  => "${path}/public",
     try_files => ['/maintenance.html', 'something-nonexistent'],
   }
-
 
   if ($cdn_origin) {
     $cdn_origin_vhost = "${name}-origin"
 
     nginx::resource::vhost{ $cdn_origin_vhost:
       server_name         => [$cdn_origin],
-      listen_port         => $port,
-      ssl                 => $ssl,
+      listen_port         => $ssl_port,
+      ssl                 => true,
       ssl_cert            => $ssl_cert,
       ssl_key             => $ssl_key,
-      ssl_port            => $port,
+      ssl_port            => $ssl_port,
       location_cfg_append => [
         'deny all;',
       ],
@@ -102,16 +97,14 @@ define cm::vhost(
   nginx::resource::location{ "${name}-origin-upstream":
     location            => '~* ^/(vendor-css|vendor-js|library-css|library-js|layout)/',
     vhost               => $cdn_origin_vhost,
-    ssl                 => $ssl,
-    ssl_only            => $ssl,
+    ssl                 => true,
+    ssl_only            => true,
     location_cfg_append => [
-      'expires 1y;',
       'gzip on;',
       'gzip_proxied any;',
       'gzip_http_version 1.0;',
       'gzip_min_length 1000;',
       'gzip_types application/x-javascript text/css text/plain application/xml image/svg+xml;',
-
       'include fastcgi_params;',
       'set_real_ip_from 0.0.0.0/0;',
       "fastcgi_param SCRIPT_FILENAME ${path}/public/index.php;",
@@ -124,8 +117,8 @@ define cm::vhost(
   nginx::resource::location{ "${name}-origin-static":
     location            => '/static',
     vhost               => $cdn_origin_vhost,
-    ssl                 => $ssl,
-    ssl_only            => $ssl,
+    ssl                 => true,
+    ssl_only            => true,
     www_root            => "${path}/public",
     location_cfg_append => [
       'expires 1y;',
@@ -142,8 +135,8 @@ define cm::vhost(
   nginx::resource::location{ "${name}-origin-userfiles":
     location            => '/userfiles',
     vhost               => $cdn_origin_vhost,
-    ssl                 => $ssl,
-    ssl_only            => $ssl,
+    ssl                 => true,
+    ssl_only            => true,
     www_root            => "${path}/public",
     location_cfg_append => [
       'expires 1y;',

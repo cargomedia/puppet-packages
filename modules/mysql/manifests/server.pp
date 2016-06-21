@@ -3,6 +3,8 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
   require 'apt'
   include 'mysql::service'
 
+  $error_log = '/var/log/mysql.err'
+
   file { '/root/.my.cnf':
     ensure  => file,
     content => template("${module_name}/client-config.cnf"),
@@ -78,7 +80,7 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
     notify  => Service['mysql'],
   }
 
-  file { '/var/log/mysql.err':
+  file { $error_log:
     ensure  => file,
     owner   => 'mysql',
     mode    => '0644',
@@ -102,9 +104,9 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
 
   sysctl::entry { 'mysql':
     entries => {
-      'net.core.somaxconn' => 1536,
+      'net.core.somaxconn'           => 1536,
       'net.ipv4.tcp_max_syn_backlog' => 8192,
-      'net.core.netdev_max_backlog' => 2048,
+      'net.core.netdev_max_backlog'  => 2048,
     }
   }
 
@@ -112,16 +114,17 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
     limits => [
       {
         'domain' => 'mysql',
-        'type' => '-',
-        'item' => 'nofile',
-        'value' => 16384,
+        'type'   => '-',
+        'item'   => 'nofile',
+        'value'  => 16384,
       }
     ]
   }
 
   logrotate::entry { 'mysql-server-error':
-    content => template("${module_name}/logrotate-error"),
-    before  => Package['mysql-server'],
+    path               => $error_log,
+    rotation_newfile   => 'create 0644 mysql root',
+    before             => Package['mysql-server'],
   }
 
   @monit::entry { 'mysql':
@@ -133,7 +136,7 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
     plugin  => 'mysql',
     options => {
       'hostname' => 'localhost',
-      'port' => '3306',
+      'port'     => '3306',
       'username' => 'debian-sys-maint',
       'password' => $debian_sys_maint_password,
     }
@@ -143,9 +146,9 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
     plugin  => 'log-parser',
     options => {
       'metric_group' => 'mysql',
-      'path' => '/var/log/mysql.err',
-      'matchers' => [
-        { 'name' => 'crashed_tables',
+      'path'         => $error_log,
+      'matchers'     => [
+        { 'name'   => 'crashed_tables',
           'regexp' => 'is marked as crashed' },
       ]
     },

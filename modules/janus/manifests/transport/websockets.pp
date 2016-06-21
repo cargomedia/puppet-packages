@@ -31,6 +31,7 @@ define janus::transport::websockets(
     ensure    => link,
     target    => '/usr/lib/janus/transports/libjanus_websockets.so',
   }
+  ->
 
   file { "${instance_base_dir}/etc/janus/janus.transport.websockets.cfg":
     ensure    => 'present',
@@ -38,7 +39,6 @@ define janus::transport::websockets(
     owner     => '0',
     group     => '0',
     mode      => '0644',
-    before    => Daemon[$instance_name],
-    notify    => Service[$instance_name],
+    notify    => Daemon[$instance_name],
   }
 }

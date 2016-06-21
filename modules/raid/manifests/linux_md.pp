@@ -2,7 +2,7 @@ class raid::linux_md {
 
   require 'apt'
 
-  if ($::lsbdistcodename == 'vivid') {
+  if ($::facts['lsbdistcodename'] == 'vivid') {
     $mdamd_service_name = 'mdadm'
   } else {
     $mdamd_service_name = 'mdadm-raid'
@@ -45,7 +45,7 @@ class raid::linux_md {
   }
 
   @monit::entry { 'mdadm-status':
-    content => template("${module_name}/linux_md/monit.${::service_provider}.erb"),
+    content => template("${module_name}/linux_md/monit.${::facts['service_provider']}.erb"),
     require => Service[$mdamd_service_name],
   }
 }

@@ -1,7 +1,7 @@
 class copperegg_revealcloud(
   $api_key,
-  $label = $::clientcert,
-  $tags = $::copperegg_tags,
+  $label = $::facts['clientcert'],
+  $tags = $::facts['copperegg_tags'],
   $version = 'v3.3-118-g5f871c6',
   $enable_node = true
 ) {
@@ -10,7 +10,7 @@ class copperegg_revealcloud(
   $api_host = 'api.copperegg.com'
   $tag_list = $tags ? { undef => [], default => $tags }
 
-  case $::architecture {
+  case $::facts['architecture'] {
     i386: { $url = "http://cdn.copperegg.com/revealcloud/${version}/linux-2.6/i386/revealcloud" }
     amd64: { $url = "http://cdn.copperegg.com/revealcloud/${version}/linux-2.6/x86_64/revealcloud" }
     default: { fail('Unrecognized architecture') }
@@ -40,17 +40,17 @@ class copperegg_revealcloud(
     command     => template("${module_name}/download.sh"),
     unless      => "test -x ${dir}/revealcloud && ${dir}/revealcloud -V 2>&1 | grep 'Version: ${version}$'",
     require     => File[$dir],
-    notify      => Service['revealcloud'],
+    notify      => Daemon['revealcloud'],
   }
 
   if $enable_node {
     exec { 'enable revealcloud node':
       path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-      command     => "rm /usr/local/revealcloud/run/revealcloud.pid && ${dir}/revealcloud -x -a ${api_host} -k ${api_key} -E",
+      command     => "rm -f /usr/local/revealcloud/run/revealcloud.pid && ${dir}/revealcloud -x -a ${api_host} -k ${api_key} -E",
       unless      => "test -e ${dir}/enabled.lock",
       user        => '0',
       group       => '0',
-      before      => Service['revealcloud'],
+      before      => Daemon['revealcloud'],
     }
     ->
     file { "${dir}/enabled.lock":

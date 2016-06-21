@@ -27,5 +27,5 @@ class apt::update(
     refreshonly => $refreshonly,
   }
 
-  Exec['apt_update'] -> Package <| before != Exec['apt_update'] |>
+  Exec['apt_update'] -> Package <| provider == 'apt' and before != Exec['apt_update'] |>
 }

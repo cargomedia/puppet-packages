@@ -4,7 +4,8 @@ class elasticsearch (
   $cluster_name = undef
 ) {
 
-  require 'java'
+  require 'apt'
+  require 'java::jre_headless'
 
   $version = '1.3.1'
 
@@ -37,7 +38,8 @@ class elasticsearch (
 
   helper::script { 'install elasticsearch':
     content => template("${module_name}/install.sh"),
-    unless  => "/usr/share/elasticsearch/bin/elasticsearch -v | grep -q '\s${version},'"
+    unless  => "/usr/share/elasticsearch/bin/elasticsearch -v | grep -q '\s${version},'",
+    require => Class['apt::update'],
   }
   ->
 

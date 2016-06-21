@@ -17,7 +17,7 @@ define cm::services::janus(
   $rtpbroadcast_minport = 8400,
   $rtpbroadcast_maxport = 9000,
 
-  $recording_enabled = 'yes',
+  $recording_enabled = true,
   $ufw_app_profile = undef,
 
   $janus_http_port = 8300,
@@ -27,13 +27,16 @@ define cm::services::janus(
   $transport_http_secure_port = 8301,
   $transport_http_admin_port = 8302,
   $transport_http_admin_secure_port = 8303,
-
-  $jobs_path = '/var/lib/janus/jobs'
 ) {
+
+  include 'janus::cluster'
+
+  $jobs_path = "${::janus::cluster::prefix}/${title}/var/lib/janus/jobs"
 
   include 'cm_janus::cluster'
 
   ::janus::role::standalone { $title:
+    hostname                         => $hostname,
     bind_address                     => '127.0.0.1',
     nat_1_1_mapping                  => $nat_1_1_mapping,
     rtp_port_range_min               => $webrtc_media_minport,

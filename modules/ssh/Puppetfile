@@ -9,3 +9,6 @@ mod 'cargomedia/apt',
 mod 'cargomedia/ufw',
    :git => 'git@github.com:cargomedia/puppet-packages.git',
    :path => 'modules/ufw'
+
+mod 'puppetlabs/stdlib',
+  :git => 'git://github.com/puppetlabs/puppetlabs-stdlib.git'

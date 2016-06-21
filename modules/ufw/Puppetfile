@@ -3,5 +3,12 @@ mod 'cargomedia/apt',
    :path => 'modules/apt'
 
 mod 'puppetlabs/stdlib',
-  :git => 'git://github.com/puppetlabs/puppetlabs-stdlib.git',
-  :ref => '4.1.0'
+  :git => 'git://github.com/puppetlabs/puppetlabs-stdlib.git'
+
+mod 'cargomedia/rsyslog',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/rsyslog'
+
+mod 'cargomedia/logrotate',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/logrotate'

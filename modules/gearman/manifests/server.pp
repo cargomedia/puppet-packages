@@ -42,7 +42,7 @@ class gearman::server(
       'hostname' => 'localhost',
       'port'     => '4730',
     },
-    require => Service[$fullname],
+    require => Daemon[$fullname],
   }
 
   user {'gearman':
