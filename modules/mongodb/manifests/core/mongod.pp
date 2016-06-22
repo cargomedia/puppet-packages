@@ -45,20 +45,13 @@ define mongodb::core::mongod (
       owner   => 'mongodb',
       group   => 'mongodb',
       notify  => Service[$instance_name];
-
-    "/etc/init.d/${instance_name}":
-      ensure  => file,
-      content => template("${module_name}/init"),
-      mode    => '0755',
-      owner   => 'mongodb',
-      group   => 'mongodb',
-      notify  => Service[$instance_name];
   }
-  ~>
 
-  exec { "/etc/init.d/${instance_name} start":
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    refreshonly => true,
+  daemon { $instance_name:
+    binary  => "/usr/bin/${daemon}",
+    args    => "--config /etc/mongodb/${instance_name}.conf",
+    user    => 'mongodb',
+    stop_timeout => 10
   }
   ~>
 
@@ -67,15 +60,6 @@ define mongodb::core::mongod (
     provider    => shell,
     timeout     => 300, # Might take long due to journal file preallocation
     refreshonly => true,
-  }
-
-  service { $instance_name:
-    enable     => true,
-    hasrestart => false,
-  }
-
-  @monit::entry { $instance_name:
-    content => template("${module_name}/monit"),
   }
 
   $hostName = $bind_ip? { undef => 'localhost', default => $bind_ip }
