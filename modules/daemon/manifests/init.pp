@@ -7,10 +7,15 @@ define daemon (
   $oom_score_adjust = undef,
   $env = { },
   $limit_nofile = undef,
+  $limit_fsize = undef,
+  $limit_cpu = undef,
+  $limit_as = undef,
+  $limit_rss = undef,
+  $limit_nproc = undef,
   $core_dump = false,
   $sysvinit_kill = false,
   $pre_command = undef,
-  $post_command = undef
+  $post_command = undef,
 ) {
 
   $virtual = $::facts['virtual']
