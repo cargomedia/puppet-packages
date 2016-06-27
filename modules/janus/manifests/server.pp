@@ -110,13 +110,6 @@ define janus::server (
     ],
   }
 
-  sysctl::entry { 'janus':
-    entries => {
-      'net.core.rmem_default' => '33554432',
-      'net.core.rmem_max'     => '33554432',
-    }
-  }
-
   if $instance_name != 'janus' {
     if ! defined(Service['janus']) {
       service { 'janus':
