@@ -1,4 +1,5 @@
 define janus::role::streaming::cluster_member (
+  $hostname,
   $origin = false,
   $repeater = false,
   $edge = false,
@@ -11,9 +12,6 @@ define janus::role::streaming::cluster_member (
   $ws_port = 8310,
   $rtpb_minport = 8000,
   $rtpb_maxport = 9000,
-  $rtpb_source_avg_time = 10,
-  $rtpb_switching_delay = 1,
-  $rtpb_session_info_update_time = 10,
   $rtpb_keyframe_distance_alert = 600,
   $rest_url = undef,
 ) {
@@ -42,16 +40,13 @@ define janus::role::streaming::cluster_member (
   $rest_url_final = $rest_url ? { undef => "http://localhost:${http_port}${http_base_path}", default => $rest_url }
 
   janus::plugin::rtpbroadcast { $name:
+    hostname                 => $hostname,
     prefix                   => $janus::cluster::prefix,
     minport                  => $rtpb_minport,
     maxport                  => $rtpb_maxport,
     source_avg_time          => $rtpb_source_avg_time,
-    switching_delay          => $rtpb_switching_delay,
-    session_info_update_time => $rtpb_session_info_update_time,
-    keyframe_distance_alert  => $rtpb_keyframe_distance_alert,
     recording_enabled        => false,
     rest_url                 => $rest_url_final,
-    cluster_register         => true
   }
 
   if $edge or $repeater or $origin {
