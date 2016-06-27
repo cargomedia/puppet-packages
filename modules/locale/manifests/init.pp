@@ -1,6 +1,6 @@
 class locale($lang = 'en_US.UTF-8') {
 
-  if ($::lsbdistcodename == 'Wheezy') {
+  if ($::facts['lsbdistid'] == 'Debian') {
     exec { "Uncomment ${lang} if needed":
       provider => shell,
       command  => "sed -i '/${lang}/s/^# //g' /etc/locale.gen",
