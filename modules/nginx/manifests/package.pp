@@ -7,8 +7,6 @@ class nginx::package {
     default => 'debian',
   }
 
-  notify { $distro_family: }
-
   apt::source { 'nginx':
     entries => [
       "deb http://nginx.org/packages/${distro_family}/ ${::facts['lsbdistcodename']} nginx",
