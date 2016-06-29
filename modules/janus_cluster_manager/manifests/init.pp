@@ -14,7 +14,7 @@ class janus_cluster_manager (
     provider => 'npm',
   }
 
-  daemon { 'janus-cluster-manger':
+  daemon { 'janus-cluster-manager':
     binary  => '/usr/bin/node',
     args    => "/usr/bin/janus-cluster --port ${port}",
     user    => 'janus-cluster-manager',
