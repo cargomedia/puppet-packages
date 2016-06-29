@@ -11,6 +11,7 @@ define janus::role::rtpbroadcast (
   $rtpb_minport = 8000,
   $rtpb_maxport = 9000,
   $recording_enabled = false,
+  $mountpoint_info_interval = 10,
   $recording_pattern = 'rec-#{id}-#{time}-#{type}',
   $thumbnailing_pattern = 'thum-#{id}-#{time}-#{type}',
   $thumbnailing_interval = 60,
@@ -18,7 +19,6 @@ define janus::role::rtpbroadcast (
   $job_pattern = 'job-#{md5}',
   $jobs_path = undef,
   $rest_url = undef,
-  $mountpoint_info_interval = 10,
 ) {
 
   include 'janus::cluster'
