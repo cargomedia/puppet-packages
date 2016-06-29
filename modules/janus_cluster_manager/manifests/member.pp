@@ -1,17 +1,16 @@
-define janus_cluster::member (
+define janus_cluster_manager::member (
   $cluster_manager_url,
-  $webSocketAddress,
+  $web_socket_address,
   $data = { },
 ) {
 
-
   $register_data = {
     id               => $name,
-    webSocketAddress => $webSocketAddress,
+    webSocketAddress => $web_socket_address,
     data             => $data,
   }
 
-  file { '/usr/bin/register-janus-cluster-member':
+  file { "/usr/bin/register-janus-cluster-member-${name}":
     content => template('janus_cluster/register_member.sh.erb'),
     owner   => 'root',
     group   => 'root',
@@ -19,7 +18,7 @@ define janus_cluster::member (
   }
   ~>
 
-  daemon { 'janus-cluster-member':
-    binary => '/usr/bin/register-janus-cluster-member',
+  daemon { "janus-cluster-member-${name}":
+    binary => "/usr/bin/register-janus-cluster-member-${name}",
   }
 }

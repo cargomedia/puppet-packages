@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'janus_cluster::member' do
+describe 'janus_cluster_manager::member' do
 
   describe file('/usr/bin/register-janus-cluster-member') do
     it { should be_file }
