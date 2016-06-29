@@ -1,10 +1,10 @@
-class janus_cluster (
+class janus_cluster_manager (
   $port = 8080,
   $version = latest
 ) {
   require 'nodejs'
 
-  user { 'janus-cluster':
+  user { 'janus-cluster-manager':
     ensure  => present,
     system  => true,
   }
@@ -14,9 +14,9 @@ class janus_cluster (
     provider => 'npm',
   }
 
-  daemon { 'janus-cluster':
+  daemon { 'janus-cluster-manager':
     binary  => '/usr/bin/node',
     args    => "/usr/bin/janus-cluster --port ${port}",
-    user    => 'janus-cluster',
+    user    => 'janus-cluster-manager',
   }
 }
