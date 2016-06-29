@@ -11,7 +11,7 @@ define janus_cluster_manager::member (
   }
 
   file { "/usr/bin/register-janus-cluster-member-${name}":
-    content => template('janus_cluster/register_member.sh.erb'),
+    content => template("${module_name}/register_member.sh.erb"),
     owner   => 'root',
     group   => 'root',
     mode    => '0755',
