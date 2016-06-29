@@ -36,7 +36,8 @@ define mongodb::core::mongod (
       ensure  => directory,
       mode    => '0644',
       owner   => 'mongodb',
-      group   => 'mongodb';
+      group   => 'mongodb',
+      before  => Daemon[$instance_name];
 
     "/etc/mongodb/${instance_name}.conf":
       ensure  => file,
@@ -44,6 +45,7 @@ define mongodb::core::mongod (
       mode    => '0644',
       owner   => 'mongodb',
       group   => 'mongodb',
+      before  => Daemon[$instance_name],
       notify  => Service[$instance_name];
   }
 

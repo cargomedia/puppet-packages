@@ -34,6 +34,7 @@ define mongodb::core::mongos (
       mode    => '0644',
       owner   => 'mongodb',
       group   => 'mongodb',
+      before  => Daemon[$instance_name],
       notify  => Service[$instance_name];
   }
 
