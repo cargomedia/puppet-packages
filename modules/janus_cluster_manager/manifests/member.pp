@@ -14,7 +14,7 @@ define janus_cluster_manager::member (
     content => template('janus_cluster/register_member.sh.erb'),
     owner   => 'root',
     group   => 'root',
-    mode    => '755',
+    mode    => '0755',
   }
   ~>
 
