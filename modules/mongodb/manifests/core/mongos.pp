@@ -22,6 +22,7 @@ define mongodb::core::mongos (
         mode    => '0400',
         owner   => 'mongodb',
         group   => 'mongodb',
+        before  =>  Daemon[$instance_name],
         notify  => Service[$instance_name],
       }
     }
@@ -34,21 +35,30 @@ define mongodb::core::mongos (
       mode    => '0644',
       owner   => 'mongodb',
       group   => 'mongodb',
-      before  => Daemon[$instance_name],
+      before  =>  Daemon[$instance_name],
       notify  => Service[$instance_name];
   }
 
   daemon { $instance_name:
-    binary       => "/usr/bin/${daemon}",
-    args         => "--config /etc/mongodb/${instance_name}.conf",
-    user         => 'mongodb',
-    limit_nofile => 64000,
-    limit_fsize  => 'unlimited',
-    limit_cpu    => 'unlimited',
-    limit_as     => 'unlimited',
-    limit_rss    => 'unlimited',
-    limit_nproc  => 32000,
-    stop_timeout => 10,
+    binary          => "/usr/bin/${daemon}",
+    args            => "--config /etc/mongodb/${instance_name}.conf",
+    user            => 'mongodb',
+    limit_nofile    => 64000,
+    limit_fsize     => 'unlimited',
+    limit_cpu       => 'unlimited',
+    limit_as        => 'unlimited',
+    limit_rss       => 'unlimited',
+    limit_nproc     => 32000,
+    stop_timeout    => 10,
+    start_on_create => false,
+  }
+  ~>
+
+  exec { "Start of ${instance_name}":
+    command     => "systemctl start ${instance_name}",
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    unless      => "systemctl status ${instance_name}",
+    refreshonly => true,
   }
   ~>
 
