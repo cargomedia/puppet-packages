@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe 'janus_cluster' do
+describe 'janus_cluster_manager' do
 
-  describe service('janus-cluster') do
+  describe service('janus-cluster-manager') do
     it { should be_enabled }
     it { should be_running }
   end

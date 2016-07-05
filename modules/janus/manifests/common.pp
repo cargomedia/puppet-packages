@@ -15,6 +15,7 @@ class janus::common (
     entries => {
       'net.core.rmem_default' => '33554432',
       'net.core.rmem_max'     => '33554432',
+      'net.ipv4.udp_rmem_min' => '8192',
     }
   }
 
