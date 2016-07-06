@@ -13,6 +13,14 @@ define mongodb::core::mongos (
   $daemon = 'mongos'
   $instance_name = "${daemon}_${name}"
 
+  if $::facts['service_provider'] == 'debian' {
+    $start_command = "/etc/init.d/${instance_name} start"
+    $unless_command = "/etc/init.d/${instance_name} status"
+  } else {
+    $start_command = "systemctl start ${instance_name}"
+    $unless_command = "systemctl status ${instance_name}"
+  }
+
   if $auth_key {
     $key_file_path = '/var/lib/mongodb/cluster-key-file'
     if !defined(File[$key_file_path]) {
@@ -55,9 +63,9 @@ define mongodb::core::mongos (
   ~>
 
   exec { "Start of ${instance_name}":
-    command     => "systemctl start ${instance_name}",
+    command     => $start_command,
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    unless      => "systemctl status ${instance_name}",
+    unless      => $unless_command,
     refreshonly => true,
   }
   ~>
