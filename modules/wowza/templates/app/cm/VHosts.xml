@@ -1,9 +1,0 @@
-<Root>
-	<VHosts>
-		<VHost>
-			<Name>videochat</Name>
-			<ConfigDir><%= @dir %></ConfigDir>
-			<ConnectionLimit>0</ConnectionLimit>
-		</VHost>
-	</VHosts>
-</Root>
