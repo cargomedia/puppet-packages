@@ -12,6 +12,7 @@
   - datacenter/defaults
   - environment/<%= @hiera_environment %>
   - environment/defaults
+  - janus_cluster/partition
   - defaults
   - files
 
