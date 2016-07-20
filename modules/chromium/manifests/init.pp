@@ -18,7 +18,7 @@ class chromium($build = undef) {
 
     helper::script { 'install chrome browser':
         content => template("${module_name}/chromium-installer/install.sh.erb"),
-        unless  => 'ls /usr/bin/chrome',
+        unless  => 'ls /usr/bin/chromium-browser',
     }
   } else {
     package { 'chromium-browser':
