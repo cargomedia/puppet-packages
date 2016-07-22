@@ -11,7 +11,7 @@ node default {
     owner   => 'alice',
     group   => 'alice',
     mode    => '0755',
-    content => "#!/bin/bash\n touch /tmp/my-program-start-stamp-$(date +%s)\n while true; do sleep 1; done",
+    content => "#!/bin/bash\n touch /tmp/my-program-start-stamp-$(date +%s.%N)\n while true; do sleep 1; done",
   }
 
   daemon { $daemon_name:
@@ -19,6 +19,13 @@ node default {
     user             => 'alice',
     require          => File["/tmp/${daemon_name}"],
   }
+  ->
+
+  exec { 'cleanup startup stamps':
+    command => 'rm /tmp/my-program-start-stamp-*',
+    path    => ['/bin','/usr/bin', '/usr/local/bin'],
+  }
+  ->
 
   needrestart::service { $daemon_name:
     require => [Daemon[$daemon_name], Service[$daemon_name]]

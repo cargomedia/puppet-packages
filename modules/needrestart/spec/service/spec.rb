@@ -7,7 +7,7 @@ describe 'needrestart::service' do
   end
 
   describe command('ls /tmp/my-program-start-stamp-* | wc -l') do
-    its(:stdout) { should match /2/ }
+    its(:stdout) { should match /1/ }
   end
 
 end
