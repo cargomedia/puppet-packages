@@ -1,25 +1,27 @@
 node default {
 
+  $daemon_name = 'my-program'
+
   user { 'alice':
     ensure => present,
   }
 
-  file { '/tmp/my-program':
+  file { "/tmp/${daemon_name}":
     ensure  => file,
     owner   => 'alice',
     group   => 'alice',
     mode    => '0755',
-    content => "#!/bin/bash\n while true; do sleep 1; done",
+    content => "#!/bin/bash\n touch /tmp/my-program-start-stamp-$(date +%s)\n while true; do sleep 1; done",
   }
 
-  daemon { 'my-program':
-    binary           => '/tmp/my-program',
+  daemon { $daemon_name:
+    binary           => "/tmp/${daemon_name}",
     user             => 'alice',
-    require          => File['/tmp/my-program'],
+    require          => File["/tmp/${daemon_name}"],
   }
 
-  needrestart::service { 'my-service':
-    require => [Daemon['my-program'], Service['my-program']]
+  needrestart::service { $daemon_name:
+    require => [Daemon[$daemon_name], Service[$daemon_name]]
   }
   ->
 

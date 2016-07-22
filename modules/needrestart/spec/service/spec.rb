@@ -6,6 +6,8 @@ describe 'needrestart::service' do
     it { should be_running }
   end
 
-  # check if restarted after upgraded?
+  describe command('ls /tmp/my-program-start-stamp-* | wc -l') do
+    its(:stdout) { should match /2/ }
+  end
 
 end
