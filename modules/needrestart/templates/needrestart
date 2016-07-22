@@ -1,0 +1,6 @@
+#!/bin/bash
+
+needrestart -r l -l -v 2>&1 | grep <%= @name %>
+if [ $? == 0 ]
+  systemctl restart <%= @name %>)
+fi
