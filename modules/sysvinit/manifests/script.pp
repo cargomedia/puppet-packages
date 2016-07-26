@@ -14,8 +14,13 @@ define sysvinit::script(
 
   Service <| title == $name |> {
     enable    => true,
-    ensure    => running,
     provider  => 'debian',
     subscribe => File["/etc/init.d/${name}"],
+  }
+  ->
+
+  exec { "/etc/init.d/${name} start":
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    unless      => "/etc/init.d/${name} status",
   }
 }

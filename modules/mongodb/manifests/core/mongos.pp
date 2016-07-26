@@ -58,15 +58,6 @@ define mongodb::core::mongos (
     limit_rss       => 'unlimited',
     limit_nproc     => 32000,
     stop_timeout    => 10,
-    start_on_create => false,
-  }
-  ~>
-
-  exec { "Start of ${instance_name}":
-    command     => $start_command,
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    unless      => $unless_command,
-    refreshonly => true,
   }
   ~>
 
