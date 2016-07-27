@@ -1,0 +1,60 @@
+{
+  "janus_cluster::node::partition": "us-west1",
+  "janus_cluster::node::members": [
+    "origin1",
+    "repeater1",
+    "repeater1-multiedge"
+  ],
+
+  "janus_cluster::partitions": {
+    "us-west1": {
+      "manager": {
+        "cluster_manager_url": "http://example.com"
+      },
+      "members": {
+        "origin1": {
+          "type": "origin",
+          "params": {
+            "hostname": "localhost",
+            "recording_enabled": true
+          }
+        },
+        "repeater1": {
+          "type": "repeater",
+          "upstream": "origin1",
+          "params": {
+            "hostname": "localhost"
+          }
+        },
+        "repeater1-multiedge": {
+          "type": "multiedge",
+          "upstream": "repeater1",
+          "count": 5,
+          "params": {
+            "hostname": "localhost",
+            "http_port": 11500,
+            "ws_port": 11710,
+            "rtp_port_range_min": 31000,
+            "rtpb_maxport": 25001
+          }
+        }
+      },
+      "origin-defaults": {
+        "ws_port": 8000,
+        "http_port": 8010
+      },
+      "repeater-defaults": {
+        "ws_port": 9000,
+        "http_port": 9010
+      },
+      "edge-defaults": {
+        "http_port": 10500,
+        "ws_port": 10710,
+        "rtp_port_range_min": 30000,
+        "rtp_port_range_max": 50000,
+        "rtpb_minport": 15000,
+        "rtpb_maxport": 25000
+      }
+    }
+  }
+}

@@ -1,16 +1,17 @@
 {
-  "name": "cargomedia-janus_cluster",
+  "name": "cargomedia-janus_cluster_manager",
   "version": "0.0.1",
   "author": "Cargo Media",
   "license": "MIT",
-  "summary": "janus_cluster",
+  "summary": "janus cluster manager",
   "source": "https://github.com/cargomedia/puppet-packages",
   "operatingsystem_support": [
     {
       "operatingsystem": "Debian",
-      "operatingsystemrelease": ["8"]
+      "operatingsystemrelease": ["7", "8"]
     }
   ],
   "dependencies": [
+
   ]
 }
