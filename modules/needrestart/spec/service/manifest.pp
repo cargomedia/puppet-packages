@@ -1,46 +1,34 @@
-define custom_service {
-
-  file { "/tmp/${name}":
-    ensure  => file,
-    owner   => 'alice',
-    group   => 'alice',
-    mode    => '0755',
-    content => "#!/bin/bash\n touch /tmp/${name}-start-stamp-$(date +%s.%N)\n while true; do sleep 1; done",
-  }
-
-  daemon { $name:
-    binary           => "/tmp/${name}",
-    user             => 'alice',
-    require          => File["/tmp/${name}"],
-  }
-  ->
-
-  exec { "cleanup startup stamps for ${name}":
-    command => "rm /tmp/${name}-start-stamp-*",
-    path    => ['/bin','/usr/bin', '/usr/local/bin'],
-  }
-  ->
-
-  needrestart::service { $name:
-    require => [Daemon[$name], Service[$name]]
-  }
-}
-
 node default {
 
   user { 'alice':
     ensure => present,
   }
 
-  custom_service { 'my-program1':
+  $daemon_name = 'my-program1'
+
+  file { "/tmp/${daemon_name}":
+    ensure  => file,
+    owner   => 'alice',
+    group   => 'alice',
+    mode    => '0755',
+    content => "#!/bin/bash\n touch /tmp/${daemon_name}-start-stamp-$(date +%s.%N)\n while true; do sleep 1; done",
+  }
+
+  daemon { $daemon_name:
+    binary           => "/tmp/${daemon_name}",
+    user             => 'alice',
+    require          => File["/tmp/${daemon_name}"],
   }
   ->
 
-  custom_service { 'my-program2':
+  exec { "cleanup startup stamps for ${daemon_name}":
+    command => "rm /tmp/${daemon_name}-start-stamp-*",
+    path    => ['/bin','/usr/bin', '/usr/local/bin'],
   }
   ->
 
-  custom_service { 'my-program3':
+  needrestart::service { $daemon_name:
+    require => [Daemon[$daemon_name], Service[$daemon_name]]
   }
   ->
 
