@@ -2,5 +2,10 @@
 
 needrestart -r l -l -v 2>&1 | grep "<%= @service_name %>"
 if [ $? == 0 ]; then
-  systemctl restart "<%= @service_name %>"
+  systemctl list-units | grep "<%= @service_name %>.service"
+  if [ $? == 0 ]; then
+    systemctl restart "<%= @service_name %>"
+  else
+    echo "Process '<%= @service_name %>' needs restart, but can't find service by that name!"
+  fi
 fi
