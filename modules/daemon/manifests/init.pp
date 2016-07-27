@@ -67,8 +67,7 @@ define daemon (
       }
     }
 
-    @monit::entry { $title:
-      content => template("${module_name}/monit.${service_provider}.erb"),
+    @monit::service_status { $title:
       require => Service[$title],
     }
   }

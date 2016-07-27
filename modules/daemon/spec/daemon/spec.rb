@@ -13,6 +13,10 @@ describe 'daemon' do
     it { should be_running }
   end
 
+  describe command('monit summary') do
+    its(:stdout) { should match /my-program+.+[ok|running]/i }
+  end
+
   describe command('ps --no-headers -o nice -p $(pgrep -f "^/bin/bash /tmp/my-program")') do
     its(:exit_status) { should eq 0 }
     its(:stdout) { should match /19/ }
@@ -39,7 +43,6 @@ describe 'daemon' do
     its(:stdout) { should match /Max open files+.+9999+.+9999+.+files/ }
     its(:stdout) { should match /Max address space+.+unlimited+.+unlimited+.+bytes/ }
   end
-
 
   describe command('find /tmp/created_by_pre -type f ! -mmin +1') do
     its(:exit_status) { should eq 0 }

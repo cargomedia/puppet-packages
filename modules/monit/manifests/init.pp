@@ -103,5 +103,6 @@ class monit ($emailTo = 'root@localhost', $emailFrom = undef, $allowedHosts = []
     provider => 'apt',
   }
 
+  Monit::Service_status <||>
   Monit::Entry <||>
 }
