@@ -22,7 +22,7 @@ node default {
   ->
 
   exec { "cleanup startup stamps for ${daemon_name}":
-    command => "rm /tmp/${daemon_name}-start-stamp-*",
+    command => "rm -f /tmp/${daemon_name}-start-stamp-*",
     path    => ['/bin','/usr/bin', '/usr/local/bin'],
   }
   ->
