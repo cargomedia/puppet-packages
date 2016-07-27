@@ -13,8 +13,8 @@ define needrestart::service {
   }
   ->
 
-  apt::config { "needrestart-service-${name}":
-    content => "DPkg::Post-Invoke {'${service_needrestart_helper}';};"
+  apt::config { "999-needrestart-service-${name}":
+    content => "DPkg::Post-Invoke {'${service_needrestart_helper}';};\n"
   }
 
 }
