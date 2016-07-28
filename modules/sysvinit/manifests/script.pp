@@ -20,10 +20,9 @@ define sysvinit::script(
   }
 
   Service <| title == $name |> {
-  enable    => true,
-  provider  => 'debian',
-  subscribe => File["/etc/init.d/${name}"],
-}
-
-  Service <| title == $name |> -> Exec["/etc/init.d/${name} start"]
+    enable    => true,
+    provider  => 'debian',
+    subscribe => File["/etc/init.d/${name}"],
+    before    => Exec["/etc/init.d/${name} start"],
+  }
 }
