@@ -1,11 +1,8 @@
 #!/bin/bash
 
-needrestart -r l -l -v 2>&1 | grep -E '(^| )<%= @service_name %>(.service| |$)'
+SERVICE_NAME=$1
+
+needrestart -r l -l -v 2>&1 | grep -E "(^| )${SERVICE_NAME}(.service| |$)"
 if [ $? == 0 ]; then
-  systemctl list-units | grep -E '(^| )<%= @service_name %>.service( |$)'
-  if [ $? == 0 ]; then
-    systemctl restart '<%= @service_name %>.service'
-  else
-    echo "Process '<%= @service_name %>' needs restart, but can't find service by that name!"
-  fi
+  systemctl restart "${SERVICE_NAME}.service"
 fi
