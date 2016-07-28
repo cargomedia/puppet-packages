@@ -110,6 +110,9 @@ define janus::server (
     ],
   }
 
+  needrestart::service { $instance_name:
+  }
+
   if $instance_name != 'janus' {
     if ! defined(Service['janus']) {
       service { 'janus':
