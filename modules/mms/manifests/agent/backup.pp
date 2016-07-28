@@ -33,7 +33,6 @@ class mms::agent::backup (
     content           => template("${module_name}/init"),
     require           => Helper::Script['install-mms-backup'],
   }
-  ->
 
   service { $agent_name:
     hasrestart => true,

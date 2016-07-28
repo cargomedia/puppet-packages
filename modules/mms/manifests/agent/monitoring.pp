@@ -36,7 +36,6 @@ class mms::agent::monitoring (
     content           => template("${module_name}/init"),
     require           => Helper::Script['install-mms-monitoring'],
   }
-  ->
 
   service { $agent_name:
     hasrestart => true,

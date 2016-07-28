@@ -1,0 +1,8 @@
+#!/bin/bash
+
+SERVICE_NAME=$1
+
+needrestart -r l -l -v 2>&1 | grep -E "(^| )${SERVICE_NAME}(.service| |$)"
+if [ $? == 0 ]; then
+  systemctl restart "${SERVICE_NAME}.service"
+fi
