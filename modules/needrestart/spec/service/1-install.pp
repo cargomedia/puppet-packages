@@ -1,17 +1,20 @@
 node default {
 
+  include 'ruby'
+
   user { 'alice':
     ensure => present,
   }
 
   $daemon_name = 'my-program1'
+  $example_app = "#!/usr/bin/ruby\n `touch /tmp/${daemon_name}-start-stamp-$(date +%s.%N)`\n while(1) do sleep(1) end"
 
   file { "/tmp/${daemon_name}":
     ensure  => file,
     owner   => 'alice',
     group   => 'alice',
     mode    => '0755',
-    content => "#!/bin/bash\n touch /tmp/${daemon_name}-start-stamp-$(date +%s.%N)\n while true; do sleep 1; done",
+    content => $example_app,
   }
 
   daemon { $daemon_name:
@@ -30,11 +33,4 @@ node default {
   needrestart::service { $daemon_name:
     require => [Daemon[$daemon_name], Service[$daemon_name]]
   }
-  ->
-
-  exec { 'apt::upgrade':
-    command => 'sudo apt-get upgrade -yy',
-    path    => ['/bin','/usr/bin', '/usr/local/bin'],
-  }
-
 }
