@@ -2,6 +2,10 @@ class needrestart (
   $restart_helper_path = '/usr/local/bin/needrestart-service'
 ){
 
+  if $::facts['lsbdistcodename'] == 'wheezy' {
+    require 'apt::source::backports'
+  }
+
   package { 'needrestart':
     provider => apt
   }
