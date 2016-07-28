@@ -24,12 +24,6 @@ node default {
   }
   ->
 
-  exec { "cleanup startup stamps for ${daemon_name}":
-    command => "rm -f /tmp/${daemon_name}-start-stamp-*",
-    path    => ['/bin','/usr/bin', '/usr/local/bin'],
-  }
-  ->
-
   needrestart::service { $daemon_name:
     require => [Daemon[$daemon_name], Service[$daemon_name]]
   }
