@@ -8,7 +8,7 @@ define needrestart::service (
 
   file { $service_needrestart_helper:
     ensure  => file,
-    content => template("${module_name}/needrestart"),
+    content => template("${module_name}/needrestart.sh.erb"),
     owner   => '0',
     group   => '0',
     mode    => '0755',
