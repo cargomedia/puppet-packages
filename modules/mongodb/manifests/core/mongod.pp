@@ -71,6 +71,7 @@ define mongodb::core::mongod (
   }
 
   $hostName = $bind_ip? { undef => 'localhost', default => $bind_ip }
+
   @bipbip::entry { $instance_name:
     plugin  => 'mongodb',
     options => {

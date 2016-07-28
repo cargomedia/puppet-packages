@@ -13,14 +13,6 @@ define mongodb::core::mongos (
   $daemon = 'mongos'
   $instance_name = "${daemon}_${name}"
 
-  if $::facts['service_provider'] == 'debian' {
-    $start_command = "/etc/init.d/${instance_name} start"
-    $unless_command = "/etc/init.d/${instance_name} status"
-  } else {
-    $start_command = "systemctl start ${instance_name}"
-    $unless_command = "systemctl status ${instance_name}"
-  }
-
   if $auth_key {
     $key_file_path = '/var/lib/mongodb/cluster-key-file'
     if !defined(File[$key_file_path]) {
@@ -69,6 +61,7 @@ define mongodb::core::mongos (
   }
 
   $hostName = $bind_ip? { undef => 'localhost', default => $bind_ip }
+
   @bipbip::entry { $instance_name:
     plugin  => 'mongodb',
     options => {
