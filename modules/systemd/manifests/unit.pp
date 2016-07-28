@@ -13,12 +13,6 @@ define systemd::unit(
     mode    => '0644',
     notify => Exec['systemctl daemon-reload'],
   }
-
-  Service <| title == $name |> {
-    enable    => true,
-    provider  => 'systemd',
-    subscribe => File["/etc/systemd/system/${name}.service"],
-  }
   ~>
 
   exec { "systemctl start ${name}":
@@ -26,4 +20,12 @@ define systemd::unit(
     unless      => "systemctl status ${name}",
     refreshonly => true,
   }
+
+  Service <| title == $name |> {
+    enable    => true,
+    provider  => 'systemd',
+    subscribe => File["/etc/systemd/system/${name}.service"],
+  }
+
+  Service <| title == $name |> -> Exec["systemctl start ${name}"]
 }

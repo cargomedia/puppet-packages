@@ -11,12 +11,6 @@ define sysvinit::script(
     group   => '0',
     mode    => '0755',
   }
-
-  Service <| title == $name |> {
-    enable    => true,
-    provider  => 'debian',
-    subscribe => File["/etc/init.d/${name}"],
-  }
   ~>
 
   exec { "/etc/init.d/${name} start":
@@ -24,4 +18,12 @@ define sysvinit::script(
     unless      => "/etc/init.d/${name} status",
     refreshonly => true,
   }
+
+  Service <| title == $name |> {
+  enable    => true,
+  provider  => 'debian',
+  subscribe => File["/etc/init.d/${name}"],
+}
+
+  Service <| title == $name |> -> Exec["/etc/init.d/${name} start"]
 }
