@@ -2,7 +2,7 @@ node default {
 
   $daemon_name = 'my-program1'
 
-  exec { "cleanup stamps for ${daemon_name}":
+  exec { "cleanup startup stamps for ${daemon_name}":
     command => "rm -f /tmp/${daemon_name}-start-stamp-*",
     path    => ['/bin','/usr/bin', '/usr/local/bin'],
   }
