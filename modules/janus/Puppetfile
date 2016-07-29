@@ -33,3 +33,7 @@ mod 'cargomedia/apt',
 mod 'cargomedia/fluentd',
    :git => 'git@github.com:cargomedia/puppet-packages.git',
    :path => 'modules/fluentd'
+
+mod 'cargomedia/needrestart',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/needrestart'
