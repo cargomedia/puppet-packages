@@ -110,7 +110,7 @@ define janus::server (
     ],
   }
 
-  if $::facts['lsbdistcodename'] == 'jessie' {
+  if $::facts['lsbdistcodename'] != 'wheezy' {
     needrestart::service { $instance_name:
     }
   }
