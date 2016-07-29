@@ -2,14 +2,6 @@ node default {
 
   $daemon_name = 'my-program1'
 
-  if $::facts['lsbdistcodename'] == 'wheezy' {
-    exec { "restart service ${daemon_name}":
-      command => "sudo /etc/init.d/${daemon_name} restart",
-      path    => ['/bin','/usr/bin', '/usr/local/bin'],
-      before  => Exec["cleanup stamps for ${daemon_name}"],
-    }
-  }
-
   exec { "cleanup stamps for ${daemon_name}":
     command => "rm -f /tmp/${daemon_name}-start-stamp-*",
     path    => ['/bin','/usr/bin', '/usr/local/bin'],

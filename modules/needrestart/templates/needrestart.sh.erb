@@ -4,9 +4,5 @@ SERVICE_NAME=$1
 
 needrestart -r l -l -v 2>&1 | grep -E "(^| )${SERVICE_NAME}(.service| |$)"
 if [ $? == 0 ]; then
-<% if @is_wheezy -%>
-  /etc/init.d/${SERVICE_NAME} restart
-<%- else %>
   systemctl restart "${SERVICE_NAME}.service"
-<% end %>
 fi
