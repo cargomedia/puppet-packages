@@ -26,7 +26,8 @@ define mongodb::core::mongod (
         mode    => '0400',
         owner   => 'mongodb',
         group   => 'mongodb',
-        notify  => Service[$instance_name],
+        before  => Daemon[$instance_name],
+        notify  => Service[$instance_name];
       }
     }
   }
