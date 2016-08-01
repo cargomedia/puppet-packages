@@ -6,8 +6,8 @@ node default {
     http_server_port                 => 8100,
     websocket_server_port            => 8110,
 
-    ssl_cert                         => template("cm/spec/spec-ssl.pem"),
-    ssl_key                          => template("cm/spec/spec-ssl.key"),
+    ssl_cert                         => template('cm/spec/spec-ssl.pem'),
+    ssl_key                          => template('cm/spec/spec-ssl.key'),
 
     cm_application_path              => '/home/cm',
     cm_api_base_url                  => 'http://www.cm-api.dev',
@@ -30,8 +30,8 @@ node default {
     http_server_port                 => 18100,
     websocket_server_port            => 18110,
 
-    ssl_cert                         => template("cm/spec/spec-ssl.pem"),
-    ssl_key                          => template("cm/spec/spec-ssl.key"),
+    ssl_cert                         => template('cm/spec/spec-ssl.pem'),
+    ssl_key                          => template('cm/spec/spec-ssl.key'),
 
     cm_application_path              => '/home/cm',
     cm_api_base_url                  => 'http://www.cm-api.dev',
@@ -54,8 +54,8 @@ node default {
     http_server_port                 => 28100,
     websocket_server_port            => 28110,
 
-    ssl_cert                         => template("cm/spec/spec-ssl.pem"),
-    ssl_key                          => template("cm/spec/spec-ssl.key"),
+    ssl_cert                         => template('cm/spec/spec-ssl.pem'),
+    ssl_key                          => template('cm/spec/spec-ssl.key'),
 
     cm_application_path              => '/home/cm',
     cm_api_base_url                  => 'http://www.cm-api.dev',
