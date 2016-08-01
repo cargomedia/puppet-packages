@@ -22,21 +22,19 @@ class php5::extension::opcache (
       require => Class['php5'],
       before  => Php5::Config_extension['opcache'],
     }
-
-    php5::config_extension { 'opcache':
-      content => template("${module_name}/extension/opcache/conf.ini"),
-    }
-
   } else {
 
-    file { 'etc/php5/mods-available/opcache.ini':
-      ensure  => file,
-      content => template("${module_name}/extension/opcache/conf.ini"),
-      owner   => '0',
-      group   => '0',
-      mode    => '0644',
+    exec { 'Remove all symlinks to opcache':
+      command     => 'find /etc/php5 -name 05-opcache.ini -delete',
+      path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+      provider    => shell,
+      refreshonly => true,
+      subscribe   => Php5::Config_extension['opcache'],
     }
+  }
 
+  php5::config_extension { 'opcache':
+    content => template("${module_name}/extension/opcache/conf.ini"),
   }
 
   Php5::Fpm::With_opcache <||>
