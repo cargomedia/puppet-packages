@@ -22,10 +22,21 @@ class php5::extension::opcache (
       require => Class['php5'],
       before  => Php5::Config_extension['opcache'],
     }
-  }
 
-  php5::config_extension { 'opcache':
-    content => template("${module_name}/extension/opcache/conf.ini"),
+    php5::config_extension { 'opcache':
+      content => template("${module_name}/extension/opcache/conf.ini"),
+    }
+
+  } else {
+
+    file { "/etc/php5/mods-available/opcache.ini":
+      ensure  => file,
+      content => template("${module_name}/extension/opcache/conf.ini"),
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
+    }
+
   }
 
   Php5::Fpm::With_opcache <||>
