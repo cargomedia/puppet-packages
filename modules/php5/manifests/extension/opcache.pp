@@ -29,7 +29,7 @@ class php5::extension::opcache (
 
   } else {
 
-    file { "/etc/php5/mods-available/opcache.ini":
+    file { 'etc/php5/mods-available/opcache.ini':
       ensure  => file,
       content => template("${module_name}/extension/opcache/conf.ini"),
       owner   => '0',
