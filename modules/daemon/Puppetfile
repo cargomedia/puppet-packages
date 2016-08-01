@@ -12,3 +12,7 @@ mod 'cargomedia/systemd',
 mod 'cargomedia/monit',
    :git => 'git@github.com:cargomedia/puppet-packages.git',
    :path => 'modules/monit'
+
+mod 'cargomedia/daemon',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/daemon'
