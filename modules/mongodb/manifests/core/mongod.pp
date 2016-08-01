@@ -26,7 +26,8 @@ define mongodb::core::mongod (
         mode    => '0400',
         owner   => 'mongodb',
         group   => 'mongodb',
-        notify  => Service[$instance_name],
+        before  => Daemon[$instance_name],
+        notify  => Service[$instance_name];
       }
     }
   }
@@ -36,7 +37,8 @@ define mongodb::core::mongod (
       ensure  => directory,
       mode    => '0644',
       owner   => 'mongodb',
-      group   => 'mongodb';
+      group   => 'mongodb',
+      before  => Daemon[$instance_name];
 
     "/etc/mongodb/${instance_name}.conf":
       ensure  => file,
@@ -44,21 +46,21 @@ define mongodb::core::mongod (
       mode    => '0644',
       owner   => 'mongodb',
       group   => 'mongodb',
-      notify  => Service[$instance_name];
-
-    "/etc/init.d/${instance_name}":
-      ensure  => file,
-      content => template("${module_name}/init"),
-      mode    => '0755',
-      owner   => 'mongodb',
-      group   => 'mongodb',
+      before  => Daemon[$instance_name],
       notify  => Service[$instance_name];
   }
-  ~>
 
-  exec { "/etc/init.d/${instance_name} start":
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    refreshonly => true,
+  daemon { $instance_name:
+    binary       => "/usr/bin/${daemon}",
+    args         => "--config /etc/mongodb/${instance_name}.conf",
+    user         => 'mongodb',
+    limit_nofile => 64000,
+    limit_fsize  => 'unlimited',
+    limit_cpu    => 'unlimited',
+    limit_as     => 'unlimited',
+    limit_rss    => 'unlimited',
+    limit_nproc  => 32000,
+    stop_timeout => 10,
   }
   ~>
 
@@ -69,16 +71,8 @@ define mongodb::core::mongod (
     refreshonly => true,
   }
 
-  service { $instance_name:
-    enable     => true,
-    hasrestart => false,
-  }
-
-  @monit::entry { $instance_name:
-    content => template("${module_name}/monit"),
-  }
-
   $hostName = $bind_ip? { undef => 'localhost', default => $bind_ip }
+
   @bipbip::entry { $instance_name:
     plugin  => 'mongodb',
     options => {
