@@ -43,14 +43,9 @@ class elasticsearch (
   }
   ->
 
-  service { 'elasticsearch':
-    hasrestart => true,
-    enable     => true,
-  }
-
-  @monit::entry { 'elasticsearch':
-    content => template("${module_name}/monit"),
-    require => Service['elasticsearch'],
+  daemon { 'elasticsearch':
+    binary           => '/usr/share/elasticsearch/bin/elasticsearch',
+    environment_file => '/etc/default/elasticsearch'
   }
 
   @bipbip::entry { 'elasticsearch':
