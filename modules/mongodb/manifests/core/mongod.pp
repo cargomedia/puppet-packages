@@ -26,7 +26,8 @@ define mongodb::core::mongod (
         mode    => '0400',
         owner   => 'mongodb',
         group   => 'mongodb',
-        notify  => Service[$instance_name],
+        before  => Daemon[$instance_name],
+        notify  => Service[$instance_name];
       }
     }
   }
@@ -36,7 +37,8 @@ define mongodb::core::mongod (
       ensure  => directory,
       mode    => '0644',
       owner   => 'mongodb',
-      group   => 'mongodb';
+      group   => 'mongodb',
+      before  => Daemon[$instance_name];
 
     "/etc/mongodb/${instance_name}.conf":
       ensure  => file,
@@ -44,14 +46,21 @@ define mongodb::core::mongod (
       mode    => '0644',
       owner   => 'mongodb',
       group   => 'mongodb',
+      before  => Daemon[$instance_name],
       notify  => Service[$instance_name];
   }
 
   daemon { $instance_name:
-    binary  => "/usr/bin/${daemon}",
-    args    => "--config /etc/mongodb/${instance_name}.conf",
-    user    => 'mongodb',
-    stop_timeout => 10
+    binary       => "/usr/bin/${daemon}",
+    args         => "--config /etc/mongodb/${instance_name}.conf",
+    user         => 'mongodb',
+    limit_nofile => 64000,
+    limit_fsize  => 'unlimited',
+    limit_cpu    => 'unlimited',
+    limit_as     => 'unlimited',
+    limit_rss    => 'unlimited',
+    limit_nproc  => 32000,
+    stop_timeout => 10,
   }
   ~>
 
@@ -63,6 +72,7 @@ define mongodb::core::mongod (
   }
 
   $hostName = $bind_ip? { undef => 'localhost', default => $bind_ip }
+
   @bipbip::entry { $instance_name:
     plugin  => 'mongodb',
     options => {

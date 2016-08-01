@@ -22,6 +22,7 @@ define mongodb::core::mongos (
         mode    => '0400',
         owner   => 'mongodb',
         group   => 'mongodb',
+        before  =>  Daemon[$instance_name],
         notify  => Service[$instance_name],
       }
     }
@@ -34,15 +35,23 @@ define mongodb::core::mongos (
       mode    => '0644',
       owner   => 'mongodb',
       group   => 'mongodb',
+      before  =>  Daemon[$instance_name],
       notify  => Service[$instance_name];
   }
 
   daemon { $instance_name:
-    binary  => "/usr/bin/${daemon}",
-    args    => "--config /etc/mongodb/${instance_name}.conf",
-    user    => 'mongodb',
-    stop_timeout => 10
+    binary          => "/usr/bin/${daemon}",
+    args            => "--config /etc/mongodb/${instance_name}.conf",
+    user            => 'mongodb',
+    limit_nofile    => 64000,
+    limit_fsize     => 'unlimited',
+    limit_cpu       => 'unlimited',
+    limit_as        => 'unlimited',
+    limit_rss       => 'unlimited',
+    limit_nproc     => 32000,
+    stop_timeout    => 10,
   }
+  ~>
 
   exec { "wait for ${instance_name} up":
     command     => "while ! (mongo --quiet --port ${port} --eval 'db.getMongo()'); do sleep 0.5; done",
@@ -52,6 +61,7 @@ define mongodb::core::mongos (
   }
 
   $hostName = $bind_ip? { undef => 'localhost', default => $bind_ip }
+
   @bipbip::entry { $instance_name:
     plugin  => 'mongodb',
     options => {
