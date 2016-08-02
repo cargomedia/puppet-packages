@@ -32,21 +32,23 @@ node default {
   ~>
 
   daemon { 'my-program':
-    binary           => '/tmp/my-program',
-    args             => '--foo=12',
-    user             => 'alice',
-    nice             => 19,
-    oom_score_adjust => -500,
-    env              => { 'DISPLAY' => ':99', 'FOO' => 'BOO' },
-    limit_nofile     => 9999,
-    limit_fsize      => 'unlimited',
-    limit_cpu        => 25,
-    limit_as         => 'unlimited',
-    limit_rss        => 4096,
-    limit_nproc      => 300,
-    pre_command      =>  '/tmp/my-program-pre',
-    post_command     => '/tmp/my-program-post',
-    require          => File['/tmp/my-program','/tmp/my-program-pre','/tmp/my-program-post'],
+    binary                 => '/tmp/my-program',
+    args                   => '--foo=12',
+    user                   => 'alice',
+    nice                   => 19,
+    oom_score_adjust       => -500,
+    env                    => { 'DISPLAY' => ':99', 'FOO' => 'BOO' },
+    limit_nofile           => 9999,
+    limit_fsize            => 'unlimited',
+    limit_cpu              => 25,
+    limit_as               => 'unlimited',
+    limit_rss              => 4096,
+    limit_nproc            => 300,
+    pre_command            =>  '/tmp/my-program-pre',
+    post_command           => '/tmp/my-program-post',
+    runtime_directory      => 'my-program',
+    runtime_directory_mode => '0700',
+    require                => File['/tmp/my-program','/tmp/my-program-pre','/tmp/my-program-post'],
   }
 
 }
