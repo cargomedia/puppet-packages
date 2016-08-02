@@ -31,7 +31,13 @@ describe 'daemon' do
 
   describe command('cat /proc/$(pgrep -f "^/bin/bash /tmp/my-program")/limits') do
     its(:exit_status) { should eq 0 }
-    its(:stdout) { should match /Max open files(.*)9999(.*)9999(.*)files/ }
+    its(:stdout) { should match /Max cpu time+.+25+.+25+.+seconds/ }
+    its(:stdout) { should match /Max file size+.+unlimited+.+unlimited+.+bytes/ }
+    its(:stdout) { should match /Max core file size+.+0+.+unlimited+.+bytes/ }
+    its(:stdout) { should match /Max resident set+.+4194304+.+4194304+.+bytes/ }
+    its(:stdout) { should match /Max processes+.+300+.+300+.+processes/ }
+    its(:stdout) { should match /Max open files+.+9999+.+9999+.+files/ }
+    its(:stdout) { should match /Max address space+.+unlimited+.+unlimited+.+bytes/ }
   end
 
 
@@ -41,9 +47,5 @@ describe 'daemon' do
 
   describe file('/tmp/copied_by_post') do
     it { should be_file }
-  end
-
-  describe command("/bin/bash -c \"if (test -e /bin/systemctl); then test $(systemctl status my-program | grep -E 'ExecStart[Post|Pre]+.+SUCCESS' | wc -l) == '2'; fi;\"") do
-    its(:exit_status) { should eq 0 }
   end
 end

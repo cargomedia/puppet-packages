@@ -19,13 +19,13 @@ node default {
     database => 'dummydb',
     router   => 'localhost:27017'
   }
-  ->
-
-  mongodb_collection { 'bar':
-    ensure    => present,
-    database  => 'dummydb',
-    shard     => true,
-    shard_key => '_id',
-    router    => 'localhost:27017'
-  }
+#  ->
+#
+#  mongodb_collection { 'bar':
+#    ensure    => present,
+#    database  => 'dummydb',
+#    shard     => true,
+#    shard_key => '_id',
+#    router    => 'localhost:27017'
+#  }
 }

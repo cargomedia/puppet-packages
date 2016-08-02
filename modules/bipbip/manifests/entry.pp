@@ -11,7 +11,7 @@ define bipbip::entry (
     owner   => 'bipbip',
     group   => 'bipbip',
     mode    => '0644',
-    notify  => Service['bipbip'],
+    notify  => Daemon['bipbip'],
   }
 
 }

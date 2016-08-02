@@ -5,7 +5,7 @@ class elasticsearch (
 ) {
 
   require 'apt'
-  require 'java'
+  require 'java::jre_headless'
 
   $version = '1.3.1'
 

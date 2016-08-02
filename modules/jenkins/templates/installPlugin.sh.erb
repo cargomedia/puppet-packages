@@ -1,0 +1,57 @@
+#!/bin/bash
+set -e
+
+if [ $# -lt 1 ]; then
+  echo "USAGE: $0 <name> [<version>]"
+  exit 1
+fi
+
+plugin_name=$1
+plugin_version=$2
+plugins_dir=/var/lib/jenkins/plugins
+
+checkPlugin() {
+  name=${1}
+  version=${2}
+  echo "Checking for ${name}..."
+
+  if [ -z "${version}" ]; then
+    if [ -f "${plugins_dir}/${name}.hpi" -o -f "${plugins_dir}/${name}.jpi" ]; then
+      echo " Skipped: ${name} (already installed)"
+    else
+      installPlugin "${name}"
+    fi
+  else
+    if (grep -q "Plugin-Version: ${version}" "${plugins_dir}/${name}/META-INF/MANIFEST.MF"); then
+      echo " Skipped: ${name}/${version} (already installed)"
+    else
+      installPlugin "${name}" "${version}"
+    fi
+  fi
+}
+
+installPlugin() {
+  name=${1}
+  version=${2}
+  if [ -z "${version}" ]; then
+    echo " Installing: ${name}"
+    url="https://updates.jenkins.io/download/plugins/${name}/latest/${name}.hpi"
+  else
+    echo " Installing: ${name}/${version}"
+    url="https://updates.jenkins.io/download/plugins/${name}/${version}/${name}.hpi"
+  fi
+  curl -sfL --output "${plugins_dir}/${name}.hpi" "${url}"
+  installDependencies "${name}"
+}
+
+installDependencies() {
+  name=${1}
+  # From https://gist.github.com/micw/e80d739c6099078ce0f3
+  deps=$(unzip -p "${plugins_dir}/${name}.hpi" META-INF/MANIFEST.MF | tr -d '\r' | sed -e ':a;N;$!ba;s/\n //g' | grep -e "^Plugin-Dependencies: " | awk '{ print $2 }' | tr ',' '\n' | grep -v "resolution:=optional" | awk -F ':' '{ print $1 }' | tr '\n' ' ')
+  for plugin in $deps; do
+    checkPlugin "$plugin"
+  done
+}
+
+
+checkPlugin "${plugin_name}" "${plugin_version}"

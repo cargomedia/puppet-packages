@@ -16,7 +16,7 @@ class jenkins::plugin::git(
   ->
 
   jenkins::plugin { 'git':
-    version => '1.5.0',
+    version => '2.4.4',
   }
 
 }

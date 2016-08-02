@@ -1,7 +1,12 @@
 node default {
 
+  Janus::Server {
+    log_level => 4,
+  }
+
   $instances = {
     'instance1' => {
+      hostname                          => 'instance1.example.com',
       rtp_port_range_min                => 10010,
       rtp_port_range_max                => 14999,
       transport_ws_port                 => 10000,
@@ -13,6 +18,7 @@ node default {
       plugin_rtpb_maxport               => 20000,
     },
     'instance2' => {
+      hostname                          => 'instance2.example.com',
       rtp_port_range_min                => 15000,
       rtp_port_range_max                => 19999,
       transport_ws_port                 => 10001,

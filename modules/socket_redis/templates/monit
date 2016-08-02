@@ -1,7 +1,0 @@
-check process socket-redis with pidfile /var/run/socket-redis.pid
-	start program = "/etc/init.d/socket-redis start"
-	stop program  = "/etc/init.d/socket-redis stop"
-<% @socketPorts.each do |port| -%>
-	if failed port <%= port %> with timeout 10 seconds for 2 cycles then restart
-<% end -%>
-	if failed port <%= @statusPort %> protocol http with timeout 10 seconds for 2 cycles then restart

@@ -1,4 +1,5 @@
 define janus::role::standalone (
+  $hostname,
   $bind_address = undef,
   $token_auth = 'no',
   $api_secret = undef,
@@ -39,10 +40,9 @@ define janus::role::standalone (
 
   $plugin_rtpb_minport = 8000,
   $plugin_rtpb_maxport = 9000,
-  $plugin_rtpb_source_avg_time = 10,
-  $plugin_rtpb_remb_avg_time = 3,
-  $plugin_rtpb_switching_delay = 1,
-  $plugin_rtpb_session_info_update_time = 10,
+  $plugin_rtpb_mountpoint_info_interval = 10,
+  $plugin_rtpb_udp_relay_queue_enabled = false,
+  $plugin_rtpb_udp_relay_interval = 50000,
   $plugin_rtpb_keyframe_distance_alert = 600,
   $plugin_rtpb_thumbnailing_interval = 60,
   $plugin_rtpb_thumbnailing_duration = 10,
@@ -104,11 +104,12 @@ define janus::role::standalone (
 
   janus::plugin::rtpbroadcast { $title:
     prefix                   => $janus::cluster::prefix,
+    hostname                 => $hostname,
     minport                  => $plugin_rtpb_minport,
     maxport                  => $plugin_rtpb_maxport,
-    source_avg_time          => $plugin_rtpb_source_avg_time,
-    switching_delay          => $plugin_rtpb_switching_delay,
-    session_info_update_time => $plugin_rtpb_session_info_update_time,
+    mountpoint_info_interval => $plugin_rtpb_mountpoint_info_interval,
+    udp_relay_queue_enabled  => $plugin_rtpb_udp_relay_queue_enabled,
+    udp_relay_interval       => $plugin_rtpb_udp_relay_interval,
     keyframe_distance_alert  => $plugin_rtpb_keyframe_distance_alert,
     recording_enabled        => $plugin_recording_enabled,
     recording_pattern        => $plugin_recording_pattern,

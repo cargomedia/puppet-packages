@@ -1,11 +1,11 @@
 define janus::plugin::rtpbroadcast(
+  $hostname,
   $prefix = undef,
   $minport = 8000,
   $maxport = 9000,
-  $source_avg_time = 10,
-  $remb_avg_time = 3,
-  $switching_delay = 1,
-  $session_info_update_time = 10,
+  $mountpoint_info_interval = 10,
+  $udp_relay_queue_enabled = false,
+  $udp_relay_interval = 50000,
   $keyframe_distance_alert = 600,
   $recording_enabled = true,
   $recording_pattern = 'rec-#{id}-#{time}-#{type}',
@@ -48,8 +48,7 @@ define janus::plugin::rtpbroadcast(
     owner     => '0',
     group     => '0',
     mode      => '0644',
-    before    => Daemon[$instance_name],
-    notify    => Service[$instance_name],
+    notify    => Daemon[$instance_name],
   }
 
   @bipbip::entry { "${name}-rtpbroadcast":

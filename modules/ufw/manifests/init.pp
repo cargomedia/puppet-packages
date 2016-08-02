@@ -8,7 +8,7 @@ class ufw {
     provider => 'apt',
   }
 
-  $rsyslog_stop_command = $::lsbdistcodename ? {
+  $rsyslog_stop_command = $::facts['lsbdistcodename'] ? {
     'wheezy' => '~',
     default => 'stop',
   }

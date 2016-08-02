@@ -1,7 +1,10 @@
 class fluentd {
 
+  # Version 0.14.0 breaks
+  $fluentd_version = '0.12.26'
+
   ruby::gem { 'fluentd':
-    ensure => latest,
+    ensure => $fluentd_version,
   }
 
   file { '/etc/fluentd':
@@ -17,7 +20,7 @@ class fluentd {
     group   => '0',
     mode    => '0644',
     content => template("${module_name}/fluent.conf.erb"),
-    notify  => Service['fluentd'],
+    notify  => Daemon['fluentd'],
   }
 
   file { '/etc/fluentd/config.d':

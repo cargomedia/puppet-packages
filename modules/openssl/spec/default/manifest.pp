@@ -1,0 +1,6 @@
+node default {
+
+  class { 'openssl':
+  }
+
+}

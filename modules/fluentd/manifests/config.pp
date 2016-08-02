@@ -11,7 +11,7 @@ define fluentd::config (
     group   => '0',
     mode    => '0644',
     content => $content,
-    notify  => Service['fluentd'],
+    notify  => Daemon['fluentd'],
   }
 
 }

@@ -11,6 +11,14 @@ class janus::common (
     system => true,
   }
 
+  sysctl::entry { 'janus':
+    entries => {
+      'net.core.rmem_default' => '33554432',
+      'net.core.rmem_max'     => '33554432',
+      'net.ipv4.udp_rmem_min' => '8192',
+    }
+  }
+
   if $src_version {
     class { 'janus::source':
       version => $src_version,

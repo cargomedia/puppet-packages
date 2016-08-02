@@ -11,7 +11,7 @@ define systemd::unit(
     owner   => '0',
     group   => '0',
     mode    => '0644',
-    notify => Exec['systemctl daemon-reload'],
+    notify  => Exec['systemctl daemon-reload'],
   }
   ~>
 
@@ -25,5 +25,6 @@ define systemd::unit(
     enable    => true,
     provider  => 'systemd',
     subscribe => File["/etc/systemd/system/${name}.service"],
+    before    => Exec["systemctl start ${name}"],
   }
 }

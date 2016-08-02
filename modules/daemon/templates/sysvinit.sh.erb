@@ -30,9 +30,26 @@ case "${1}" in
 		ulimit -c unlimited
 		<%- end %>
 		<% if @limit_nofile %>
-		ulimit -n <%= @limit_nofile %>
+		ulimit -n <%= @limit_nofile == 'unlimited' ? 'unlimited' : @limit_nofile %>
 		<%- end %>
+		<% if @limit_fsize %>
+		ulimit -f <%= @limit_fsize == 'unlimited' ? 'unlimited' : @limit_fsize %>
+		<%- end %>
+		<% if @limit_cpu %>
+		ulimit -t  <%= @limit_cpu == 'unlimited' ? 'unlimited' : @limit_cpu %>
+		<%- end %>
+		<% if @limit_as %>
+		ulimit -v  <%= @limit_as == 'unlimited' ? 'unlimited' : @limit_as %>
+		<%- end %>
+		<% if @limit_rss %>
+		ulimit -m  <%= @limit_rss == 'unlimited' ? 'unlimited' : @limit_rss %>
+		<%- end %>
+		<% if @limit_nproc %>
+		ulimit -u  <%= @limit_nproc == 'unlimited' ? 'unlimited' : @limit_nproc %>
+		<%- end %>
+		<% if @pre_command %>
 		<%= @pre_command %>
+		<%- end %>
 		if (start-stop-daemon --start --oknodo --make-pidfile --background --pidfile "${PIDFILE}" --chuid "${USER}" --startas "${DAEMON}" -- ${DAEMON_ARGS}); then
 		  timeout --signal=9 1 bash -c "while ! (test -e '${PIDFILE}'); do sleep 0.05; done";
 		  PID=$(cat "${PIDFILE}")
@@ -43,7 +60,9 @@ case "${1}" in
 				echo <%= @oom_score_adjust %> > /proc/${PID}/oom_score_adj
 			<%- end %>
 			log_end_msg 0
+			<% if @post_command %>
 			<%= @post_command %>
+			<%- end %>
 		else
 			log_end_msg 1
 		fi

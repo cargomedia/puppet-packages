@@ -2,7 +2,7 @@ class apt::source::cargomedia {
 
   apt::source { 'cargomedia':
     entries => [
-      "deb [arch=amd64] http://debian-packages.cargomedia.ch ${::lsbdistcodename} main",
+      "deb [arch=amd64] http://debian-packages.cargomedia.ch ${::facts['lsbdistcodename']} main",
     ],
     keys    => {
       'cargomedia' => {

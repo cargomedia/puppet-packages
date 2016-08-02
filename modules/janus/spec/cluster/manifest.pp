@@ -6,6 +6,7 @@ node default {
 
   Janus::Server {
     prefix => $janus::cluster::prefix,
+    log_level => 4,
   }
 
   Janus::Transport::Websockets {
@@ -22,6 +23,7 @@ node default {
 
   Janus::Plugin::Rtpbroadcast {
     prefix => $janus::cluster::prefix,
+    hostname => '127.0.0.1',
   }
 
   # origin node

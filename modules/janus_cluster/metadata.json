@@ -3,15 +3,14 @@
   "version": "0.0.1",
   "author": "Cargo Media",
   "license": "MIT",
-  "summary": "janus cluster",
+  "summary": "janus_cluster",
   "source": "https://github.com/cargomedia/puppet-packages",
   "operatingsystem_support": [
     {
       "operatingsystem": "Debian",
-      "operatingsystemrelease": ["7", "8"]
+      "operatingsystemrelease": ["8"]
     }
   ],
   "dependencies": [
-
   ]
 }

@@ -23,5 +23,6 @@ define sysvinit::script(
     enable    => true,
     provider  => 'debian',
     subscribe => File["/etc/init.d/${name}"],
+    before    => Exec["/etc/init.d/${name} start"],
   }
 }

@@ -9,10 +9,6 @@ mod 'cargomedia/ntp',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/ntp'
 
-mod 'cargomedia/monit',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/monit'
-
 mod 'cargomedia/bipbip',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/bipbip'
@@ -20,3 +16,7 @@ mod 'cargomedia/bipbip',
 mod 'cargomedia/logrotate',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/logrotate'
+
+mod 'cargomedia/daemon',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/daemon'

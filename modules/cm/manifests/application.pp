@@ -17,7 +17,6 @@ class cm::application (
   require 'php5::extension::mcrypt'
   require 'php5::extension::gearman'
   require 'php5::extension::mongo'
-  require 'php5::extension::spl_types'
   require 'php5::fpm'
   require 'uglify'
   require 'browserify'
@@ -31,5 +30,6 @@ class cm::application (
 
   if $development {
     require 'php5::extension::xdebug'
+    require 'phantomjs'
   }
 }

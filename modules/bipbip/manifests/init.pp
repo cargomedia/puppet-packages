@@ -2,7 +2,7 @@ class bipbip (
   $api_key = undef,
   $version = 'latest',
   $frequency = 15,
-  $tags = $::copperegg_tags,
+  $tags = $::facts['copperegg_tags'],
   $log_file = '/var/log/bipbip/bipbip.log',
   $log_level = 'INFO',
 ){
@@ -11,7 +11,7 @@ class bipbip (
 
   class { 'bipbip::gem':
     version => $version,
-    notify  => Service['bipbip'],
+    notify  => Daemon['bipbip'],
   }
 
   user { 'bipbip':
@@ -43,7 +43,7 @@ class bipbip (
     owner   => '0',
     group   => '0',
     mode    => '0644',
-    notify  => Service['bipbip'],
+    notify  => Daemon['bipbip'],
   }
 
   file {

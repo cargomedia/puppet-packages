@@ -2,10 +2,15 @@ class nginx::package {
 
   require 'apt'
 
+  $distro_family = $::facts['lsbdistid'] ? {
+    'Ubuntu' => 'ubuntu',
+    default => 'debian',
+  }
+
   apt::source { 'nginx':
     entries => [
-      "deb http://nginx.org/packages/debian/ ${::lsbdistcodename} nginx",
-      "deb-src http://nginx.org/packages/debian/ ${::lsbdistcodename} nginx"
+      "deb http://nginx.org/packages/${distro_family}/ ${::facts['lsbdistcodename']} nginx",
+      "deb-src http://nginx.org/packages/${distro_family}/ ${::facts['lsbdistcodename']} nginx"
     ],
     keys    => {
       'nginx' => {
