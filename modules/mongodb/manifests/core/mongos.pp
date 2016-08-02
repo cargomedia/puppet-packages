@@ -56,7 +56,7 @@ define mongodb::core::mongos (
   exec { "wait for ${instance_name} up":
     command     => "while ! (mongo --quiet --port ${port} --eval 'db.getMongo()'); do sleep 0.5; done",
     provider    => shell,
-    timeout     => 300, # Might take long due to journal file preallocation
+    timeout     => 600, # Might take long due to journal file preallocation
     refreshonly => true,
   }
 
