@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'daemon' do
+describe 'daemon:default' do
 
   describe service('my-program') do
     it { should be_enabled }
@@ -40,6 +40,10 @@ describe 'daemon' do
     its(:stdout) { should match /Max address space+.+unlimited+.+unlimited+.+bytes/ }
   end
 
+  describe file('/run/my-program') do
+    it { should be_directory }
+    it { should be_mode 700 }
+  end
 
   describe command('find /tmp/created_by_pre -type f ! -mmin +1') do
     its(:exit_status) { should eq 0 }
