@@ -8,7 +8,8 @@ class cron {
   }
   ->
 
-  daemon {'cron':
+  daemon { 'cron':
     binary => '/usr/sbin/cron',
+    args   => '-f',
   }
 }
