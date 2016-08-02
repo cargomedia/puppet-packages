@@ -6,14 +6,24 @@ class cron {
     ensure   => present,
     provider => 'apt',
   }
-  ->
 
-  service { 'cron':
-    enable => true,
-  }
+  # see https://github.com/cargomedia/puppet-packages/pull/1414#issuecomment-236863404
+  if $::facts['lsbdistcodename'] == 'wheezy' {
 
-  @monit::entry { 'cron':
-    content => template("${module_name}/monit"),
-    require => Service['cron'],
+    service { 'cron':
+      enable => true,
+    }
+
+    @monit::entry { 'cron':
+      content => template("${module_name}/monit"),
+      require => Service['cron'],
+    }
+
+  } else {
+
+    daemon { 'cron':
+      binary => '/usr/sbin/cron',
+      args   => '-f',
+    }
   }
 }
