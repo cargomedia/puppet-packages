@@ -6,24 +6,17 @@ class cron {
     ensure   => present,
     provider => 'apt',
   }
+  ->
 
-  # see https://github.com/cargomedia/puppet-packages/pull/1414#issuecomment-236863404
-  if $::facts['lsbdistcodename'] == 'wheezy' {
+  exec { 'stop package-provided cron':
+    command => '/etc/init.d/cron stop',
+    path    => ['/bin','/usr/bin'],
+    unless  => 'ps ax | grep -q \'cron -f\''
+  }
 
-    service { 'cron':
-      enable => true,
-    }
-
-    @monit::entry { 'cron':
-      content => template("${module_name}/monit"),
-      require => Service['cron'],
-    }
-
-  } else {
-
-    daemon { 'cron':
-      binary => '/usr/sbin/cron',
-      args   => '-f',
-    }
+  daemon { 'cron':
+    binary       => '/usr/sbin/cron',
+    args         => '-f',
+    post_command => '/bin/rm -f /var/run/crond.pid',
   }
 }
