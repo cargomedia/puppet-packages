@@ -11,4 +11,7 @@ describe 'cron' do
     it { should be_running }
   end
 
+  describe file('/var/run/crond.pid') {
+    it { should_not be_file }
+  }
 end
