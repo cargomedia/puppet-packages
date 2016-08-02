@@ -11,7 +11,7 @@ describe 'cron' do
     it { should be_running }
   end
 
-  describe file('/var/run/crond.pid') {
-    it { should_not be_file }
+  describe command('ls /var/run/crond.pid') {
+    its(:exit_status) { should_not eq 0 }
   }
 end
