@@ -11,7 +11,11 @@ describe 'cron' do
     it { should be_running }
   end
 
-  describe command('ls /var/run/crond.pid') {
+  describe command('ls /var/run/crond.pid') do
     its(:exit_status) { should_not eq 0 }
-  }
+  end
+
+  describe command('sudo ps aux | pgrep cron | wc -l') do
+    its(:content) { should eq 1 }
+  end
 end
