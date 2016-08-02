@@ -16,6 +16,6 @@ describe 'cron' do
   end
 
   describe command('sudo ps aux | pgrep cron | wc -l') do
-    its(:content) { should eq 1 }
+    its(:stdout) { should match /1/ }
   end
 end
