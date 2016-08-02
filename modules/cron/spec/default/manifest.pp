@@ -1,0 +1,4 @@
+node default {
+
+  require 'cron'
+}
