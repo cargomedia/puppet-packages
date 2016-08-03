@@ -11,7 +11,7 @@ describe 'cron' do
     it { should be_running }
   end
 
-  describe command('sudo ps aux | pgrep cron | wc -l') do
-    its(:stdout) { should match /1/ }
+  describe process('cron') do
+    its(:count) { should eq 1 }
   end
 end
