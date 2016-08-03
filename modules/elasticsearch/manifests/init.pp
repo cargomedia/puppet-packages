@@ -48,7 +48,7 @@ class elasticsearch (
       'WORK_DIR' => '/tmp/elasticsearch',
       'CONF_DIR' => $config_dir,
       'CONF_FILE' => $config_file,
-      'RESTART_ON_UPGRADE' => 'true'
+      'RESTART_ON_UPGRADE' => true
     }
   }
 
