@@ -39,7 +39,7 @@ class elasticsearch (
   daemon { 'elasticsearch':
     binary           => '/usr/share/elasticsearch/bin/elasticsearch',
     env              => {
-      'ES_HEAP_SIZE' => $heap_size,
+      'ES_HEAP_SIZE' => ($heap_size ? { undef => '1g', default => $heap_size }),
       'ES_USER' => 'elasticsearch',
       'ES_GROUP' => 'elasticsearch',
       'MAX_MAP_COUNT' => '262144',
