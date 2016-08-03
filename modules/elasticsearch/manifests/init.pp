@@ -7,26 +7,19 @@ class elasticsearch (
   require 'apt'
   require 'java::jre_headless'
 
+  $config_dir = '/etc/elasticsearch'
+  $config_file = "${config_dir}/elasticsearch.yml"
+
   $version = '1.3.1'
 
-  file { '/etc/default/elasticsearch':
-    ensure  => file,
-    content => template("${module_name}/default"),
-    owner   => '0',
-    group   => '0',
-    mode    => '0755',
-    before  => Helper::Script['install elasticsearch'],
-    notify  => Service['elasticsearch'],
-  }
-
-  file { '/etc/elasticsearch':
+  file { $config_dir:
     ensure => directory,
     owner  => '0',
     group  => '0',
     mode   => '0755',
   }
 
-  file { '/etc/elasticsearch/elasticsearch.yml':
+  file { $config_file:
     ensure  => file,
     content => template("${module_name}/elasticsearch.yml"),
     owner   => '0',
@@ -53,8 +46,8 @@ class elasticsearch (
       'LOG_DIR' => '/var/log/elasticsearch',
       'DATA_DIR' => '/var/lib/elasticsearch',
       'WORK_DIR' => '/tmp/elasticsearch',
-      'CONF_DIR' => '/etc/elasticsearch',
-      'CONF_FILE' => '/etc/elasticsearch/elasticsearch.yml',
+      'CONF_DIR' => $config_dir,
+      'CONF_FILE' => $config_file,
       'RESTART_ON_UPGRADE' => 'true'
     }
   }
