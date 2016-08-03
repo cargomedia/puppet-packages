@@ -15,7 +15,6 @@ DAEMON='<%= @binary %>'
 DAEMON_ARGS='<%= @args %>'
 PIDFILE='/var/run/<%= @name %>.pid'
 USER='<%= @user %>'
-
 <% unless @env.empty? %>
 export<% @env.each do |name, value| -%> <%= name %>='<%= value %>'<% end -%>
 <% end %>
