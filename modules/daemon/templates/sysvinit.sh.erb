@@ -16,10 +16,6 @@ DAEMON_ARGS='<%= @args %>'
 PIDFILE='/var/run/<%= @name %>.pid'
 USER='<%= @user %>'
 
-<% if @environment_file %>
-[ -f "<%= @environment_file %>" ] && . "<%= @environment_file %>"
-<% end %>
-
 <% unless @env.empty? %>
 export<% @env.each do |name, value| -%> <%= name %>='<%= value %>'<% end -%>
 <% end %>

@@ -45,7 +45,18 @@ class elasticsearch (
 
   daemon { 'elasticsearch':
     binary           => '/usr/share/elasticsearch/bin/elasticsearch',
-    environment_file => '/etc/default/elasticsearch'
+    env              => {
+      'ES_HEAP_SIZE' => $heap_size,
+      'ES_USER' => 'elasticsearch',
+      'ES_GROUP' => 'elasticsearch',
+      'MAX_MAP_COUNT' => '262144',
+      'LOG_DIR' => '/var/log/elasticsearch',
+      'DATA_DIR' => '/var/lib/elasticsearch',
+      'WORK_DIR' => '/tmp/elasticsearch',
+      'CONF_DIR' => '/etc/elasticsearch',
+      'CONF_FILE' => '/etc/elasticsearch/elasticsearch.yml',
+      'RESTART_ON_UPGRADE' => 'true'
+    }
   }
 
   @bipbip::entry { 'elasticsearch':
