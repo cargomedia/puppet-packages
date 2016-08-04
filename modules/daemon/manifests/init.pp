@@ -16,6 +16,8 @@ define daemon (
   $sysvinit_kill = false,
   $pre_command = undef,
   $post_command = undef,
+  $runtime_directory = undef,
+  $runtime_directory_mode = undef,
 ) {
 
   $virtual = $::facts['virtual']
