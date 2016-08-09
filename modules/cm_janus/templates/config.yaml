@@ -14,7 +14,7 @@ cmApplication:
   path: '<%= @cm_application_path %>'
 jobManager:
   jobsPath: '<%= @jobs_path %>'
-  jobRetryDelay: <%= @jobs_retry_delay * 1000 %>
+  jobRetryDelay: <%= @jobs_retry_delay %>
   tempFilesPath: '<%= @job_temp_dir %>'
   handlersConfiguration:
     'janus.plugin.cm.audioroom:archive-finished':
