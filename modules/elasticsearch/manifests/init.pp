@@ -6,7 +6,7 @@ class elasticsearch (
 
   require 'apt'
   require 'java::jre_headless'
-  require 'elasticsearch::common'
+  require 'elasticsearch::package'
 
   $config_dir = '/etc/elasticsearch'
   $config_file = "${config_dir}/elasticsearch.yml"

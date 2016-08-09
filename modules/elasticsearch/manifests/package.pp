@@ -1,4 +1,4 @@
-class elasticsearch::common (
+class elasticsearch::package (
   $repository_version = '1.3',
   $release_version = '1.3.1',
 ){
