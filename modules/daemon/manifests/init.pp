@@ -16,7 +16,8 @@ define daemon (
   $sysvinit_kill = false,
   $pre_command = undef,
   $post_command = undef,
-  $start_on_create = true,
+  $runtime_directory = undef,
+  $runtime_directory_mode = undef,
 ) {
 
   $virtual = $::facts['virtual']
@@ -45,8 +46,6 @@ define daemon (
     if ($service_provider == 'debian') {
       sysvinit::script { $title:
         content => template("${module_name}/sysvinit.sh.erb"),
-        start_on_create => $start_on_create,
-        notify  => Service[$title],
       }
 
       File <| title == $binary or path == $binary |> {
@@ -58,8 +57,6 @@ define daemon (
     if ($service_provider == 'systemd') {
       systemd::unit { $title:
         content => template("${module_name}/systemd.service.erb"),
-        start_on_create => $start_on_create,
-        notify  => Service[$title],
       }
 
       File <| title == $binary or path == $binary |> {

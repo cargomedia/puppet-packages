@@ -110,6 +110,11 @@ define janus::server (
     ],
   }
 
+  if $::facts['lsbdistcodename'] != 'wheezy' {
+    needrestart::service { $instance_name:
+    }
+  }
+
   if $instance_name != 'janus' {
     if ! defined(Service['janus']) {
       service { 'janus':

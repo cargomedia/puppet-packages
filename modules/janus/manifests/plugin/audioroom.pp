@@ -5,6 +5,7 @@ define janus::plugin::audioroom(
   $job_pattern = 'job-#{md5}',
   $rest_url = 'http://127.0.0.1:8088/janus',
   $jobs_path = undef,
+  $mixer_prebuffering = 0,
 ) {
 
   require 'janus::common'

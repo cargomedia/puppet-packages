@@ -6,14 +6,18 @@ class cron {
     ensure   => present,
     provider => 'apt',
   }
-  ->
 
-  service { 'cron':
-    enable => true,
+  daemon { 'cron':
+    binary       => '/usr/sbin/cron',
+    args         => '-f',
+    post_command => '/bin/rm -f /var/run/crond.pid',
+    require      => Package['cron'],
   }
 
-  @monit::entry { 'cron':
-    content => template("${module_name}/monit"),
-    require => Service['cron'],
+  exec { 'kill running cron when service created':
+    command     => 'pkill cron',
+    path        => ['/bin','/usr/bin'],
+    subscribe   => Service['cron'],
+    refreshonly => true,
   }
 }

@@ -1,5 +1,5 @@
 class mms::agent::backup (
-  $version = '4.4.0.396',
+  $version = '4.4.1.402',
   $api_key,
   $mms_server = 'api-backup.mongodb.com'
 ){
@@ -33,7 +33,6 @@ class mms::agent::backup (
     content           => template("${module_name}/init"),
     require           => Helper::Script['install-mms-backup'],
   }
-  ->
 
   service { $agent_name:
     hasrestart => true,
