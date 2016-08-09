@@ -1,0 +1,2 @@
+# Configure restart on package upgrade (true, every other setting will lead to not restarting)
+RESTART_ON_UPGRADE=true
