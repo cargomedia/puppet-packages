@@ -1,7 +1,6 @@
 class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
 
   require 'apt'
-  include 'mysql::service'
 
   $error_log = '/var/log/mysql.err'
 
@@ -110,27 +109,55 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
     }
   }
 
-  ulimit::entry { 'mysql':
-    limits => [
-      {
-        'domain' => 'mysql',
-        'type'   => '-',
-        'item'   => 'nofile',
-        'value'  => 16384,
-      }
-    ]
+  if $::facts['lsbdistcodename'] != 'wheezy' {
+
+    file {'/usr/share/mysql/mysql-systemd-start':
+      ensure  => file,
+      content => template("${module_name}/mysql-systemd-start.erb"),
+      owner   => '0',
+      group   => '0',
+      mode    => '0755',
+      require => Package['mysql-server'],
+    }
+
+    daemon {'mysql':
+      binary => '/usr/sbin/mysqld',
+      pre_command => '/usr/share/mysql/mysql-systemd-start pre',
+      post_command => '/usr/share/mysql/mysql-systemd-start post',
+      user => 'mysql',
+      stop_timeout => 600,
+      limit_nofile => 16384,
+      runtime_directory => 'mysqld',
+      runtime_directory_mode => '0755',
+      require => [ User['mysql'], File['/usr/share/mysql/mysql-systemd-start'] ],
+    }
+
+  } else {
+
+    include 'mysql::service'
+
+    ulimit::entry { 'mysql':
+      limits => [
+        {
+          'domain' => 'mysql',
+          'type'   => '-',
+          'item'   => 'nofile',
+          'value'  => 16384,
+        }
+      ]
+    }
+
+    @monit::entry { 'mysql':
+      content => template("${module_name}/monit"),
+      require => Service['mysql'],
+    }
   }
 
   logrotate::entry { 'mysql-server-error':
-    path               => $error_log,
-    rotation_newfile   => 'create 0644 mysql root',
-    before             => Package['mysql-server'],
-  }
-
-  @monit::entry { 'mysql':
-    content => template("${module_name}/monit"),
-    require => Service['mysql'],
-  }
+  path               => $error_log,
+  rotation_newfile   => 'create 0644 mysql root',
+  before             => Package['mysql-server'],
+}
 
   @bipbip::entry { 'mysql':
     plugin  => 'mysql',

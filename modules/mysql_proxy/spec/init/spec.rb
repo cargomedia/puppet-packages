@@ -6,8 +6,8 @@ describe 'mysql_proxy' do
     it { should be_installed }
   end
 
-  describe command('monit summary') do
-    its(:stdout) { should match /Process 'mysql-proxy'/ }
+  describe command('monit summary | grep -E "mysql-proxy.+[Running|ok]"') do
+    its(:exit_status) { should eq 0 }
   end
 
   describe file('/etc/mysql-proxy/config') do

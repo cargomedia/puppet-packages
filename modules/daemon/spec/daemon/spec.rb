@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'daemon' do
+describe 'daemon:default' do
 
   describe service('my-program') do
     it { should be_enabled }
