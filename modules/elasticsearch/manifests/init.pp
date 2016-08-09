@@ -6,11 +6,10 @@ class elasticsearch (
 
   require 'apt'
   require 'java::jre_headless'
+  require 'elasticsearch::common'
 
   $config_dir = '/etc/elasticsearch'
   $config_file = "${config_dir}/elasticsearch.yml"
-
-  $version = '1.3.1'
 
   file { $config_dir:
     ensure => directory,
@@ -25,7 +24,6 @@ class elasticsearch (
     owner   => '0',
     group   => '0',
     mode    => '0644',
-    before  => Helper::Script['install elasticsearch'],
     notify  => Service['elasticsearch'],
   }
 
@@ -35,20 +33,12 @@ class elasticsearch (
     owner   => '0',
     group   => '0',
     mode    => '0755',
-    before  => Helper::Script['install elasticsearch'],
     notify  => Service['elasticsearch'],
   }
 
-  helper::script { 'install elasticsearch':
-    content => template("${module_name}/install.sh"),
-    unless  => "/usr/share/elasticsearch/bin/elasticsearch -v | grep -q '\s${version},'",
-    require => Class['apt::update'],
-  }
-  ->
-
   daemon { 'elasticsearch':
-    binary           => '/usr/share/elasticsearch/bin/elasticsearch',
-    env              => {
+    binary  => '/usr/share/elasticsearch/bin/elasticsearch',
+    env     => {
       'ES_HEAP_SIZE' => $heap_size,
       'ES_USER' => 'elasticsearch',
       'ES_GROUP' => 'elasticsearch',
@@ -58,7 +48,8 @@ class elasticsearch (
       'WORK_DIR' => '/tmp/elasticsearch',
       'CONF_DIR' => $config_dir,
       'CONF_FILE' => $config_file,
-    }
+    },
+    require => File[$config_file],
   }
 
   @bipbip::entry { 'elasticsearch':
