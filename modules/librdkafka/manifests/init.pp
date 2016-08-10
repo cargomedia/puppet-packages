@@ -1,9 +1,9 @@
-class librdkafka($version = '0.9.1') {
+class librdkafka() {
 
-  require 'build'
+  require 'apt'
 
-  helper::script { 'install librdkafka':
-    content => template("${module_name}/install.sh"),
-    unless  => "ls /usr/local/lib/librdkafka.so.1",
+  package { 'librdkafka-dev':
+    ensure   => present,
+    provider => 'apt',
   }
 }
