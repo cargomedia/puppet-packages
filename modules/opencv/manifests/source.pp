@@ -5,9 +5,11 @@ class opencv::source (
   require 'git'
   require 'build'
 
+  $tmp_directory = '/tmp/opencv'
+
   git::repository { 'opencv repository':
     remote      => 'https://github.com/opencv/opencv.git',
-    directory   => '/tmp/opencv',
+    directory   => $tmp_directory,
     revision    => $version,
   }
 }
