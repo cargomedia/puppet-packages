@@ -11,8 +11,8 @@ describe 'elasticsearch' do
     its(:content) { should match 'cluster.name: foo' }
   end
 
-  describe command('pgrep java | wc -l') do
-    its(:stdout) { should match /^1$/ }
+  describe process('elasticsearch') do
+    its(:count) { should eq 1 }
   end
 
   describe command('ps aux | grep elasticsearch') do
