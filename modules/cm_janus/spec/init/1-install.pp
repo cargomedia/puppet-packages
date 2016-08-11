@@ -9,5 +9,6 @@ node default {
     cm_api_key          => 'fish',
     cm_application_path => '/home/cm',
     jobs_path           => '/tmp',
+    jobs_retry_delay    => 300,
   }
 }

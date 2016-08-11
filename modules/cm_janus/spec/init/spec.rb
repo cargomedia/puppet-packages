@@ -9,6 +9,7 @@ describe 'cm_janus' do
     its(:content) { should match /^cmApi:.*/ }
     its(:content) { should match /baseUrl: 'http:\/\/www.cm.dev'/ }
     its(:content) { should match /convertCommand: 'ionice -c 2 -n 7 nice -n 19 lame <%= wavFile %> <%= mp3File %>'/ }
+    its(:content) { should match /jobRetryDelay: 300/ }
   end
 
   describe file('/etc/monit/conf.d/cm-janus') do
