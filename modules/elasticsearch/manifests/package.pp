@@ -15,14 +15,14 @@ class elasticsearch::package (
   }
 
   package { 'elasticsearch':
-    ensure   => latest,
+    ensure   => present,
     provider => apt,
   }
   ~>
 
-  exec { "/etc/init.d/elasticsearch stop":
+  exec { 'true && /etc/init.d/elasticsearch stop':
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    unless      => "/etc/init.d/elasticsearch status",
+    unless      => 'true && /etc/init.d/elasticsearch status',
     refreshonly => true,
   }
 
