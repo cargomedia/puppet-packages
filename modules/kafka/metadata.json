@@ -1,9 +1,9 @@
 {
-  "name": "cargomedia-librdkafka",
+  "name": "cargomedia-kafka",
   "version": "0.0.1",
   "author": "Cargo Media",
   "license": "MIT",
-  "summary": "librdkafka",
+  "summary": "kafka php extension",
   "source": "https://github.com/cargomedia/puppet-packages",
   "operatingsystem_support": [
     {
