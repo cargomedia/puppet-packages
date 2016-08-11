@@ -2,6 +2,7 @@ class kafka($version = '0.9.1') {
 
   require 'apt'
   require 'php5'
+  require 'build'
 
   package { 'librdkafka-dev':
     ensure   => present,
