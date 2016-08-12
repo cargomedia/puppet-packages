@@ -23,7 +23,7 @@ class elasticsearch::package (
     path         => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     unless       => 'false',
     require      => Package['elasticsearch'],
-    subscribe    => Apt::Source['elasticsearch'],
+    subscribe    => [Apt::Source['elasticsearch'], Package['elasticsearch']],
     refreshonly  => true,
   }
 
