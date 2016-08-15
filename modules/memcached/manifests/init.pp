@@ -8,6 +8,13 @@ class memcached (
   require 'apt'
   include 'memcached::service'
 
+  if $::facts['lsbdistcodename'] == 'wheezy' {
+    @monit::entry { 'memcached':
+      content => template("${module_name}/monit"),
+      require => Service['memcached'],
+    }
+  }
+
   file { '/etc/memcached.conf':
     ensure  => file,
     content => template("${module_name}/memcached.conf"),
@@ -16,16 +23,11 @@ class memcached (
     mode    => '0644',
     notify  => Service['memcached'],
   }
-  ->
 
   package { 'memcached':
     ensure   => present,
     provider => 'apt',
-  }
-
-  @monit::entry { 'memcached':
-    content => template("${module_name}/monit"),
-    require => Service['memcached'],
+    require  => File['/etc/memcached.conf'],
   }
 
   @bipbip::entry { 'memcached':
