@@ -6,6 +6,10 @@
 #
 # pre mode  :  try to perform sanity check for configuration, log, data
 # post mode :  ping server until answer is received
+#
+# The source of the file can be found:
+# source-location: https://launchpadlibrarian.net/265197909/mysql-5.7_5.7.13.orig.tar.gz
+# file-location: ./packaging/deb-jessie/extra/mysql-systemd-start
 
 sanity () {
 if [ ! -r /etc/mysql/my.cnf ]; then

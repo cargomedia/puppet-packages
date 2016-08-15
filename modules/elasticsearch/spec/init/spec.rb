@@ -11,7 +11,7 @@ describe 'elasticsearch' do
     its(:content) { should match 'cluster.name: foo' }
   end
 
-  describe process('elasticsearch') do
+  describe process('java') do
     its(:count) { should eq 1 }
   end
 

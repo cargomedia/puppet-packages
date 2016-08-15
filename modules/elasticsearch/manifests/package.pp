@@ -1,6 +1,5 @@
 class elasticsearch::package (
   $repository_version = '1.3',
-  $release_version = '1.3.1',
 ){
 
   apt::source { 'elasticsearch':
@@ -16,8 +15,15 @@ class elasticsearch::package (
   }
 
   package { 'elasticsearch':
-    ensure   => $release_version,
+    ensure   => present,
     provider => apt,
+  }
+
+  exec { 'true && /etc/init.d/elasticsearch stop':
+    path         => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    provider     => shell,
+    subscribe    => Package['elasticsearch'],
+    refreshonly  => true,
   }
 
 }

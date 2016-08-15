@@ -18,6 +18,9 @@ define nginx::resource::vhost(
   $vhost_cfg_prepend      = undef
 ) {
 
+  include 'nginx::config'
+  include 'nginx::params'
+
   File {
     owner => 'root',
     group => 'root',
