@@ -21,10 +21,8 @@ class elasticsearch::package (
 
   exec { 'true && /etc/init.d/elasticsearch stop':
     path         => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    unless       => 'false;',
     provider     => shell,
-    require      => Package['elasticsearch'],
-    subscribe    => [Apt::Source['elasticsearch'], Package['elasticsearch']],
+    subscribe    => Package['elasticsearch'],
     refreshonly  => true,
   }
 
