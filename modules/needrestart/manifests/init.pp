@@ -4,7 +4,7 @@ class needrestart (
 ){
 
   package { 'needrestart':
-    provider => apt
+    provider => apt,
   }
 
   file { $restart_helper_path:
@@ -18,7 +18,7 @@ class needrestart (
   if $apt_invoke == false {
     file { '/etc/apt/apt.conf.d/99needrestart':
       ensure  => absent,
-      require => Package['needrestart']
+      require => Package['needrestart'],
     }
   }
 }
