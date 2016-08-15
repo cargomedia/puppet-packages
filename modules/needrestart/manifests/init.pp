@@ -14,7 +14,7 @@ class needrestart (
     mode    => '0755',
   }
 
-  # This will disable all services restart after upgrade
+  # This will disable the services restart after apt-upgrade
   file { '/etc/apt/apt.conf.d/99needrestart':
     ensure  => absent,
     require => Package['needrestart'],
