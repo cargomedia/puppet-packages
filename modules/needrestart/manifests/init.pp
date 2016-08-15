@@ -1,5 +1,6 @@
 class needrestart (
-  $restart_helper_path = '/usr/local/bin/needrestart-service'
+  $restart_helper_path = '/usr/local/bin/needrestart-service',
+  $auto_apt_invoke = false,
 ){
 
   package { 'needrestart':
@@ -12,5 +13,12 @@ class needrestart (
     owner   => '0',
     group   => '0',
     mode    => '0755',
+  }
+
+  if $auto_apt_invoke == false {
+    file { '/etc/apt/apt.conf.d/99needrestart':
+      ensure  => absent,
+      require => Package['needrestart']
+    }
   }
 }
