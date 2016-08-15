@@ -2,19 +2,13 @@ require 'spec_helper'
 
 describe 'mysql::server' do
 
-
-  # Wait for bipbip to start up
-  describe command('/etc/init.d/bipbip start;sleep 2;timeout --signal=9 10 bash -c "while ! (/etc/init.d/bipbip status); do sleep 0.5; done"') do
-    its(:exit_status) { should eq 0 }
-  end
-
   describe service('bipbip') do
     it { should be_running }
   end
 
-  describe command('/etc/init.d/mysql status') do
+  describe command('mysql -e "show status"') do
     its(:exit_status) { should eq 0 }
-    its(:stdout) { should match 'Uptime' }
+    its(:stdout) { should match('Uptime') }
   end
 
   describe file('/var/log/mysql.err') do
