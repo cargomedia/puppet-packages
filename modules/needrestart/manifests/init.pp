@@ -1,9 +1,9 @@
 class needrestart (
-  $restart_helper_path = '/usr/local/bin/needrestart-service'
+  $restart_helper_path = '/usr/local/bin/needrestart-service',
 ){
 
   package { 'needrestart':
-    provider => apt
+    provider => apt,
   }
 
   file { $restart_helper_path:
@@ -12,5 +12,11 @@ class needrestart (
     owner   => '0',
     group   => '0',
     mode    => '0755',
+  }
+
+  # This will disable the services restart after apt-upgrade
+  file { '/etc/apt/apt.conf.d/99needrestart':
+    ensure  => absent,
+    require => Package['needrestart'],
   }
 }

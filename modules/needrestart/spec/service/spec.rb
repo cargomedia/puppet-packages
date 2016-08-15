@@ -10,4 +10,8 @@ describe 'needrestart::service' do
     its(:stdout) { should match /1/ }
   end
 
+  describe file('/etc/apt/apt.conf.d/99needrestart') do
+    it { should_not be_file }
+  end
+
 end
