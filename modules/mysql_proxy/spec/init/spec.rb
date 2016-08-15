@@ -6,10 +6,6 @@ describe 'mysql_proxy' do
     it { should be_installed }
   end
 
-  describe command('monit summary | grep -E "mysql-proxy.+[Running|ok]"') do
-    its(:exit_status) { should eq 0 }
-  end
-
   describe file('/etc/mysql-proxy/config') do
     its(:content) { should match 'proxy-backend-addresses=127.0.0.1:3306,127.0.0.2:3306' }
     its(:content) { should match 'plugins=proxy' }
