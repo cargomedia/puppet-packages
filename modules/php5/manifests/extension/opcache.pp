@@ -29,6 +29,7 @@ class php5::extension::opcache (
       path      => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
       provider  => shell,
       onlyif    => 'find /etc/php5/ -name 05-opcache.ini | grep -q 05-opcache.ini',
+      require   => Php5::Config_extension['opcache'],
     }
   }
 
