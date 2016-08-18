@@ -7,16 +7,16 @@ echoerr () {
 
 usage() { 
   echoerr "Usage:"
-  echoerr "  foreman-systemd install [-u <user>] <app-name> <procfile-path>"
+  echoerr "  foreman-systemd install [-u <user>] [-f <formation>] <app-name> <procfile-root-dir>"
   echoerr "  foreman-systemd start <app-name>"
   echoerr "  foreman-systemd stop <app-name>"
-  echoerr "  foreman-systemd reload [-u <user>] <app-name> <procfile-path>"
+  echoerr "  foreman-systemd reload [-u <user>] [-f <formation>] <app-name> <procfile-root-dir>"
   exit 1; 
 }
 
 install () {
   uninstall "${2}"
-  foreman export systemd --user "${1}" --app "${2}" --procfile "${3}"
+  foreman export systemd --user "${1}" --formation "#{2}" --app "${3}" --root "${4}"
 }
 
 uninstall () {
@@ -53,11 +53,15 @@ esac
 
 case "${COMMAND}" in
   install|reload)
-    APP_USER=root
-    while getopts "u:" o; do
+    APP_USER="root"
+    FORMATION="all=1"
+    while getopts "u:f:" o; do
         case "${o}" in
             u)
-                APP_USER=${OPTARG}
+                APP_USER="${OPTARG}"
+                ;;
+            f)
+                FORMATION="${OPTARG}"
                 ;;
             *)
                 usage
@@ -84,11 +88,11 @@ esac
 case "${COMMAND}" in
   install|reload)
     if [ "$1" == "" ]; then
-      echoerr "Missing <profile-path> param"
+      echoerr "Missing <procfile-root-dir> param"
       echoerr
       usage
     fi
-    ROOT_DIR=$(dirname $1)
+    ROOT_DIR=$1
     shift
     ;;
 esac
@@ -96,7 +100,7 @@ esac
 
 case "${COMMAND}" in
   install)
-    install $APP_USER $APP_NAME $ROOT_DIR
+    install $APP_USER $FORMATION $APP_NAME $ROOT_DIR
     ;;
   start)
     start $APP_NAME
@@ -106,7 +110,7 @@ case "${COMMAND}" in
     ;;
   reload)
     stop $APP_NAME
-    install $APP_USER $APP_NAME $ROOT_DIR
+    install $APP_USER $FORMATION $APP_NAME $ROOT_DIR
     start $APP_NAME
     ;;
   *)
