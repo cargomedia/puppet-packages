@@ -7,30 +7,43 @@ echoerr () {
 
 usage() { 
   echoerr "Usage:"
-  echoerr "  foreman-systemd install [-u <user>] [-f <formation>] <app-name> <procfile-root-dir>"
+  echoerr "  foreman-systemd install [-u <user>] [-f <formation>] [-l <location>] <app-name> <root-dir>"
   echoerr "  foreman-systemd start <app-name>"
   echoerr "  foreman-systemd stop <app-name>"
-  echoerr "  foreman-systemd reload [-u <user>] [-f <formation>] <app-name> <procfile-root-dir>"
+  echoerr "  foreman-systemd reload [-u <user>] [-f <formation>] [-l <location>] <app-name> <root-dir>"
   exit 1; 
 }
 
 install () {
-  uninstall "${2}"
-  foreman export systemd --user "${1}" --formation "#{2}" --app "${3}" --root "${4}"
+  USER="${1}"
+  FORMATION="${2}"
+  APP_NAME="${3}"
+  ROOT_DIR="${4}"
+  LOCATION="${5}"
+  
+  uninstall "${APP_NAME}" "${LOCATION}"
+  foreman export systemd --user "${USER}" --formation "${FORMATION}" --app "${APP_NAME}" --root "${ROOT_DIR}" "${LOCATION}"
 }
 
 uninstall () {
-  rm -rf "/etc/systemd/systemd/${1}"
+  APP_NAME="${1}"
+  LOCATION="${2}"
+  
+  rm -rf "${LOCATION}/${APP_NAME}"
 }
 
 start () {
-  systemctl start "${1}.target"
-  systemctl enable "${1}.target"
+  APP_NAME="${1}"
+  
+  systemctl start "${APP_NAME}.target"
+  systemctl enable "${APP_NAME}.target"
 }
 
 stop () {
-  systemctl disable "${1}.target"
-  systemctl stop "${1}.target"
+  APP_NAME="${1}"
+  
+  systemctl disable "${APP_NAME}.target"
+  systemctl stop "${APP_NAME}.target"
 }
 
 if [ "$1" == "" ]; then
@@ -55,13 +68,17 @@ case "${COMMAND}" in
   install|reload)
     APP_USER="root"
     FORMATION="all=1"
-    while getopts "u:f:" o; do
+    LOCATION="/etc/systemd/system"
+    while getopts "u:f:l:" o; do
         case "${o}" in
             u)
                 APP_USER="${OPTARG}"
                 ;;
             f)
                 FORMATION="${OPTARG}"
+                ;;
+            l)
+                LOCATION="${OPTARG}"
                 ;;
             *)
                 usage
@@ -88,7 +105,7 @@ esac
 case "${COMMAND}" in
   install|reload)
     if [ "$1" == "" ]; then
-      echoerr "Missing <procfile-root-dir> param"
+      echoerr "Missing <root-dir> param"
       echoerr
       usage
     fi
@@ -100,7 +117,7 @@ esac
 
 case "${COMMAND}" in
   install)
-    install $APP_USER $FORMATION $APP_NAME $ROOT_DIR
+    install $APP_USER $FORMATION $APP_NAME $ROOT_DIR $LOCATION 
     ;;
   start)
     start $APP_NAME
@@ -110,7 +127,7 @@ case "${COMMAND}" in
     ;;
   reload)
     stop $APP_NAME
-    install $APP_USER $FORMATION $APP_NAME $ROOT_DIR
+    install $APP_USER $FORMATION $APP_NAME $ROOT_DIR $LOCATION
     start $APP_NAME
     ;;
   *)
