@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe 'awscli' do
 
-  describe command('pip freeze | grep -w -- \^awscli==1.3.9') do
+  describe command('pip freeze | grep -w -- \^awscli==.*') do
     its(:exit_status) { should eq 0 }
   end
 
