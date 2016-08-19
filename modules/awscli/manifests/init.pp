@@ -1,7 +1,7 @@
-class awscli ($version = '1.3.9') {
+class awscli {
 
   python::pip { 'awscli':
-    ensure => $version,
+    ensure => present,
   }
 
 }
