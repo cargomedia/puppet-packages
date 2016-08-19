@@ -2,6 +2,8 @@ class capistrano {
 
   if $::facts['lsbdistcodename'] == 'wheezy' {
     $version = '3.4.1'
+  } else {
+    $version = present
   }
 
   ruby::gem { 'net-ssh':
