@@ -23,7 +23,7 @@ class php5::extension::imagick (
     $imagemagick_dir = '/etc/ImageMagick'
   } else {
 
-    package { 'php5-imagick':
+    package { ['php5-imagick', 'libmagickcore-6.q16-2-extra']:
       ensure   => present,
       provider => 'apt',
       before   => Php5::Config_extension['imagick'],
