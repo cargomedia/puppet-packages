@@ -12,6 +12,6 @@ describe 'mms::backup' do
   end
 
   describe command('monit summary') do
-    its(:stdout) { should match /Process 'mms-backup'/ }
+    its(:stdout) { should match /[Process|Program] 'mms-backup'/ }
   end
 end

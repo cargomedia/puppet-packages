@@ -10,7 +10,7 @@ class mms::agent::backup (
   require 'mms'
 
   $agent_name = 'mms-backup'
-  $daemon_args = '-c /etc/mongodb-mms/backup-agent.config'
+  $config_file = '/etc/mongodb-mms/backup-agent.config'
 
   helper::script { 'install-mms-backup':
     content => template("${module_name}/install.sh"),
@@ -18,7 +18,7 @@ class mms::agent::backup (
     require => Class['apt::update'],
   }
 
-  file { '/etc/mongodb-mms/backup-agent.config':
+  file { $config_file:
     ensure  => file,
     content => template("${module_name}/conf-backup"),
     owner   => '0',
@@ -29,18 +29,11 @@ class mms::agent::backup (
   }
   ->
 
-  sysvinit::script { $agent_name:
-    content           => template("${module_name}/init"),
-    require           => Helper::Script['install-mms-backup'],
+  daemon { $agent_name:
+    binary  => "/usr/bin/mongodb-${agent_name}-agent",
+    args    => "-c ${config_file}",
+    user    => 'mongodb-mms-agent',
+    require => File[$config_file],
   }
 
-  service { $agent_name:
-    hasrestart => true,
-    enable     => true,
-  }
-
-  @monit::entry { 'mms-backup':
-    content => template("${module_name}/monit"),
-    require => Service[$agent_name],
-  }
 }
