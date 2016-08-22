@@ -35,6 +35,7 @@ class mms::agent::monitoring (
   daemon { $agent_name:
     binary  => "/usr/bin/mongodb-${agent_name}-agent",
     args    => "-conf ${config_file} -concurrency=${concurrency}",
+    user    => 'mongodb-mms-agent',
     require => File[$config_file],
   }
 

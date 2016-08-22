@@ -32,6 +32,7 @@ class mms::agent::backup (
   daemon { $agent_name:
     binary  => "/usr/bin/mongodb-${agent_name}-agent",
     args    => "-c ${config_file}",
+    user    => 'mongodb-mms-agent',
     require => File[$config_file],
   }
 
