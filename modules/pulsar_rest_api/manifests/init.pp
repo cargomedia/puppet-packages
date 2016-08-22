@@ -7,7 +7,6 @@ class pulsar_rest_api (
   $mongodb_db = 'pulsar-rest-api',
 
   $log_dir = '/var/log/pulsar-rest-api',
-  $config_file = '/etc/pulsar-rest-api/config.yml',
 
   $pulsar_repo = undef,
   $pulsar_branch = undef,
@@ -18,6 +17,7 @@ class pulsar_rest_api (
   require bower
   require pulsar
   require nodejs
+  include pulsar_rest_api::service
 
   user { 'pulsar-rest-api':
     ensure     => present,
@@ -30,7 +30,6 @@ class pulsar_rest_api (
     class { 'mongodb::role::standalone':
       hostname => $mongodb_host,
       port     => $mongodb_port,
-      before   => Daemon['pulsar-rest-api'],
     }
   }
 
@@ -41,14 +40,14 @@ class pulsar_rest_api (
     mode   => '0644',
   }
 
-  file { $config_file:
+  file { '/etc/pulsar-rest-api/config.yml':
     ensure  => file,
     content => template('pulsar_rest_api/config.yml'),
     owner   => 'pulsar-rest-api',
     group   => '0',
     mode    => '0440',
     before  => Package['pulsar-rest-api'],
-    notify  => Daemon['pulsar-rest-api'],
+    notify  => Service['pulsar-rest-api'],
   }
 
   file { $log_dir:
@@ -64,7 +63,7 @@ class pulsar_rest_api (
     provider => 'npm',
     require  => Class['nodejs'],
     notify   => [
-      Daemon['pulsar-rest-api'],
+      Service['pulsar-rest-api'],
       Exec['pulsar-rest-api bower install']
     ],
   }
@@ -73,23 +72,20 @@ class pulsar_rest_api (
     command     => 'bower install --config.interactive=false --production --allow-root',
     cwd         => '/usr/lib/node_modules/pulsar-rest-api',
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    subscribe   => Package['pulsar-rest-api'],
     refreshonly => true,
   }
 
-  daemon { 'pulsar-rest-api':
-    binary  => '/usr/bin/node',
-    args    => "/usr/bin/pulsar-rest-api -c ${config_file}",
-    user    => 'pulsar-rest-api',
-    require => [
-      User['pulsar-rest-api'],
-      Package['pulsar-rest-api'],
-      Exec['pulsar-rest-api bower install']
-    ],
+  sysvinit::script { 'pulsar-rest-api':
+    content => template("${module_name}/init.sh"),
+    require => Package['pulsar-rest-api'],
   }
 
   logrotate::entry { $module_name:
     path    => "${log_dir}/*.log",
   }
 
+  @monit::entry { 'pulsar-rest-api':
+    content => template("${module_name}/monit"),
+    require => Service['pulsar-rest-api'],
+  }
 }

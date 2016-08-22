@@ -1,0 +1,4 @@
+check process pulsar-rest-api with pidfile /var/run/pulsar-rest-api.pid
+	start program = "/etc/init.d/pulsar-rest-api start"
+	stop program  = "/etc/init.d/pulsar-rest-api stop"
+	if failed port <%= @port %> with timeout 10 seconds for 2 cycles then restart
