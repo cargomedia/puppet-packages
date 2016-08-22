@@ -78,8 +78,12 @@ class pulsar_rest_api (
   }
 
   daemon { 'pulsar-rest-api':
-    binary  => '/usr/bin/node',
-    args    => "/usr/bin/pulsar-rest-api -c ${config_file}",
+    binary  => '/usr/bin/ssh-agent',
+    args    => "/usr/bin/node /usr/bin/pulsar-rest-api -c ${config_file}",
+    env => {
+      'LANG' => 'en_US',
+    },
+    limit_nofile => 100000,
     user    => 'pulsar-rest-api',
     require => [
       User['pulsar-rest-api'],
