@@ -43,8 +43,11 @@ class snmp (
     provider => 'apt',
   }
 
-  @monit::entry { 'snmpd':
-    content => template("${module_name}/monit"),
-    require => Package['snmpd'],
+  if $::facts['lsbdistcodename'] == 'wheezy' {
+    @monit::entry { 'snmpd':
+      content => template("${module_name}/monit"),
+      require => Package['snmpd'],
+    }
   }
+
 }
