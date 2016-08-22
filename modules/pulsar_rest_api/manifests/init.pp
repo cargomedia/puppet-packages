@@ -81,7 +81,11 @@ class pulsar_rest_api (
     binary  => '/usr/bin/node',
     args    => "/usr/bin/pulsar-rest-api -c ${config_file}",
     user    => 'pulsar-rest-api',
-    require => [Package['pulsar-rest-api'], Exec['pulsar-rest-api bower install']],
+    require => [
+      User['pulsar-rest-api'],
+      Package['pulsar-rest-api'],
+      Exec['pulsar-rest-api bower install']
+    ],
   }
 
   logrotate::entry { $module_name:
