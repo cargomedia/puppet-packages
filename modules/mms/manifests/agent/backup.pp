@@ -30,9 +30,9 @@ class mms::agent::backup (
   ->
 
   daemon { $agent_name:
-    binary  => '/usr/bin/mongodb-mms-backup-agent',
+    binary  => "/usr/bin/mongodb-${agent_name}-agent",
     args    => "-c ${config_file}",
-    require => [File[$config_file], Helper::Script['install-mms-backup']],
+    require => File[$config_file],
   }
 
 }

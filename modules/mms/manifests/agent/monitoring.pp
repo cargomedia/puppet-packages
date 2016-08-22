@@ -33,9 +33,9 @@ class mms::agent::monitoring (
   ->
 
   daemon { $agent_name:
-    binary  => '/usr/bin/mongodb-mms-backup-agent',
+    binary  => "/usr/bin/mongodb-${agent_name}-agent",
     args    => "-conf ${config_file} -concurrency=${concurrency}",
-    require => [File[$config_file], Helper::Script['install-mms-monitoring']],
+    require => File[$config_file],
   }
 
 }
