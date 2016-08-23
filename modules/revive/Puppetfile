@@ -17,7 +17,3 @@ mod 'cargomedia/rsync',
 mod 'cargomedia/helper',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/helper'
-
-mod 'cargomedia/dotdeb',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/dotdeb'
