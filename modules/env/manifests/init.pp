@@ -1,4 +1,4 @@
-class environment {
+class env {
 
   file { '/etc/environment':
     ensure => file,

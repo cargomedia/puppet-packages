@@ -1,6 +1,6 @@
-define environment::variable ($value) {
+define env::variable ($value) {
 
-  require 'environment'
+  require 'env'
 
   $escapedValue = shellquote($value)
   $code = "${name}=${escapedValue}"
