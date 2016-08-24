@@ -10,6 +10,6 @@ mod 'cargomedia/ruby',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/ruby'
 
-mod 'cargomedia/environment',
+mod 'cargomedia/env',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/environment'
