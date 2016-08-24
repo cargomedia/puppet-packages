@@ -1,4 +1,5 @@
 class memcached (
+  $bind_ip = '0.0.0.0',
   $port = 11211,
   $memory = 2048,
   $user = 'nobody',
@@ -44,7 +45,7 @@ class memcached (
 
     daemon { 'memcached':
       binary  => '/usr/bin/memcached',
-      args    => "-p ${port} -m ${memory} -u ${user} -c ${max_connections} -v",
+      args    => "-p ${port} -m ${memory} -u ${user} -l ${bind_ip} -c ${max_connections} -v",
       require => Package['memcached'],
     }
 
