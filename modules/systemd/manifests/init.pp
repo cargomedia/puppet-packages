@@ -8,4 +8,6 @@ class systemd {
     provider => 'apt',
   }
 
+  class { 'systemd::critical_units':}
+
 }
