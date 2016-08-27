@@ -52,6 +52,8 @@ RuntimeDirectoryMode=<%= @runtime_directory_mode %>
 <% @env.each do |name, value| -%>
 Environment="<%= name %>=<%= value %>"
 <% end -%>
+StandardOutput=null
+StandardError=null
 
 [Install]
 WantedBy=multi-user.target
