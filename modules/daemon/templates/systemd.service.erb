@@ -4,28 +4,56 @@ After=network.target
 
 [Service]
 Type=simple
-<% if @pre_command %>ExecStartPre=<%= @pre_command %><% end %>
+<% if @pre_command -%>
+ExecStartPre=<%= @pre_command %>
+<% end -%>
 ExecStart=<%= @binary %> <%= @args %>
-<% if @post_command %>ExecStartPost=<%= @post_command %><% end %>
+<% if @post_command -%>
+ExecStartPost=<%= @post_command %>
+<% end -%>
 User=<%= @user %>
 PermissionsStartOnly=true
-<% if @nice %>Nice=<%= @nice %><% end %>
-<% if @oom_score_adjust %>OOMScoreAdjust=<%= @oom_score_adjust %><% end %>
+<% if @nice -%>
+Nice=<%= @nice %>
+<% end -%>
+<% if @oom_score_adjust -%>
+OOMScoreAdjust=<%= @oom_score_adjust %>
+<% end -%>
 TimeoutStopSec=<%= @stop_timeout %>
 KillMode=mixed
 Restart=always
-<% if @limit_nofile %>LimitNOFILE=<%= @limit_nofile == 'unlimited' ? 'infinity' : @limit_nofile %><% end %>
-<% if @limit_fsize %>LimitFSIZE=<%= @limit_fsize == 'unlimited' ? 'infinity' : @limit_fsize %><% end %>
-<% if @limit_cpu %>LimitCPU=<%= @limit_cpu == 'unlimited' ? 'infinity' : @limit_cpu %><% end %>
-<% if @limit_as %>LimitAS=<%= @limit_as == 'unlimited' ? 'infinity' : @limit_as %><% end %>
-<% if @limit_rss %>LimitRSS=<%= @limit_rss == 'unlimited' ? 'infinity' : @limit_rss * 1024 %><% end %>
-<% if @limit_nproc %>LimitNPROC=<%= @limit_nproc == 'unlimited' ? 'infinity' : @limit_nproc %><% end %>
-<% if @core_dump %>LimitCORE=infinity<% end %>
-<% if @runtime_directory %>RuntimeDirectory=<%= @runtime_directory %><% end %>
-<% if @runtime_directory_mode %>RuntimeDirectoryMode=<%= @runtime_directory_mode %><% end %>
+<% if @limit_nofile -%>
+LimitNOFILE=<%= @limit_nofile == 'unlimited' ? 'infinity' : @limit_nofile %>
+<% end -%>
+<% if @limit_fsize -%>
+LimitFSIZE=<%= @limit_fsize == 'unlimited' ? 'infinity' : @limit_fsize %>
+<% end -%>
+<% if @limit_cpu -%>
+LimitCPU=<%= @limit_cpu == 'unlimited' ? 'infinity' : @limit_cpu %>
+<% end -%>
+<% if @limit_as -%>
+LimitAS=<%= @limit_as == 'unlimited' ? 'infinity' : @limit_as %>
+<% end -%>
+<% if @limit_rss -%>
+LimitRSS=<%= @limit_rss == 'unlimited' ? 'infinity' : @limit_rss * 1024 %>
+<% end -%>
+<% if @limit_nproc -%>
+LimitNPROC=<%= @limit_nproc == 'unlimited' ? 'infinity' : @limit_nproc %>
+<% end -%>
+<% if @core_dump -%>
+LimitCORE=infinity
+<% end -%>
+<% if @runtime_directory -%>
+RuntimeDirectory=<%= @runtime_directory %>
+<% end -%>
+<% if @runtime_directory_mode -%>
+RuntimeDirectoryMode=<%= @runtime_directory_mode %>
+<% end -%>
 <% @env.each do |name, value| -%>
-Environment=<%= name %>=<%= value %>
-<% end %>
+Environment="<%= name %>=<%= value %>"
+<% end -%>
+StandardOutput=null
+StandardError=null
 
 [Install]
 WantedBy=multi-user.target
