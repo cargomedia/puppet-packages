@@ -28,9 +28,9 @@ define systemd::unit(
     before    => Exec["systemctl start ${name}"],
   }
   
-  $serviceName = "${name}.service"
+  $unitName = "${name}.service"
   
-  @systemd::critical_unit { $serviceName:
-    serviceName => $serviceName,
+  @systemd::critical_unit { $unitName:
+    unitName => $unitName,
   }
 }

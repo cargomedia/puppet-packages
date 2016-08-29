@@ -1,12 +1,12 @@
 define systemd::critical_unit (
-  $serviceName
+  $unitName
 ){
 
   include 'systemd::daemon_reload'
 
-  file { "/etc/systemd/system/critical-units.target.wants/${serviceName}":
+  file { "/etc/systemd/system/critical-units.target.wants/${unitName}":
     ensure  => link,
-    target  => "/etc/systemd/system/${serviceName}",
+    target  => "/etc/systemd/system/${unitName}",
     owner   => '0',
     group   => '0',
     mode    => '0644',
