@@ -2,11 +2,6 @@ node default {
 
   require 'network'
 
-  network::snat { 'Modify source ip for outgoing traffic on all interfaces':
-    interface => 'lo',
-    source_address => '192.168.20.122',
-  }
-
   exec { 'Start listening on 1337':
     command     => 'nc -lvnp 1337 2>/tmp/stderr_output &',
     user        => 'root',

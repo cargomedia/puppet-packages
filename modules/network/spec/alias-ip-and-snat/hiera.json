@@ -23,6 +23,12 @@
       "method": "static",
       "ipaddr": "192.168.20.122",
       "netmask": "255.255.255.0"
+    },
+    "lo:0": {
+      "method": "manual",
+      "ipaddr": "192.168.20.122",
+      "netmask": "255.255.255.0",
+      "snat": true
     }
   }
 }
