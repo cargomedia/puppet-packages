@@ -18,6 +18,7 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
     system => true,
     home   => '/var/lib/mysql',
     shell  => '/bin/false',
+    before => Package['mysql-server'],
   }
 
   file { '/etc/mysql':
