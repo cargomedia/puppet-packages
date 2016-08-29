@@ -16,7 +16,7 @@ class systemd::critical_units {
     mode    => '0644',
     purge   => true,
     recurse => true,
-  } 
+  }
   
   Systemd::Critical_unit <||>
   
