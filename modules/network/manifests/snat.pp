@@ -1,6 +1,6 @@
 define network::snat(
   $interface = undef,
-  $source_address = undef,
+  $source_address,
 ) {
 
   $iface = $interface ? {
