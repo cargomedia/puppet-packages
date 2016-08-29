@@ -8,7 +8,7 @@ define network::snat(
     default => "-o ${interface}",
   }
 
-  iptables::entry { 'Set up SNAT':
+  iptables::entry { $title:
     table => 'nat',
     chain => 'POSTROUTING',
     rule  => "${iface} -j SNAT --to-source ${source_address}",

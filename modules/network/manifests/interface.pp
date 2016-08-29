@@ -62,11 +62,9 @@ define network::interface (
 
   if $snat {
     $network_interface = regsubst($device, '^([a-z]+\d?)(:?.?)*$', '\1')
-
     network::snat { "SNAT on ${network_interface}":
       interface => $network_interface,
       source_address => $ipaddr,
     }
   }
-
 }
