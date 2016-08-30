@@ -24,7 +24,7 @@ class systemd::critical_units {
     plugin  => 'systemd-unit',
     options => {
       'unit_name' => 'critical-units.target',
-      'metric_group' => 'systemd',
+      'metric_group' => 'critical-units',
     },
   }
 }
