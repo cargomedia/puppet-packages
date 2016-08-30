@@ -27,4 +27,10 @@ define systemd::unit(
     subscribe => File["/etc/systemd/system/${name}.service"],
     before    => Exec["systemctl start ${name}"],
   }
+  
+  $unitName = "${name}.service"
+  
+  @systemd::critical_unit { $unitName:
+    unitName => $unitName,
+  }
 }
