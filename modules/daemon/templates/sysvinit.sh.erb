@@ -17,7 +17,7 @@ PIDFILE='/var/run/<%= @name %>.pid'
 USER='<%= @user %>'
 <% unless @env.empty? %>
 <% @env.each do |name, value| %>
-export <%= name %>\='<%= value %>'
+export <%= name %>='<%= value %>'
 <% end %>
 <% end %>
 <% @final_signal = @sysvinit_kill ? 'KILL' : 'TERM' -%>
