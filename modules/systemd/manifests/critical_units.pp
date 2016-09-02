@@ -2,7 +2,7 @@ class systemd::critical_units {
   
   file { '/etc/systemd/system/critical-units.target':
     ensure  => file,
-    content => template("${module_name}/critical-units.target"),
+    content => template("${module_name}/group.target"),
     owner   => '0',
     group   => '0',
     mode    => '0644',
