@@ -1,11 +1,15 @@
 define systemd::unit(
   $content,
+  $type = 'service',
+  $critical = true,
 ) {
+  
+  $unitName = "${name}.${type}"
 
   require 'systemd'
   include 'systemd::daemon_reload'
 
-  file { "/etc/systemd/system/${name}.service":
+  file { "/etc/systemd/system/${unitName}":
     ensure  => file,
     content => $content,
     owner   => '0',
@@ -15,22 +19,22 @@ define systemd::unit(
   }
   ~>
 
-  exec { "systemctl start ${name}":
+  exec { "systemctl start ${unitName}":
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    unless      => "systemctl status ${name}",
+    unless      => "systemctl status ${unitName}",
     refreshonly => true,
   }
 
   Service <| title == $name |> {
     enable    => true,
     provider  => 'systemd',
-    subscribe => File["/etc/systemd/system/${name}.service"],
-    before    => Exec["systemctl start ${name}"],
+    subscribe => File["/etc/systemd/system/${unitName}"],
+    before    => Exec["systemctl start ${unitName}"],
   }
   
-  $unitName = "${name}.service"
-  
-  @systemd::critical_unit { $unitName:
-    unitName => $unitName,
+  if ($critical) {
+    @systemd::critical_unit { $unitName:
+      unitName => $unitName,
+    }
   }
 }
