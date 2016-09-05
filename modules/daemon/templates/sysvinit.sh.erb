@@ -16,9 +16,7 @@ DAEMON_ARGS='<%= @args %>'
 PIDFILE='/var/run/<%= @name %>.pid'
 USER='<%= @user %>'
 <% unless @env.empty? %>
-<% @env.each do |name, value| %>
-export <%= name %>='<%= value %>'
-<% end %>
+export<% @env.each do |name, value| -%> <%= name %>='<%= value %>'<% end -%>
 <% end %>
 <% @final_signal = @sysvinit_kill ? 'KILL' : 'TERM' -%>
 

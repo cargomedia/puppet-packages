@@ -17,7 +17,7 @@ node default {
     owner   => 'root',
     group   => 'root',
     mode    => '0700',
-    content => "#!/bin/bash\n echo $(date --utc +%s) > /tmp/created_by_pre\n printenv >> /tmp/created_by_pre\n",
+    content => "#!/bin/bash\n echo $(date --utc +%s) > /tmp/created_by_pre",
   }
 
   file { '/tmp/my-program-post':
