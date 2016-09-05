@@ -36,9 +36,7 @@ class cm::application (
   $service_provider = $::facts['service_provider']
   
   if ($service_provider == 'systemd') {
-    systemd::unit { 'cm-applications':
-      content => template('systemd/group.target'),
-      type    => 'target',
+    systemd::group { 'cm-applications.target':
     }
   }
 }
