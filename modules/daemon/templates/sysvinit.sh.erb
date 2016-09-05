@@ -15,11 +15,11 @@ DAEMON='<%= @binary %>'
 DAEMON_ARGS='<%= @args %>'
 PIDFILE='/var/run/<%= @name %>.pid'
 USER='<%= @user %>'
-<% unless @env.empty? %>
-<% @env.each do |name, value| %>
+<% unless @env.empty? -%>
+<% @env.each do |name, value| -%>
 export <%= name %>='<%= value %>'
-<% end %>
-<% end %>
+<% end -%>
+<% end -%>
 <% @final_signal = @sysvinit_kill ? 'KILL' : 'TERM' -%>
 
 set -e
@@ -28,49 +28,49 @@ set -e
 case "${1}" in
 	start)
 		log_daemon_msg "Starting ${DESC}" "${NAME}"
-		<% if @core_dump %>
+		<% if @core_dump -%>
 		ulimit -c unlimited
-		<%- end %>
-		<% if @limit_nofile %>
+		<% end -%>
+		<% if @limit_nofile -%>
 		ulimit -n <%= @limit_nofile == 'unlimited' ? 'unlimited' : @limit_nofile %>
-		<%- end %>
-		<% if @limit_fsize %>
+		<% end -%>
+		<% if @limit_fsize -%>
 		ulimit -f <%= @limit_fsize == 'unlimited' ? 'unlimited' : @limit_fsize %>
-		<%- end %>
-		<% if @limit_cpu %>
+		<% end -%>
+		<% if @limit_cpu -%>
 		ulimit -t  <%= @limit_cpu == 'unlimited' ? 'unlimited' : @limit_cpu %>
-		<%- end %>
-		<% if @limit_as %>
+		<% end -%>
+		<% if @limit_as -%>
 		ulimit -v  <%= @limit_as == 'unlimited' ? 'unlimited' : @limit_as %>
-		<%- end %>
-		<% if @limit_rss %>
+		<% end -%>
+		<% if @limit_rss -%>
 		ulimit -m  <%= @limit_rss == 'unlimited' ? 'unlimited' : @limit_rss %>
-		<%- end %>
-		<% if @limit_nproc %>
+		<% end -%>
+		<% if @limit_nproc -%>
 		ulimit -u  <%= @limit_nproc == 'unlimited' ? 'unlimited' : @limit_nproc %>
-		<%- end %>
+		<% end -%>
 		<% if @pre_command %>
 		<%= @pre_command %>
-		<%- end %>
-		<% if @runtime_directory %>
+		<% end -%>
+		<% if @runtime_directory -%>
 		mkdir -p /run/<%= @runtime_directory %>
-		<% if @runtime_directory_mode %>
+		<% if @runtime_directory_mode -%>
 		chmod <%= @runtime_directory_mode %> /run/<%= @runtime_directory %>
-		<%- end %>
-		<%- end %>
+		<% end -%>
+		<% end -%>
 		if (start-stop-daemon --start --oknodo --make-pidfile --background --pidfile "${PIDFILE}" --chuid "${USER}" --startas "${DAEMON}" -- ${DAEMON_ARGS}); then
 		  timeout --signal=9 1 bash -c "while ! (test -e '${PIDFILE}'); do sleep 0.05; done";
 		  PID=$(cat "${PIDFILE}")
-			<% if @nice %>
+			<% if @nice -%>
 				renice -n <%= @nice %> -p ${PID}
-			<%- end %>
-			<% if @oom_score_adjust %>
+			<% end -%>
+			<% if @oom_score_adjust -%>
 				echo <%= @oom_score_adjust %> > /proc/${PID}/oom_score_adj
-			<%- end %>
+			<% end -%>
 			log_end_msg 0
-			<% if @post_command %>
+			<% if @post_command -%>
 			<%= @post_command %>
-			<%- end %>
+			<% end -%>
 		else
 			log_end_msg 1
 		fi
