@@ -2,7 +2,7 @@ class systemd::critical_units {
 
   Systemd::Critical_unit <||>
 
-  systemd::group { 'critical-units.target':
+  systemd::target { 'critical-units':
     critical => false,
     purge => true,
   }

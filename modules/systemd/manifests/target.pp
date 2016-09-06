@@ -1,14 +1,15 @@
-define systemd::group(
+define systemd::target(
   $critical = true,
   $purge = false,
 ) {
-
-  systemd::unit { $name:
+  $unit_name = "${name}.target"
+  
+  systemd::service { $unit_name:
     content  => template("${module_name}/group.target"),
     critical => $critical,
   }
-
-  file { "/etc/systemd/system/${name}.wants":
+  
+  file { "/etc/systemd/system/${unit_name}.wants":
     ensure  => directory,
     owner   => '0',
     group   => '0',
