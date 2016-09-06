@@ -3,12 +3,12 @@ define systemd::target(
   $purge = false,
 ) {
   $unit_name = "${name}.target"
-  
-  systemd::service { $unit_name:
+
+  systemd::unit{ $unit_name:
     content  => template("${module_name}/group.target"),
     critical => $critical,
   }
-  
+
   file { "/etc/systemd/system/${unit_name}.wants":
     ensure  => directory,
     owner   => '0',
