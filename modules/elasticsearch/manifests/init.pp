@@ -38,16 +38,12 @@ class elasticsearch (
 
   daemon { 'elasticsearch':
     binary  => '/usr/share/elasticsearch/bin/elasticsearch',
+    args => "-Des.default.config=${config_file} -Des.default.path.home=/usr/share/elasticsearch -Des.default.path.logs=/var/log/elasticsearch -Des.default.path.data=/var/lib/elasticsearch -Des.default.path.work=/tmp/elasticsearch -Des.default.path.conf=${config_dir}",
     env     => {
       'ES_HEAP_SIZE' => $heap_size,
       'ES_USER' => 'elasticsearch',
       'ES_GROUP' => 'elasticsearch',
       'MAX_MAP_COUNT' => '262144',
-      'LOG_DIR' => '/var/log/elasticsearch',
-      'DATA_DIR' => '/var/lib/elasticsearch',
-      'WORK_DIR' => '/tmp/elasticsearch',
-      'CONF_DIR' => $config_dir,
-      'CONF_FILE' => $config_file,
     },
     require => File[$config_file],
   }
