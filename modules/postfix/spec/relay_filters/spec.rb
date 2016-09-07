@@ -21,13 +21,27 @@ describe 'postfix' do
     end
   end
 
-  credentials1 = Base64.strict_encode64("\0foo\0bar")
+  credentials0 = Base64.strict_encode64("\0user0\0passwd0")
+
+  describe file('/tmp/11100') do
+    it 'is a file' do
+      expect(subject).to be_file
+    end
+    it 'contains credentials user0:passwd0' do
+      expect(subject).to contain(credentials0).after(/AUTH PLAIN/)
+    end
+    it 'is a mail' do
+      expect(subject).to contain('<no-filter@example.com>').after(/RCPT TO/)
+    end
+  end
+
+  credentials1 = Base64.strict_encode64("\0user1\0passwd1")
 
   describe file('/tmp/11101') do
     it 'is a file' do
       expect(subject).to be_file
     end
-    it 'contains credentials foo:bar' do
+    it 'contains credentials user1:passwd1' do
       expect(subject).to contain(credentials1).after(/AUTH PLAIN/)
     end
     it 'is a mail filtered correctly' do
@@ -35,13 +49,13 @@ describe 'postfix' do
     end
   end
 
-  credentials2 = Base64.strict_encode64("\0bar\0foo")
+  credentials2 = Base64.strict_encode64("\0user2\0passwd2")
 
   describe file('/tmp/11102') do
     it 'is a file' do
       expect(subject).to be_file
     end
-    it 'contains credentials bar:foo' do
+    it 'contains credentials user2:passwd2' do
       expect(subject).to contain(credentials2).after(/AUTH PLAIN/)
     end
     it 'is a mail filtered correctly' do
