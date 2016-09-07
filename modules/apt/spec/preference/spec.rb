@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'apt::preferences' do
+describe 'apt::preference' do
 
   describe file('/etc/apt/preferences.d/imagemagick-common.pref') do
     its(:content) { should match /^Package: imagemagick-common$/ }

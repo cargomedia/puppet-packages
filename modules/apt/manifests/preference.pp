@@ -1,4 +1,4 @@
-define apt::preferences (
+define apt::preference (
   $package = $title,
   $pin,
   $pin_priority = 1001,
