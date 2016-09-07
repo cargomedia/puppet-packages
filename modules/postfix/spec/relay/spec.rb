@@ -11,15 +11,6 @@ describe 'postfix' do
     it { should be_running }
   end
 
-  describe file('/etc/postfix/header_checks') do
-    it 'is a file' do
-      expect(subject).to be_file
-    end
-    it 'contains a catch-all // regexp' do
-      expect(subject).to contain('//').before(/FILTER/)
-    end
-  end
-
   credentials1 = Base64.strict_encode64("\0foo\0bar")
 
   describe file('/tmp/2525') do

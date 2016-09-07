@@ -1,14 +1,12 @@
 node default {
 
   class { 'postfix':
-    transports => [
-      {
-        'protocol' => 'smtp',
-        'host' => '127.0.0.1',
-        'port' => '2525',
-        'credentials' => 'foo:bar',
-      }
-    ],
+    relay =>       {
+      'transport'   => 'smtp',
+      'host'        => '127.0.0.1',
+      'port'        => '2525',
+      'credentials' => 'foo:bar',
+    },
   }
 
   exec { 'smtp-sink instance':

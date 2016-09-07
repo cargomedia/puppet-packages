@@ -18,3 +18,7 @@ smtp_sasl_security_options = noanonymous
 smtp_sasl_password_maps = hash:/etc/postfix/sasl_passwd
 smtp_tls_security_level = may
 smtp_tls_CAfile = /etc/ssl/certs/ca-certificates.crt
+
+<% if @relay -%>
+relayhost=<%= @relay['host'] %>:<%= @relay['port'] %>
+<% end -%>
