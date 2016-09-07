@@ -4,8 +4,7 @@ define apt::preference (
   $pin_priority = 1001,
 ) {
 
-  require 'apt'
-  include 'apt::update'
+  include 'apt'
 
   file { "/etc/apt/preferences.d/${package}.pref":
     ensure  => file,
@@ -13,6 +12,5 @@ define apt::preference (
     owner   => 0,
     group   => 0,
     mode    => '0644',
-    notify  => Exec['apt_update'],
   }
 }
