@@ -32,4 +32,11 @@ class cm::application (
     require 'php5::extension::xdebug'
     require 'phantomjs'
   }
+
+  $service_provider = $::facts['service_provider']
+  
+  if ($service_provider == 'systemd') {
+    systemd::target { 'cm-applications':
+    }
+  }
 }

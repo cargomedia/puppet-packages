@@ -5,3 +5,7 @@ mod 'cargomedia/apt',
 mod 'cargomedia/sysctl',
    :git => 'git@github.com:cargomedia/puppet-packages.git',
    :path => 'modules/sysctl'
+
+mod 'cargomedia/bipbip',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/bipbip'
