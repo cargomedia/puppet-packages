@@ -8,6 +8,8 @@ class php5::extension::imagick (
   if $::facts['lsbdistcodename'] == 'wheezy' {
     require 'build'
 
+    $imagemagick_dir = '/etc/ImageMagick'
+
     package { 'libmagickwand-dev':
       ensure   => present,
       provider => 'apt',
@@ -18,10 +20,15 @@ class php5::extension::imagick (
       content => template("${module_name}/extension/imagick/install.sh"),
       unless  => "php --re imagick | grep -w 'imagick version ${version}'",
       require => Class['php5'],
-      before  => Php5::Config_extension['imagick'],
+      before  => [Php5::Config_extension['imagick'], File["${imagemagick_dir}/policy.xml"]]
     }
-    $imagemagick_dir = '/etc/ImageMagick'
   } else {
+    $imagemagick_dir = '/etc/ImageMagick-6'
+    # see bug report https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=836958
+    apt::preference { ['imagemagick-common', 'libmagickcore-6.q16-2', 'libmagickwand-6.q16-2']:
+      pin => 'version 8:6.8.9.9-5+deb8u2',
+    }
+    ->
 
     # see bug report https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=836958
     apt::preference { ['imagemagick-common', 'libmagickcore-6.q16-2', 'libmagickwand-6.q16-2']:
@@ -32,9 +39,8 @@ class php5::extension::imagick (
     package { ['php5-imagick', 'libmagickcore-6.q16-2-extra']:
       ensure   => present,
       provider => 'apt',
-      before   => Php5::Config_extension['imagick'],
+      before   => [Php5::Config_extension['imagick'], File["${imagemagick_dir}/policy.xml"]]
     }
-    $imagemagick_dir = '/etc/ImageMagick-6'
   }
 
   file { "${imagemagick_dir}/policy.xml":

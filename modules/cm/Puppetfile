@@ -80,3 +80,7 @@ mod 'cargomedia/ufw',
 mod 'cargomedia/phantomjs',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/phantomjs'
+
+mod 'cargomedia/systemd',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/systemd'
