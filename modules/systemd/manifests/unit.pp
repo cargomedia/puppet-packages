@@ -1,4 +1,5 @@
 define systemd::unit(
+  $service_name,
   $content,
   $critical = true,
 ) {
@@ -22,7 +23,7 @@ define systemd::unit(
     refreshonly => true,
   }
 
-  Service <| title == $name |> {
+  Service <| title == $service_name |> {
     enable    => true,
     provider  => 'systemd',
     subscribe => File["/etc/systemd/system/${name}"],

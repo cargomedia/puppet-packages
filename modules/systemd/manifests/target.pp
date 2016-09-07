@@ -5,7 +5,8 @@ define systemd::target(
   $unit_name = "${name}.target"
 
   systemd::unit{ $unit_name:
-    content  => template("${module_name}/group.target"),
+    service_name => $unit_name,
+    content  => template("${module_name}/target"),
     critical => $critical,
   }
 

@@ -1,6 +1,10 @@
 class systemd::critical_units {
 
   Systemd::Critical_unit <||>
+  
+  service { 'critical-units.target':
+    enable => true,
+  }
 
   systemd::target { 'critical-units':
     critical => false,

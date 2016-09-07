@@ -55,14 +55,13 @@ define daemon (
     }
 
     if ($service_provider == 'systemd') {
-      $unit_name = "${name}.service"
       
       systemd::service { $name:
         content => template("${module_name}/systemd.service.erb"),
       }
 
       File <| title == $binary or path == $binary |> {
-        before => Systemd::Service[$unit_name],
+        before => Systemd::Service[$name],
       }
     }
 
