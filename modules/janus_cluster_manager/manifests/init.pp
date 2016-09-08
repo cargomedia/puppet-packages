@@ -9,14 +9,14 @@ class janus_cluster_manager (
     system  => true,
   }
 
-  package { 'janus-cluster':
+  package { 'janus-cluster-manager':
     ensure   => $version,
     provider => 'npm',
   }
 
   daemon { 'janus-cluster-manager':
     binary  => '/usr/bin/node',
-    args    => "/usr/bin/janus-cluster --port ${port}",
+    args    => "/usr/bin/janus-cluster-manager --port ${port}",
     user    => 'janus-cluster-manager',
   }
 }
