@@ -25,7 +25,7 @@ class php5::extension::imagick (
   } else {
     $imagemagick_dir = '/etc/ImageMagick-6'
     # see bug report https://bugs.debian.org/cgi-bin/bugreport.cgi?bug=836958
-    apt::preference { ['imagemagick-common', 'libmagickcore-6.q16-2', 'libmagickwand-6.q16-2']:
+    apt::preference { ['imagemagick-common', 'libmagickcore-6.q16-2', 'libmagickwand-6.q16-2', 'libmagickcore-6.q16-2-extra']:
       pin => 'version 8:6.8.9.9-5+deb8u2',
     }
     ->
