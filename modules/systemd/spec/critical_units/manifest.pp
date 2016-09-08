@@ -1,6 +1,10 @@
 node default {
 
-  systemd::service { 'my-daemon':
+  systemd::service { 'foo':
+    content  => template('systemd/spec/my-daemon.service'),
+  }
+
+  systemd::service { 'bar':
     content  => template('systemd/spec/my-daemon.service'),
   }
 }

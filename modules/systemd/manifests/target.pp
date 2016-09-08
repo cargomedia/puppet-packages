@@ -10,7 +10,7 @@ define systemd::target(
     critical => $critical,
   }
 
-  file { "/etc/systemd/system/${unit_name}.wants":
+  file { "/etc/systemd/system/${unit_name}.d":
     ensure  => directory,
     owner   => '0',
     group   => '0',
