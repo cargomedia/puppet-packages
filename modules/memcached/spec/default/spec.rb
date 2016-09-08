@@ -6,11 +6,9 @@ describe 'memcached' do
     it { should be_listening }
   end
 
-  describe command('monit summary') do
-    its(:stdout) { should match /memcached/ }
-  end
-
-  describe file('/etc/memcached.conf') do
-    it { should contain '-c 99' }
+  describe process('memcached') do
+    its(:count) { should eq 1 }
+    its(:user) { should eq 'nobody' }
+    its(:args) { should match /-c 99\b/ }
   end
 end

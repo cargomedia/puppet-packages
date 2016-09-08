@@ -1,4 +1,5 @@
 class socket_redis (
+  $version = 'latest',
   $redisHost = 'localhost',
   $socketPorts = [8090],
   $logDir = '/var/log/socket-redis',
@@ -40,7 +41,7 @@ class socket_redis (
   }
 
   package { 'socket-redis':
-    ensure   => present,
+    ensure   => $version,
     provider => 'npm',
     notify   => Service['socket-redis'],
   }

@@ -15,6 +15,10 @@ define nginx::resource::location(
   $try_files            = undef,
   $location
 ) {
+
+  include 'nginx::config'
+  include 'nginx::params'
+
   File {
     owner  => 'root',
     group  => 'root',

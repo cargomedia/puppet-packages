@@ -1,5 +1,5 @@
 class mms::agent::monitoring (
-  $version = '5.0.0.309',
+  $version = '5.2.0.331',
   $api_key,
   $auth_username = undef,
   $auth_password = undef,
@@ -7,13 +7,13 @@ class mms::agent::monitoring (
   $mms_server = 'https://mms.mongodb.com'
 ){
 
-  # Docu: https://docs.mms.mongodb.com/tutorial/install-monitoring-agent-with-deb-package/
+# Docu: https://docs.mms.mongodb.com/tutorial/install-monitoring-agent-with-deb-package/
 
   require 'apt'
   require 'mms'
 
   $agent_name = 'mms-monitoring'
-  $daemon_args = "-conf /etc/mongodb-mms/monitoring-agent.config -concurrency=${concurrency}"
+  $config_file = '/etc/mongodb-mms/monitoring-agent.config'
 
   helper::script { 'install-mms-monitoring':
     content => template("${module_name}/install.sh"),
@@ -21,7 +21,7 @@ class mms::agent::monitoring (
     require => Class['apt::update'],
   }
 
-  file { '/etc/mongodb-mms/monitoring-agent.config':
+  file { $config_file:
     ensure  => file,
     content => template("${module_name}/conf-monitoring"),
     owner   => '0',
@@ -32,20 +32,11 @@ class mms::agent::monitoring (
   }
   ->
 
-  sysvinit::script { $agent_name:
-    content           => template("${module_name}/init"),
-    require           => Helper::Script['install-mms-monitoring'],
-  }
-  ->
-
-  service { $agent_name:
-    hasrestart => true,
-    enable     => true,
-  }
-
-  @monit::entry { 'mms-monitoring':
-    content => template("${module_name}/monit"),
-    require => Service[$agent_name],
+  daemon { $agent_name:
+    binary  => "/usr/bin/mongodb-${agent_name}-agent",
+    args    => "-conf ${config_file} -concurrency=${concurrency}",
+    user    => 'mongodb-mms-agent',
+    require => File[$config_file],
   }
 
 }

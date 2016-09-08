@@ -13,6 +13,5 @@ node default {
 
   sysvinit::script{ 'foo':
     content   => template('sysvinit/spec/script/foo'),
-    before    => Service['foo'],
   }
 }

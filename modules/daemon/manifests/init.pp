@@ -16,7 +16,8 @@ define daemon (
   $sysvinit_kill = false,
   $pre_command = undef,
   $post_command = undef,
-  $start_on_create = true,
+  $runtime_directory = undef,
+  $runtime_directory_mode = undef,
 ) {
 
   $virtual = $::facts['virtual']
@@ -27,7 +28,7 @@ define daemon (
   }
 
   if ($virtual == 'docker') {
-    file { "/docker-run-${title}":
+    file { "/docker-run-${name}":
       ensure  => file,
       content => template("${module_name}/docker.sh.erb"),
       owner   => '0',
@@ -36,17 +37,15 @@ define daemon (
     }
 
   } else {
-    service { $title:
+    service { $name:
       enable     => true,
       hasstatus  => true,
       hasrestart => true,
     }
 
     if ($service_provider == 'debian') {
-      sysvinit::script { $title:
+      sysvinit::script { $name:
         content => template("${module_name}/sysvinit.sh.erb"),
-        start_on_create => $start_on_create,
-        notify  => Service[$title],
       }
 
       File <| title == $binary or path == $binary |> {
@@ -56,20 +55,19 @@ define daemon (
     }
 
     if ($service_provider == 'systemd') {
-      systemd::unit { $title:
+      
+      systemd::service { $name:
         content => template("${module_name}/systemd.service.erb"),
-        start_on_create => $start_on_create,
-        notify  => Service[$title],
       }
 
       File <| title == $binary or path == $binary |> {
-        before => Systemd::Unit[$title],
+        before => Systemd::Service[$name],
       }
     }
 
-    @monit::entry { $title:
+    @monit::entry { $name:
       content => template("${module_name}/monit.${service_provider}.erb"),
-      require => Service[$title],
+      require => Service[$name],
     }
   }
 

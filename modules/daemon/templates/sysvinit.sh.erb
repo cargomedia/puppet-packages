@@ -50,6 +50,12 @@ case "${1}" in
 		<% if @pre_command %>
 		<%= @pre_command %>
 		<%- end %>
+		<% if @runtime_directory %>
+		mkdir -p /run/<%= @runtime_directory %>
+		<% if @runtime_directory_mode %>
+		chmod <%= @runtime_directory_mode %> /run/<%= @runtime_directory %>
+		<%- end %>
+		<%- end %>
 		if (start-stop-daemon --start --oknodo --make-pidfile --background --pidfile "${PIDFILE}" --chuid "${USER}" --startas "${DAEMON}" -- ${DAEMON_ARGS}); then
 		  timeout --signal=9 1 bash -c "while ! (test -e '${PIDFILE}'); do sleep 0.05; done";
 		  PID=$(cat "${PIDFILE}")

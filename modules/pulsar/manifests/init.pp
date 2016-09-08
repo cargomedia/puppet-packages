@@ -8,7 +8,7 @@ class pulsar ($repository = undef) {
   }
 
   if $repository {
-    environment::variable { 'PULSAR_CONF_REPO':
+    env::variable { 'PULSAR_CONF_REPO':
       value => $repository
     }
   }

@@ -1,0 +1,15 @@
+#!/bin/bash -e
+
+curl -sL "https://www.googleapis.com/download/storage/v1/b/chromium-browser-snapshots/o/Linux_x64%2f<%= @build %>%2fchrome-linux.zip?alt=media" > chrome-linux.zip
+rm -rf /usr/local/chrome-linux
+unzip -d /usr/local chrome-linux.zip
+chmod -R +r /usr/local/chrome-linux
+chmod +x /usr/local/chrome-linux
+find /usr/local/chrome-linux -type f -perm -700 -exec chmod +x {} \;
+
+cat <<EOF >/usr/bin/chromium-browser
+#!/bin/bash -e
+/usr/local/chrome-linux/chrome --disable-setuid-sandbox \$@
+EOF
+
+chmod +x /usr/bin/chromium-browser

@@ -1,4 +1,8 @@
-class postfix ($aliases = { }, $transports = []) {
+class postfix (
+  $aliases = { },
+  $relay = undef,
+  $relay_filters = [],
+) {
   require 'apt'
   require 'ca_certificates'
   include 'postfix::service'

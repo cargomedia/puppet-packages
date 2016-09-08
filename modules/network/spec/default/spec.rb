@@ -18,9 +18,6 @@ eth1_matches = [
 eth3_matches = [
   'iface eth3 inet manual',
   'address 10.10.40.10',
-  'netmask 255.255.255.0',
-  'gateway 10.10.40.1',
-  'mtu 16000',
 ]
 
 describe 'network' do

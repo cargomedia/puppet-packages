@@ -13,6 +13,7 @@ define network::interface (
   $wpa_ssid     = undef,
   $wpa_psk      = undef,
   $applyconfig  = true,
+  $snat = false,
 ) {
 
   include 'augeas'
@@ -59,4 +60,11 @@ define network::interface (
     }
   }
 
+  if $snat {
+    $network_interface = regsubst($device, '^([a-z]+\d?)(:?.?)*$', '\1')
+    network::snat { "SNAT on ${network_interface}":
+      interface => $network_interface,
+      source_address => $ipaddr,
+    }
+  }
 }

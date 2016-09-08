@@ -7,5 +7,4 @@ node default {
     communityName     => 'fuboo',
   }
 
-  require 'monit'
 }
