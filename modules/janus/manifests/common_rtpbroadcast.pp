@@ -31,7 +31,14 @@ class janus::common_rtpbroadcast(
       timeout     => 900,
     }
   } else {
+
+    apt::preference { ['janus-gateway-rtpbroadcast']:
+      pin => "version 0.0.22-${::facts['lsbdistcodename']}1",
+    }
+    ->
+
     package { 'janus-gateway-rtpbroadcast':
+      ensure   => present,
       provider => 'apt',
     }
   }
