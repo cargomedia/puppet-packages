@@ -1,6 +1,0 @@
-[Unit]
-<% if @wants -%>
-Wants=<%= @wants %>
-<% end -%>
-
-[Install]
