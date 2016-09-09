@@ -6,15 +6,11 @@ describe 'systemd::critical_units' do
     it { should be_file }
   end
 
-  describe file('/etc/systemd/system/critical-units.target.wants/my-daemon.service') do
-    it { should be_symlink }
+  describe command('systemctl list-dependencies --plain critical-units.target | grep foo.service') do
+    its(:exit_status) { should eq 0 }
   end
 
-  describe file('/etc/systemd/system/critical-units.target.wants/critical-units.target') do
-    it { should_not exist}
-  end
-
-  describe command('systemctl list-dependencies --plain critical-units.target | grep my-daemon.service') do
+  describe command('systemctl list-dependencies --plain critical-units.target | grep bar.service') do
     its(:exit_status) { should eq 0 }
   end
 
