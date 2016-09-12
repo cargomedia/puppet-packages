@@ -27,8 +27,12 @@
     "lo:0": {
       "method": "manual",
       "ipaddr": "192.168.20.122",
-      "netmask": "255.255.255.0",
-      "snat": true
+      "netmask": "255.255.255.0"
     }
-  }
+  },
+
+  "network::nat::ifname_private": "eth0",
+  "network::nat::ifname_public": "lo",
+  "network::nat::to_source": "192.168.20.122"
+
 }
