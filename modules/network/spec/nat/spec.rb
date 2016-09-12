@@ -11,7 +11,7 @@ describe 'network::nat' do
   end
 
   describe iptables do
-    it { should have_rule('-o eth0 -j MASQUERADE').with_table('nat').with_chain('POSTROUTING') }
+    it { should have_rule('-o eth0 -j SNAT --to-source 10.73.8.2').with_table('nat').with_chain('POSTROUTING') }
   end
 
   describe iptables do
