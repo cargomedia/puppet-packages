@@ -1,6 +1,7 @@
 node default {
 
   require 'network'
+  include 'network::nat'
 
   exec { 'Start listening on 1337':
     command     => 'nc -lvnp 1337 2>/tmp/stderr_output &',
