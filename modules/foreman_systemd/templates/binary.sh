@@ -21,15 +21,8 @@ install () {
   ROOT_DIR="${4}"
   LOCATION="${5}"
   
-  uninstall "${APP_NAME}" "${LOCATION}"
   foreman export systemd --user "${USER}" --formation "${FORMATION}" --app "${APP_NAME}" --root "${ROOT_DIR}" "${LOCATION}"
-}
-
-uninstall () {
-  APP_NAME="${1}"
-  LOCATION="${2}"
-  
-  rm -rf "${LOCATION}/${APP_NAME}"
+  systemctl daemon-reload
 }
 
 start () {
@@ -41,9 +34,8 @@ start () {
 
 stop () {
   APP_NAME="${1}"
-  
   systemctl disable "${APP_NAME}.target"
-  systemctl stop "${APP_NAME}.target"
+  if (systemctl --quiet is-active "${APP_NAME}.target"); then systemctl stop "${APP_NAME}.target"; fi
 }
 
 if [ "$1" == "" ]; then
@@ -117,18 +109,18 @@ esac
 
 case "${COMMAND}" in
   install)
-    install $APP_USER $FORMATION $APP_NAME $ROOT_DIR $LOCATION 
+    install "${APP_USER}" "${FORMATION}" "${APP_NAME}" "${ROOT_DIR}" "${LOCATION}" 
     ;;
   start)
-    start $APP_NAME
+    start "${APP_NAME}"
     ;;
   stop)
-    stop $APP_NAME
+    stop "${APP_NAME}"
     ;;
   reload)
-    stop $APP_NAME
-    install $APP_USER $FORMATION $APP_NAME $ROOT_DIR $LOCATION
-    start $APP_NAME
+    stop ${APP_NAME}
+    install "${APP_USER}" "${FORMATION}" "${APP_NAME}" "${ROOT_DIR}" "${LOCATION}"
+    start "${APP_NAME}"
     ;;
   *)
     echoerr "Invalid command ${COMMAND}"
