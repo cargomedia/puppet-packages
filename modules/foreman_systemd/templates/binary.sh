@@ -7,10 +7,10 @@ echoerr () {
 
 usage() { 
   echoerr "Usage:"
-  echoerr "  foreman-systemd install [-u <user>] [-f <formation>] [-l <location>] <app-name> <root-dir>"
+  echoerr "  foreman-systemd install [-u <user>] [-f <formation>] [-l <location>] [-w <wanted-by>] <app-name> <root-dir>"
   echoerr "  foreman-systemd start <app-name>"
   echoerr "  foreman-systemd stop <app-name>"
-  echoerr "  foreman-systemd reload [-u <user>] [-f <formation>] [-l <location>] <app-name> <root-dir>"
+  echoerr "  foreman-systemd reload [-u <user>] [-f <formation>] [-l <location>] [-w <wanted-by>] <app-name> <root-dir>"
   exit 1; 
 }
 
@@ -20,8 +20,15 @@ install () {
   APP_NAME="${3}"
   ROOT_DIR="${4}"
   LOCATION="${5}"
+  WANTED_BY="${6}"
   
   foreman export systemd --user "${USER}" --formation "${FORMATION}" --app "${APP_NAME}" --root "${ROOT_DIR}" "${LOCATION}"
+  
+  if [ "${WANTED_BY}" != "" ]; then
+    echo "[Unit]" > "/etc/systemd/system/${WANTED_BY}.d/wants-${APP_NAME}.target.conf"
+    echo "Wants=${APP_NAME}.target" >> "/etc/systemd/system/${WANTED_BY}.d/wants-${APP_NAME}.target.conf"
+  fi
+  
   systemctl daemon-reload
 }
 
@@ -61,7 +68,8 @@ case "${COMMAND}" in
     APP_USER="root"
     FORMATION="all=1"
     LOCATION="/etc/systemd/system"
-    while getopts "u:f:l:" o; do
+    WANTED_BY=""
+    while getopts "u:f:l:w:" o; do
         case "${o}" in
             u)
                 APP_USER="${OPTARG}"
@@ -71,6 +79,9 @@ case "${COMMAND}" in
                 ;;
             l)
                 LOCATION="${OPTARG}"
+                ;;
+            w)
+                WANTED_BY="${OPTARG}"
                 ;;
             *)
                 usage
@@ -109,7 +120,7 @@ esac
 
 case "${COMMAND}" in
   install)
-    install "${APP_USER}" "${FORMATION}" "${APP_NAME}" "${ROOT_DIR}" "${LOCATION}" 
+    install "${APP_USER}" "${FORMATION}" "${APP_NAME}" "${ROOT_DIR}" "${LOCATION}" "${WANTED_BY}" 
     ;;
   start)
     start "${APP_NAME}"
@@ -119,7 +130,7 @@ case "${COMMAND}" in
     ;;
   reload)
     stop ${APP_NAME}
-    install "${APP_USER}" "${FORMATION}" "${APP_NAME}" "${ROOT_DIR}" "${LOCATION}"
+    install "${APP_USER}" "${FORMATION}" "${APP_NAME}" "${ROOT_DIR}" "${LOCATION}" "${WANTED_BY}"
     start "${APP_NAME}"
     ;;
   *)
