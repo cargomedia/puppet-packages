@@ -29,6 +29,10 @@ mod 'cargomedia/foreman',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/foreman'
 
+mod 'cargomedia/foreman_systemd',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/foreman_systemd'
+
 mod 'cargomedia/mysql',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/mysql'

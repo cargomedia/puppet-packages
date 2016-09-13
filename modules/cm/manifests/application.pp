@@ -22,6 +22,7 @@ class cm::application (
   require 'browserify'
   require 'autoprefixer'
   require 'foreman::debian'
+  require 'foreman_systemd'
   require 'mysql::client'
 
   class { 'php5::extension::opcache':
