@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'kafka' do
+describe 'php5::extension::rdkafka' do
 
   describe package('librdkafka-dev') do
     it { should be_installed }
