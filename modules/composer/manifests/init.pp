@@ -10,6 +10,7 @@ class composer($version = '1.2.1') {
     path    => ['/usr/local/bin', '/usr/bin', '/bin'],
     unless  => "${binary} --version | grep -q 'Composer version ${version}'",
     require => [File[$binary]],
+    environment => ['HOME=sweet_home'],
   }
 
   file { $binary:
