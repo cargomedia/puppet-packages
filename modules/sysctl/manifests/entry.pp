@@ -2,7 +2,7 @@ define sysctl::entry ($entries) {
 
   $localEntries = $entries
 
-  file { "/etc/sysctl.d/${name}":
+  file { "/etc/sysctl.d/${name}.conf":
     ensure  => file,
     content => template("${module_name}/sysctl"),
     owner   => '0',
