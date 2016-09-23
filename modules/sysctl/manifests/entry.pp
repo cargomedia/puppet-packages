@@ -2,7 +2,9 @@ define sysctl::entry ($entries) {
 
   $localEntries = $entries
 
-  file { "/etc/sysctl.d/${name}.conf":
+  $entry_file = "/etc/sysctl.d/${name}.conf"
+
+  file { $entry_file:
     ensure  => file,
     content => template("${module_name}/sysctl"),
     owner   => '0',
@@ -11,7 +13,7 @@ define sysctl::entry ($entries) {
   }
   ~>
 
-  exec { "/sbin/sysctl -p /etc/sysctl.d/${name}":
+  exec { "/sbin/sysctl -p ${entry_file}":
     refreshonly => true,
   }
 }
