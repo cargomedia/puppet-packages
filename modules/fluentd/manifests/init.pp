@@ -4,6 +4,7 @@ class fluentd {
 
   ruby::gem { 'fluentd':
     ensure => $fluentd_version,
+    notify  => Daemon['fluentd'],
   }
 
   file { '/etc/fluentd':
