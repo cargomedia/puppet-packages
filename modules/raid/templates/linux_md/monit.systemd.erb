@@ -1,2 +1,2 @@
-check program raid-md path "/bin/systemctl status <%= @mdamd_service_name %>"
+check program raid-md path "/bin/systemctl status <%= @mdadm_service_name %>"
   if status != 0 then alert
