@@ -57,11 +57,6 @@ define cm::vhost(
     ssl_key             => $ssl_key,
     ssl_port            => $ssl_port,
     location_cfg_append => [
-      'gzip on;',
-      'gzip_proxied any;',
-      'gzip_http_version 1.0;',
-      'gzip_min_length 1000;',
-      'gzip_types application/json application/x-javascript text/css text/plain application/xml image/svg+xml;',
       'include fastcgi_params;',
       'set_real_ip_from 0.0.0.0/0;',
       "fastcgi_param SCRIPT_FILENAME ${path}/public/index.php;",
@@ -105,11 +100,6 @@ define cm::vhost(
     ssl                 => true,
     ssl_only            => true,
     location_cfg_append => [
-      'gzip on;',
-      'gzip_proxied any;',
-      'gzip_http_version 1.0;',
-      'gzip_min_length 1000;',
-      'gzip_types application/x-javascript text/css text/plain application/xml image/svg+xml;',
       'include fastcgi_params;',
       'set_real_ip_from 0.0.0.0/0;',
       "fastcgi_param SCRIPT_FILENAME ${path}/public/index.php;",
@@ -127,12 +117,6 @@ define cm::vhost(
     www_root            => "${path}/public",
     location_cfg_append => [
       'expires 1y;',
-      'gzip on;',
-      'gzip_proxied any;',
-      'gzip_http_version 1.0;',
-      'gzip_min_length 1000;',
-      'gzip_types application/x-javascript text/css text/plain application/xml image/svg+xml;',
-
       'add_header	Access-Control-Allow-Origin	*;',
     ],
   }
@@ -145,11 +129,6 @@ define cm::vhost(
     www_root            => "${path}/public",
     location_cfg_append => [
       'expires 1y;',
-      'gzip on;',
-      'gzip_proxied any;',
-      'gzip_http_version 1.0;',
-      'gzip_min_length 1000;',
-      'gzip_types application/x-javascript text/css text/plain application/xml image/svg+xml;',
     ],
   }
 }
