@@ -58,10 +58,6 @@ class satis(
     ssl_key             => $ssl_key,
     location_cfg_append => [
       'root /var/lib/satis/public/;',
-      'gzip on;',
-      'gzip_proxied any;',
-      'gzip_http_version 1.0;',
-      'gzip_types application/json text/plain;',
     ],
   }
 }
