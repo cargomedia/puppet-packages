@@ -16,7 +16,11 @@ http {
 
   sendfile                  <%= scope.lookupvar('nginx::params::nx_sendfile')%>;
   <% if scope.lookupvar('nginx::params::nx_gzip') == 'on'%>
-  gzip                      on;
+  gzip                        on;
+  gzip_proxied                any;
+  gzip_http_version           1.0;
+  gzip_min_length             1000;
+  gzip_types application/json application/x-javascript text/css text/plain application/xml image/svg+xml;
   <% end %>
   client_max_body_size      <%= @client_max_body_size %>;
   keepalive_timeout         <%= @keepalive_timeout %>;
