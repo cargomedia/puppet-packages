@@ -1,10 +1,10 @@
 class fluentd {
 
-  # Version 0.14.0 breaks
-  $fluentd_version = '0.12.26'
+  $fluentd_version = '0.14.6'
 
   ruby::gem { 'fluentd':
     ensure => $fluentd_version,
+    notify  => Daemon['fluentd'],
   }
 
   file { '/etc/fluentd':
