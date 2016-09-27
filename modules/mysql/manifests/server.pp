@@ -1,9 +1,9 @@
 class mysql::server (
   $root_password = '',
   $debian_sys_maint_password = '',
-  $max_connections = 151,
-  $thread_cache_size = 0,
-  $key_buffer_size = '8M',
+  $max_connections = 1500,
+  $thread_cache_size = 1500,
+  $key_buffer_size = '8G',
 ) {
 
   require 'apt'
