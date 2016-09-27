@@ -1,4 +1,10 @@
-class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
+class mysql::server (
+  $root_password = '',
+  $debian_sys_maint_password = '',
+  $max_connections = 151,
+  $thread_cache_size = 0,
+  $key_buffer_size = '8M',
+) {
 
   require 'apt'
 
@@ -38,7 +44,7 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
 
   file { '/etc/mysql/my.cnf':
     ensure  => file,
-    content => template("${module_name}/my.cnf"),
+    content => template("${module_name}/my.cnf.erb"),
     owner   => 'root',
     group   => 'mysql',
     mode    => '0640',
