@@ -1,0 +1,14 @@
+# NAT table rules (Added by puppet)
+*nat
+:POSTROUTING ACCEPT [0:0]
+# Modify outgoing traffic's source IP
+-A POSTROUTING -o <%= @ifname_public %> -j SNAT --to-source <%= @to_source %>
+COMMIT
+
+*filter
+:puppet-nat - [0:0]
+# Allow outgoing traffic
+-A puppet-nat -i <%= @ifname_private %> -o <%= @ifname_public %> -j ACCEPT
+# Allow incoming established traffic
+-A puppet-nat -m state --state RELATED,ESTABLISHED -i <%= @ifname_public %> -o <%= @ifname_private %> -j ACCEPT
+COMMIT
