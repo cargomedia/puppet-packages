@@ -23,10 +23,10 @@ describe 'network::nat_snat' do
   end
 
   describe iptables do
-    it { should have_rule('-i lo -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT').with_table('filter').with_chain('FORWARD') }
+    it { should have_rule('-i lo -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT').with_table('filter').with_chain('puppet-nat') }
   end
 
   describe iptables do
-    it { should have_rule('-i eth0 -o lo -j ACCEPT').with_table('filter').with_chain('FORWARD') }
+    it { should have_rule('-i eth0 -o lo -j ACCEPT').with_table('filter').with_chain('puppet-nat') }
   end
 end

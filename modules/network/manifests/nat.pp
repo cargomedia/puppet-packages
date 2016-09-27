@@ -4,27 +4,35 @@ class network::nat (
   $to_source,
 ) {
 
+  require 'ufw'
+
   sysctl::entry { 'ip4_forward':
     entries => {
       'net.ipv4.ip_forward' => '1',
     }
   }
 
-  iptables::entry { 'Set up NAT':
-    table => 'nat',
-    chain => 'POSTROUTING',
-    rule  => "-o ${ifname_public} -j SNAT --to-source ${to_source}",
+  file {
+    '/etc/ufw/before.d':
+      ensure  => directory,
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
+      notify  => Exec['Rebuild before.rules'];
+    '/etc/ufw/before.d/snat':
+      ensure  => file,
+      content => template("${module_name}/snat.rules.erb"),
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
+      notify  => Class['ufw::service'];
+    '/etc/ufw/before.d/default-dist':
+      ensure  => file,
+      content => template("${module_name}/default-dist.rules.erb"),
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
+      notify  => Class['ufw::service'];
   }
-  ->
 
-  iptables::entry { 'Allow inbound traffic for established connection':
-    chain => 'FORWARD',
-    rule  => "-i ${ifname_public} -o ${ifname_private} -m state --state RELATED,ESTABLISHED -j ACCEPT",
-  }
-  ->
-
-  iptables::entry { 'Allow outbound traffic':
-    chain => 'FORWARD',
-    rule  => "-i ${ifname_private} -o ${ifname_public} -j ACCEPT",
-  }
 }
