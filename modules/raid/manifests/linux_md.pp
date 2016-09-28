@@ -44,5 +44,5 @@ class raid::linux_md {
     enable    => true,
   }
   
-  @systemd::critical_unit { $mdamd_service_name: }
+  @systemd::critical_unit { $mdadm_service_name: }
 }
