@@ -1,9 +1,9 @@
 {
-  "name": "cargomedia-kafka",
+  "name": "cargomedia-foreman_systemd",
   "version": "0.0.1",
   "author": "Cargo Media",
   "license": "MIT",
-  "summary": "kafka php extension",
+  "summary": "foreman-systemd",
   "source": "https://github.com/cargomedia/puppet-packages",
   "operatingsystem_support": [
     {
