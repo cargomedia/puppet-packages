@@ -45,11 +45,8 @@ class redis {
   package { 'redis-server':
     provider => 'apt',
   }
-
-  @monit::entry { 'redis':
-    content => template("${module_name}/monit.${init_system}.erb"),
-    require => Package['redis-server'],
-  }
+  
+  @systemd::critical_unit { 'redis-server.service': }
 
   @bipbip::entry { 'redis':
     plugin  => 'redis',

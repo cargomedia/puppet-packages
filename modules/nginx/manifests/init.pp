@@ -42,8 +42,5 @@ class nginx (
 
   class { 'nginx::service': }
 
-  @monit::entry { 'nginx':
-    content => template("${module_name}/monit/nginx"),
-    require => Service['nginx'],
-  }
+  @systemd::critical_unit { 'nginx.service': }
 }

@@ -70,10 +70,7 @@ class php5::fpm {
     subscribe => Class['php5::config_extension_change'],
   }
 
-  @monit::entry { 'php5-fpm':
-    content => template("${module_name}/fpm/monit"),
-    require => Service['php5-fpm'],
-  }
+  @systemd::critical_unit { 'php5-fpm.service': }
 
   @bipbip::entry { 'php5-fpm':
     plugin  => 'fastcgi-php-fpm',

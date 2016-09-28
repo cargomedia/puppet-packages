@@ -110,9 +110,6 @@ class puppetserver(
     }
   }
 
-  @monit::entry { 'puppetserver':
-    content => template("${module_name}/puppetserver/monit"),
-    require => Service['puppetserver'],
-  }
+  @systemd::critical_unit { 'puppetserver.service': }
 
 }

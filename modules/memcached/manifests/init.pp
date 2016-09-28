@@ -29,11 +29,6 @@ class memcached (
       notify  => Service['memcached'],
     }
 
-    @monit::entry { 'memcached':
-      content => template("${module_name}/monit"),
-      require => Service['memcached'],
-    }
-
   } else {
 
     exec { 'true && /etc/init.d/memcached stop':

@@ -125,11 +125,6 @@ class mysql::server ($root_password = '', $debian_sys_maint_password = '') {
       ]
     }
 
-    @monit::entry { 'mysql':
-      content => template("${module_name}/monit"),
-      require => Service['mysql'],
-    }
-
   } else {
 
     file { '/usr/share/mysql/mysql-systemd-start':

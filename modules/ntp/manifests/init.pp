@@ -13,8 +13,5 @@ class ntp {
     require    => Package['ntp'],
   }
 
-  @monit::entry { 'ntp':
-    content => template("${module_name}/monit"),
-    require => Service['ntp'],
-  }
+  @systemd::critical_unit { 'ntp.service': }
 }
