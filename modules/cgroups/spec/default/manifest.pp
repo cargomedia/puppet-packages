@@ -1,5 +1,0 @@
-node default {
-
-  class { 'cgroups': }
-
-}
