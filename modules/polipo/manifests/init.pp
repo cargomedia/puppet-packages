@@ -1,8 +1,8 @@
 class polipo(
   $diskCacheRoot = '/var/cache/polipo',
   $idleTime = 20,
-  $chunkHighMark = 819200,
-  $objectHighMark = 128,
+  $chunkHighMark = 8338608,
+  $objectHighMark = 512,
 ) {
 
   require 'apt'
