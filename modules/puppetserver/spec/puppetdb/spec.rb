@@ -24,8 +24,9 @@ describe 'puppetserver::puppetdb' do
     it { should be_listening }
   end
 
-  describe command('monit summary') do
-    its(:stdout) { should match /'puppetdb'.*Running/ }
+  describe service('puppetdb') do
+    it { should be_enabled }
+    it { should be_running }
   end
 
 end

@@ -1,7 +1,5 @@
 node default {
 
-  require 'monit'
-
   file { '/tmp/my-program':
     ensure  => file,
     owner   => 'root',

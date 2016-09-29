@@ -1,7 +1,5 @@
 node default {
 
-  require 'monit'
-
   class { 'pulsar_rest_api':
     mongodb_host   => 'localhost',
     mongodb_port   => 27017,
