@@ -8,11 +8,6 @@ class ufw {
     provider => 'apt',
   }
 
-  $rsyslog_stop_command = $::facts['lsbdistcodename'] ? {
-    'wheezy' => '~',
-    default => 'stop',
-  }
-
   file { '/etc/ufw/applications.d':
     ensure  => directory,
     owner   => '0',
