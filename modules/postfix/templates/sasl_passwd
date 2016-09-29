@@ -1,3 +1,8 @@
-<% @transports.each do |transport| -%>
-<% if transport['credentials'] %><%= transport['host'] %> <%= transport['credentials'] %><% end %>
+<% if @relay and @relay['credentials'] -%>
+<%= @relay['host'] %>:<%= @relay['port'] %> <%= @relay['credentials'] %>
+<% end -%>
+<% @relay_filters.each do |relay| -%>
+<% if relay['credentials'] -%>
+<%= relay['host'] %>:<%= relay['port'] %> <%= relay['credentials'] %>
+<% end -%>
 <% end %>

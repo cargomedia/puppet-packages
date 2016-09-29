@@ -3,9 +3,9 @@ class raid::linux_md {
   require 'apt'
 
   if ($::facts['lsbdistcodename'] == 'vivid') {
-    $mdamd_service_name = 'mdadm'
+    $mdadm_service_name = 'mdadm'
   } else {
-    $mdamd_service_name = 'mdadm-raid'
+    $mdadm_service_name = 'mdadm-raid'
   }
 
   file { '/etc/mdadm':
@@ -21,7 +21,7 @@ class raid::linux_md {
     group   => '0',
     owner   => '0',
     mode    => '0644',
-    notify  => Service[$mdamd_service_name],
+    notify  => Service[$mdadm_service_name],
     before  => Package['mdadm'],
   }
 
@@ -39,13 +39,13 @@ class raid::linux_md {
   }
   ->
 
-  service { $mdamd_service_name:
+  service { $mdadm_service_name:
     hasstatus => false,
     enable    => true,
   }
 
   @monit::entry { 'mdadm-status':
     content => template("${module_name}/linux_md/monit.${::facts['service_provider']}.erb"),
-    require => Service[$mdamd_service_name],
+    require => Service[$mdadm_service_name],
   }
 }

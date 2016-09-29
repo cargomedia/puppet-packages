@@ -22,6 +22,7 @@ class cm::application (
   require 'browserify'
   require 'autoprefixer'
   require 'foreman::debian'
+  require 'foreman_systemd'
   require 'mysql::client'
 
   class { 'php5::extension::opcache':
@@ -31,5 +32,12 @@ class cm::application (
   if $development {
     require 'php5::extension::xdebug'
     require 'phantomjs'
+  }
+
+  $service_provider = $::facts['service_provider']
+  
+  if ($service_provider == 'systemd') {
+    systemd::target { 'cm-applications':
+    }
   }
 }

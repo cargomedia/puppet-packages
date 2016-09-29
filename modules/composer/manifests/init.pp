@@ -1,4 +1,4 @@
-class composer($version = '1.0.0-alpha10') {
+class composer($version = '1.2.1') {
 
   require 'php5'
 
@@ -8,8 +8,9 @@ class composer($version = '1.0.0-alpha10') {
   exec { "curl ${phar}":
     command => "curl -sL http://getcomposer.org/download/${version}/composer.phar > ${phar}",
     path    => ['/usr/local/bin', '/usr/bin', '/bin'],
-    unless  => "${binary} --version | grep -w '${version}'",
+    unless  => "${binary} --version | grep -qw 'Composer version ${version}'",
     require => [File[$binary]],
+    environment => ['HOME=sweet_home'],
   }
 
   file { $binary:

@@ -59,10 +59,6 @@ class revive (
     location_cfg_append => [
       'root /var/revive/www;',
       'index index.php;',
-      'gzip on;',
-      'gzip_proxied any;',
-      'gzip_http_version 1.0;',
-      'gzip_types application/x-javascript text/css text/plain application/xml image/svg+xml;',
     ],
   }
 

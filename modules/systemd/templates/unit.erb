@@ -1,0 +1,9 @@
+[Unit]
+<% if @unit_configuration['wants']-%>
+Wants=<%= @unit_configuration['wants'] %>
+<% end -%>
+
+[Install]
+<% if @unit_configuration['wanted_by'] -%>
+WantedBy=<%= @unit_configuration['wanted_by'] %>
+<% end -%>

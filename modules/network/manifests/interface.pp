@@ -58,5 +58,4 @@ define network::interface (
       subscribe   => Augeas["main-${device}"],
     }
   }
-
 }

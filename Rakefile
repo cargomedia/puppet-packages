@@ -76,6 +76,6 @@ namespace :spec do
   end
 
   task :cleanup do
-    sh 'vagrant', 'halt', '--force'
+    Komenda.run(['vagrant', 'halt', '--force'], fail_on_fail: true)
   end
 end

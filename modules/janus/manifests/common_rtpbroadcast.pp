@@ -31,7 +31,9 @@ class janus::common_rtpbroadcast(
       timeout     => 900,
     }
   } else {
+
     package { 'janus-gateway-rtpbroadcast':
+      ensure   => present,
       provider => 'apt',
     }
   }

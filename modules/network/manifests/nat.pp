@@ -1,6 +1,7 @@
 class network::nat (
   $ifname_public,
-  $ifname_private
+  $ifname_private,
+  $to_source,
 ) {
 
   sysctl::entry { 'ip4_forward':
@@ -12,7 +13,7 @@ class network::nat (
   iptables::entry { 'Set up NAT':
     table => 'nat',
     chain => 'POSTROUTING',
-    rule  => "-o ${ifname_public} -j MASQUERADE",
+    rule  => "-o ${ifname_public} -j SNAT --to-source ${to_source}",
   }
   ->
 

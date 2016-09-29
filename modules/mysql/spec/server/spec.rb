@@ -17,7 +17,12 @@ describe 'mysql::server' do
   end
 
   describe command('mysql -e "show status"') do
-    its(:exit_status) { should eq 0 }
     its(:stdout) { should match('Uptime') }
+  end
+
+  describe command('mysql -e "show variables"' ) do
+    its(:stdout) { should match /key_buffer_size+.+8388608$/ }
+    its(:stdout) { should match /thread_cache_size+.+20$/ }
+    its(:stdout) { should match /max_connections+.+10$/ }
   end
 end

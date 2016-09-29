@@ -18,7 +18,7 @@ define janus::server (
   $core_dump = true,
   $ssl_cert = undef,
   $ssl_key = undef,
-  $log_level = 3,
+  $log_level = 4,
 ) {
 
   require 'janus::common'
@@ -64,11 +64,11 @@ define janus::server (
     path    => $log_file,
   }
 
-  @fluentd::config::source_tail{ $instance_name:
-    path        => $log_file,
-    fluentd_tag => 'janus',
-    format      => '/(\[(?<time>[^\]]+)\] )?(?<message>.*)/',
-  }
+#  @fluentd::config::source_tail{ $instance_name:
+#    path        => $log_file,
+#    fluentd_tag => 'janus',
+#    format      => '/(\[(?<time>[^\]]+)\] )?(?<message>.*)/',
+#  }
 
   file {
     $config_file:

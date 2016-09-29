@@ -1,4 +1,3 @@
-<% @transports.each do |transport| -%>
-<% transport['filter'] = '//' if transport['filter'] == nil %>
-<%= transport['filter'] %> FILTER <%= transport['protocol'] %>:[<%= transport['host'] %>]:<%= transport['port'] %>
+<% @relay_filters.each do |relay| -%>
+<%= relay['filter'] %> FILTER <%= relay['transport'] %>:<%= relay['host'] %>:<%= relay['port'] %>
 <% end %>
