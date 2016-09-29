@@ -3,27 +3,12 @@ class redis {
   require 'apt'
   include 'redis::service'
 
-  $config_file = $::facts['lsbdistcodename'] ? {
-    'wheezy' => 'redis-2.4.conf',
-    default  => 'redis-2.6.conf',
-  }
-
-  if $::facts['lsbdistcodename'] == 'wheezy' {
-    $sysctl_entries = {
-      'vm.overcommit_memory' => '1',
-    }
-    $init_system = 'sysvinit'
-  } else {
-    $sysctl_entries = {
+  sysctl::entry { 'redis':
+    entries => {
       'vm.overcommit_memory'         => '1',
       'net.core.somaxconn'           => 512,
       'net.ipv4.tcp_max_syn_backlog' => 512,
-    }
-    $init_system = 'systemd'
-  }
-
-  sysctl::entry { 'redis':
-    entries => $sysctl_entries,
+    },
   }
 
   file { '/etc/redis':
@@ -35,7 +20,7 @@ class redis {
 
   file { '/etc/redis/redis.conf':
     ensure  => file,
-    content => template("${module_name}/${config_file}"),
+    content => template("${module_name}/redis.conf"),
     owner   => '0',
     group   => '0',
     mode    => '0644',
@@ -47,7 +32,7 @@ class redis {
   }
 
   @monit::entry { 'redis':
-    content => template("${module_name}/monit.${init_system}.erb"),
+    content => template("${module_name}/monit.erb"),
     require => Package['redis-server'],
   }
 
