@@ -32,10 +32,12 @@ class monit ($emailTo = 'root@localhost', $emailFrom = undef, $allowedHosts = []
   ->
 
   file { '/etc/monit/conf.d':
-    ensure => directory,
-    group  => '0',
-    owner  => '0',
-    mode   => '0755',
+    ensure  => directory,
+    group   => '0',
+    owner   => '0',
+    mode    => '0755',
+    purge   => true,
+    recurse => true,
   }
   ->
 
