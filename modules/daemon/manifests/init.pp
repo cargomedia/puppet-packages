@@ -53,7 +53,7 @@ define daemon (
       }
 
       @monit::entry { $name:
-        content => template("${module_name}/monit.${service_provider}.erb"),
+        content => template("${module_name}/monit.debian.erb"),
         require => Service[$name],
       }
     }
