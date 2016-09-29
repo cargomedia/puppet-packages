@@ -52,6 +52,10 @@ define daemon (
         before => Sysvinit::Script[$title],
       }
 
+      @monit::entry { $name:
+        content => template("${module_name}/monit.${service_provider}.erb"),
+        require => Service[$name],
+      }
     }
 
     if ($service_provider == 'systemd') {
@@ -63,11 +67,6 @@ define daemon (
       File <| title == $binary or path == $binary |> {
         before => Systemd::Service[$name],
       }
-    }
-
-    @monit::entry { $name:
-      content => template("${module_name}/monit.${service_provider}.erb"),
-      require => Service[$name],
     }
   }
 
