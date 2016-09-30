@@ -13,7 +13,7 @@ describe 'pulsar_rest_api' do
   describe file('/etc/pulsar-rest-api/config.yml') do
     its(:content) { should include "repo: 'foo/bar'" }
     its(:content) { should include "branch: 'master'" }
-    its(:content) { should include "githubOauthSecret: 'secret'"}
+    its(:content) { should include "githubOauthSecret: 'secret'" }
     its(:content) { should include 'read: ["read-org", "read-user"]' }
     its(:content) { should include 'write: ["write-org"]' }
   end
@@ -27,7 +27,8 @@ describe 'pulsar_rest_api' do
     its(:stdout) { should match 'location: https://github.com/login/oauth/authorize' }
   end
 
-  describe command('monit summary') do
-    its(:stdout) { should match 'pulsar-rest-api' }
+  describe service('pulsar-rest-api') do
+    it { should be_enabled }
+    it { should be_running }
   end
 end
