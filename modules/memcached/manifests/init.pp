@@ -28,13 +28,10 @@ class memcached (
     group   => 0;
   }
 
-  $user = 'memcache'
-
   daemon { 'memcached':
     binary  => '/usr/bin/memcached',
-    args    => "-p ${port} -m ${memory} -u ${user} -l ${bind_ip} -c ${max_connections} -v",
+    args    => "-p ${port} -m ${memory} -u memcache -l ${bind_ip} -c ${max_connections} -v",
     require => Package['memcached'],
-    user    => $user,
   }
 
   @bipbip::entry { 'memcached':
