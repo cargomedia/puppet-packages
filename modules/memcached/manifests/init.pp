@@ -11,12 +11,13 @@ class memcached (
     ensure   => present,
     provider => 'apt',
   }
+  ~>
 
   exec { 'systemctl stop memcached;systemctl disable memcached':
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     provider    => shell,
-    require     => Package['memcached'],
     before      => [File['/etc/init.d/memcached'], Daemon['memcached']],
+    refreshonly => true,
   }
 
   file { '/etc/init.d/memcached':
