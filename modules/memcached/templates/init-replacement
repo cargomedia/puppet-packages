@@ -1,0 +1,66 @@
+#!/bin/bash
+
+# memcached - Should no longer use this script. Puppet will use this script to confirm it has replaced the
+# default package script
+
+### BEGIN INIT INFO
+# Provides:            memcached
+# Required-Start:      $remote_fs $syslog
+# Required-Stop:       $remote_fs $syslog
+# Should-Start:        $local_fs
+# Should-Stop:         $local_fs
+# Default-Start:       2 3 4 5
+# Default-Stop:        0 1 6
+# Short-Description:   Start memcached daemon
+# Description:         Start up memcached, a high-performance memory caching daemon
+### END INIT INFO
+
+
+start()
+{
+  echo -n "This is a dummy script. Please use systemctl"
+  echo
+  [ $RETVAL -eq 0 ]
+}
+
+stop()
+{
+  echo -n "This is a dummy script. Please use systemctl"
+  echo
+  [ $RETVAL -eq 0 ]
+}
+
+restart () {
+  echo -n "This is a dummy script. Please use systemctl"
+  echo
+  [ $RETVAL -eq 0 ]
+}
+
+status () {
+  exit 1;
+}
+
+RETVAL=0
+
+case "$1" in
+  start)
+    start
+    ;;
+  stop)
+    stop
+    ;;
+  restart|reload|force-reload)
+    restart
+    ;;
+  condrestart)
+    restart
+    ;;
+  status)
+    status
+    ;;
+  *)
+    echo -n "This is a dummy script. Please use systemctl"
+    RETVAL=1
+esac
+
+exit $RETVAL
