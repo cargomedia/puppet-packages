@@ -23,8 +23,4 @@ describe 'gearman::server' do
     its(:stdout) { should match /--job-retries=255/ }
     its(:stdout) { should_not match /--listen/ }
   end
-
-  describe command('monit summary') do
-    its(:stdout) { should match /gearman-job-server.+[Running|ok]/ }
-  end
 end
