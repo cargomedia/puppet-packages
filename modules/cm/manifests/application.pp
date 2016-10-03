@@ -34,10 +34,5 @@ class cm::application (
     require 'phantomjs'
   }
 
-  $service_provider = $::facts['service_provider']
-  
-  if ($service_provider == 'systemd') {
-    systemd::target { 'cm-applications':
-    }
-  }
+  systemd::target { 'cm-applications': }
 }

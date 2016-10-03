@@ -12,10 +12,6 @@ describe 'cm_janus' do
     its(:content) { should match /jobRetryDelay: 300/ }
   end
 
-  describe file('/etc/monit/conf.d/cm-janus') do
-    it { should be_file }
-  end
-
   describe file('/var/log/cm-janus/cm-janus.log') do
     it { should be_file }
   end

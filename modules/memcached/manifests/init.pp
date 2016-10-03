@@ -2,7 +2,6 @@ class memcached (
   $bind_ip = '0.0.0.0',
   $port = 11211,
   $memory = 2048,
-  $user = 'nobody',
   $max_connections = 10000
 ) {
 
@@ -13,49 +12,35 @@ class memcached (
     provider => 'apt',
   }
 
-  if $::facts['lsbdistcodename'] == 'wheezy' {
+  exec { 'systemctl stop memcached;systemctl disable memcached':
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    provider    => shell,
+    require     => Package['memcached'],
+    before      => [File['/etc/init.d/memcached'], Daemon['memcached']],
+  }
 
-    service { 'memcached':
-      enable  => true,
-      require => Package['memcached'],
-    }
+  file { '/etc/init.d/memcached':
+    ensure  => file,
+    content => template("${module_name}/init-replacement"),
+    mode    => '0755',
+    owner   => 0,
+    group   => 0;
+  }
 
-    file { '/etc/memcached.conf':
-      ensure  => file,
-      content => template("${module_name}/memcached.conf"),
-      owner   => '0',
-      group   => '0',
-      mode    => '0644',
-      notify  => Service['memcached'],
-    }
+  $user = 'memcache'
 
-    @monit::entry { 'memcached':
-      content => template("${module_name}/monit"),
-      require => Service['memcached'],
-    }
-
-  } else {
-
-    exec { 'true && /etc/init.d/memcached stop':
-      path         => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-      provider     => shell,
-      subscribe    => Package['memcached'],
-      refreshonly  => true,
-    }
-
-    daemon { 'memcached':
-      binary  => '/usr/bin/memcached',
-      args    => "-p ${port} -m ${memory} -u ${user} -l ${bind_ip} -c ${max_connections} -v",
-      require => Package['memcached'],
-    }
-
+  daemon { 'memcached':
+    binary  => '/usr/bin/memcached',
+    args    => "-p ${port} -m ${memory} -u ${user} -l ${bind_ip} -c ${max_connections} -v",
+    require => Package['memcached'],
+    user    => $user,
   }
 
   @bipbip::entry { 'memcached':
     plugin  => 'memcached',
     options => {
       'hostname' => 'localhost',
-      'port' => $port,
+      'port'     => $port,
     }
   }
 }

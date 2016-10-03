@@ -1,7 +1,5 @@
 node default {
 
-  require 'monit'
-
   cm_janus { 'cm-janus':
     http_server_port    =>  8800,
     http_server_api_key =>  'foobar23',

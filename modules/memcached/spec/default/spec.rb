@@ -8,7 +8,7 @@ describe 'memcached' do
 
   describe process('memcached') do
     its(:count) { should eq 1 }
-    its(:user) { should eq 'nobody' }
+    its(:user) { should eq 'memcache' }
     its(:args) { should match /-c 99\b/ }
   end
 end

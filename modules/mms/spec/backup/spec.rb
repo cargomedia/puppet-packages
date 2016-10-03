@@ -10,8 +10,4 @@ describe 'mms::backup' do
   describe file ('/etc/mongodb-mms/backup-agent.config') do
     its(:content) { should match /mmsApiKey=test-key/ }
   end
-
-  describe command('monit summary') do
-    its(:stdout) { should match /[Process|Program] 'mms-backup'/ }
-  end
 end

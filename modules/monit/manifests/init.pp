@@ -36,6 +36,8 @@ class monit ($emailTo = 'root@localhost', $emailFrom = undef, $allowedHosts = []
     group  => '0',
     owner  => '0',
     mode   => '0755',
+    purge   => true,
+    recurse => true,
   }
   ->
 
