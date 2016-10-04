@@ -43,6 +43,9 @@ class raid::linux_md {
     hasstatus => false,
     enable    => true,
   }
-  
-  @systemd::critical_unit { $mdadm_service_name: }
+
+  @monit::entry { 'mdadm-status':
+    content => template("${module_name}/linux_md/monit.erb"),
+    require => Service[$mdadm_service_name],
+  }
 }
