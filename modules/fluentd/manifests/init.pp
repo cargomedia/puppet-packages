@@ -66,7 +66,6 @@ class fluentd {
     binary        => '/usr/local/bin/fluentd',
     args          => '-c /etc/fluentd/fluent.conf -o /var/log/fluentd/fluentd.log --no-supervisor',
     user          => 'fluentd',
-    sysvinit_kill => true,
     require       => [Ruby::Gem['fluentd'], File['/etc/fluentd/fluent.conf'], File['/var/log/fluentd'], User['fluentd']],
   }
 

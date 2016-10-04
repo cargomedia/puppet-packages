@@ -2,17 +2,9 @@ mod 'cargomedia/nodejs',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/nodejs'
 
-mod 'cargomedia/monit',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/monit'
-
 mod 'cargomedia/logrotate',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/logrotate'
-
-mod 'cargomedia/sysvinit',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/sysvinit'
 
 mod 'cargomedia/bipbip',
   :git => 'git@github.com:cargomedia/puppet-packages.git',

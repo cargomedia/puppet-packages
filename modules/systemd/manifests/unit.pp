@@ -19,7 +19,7 @@ define systemd::unit(
 
   exec { "systemctl start ${name}":
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    unless      => "systemctl status ${name}",
+    unless      => "systemctl is-active ${name}",
     refreshonly => true,
   }
 

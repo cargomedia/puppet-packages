@@ -116,44 +116,25 @@ class mysql::server (
     }
   }
 
-  if $::facts['lsbdistcodename'] == 'wheezy' {
+  file { '/usr/share/mysql/mysql-systemd-start':
+    ensure  => file,
+    content => template("${module_name}/mysql-systemd-start.sh.erb"),
+    owner   => '0',
+    group   => '0',
+    mode    => '0755',
+    require => Package['mysql-server'],
+  }
 
-    include 'mysql::service'
-
-    ulimit::entry { 'mysql':
-      limits => [
-        {
-          'domain' => 'mysql',
-          'type'   => '-',
-          'item'   => 'nofile',
-          'value'  => 16384,
-        }
-      ]
-    }
-
-  } else {
-
-    file { '/usr/share/mysql/mysql-systemd-start':
-      ensure  => file,
-      content => template("${module_name}/mysql-systemd-start.sh.erb"),
-      owner   => '0',
-      group   => '0',
-      mode    => '0755',
-      require => Package['mysql-server'],
-    }
-
-    daemon { 'mysql':
-      binary                 => '/usr/sbin/mysqld',
-      pre_command            => '/usr/share/mysql/mysql-systemd-start pre',
-      post_command           => '/usr/share/mysql/mysql-systemd-start post',
-      user                   => 'mysql',
-      stop_timeout           => 600,
-      limit_nofile           => 16384,
-      runtime_directory      => 'mysqld',
-      runtime_directory_mode => '0755',
-      require                => [ User['mysql'], File['/usr/share/mysql/mysql-systemd-start'] ],
-    }
-
+  daemon { 'mysql':
+    binary                 => '/usr/sbin/mysqld',
+    pre_command            => '/usr/share/mysql/mysql-systemd-start pre',
+    post_command           => '/usr/share/mysql/mysql-systemd-start post',
+    user                   => 'mysql',
+    stop_timeout           => 600,
+    limit_nofile           => 16384,
+    runtime_directory      => 'mysqld',
+    runtime_directory_mode => '0755',
+    require                => [ User['mysql'], File['/usr/share/mysql/mysql-systemd-start'] ],
   }
 
   logrotate::entry { 'mysql-server-error':
