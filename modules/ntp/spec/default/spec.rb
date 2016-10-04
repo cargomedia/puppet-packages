@@ -7,7 +7,6 @@ describe 'ntp' do
   end
   
   describe service('ntp') do
-    it { should be_enabled }
     it { should be_running }
   end
 end
