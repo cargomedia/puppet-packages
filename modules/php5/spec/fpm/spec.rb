@@ -6,8 +6,9 @@ describe 'php5::fpm' do
     it { should be_installed }
   end
 
-  describe command('monit summary | grep php5-fpm') do
-    its(:exit_status) { should eq 0 }
+  describe service('php5-fpm') do
+    it { should be_enabled }
+    it { should be_running }
   end
 
   describe command('logrotate -f /etc/logrotate.d/php5-fpm') do

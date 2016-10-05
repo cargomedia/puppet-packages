@@ -73,10 +73,7 @@ class postfix (
     provider => 'apt',
   }
 
-  @monit::entry { 'postfix':
-    content => template("${module_name}/monit"),
-    require => Package['postfix'],
-  }
+  @systemd::critical_unit { 'postfix.service': }
 
   @bipbip::entry { 'postfix':
     plugin  => 'postfix',

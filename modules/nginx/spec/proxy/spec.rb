@@ -31,10 +31,6 @@ describe 'nginx proxy' do
     its(:content) { should match /server(.*)localhost:8096/ }
   end
 
-  describe command('monit summary | grep nginx') do
-    its(:exit_status) { should eq 0 }
-  end
-
   describe port(8090) do
     it { should be_listening }
   end
