@@ -72,6 +72,9 @@ class monit ($emailTo = 'root@localhost', $emailFrom = undef, $allowedHosts = []
   file { '/usr/local/bin/monit-alert':
     ensure  => file,
     content => template("${module_name}/bin/monit-alert.sh"),
+    group   => '0',
+    owner   => '0',
+    mode    => '0755',
   }
   ->
 
