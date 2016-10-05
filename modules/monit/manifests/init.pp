@@ -32,10 +32,10 @@ class monit ($emailTo = 'root@localhost', $emailFrom = undef, $allowedHosts = []
   ->
 
   file { '/etc/monit/conf.d':
-    ensure  => directory,
-    group   => '0',
-    owner   => '0',
-    mode    => '0755',
+    ensure => directory,
+    group  => '0',
+    owner  => '0',
+    mode   => '0755',
     purge   => true,
     recurse => true,
   }
@@ -61,6 +61,13 @@ class monit ($emailTo = 'root@localhost', $emailFrom = undef, $allowedHosts = []
       group   => '0',
       owner   => '0',
       mode    => '0755';
+
+    '/etc/monit/conf.d/alert':
+      ensure  => file,
+      content => template("${module_name}/templates/alert-default"),
+      group   => '0',
+      owner   => '0',
+      mode    => '0755';
   }
   ->
 
@@ -71,15 +78,7 @@ class monit ($emailTo = 'root@localhost', $emailFrom = undef, $allowedHosts = []
     owner   => '0',
     mode    => '0755',
   }
-
-  exec { '/etc/monit/conf.d/alert':
-    command     => 'ln -s /etc/monit/templates/alert-default /etc/monit/conf.d/alert',
-    user        => 'root',
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    creates     => '/etc/monit/conf.d/alert',
-    subscribe   => File['/etc/monit/conf.d', '/etc/monit/templates/alert-default'],
-    refreshonly => true,
-  }
+  ->
 
   file { '/etc/monit/monitrc':
     ensure  => file,
