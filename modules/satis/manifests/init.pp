@@ -10,11 +10,17 @@ class satis(
 
   $version = '68ba9149b30da77ab6d8b37712e5a7d531c5a5f4'
 
-  file { '/etc/satis':
-    ensure => 'directory',
-    owner  => '0',
-    group  => '0',
-    mode   => '0755',
+  file {
+    '/etc/satis':
+      ensure => 'directory',
+      owner  => '0',
+      group  => '0',
+      mode   => '0755';
+    '/usr/local/bin/satis-repo':
+      content => template("${module_name}/satis-repo.sh"),
+      owner   => '0',
+      group   => '0',
+      mode    => '0755';
   }
 
   user { 'satis':
