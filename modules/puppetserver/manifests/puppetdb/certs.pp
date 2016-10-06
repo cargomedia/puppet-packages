@@ -19,7 +19,7 @@ class puppetserver::puppetdb::certs (
   ->
 
   exec { 'ensure puppet master certs are created':
-    command => '/etc/init.d/puppetserver start',
+    command => 'systemctl start puppetserver',
     unless  => 'test -f $(puppet master --configprint hostprivkey)',
     path    => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     require => Class['puppetserver']
