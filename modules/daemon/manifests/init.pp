@@ -17,6 +17,7 @@ define daemon (
   $post_command = undef,
   $runtime_directory = undef,
   $runtime_directory_mode = undef,
+  $critical = true,
 ) {
 
   $virtual = $::facts['virtual']
@@ -43,6 +44,7 @@ define daemon (
 
     systemd::service { $name:
       content => template("${module_name}/systemd.service.erb"),
+      critical => $critical,
     }
 
     File <| title == $binary or path == $binary |> {
