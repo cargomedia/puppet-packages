@@ -1,5 +1,5 @@
 #!/bin/bash -e
-if ! (/etc/init.d/mysql status >/dev/null); then
+if ! (systemctl is-active mysql >/dev/null); then
 	exit 0
 fi
 if ! (mysql -e "show global status like 'Slave_running';"  | grep -q ON ); then
