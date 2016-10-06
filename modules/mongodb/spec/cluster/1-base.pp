@@ -1,7 +1,5 @@
 node default {
 
-  include 'monit'
-
   mongodb::core::mongod { 'config1':
     config_server => true,
     port          => 28000,

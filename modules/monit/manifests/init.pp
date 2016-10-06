@@ -41,43 +41,6 @@ class monit ($emailTo = 'root@localhost', $emailFrom = undef, $allowedHosts = []
   }
   ->
 
-  file {
-    '/etc/monit/templates':
-      ensure => directory,
-      group  => '0',
-      owner  => '0',
-      mode   => '0755';
-
-    '/etc/monit/templates/alert-default':
-      ensure  => file,
-      content => template("${module_name}/templates/alert-default"),
-      group   => '0',
-      owner   => '0',
-      mode    => '0755';
-
-    '/etc/monit/templates/alert-none':
-      ensure  => file,
-      content => template("${module_name}/templates/alert-none"),
-      group   => '0',
-      owner   => '0',
-      mode    => '0755';
-
-    '/etc/monit/conf.d/alert':
-      ensure   => link,
-      target   => '/etc/monit/templates/alert-default',
-      replace  => false,
-  }
-  ->
-
-  file { '/usr/local/bin/monit-alert':
-    ensure  => file,
-    content => template("${module_name}/bin/monit-alert.sh"),
-    group   => '0',
-    owner   => '0',
-    mode    => '0755',
-  }
-  ->
-
   file { '/etc/monit/monitrc':
     ensure  => file,
     content => template("${module_name}/monitrc"),

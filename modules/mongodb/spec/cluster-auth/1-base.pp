@@ -1,7 +1,5 @@
 node default {
 
-  include 'monit'
-
   $auth_key = 'superpassword'
 
   mongodb::core::mongod { 'config1':
