@@ -27,13 +27,6 @@ Vagrant.configure('2') do |config|
     v.customize ["modifyvm", :id, '--audio', 'null', '--audiocontroller', 'hda']
   end
 
-  config.vm.define 'Debian-7' do |wheezy|
-    wheezy.vm.box = 'cargomedia/debian-7-amd64-plain'
-    wheezy.vm.network :forwarded_port, guest: 22, host: 22200, id: 'ssh'
-    # Additional network card to test module network (resource type network::interface)
-    wheezy.vm.network :private_network, ip: '10.10.20.2', auto_config: false
-  end
-
   config.vm.define 'Ubuntu-15.04' do |vivid|
     vivid.vm.box = 'cargomedia/ubuntu-1504-plain'
     vivid.vm.network :forwarded_port, guest: 22, host: 22201, id: 'ssh'
