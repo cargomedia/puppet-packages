@@ -15,11 +15,18 @@ define systemd::unit(
     mode    => '0644',
     notify  => Exec['systemctl daemon-reload'],
   }
-  ~>
 
   exec { "systemctl start ${name}":
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     unless      => "systemctl is-active ${name}",
+    subscribe   => [File["/etc/systemd/system/${name}"], Exec['systemctl daemon-reload']],
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    refreshonly => true,
+  }
+
+  exec { "systemctl reload-or-restart ${name}":
+    onlyif      => "systemctl is-active ${name}",
+    subscribe   => [File["/etc/systemd/system/${name}"], Exec['systemctl daemon-reload']],
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
 
