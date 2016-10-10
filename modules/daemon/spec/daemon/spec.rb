@@ -52,4 +52,8 @@ describe 'daemon:default' do
   describe file('/tmp/copied_by_post') do
     it { should be_file }
   end
+
+  describe command('ls -1 /etc/systemd/system/critical-units.target.d/ |wc -l') do
+    its(:stdout) { should match /^0$/ }
+  end
 end
