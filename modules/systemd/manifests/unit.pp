@@ -18,23 +18,17 @@ define systemd::unit(
 
   exec { "systemctl start ${name}":
     unless      => "systemctl is-active ${name}",
-    subscribe   => [File["/etc/systemd/system/${name}"], Exec['systemctl daemon-reload']],
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    refreshonly => true,
-  }
-
-  exec { "systemctl reload-or-restart ${name}":
-    onlyif      => "systemctl is-active ${name}",
-    subscribe   => [File["/etc/systemd/system/${name}"], Exec['systemctl daemon-reload']],
+    subscribe   => File["/etc/systemd/system/${name}"],
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
 
   Service <| title == $service_name |> {
-    enable    => true,
-    provider  => 'systemd',
-    subscribe => File["/etc/systemd/system/${name}"],
-    before    => Exec["systemctl start ${name}"],
+    enable      => true,
+    provider    => 'systemd',
+    subscribe   => File["/etc/systemd/system/${name}"],
+    before      => Exec["systemctl start ${name}"],
+    require     => Exec['systemctl daemon-reload'],
   }
 
   if ($critical) {
