@@ -11,6 +11,8 @@ class ucf {
     before  => Package['ucf'],
   }
 
-  package { 'ucf': }
-
+  package { 'ucf':
+    ensure   => present,
+    provider => 'apt',
+  }
 }
