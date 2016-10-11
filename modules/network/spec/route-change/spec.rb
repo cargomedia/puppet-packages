@@ -16,15 +16,6 @@ describe 'network' do
     end
   end
 
-  describe file('/etc/hosts') do
-    it { should be_file }
-    its(:content) { should match('foo') }
-  end
-
-  describe host('foo') do
-    it { should be_resolvable }
-  end
-
   describe interface('eth1') do
     it { should have_ipv4_address("10.10.20.122") }
   end
