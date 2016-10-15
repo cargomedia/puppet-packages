@@ -1,6 +1,6 @@
 class fluentd {
 
-  $fluentd_version = '0.12.26'
+  $fluentd_version = '0.14.8'
 
   ruby::gem { 'fluentd':
     ensure => $fluentd_version,
