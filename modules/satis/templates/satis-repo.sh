@@ -14,3 +14,5 @@ while [ $satis_ok == '0' ]; do
   fi
   sleep 60
 done
+# In case of failure, dump the output to the journal
+cat ${output_file} | systemd-cat --priority warn --identifier "satis-$3"
