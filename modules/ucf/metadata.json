@@ -1,0 +1,22 @@
+{
+  "name": "cargomedia-ucf",
+  "version": "0.0.1",
+  "author": "Cargo Media",
+  "license": "MIT",
+  "summary": "ucf - Update Configuration File(s): preserve user changes to config files",
+  "source": "https://github.com/cargomedia/puppet-packages",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": ["8"]
+    },
+    {
+      "operatingsystem": "Ubuntu",
+      "operatingsystemrelease": [
+        "15.04"
+      ]
+    }
+  ],
+  "dependencies": [
+  ]
+}
