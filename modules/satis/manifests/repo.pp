@@ -25,7 +25,7 @@ define satis::repo ($content) {
   daemon { "satis-repo-${name}":
     user     => 'satis',
     binary   => '/usr/local/bin/satis-repo',
-    args     => "${specificationPath} ${outputPath}",
+    args     => "${specificationPath} ${outputPath} ${name}",
     critical => false
   }
 }

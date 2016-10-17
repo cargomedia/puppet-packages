@@ -51,4 +51,12 @@ describe 'satis::repo' do
   describe service('satis-repo-bar') do
     it { should be_running}
   end
+
+  describe file('/tmp/satis-repo-bar.err') do
+    it { should be_file }
+  end
+
+  describe file('/tmp/satis-repo-foo.err') do
+    it { should be_file }
+  end
 end
