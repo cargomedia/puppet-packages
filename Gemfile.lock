@@ -4,7 +4,7 @@ GEM
     CFPropertyList (2.2.8)
     chronic_duration (0.10.6)
       numerizer (~> 0.1.1)
-    colorize (0.7.7)
+    colorize (0.8.1)
     diff-lcs (1.2.5)
     event_emitter (0.2.5)
     events (0.9.8)
@@ -21,7 +21,7 @@ GEM
     net-ssh (3.2.0)
     net-telnet (0.1.1)
     numerizer (0.1.1)
-    puppet (4.6.2)
+    puppet (4.7.0)
       CFPropertyList (~> 2.2.6)
       facter (> 2.0, < 4)
       hiera (>= 2.0, < 4)
@@ -29,7 +29,7 @@ GEM
     puppet-lint (1.1.0)
     puppet-syntax (1.4.1)
       rake
-    rake (10.5.0)
+    rake (11.3.0)
     rspec (3.5.0)
       rspec-core (~> 3.5.0)
       rspec-expectations (~> 3.5.0)
@@ -46,13 +46,13 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
-    serverspec (2.36.1)
+    serverspec (2.37.0)
       multi_json
       rspec (~> 3.0)
       rspec-its
       specinfra (~> 2.53)
     sfl (2.3)
-    specinfra (2.63.2)
+    specinfra (2.63.3)
       net-scp
       net-ssh (>= 2.7, < 4.0)
       net-telnet
@@ -63,16 +63,16 @@ PLATFORMS
 
 DEPENDENCIES
   chronic_duration (~> 0.10.6)
-  colorize (~> 0.7.7)
+  colorize (~> 0.8.1)
   event_emitter (~> 0.2.5)
   indentation (~> 0.1.1)
   komenda (~> 0.1.4)
-  net-ssh
-  puppet (~> 4.6.2)
+  net-ssh (~> 3.2.0)
+  puppet (~> 4.7.0)
   puppet-lint (~> 1.1)
   puppet-syntax (~> 1.4)
-  rake (~> 10.4)
-  rspec-core (~> 3.1)
+  rake (~> 11.3)
+  rspec-core (~> 3.5)
   serverspec (~> 2.8)
   specinfra (~> 2.12)
 
