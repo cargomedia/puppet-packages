@@ -13,15 +13,14 @@ define daemon (
   $limit_rss = undef,
   $limit_nproc = undef,
   $core_dump = false,
-  $sysvinit_kill = false,
   $pre_command = undef,
   $post_command = undef,
   $runtime_directory = undef,
   $runtime_directory_mode = undef,
+  $critical = true,
 ) {
 
   $virtual = $::facts['virtual']
-  $service_provider = $::facts['service_provider']
 
   if (defined(User[$user])) {
     User[$user] -> Daemon[$name]
@@ -43,30 +42,13 @@ define daemon (
       hasrestart => true,
     }
 
-    if ($service_provider == 'debian') {
-      sysvinit::script { $name:
-        content => template("${module_name}/sysvinit.sh.erb"),
-      }
-
-      File <| title == $binary or path == $binary |> {
-        before => Sysvinit::Script[$title],
-      }
-
-      @monit::entry { $name:
-        content => template("${module_name}/monit.${service_provider}.erb"),
-        require => Service[$name],
-      }
+    systemd::service { $name:
+      content => template("${module_name}/systemd.service.erb"),
+      critical => $critical,
     }
 
-    if ($service_provider == 'systemd') {
-      
-      systemd::service { $name:
-        content => template("${module_name}/systemd.service.erb"),
-      }
-
-      File <| title == $binary or path == $binary |> {
-        before => Systemd::Service[$name],
-      }
+    File <| title == $binary or path == $binary |> {
+      before => Systemd::Service[$name],
     }
   }
 

@@ -12,25 +12,12 @@ class php5::extension::opcache (
 
   require 'php5'
 
-  if $::facts['lsbdistcodename'] == 'wheezy' {
-
-    require 'build'
-
-    helper::script { 'install php5::extension::opcache':
-      content => template("${module_name}/extension/opcache/install.sh"),
-      unless  => "php --re 'Zend OPcache' | grep 'Zend OPcache version ${version_output} '",
-      require => Class['php5'],
-      before  => Php5::Config_extension['opcache'],
-    }
-  } else {
-
-    exec { 'Remove all symlinks to opcache':
-      command   => 'find /etc/php5 -name 05-opcache.ini -delete',
-      path      => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-      provider  => shell,
-      onlyif    => 'find /etc/php5/ -name 05-opcache.ini | grep -q 05-opcache.ini',
-      require   => Php5::Config_extension['opcache'],
-    }
+  exec { 'Remove all symlinks to opcache':
+    command   => 'find /etc/php5 -name 05-opcache.ini -delete',
+    path      => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    provider  => shell,
+    onlyif    => 'find /etc/php5/ -name 05-opcache.ini | grep -q 05-opcache.ini',
+    require   => Php5::Config_extension['opcache'],
   }
 
   php5::config_extension { 'opcache':

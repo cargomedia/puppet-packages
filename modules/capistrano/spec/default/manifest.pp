@@ -1,6 +1,5 @@
 node default {
 
-  class { 'capistrano':
-  }
+  class { 'capistrano': }
 
 }

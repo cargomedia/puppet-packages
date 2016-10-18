@@ -1,6 +1,6 @@
 class fluentd {
 
-  $fluentd_version = '0.12.26'
+  $fluentd_version = '0.14.8'
 
   ruby::gem { 'fluentd':
     ensure => $fluentd_version,
@@ -66,7 +66,6 @@ class fluentd {
     binary        => '/usr/local/bin/fluentd',
     args          => '-c /etc/fluentd/fluent.conf -o /var/log/fluentd/fluentd.log --no-supervisor',
     user          => 'fluentd',
-    sysvinit_kill => true,
     require       => [Ruby::Gem['fluentd'], File['/etc/fluentd/fluent.conf'], File['/var/log/fluentd'], User['fluentd']],
   }
 

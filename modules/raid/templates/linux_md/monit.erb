@@ -1,0 +1,2 @@
+check program raid-md path "/bin/systemctl is-active <%= @mdadm_service_name %>"
+  if status != 0 then alert

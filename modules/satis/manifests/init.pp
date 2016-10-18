@@ -8,13 +8,19 @@ class satis(
   require 'git'
   include 'nginx'
 
-  $version = '68ba9149b30da77ab6d8b37712e5a7d531c5a5f4'
+  $version = '10439c168643bd74d76fc894d61ae3291c999aee'
 
-  file { '/etc/satis':
-    ensure => 'directory',
-    owner  => '0',
-    group  => '0',
-    mode   => '0755',
+  file {
+    '/etc/satis':
+      ensure => 'directory',
+      owner  => '0',
+      group  => '0',
+      mode   => '0755';
+    '/usr/local/bin/satis-repo':
+      content => template("${module_name}/satis-repo.sh"),
+      owner   => '0',
+      group   => '0',
+      mode    => '0755';
   }
 
   user { 'satis':

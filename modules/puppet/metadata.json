@@ -8,7 +8,7 @@
   "operatingsystem_support": [
     {
       "operatingsystem": "Debian",
-      "operatingsystemrelease": ["7", "8"]
+      "operatingsystemrelease": ["8"]
     },
     {
       "operatingsystem": "Ubuntu",

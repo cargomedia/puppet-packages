@@ -1,6 +1,5 @@
 node default {
 
-  require 'monit'
   require 'mysql::server'
   require 'mysql::client'
 

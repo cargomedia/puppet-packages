@@ -1,7 +1,5 @@
 node default {
 
-  require 'monit'
-
   $ssl_cert = '-----BEGIN CERTIFICATE-----
 MIIDZDCCAkygAwIBAgIJAJQrxIgzRNLSMA0GCSqGSIb3DQEBBQUAMCoxKDAmBgNV
 BAMUHyouc3RyZWFtLmZ1Y2tib29rLmNpLmNhcmdvbWVkaWEwHhcNMTMwNTI0MTYw

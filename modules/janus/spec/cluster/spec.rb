@@ -16,7 +16,6 @@ describe 'janus::cluster' do
     its(:stdout) { should match /10003+.+LISTEN/ }
   end
 
-
   describe file('/opt/janus-cluster/edge1/var/log/janus/janus.log') do
     its(:content) { should match /Plugins folder: \/opt\/janus-cluster\/edge1\/usr\/lib\/janus\/plugins.enabled/ }
     its(:content) { should match /Loading plugin 'libjanus_audioroom\.so'/ }

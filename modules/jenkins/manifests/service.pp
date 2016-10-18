@@ -7,9 +7,6 @@ class jenkins::service {
   service { 'jenkins':
     enable => true,
   }
-
-  @monit::entry { 'jenkins':
-    content => template("${module_name}/monit"),
-    require => Service['jenkins'],
-  }
+  
+  @systemd::critical_unit { 'jenkins.service': }
 }

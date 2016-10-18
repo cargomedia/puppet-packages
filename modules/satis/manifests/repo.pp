@@ -1,6 +1,4 @@
-define satis::repo (
-  $content,
-  $cron_environment = 'MAILTO=root') {
+define satis::repo ($content) {
 
   require 'satis'
 
@@ -21,12 +19,13 @@ define satis::repo (
     cwd         => '/var/lib/satis',
     user        => 'satis',
     environment => ['HOME=/var/lib/satis'],
+    before      => Daemon["satis-repo-${name}"],
   }
-  ->
 
-  cron { "cron satis repo ${name}":
-    command => "/var/lib/satis/satis/bin/satis --no-interaction build ${specificationPath} ${outputPath} >/tmp/cron-${title}.err 2>&1 || (echo \"$? - An Exception occured\" | grep -A 2 Exception /tmp/cron-${title}.err || echo \"$? - An unspecified error occured\" | cat - /tmp/cron-${title}.err)",
-    user    => 'satis',
-    environment => $cron_environment,
+  daemon { "satis-repo-${name}":
+    user     => 'satis',
+    binary   => '/usr/local/bin/satis-repo',
+    args     => "${specificationPath} ${outputPath} ${name}",
+    critical => false
   }
 }

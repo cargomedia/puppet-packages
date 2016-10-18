@@ -49,6 +49,7 @@ node default {
     runtime_directory      => 'my-program',
     runtime_directory_mode => '0700',
     require                => File['/tmp/my-program','/tmp/my-program-pre','/tmp/my-program-post'],
+    critical               => false,
   }
 
 }

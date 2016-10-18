@@ -12,8 +12,4 @@ describe 'mms::monitoring' do
     its(:content) { should match /globalAuthUsername=mms/ }
     its(:content) { should match /globalAuthPassword=mms/ }
   end
-
-  describe command('monit summary') do
-    its(:stdout) { should match /[Process|Program] 'mms-monitoring'/ }
-  end
 end

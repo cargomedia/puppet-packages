@@ -64,11 +64,11 @@ define janus::server (
     path    => $log_file,
   }
 
-#  @fluentd::config::source_tail{ $instance_name:
-#    path        => $log_file,
-#    fluentd_tag => 'janus',
-#    format      => '/(\[(?<time>[^\]]+)\] )?(?<message>.*)/',
-#  }
+  #  @fluentd::config::source_tail{ $instance_name:
+  #    path        => $log_file,
+  #    fluentd_tag => 'janus',
+  #    format      => '/(\[(?<time>[^\]]+)\] )?(?<message>.*)/',
+  #  }
 
   file {
     $config_file:
@@ -110,10 +110,7 @@ define janus::server (
     ],
   }
 
-  if $::facts['lsbdistcodename'] != 'wheezy' {
-    needrestart::service { $instance_name:
-    }
-  }
+  needrestart::service { $instance_name: }
 
   if $instance_name != 'janus' {
     if ! defined(Service['janus']) {

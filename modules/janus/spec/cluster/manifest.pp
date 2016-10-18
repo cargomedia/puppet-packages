@@ -1,7 +1,5 @@
 node default {
 
-  include 'monit'
-  include 'bipbip'
   include 'janus::cluster'
 
   Janus::Server {

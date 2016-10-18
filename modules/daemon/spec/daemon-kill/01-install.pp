@@ -12,7 +12,6 @@ node default {
   daemon { 'my-program':
     binary       => '/tmp/my-program',
     stop_timeout => 3,
-    sysvinit_kill => true,
   }
 
 }

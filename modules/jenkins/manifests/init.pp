@@ -6,7 +6,7 @@ class jenkins(
   $num_executors = 1,
   $cluster_id = undef
 ) {
-
+  
   require 'jenkins::package'
   require 'jenkins::common'
   include 'jenkins::service'
