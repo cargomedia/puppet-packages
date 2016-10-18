@@ -1,7 +1,5 @@
 define systemd::critical_unit {
 
-  include 'systemd::daemon_reload'
-  
   $unit_configuration = {
     'wants' => $name,
   }
@@ -12,6 +10,8 @@ define systemd::critical_unit {
     owner   => '0',
     group   => '0',
     mode    => '0644',
-    notify  => Exec['systemctl daemon-reload'],
   }
+  ~>
+
+  systemd::daemon_reload { "critical-unit restart ${name}": }
 }
