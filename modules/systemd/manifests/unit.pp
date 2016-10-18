@@ -5,7 +5,6 @@ define systemd::unit(
 ) {
 
   require 'systemd'
-  include 'systemd::daemon_reload'
 
   file { "/etc/systemd/system/${name}":
     ensure  => file,
@@ -13,7 +12,7 @@ define systemd::unit(
     owner   => '0',
     group   => '0',
     mode    => '0644',
-    notify  => Exec['systemctl daemon-reload'],
+    notify  => Systemd::Daemon_reload[$name],
   }
 
   exec { "systemctl start ${name}":
@@ -28,8 +27,10 @@ define systemd::unit(
     provider    => 'systemd',
     subscribe   => File["/etc/systemd/system/${name}"],
     before      => Exec["systemctl start ${name}"],
-    require     => Exec['systemctl daemon-reload'],
+    require     => Systemd::Daemon_reload[$name],
   }
+
+  systemd::daemon_reload { $name: }
 
   if ($critical) {
     @systemd::critical_unit { $name: }

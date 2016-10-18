@@ -8,7 +8,6 @@ class systemd::coredump(
   $keep_use = undef,
 ) {
 
-  include 'systemd::daemon_reload'
   include 'sysctl::entry::core_pattern'
 
   file { '/etc/systemd/coredump.conf':
@@ -17,6 +16,8 @@ class systemd::coredump(
     mode    => '0644',
     owner   => '0',
     group   => '0',
-    notify  => Exec['systemctl daemon-reload'],
   }
+  ~>
+
+  systemd::daemon_reload { "coredump-unit restart ${name}": }
 }
