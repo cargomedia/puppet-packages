@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'ufw::nat' do
+describe 'network::nat' do
 
   describe command('curl --proxy "" --max-time 1 http://10.10.20.122:1337') do
     its(:exit_status) { should be_between(28, 52) }
@@ -13,6 +13,7 @@ describe 'ufw::nat' do
   describe file('/proc/sys/net/ipv4/ip_forward') do
     its(:content) { should match /1/ }
   end
+
   describe iptables do
     it { should have_rule('-o lo -j SNAT --to-source 192.168.20.122').with_table('nat').with_chain('POSTROUTING') }
   end
