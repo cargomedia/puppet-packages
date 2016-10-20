@@ -4,10 +4,6 @@ node default {
     realm => 'me',
   }
 
-  ufw::rule { 'allow 22 - otherwise tests wont run :)':
-    app_or_port => '22',
-  }
-
   ufw::rule { 'allow 999':
     app_or_port => '999',
   }
