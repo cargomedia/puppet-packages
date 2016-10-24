@@ -4,7 +4,7 @@ class network::nat (
   $to_source,
 ) {
 
-  require 'ufw'
+  include 'ufw'
 
   sysctl::entry { 'ip4_forward':
     entries => {
@@ -12,13 +12,7 @@ class network::nat (
     }
   }
 
-  file {
-    '/etc/ufw/before.d/snat':
-      ensure  => file,
-      content => template("${module_name}/snat.rules.erb"),
-      owner   => '0',
-      group   => '0',
-      mode    => '0644',
-      notify  => Class['ufw::service'];
+  ufw::rules::before { 'snat':
+    rules_content => template("${module_name}/snat.rules.erb"),
   }
 }
