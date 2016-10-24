@@ -7,6 +7,15 @@ class ufw::service {
     subscribe   => File['/etc/ufw/before.d/'],
   }
 
+  exec { 'Force-reload ufw':
+    provider    => shell,
+    command     => 'systemctl force-reload ufw',
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    user        => 'root',
+    refreshonly => true,
+    subscribe   => Exec['Rebuild before.rules'],
+  }
+
   exec { 'Activate ufw':
     provider => shell,
     command  => 'echo "y" | ufw enable >/dev/null',
@@ -17,10 +26,10 @@ class ufw::service {
   }
 
   service { 'ufw':
-    enable     => true,
-    hasrestart => true,
-    hasstatus  => true,
-    subscribe  => Exec['Rebuild before.rules'],
-    require    => Exec['Activate ufw'],
+    ensure    => running,
+    enable    => true,
+    hasstatus => true,
+    require   => Exec['Activate ufw'],
+    before    => Exec['Force-reload ufw'],
   }
 }

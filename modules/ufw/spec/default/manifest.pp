@@ -1,5 +1,7 @@
 node default {
 
+  include 'ufw'
+
   exec { 'log test':
     command     => 'logger [UFW Block] foo to bar',
     provider    => shell,
