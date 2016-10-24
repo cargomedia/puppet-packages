@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash +e
 
 satis_ok=0
 output_file="/tmp/satis-repo-$3.err"
