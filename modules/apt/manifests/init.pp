@@ -1,5 +1,6 @@
 class apt {
 
+  require 'ucf'
   include 'apt::update'
 
   file { '/etc/apt/sources.list.d/':
