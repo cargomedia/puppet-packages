@@ -1,0 +1,3 @@
+mod 'cargomedia/ucf',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/ucf'
