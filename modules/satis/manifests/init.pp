@@ -17,7 +17,7 @@ class satis(
       group  => '0',
       mode   => '0755';
     '/usr/local/bin/satis-repo':
-      content => template("${module_name}/satis-repo.sh"),
+      content => template("${module_name}/satis-repo.sh.erb"),
       owner   => '0',
       group   => '0',
       mode    => '0755';
