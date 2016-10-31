@@ -1,7 +1,7 @@
 class polipo(
   $diskCacheRoot = '/var/cache/polipo',
   $idleTime = 20,
-  $chunkHighMark = 33354342,
+  $chunkHighMark = 50331648,
   $objectHighMark = 4096,
 ) {
 
