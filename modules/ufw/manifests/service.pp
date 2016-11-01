@@ -4,7 +4,7 @@ class ufw::service {
     command     => '/bin/cat /etc/ufw/before.d/* > /etc/ufw/before.rules',
     refreshonly => true,
     unless      => '/usr/bin/test ! -f /etc/ufw/before.d/*',
-    subscribe   => File['/etc/ufw/before.d/'],
+    subscribe   => File['/etc/ufw/before.d'],
   }
 
   exec { 'Force-reload ufw':
