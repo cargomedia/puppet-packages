@@ -65,9 +65,10 @@ refresh_pattern \/InRelease$ 0 0% 0 refresh-ims
 # (fine to have this on debian too)
 refresh_pattern changelogs.ubuntu.com/*  0  1% 1
 
-# only allow connects to ports for http, https
+# only allow connects to ports for http, https, and unregistered
 acl Safe_ports port 80
 acl Safe_ports port 443 563
+acl Safe_ports port 1025-65535  # unregistered ports (e.g. PGP keyservers)
 
 # only allow ports we trust
 http_access deny !Safe_ports
