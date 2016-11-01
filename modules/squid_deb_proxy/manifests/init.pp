@@ -1,5 +1,5 @@
 class squid_deb_proxy(
-  $diskCacheRoot = '/var/cache/',
+  $diskCacheRoot = '/var/cache/squid-deb-proxy',
   $listeningPort = 8123,
   $cacheOnlyAllowedMirrors = false,
   $accessOnlyAllowedMirrors = false,
