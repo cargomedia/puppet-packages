@@ -15,7 +15,7 @@ class apt {
     group   => '0',
     owner   => '0',
     mode    => '0644',
-    content => template("${module_name}/sources-${::facts['lsbdistcodename']}"),
+    content => template("${module_name}/sources-${::facts['lsbdistcodename']}.erb"),
     notify  => Exec['apt_update']
   }
 }
