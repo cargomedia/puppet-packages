@@ -28,6 +28,7 @@ class squid_deb_proxy(
       owner   => '0',
       group   => '0',
       mode    => '0644',
+      notify => Service['squid-deb-proxy'],
       before  => Package['squid-deb-proxy'];
   }
 
