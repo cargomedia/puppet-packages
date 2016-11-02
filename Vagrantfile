@@ -1,6 +1,7 @@
 Vagrant.configure('2') do |config|
   if Vagrant.has_plugin?('vagrant-proxyconf')
     config.vm.synced_folder '.proxy-cache', '/tmp/proxy-cache', :owner => 'proxy', :create => true
+    config.vm.synced_folder '.proxy-logs', '/var/log/squid-deb-proxy', :owner => 'proxy', :create => true
     if ['true', '1'].include?(ENV['DISABLE_PROXY'])
       config.proxy.https = false
       config.proxy.http = false
