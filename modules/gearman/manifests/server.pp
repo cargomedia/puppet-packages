@@ -39,9 +39,16 @@ class gearman::server(
   @bipbip::entry { $fullname:
     plugin  => 'gearman',
     options => {
-      'hostname'    => 'localhost',
-      'port'        => '4730',
-      'persistence' => $persistence,
+      'hostname'       => 'localhost',
+      'port'           => '4730',
+      'persistence'    => $persistence,
+      'mysql_hostname' => $mysql_host,
+      'mysql_port'     => $mysql_port,
+      'mysql_username' => $mysql_user,
+      'mysql_password' => $mysql_password,
+      'mysql_database' => $mysql_db,
+      'mysql_table'    => $mysql_table,
+
     },
     require => Daemon[$fullname],
   }
