@@ -39,13 +39,14 @@ class gearman::server(
   @bipbip::entry { $fullname:
     plugin  => 'gearman',
     options => {
-      'hostname' => 'localhost',
-      'port'     => '4730',
+      'hostname'    => 'localhost',
+      'port'        => '4730',
+      'persistence' => $persistence,
     },
     require => Daemon[$fullname],
   }
 
-  user {'gearman':
+  user { 'gearman':
     ensure => present,
     system => true,
   }
@@ -54,6 +55,6 @@ class gearman::server(
   daemon { $fullname:
     binary => '/usr/sbin/gearmand',
     args   => $daemon_args,
-    user => 'gearman',
+    user   => 'gearman',
   }
 }
