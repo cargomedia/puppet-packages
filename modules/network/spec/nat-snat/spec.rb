@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'network::nat' do
+describe 'network::nat_snat' do
 
   describe command('curl --proxy "" --max-time 1 http://10.10.20.122:1337') do
     its(:exit_status) { should be_between(28, 52) }
@@ -8,6 +8,10 @@ describe 'network::nat' do
 
   describe file('/tmp/stderr_output') do
     its(:content) { should match /[C|c]onnect+.+from+.+192\.168\.20\.122/ }
+  end
+
+  describe package('iptables') do
+    it { should be_installed }
   end
 
   describe file('/proc/sys/net/ipv4/ip_forward') do
@@ -19,10 +23,10 @@ describe 'network::nat' do
   end
 
   describe iptables do
-    it { should have_rule('-i lo -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT').with_table('filter').with_chain('puppet-nat') }
+    it { should have_rule('-i lo -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT').with_table('filter').with_chain('FORWARD') }
   end
 
   describe iptables do
-    it { should have_rule('-i eth0 -o lo -j ACCEPT').with_table('filter').with_chain('puppet-nat') }
+    it { should have_rule('-i eth0 -o lo -j ACCEPT').with_table('filter').with_chain('FORWARD') }
   end
 end
