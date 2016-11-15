@@ -46,7 +46,7 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.5.0)
     rspec-support (3.5.0)
-    serverspec (2.37.2)
+    serverspec (2.37.0)
       multi_json
       rspec (~> 3.0)
       rspec-its
@@ -77,4 +77,4 @@ DEPENDENCIES
   specinfra (~> 2.12)
 
 BUNDLED WITH
-   1.13.5
+   1.13.2
