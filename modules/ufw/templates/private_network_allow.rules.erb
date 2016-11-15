@@ -1,0 +1,11 @@
+# Blanket rules to allow all *incoming* connections to/from private ip addresses
+# Note: ufw's default allows all *outgoing* connections
+*filter
+:ufw-before-input - [0:0]
+
+-A ufw-before-input --src 10.0.0.0/8 -j ACCEPT
+-A ufw-before-input --src 172.16.0.0/12 -j ACCEPT
+-A ufw-before-input --src 192.168.0.0/16 -j ACCEPT
+
+COMMIT
+
