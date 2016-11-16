@@ -4,13 +4,13 @@ class nodejs {
 
   apt::source { 'nodesource':
     entries => [
-      "deb http://deb.nodesource.com/node_5.x ${::facts['lsbdistcodename']} main",
-      "deb-src http://deb.nodesource.com/node_5.x ${::facts['lsbdistcodename']} main",
+      "deb https://deb.nodesource.com/node_5.x ${::facts['lsbdistcodename']} main",
+      "deb-src https://deb.nodesource.com/node_5.x ${::facts['lsbdistcodename']} main",
     ],
     keys    => {
       'nodesource' => {
         key     => '68576280',
-        key_url => 'http://deb.nodesource.com/gpgkey/nodesource.gpg.key',
+        key_url => 'https://deb.nodesource.com/gpgkey/nodesource.gpg.key',
       }
     },
     require => Class['apt::transport_https'],
