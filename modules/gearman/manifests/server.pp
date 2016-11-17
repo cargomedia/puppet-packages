@@ -39,13 +39,21 @@ class gearman::server(
   @bipbip::entry { $fullname:
     plugin  => 'gearman',
     options => {
-      'hostname' => 'localhost',
-      'port'     => '4730',
+      'hostname'       => 'localhost',
+      'port'           => '4730',
+      'persistence'    => $persistence,
+      'mysql_hostname' => $mysql_host,
+      'mysql_port'     => $mysql_port,
+      'mysql_username' => $mysql_user,
+      'mysql_password' => $mysql_password,
+      'mysql_database' => $mysql_db,
+      'mysql_table'    => $mysql_table,
+
     },
     require => Daemon[$fullname],
   }
 
-  user {'gearman':
+  user { 'gearman':
     ensure => present,
     system => true,
   }
@@ -54,6 +62,6 @@ class gearman::server(
   daemon { $fullname:
     binary => '/usr/sbin/gearmand',
     args   => $daemon_args,
-    user => 'gearman',
+    user   => 'gearman',
   }
 }

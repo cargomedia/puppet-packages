@@ -1,0 +1,9 @@
+<% mirror = @facts['virtual'] == 'virtualbox' ? 'ftp.ch.debian.org' : 'httpredir.debian.org' -%>
+deb http://<%= mirror %>/debian jessie main contrib non-free
+deb-src http://<%= mirror %>/debian jessie main contrib non-free
+
+deb http://<%= mirror %>/debian jessie-updates main contrib non-free
+deb-src http://<%= mirror %>/debian jessie-updates main contrib non-free
+
+deb http://security.debian.org/ jessie/updates main contrib non-free
+deb-src http://security.debian.org/ jessie/updates main contrib non-free
