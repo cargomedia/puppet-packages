@@ -10,7 +10,7 @@ class mongodb {
     keys    => {
       'mongodb' => {
         'key' => '7F0CEB10',
-        'key_server' => 'keyserver.ubuntu.com',
+        'key_server' => 'hkp://keyserver.ubuntu.com:80',
       }
     },
   }
