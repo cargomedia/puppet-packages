@@ -1,5 +1,5 @@
 class s3export_backup (
-  $version = '0.2.0',
+  $version = '0.3.0',
   $aws_key,
   $aws_secret,
   $aws_region,
@@ -7,7 +7,6 @@ class s3export_backup (
 ) {
 
   require 'cm::application'
-  require 'truecrypt'
   require 'gdisk'
 
   composer::project { 'cargomedia/s3export_backup':
