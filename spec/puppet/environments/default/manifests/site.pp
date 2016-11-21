@@ -4,6 +4,7 @@ node default {
 
   class { 'polipo':
     diskCacheRoot => '/tmp/proxy-cache',
+    idleTime      => 0,
     require => Exec['puppet module install puppetlabs/stdlib'],
   }
 
