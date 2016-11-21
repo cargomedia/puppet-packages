@@ -169,11 +169,13 @@ module PuppetModules
 
     include EventEmitter
 
-    attr_accessor :filter_os_list
+    attr_accessor :filter_os_list, :retries_on_failure, :no_retry
 
     def initialize
       @specs = []
       @filter_os_list = nil
+      @retries_on_failure = ENV.has_key?('retries') ? ENV['retries'].to_i : 2
+      @no_retry = (ENV['no_retry'] != 'false' if ENV.has_key?('no_retry')) | false
     end
 
     # @param [Spec[]]
@@ -189,7 +191,12 @@ module PuppetModules
         spec.puppet_module.supported_os_list.each do |os|
           next unless @filter_os_list.nil? or @filter_os_list.include? os
           emit(:output, "Running #{spec.name} for #{os}\n".bold)
-          example_result = run_spec_in_box(spec, os)
+          example_result = {}
+          @retries_on_failure.times do
+              example_result = run_spec_in_box(spec, os)
+              break if example_result.success? or @no_retry === true
+              emit(:output, "Re-Running #{spec.name} for #{os}\n".bold)
+          end
           emit(:output, example_result.summary)
           result.spec_result_list.push(example_result)
         end

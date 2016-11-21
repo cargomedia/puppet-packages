@@ -15,5 +15,5 @@ if [ -z "${ghprbTargetBranch}" ]; then
 else
     # Pull request build
     git fetch origin
-    bundle exec rake spec:changes_from_branch[origin/${ghprbTargetBranch}]
+    no_retries=true bundle exec rake spec:changes_from_branch[origin/${ghprbTargetBranch}]
 fi
