@@ -39,5 +39,4 @@ Our test tasks recognize following rake options:
 - `keep_box=true` do not roll back the vm to a clean state
 - `gui=true` show virtualbox GUI
 - `os='Debian-7,Ubuntu-15.04'` limit running specs to listed OS versions
-- `retries=NUM` how many times to re-run a failed spec (default: 2)
-- `no_retries=true|false` re-run failed specs or not (overrides `retries=NUM`)
+- `retries=NUM` how many times to re-run a failed spec (default: 0)
