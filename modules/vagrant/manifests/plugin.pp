@@ -4,7 +4,7 @@ define vagrant::plugin(
   $version = undef
 ) {
 
-  require 'vagrant'
+  require ['vagrant', 'build::gpp']
 
   if ($version) {
     $listOutput = "${name} (${version})"

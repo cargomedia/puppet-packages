@@ -1,6 +1,6 @@
 node default {
 
-  vagrant::plugin { 'vagrant-phpstorm-tunnel':
+  vagrant::plugin { 'vagrant-proxyconf':
     user      => 'root',
     user_home => '/root',
   }
