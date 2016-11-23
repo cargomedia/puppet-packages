@@ -2,8 +2,9 @@ node default {
 
   require 'puppet::common'
 
-  class { 'squid_deb_proxy':
+  class { 'polipo':
     diskCacheRoot => '/tmp/proxy-cache',
+    idleTime      => 0,
     require => Exec['puppet module install puppetlabs/stdlib'],
   }
 
