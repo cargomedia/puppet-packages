@@ -26,7 +26,7 @@ class Vagrant
     end
 
     if has_snapshot
-      execute_local("vagrant snapshot restore #{@box} default")
+      execute_local("vagrant snapshot restore #{@box} default --no-provision")
     else
       execute_local("vagrant destroy -f #{@box}")
       execute_local("vagrant up --no-provision #{@box}", {'DISABLE_PROXY' => 'true'})
