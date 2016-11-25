@@ -5,3 +5,7 @@ mod 'cargomedia/helper',
 mod 'cargomedia/apt',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/apt'
+
+mod 'cargomedia/build',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/build'
