@@ -18,6 +18,7 @@ define janus::role::rtpbroadcast (
   $thumbnailing_duration = 10,
   $job_pattern = 'job-#{md5}',
   $jobs_path = undef,
+  $jobs_temp_path = undef,
   $rest_url = undef,
 ) {
 
@@ -58,6 +59,7 @@ define janus::role::rtpbroadcast (
     recording_pattern        => $recording_pattern,
     job_pattern              => $job_pattern,
     jobs_path                => $jobs_path,
+    jobs_temp_path           => $jobs_temp_path,
     rest_url                 => $rest_url_final,
   }
 }
