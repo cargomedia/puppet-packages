@@ -37,6 +37,7 @@ define janus::role::standalone (
   $plugin_job_pattern = 'job-#{md5}',
   $plugin_rest_url = undef,
   $plugin_jobs_path = undef,
+  $plugin_jobs_temp_path = undef,
 
   $plugin_rtpb_minport = 8000,
   $plugin_rtpb_maxport = 9000,
@@ -115,6 +116,7 @@ define janus::role::standalone (
     recording_pattern        => $plugin_recording_pattern,
     job_pattern              => $plugin_job_pattern,
     jobs_path                => $plugin_jobs_path,
+    jobs_temp_path           => $plugin_jobs_temp_path,
     thumbnailing_duration    => $plugin_rtpb_thumbnailing_duration,
     thumbnailing_interval    => $plugin_rtpb_thumbnailing_interval,
     thumbnailing_pattern     => $plugin_thumbnailing_pattern,
