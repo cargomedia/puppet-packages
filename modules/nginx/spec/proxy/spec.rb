@@ -20,7 +20,6 @@ describe 'nginx proxy' do
     it { should be_file }
     its(:content) { should match /listen(.*)8090/ }
     its(:content) { should match /proxy_pass(.*)backend-socketredis/ }
-    its(:content) { should match /ssl(.*)on/ }
     its(:content) { should match /proxy_buffering(.*)off/ }
   end
 
