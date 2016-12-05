@@ -1,6 +1,7 @@
 class php5::extension::mongodb($version = '1.2.0') {
 
   require 'build'
+  require 'build::pkg_config'
   require 'php5'
   require 'openssl'
 
