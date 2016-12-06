@@ -1,18 +1,17 @@
 class nginx::package {
 
   require 'apt'
+  include 'openssl'
 
   if ($::facts['lsbdistcodename'] == 'jessie') {
 
-    # Jessie has OpenSSL 1.0.1, but we need 1.0.2 for Chrome
-    # Workaround is to install nginx from backports which is built against OpenSSL 1.0.2
+    # Install from Backports which is compiled against OpenSSL 1.0.2
 
     require 'apt::source::backports'
 
     apt::preference { [
       'nginx-full',
       'nginx-common',
-      'libssl1.0.0',
     ]:
       pin          => 'release a=jessie-backports',
       pin_priority => 1000,

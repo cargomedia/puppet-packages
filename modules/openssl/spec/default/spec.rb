@@ -6,4 +6,8 @@ describe 'openssl' do
     it { should be_installed }
   end
 
+  describe command('openssl version') do
+    its(:exit_status) { should eq 0 }
+  end
+
 end
