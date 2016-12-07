@@ -26,4 +26,3 @@ describe 'network::nat' do
     it { should have_rule('-i eth0 -o lo -j ACCEPT').with_table('filter').with_chain('puppet-nat') }
   end
 end
-Contact GitHub API Training Shop Blog About

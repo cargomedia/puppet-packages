@@ -1,9 +1,5 @@
 node default {
 
-  class { 'coturn':
-    realm => 'me',
-  }
-
   ufw::rule { 'allow 999':
     app_or_port => '999',
   }
