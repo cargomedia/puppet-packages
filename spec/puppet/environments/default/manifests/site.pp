@@ -12,4 +12,9 @@ node default {
     unless   => 'puppet module list | grep puppetlabs-stdlib',
     provider => shell,
   }
+
+  notify { 'Restart polipo':
+    notify => Service['polipo'],
+    require => Class['polipo'],
+  }
 }
