@@ -11,7 +11,6 @@ COMMIT
 *filter
 
 # Allow outgoing traffic
-# -A ufw-before-input -i <%= @ifname_private %> -o <%= @ifname_public %> -j ACCEPT
 # Allow incoming established traffic
 -A ufw-before-input -m state --state RELATED,ESTABLISHED -i <%= @ifname_public %> -o <%= @ifname_private %> -j ACCEPT
 COMMIT

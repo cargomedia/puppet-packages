@@ -16,8 +16,15 @@ describe 'network::nat' do
 
   describe iptables do
     it { should have_rule('-o lo -j SNAT --to-source 192.168.20.122').with_table('nat').with_chain('POSTROUTING') }
-    it { should have_rule('-i lo -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT').with_table('filter').with_chain('cm-nat') }
-    it { should have_rule('-i eth0 -o lo -j ACCEPT').with_table('filter').with_chain('cm-nat') }
+    it { should have_rule('-i lo -o eth0 -m state --state RELATED,ESTABLISHED -j ACCEPT').with_table('filter').with_chain('ufw-before-input') }
   end
 
+  #ensure there is still network connectivity
+  describe command('ping -c 3 google.com') do
+    its(:exit_status) { should eq 0 }
+  end
+
+  describe command('curl -s google.com') do
+    its(:exit_status) { should eq 0 }
+  end
 end
