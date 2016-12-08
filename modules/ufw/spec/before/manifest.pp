@@ -3,7 +3,7 @@ node default {
   $rules = @(RULES)
 
   *filter
-  -A ufw-before-input -m comment --comment "foo bar rule"
+  -A ufw-before-input -m comment --comment 'foo bar rule'
   COMMIT
 
   | RULES
