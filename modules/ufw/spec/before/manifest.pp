@@ -3,7 +3,7 @@ node default {
   $rules = @(RULES)
 
   *filter
-  -A ufw-before-input -m comment --comment 'foo bar rule'
+  -A ufw-before-input -s 192.168.155.155
   COMMIT
 
   | RULES
