@@ -7,7 +7,7 @@ class php5::extension::mongodb($version = '1.2.0') {
 
   helper::script { 'install php5::extension::mongodb':
     content => template("${module_name}/extension/mongodb/install.sh"),
-    unless  => "php --re mongodb | grep mongodb version | grep ' ${version}'",
+    unless  => "php --re mongodb | grep 'mongodb version' | grep -q 'version ${version} ]'",
   }
   ->
 
