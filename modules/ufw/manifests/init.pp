@@ -8,6 +8,7 @@ class ufw {
     provider => 'apt',
   }
 
+<<<<<<< HEAD
   file { '/etc/ufw/applications.d':
     ensure  => directory,
     owner   => '0',
@@ -29,6 +30,36 @@ class ufw {
     owner   => '0',
     group   => '0',
     mode    => '0644',
+=======
+  file {
+    '/etc/ufw/applications.d':
+      ensure  => directory,
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
+      purge   => true,
+      recurse => true,
+      require => Package['ufw'];
+    '/etc/ufw/before.d':
+      ensure  => directory,
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
+      purge   => true,
+      recurse => true,
+      require => Package['ufw'];
+    '/var/log/ufw':
+      ensure  => directory,
+      owner   => '0',
+      group   => '0',
+      mode    => '0644';
+    '/var/log/ufw/ufw.log':
+      ensure  => file,
+      owner   => '0',
+      group   => '0',
+      mode    => '0644',
+      before  => Rsyslog::Config['20-ufw'];
+>>>>>>> bd82cf0... add dependencies
   }
 
   ufw::rules::before {['00-default_dist', '10-private_network_allow']:
