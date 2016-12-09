@@ -15,16 +15,14 @@ class ufw {
       group   => '0',
       mode    => '0644',
       purge   => true,
-      recurse => true,
-      require => Package['ufw'];
+      recurse => true;
     '/etc/ufw/before.d':
       ensure  => directory,
       owner   => '0',
       group   => '0',
       mode    => '0644',
       purge   => true,
-      recurse => true,
-      require => Package['ufw'];
+      recurse => true;
     '/var/log/ufw':
       ensure  => directory,
       owner   => '0',
