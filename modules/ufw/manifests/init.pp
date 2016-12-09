@@ -37,7 +37,7 @@ class ufw {
   }
 
   ufw::rules::before {['00-default_dist', '10-private_network_allow']:
-    require => [File['/etc/ufw/before.d'], Package['ufw']],
+    require => File['/etc/ufw/before.d'],
   }
 
   rsyslog::config { '20-ufw':
