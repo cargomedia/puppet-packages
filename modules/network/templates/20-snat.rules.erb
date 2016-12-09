@@ -12,5 +12,5 @@ COMMIT
 
 # Allow outgoing traffic
 # Allow incoming established traffic
--A ufw-before-input -m state --state RELATED,ESTABLISHED -i <%= @ifname_public %> -o <%= @ifname_private %> -j ACCEPT
+-A ufw-before-input -m conntrack --ctstate RELATED,ESTABLISHED -i <%= @ifname_public %> -o <%= @ifname_private %> -j ACCEPT
 COMMIT
