@@ -88,7 +88,3 @@ mod 'cargomedia/phantomjs',
 mod 'cargomedia/systemd',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/systemd'
-
-mod 'cargomedia/openssl',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/openssl'
