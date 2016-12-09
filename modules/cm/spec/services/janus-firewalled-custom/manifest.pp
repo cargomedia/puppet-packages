@@ -17,4 +17,7 @@ node default {
 
   include 'ufw'
 
+  @ufw::rule { 'ssh':
+    app_or_port => 22,
+  }
 }
