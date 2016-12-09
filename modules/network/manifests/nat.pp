@@ -12,7 +12,7 @@ class network::nat (
     }
   }
 
-  ufw::rules::before { 'snat':
-    rules_content => template("${module_name}/snat.rules.erb"),
+  ufw::rules::before { '20-snat':
+    rules_content => template("${module_name}/20-snat.rules.erb"),
   }
 }
