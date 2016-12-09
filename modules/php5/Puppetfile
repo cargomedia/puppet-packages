@@ -29,3 +29,7 @@ mod 'cargomedia/logrotate',
 mod 'cargomedia/git',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/git'
+
+mod 'cargomedia/openssl',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/openssl'
