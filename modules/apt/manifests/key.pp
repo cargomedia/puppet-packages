@@ -16,7 +16,7 @@ define apt::key (
       }
       if ($key_url) {
         exec { "Add deb signature key for ${name}":
-          command   => "wget -q '${key_url}' -O- | apt-key add -",
+          command   => "curl --silent '${key_url}' | sudo apt-key add -",
           path      => ['/bin','/usr/bin'],
           unless    => $condition,
           logoutput => 'on_failure',
