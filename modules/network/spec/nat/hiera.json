@@ -1,4 +1,5 @@
 {
+  "_comment": "Interface eth1 has static values for nic and routing that depend on the Vagrantfile's settings!",
   "network::interfaces": {
     "eth0": {
       "method": "dhcp"
@@ -6,22 +7,6 @@
     "eth1": {
       "method": "static",
       "ipaddr": "10.10.20.122",
-      "netmask": "255.255.255.0",
-      "slaves": "eth2 eth3",
-      "mtu": 9000,
-      "bonding_opts": {
-        "mode": 4,
-        "miimon": 100,
-        "downdelay": 0,
-        "updelay": 0,
-        "lacp-rate": "fast",
-        "xmit_hash_policy": 1
-      },
-      "route_opts": "route add -net 10.10.130.0 netmask 255.255.255.0 gw 10.10.20.128"
-    },
-    "eth1:0": {
-      "method": "static",
-      "ipaddr": "192.168.20.122",
       "netmask": "255.255.255.0"
     },
     "lo:0": {
