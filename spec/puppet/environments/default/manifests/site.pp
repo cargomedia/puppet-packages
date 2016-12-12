@@ -13,8 +13,4 @@ node default {
     provider => shell,
   }
 
-  notify { 'Restart polipo':
-    notify => Service['polipo'],
-    require => Class['polipo'],
-  }
 }
