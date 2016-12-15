@@ -30,7 +30,10 @@ class ufw {
     group   => '0',
     mode    => '0644',
   }
-  ->
+
+  ufw::rules::before {['00-default_dist', '10-private_network_allow']:
+    require => [File['/etc/ufw/before.d'], Package['ufw']],
+  }
 
   rsyslog::config { '20-ufw':
     content => template("${module_name}/rsyslog.erb"),
