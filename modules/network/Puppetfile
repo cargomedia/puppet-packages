@@ -6,6 +6,11 @@ mod 'cargomedia/sysctl',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/sysctl'
 
+mod 'cargomedia/iptables',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/iptables'
+
+
 mod 'cargomedia/apt',
    :git => 'git@github.com:cargomedia/puppet-packages.git',
    :path => 'modules/apt'
