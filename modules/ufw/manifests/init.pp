@@ -1,4 +1,6 @@
-class ufw {
+class ufw (
+  $ipv6 = false,
+){
 
   require 'apt'
   include 'ufw::service'
@@ -27,6 +29,12 @@ class ufw {
       require => Package['ufw'];
     '/var/log/ufw':
       ensure  => directory,
+      owner   => '0',
+      group   => '0',
+      mode    => '0644';
+    '/etc/default/ufw':
+      ensure  => file,
+      content => template("${module_name}/default.ufw.erb"),
       owner   => '0',
       group   => '0',
       mode    => '0644';
