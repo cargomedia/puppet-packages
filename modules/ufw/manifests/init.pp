@@ -8,29 +8,6 @@ class ufw {
     provider => 'apt',
   }
 
-<<<<<<< HEAD
-  file { '/etc/ufw/applications.d':
-    ensure  => directory,
-    owner   => '0',
-    group   => '0',
-    mode    => '0644',
-    purge   => true,
-    recurse => true,
-  }
-
-  file { '/var/log/ufw':
-    ensure  => directory,
-    owner   => '0',
-    group   => '0',
-    mode    => '0644',
-  }
-
-  file { '/var/log/ufw/ufw.log':
-    ensure  => file,
-    owner   => '0',
-    group   => '0',
-    mode    => '0644',
-=======
   file {
     '/etc/ufw/applications.d':
       ensure  => directory,
@@ -59,7 +36,6 @@ class ufw {
       group   => '0',
       mode    => '0644',
       before  => Rsyslog::Config['20-ufw'];
->>>>>>> bd82cf0... add dependencies
   }
 
   ufw::rules::before {['00-default_dist', '10-private_network_allow']:
@@ -76,6 +52,7 @@ class ufw {
     postrotate_script => '/etc/init.d/rsyslog rotate > /dev/null 2>&1 || true',
   }
 
+  Ufw::Rules::Before <| |> ~> Exec['Rebuild before.rules']
   Ufw::Application <| |> -> Exec['Activate ufw']
   Ufw::Rule <| |> -> Exec['Activate ufw']
 }
