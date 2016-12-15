@@ -20,4 +20,9 @@ describe 'ufw::default' do
   describe command('curl -s google.com') do
     its(:exit_status) { should eq 0 }
   end
+
+  describe file('/etc/default/ufw') do
+    it { should be_file }
+    its(:content) { should match /IPV6=no/ }
+  end
 end
