@@ -20,7 +20,7 @@ define ufw::rule(
 
   $ufw_unless = "ufw status | grep -iqE '^${to_unless}+.+${verb_allow}+.+${from_unless}'"
 
-  exec { "Set ${target} allow to ${allow} from ${from} to ${to}":
+  exec { "[${title}] Set ${target} allow to ${allow} from ${from} to ${to}":
     provider => shell,
     command  => "ufw ${verb_allow} ${proto} from ${from} to ${to} ${target}",
     unless   => $ufw_unless,
