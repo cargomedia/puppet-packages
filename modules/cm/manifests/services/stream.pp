@@ -43,7 +43,7 @@ class cm::services::stream(
     statusPort  => $status_port,
   }
 
-  @ufw::application { "cm-services-stream":
+  @ufw::application { 'cm-services-stream':
     app_ports => inline_template("${port},<%= @socket_ports.join(',')%>,${status_port}/tcp"),
   }
 }
