@@ -131,4 +131,14 @@ define cm::vhost(
       'expires 1y;',
     ],
   }
+
+  @ufw::rule { "allow http for ${title}":
+    app_or_port => '80',
+    protocol    => 'tcp',
+  }
+
+  @ufw::rule { "allow ssl for ${title}":
+    app_or_port => $ssl_port,
+    protocol    => 'tcp',
+  }
 }
