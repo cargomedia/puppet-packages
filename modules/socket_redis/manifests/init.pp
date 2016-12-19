@@ -46,6 +46,10 @@ class socket_redis (
     notify   => Service['socket-redis'],
   }
 
+  @ufw::application { 'socket-redis':
+    app_ports => inline_template("${statusPort},<%= @socketPorts.join(',')%>/tcp"),
+  }
+
   @bipbip::entry { 'socket-redis':
     plugin  => 'socket-redis',
     options => {
