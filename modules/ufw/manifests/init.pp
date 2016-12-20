@@ -1,5 +1,6 @@
 class ufw (
   $ipv6 = false,
+  $ip_forward = true,
 ){
 
   require 'apt'
@@ -35,6 +36,12 @@ class ufw (
     '/etc/default/ufw':
       ensure  => file,
       content => template("${module_name}/default.ufw.erb"),
+      owner   => '0',
+      group   => '0',
+      mode    => '0644';
+    '/etc/ufw/sysctl.conf':
+      ensure  => file,
+      content => template("${module_name}/sysctl.conf.erb"),
       owner   => '0',
       group   => '0',
       mode    => '0644';
