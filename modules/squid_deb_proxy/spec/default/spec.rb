@@ -6,7 +6,7 @@ describe 'squid_deb_proxy::default' do
     it { should be_installed }
   end
 
-  describe port(8123) do
+  describe port(8124) do
     it { should be_listening }
   end
 

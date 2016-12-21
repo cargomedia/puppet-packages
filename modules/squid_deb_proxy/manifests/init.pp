@@ -1,6 +1,6 @@
 class squid_deb_proxy(
   $diskCacheRoot = '/var/cache/squid-deb-proxy',
-  $listeningPort = 8123,
+  $listeningPort = 8124,
 ) {
 
   include 'squid_deb_proxy::service'

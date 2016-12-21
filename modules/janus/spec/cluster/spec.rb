@@ -31,6 +31,6 @@ describe 'janus::cluster' do
   describe file('/opt/janus-cluster/edge3/var/log/janus/janus.log') do
     its(:content) { should match /Plugins folder: \/opt\/janus-cluster\/edge3\/usr\/lib\/janus\/plugins.enabled/ }
     its(:content) { should match /Loading plugin 'libjanus_rtpbroadcast\.so'/ }
-    its(:content) { should match /JANUS CM video plugin initialized!/ }
+    its(:content) { should match /JANUS CM video plugin: Initialized!/ }
   end
 end
