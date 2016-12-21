@@ -22,7 +22,4 @@ describe 'gearman::persistence::sqlite' do
     it { should be_listening }
   end
 
-  describe command('lsof | grep gearmand | grep -q gearman-persist.sqlite3') do
-    its(:exit_status) { should eq 0 }
-  end
 end
