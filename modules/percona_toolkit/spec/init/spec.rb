@@ -7,6 +7,6 @@ describe 'percona_toolkit' do
   end
 
   describe command('pt-online-schema-change --version') do
-    its(:stdout) { should match '2.2.11' }
+    its(:stdout) { should match 'pt-online-schema-change' }
   end
 end
