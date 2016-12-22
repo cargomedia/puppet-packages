@@ -64,10 +64,9 @@ class jenkins (
     }
 
     Jenkins::Config::Slave <<| cluster_id == $cluster_id |>>
-  } else {
-    # UFW rule for Jenkins master role
-    @ufw::application { 'jenkins-master':
-      app_ports => "${port}/tcp",
-    }
+  }
+
+  @ufw::application { 'jenkins-master':
+    app_ports => "${port}/tcp",
   }
 }
