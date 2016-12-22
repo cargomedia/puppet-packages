@@ -1,12 +1,12 @@
-class jenkins(
+class jenkins (
   $hostname,
-  $port = 8080,
-  $email_admin = 'root@localhost',
-  $email_suffix = '@localhost',
+  $port          = 8080,
+  $email_admin   = 'root@localhost',
+  $email_suffix  = '@localhost',
   $num_executors = 1,
-  $cluster_id = undef
+  $cluster_id    = undef
 ) {
-  
+
   require 'jenkins::package'
   require 'jenkins::common'
   include 'jenkins::service'
@@ -58,7 +58,7 @@ class jenkins(
 
     $ssh_keys = generate_sshkey("jenkins@cluster-${cluster_id}")
 
-    jenkins::config::credential::ssh{ 'cluster-credential':
+    jenkins::config::credential::ssh { 'cluster-credential':
       username    => 'jenkins',
       private_key => $ssh_keys['private']
     }
@@ -66,4 +66,7 @@ class jenkins(
     Jenkins::Config::Slave <<| cluster_id == $cluster_id |>>
   }
 
+  @ufw::application { 'jenkins-master':
+    app_ports => "${port}/tcp",
+  }
 }
