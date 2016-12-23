@@ -24,3 +24,7 @@ mod 'cargomedia/puppet',
 mod 'cargomedia/postgresql',
    :git => 'git@github.com:cargomedia/puppet-packages.git',
    :path => 'modules/postgresql'
+
+mod 'cargomedia/ufw',
+    :git => 'git@github.com:cargomedia/puppet-packages.git',
+    :path => 'modules/ufw'
