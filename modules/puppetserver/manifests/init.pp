@@ -112,4 +112,7 @@ class puppetserver(
 
   @systemd::critical_unit { 'puppetserver.service': }
 
+  @ufw::application { 'puppetserver':
+    app_ports => "${port}/tcp",
+  }
 }
