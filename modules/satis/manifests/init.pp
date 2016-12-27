@@ -66,4 +66,9 @@ class satis(
       'root /var/lib/satis/public/;',
     ],
   }
+
+  @ufw::application { 'satis':
+    app_ports => '80,443/tcp',
+  }
+
 }
