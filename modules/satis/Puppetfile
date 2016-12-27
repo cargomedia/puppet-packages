@@ -9,3 +9,7 @@ mod 'cargomedia/git',
 mod 'cargomedia/nginx',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/nginx'
+
+mod 'cargomedia/ufw',
+    :git => 'git@github.com:cargomedia/puppet-packages.git',
+    :path => 'modules/ufw'
