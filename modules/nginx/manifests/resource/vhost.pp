@@ -63,6 +63,11 @@ define nginx::resource::vhost(
       content => template("${module_name}/vhost/vhost_footer.erb"),
       notify  => Class['nginx::service'],
     }
+
+    @ufw::rule { "allow http for ${name}":
+      app_or_port => $listen_port,
+      protocol    => 'tcp',
+    }
   }
 
   if ($ssl == true) {
@@ -76,6 +81,11 @@ define nginx::resource::vhost(
       ensure  => $fileIfEnabled,
       content => template("${module_name}/vhost/vhost_footer.erb"),
       notify  => Class['nginx::service'],
+    }
+
+    @ufw::rule { "allow ssl for ${name}":
+      app_or_port => $ssl_port,
+      protocol    => 'tcp',
     }
   }
 
@@ -105,4 +115,6 @@ define nginx::resource::vhost(
       location_cfg_append => $location_cfg_append
     }
   }
+
+
 }
