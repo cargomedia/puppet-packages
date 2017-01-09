@@ -115,6 +115,4 @@ define nginx::resource::vhost(
       location_cfg_append => $location_cfg_append
     }
   }
-
-
 }
