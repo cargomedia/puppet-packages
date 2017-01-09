@@ -83,7 +83,7 @@ define nginx::resource::vhost(
       notify  => Class['nginx::service'],
     }
 
-    @ufw::rule { "allow ssl for ${name}":
+    @ufw::rule { "allow https for ${name}":
       app_or_port => $ssl_port,
       protocol    => 'tcp',
     }
