@@ -7,9 +7,6 @@ define cm::upstream::fastcgi($members) {
   nginx::resource::upstream { $name:
     ensure              => present,
     members             => $upstream_members,
-    upstream_cfg_append => [
-      'keepalive 100;',
-    ],
   }
 
 }
