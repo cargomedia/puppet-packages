@@ -8,7 +8,7 @@ define cm::upstream::proxy($members) {
     ensure              => present,
     members             => $upstream_members,
     upstream_cfg_append => [
-      'keepalive 400;',
+      'keepalive 100;',
     ],
   }
 }
