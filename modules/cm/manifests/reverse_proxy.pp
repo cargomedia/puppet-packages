@@ -4,7 +4,8 @@ define cm::reverse_proxy(
   $ssl_port = 443,
   $aliases = [],
   $redirects = undef,
-  $upstream_options = { }
+  $cdn_origin = undef,
+  $upstream_options = { },
 ) {
 
   include 'nginx'
@@ -27,7 +28,11 @@ define cm::reverse_proxy(
     }
   }
 
-  $hostnames = concat([$name], $aliases)
+  if ($cdn_origin) {
+    $hostnames = concat([$name, $cdn_origin], $aliases)
+  } else {
+    $hostnames = concat([$name], $aliases)
+  }
 
   if ($redirects) {
     nginx::resource::vhost{ "${name}-redirect":
