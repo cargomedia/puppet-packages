@@ -4,7 +4,8 @@ define cm::reverse_proxy(
   $ssl_port = 443,
   $aliases = [],
   $redirects = undef,
-  $upstream_options = { }
+  $cdn_origin = undef,
+  $upstream_options = { },
 ) {
 
   include 'nginx'
@@ -62,5 +63,22 @@ define cm::reverse_proxy(
       "proxy_pass ${proto}://${upstream_name_real};",
       'proxy_next_upstream error timeout http_502;'
     ]
+  }
+
+  if ($cdn_origin) {
+    nginx::resource::vhost{ "${name}-origin":
+      server_name         => [$cdn_origin],
+      listen_port         => $ssl_port,
+      ssl                 => true,
+      ssl_cert            => $ssl_cert,
+      ssl_key             => $ssl_key,
+      ssl_port            => $ssl_port,
+      location_cfg_append => [
+        "proxy_set_header Host '${upstream_opts[header_host]}';",
+        'proxy_set_header X-Real-IP $remote_addr;',
+        "proxy_pass ${proto}://${upstream_name_real};",
+        'proxy_next_upstream error timeout http_502;'
+      ],
+    }
   }
 }
