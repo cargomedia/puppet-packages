@@ -8,3 +8,7 @@ mod 'cargomedia/systemd',
 mod 'cargomedia/monit',
    :git => 'git@github.com:cargomedia/puppet-packages.git',
    :path => 'modules/monit'
+
+mod 'cargomedia/sudo',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/sudo'

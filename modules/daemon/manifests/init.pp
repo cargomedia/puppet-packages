@@ -27,6 +27,8 @@ define daemon (
   }
 
   if ($virtual == 'docker') {
+    include 'sudo'
+
     file { "/docker-run-${name}":
       ensure  => file,
       content => template("${module_name}/docker.sh.erb"),
@@ -43,7 +45,7 @@ define daemon (
     }
 
     systemd::service { $name:
-      content => template("${module_name}/systemd.service.erb"),
+      content  => template("${module_name}/systemd.service.erb"),
       critical => $critical,
     }
 
