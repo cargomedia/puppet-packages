@@ -25,7 +25,7 @@ class php5::fpm {
     group   => '0',
     mode    => '0644',
     before  => Package['php5-fpm'],
-    notify  => Service['php5-fpm'],
+    notify  => Daemon['php5-fpm'],
   }
 
   file { '/var/log/php5-fpm/php5-fpm.log':
@@ -34,7 +34,7 @@ class php5::fpm {
     group  => '0',
     mode   => '0644',
     before => Package['php5-fpm'],
-    notify => Service['php5-fpm'],
+    notify => Daemon['php5-fpm'],
   }
 
   file { '/etc/php5/fpm/pool.d/www.conf':
@@ -44,12 +44,12 @@ class php5::fpm {
     group   => '0',
     mode    => '0644',
     before  => Package['php5-fpm'],
-    notify  => Service['php5-fpm'],
+    notify  => Daemon['php5-fpm'],
   }
 
   php5::config { '/etc/php5/fpm/php.ini':
     before => Package['php5-fpm'],
-    notify => Service['php5-fpm'],
+    notify => Daemon['php5-fpm'],
   }
 
   logrotate::entry { 'php5-fpm':
