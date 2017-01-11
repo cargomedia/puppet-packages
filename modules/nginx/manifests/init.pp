@@ -42,5 +42,4 @@ class nginx (
 
   class { 'nginx::service': }
 
-  @systemd::critical_unit { 'nginx.service': }
 }
