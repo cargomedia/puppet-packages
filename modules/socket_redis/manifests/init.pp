@@ -43,7 +43,7 @@ class socket_redis (
   package { 'socket-redis':
     ensure   => $version,
     provider => 'npm',
-    notify   => Service['socket-redis'],
+    notify   => Daemon['socket-redis'],
   }
 
   @bipbip::entry { 'socket-redis':
