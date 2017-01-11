@@ -9,5 +9,8 @@ class systemd {
     provider => 'apt',
   }
 
+  Systemd::Target <||>
+  Systemd::Unit <||>
+  Systemd::Service <||>
 
 }

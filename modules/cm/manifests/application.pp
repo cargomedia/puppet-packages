@@ -35,5 +35,5 @@ class cm::application (
     require 'phantomjs'
   }
 
-  systemd::target { 'cm-applications': }
+  @systemd::target { 'cm-applications': }
 }
