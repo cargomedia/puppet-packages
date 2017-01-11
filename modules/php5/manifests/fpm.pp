@@ -64,13 +64,16 @@ class php5::fpm {
     provider => 'apt',
   }
 
-  service { 'php5-fpm':
-    enable    => true,
-    require   => Package['php5-fpm'],
+  daemon { 'php5-fpm':
+    binary      => '/usr/sbin/php5-fpm',
+    args        => '--nodaemonize --fpm-config /etc/php5/fpm/php-fpm.conf',
+    pre_command => '/usr/lib/php5/php5-fpm-checkconf',
+    require     => [
+      File['/etc/php5/fpm/php.ini'],
+      Package['php5-fpm'],
+    ],
     subscribe => Class['php5::config_extension_change'],
   }
-
-  @systemd::critical_unit { 'php5-fpm.service': }
 
   @bipbip::entry { 'php5-fpm':
     plugin  => 'fastcgi-php-fpm',
