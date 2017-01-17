@@ -1,11 +1,14 @@
 [Unit]
 Description=Disable fsck at mount
-Before=umount.target
+Requires=multi-user.target
+Before=shutdown.target reboot.target halt.target kexec.target
+DefaultDependencies=no
 
 [Service]
-ExecStart=/bin/true
+ExecStart=/usr/local/bin/disable-fsck-at-mount.sh
 ExecStop=/usr/local/bin/disable-fsck-at-mount.sh
 Type=oneshot
+RemainAfterExit=yes
 
 [Install]
-WantedBy=multi-user.target
+WantedBy=shutdown.target reboot.target halt.target kexec.target
