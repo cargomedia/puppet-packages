@@ -2,9 +2,22 @@ class fs::config::nofsck {
 
   ensure_packages(['util-linux'], { provider => 'apt' })
 
-  helper::script { 'Disable fsck on all partitions':
+  file { '/usr/local/bin/disable-fsck-at-mount.sh':
+    ensure  => file,
     content => template("${module_name}/disable-fsck-at-mount.sh"),
-    unless  => 'ls -1 /var/local/nofsck',
+    owner   => '0',
+    group   => '0',
+    mode    => '0750',
     require => Package['util-linux'],
   }
+
+  $unit_name = 'nofsck.service'
+
+  systemd::unit { $unit_name:
+    service_name => $unit_name,
+    critical => false,
+    content => template("${module_name}/nofsck.service"),
+    require => File['/usr/local/bin/disable-fsck-at-mount.sh'],
+  }
+
 }

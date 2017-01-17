@@ -1,0 +1,7 @@
+[Unit]
+Description=Disable fsck at mount
+Before=umount.target
+
+[Service]
+ExecStart=/usr/local/bin/disable-fsck-at-mount.sh
+Type=oneshot
