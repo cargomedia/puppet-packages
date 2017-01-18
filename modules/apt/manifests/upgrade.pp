@@ -1,4 +1,4 @@
-class apt::upgrade(
+class apt::upgrade (
 ) {
 
   include 'apt::update'
@@ -8,6 +8,7 @@ class apt::upgrade(
     logoutput   => true,
     user        => 'root',
     environment => ['DEBIAN_FRONTEND=noninteractive'],
+    timeout     => 900,
     refreshonly => true,
     subscribe   => Exec['apt_update'],
   }
