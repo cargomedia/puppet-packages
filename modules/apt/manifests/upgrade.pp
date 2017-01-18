@@ -1,4 +1,4 @@
-class apt::upgrade(
+class apt::upgrade (
 ) {
 
   include 'apt::update'
@@ -7,6 +7,7 @@ class apt::upgrade(
     command     => '/usr/bin/apt-get -y -o Dpkg::Options::="--force-confold" dist-upgrade',
     user        => 'root',
     environment => ['DEBIAN_FRONTEND=noninteractive'],
+    timeout     => 900,
     refreshonly => true,
     subscribe   => Exec['apt_update'],
   }
