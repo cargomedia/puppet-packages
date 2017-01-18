@@ -9,6 +9,7 @@ class mongodb::role::shard (
   $options = { },
   $auth_key = undef,
   $monitoring_credentials = { },
+  $enable_sharding = true,
 ) {
 
   mongodb::core::mongod { 'shard':
@@ -31,11 +32,13 @@ class mongodb::role::shard (
     }
   }
 
-  mongodb_shard { "${hostname}:${port}":
-    ensure   => present,
-    repl_set => $repl_set,
-    router   => $router,
-    require  => Mongodb::Core::Mongod['shard'],
+  if $enable_sharding {
+    mongodb_shard { "${hostname}:${port}":
+      ensure   => present,
+      repl_set => $repl_set,
+      router   => $router,
+      require  => Mongodb::Core::Mongod['shard'],
+    }
   }
 
 }
