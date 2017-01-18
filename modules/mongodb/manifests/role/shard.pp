@@ -5,10 +5,11 @@ class mongodb::role::shard (
   $repl_set = undef,
   $repl_members = undef,
   $repl_arbiters = undef,
-  $router = undef,
+  $router,
   $options = { },
   $auth_key = undef,
   $monitoring_credentials = { },
+  $enable_sharding = true,
 ) {
 
   mongodb::core::mongod { 'shard':
@@ -32,7 +33,7 @@ class mongodb::role::shard (
   }
 
   # This is workaround to support simple replica sets without enabled sharding
-  if $router {
+  if $enable_sharding {
     mongodb_shard { "${hostname}:${port}":
       ensure   => present,
       repl_set => $repl_set,
