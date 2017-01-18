@@ -32,7 +32,6 @@ class mongodb::role::shard (
     }
   }
 
-  # This is workaround to support simple replica sets without enabled sharding
   if $enable_sharding {
     mongodb_shard { "${hostname}:${port}":
       ensure   => present,
