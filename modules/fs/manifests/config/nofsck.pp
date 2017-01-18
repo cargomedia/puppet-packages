@@ -13,6 +13,10 @@ class fs::config::nofsck {
 
   $unit_name = 'nofsck.service'
 
+  service { $unit_name:
+    enable => true,
+  }
+
   systemd::unit { $unit_name:
     service_name => $unit_name,
     critical => false,
