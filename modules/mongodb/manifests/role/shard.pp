@@ -23,12 +23,13 @@ class mongodb::role::shard (
   }
 
   if $repl_set {
+    $before_requirements = $enable_sharding ? { false => undef, default => Mongodb_shard["${hostname}:${port}"] }
     mongodb_replset { $repl_set:
       ensure   => present,
       members  => $repl_members,
       arbiters => $repl_arbiters,
       require  => Mongodb::Core::Mongod['shard'],
-      before   => Mongodb_shard["${hostname}:${port}"]
+      before   => $before_requirements,
     }
   }
 
