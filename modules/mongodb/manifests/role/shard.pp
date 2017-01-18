@@ -1,15 +1,15 @@
 class mongodb::role::shard (
-  $port = 27018,
-  $bind_ip = '0.0.0.0',
-  $hostname = 'localhost',
-  $repl_set = undef,
-  $repl_members = undef,
-  $repl_arbiters = undef,
+  $port                   = 27018,
+  $bind_ip                = '0.0.0.0',
+  $hostname               = 'localhost',
+  $repl_set               = undef,
+  $repl_members           = undef,
+  $repl_arbiters          = undef,
   $router,
-  $options = { },
-  $auth_key = undef,
+  $options                = { },
+  $auth_key               = undef,
   $monitoring_credentials = { },
-  $enable_sharding = true,
+  $enable_sharding        = true,
 ) {
 
   mongodb::core::mongod { 'shard':
@@ -28,7 +28,10 @@ class mongodb::role::shard (
       members  => $repl_members,
       arbiters => $repl_arbiters,
       require  => Mongodb::Core::Mongod['shard'],
-      before   => $enable_sharding ? { false => undef, default => Mongodb_shard["${hostname}:${port}"] },
+      before   => ($enable_sharding ? {
+        false   => undef,
+        default => Mongodb_shard["${hostname}:${port}"]
+      }),
     }
   }
 
