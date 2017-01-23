@@ -1,6 +1,6 @@
 class apt::update(
   $options = [],
-  $max_cache_age = 5*24*3600,
+  $max_cache_age = 5 * 24 * 3600,
 ) {
 
   require 'apt'
@@ -10,12 +10,19 @@ class apt::update(
 
   $refreshonly = (apt_cache_age() < $max_cache_age)
 
-  file { '/etc/apt/apt.conf.d/15update-stamp':
-    ensure  => file,
-    content => 'APT::Update::Post-Invoke-Success {"touch /var/lib/apt/periodic/update-success-stamp 2>/dev/null || true";};',
-    owner   => 0,
-    group   => 0,
-    mode    => '0644'
+  file {
+    '/etc/apt/apt.conf.d/15update-stamp':
+      ensure  => file,
+      content => 'APT::Update::Post-Invoke-Success {"touch /var/lib/apt/periodic/update-success-stamp 2>/dev/null || true";};',
+      owner   => 0,
+      group   => 0,
+      mode    => '0644';
+    '/etc/apt/apt.conf.d/15force-ipv4':
+      ensure  => file,
+      content => 'Acquire::ForceIPv4 "true";',
+      owner   => 0,
+      group   => 0,
+      mode    => '0644';
   }
   ->
 
