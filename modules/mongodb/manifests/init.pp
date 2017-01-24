@@ -5,11 +5,11 @@ class mongodb {
 
   apt::source { 'mongodb':
     entries => [
-      'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen',
+      'deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/3.2 main',
     ],
     keys    => {
       'mongodb' => {
-        'key' => '7F0CEB10',
+        'key' => 'EA312927',
         'key_server' => 'hkp://keyserver.ubuntu.com:80',
       }
     },
