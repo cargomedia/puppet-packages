@@ -10,6 +10,7 @@ define mongodb::core::mongod (
   $options = { },
   $auth_key = undef,
   $monitoring_credentials = { },
+  $storage_engine = 'wiredTiger',
 ) {
 
   require 'mongodb'
