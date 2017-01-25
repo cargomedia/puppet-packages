@@ -9,7 +9,7 @@ dbpath=/var/lib/mongodb/<%= @instance_name %>
 
 <% if @storage_engine -%>
 storageEngine=<%= @storage_engine %>
-<% end %>
+<% end -%>
 
 #where to log
 logpath=/var/log/mongodb/<%= @instance_name %>.log
