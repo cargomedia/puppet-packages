@@ -8,7 +8,6 @@ fi
 
 if (which dpkg-query >/dev/null && ! dpkg-query --show 'lsb-release' >/dev/null); then
   apt-get -o Acquire::ForceIPv4=true update
-  touch /var/lib/apt/periodic/update-success-stamp 2>/dev/null || true
   apt-get install -qy lsb-release
 fi
 
@@ -22,7 +21,6 @@ if (which lsb_release >/dev/null && lsb_release --id | grep -qE "(Debian|Ubuntu)
 	dpkg -i puppetlabs-release-pc1.deb
 	rm puppetlabs-release-pc1.deb
 	apt-get -o Acquire::ForceIPv4=true update
-	touch /var/lib/apt/periodic/update-success-stamp 2>/dev/null || true
 	apt-get install -qy puppet-agent
 
 	binaries=( puppet facter mco hiera )
