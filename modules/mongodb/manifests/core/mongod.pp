@@ -1,18 +1,21 @@
 define mongodb::core::mongod (
-  $port = 27017,
-  $bind_ip = undef,
-  $repl_set = '',
-  $config_server = false,
-  $shard_server = false,
-  $rest = false,
-  $fork = false,
-  $auth = false,
-  $options = { },
-  $auth_key = undef,
+  $port                   = 27017,
+  $bind_ip                = undef,
+  $repl_set               = '',
+  $config_server          = false,
+  $shard_server           = false,
+  $rest                   = false,
+  $fork                   = false,
+  $auth                   = false,
+  $options                = { },
+  $auth_key               = undef,
   $monitoring_credentials = { },
+  $version                = undef
 ) {
 
-  require 'mongodb'
+  class { 'mongodb':
+    version => $version
+  }
 
   $daemon = 'mongod'
   $instance_name = "${daemon}_${name}"
@@ -27,18 +30,20 @@ define mongodb::core::mongod (
         owner   => 'mongodb',
         group   => 'mongodb',
         before  => Daemon[$instance_name],
-        notify  => Service[$instance_name];
+        notify  => Service[$instance_name],
+        require => Class['mongodb'];
       }
     }
   }
 
   file {
     "/var/lib/mongodb/${instance_name}":
-      ensure  => directory,
-      mode    => '0644',
-      owner   => 'mongodb',
-      group   => 'mongodb',
-      before  => Daemon[$instance_name];
+      ensure => directory,
+      mode   => '0644',
+      owner  => 'mongodb',
+      group  => 'mongodb',
+      before => Daemon[$instance_name],
+      require => Class['mongodb'];
 
     "/etc/mongodb/${instance_name}.conf":
       ensure  => file,
@@ -47,7 +52,8 @@ define mongodb::core::mongod (
       owner   => 'mongodb',
       group   => 'mongodb',
       before  => Daemon[$instance_name],
-      notify  => Service[$instance_name];
+      notify  => Service[$instance_name],
+      require => Class['mongodb'];
   }
 
   daemon { $instance_name:
@@ -61,17 +67,21 @@ define mongodb::core::mongod (
     limit_rss    => 'unlimited',
     limit_nproc  => 32000,
     stop_timeout => 10,
+    require      => Class['mongodb'],
   }
-  ~>
+    ~>
 
-  exec { "wait for ${instance_name} up":
-    command     => "while ! (mongo --quiet --port ${port} --eval 'db.getMongo()'); do sleep 0.5; done",
-    provider    => shell,
-    timeout     => 600, # Might take long due to journal file preallocation
-    refreshonly => true,
+    exec { "wait for ${instance_name} up":
+      command     => "while ! (mongo --quiet --port ${port} --eval 'db.getMongo()'); do sleep 0.5; done",
+      provider    => shell,
+      timeout     => 600, # Might take long due to journal file preallocation
+      refreshonly => true,
+    }
+
+  $hostName = $bind_ip ? {
+    undef   => 'localhost',
+    default => $bind_ip
   }
-
-  $hostName = $bind_ip? { undef => 'localhost', default => $bind_ip }
 
   @bipbip::entry { $instance_name:
     plugin  => 'mongodb',
