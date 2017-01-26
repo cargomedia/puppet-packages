@@ -3,8 +3,8 @@ class nginx::params {
   $nx_run_dir  = '/var/nginx'
 
   $nx_daemon_user                   = 'nginx'
+  $nx_log_format                    = undef
   $nx_access_log                    = 'off'
-  $nx_logdir                        = '/var/log/nginx'
   $nx_pid                           = '/var/run/nginx.pid'
   $nx_conf_dir                      = '/etc/nginx'
   $nx_confd_purge                   = true

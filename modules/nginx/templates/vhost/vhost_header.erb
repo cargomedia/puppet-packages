@@ -3,8 +3,8 @@ server {
 <% unless @server_name.empty? %>
   server_name           <%= @server_name.join(" ") %>;
 <% end %>
-<% if scope.lookupvar('nginx::params::nx_access_log') == 'on' %>
-  access_log            <%= scope.lookupvar('nginx::params::nx_logdir')%>/<%= @name %>.access.log;
+<% if scope.lookupvar('nginx::params::nx_access_log') != 'off' %>
+  access_log            <%= scope.lookupvar('nginx::params::nx_access_log') %>;
 <% end %>
 <% if @vhost_cfg_prepend -%><% @vhost_cfg_prepend.each do |option| -%>
   <%= option %>
