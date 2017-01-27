@@ -10,7 +10,7 @@ define mongodb::core::mongod (
   $options                = { },
   $auth_key               = undef,
   $monitoring_credentials = { },
-  $version                = undef
+  $version                = undef,
   $storage_engine         = undef,
 ) {
 
