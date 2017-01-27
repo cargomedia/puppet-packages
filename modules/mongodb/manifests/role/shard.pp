@@ -10,6 +10,7 @@ class mongodb::role::shard (
   $auth_key               = undef,
   $monitoring_credentials = { },
   $enable_sharding        = true,
+  $version                = undef,
   $storage_engine         = undef,
 ) {
 
@@ -21,6 +22,7 @@ class mongodb::role::shard (
     options                => $options,
     auth_key               => $auth_key,
     monitoring_credentials => $monitoring_credentials,
+    version                => $version,
     storage_engine         => $storage_engine,
   }
 
