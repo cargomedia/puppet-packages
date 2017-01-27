@@ -13,8 +13,10 @@ define mongodb::core::mongod (
   $version                = undef
 ) {
 
-  class { 'mongodb':
-    version => $version
+  if !defined(Class['mongodb']) {
+    class { 'mongodb':
+      version => $version
+    }
   }
 
   $daemon = 'mongod'
@@ -38,11 +40,11 @@ define mongodb::core::mongod (
 
   file {
     "/var/lib/mongodb/${instance_name}":
-      ensure => directory,
-      mode   => '0644',
-      owner  => 'mongodb',
-      group  => 'mongodb',
-      before => Daemon[$instance_name],
+      ensure  => directory,
+      mode    => '0644',
+      owner   => 'mongodb',
+      group   => 'mongodb',
+      before  => Daemon[$instance_name],
       require => Class['mongodb'];
 
     "/etc/mongodb/${instance_name}.conf":
