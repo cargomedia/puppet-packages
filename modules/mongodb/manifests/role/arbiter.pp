@@ -1,16 +1,17 @@
 class mongodb::role::arbiter (
-  $port = 27018,
-  $bind_ip = '0.0.0.0',
-  $hostname = 'localhost',
+  $port                   = 27018,
+  $bind_ip                = '0.0.0.0',
+  $hostname               = 'localhost',
   $repl_set,
   $repl_members,
-  $options = { },
-  $auth_key = undef,
+  $options                = { },
+  $auth_key               = undef,
   $monitoring_credentials = { },
+  $version                = undef,
 ) {
 
   $defaults = {
-    'nojournal' => true,
+    'nojournal'  => true,
     'smallfiles' => true,
     'noprealloc' => true,
   }
@@ -23,6 +24,7 @@ class mongodb::role::arbiter (
     options                => merge($defaults, $options),
     auth_key               => $auth_key,
     monitoring_credentials => $monitoring_credentials,
+    version                => $version,
   }
 
   mongodb_replset { $repl_set:
