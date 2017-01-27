@@ -8,8 +8,8 @@ class mongodb (
   case $version {
 
     '2.6': {
-      $apt_repo = 'deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/3.2 main'
-      $apt_key = 'EA312927'
+      $apt_repo = 'deb http://downloads-distro.mongodb.org/repo/debian-sysvinit dist 10gen'
+      $apt_key = '7F0CEB10'
     }
 
     '3.0': {
