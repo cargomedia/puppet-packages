@@ -33,6 +33,7 @@ class Puppet::Provider::Mongodb < Puppet::Provider
     output.gsub!(/ISODate\((.+?)\)/, '\1 ')
     output.gsub!(/Timestamp\((.+?)\)/, '[\1]')
     output.gsub!(/ObjectId\((.+?)\)/, '1')
+    output.gsub!(/NumberLong\((.+?)\)/, '\1 ')
 
     JSON.parse(output)
   end
