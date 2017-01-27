@@ -11,6 +11,7 @@ define mongodb::core::mongod (
   $auth_key               = undef,
   $monitoring_credentials = { },
   $version                = undef
+  $storage_engine         = undef,
 ) {
 
   if !defined(Class['mongodb']) {
@@ -71,14 +72,14 @@ define mongodb::core::mongod (
     stop_timeout => 10,
     require      => Class['mongodb'],
   }
-    ~>
+  ~>
 
-    exec { "wait for ${instance_name} up":
-      command     => "while ! (mongo --quiet --port ${port} --eval 'db.getMongo()'); do sleep 0.5; done",
-      provider    => shell,
-      timeout     => 600, # Might take long due to journal file preallocation
-      refreshonly => true,
-    }
+  exec { "wait for ${instance_name} up":
+    command     => "while ! (mongo --quiet --port ${port} --eval 'db.getMongo()'); do sleep 0.5; done",
+    provider    => shell,
+    timeout     => 600, # Might take long due to journal file preallocation
+    refreshonly => true,
+  }
 
   $hostName = $bind_ip ? {
     undef   => 'localhost',

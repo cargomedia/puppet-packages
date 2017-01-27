@@ -7,6 +7,10 @@
 # e.g., if the parent directory isn't mutable by the mongodb user.
 dbpath=/var/lib/mongodb/<%= @instance_name %>
 
+<% if @storage_engine -%>
+storageEngine=<%= @storage_engine %>
+<% end -%>
+
 #where to log
 logpath=/var/log/mongodb/<%= @instance_name %>.log
 

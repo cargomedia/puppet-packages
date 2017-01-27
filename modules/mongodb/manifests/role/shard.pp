@@ -11,6 +11,7 @@ class mongodb::role::shard (
   $monitoring_credentials = { },
   $enable_sharding        = true,
   $version                = undef
+  $storage_engine         = undef,
 ) {
 
   mongodb::core::mongod { 'shard':
@@ -22,6 +23,7 @@ class mongodb::role::shard (
     auth_key               => $auth_key,
     monitoring_credentials => $monitoring_credentials,
     version                => $version,
+    storage_engine         => $storage_engine,
   }
 
   if $repl_set {
