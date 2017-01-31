@@ -10,7 +10,6 @@ class loggly_github::proxy(
   include 'nginx'
 
   nginx::resource::upstream { 'loggly_github':
-    ensure              => present,
     members             => ["127.0.0.1:${upstream_port} max_fails=0 fail_timeout=1"],
     upstream_cfg_append => [
       'keepalive 100;',
