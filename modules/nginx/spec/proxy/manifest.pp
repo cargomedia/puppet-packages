@@ -59,7 +59,6 @@ z5jiDSPskspb8TxB7mD/QtGd/K2UAhECw0n+dET8t9mzsHp5aqYeyMs=
   }
 
   nginx::resource::vhost { 'staging.cargomedia.ch':
-    ensure              => present,
     listen_port         => '8090',
     proxy               => 'http://backend-socketredis',
     ssl                 => true,
@@ -79,7 +78,6 @@ z5jiDSPskspb8TxB7mD/QtGd/K2UAhECw0n+dET8t9mzsHp5aqYeyMs=
   }
 
   nginx::resource::upstream { 'backend-socketredis':
-    ensure              => present,
     members             => [
       'localhost:8096',
       'localhost:8097',
