@@ -13,7 +13,6 @@ class cm::application (
   require 'php5::extension::curl'
   require 'php5::extension::runkit'
   require 'php5::extension::stats'
-  require 'php5::extension::svm'
   require 'php5::extension::mcrypt'
   require 'php5::extension::gearman'
   require 'php5::extension::mongo'
