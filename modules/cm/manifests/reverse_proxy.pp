@@ -62,6 +62,9 @@ define cm::reverse_proxy(
     ssl_cert            => $ssl_cert,
     ssl_key             => $ssl_key,
     location_cfg_append => [
+      'real_ip_recursive on;',
+      'real_ip_header X-Real-IP;',
+      'set_real_ip_from 0.0.0.0/0;',
       "proxy_set_header Host '${upstream_opts[header_host]}';",
       'proxy_set_header X-Real-IP $remote_addr;',
       "proxy_pass ${proto}://${upstream_name_real};",
