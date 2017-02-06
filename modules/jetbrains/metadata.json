@@ -1,9 +1,9 @@
 {
-  "name": "cargomedia-docker_hub",
+  "name": "cargomedia-jetbrains",
   "version": "0.0.1",
   "author": "Cargo Media",
   "license": "MIT",
-  "summary": "docker_hub",
+  "summary": "jetbrains",
   "source": "https://github.com/cargomedia/puppet-packages",
   "operatingsystem_support": [
     {
