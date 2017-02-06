@@ -1,0 +1,16 @@
+{
+  "name": "cargomedia-docker_hub",
+  "version": "0.0.1",
+  "author": "Cargo Media",
+  "license": "MIT",
+  "summary": "docker_hub",
+  "source": "https://github.com/cargomedia/puppet-packages",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": ["8"]
+    }
+  ],
+  "dependencies": [
+  ]
+}

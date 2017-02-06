@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'jetbrains' do
+describe 'jetbrains-hub' do
 
   describe service('jetbrains-hub') do
     it { should be_enabled }
