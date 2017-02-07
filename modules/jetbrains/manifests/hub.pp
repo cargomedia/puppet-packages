@@ -52,7 +52,7 @@ class jetbrains::hub (
     args   => 'run',
     env    => {
       'HOME' => '/var/lib/hub'
-    }
+    },
   }
 
   $upstream_name = 'jetbrains-hub'
