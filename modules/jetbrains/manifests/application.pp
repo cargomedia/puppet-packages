@@ -23,12 +23,11 @@ define jetbrains::application (
 
   group { $group:
     ensure => present,
-    gid    => 2000,
   }
 
   user { $user:
     ensure  => present,
-    gid     => 2000,
+    groups  => $group,
     require => Group[$group]
   }
 
