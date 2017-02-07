@@ -14,7 +14,7 @@ class jetbrains::hub (
   $base_url = "https://${host}"
   $service_name = 'jetbrains-hub'
 
-  $home_path = '/usr/local/hub'
+  $home_path = '/usr/local/jetbrains-hub'
   $config_path = "${home_path}/conf"
   $var_path = '/var/lib/jetbrains-hub'
 
