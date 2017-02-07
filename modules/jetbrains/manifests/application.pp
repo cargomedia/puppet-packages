@@ -8,7 +8,7 @@ define jetbrains::application (
   $download_url,
 ) {
 
-  require 'jetbrains::common'
+  require 'nginx'
 
   $user = "jetbrains-${name}"
   $group = "jetbrains-${name}"
@@ -41,6 +41,7 @@ define jetbrains::application (
   helper::script { "install jetbrains-${name}":
     content => template("${module_name}/install_application.sh"),
     unless  => "grep -e '^${version}.${build}$' ${home_path}/${name}.version",
+    timeout => 2000,
     before  => Daemon[$service_name],
     require => File[$home_path],
   }
@@ -62,7 +63,7 @@ define jetbrains::application (
     require => File[$var_path],
   }
 
-  nginx::resource::vhost { "${module_name}-https-redirect":
+  nginx::resource::vhost { "${module_name}-${host}-https-redirect":
     listen_port         => 80,
     ssl                 => false,
     server_name         => [$host],
