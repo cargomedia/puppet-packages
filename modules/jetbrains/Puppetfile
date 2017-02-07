@@ -1,3 +1,11 @@
 mod 'cargomedia/nginx',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/nginx'
+
+mod 'cargomedia/daemon',
+    :git => 'git@github.com:cargomedia/puppet-packages.git',
+    :path => 'modules/daemon'
+
+mod 'cargomedia/helper',
+    :git => 'git@github.com:cargomedia/puppet-packages.git',
+    :path => 'modules/helper'
