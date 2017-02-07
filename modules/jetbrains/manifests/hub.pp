@@ -62,13 +62,6 @@ class jetbrains::hub (
 
   $upstream_name = 'jetbrains-hub'
 
-  nginx::resource::upstream { $upstream_name:
-    members             => ["localhost:${port}"],
-    upstream_cfg_append => [
-      'keepalive 100;',
-    ],
-  }
-
   nginx::resource::vhost { "${module_name}-https-redirect":
     listen_port         => 80,
     ssl                 => false,
@@ -88,7 +81,7 @@ class jetbrains::hub (
     location_cfg_append => [
       'proxy_set_header Host $http_host;',
       'proxy_set_header X-Forwarded-Proto https;',
-      "proxy_pass http://${upstream_name};",
+      "proxy_pass http://localhost:${port};",
     ],
   }
 }
