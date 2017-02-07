@@ -40,7 +40,7 @@ class jetbrains::hub (
     content => template("${module_name}/install_hub.sh"),
     unless  => "grep -e '^${version}.${build}$' ${home_path}/version.docker.image",
     before  => Daemon[$service_name],
-    require => File[$var_path, $home_path],
+    require => File[$home_path],
   }
 
   file { "${config_path}/internal/bundle.properties":
@@ -52,11 +52,12 @@ class jetbrains::hub (
   }
 
   daemon { $service_name:
-    binary => "${home_path}/bin/hub.sh",
-    args   => 'run',
-    env    => {
+    binary  => "${home_path}/bin/hub.sh",
+    args    => 'run',
+    env     => {
       'HOME' => $var_path
     },
+    require => File[$var_path],
   }
 
   $upstream_name = 'jetbrains-hub'
