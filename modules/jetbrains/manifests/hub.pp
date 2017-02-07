@@ -81,6 +81,8 @@ class jetbrains::hub (
     ssl_key             => $ssl_key,
     ssl_port            => 443,
     location_cfg_append => [
+      'proxy_set_header Host $http_host;',
+      'proxy_set_header X-Forwarded-Proto https;',
       "proxy_pass http://${upstream_name};",
     ],
   }
