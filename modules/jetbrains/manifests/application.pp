@@ -63,7 +63,7 @@ define jetbrains::application (
     require => File[$var_path],
   }
 
-  nginx::resource::vhost { "${module_name}-https-redirect":
+  nginx::resource::vhost { "${module_name}-${host}-https-redirect":
     listen_port         => 80,
     ssl                 => false,
     server_name         => [$host],
