@@ -30,7 +30,6 @@ class cm::services::stream(
   $stream_members = prefix($socket_ports, 'localhost:')
 
   nginx::resource::upstream { 'backend-socketredis':
-    ensure              => present,
     members             => $stream_members,
     upstream_cfg_append => [
       'ip_hash;',

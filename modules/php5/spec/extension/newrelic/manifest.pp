@@ -5,5 +5,6 @@ node default {
     appname                    => 'bar',
     enabled                    => false,
     browser_monitoring_enabled => true,
+    guzzle_support_enabled     => true,
   }
 }
