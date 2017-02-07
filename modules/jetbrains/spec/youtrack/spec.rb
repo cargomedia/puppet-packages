@@ -1,8 +1,8 @@
 require 'spec_helper'
 
-describe 'jetbrains-hub' do
+describe 'jetbrains-youtrack' do
 
-  describe service('jetbrains-hub') do
+  describe service('jetbrains-youtrack') do
     it { should be_enabled }
     it { should be_running }
   end
