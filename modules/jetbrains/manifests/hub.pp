@@ -16,7 +16,7 @@ class jetbrains::hub (
 
   $home_path = '/usr/local/hub'
   $config_path = "${home_path}/conf"
-  $var_path = '/var/lib/hub'
+  $var_path = '/var/lib/jetbrains-hub'
 
   group { $group:
     ensure => present,
