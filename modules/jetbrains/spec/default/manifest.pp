@@ -56,4 +56,11 @@ eX+RzJyQxtZbvtQiHGFqYuHLmtPWteyadxj+y6w6hpbcQzbWkskAtFwSHILI0hx3
 -----END RSA PRIVATE KEY-----
 ',
   }
+  ->
+
+  exec { 'wait for UNKNOWN state to disappear':
+    command  => 'while ! (netstat -ntlap | grep :8081 | grep LISTEN); do sleep 0.5; done',
+    provider => shell,
+    timeout  => 30,
+  }
 }
