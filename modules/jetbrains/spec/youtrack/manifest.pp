@@ -4,8 +4,8 @@ node default {
     ip => '127.0.0.1',
   }
 
-  class { 'jetbrains::hub':
-    port     => 8081,
+  class { 'jetbrains::youtrack':
+    port     => 8082,
     host     => 'example.com',
     ssl_cert => '-----BEGIN CERTIFICATE-----
 MIIDJjCCAg6gAwIBAgIJALz0SCS44yRnMA0GCSqGSIb3DQEBBQUAMBYxFDASBgNV
@@ -59,7 +59,7 @@ eX+RzJyQxtZbvtQiHGFqYuHLmtPWteyadxj+y6w6hpbcQzbWkskAtFwSHILI0hx3
   ->
 
   exec { 'wait for UNKNOWN state to disappear':
-    command  => 'while ! (netstat -ntlap | grep :8081 | grep LISTEN); do sleep 0.5; done',
+    command  => 'while ! (netstat -ntlap | grep :8082 | grep LISTEN); do sleep 0.5; done',
     provider => shell,
     timeout  => 30,
   }
