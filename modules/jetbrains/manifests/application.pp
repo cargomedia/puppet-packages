@@ -8,7 +8,7 @@ define jetbrains::application (
   $download_url,
 ) {
 
-  require 'jetbrains::common'
+  require 'nginx'
 
   $user = "jetbrains-${name}"
   $group = "jetbrains-${name}"
