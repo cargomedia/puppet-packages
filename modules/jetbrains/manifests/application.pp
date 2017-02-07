@@ -41,6 +41,7 @@ define jetbrains::application (
   helper::script { "install jetbrains-${name}":
     content => template("${module_name}/install_application.sh"),
     unless  => "grep -e '^${version}.${build}$' ${home_path}/${name}.version",
+    timeout => 2000,
     before  => Daemon[$service_name],
     require => File[$home_path],
   }
