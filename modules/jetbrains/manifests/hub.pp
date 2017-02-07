@@ -14,6 +14,10 @@ class jetbrains::hub (
   $base_url = "https://${host}"
   $service_name = 'jetbrains-hub'
 
+  $home_path = '/usr/local/hub'
+  $config_path = "${home_path}/conf"
+  $var_path = '/var/lib/hub'
+
   group { $group:
     ensure => present,
     gid    => 2000,
@@ -25,7 +29,7 @@ class jetbrains::hub (
     require => Group[$group]
   }
 
-  file { ['/var/lib/hub', '/usr/local/hub', '/usr/local/hub/conf', '/usr/local/hub/conf/internal']:
+  file { [$home_path, $var_path, $config_path, "${config_path}/internal"]:
     ensure  => directory,
     group   => $group,
     owner   => $user,
@@ -34,12 +38,12 @@ class jetbrains::hub (
 
   helper::script { 'install jetbrains-hub':
     content => template("${module_name}/install_hub.sh"),
-    unless  => "grep -e '^${version}.${build}$' /usr/local/hub/version.docker.image",
+    unless  => "grep -e '^${version}.${build}$' ${home_path}/version.docker.image",
     before  => Daemon[$service_name],
-    require => File['/var/lib/hub', '/usr/local/hub'],
+    require => File[$var_path, $home_path],
   }
 
-  file { '/usr/local/hub/conf/internal/bundle.properties':
+  file { "${config_path}/internal/bundle.properties":
     ensure  => file,
     content => template("${module_name}/hub.bundle.properties"),
     before  => Daemon[$service_name],
@@ -48,10 +52,10 @@ class jetbrains::hub (
   }
 
   daemon { $service_name:
-    binary => '/usr/local/hub/bin/hub.sh',
+    binary => "${home_path}/bin/hub.sh",
     args   => 'run',
     env    => {
-      'HOME' => '/var/lib/hub'
+      'HOME' => $var_path
     },
   }
 
