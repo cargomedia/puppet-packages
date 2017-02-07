@@ -19,7 +19,7 @@ define jetbrains::application (
   $config_path = "${home_path}/conf"
   $var_path = "/var/lib/jetbrains-${name}"
 
-  $installation_uuid = '111' #fqdn_uuid("${name}.${host}")
+  $installation_uuid = fqdn_uuid("${name}.${host}")
 
   group { $group:
     ensure => present,
