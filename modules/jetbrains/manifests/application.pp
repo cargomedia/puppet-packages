@@ -9,6 +9,7 @@ define jetbrains::application (
 ) {
 
   require 'nginx'
+  require 'unzip'
 
   $service_name = "jetbrains-${name}"
   $user = $service_name
