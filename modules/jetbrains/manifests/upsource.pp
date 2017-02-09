@@ -3,7 +3,7 @@ class jetbrains::upsource (
   $ssl_cert,
   $ssl_key,
   $version = '3.5',
-  $build   = '3597',
+  $build   = '3616',
   $port    = 8082,
 ) {
 
