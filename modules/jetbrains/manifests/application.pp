@@ -83,6 +83,8 @@ define jetbrains::application (
     location_cfg_append => [
       'proxy_set_header Host $http_host;',
       'proxy_set_header X-Forwarded-Proto https;',
+      'proxy_set_header Upgrade $http_upgrade;',
+      'proxy_set_header Connection "upgrade";',
       "proxy_pass http://localhost:${port};",
     ],
   }
