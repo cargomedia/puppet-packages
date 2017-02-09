@@ -10,14 +10,14 @@ define jetbrains::application (
 
   require 'nginx'
 
-  $user = "jetbrains-${name}"
-  $group = "jetbrains-${name}"
-  $base_url = "https://${host}"
   $service_name = "jetbrains-${name}"
+  $user = $service_name
+  $group = $service_name
+  $base_url = "https://${host}"
 
-  $home_path = "/usr/local/jetbrains-${name}"
+  $home_path = "/usr/local/${service_name}"
   $config_path = "${home_path}/conf"
-  $var_path = "/var/lib/jetbrains-${name}"
+  $var_path = "/var/lib/${service_name}"
 
   $installation_uuid = fqdn_uuid("${name}.${host}")
 
@@ -38,7 +38,7 @@ define jetbrains::application (
     require => User[$user],
   }
 
-  helper::script { "install jetbrains-${name}":
+  helper::script { "install ${service_name}":
     content => template("${module_name}/install_application.sh"),
     unless  => "grep -e '^${version}.${build}$' ${home_path}/${name}.version",
     timeout => 2000,
@@ -63,7 +63,7 @@ define jetbrains::application (
     require => File[$var_path],
   }
 
-  nginx::resource::vhost { "${module_name}-${host}-https-redirect":
+  nginx::resource::vhost { "${service_name}-https-redirect":
     listen_port         => 80,
     ssl                 => false,
     server_name         => [$host],
@@ -72,7 +72,7 @@ define jetbrains::application (
     ],
   }
 
-  nginx::resource::vhost { "${module_name}-${host}":
+  nginx::resource::vhost { $service_name:
     server_name         => [$host],
     listen_port         => 443,
     ssl                 => true,
@@ -84,5 +84,9 @@ define jetbrains::application (
       'proxy_set_header X-Forwarded-Proto https;',
       "proxy_pass http://localhost:${port};",
     ],
+  }
+
+  @ufw::application { $service_name:
+    app_ports => '80,443/tcp',
   }
 }
