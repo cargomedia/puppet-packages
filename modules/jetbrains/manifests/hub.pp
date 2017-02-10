@@ -14,7 +14,8 @@ class jetbrains::hub (
     version      => $version,
     build        => $build,
     port         => $port,
-    download_url => "https://download.jetbrains.com/hub/${version}/hub-ring-bundle-${version}.${build}.zip"
+    download_url => "https://download.jetbrains.com/hub/${version}/hub-ring-bundle-${version}.${build}.zip",
+    config       => template("${module_name}/hub.config"),
   }
 
 }

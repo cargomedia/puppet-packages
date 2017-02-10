@@ -14,6 +14,7 @@ class jetbrains::youtrack (
     version      => $version,
     build        => $build,
     port         => $port,
-    download_url => "https://download.jetbrains.com/charisma/youtrack-${version}.${build}.zip"
+    download_url => "https://download.jetbrains.com/charisma/youtrack-${version}.${build}.zip",
+    config       => template("${module_name}/youtrack.config"),
   }
 }
