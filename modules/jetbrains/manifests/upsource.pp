@@ -15,7 +15,7 @@ class jetbrains::upsource (
     build        => $build,
     port         => $port,
     download_url => "https://download.jetbrains.com/upsource/upsource-${version}.${build}.zip",
-    config       => template("${module_name}/upsource.config"),
+    config       => file("${module_name}/upsource.config"),
   }
 
 }

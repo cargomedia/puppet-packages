@@ -50,7 +50,7 @@ define jetbrains::application (
 
   file { "${config_path}/internal/bundle.properties":
     ensure  => file,
-    content => $config,
+    content => inline_template($config),
     before  => Daemon[$service_name],
     require => Helper::Script["install jetbrains-${name}"],
     notify  => Service[$service_name],
