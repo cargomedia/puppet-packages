@@ -5,6 +5,7 @@ class jetbrains::upsource (
   $version = '3.5',
   $build   = '3616',
   $port    = 8082,
+  $hub_url = undef,
 ) {
 
   jetbrains::application { 'upsource':
