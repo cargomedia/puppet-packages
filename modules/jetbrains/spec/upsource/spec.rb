@@ -19,4 +19,9 @@ describe 'jetbrains-upsource' do
     it { should be_listening }
   end
 
+  describe file('/usr/local/jetbrains-upsource/conf/internal/bundle.properties') do
+    its(:content) { should_not match /hub-url=/ }
+    its(:content) { should match /^disable.hub=false$/ }
+  end
+
 end
