@@ -5,6 +5,7 @@ class jetbrains::youtrack (
   $version = '2017.1',
   $build   = '30867',
   $port    = 8081,
+  $hub_url = undef,
 ) {
 
   jetbrains::application { 'youtrack':
