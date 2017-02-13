@@ -1,9 +1,10 @@
 class socket_redis (
-  $version = 'latest',
-  $redisHost = 'localhost',
+  $version     = 'latest',
+  $redisHost   = 'localhost',
   $socketPorts = [8090],
-  $logDir = '/var/log/socket-redis',
-  $statusPort = '8085',
+  $logDir      = '/var/log/socket-redis',
+  $statusPort  = '8085',
+  $statusToken = 'supersecret',
 ) {
 
   require 'nodejs'
@@ -18,10 +19,10 @@ class socket_redis (
   }
 
   file { $logDir:
-    ensure  => directory,
-    owner   => 'socket-redis',
-    group   => 'socket-redis',
-    mode    => '0644',
+    ensure => directory,
+    owner  => 'socket-redis',
+    group  => 'socket-redis',
+    mode   => '0644',
   }
 
   logrotate::entry { $module_name:
@@ -49,7 +50,8 @@ class socket_redis (
   @bipbip::entry { 'socket-redis':
     plugin  => 'socket-redis',
     options => {
-      'url' => "http://localhost:${statusPort}/status",
+      'url'          => "http://localhost:${statusPort}/status",
+      'status_token' => $statusToken,
     },
   }
 }
