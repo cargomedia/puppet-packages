@@ -32,10 +32,11 @@ class socket_redis (
   $arg1 = '/usr/bin/socket-redis'
   $arg2 = "--log-dir=${logDir} --status-port=${statusPort} --redis-host=${redisHost}"
   $arg3 = inline_template("--socket-ports=<%= @socketPorts.join(',')%>")
+  $arg4 = $statusToken ? { undef => '', default => "--status-secret=${statusToken}" }
 
   daemon { 'socket-redis':
     binary       => '/usr/bin/node',
-    args         => "${arg1} ${arg2} ${arg3}",
+    args         => "${arg1} ${arg2} ${arg3} ${arg4}",
     user         => 'socket-redis',
     limit_nofile => 10000,
     require      => [Package['socket-redis'], File[$logDir]],
