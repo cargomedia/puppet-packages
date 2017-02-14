@@ -1,11 +1,11 @@
 class cm::services::stream (
-  $port         = 8090,
-  $ssl_cert,
   $ssl_key,
+  $ssl_cert,
+  $port         = 8090,
   $redis_host   = '127.0.0.1',
   $socket_ports = [8091, 8092, 8093, 8094],
   $status_port  = 8085,
-  $status_token = 'supersecret',
+  $status_token = undef,
 ) {
 
   include 'nginx'

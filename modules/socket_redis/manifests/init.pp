@@ -4,7 +4,7 @@ class socket_redis (
   $socketPorts = [8090],
   $logDir      = '/var/log/socket-redis',
   $statusPort  = '8085',
-  $statusToken = 'supersecret',
+  $statusToken = undef,
 ) {
 
   require 'nodejs'
