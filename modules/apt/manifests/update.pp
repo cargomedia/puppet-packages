@@ -30,7 +30,7 @@ class apt::update(
     provider    => shell,
     path        => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     command     => "apt-get ${arguments} update",
-    logoutput   => true,
+    logoutput   => 'on_failure',
     refreshonly => $refreshonly,
   }
 
