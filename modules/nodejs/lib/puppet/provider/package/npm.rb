@@ -52,7 +52,6 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
   end
 
   def latest
-    puts registry
     output = npm('view', resource[:name], 'versions', '--json', '--quiet', '--registry', registry)
     versions = JSON.parse(output)
     versions.last
@@ -78,7 +77,7 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
   end
 
   def package_settings
-    join_options(resource[:package_settings])
+    @resource[:package_settings]
   end
 
   def package_settings_insync?(should, is)
@@ -86,11 +85,11 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
   end
 
   def package_settings=(value)
-    resource[:package_settings] = value
+    @resource[:package_settings] = value
   end
 
   def registry
-    settings = resource[:package_settings]
+    settings = @resource[:package_settings]
     (settings && settings['registry']) ? settings['registry'] : 'https://registry.npmjs.org/'
   end
 end
