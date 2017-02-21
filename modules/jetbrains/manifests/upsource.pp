@@ -21,4 +21,6 @@ class jetbrains::upsource (
   }
 
   require 'composer'
+
+  ensure_packages(['libxrender1', 'libxext6'], { provider => 'apt' })
 }
