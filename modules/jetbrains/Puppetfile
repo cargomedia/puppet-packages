@@ -28,3 +28,7 @@ mod 'cargomedia/composer',
 mod 'cargomedia/apt',
     :git => 'git@github.com:cargomedia/puppet-packages.git',
     :path => 'modules/apt'
+
+mod 'cargomedia/php5',
+    :git => 'git@github.com:cargomedia/puppet-packages.git',
+    :path => 'modules/php5'
