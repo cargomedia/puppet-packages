@@ -20,4 +20,5 @@ class jetbrains::upsource (
     hub_url      => $hub_url,
   }
 
+  require 'composer'
 }
