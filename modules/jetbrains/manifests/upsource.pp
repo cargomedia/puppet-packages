@@ -20,8 +20,5 @@ class jetbrains::upsource (
     hub_url      => $hub_url,
   }
 
-  class { ['composer','php5::extension::curl','php5::extension::intl']:
-  }
-
   ensure_packages(['libxrender1', 'libxext6'], { provider => 'apt' })
 }
