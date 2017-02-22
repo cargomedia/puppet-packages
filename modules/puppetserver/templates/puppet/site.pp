@@ -5,6 +5,6 @@ node default {
     class { '<%= bootstrap_class %>': }
     <% end %>
   } else {
-    include lookup('classes', [])
+    include lookup('classes', Array, 'unique', [])
   }
 }

@@ -15,7 +15,7 @@ describe 'puppetserver' do
   end
 
   describe file('/etc/puppetlabs/code/environments/production/manifests/site.pp') do
-    its(:content) { should include 'include lookup(\'classes\', [])' }
+    its(:content) { should include 'include lookup(\'classes\', Array, \'unique\', [])' }
   end
 
   describe command('/opt/puppetlabs/bin/puppetserver gem list') do
