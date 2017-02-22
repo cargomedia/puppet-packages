@@ -1,16 +1,15 @@
-class puppetserver(
-  $dnsAltNames = [],
-  $hiera_data_dir = '/etc/puppetlabs/code/environments/%{::environment}/hieradata',
+class puppetserver (
+  $dnsAltNames       = [],
   $hiera_environment = 'production',
-  $puppetdb = false,
-  $puppetdb_port = 8080,
+  $puppetdb          = false,
+  $puppetdb_port     = 8080,
   $puppetdb_port_ssl = 8081,
   $bootstrap_classes = [
     'puppet::agent',
   ],
-  $puppetfile = undef,
-  $port = 8140,
-  $heap_size = '100m',
+  $puppetfile        = undef,
+  $port              = 8140,
+  $heap_size         = '100m',
 ) {
 
   require 'apt'
@@ -34,19 +33,9 @@ class puppetserver(
     mode   => '0644',
   }
 
-  puppetserver::environment{ 'production':
+  puppetserver::environment { $hiera_environment:
     manifest   => template("${module_name}/puppet/site.pp"),
     puppetfile => $puppetfile,
-  }
-
-  file { '/etc/puppetlabs/code/hiera.yaml':
-    ensure  => file,
-    content => template("${module_name}/puppet/hiera.yaml"),
-    group   => '0',
-    owner   => '0',
-    mode    => '0644',
-    before  => Package['puppetserver'],
-    notify  => Service['puppetserver'],
   }
 
   file { ['/etc/puppetlabs/puppetserver', '/etc/puppetlabs/puppetserver/conf.d']:
@@ -84,19 +73,19 @@ class puppetserver(
       Exec['/etc/puppetlabs/puppet/puppet.conf'],
     ],
   }
-  ->
+    ->
 
-  service { 'puppetserver':
-    enable     => true,
-    hasrestart => true,
-    subscribe  => Exec['/etc/puppetlabs/puppet/puppet.conf'],
-  }
-  ~>
-  exec { 'start puppetserver':
-    command     => 'service puppetserver start',
-    refreshonly => true,
-    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-  }
+    service { 'puppetserver':
+      enable     => true,
+      hasrestart => true,
+      subscribe  => Exec['/etc/puppetlabs/puppet/puppet.conf'],
+    }
+    ~>
+    exec { 'start puppetserver':
+      command     => 'service puppetserver start',
+      refreshonly => true,
+      path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    }
 
   puppetserver::gem { $puppet::common::gems: }
 

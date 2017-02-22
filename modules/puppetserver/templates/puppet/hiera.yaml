@@ -1,21 +1,29 @@
 ---
-:backends:
-  - json
+version: 5
 
-:hierarchy:
-  - fqdn/%{::fqdn_reversed}
-  - datacenter/%{::datacenter}/%{::nodegroup}/%{::nodename}
-  - datacenter/%{::datacenter}/%{::nodegroup}/defaults
-  - datacenter/%{::datacenter}/%{::nodegroup}
-  - datacenter/%{::datacenter}/defaults
-  - datacenter/%{::datacenter}
-  - datacenter/defaults
-  - environment/<%= @hiera_environment %>
-  - environment/defaults
-  - defaults
-  - files
+defaults:
+  datadir: hieradata
+  data_hash: json_data
 
-:json:
-  :datadir: <%= @hiera_data_dir %>
+hierarchy:
+  - name: "node configuration"
+    path: "datacenter/%{::datacenter}/%{::nodegroup}/%{::nodename}.json"
 
-:merge_behavior: deeper
+  - name: "nodegroup default configuration"
+    path: "datacenter/%{::datacenter}/%{::nodegroup}/defaults.json"
+
+  - name: "datacenter default configuration"
+    path: "datacenter/%{::datacenter}/defaults.json"
+
+  - name: "datacenter default"
+    path: "datacenter/defaults.json"
+
+  - name: "environment configuration"
+    path: "environment/<%= @environment %>.json"
+
+  - name: "global defaults"
+    path: "defaults.json"
+
+  - name: "common"
+    path: "common.yaml"
+    data_hash: "yaml_data"
