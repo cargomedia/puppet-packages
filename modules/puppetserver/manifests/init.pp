@@ -73,19 +73,19 @@ class puppetserver (
       Exec['/etc/puppetlabs/puppet/puppet.conf'],
     ],
   }
-    ->
+  ->
 
-    service { 'puppetserver':
-      enable     => true,
-      hasrestart => true,
-      subscribe  => Exec['/etc/puppetlabs/puppet/puppet.conf'],
-    }
-    ~>
-    exec { 'start puppetserver':
-      command     => 'service puppetserver start',
-      refreshonly => true,
-      path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    }
+  service { 'puppetserver':
+    enable     => true,
+    hasrestart => true,
+    subscribe  => Exec['/etc/puppetlabs/puppet/puppet.conf'],
+  }
+  ~>
+  exec { 'start puppetserver':
+    command     => 'service puppetserver start',
+    refreshonly => true,
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+  }
 
   puppetserver::gem { $puppet::common::gems: }
 
