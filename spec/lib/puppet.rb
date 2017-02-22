@@ -18,6 +18,7 @@ class Puppet
     hiera_config = {
         'version' => 5,
         'defaults' => {
+            'datadir' => '/vagrant',
             'data_hash' => 'json_data'
         },
         'hierarchy' => [
