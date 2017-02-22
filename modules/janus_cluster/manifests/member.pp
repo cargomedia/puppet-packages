@@ -3,7 +3,7 @@ define janus_cluster::member (
   $partition,
 ){
 
-  $partitions = hiera('janus_cluster::partitions')
+  $partitions = lookup('janus_cluster::partitions')
   $partition_config = $partitions[$partition]
 
   $partition_members = $partition_config['members']

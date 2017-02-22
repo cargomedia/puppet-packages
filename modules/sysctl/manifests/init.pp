@@ -1,6 +1,6 @@
 class sysctl ($entries = { }) {
 
-  $localEntries = hiera_hash('sysctl::entries', $entries)
+  $localEntries = lookup('sysctl::entries', $entries)
 
   if $localEntries != { } {
     file { '/etc/sysctl.conf':

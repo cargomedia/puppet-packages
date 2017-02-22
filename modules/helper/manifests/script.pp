@@ -3,7 +3,7 @@ define helper::script ($content, $unless, $timeout = 300, $user = undef, $enviro
   $scriptName = md5($title)
   $scriptDirname = "/tmp/${scriptName}"
   $scriptEnv =  $environment ? {
-    undef => hiera('helper::script::environment', []),
+    undef => lookup('helper::script::environment', []),
     default => $environment,
   }
 

@@ -5,6 +5,6 @@ node default {
     class { '<%= bootstrap_class %>': }
     <% end %>
   } else {
-    include hiera_array('classes', [])
+    include lookup('classes', [])
   }
 }
