@@ -6,6 +6,9 @@ defaults:
   data_hash: json_data
 
 hierarchy:
+  - name: "fdqn"
+    path: "fqdn/%{::fqdn_reversed}"
+
   - name: "node configuration"
     path: "datacenter/%{::datacenter}/%{::nodegroup}/%{::nodename}.json"
 
@@ -15,11 +18,14 @@ hierarchy:
   - name: "datacenter default configuration"
     path: "datacenter/%{::datacenter}/defaults.json"
 
-  - name: "datacenter default"
+  - name: "datacenters default"
     path: "datacenter/defaults.json"
 
   - name: "environment configuration"
     path: "environment/<%= @environment %>.json"
+
+  - name: "environments default"
+    path: "environment/defaults.json"
 
   - name: "global defaults"
     path: "defaults.json"
