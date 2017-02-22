@@ -4,7 +4,7 @@ require 'json'
 Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package do
   desc "npm is package management for node.js. This provider only handles global packages."
 
-  has_feature :versionable
+  has_feature :versionable, :package_settings
 
   if Puppet::Util::Package.versioncmp(Puppet.version, '3.0') >= 0
     has_command(:npm, 'npm') do
@@ -52,7 +52,7 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
   end
 
   def latest
-    output = npm('view', resource[:name], 'versions', '--json', '--quiet')
+    output = npm('view', resource[:name], 'versions', '--json', '--quiet', '--registry', registry)
     versions = JSON.parse(output)
     versions.last
   end
@@ -69,10 +69,27 @@ Puppet::Type.type(:package).provide :npm, :parent => Puppet::Provider::Package d
     end
 
     package = resource[:source] if resource[:source]
-    npm('install', '--global', package)
+    npm('install', '--global', package, '--registry', registry)
   end
 
   def uninstall
     npm('uninstall', '--global', resource[:name])
+  end
+
+  def package_settings
+    @resource[:package_settings]
+  end
+
+  def package_settings_insync?(should, is)
+    is.sort == should.sort
+  end
+
+  def package_settings=(value)
+    @resource[:package_settings] = value
+  end
+
+  def registry
+    settings = @resource[:package_settings]
+    (settings && settings['registry']) ? settings['registry'] : 'https://registry.npmjs.org/'
   end
 end
