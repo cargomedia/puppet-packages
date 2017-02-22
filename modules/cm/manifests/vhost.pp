@@ -1,38 +1,30 @@
-define cm::vhost(
+define cm::vhost (
   $path,
   $ssl_cert,
   $ssl_key,
-  $ssl_port = 443,
-  $aliases = [],
-  $redirects = undef,
-  $cdn_origin = undef,
-  $debug = false,
-  $upstream_options = { },
+  $ssl_port          = 443,
+  $aliases           = [],
+  $redirects         = undef,
+  $cdn_origin        = undef,
+  $upstream_members = ['localhost:9000'],
+  $debug             = false,
 ) {
 
   include 'nginx'
 
-  $upstream_options_defaults = {
-    name => 'fastcgi-backend',
-    members => ['localhost:9000']
-  }
-
-  $upstream_opts = merge($upstream_options_defaults, $upstream_options)
-  $upstream_name_real = $upstream_options[name] ? { default => $upstream_opts[name], undef => $upstream_options_defaults[name] }
-
-  if ($upstream_options[name] == undef) {
-    if !(defined(Cm::Upstream::Fastcgi[$upstream_opts[name]])) {
-      cm::upstream::fastcgi { $upstream_opts[name]:
-        members => $upstream_opts[members]
-      }
-    }
-  }
-
   $hostnames = concat([$name], $aliases)
-  $debug_int = $debug ? { true => 1, false => 0 }
+  $debug_int = $debug ? {
+    true  => 1,
+    false => 0
+  }
+  $backend_name = "${name}-fcgi-backend"
+
+  cm::upstream::fastcgi { $backend_name:
+    members => $upstream_members,
+  }
 
   if ($redirects) {
-    nginx::resource::vhost{ "${name}-redirect":
+    nginx::resource::vhost { "${name}-redirect":
       listen_port         => 80,
       server_name         => $redirects,
       location_cfg_append => [
@@ -41,7 +33,7 @@ define cm::vhost(
     }
   }
 
-  nginx::resource::vhost{ "${name}-https-redirect":
+  nginx::resource::vhost { "${name}-https-redirect":
     listen_port         => 80,
     server_name         => $hostnames,
     location_cfg_append => [
@@ -62,12 +54,12 @@ define cm::vhost(
       "fastcgi_param SCRIPT_FILENAME ${path}/public/index.php;",
       "fastcgi_param CM_DEBUG ${debug_int};",
       'fastcgi_keep_conn on;',
-      "fastcgi_pass ${upstream_name_real};",
+      "fastcgi_pass ${backend_name};",
       'error_page 502 =503 /maintenance;',
     ],
   }
 
-  nginx::resource::location{ "${name}-maintenance":
+  nginx::resource::location { "${name}-maintenance":
     vhost     => $name,
     ssl       => true,
     ssl_only  => true,
@@ -79,7 +71,7 @@ define cm::vhost(
   if ($cdn_origin) {
     $cdn_origin_vhost = "${name}-origin"
 
-    nginx::resource::vhost{ $cdn_origin_vhost:
+    nginx::resource::vhost { $cdn_origin_vhost:
       server_name         => [$cdn_origin],
       listen_port         => $ssl_port,
       ssl                 => true,
@@ -94,7 +86,7 @@ define cm::vhost(
     $cdn_origin_vhost = $name
   }
 
-  nginx::resource::location{ "${name}-origin-upstream":
+  nginx::resource::location { "${name}-origin-upstream":
     location            => '~* ^/(resources|vendor-css|vendor-js|library-css|library-js|layout)/',
     vhost               => $cdn_origin_vhost,
     ssl                 => true,
@@ -105,11 +97,11 @@ define cm::vhost(
       "fastcgi_param SCRIPT_FILENAME ${path}/public/index.php;",
       "fastcgi_param CM_DEBUG ${debug_int};",
       'fastcgi_keep_conn on;',
-      "fastcgi_pass ${upstream_name_real};",
+      "fastcgi_pass ${backend_name};",
     ],
   }
 
-  nginx::resource::location{ "${name}-origin-static":
+  nginx::resource::location { "${name}-origin-static":
     location            => '/static',
     vhost               => $cdn_origin_vhost,
     ssl                 => true,
@@ -121,7 +113,7 @@ define cm::vhost(
     ],
   }
 
-  nginx::resource::location{ "${name}-origin-userfiles":
+  nginx::resource::location { "${name}-origin-userfiles":
     location            => '/userfiles',
     vhost               => $cdn_origin_vhost,
     ssl                 => true,

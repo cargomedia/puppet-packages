@@ -5,27 +5,16 @@ define cm::reverse_proxy(
   $aliases = [],
   $redirects = undef,
   $cdn_origin = undef,
-  $upstream_options = { },
+  $upstream_members = ['localhost:443'],
+  $upstream_protocol = 'https',
 ) {
 
   include 'nginx'
 
-  $upstream_options_defaults = {
-    name        => 'reverse-proxy-backend',
-    members     => ['localhost:443'],
-    ssl         => true,
-    header_host => '$host',
-  }
+  $backend_name = "${name}-proxy-backend"
 
-  $upstream_opts = merge($upstream_options_defaults, $upstream_options)
-  $upstream_name_real = $upstream_options[name] ? { default => $upstream_opts[name], undef => $upstream_options_defaults[name] }
-
-  if ($upstream_options[name] == undef) {
-    if !(defined(Cm::Upstream::Proxy[$upstream_opts[name]])) {
-      cm::upstream::proxy { $upstream_opts[name]:
-        members => $upstream_opts[members],
-      }
-    }
+  cm::upstream::proxy { $backend_name:
+    members => $upstream_members,
   }
 
   if ($cdn_origin) {
@@ -52,8 +41,6 @@ define cm::reverse_proxy(
     ],
   }
 
-  $proto = $upstream_opts['ssl']? { false => 'http', default => 'https'}
-
   nginx::resource::vhost { $name:
     server_name         => $hostnames,
     listen_port         => $ssl_port,
@@ -65,9 +52,9 @@ define cm::reverse_proxy(
       'real_ip_recursive on;',
       'real_ip_header X-Real-IP;',
       'set_real_ip_from 0.0.0.0/0;',
-      "proxy_set_header Host '${upstream_opts[header_host]}';",
+      'proxy_set_header Host $host;',
       'proxy_set_header X-Real-IP $remote_addr;',
-      "proxy_pass ${proto}://${upstream_name_real};",
+      "proxy_pass ${upstream_protocol}://${backend_name};",
       'proxy_next_upstream error timeout http_502;'
     ]
   }
