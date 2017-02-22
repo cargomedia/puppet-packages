@@ -1,11 +1,11 @@
 define cm::vhost (
+  $path,
   $ssl_cert,
   $ssl_key,
   $ssl_port          = 443,
   $aliases           = [],
   $redirects         = undef,
   $cdn_origin        = undef,
-  $path,
   $upstream_members = ['localhost:9000'],
   $debug             = false,
 ) {
