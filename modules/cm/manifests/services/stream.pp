@@ -35,6 +35,7 @@ class cm::services::stream(
     members             => $stream_members,
     upstream_cfg_append => [
       'ip_hash;',
+      'keepalive 4096;',
     ],
   }
 
