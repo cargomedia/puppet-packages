@@ -16,8 +16,6 @@ node default {
   cm::reverse_proxy { 'www.example.com':
     ssl_cert         => template('cm/spec/spec-ssl.pem'),
     ssl_key          => template('cm/spec/spec-ssl.key'),
-    upstream_options => {
-      members => ['localhost:1337'],
-    }
+    upstream_members => ['localhost:1337'],
   }
 }
