@@ -27,15 +27,6 @@ define puppetserver::environment (
       mode    => '0644',
       before  => Package['puppetserver'],
       notify  => Service['puppetserver'];
-
-    "${data_directory}/common.yaml":
-      ensure  => file,
-      content => template("${module_name}/puppet/common.yaml"),
-      group   => '0',
-      owner   => '0',
-      mode    => '0644',
-      before  => Package['puppetserver'],
-      notify  => Service['puppetserver'];
   }
 
   if ($manifest) {
