@@ -25,13 +25,6 @@ class puppet::agent (
       notify  => Exec['/etc/puppetlabs/puppet/puppet.conf'];
   }
 
-  exec { 'chmod 0755 /opt/puppetlabs/puppet/cache':
-    provider => shell,
-    unless   => 'stat -c "%a" /opt/puppetlabs/puppet/cache | grep 755',
-    path     => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    require  => Package['puppet-agent'],
-  }
-
   daemon { 'puppet':
     binary  => '/opt/puppetlabs/bin/puppet',
     args    => 'agent --no-daemonize',

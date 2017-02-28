@@ -40,8 +40,7 @@ class puppet::common (
       ensure  => 'link',
       target  => '/opt/puppetlabs/bin/hiera',
       require => Package['puppet-agent'];
-    ['/etc/puppetlabs', '/etc/puppetlabs/puppet', '/etc/puppetlabs/code',
-      '/opt/puppetlabs/puppet/cache']:
+    ['/etc/puppetlabs', '/etc/puppetlabs/puppet', '/etc/puppetlabs/code']:
       ensure => directory,
       group  => '0',
       owner  => '0',
@@ -53,6 +52,10 @@ class puppet::common (
       mode    => '0644',
       purge   => true,
       recurse => true;
+    '/opt/puppetlabs/puppet/cache':
+      ensure  => directory,
+      mode    => '0644',
+      require => Package['puppet-agent'];
     '/etc/puppetlabs/puppet/conf.d/main':
       ensure  => file,
       content => template("${module_name}/config"),
