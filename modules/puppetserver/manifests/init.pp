@@ -1,5 +1,6 @@
 class puppetserver (
   $dnsAltNames       = [],
+  $hiera_data_dir    = undef,
   $hiera_environment = 'production',
   $puppetdb          = false,
   $puppetdb_port     = 8080,
@@ -34,8 +35,9 @@ class puppetserver (
   }
 
   puppetserver::environment { $hiera_environment:
-    manifest   => template("${module_name}/puppet/site.pp"),
-    puppetfile => $puppetfile,
+    manifest       => template("${module_name}/puppet/site.pp"),
+    puppetfile     => $puppetfile,
+    hiera_data_dir => $hiera_data_dir,
   }
 
   file { ['/etc/puppetlabs/puppetserver', '/etc/puppetlabs/puppetserver/conf.d']:
