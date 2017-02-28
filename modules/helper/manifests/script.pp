@@ -1,9 +1,15 @@
-define helper::script ($content, $unless, $timeout = 300, $user = undef, $environment = undef) {
+define helper::script (
+  $content,
+  $unless,
+  $timeout     = 300,
+  $user        = undef,
+  $environment = undef
+) {
 
   $scriptName = md5($title)
   $scriptDirname = "/tmp/${scriptName}"
-  $scriptEnv =  $environment ? {
-    undef => hiera('helper::script::environment', []),
+  $scriptEnv = $environment ? {
+    undef   => lookup('helper::script::environment', Array, 'unique', []),
     default => $environment,
   }
 

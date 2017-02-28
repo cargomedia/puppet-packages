@@ -1,6 +1,6 @@
 node default {
 
-  $cluster_config = hiera('mongodb_config')
+  $cluster_config = lookup('mongodb_config')
   $cluster_admin_users = $cluster_config['admin-users']
   $cluster_mongorc_autologin = $cluster_config['mongorc-autologin-user']
 

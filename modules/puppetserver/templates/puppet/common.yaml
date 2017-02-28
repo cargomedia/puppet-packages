@@ -1,0 +1,10 @@
+lookup_options:
+  '^.*':
+    merge:
+      strategy: deep
+      merge_hash_arrays: true
+
+  '*':
+    merge:
+      strategy: deep
+      merge_hash_arrays: true

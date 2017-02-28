@@ -16,14 +16,14 @@ class Puppet
 
   def configure_hiera
     hiera_config = {
-      :backends => ['json'],
-      :json => {
-        :datadir => '/vagrant'
-      },
-      :hierarchy => [
-        @spec_dir.join('hiera').relative_path_from(@vagrant_box.working_dir).to_s,
-        'spec/hiera'
-      ]
+        :backends => ['json'],
+        :json => {
+            :datadir => '/vagrant'
+        },
+        :hierarchy => [
+            @spec_dir.join('hiera').relative_path_from(@vagrant_box.working_dir).to_s,
+            'spec/hiera'
+        ]
     }
     hiera_config_command = "echo #{hiera_config.to_yaml.shellescape} > /etc/hiera.yaml"
     @vagrant_box.execute_ssh("sudo bash -c #{hiera_config_command.shellescape}")
