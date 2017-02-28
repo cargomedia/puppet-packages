@@ -7,6 +7,7 @@ define jetbrains::application (
   $port,
   $download_url,
   $config,
+  $hub_url = undef,
 ) {
 
   require 'nginx'

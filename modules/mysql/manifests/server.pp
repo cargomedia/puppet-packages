@@ -132,8 +132,6 @@ class mysql::server (
     user                   => 'mysql',
     stop_timeout           => 600,
     limit_nofile           => 16384,
-    runtime_directory      => 'mysqld',
-    runtime_directory_mode => '0755',
     require                => [ User['mysql'], File['/usr/share/mysql/mysql-systemd-start'] ],
   }
 

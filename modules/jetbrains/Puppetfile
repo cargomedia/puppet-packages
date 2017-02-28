@@ -20,3 +20,7 @@ mod 'cargomedia/ufw',
 mod 'cargomedia/unzip',
     :git => 'git@github.com:cargomedia/puppet-packages.git',
     :path => 'modules/unzip'
+
+mod 'cargomedia/apt',
+    :git => 'git@github.com:cargomedia/puppet-packages.git',
+    :path => 'modules/apt'

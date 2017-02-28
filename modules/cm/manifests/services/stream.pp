@@ -1,4 +1,5 @@
 class cm::services::stream (
+  $server_name  = [],
   $ssl_key,
   $ssl_cert,
   $port         = 8090,
@@ -11,6 +12,7 @@ class cm::services::stream (
   include 'nginx'
 
   nginx::resource::vhost { 'stream-server':
+    server_name         => $server_name,
     listen_port         => $port,
     ssl                 => true,
     ssl_port            => $port,
