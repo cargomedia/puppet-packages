@@ -1,8 +1,5 @@
 node default {
 
-  $upstream1_name = 'foobar'
-  $upstream2_name = 'alicebob'
-
   host { 'foobar':
     host_aliases => [
       'upstream', 'alicebob' ],

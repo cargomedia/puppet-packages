@@ -1,17 +1,21 @@
-define cm::reverse_proxy(
-  $ssl_cert,
-  $ssl_key,
-  $ssl_port = 443,
-  $aliases = [],
-  $redirects = undef,
-  $cdn_origin = undef,
-  $upstream_members = ['localhost:443'],
+define cm::reverse_proxy (
+  $ssl_cert          = undef,
+  $ssl_key           = undef,
+  $listen_port       = 80,
+  $ssl_port          = 443,
+  $ssl_only          = true,
+  $aliases           = [],
+  $redirects         = undef,
+  $cdn_origin        = undef,
+  $upstream_members  = ['localhost:443'],
   $upstream_protocol = 'https',
 ) {
 
   include 'nginx'
 
   $backend_name = "${name}-proxy-backend"
+  $ssl_enabled = (is_integer($ssl_port) and $ssl_port > 0)
+  $ssl_only_final = $ssl_enabled and $ssl_only
 
   cm::upstream::proxy { $backend_name:
     members => $upstream_members,
@@ -24,27 +28,42 @@ define cm::reverse_proxy(
   }
 
   if ($redirects) {
-    nginx::resource::vhost{ "${name}-redirect":
-      listen_port         => 80,
+
+    $protocol = $ssl_only_final ? {
+      true    => 'https',
+      default => '\$scheme',
+    }
+
+    nginx::resource::vhost { "${name}-redirect":
+      listen_port         => $listen_port,
       server_name         => $redirects,
       location_cfg_append => [
-        "return 301 https://${name}\$request_uri;",
+        "return 301 ${protocol}://${name}\$request_uri;",
       ],
     }
   }
 
-  nginx::resource::vhost{ "${name}-https-redirect":
-    listen_port         => 80,
-    server_name         => $hostnames,
-    location_cfg_append => [
-      'return 301 https://$host$request_uri;',
-    ],
+  if ($ssl_only_final) {
+    nginx::resource::vhost { "${name}-https-redirect":
+      listen_port         => $listen_port,
+      server_name         => $hostnames,
+      location_cfg_append => [
+        'return 301 https://$host$request_uri;',
+      ],
+    }
+  }
+
+  # This construct is needed due to vhost considering itself SSL-only if
+  # both $listen_port and $ssl_port are equal
+  $listen_port_argument_vhost = $ssl_only_final ? {
+    true => $ssl_port,
+    default => $listen_port,
   }
 
   nginx::resource::vhost { $name:
     server_name         => $hostnames,
-    listen_port         => $ssl_port,
-    ssl                 => true,
+    listen_port         => $listen_port_argument_vhost,
+    ssl                 => $ssl_enabled,
     ssl_port            => $ssl_port,
     ssl_cert            => $ssl_cert,
     ssl_key             => $ssl_key,
