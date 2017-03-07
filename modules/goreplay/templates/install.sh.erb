@@ -1,0 +1,5 @@
+#!/bin/bash -e
+
+wget https://github.com/buger/goreplay/releases/download/v<%= @version %>/gor_v<%= @version %>_x64.tar.gz
+tar -xzf gor_v<%= @version %>_x64.tar.gz
+mv gor /usr/local/bin/

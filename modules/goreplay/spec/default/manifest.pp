@@ -1,0 +1,3 @@
+node default {
+  require 'goreplay'
+}
