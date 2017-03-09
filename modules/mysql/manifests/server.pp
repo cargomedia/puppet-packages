@@ -27,7 +27,7 @@ class mysql::server (
     before => Package['mysql-server'],
   }
 
-  file { '/etc/mysql':
+  file { ['/etc/mysql', '/var/run/mysqld']:
     ensure => directory,
     owner  => '0',
     group  => '0',
