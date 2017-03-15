@@ -31,7 +31,7 @@ class mysql::server (
     ensure  => directory,
     owner   => 'mysql',
     group   => 'mysql',
-    mode    => '0640',
+    mode    => '0755',
     require => User['mysql'],
   }
 
