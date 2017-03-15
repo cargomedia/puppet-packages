@@ -27,18 +27,11 @@ class mysql::server (
     before => Package['mysql-server'],
   }
 
-  file { '/etc/mysql':
-    ensure => directory,
-    owner  => '0',
-    group  => '0',
-    mode   => '0755',
-  }
-
-  file { '/etc/mysql/conf.d':
+  file { ['/etc/mysql','/etc/mysql/conf.d', '/var/run/mysqld']:
     ensure  => directory,
-    owner   => 'root',
+    owner   => 'mysql',
     group   => 'mysql',
-    mode    => '0750',
+    mode    => '0640',
     require => User['mysql'],
   }
 
