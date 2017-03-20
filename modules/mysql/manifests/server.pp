@@ -79,6 +79,16 @@ class mysql::server (
     notify  => Service['mysql'],
   }
 
+  file { '/etc/tmpfiles.d/mysql.conf':
+    ensure  => file,
+    content => template("${module_name}/tmpfiles.d/mysql.conf"),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    require => User['mysql'],
+    before  => [Package['mysql-server'],Service['mysql']],
+  }
+
   file { $error_log:
     ensure  => file,
     owner   => 'mysql',
