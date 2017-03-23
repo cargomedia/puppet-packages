@@ -6,11 +6,13 @@ describe 'fluentd::config' do
     it { should be_running }
   end
 
-  describe command('fluentd -c /etc/fluentd/fluent.conf --dry-run') do
-    its(:exit_status) { should eq 0 }
-    its(:stdout) { should match('<match \*\*>') }
-    its(:stdout) { should match('<match match2.\*\*>') }
-    its(:stdout) { should match('<filter filter1.\*\*>') }
+  describe command('journalctl -u fluentd --no-pager') do
+    its(:stdout){ should match('<match \*\*>') }
+    its(:stdout){ should match('<match \*\*>') }
+    its(:stdout){ should match('<match \*\*>') }
   end
 
+  describe command('grep -r FOO /tmp/my-match-2/*') do
+    its(:exit_status) { should eq 0 }
+  end
 end
