@@ -38,10 +38,4 @@ class rsyslog(
     provider => 'apt',
   }
 
-  @fluentd::config::source_tail{ 'syslog':
-    path        => '/var/log/syslog',
-    fluentd_tag => 'syslog',
-    format      => '/^(?<time>[^ ]*) (?<host>[^ ]*) (?<ident>[a-zA-Z0-9_\/\.\-]*)(?:\[(?<pid>[0-9]+)\])?(?:[^\:]*\:)? *(?<message>.*)$/',
-    time_format => '%FT%T.%L%:z',
-  }
 }

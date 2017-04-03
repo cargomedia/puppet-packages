@@ -6,7 +6,7 @@ class copperegg_revealcloud(
   $enable_node = true
 ) {
 
-  $hiera_tag_list = hiera_array('tags', [])
+  $hiera_tag_list = lookup('tags', Array, 'unique', [])
   $facts_tag_list = $::facts['copperegg_tags']
   $server_tag_list = concat($tags, $hiera_tag_list, $facts_tag_list)
 

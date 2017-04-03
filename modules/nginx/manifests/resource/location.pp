@@ -1,5 +1,4 @@
 define nginx::resource::location(
-  $ensure               = present,
   $vhost                = undef,
   $www_root             = undef,
   $index_files          = ['index.html', 'index.htm', 'index.php'],
@@ -26,12 +25,6 @@ define nginx::resource::location(
     notify => Class['nginx::service'],
   }
 
-## Shared Variables
-  $ensure_real = $ensure ? {
-    'absent' => absent,
-    default  => file,
-  }
-
 # Use proxy template if $proxy is defined, otherwise use directory template.
   if ($proxy != undef) {
     $content_real = template("${module_name}/vhost/vhost_location_proxy.erb")
@@ -56,7 +49,7 @@ define nginx::resource::location(
 ## Create stubs for vHost File Fragment Pattern
   if ($ssl_only != true) {
     file { "${nginx::config::nx_temp_dir}/nginx.d/${vhost}-500-${name}":
-      ensure  => $ensure_real,
+      ensure  => file,
       content => $content_real,
     }
   }
@@ -64,7 +57,7 @@ define nginx::resource::location(
 ## Only create SSL Specific locations if $ssl is true.
   if ($ssl == true) {
     file { "${nginx::config::nx_temp_dir}/nginx.d/${vhost}-800-${name}-ssl":
-      ensure  => $ensure_real,
+      ensure  => file,
       content => $content_real,
     }
   }

@@ -1,6 +1,6 @@
-class puppet::common(
+class puppet::common (
   $basemodulepath = '/etc/puppetlabs/code/modules',
-  $gems = [
+  $gems           = [
     'deep_merge',
     'ipaddress',
   ],
@@ -40,31 +40,29 @@ class puppet::common(
       ensure  => 'link',
       target  => '/opt/puppetlabs/bin/hiera',
       require => Package['puppet-agent'];
-  }
-
-  file { ['/etc/puppetlabs', '/etc/puppetlabs/puppet', '/etc/puppetlabs/code']:
-    ensure => directory,
-    group  => '0',
-    owner  => '0',
-    mode   => '0644',
-  }
-
-  file { '/etc/puppetlabs/puppet/conf.d':
-    ensure  => directory,
-    group   => '0',
-    owner   => '0',
-    mode    => '0644',
-    purge   => true,
-    recurse => true,
-  }
-
-  file { '/etc/puppetlabs/puppet/conf.d/main':
-    ensure  => file,
-    content => template("${module_name}/config"),
-    group   => '0',
-    owner   => '0',
-    mode    => '0644',
-    notify  => Exec['/etc/puppetlabs/puppet/puppet.conf'],
+    ['/etc/puppetlabs', '/etc/puppetlabs/puppet', '/etc/puppetlabs/code']:
+      ensure => directory,
+      group  => '0',
+      owner  => '0',
+      mode   => '0644';
+    '/etc/puppetlabs/puppet/conf.d':
+      ensure  => directory,
+      group   => '0',
+      owner   => '0',
+      mode    => '0644',
+      purge   => true,
+      recurse => true;
+    '/opt/puppetlabs/puppet/cache':
+      ensure  => directory,
+      mode    => '0644',
+      require => Package['puppet-agent'];
+    '/etc/puppetlabs/puppet/conf.d/main':
+      ensure  => file,
+      content => template("${module_name}/config"),
+      group   => '0',
+      owner   => '0',
+      mode    => '0644',
+      notify  => Exec['/etc/puppetlabs/puppet/puppet.conf'],
   }
 
   exec { '/etc/puppetlabs/puppet/puppet.conf':

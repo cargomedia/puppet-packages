@@ -1,5 +1,5 @@
 class backup::agents {
 
-  $agents = hiera_hash('backup::agents', { })
+  $agents = lookup('backup::agents', Hash, 'deep', { })
   create_resources('backup::agent', $agents)
 }

@@ -1,8 +1,5 @@
 node default {
 
-  $upstream1_name = 'foobar'
-  $upstream2_name = 'alicebob'
-
   host { 'foobar':
     host_aliases => [
       'upstream', 'alicebob' ],
@@ -23,29 +20,17 @@ node default {
     content => 'alice and bob',
   }
 
-  cm::upstream::proxy { $upstream1_name:
-    members => ['upstream:8040'],
-  }
-
-  cm::upstream::proxy { $upstream2_name:
-    members => ['upstream:8043'],
-  }
-
   cm::reverse_proxy { 'foobar':
     ssl_cert => template('cm/spec/spec-ssl.pem'),
     ssl_key  => template('cm/spec/spec-ssl.key'),
-    upstream_options => {
-      name  => $upstream1_name,
-      ssl   => false,
-    }
+    upstream_members => ['upstream:8040'],
+    upstream_protocol => 'http',
   }
 
   cm::reverse_proxy { 'alicebob':
     ssl_cert => template('cm/spec/spec-ssl.pem'),
     ssl_key  => template('cm/spec/spec-ssl.key'),
-    upstream_options => {
-      name   => $upstream2_name,
-    },
+    upstream_members => ['upstream:8043'],
   }
 
   nginx::resource::vhost { 'destination1':

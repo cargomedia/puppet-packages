@@ -27,18 +27,11 @@ class mysql::server (
     before => Package['mysql-server'],
   }
 
-  file { '/etc/mysql':
-    ensure => directory,
-    owner  => '0',
-    group  => '0',
-    mode   => '0755',
-  }
-
-  file { '/etc/mysql/conf.d':
+  file { ['/etc/mysql','/etc/mysql/conf.d', '/var/run/mysqld']:
     ensure  => directory,
-    owner   => 'root',
+    owner   => 'mysql',
     group   => 'mysql',
-    mode    => '0750',
+    mode    => '0755',
     require => User['mysql'],
   }
 
@@ -84,6 +77,16 @@ class mysql::server (
     require => User['mysql'],
     before  => Package['mysql-server'],
     notify  => Service['mysql'],
+  }
+
+  file { '/etc/tmpfiles.d/mysql.conf':
+    ensure  => file,
+    content => template("${module_name}/tmpfiles.d/mysql.conf"),
+    owner   => 'root',
+    group   => 'root',
+    mode    => '0644',
+    require => User['mysql'],
+    before  => [Package['mysql-server'],Service['mysql']],
   }
 
   file { $error_log:
@@ -132,8 +135,6 @@ class mysql::server (
     user                   => 'mysql',
     stop_timeout           => 600,
     limit_nofile           => 16384,
-    runtime_directory      => 'mysqld',
-    runtime_directory_mode => '0755',
     require                => [ User['mysql'], File['/usr/share/mysql/mysql-systemd-start'] ],
   }
 

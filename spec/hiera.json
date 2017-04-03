@@ -1,6 +1,7 @@
 {
   "apt::update::options": [
-    "Acquire::http::proxy=false"
+    "Acquire::http::proxy=false",
+    "Acquire::ForceIPv4=true"
   ],
   "helper::script::environment": [
     "http_proxy=http://localhost:8123/",

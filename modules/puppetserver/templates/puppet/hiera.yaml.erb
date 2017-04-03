@@ -1,0 +1,35 @@
+---
+version: 5
+
+defaults:
+  datadir: <%= @data_directory %>
+  data_hash: json_data
+
+hierarchy:
+  - name: "fdqn"
+    path: "fqdn/%{::fqdn_reversed}"
+
+  - name: "node configuration"
+    path: "datacenter/%{::datacenter}/%{::nodegroup}/%{::nodename}.json"
+
+  - name: "nodegroup default configuration"
+    path: "datacenter/%{::datacenter}/%{::nodegroup}/defaults.json"
+
+  - name: "datacenter default configuration"
+    path: "datacenter/%{::datacenter}/defaults.json"
+
+  - name: "datacenters default"
+    path: "datacenter/defaults.json"
+
+  - name: "environment configuration"
+    path: "environment/<%= @environment %>.json"
+
+  - name: "environments default"
+    path: "environment/defaults.json"
+
+  - name: "global defaults"
+    path: "defaults.json"
+
+  - name: "common"
+    path: "common.yaml"
+    data_hash: "yaml_data"

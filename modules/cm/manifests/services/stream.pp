@@ -1,15 +1,18 @@
-class cm::services::stream(
-  $port = 8090,
-  $ssl_cert,
+class cm::services::stream (
+  $server_name  = [],
   $ssl_key,
-  $redis_host = '127.0.0.1',
+  $ssl_cert,
+  $port         = 8090,
+  $redis_host   = '127.0.0.1',
   $socket_ports = [8091, 8092, 8093, 8094],
-  $status_port = 8085
+  $status_port  = 8085,
+  $status_token = undef,
 ) {
 
   include 'nginx'
 
   nginx::resource::vhost { 'stream-server':
+    server_name         => $server_name,
     listen_port         => $port,
     ssl                 => true,
     ssl_port            => $port,
@@ -30,7 +33,6 @@ class cm::services::stream(
   $stream_members = prefix($socket_ports, 'localhost:')
 
   nginx::resource::upstream { 'backend-socketredis':
-    ensure              => present,
     members             => $stream_members,
     upstream_cfg_append => [
       'ip_hash;',
@@ -41,6 +43,7 @@ class cm::services::stream(
     redisHost   => $redis_host,
     socketPorts => $socket_ports,
     statusPort  => $status_port,
+    statusToken => $status_token,
   }
 
   @ufw::application { 'cm-services-stream':
