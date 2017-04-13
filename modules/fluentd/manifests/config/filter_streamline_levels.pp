@@ -1,4 +1,4 @@
-define fluentd::config::filter_streamline_level (
+class fluentd::config::filter_streamline_levels (
   $pattern = '**',
   $priority = 50,
 ) {

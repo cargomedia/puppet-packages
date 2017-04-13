@@ -21,13 +21,8 @@ node default {
 
   ## Filter
 
-  fluentd::config::filter_add_hostname{ 'add-hostname':
-    pattern => '**',
-  }
-
-  fluentd::config::filter_streamline_level { 'streamline-level':
-    pattern => '**',
-  }
+  include 'fluentd::config::filter_add_hostname'
+  include 'fluentd::config::filter_streamline_levels'
 
   fluentd::config::filter{ 'my-filter-1':
     pattern  => 'filter1.**',

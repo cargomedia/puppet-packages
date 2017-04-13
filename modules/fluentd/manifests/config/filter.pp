@@ -5,7 +5,7 @@ define fluentd::config::filter (
   $priority = 50,
 ) {
 
-  fluentd::config { "filter-${title}":
+  @fluentd::config { "filter-${title}":
     content  => template( 'fluentd/config/filter.conf.erb' ),
     priority => $priority,
   }
