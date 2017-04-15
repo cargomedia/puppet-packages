@@ -1,0 +1,4 @@
+ <?php
+    $ssh_user   = 'cacti';
+    $ssh_iden   = '-i /etc/cacti/id_rsa';
+ ?>

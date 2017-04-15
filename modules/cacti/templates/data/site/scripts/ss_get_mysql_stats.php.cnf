@@ -1,0 +1,4 @@
+<?php
+    $mysql_user = '<%= @db_sense_user %>';
+    $mysql_pass = '<%= @db_sense_password %>';
+?>

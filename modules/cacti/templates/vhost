@@ -1,0 +1,40 @@
+<VirtualHost *:<%= @port %>>
+	ServerName <%= @hostname %>
+	Redirect permanent / https://%{HTTP_HOST}%{REQUEST_URI}
+</VirtualHost>
+
+<VirtualHost *:<%= @port_ssl %>>
+	ServerName <%= @hostname %>
+	DocumentRoot /usr/share/cacti/site
+
+	SSLEngine on
+	SSLCertificateFile /etc/apache2/ssl/cacti.pem
+
+	<Directory /usr/share/cacti/site>
+		AuthType Basic
+		AuthName "Authentication Required"
+		AuthUserFile "/etc/cacti/htpasswd"
+		Require valid-user
+
+		Options +FollowSymLinks
+		AllowOverride None
+		order allow,deny
+		allow from all
+
+		AddType application/x-httpd-php .php
+
+		<IfModule mod_php5.c>
+			php_flag magic_quotes_gpc Off
+			php_flag short_open_tag On
+			php_flag register_globals Off
+			php_flag register_argc_argv On
+			php_flag track_vars On
+			# this setting is necessary for some locales
+			php_value mbstring.func_overload 0
+			php_value include_path .
+		</IfModule>
+
+		DirectoryIndex index.php
+	</Directory>
+
+</VirtualHost>
