@@ -59,4 +59,5 @@ class fluentd {
   }
 
   Fluentd::Config <||>
+  Fluentd::Config::Source_tail <||>
 }
