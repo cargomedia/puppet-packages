@@ -39,13 +39,6 @@ class fluentd {
     mode   => '0644',
   }
 
-  file { '/var/lib/fluentd/tail_pos':
-    ensure => file,
-    owner  => 'fluentd',
-    group  => 'fluentd',
-    mode   => '0644',
-  }
-
   user { 'fluentd':
     ensure => present,
     system => true,

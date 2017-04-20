@@ -12,4 +12,7 @@ describe 'fluentd::config' do
     its(:stdout){ should match('<match \*\*>') }
   end
 
+  describe command('grep -r FOO /tmp/my-match-2/*') do
+    its(:exit_status) { should eq 0 }
+  end
 end

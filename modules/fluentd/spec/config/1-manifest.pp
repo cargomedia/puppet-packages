@@ -36,6 +36,7 @@ node default {
 
   fluentd::config::match{ 'my-match-1':
     type     => 'file',
+    priority => 50,
     pattern  => '**',
     config   => {
       path   => '/tmp/my-match-1',
@@ -44,11 +45,13 @@ node default {
 
   fluentd::config::match{ 'my-match-2':
     type     => 'file',
-    pattern  => 'match2.**',
+    priority => 49,
+    pattern  => 'source2.**',
     config   => {
       path   => '/tmp/my-match-2',
     },
   }
+
 
   fluentd::config::match_forest{ 'my-forest-1':
     pattern  => '**',
