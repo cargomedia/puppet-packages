@@ -14,9 +14,17 @@ node default {
     },
   }
 
+  file { '/tmp/my-source2':
+    ensure   => file,
+    mode     => '0644',
+    group    => '0',
+    owner    => '0',
+  }
+
   fluentd::config::source_tail{ 'my-source-2':
     path        => '/tmp/my-source-2',
     fluentd_tag => 'source2',
+    require => File['/tmp/my-source2'],
   }
 
   ## Filter
