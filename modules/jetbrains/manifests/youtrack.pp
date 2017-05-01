@@ -2,8 +2,8 @@ class jetbrains::youtrack (
   $host,
   $ssl_cert,
   $ssl_key,
-  $version = '2017.1',
-  $build   = '30867',
+  $version = '2017.2',
+  $build   = '32582',
   $port    = 8081,
   $hub_url = undef,
 ) {
