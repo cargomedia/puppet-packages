@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'fs::config' do
+describe 'fs::config::nofsck' do
 
   describe command('tune2fs -l /dev/sda1') do
     its(:exit_status) { should eq 0 }

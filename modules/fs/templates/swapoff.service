@@ -1,0 +1,11 @@
+[Unit]
+Description=Disable all swap partitions
+After=local-fs.target
+
+[Service]
+ExecStart=/sbin/swapoff -a
+Type=simple
+RemainAfterExit=yes
+
+[Install]
+WantedBy=multi-user.target
