@@ -1,9 +1,9 @@
 {
   "name": "cargomedia-java",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "author": "Cargo Media",
   "license": "MIT",
-  "summary": "java",
+  "summary": "Java 8",
   "source": "https://github.com/cargomedia/puppet-packages",
   "operatingsystem_support": [
     {
