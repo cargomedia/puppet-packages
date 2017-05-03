@@ -1,4 +1,5 @@
 require 'serverspec'
+require 'docker'
 require 'lib/box'
 require 'lib/puppet'
 
@@ -11,8 +12,11 @@ RSpec.configure do |configuration|
 
   configuration.raise_errors_for_deprecations!
 
+  docker_dir = File.expand_path("../../spec/docker/#{box_name}/", __FILE__)
+  docker_image = Docker::Image.build_from_dir(docker_dir)
+
   Specinfra.configuration.backend = :docker
-  Specinfra.configuration.docker_image = 'cargomedia/base:v1'
+  Specinfra.configuration.docker_image = docker_image.id
   Specinfra.configuration.docker_container_create_options = {
     'HostConfig' => {
       'Binds' => [
