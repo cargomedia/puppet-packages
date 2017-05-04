@@ -10,7 +10,7 @@ class java::jre (
     $install_options = []
   }
 
-  require $apt_sources
+  include $apt_sources
 
   $suffix = $headless ? {
     true    => '-headless',
