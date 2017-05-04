@@ -2,7 +2,8 @@ class jenkins::plugin::github_oauth(
   $organization_name_list,
   $admin_user_name_list,
   $client_id,
-  $client_secret
+  $client_secret,
+  $oauth_scopes = 'read:org,user:email',
 ) {
 
   require 'jenkins::plugin::matrix_auth'
