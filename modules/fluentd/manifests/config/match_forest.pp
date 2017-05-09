@@ -10,7 +10,7 @@ define fluentd::config::match_forest (
 
   $type = 'forest'
 
-  @fluentd::config { "match_forest-${title}":
+  fluentd::config { "match_forest-${title}":
     content  => template( 'fluentd/config/match_forest.conf.erb' ),
     priority => $priority,
     require => Class['fluentd::plugin::forest'],

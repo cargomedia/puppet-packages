@@ -52,6 +52,7 @@ class fluentd {
     require       => [Ruby::Gem['fluentd'], File['/etc/fluentd/fluent.conf'], User['fluentd']],
   }
 
-  Fluentd::Config <||>
+  Fluentd::Config::Match <||>
+  Fluentd::Config::Source <||>
   Fluentd::Config::Source_tail <||>
 }

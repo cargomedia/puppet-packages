@@ -27,7 +27,7 @@ class fluentd::config::source_journald (
 </source>
 | EOC
 
-  @fluentd::config { 'source-journald':
+  fluentd::config { 'source-journald':
     priority => $priority,
     content  => inline_template($config_template),
   }
