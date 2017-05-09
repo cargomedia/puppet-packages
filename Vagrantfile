@@ -23,7 +23,9 @@ Vagrant.configure('2') do |config|
   config.vm.provider 'virtualbox' do |v|
     v.gui = (ENV['gui'] == 'true')
     # Soundcard to test audio-related modules
-    v.customize ["modifyvm", :id, '--audio', 'null', '--audiocontroller', 'hda']
+    v.customize ['modifyvm', :id, '--audio', 'null', '--audiocontroller', 'hda']
+    # More performant NIC Adapter driver
+    v.customize ['modifyvm', :id, '--nictype1', 'virtio']
   end
 
   config.vm.define 'Ubuntu-15.04' do |vivid|
