@@ -39,34 +39,17 @@ class fluentd {
     mode   => '0644',
   }
 
-  file { '/var/lib/fluentd/tail_pos':
-    ensure => file,
-    owner  => 'fluentd',
-    group  => 'fluentd',
-    mode   => '0644',
-  }
-
-  file { '/var/log/fluentd':
-    ensure => directory,
-    owner  => 'fluentd',
-    group  => 'fluentd',
-    mode   => '0644',
-  }
-
-  logrotate::entry { $module_name:
-    path    => '/var/log/fluentd/*.log',
-  }
-
   user { 'fluentd':
     ensure => present,
+    groups => ['systemd-journal'],
     system => true,
   }
 
   daemon { 'fluentd':
     binary        => '/usr/local/bin/fluentd',
-    args          => '-c /etc/fluentd/fluent.conf -o /var/log/fluentd/fluentd.log --no-supervisor',
+    args          => '-c /etc/fluentd/fluent.conf --no-supervisor',
     user          => 'fluentd',
-    require       => [Ruby::Gem['fluentd'], File['/etc/fluentd/fluent.conf'], File['/var/log/fluentd'], User['fluentd']],
+    require       => [Ruby::Gem['fluentd'], File['/etc/fluentd/fluent.conf'], User['fluentd']],
   }
 
   Fluentd::Config::Match <||>

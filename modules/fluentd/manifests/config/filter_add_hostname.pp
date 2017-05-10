@@ -1,4 +1,4 @@
-define fluentd::config::filter_add_hostname (
+class fluentd::config::filter_add_hostname (
   $pattern = '**',
   $priority = 50,
 ) {
