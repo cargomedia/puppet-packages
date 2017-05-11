@@ -30,7 +30,7 @@ class redis {
   package { 'redis-server':
     provider => 'apt',
   }
-  
+
   @systemd::critical_unit { 'redis-server.service': }
 
   @bipbip::entry { 'redis':

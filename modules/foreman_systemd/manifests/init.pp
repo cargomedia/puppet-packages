@@ -1,7 +1,7 @@
 class foreman_systemd {
-  
+
   require 'foreman'
-  
+
   file {'/usr/local/bin/foreman-systemd':
     owner => 'root',
     group => 'root',
