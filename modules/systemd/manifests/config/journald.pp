@@ -21,4 +21,14 @@ class systemd::config::journald (
     path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     refreshonly => true,
   }
+
+  $journal_path = $storage ? {
+    'persistent' => '/var/log/journal',
+    default => '/run/log/journal'
+  }
+
+  @fluentd::config::source_journald { $module_name:
+    path => $journal_path,
+  }
+
 }

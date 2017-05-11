@@ -2,6 +2,8 @@ class fluentd {
 
   $fluentd_version = '0.14.13'
 
+  include 'fluentd::default_config'
+
   ruby::gem { 'fluentd':
     ensure => $fluentd_version,
     notify  => Daemon['fluentd'],
@@ -55,5 +57,5 @@ class fluentd {
   Fluentd::Config::Match <||>
   Fluentd::Config::Source <||>
   Fluentd::Config::Source_tail <||>
-
+  Fluentd::Config::Source_journald <||>
 }

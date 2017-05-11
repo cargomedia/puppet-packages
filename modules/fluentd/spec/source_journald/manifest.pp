@@ -1,14 +1,9 @@
 node default {
 
   include 'fluentd'
+  ## source from journal via including systemd journald customization
+  include 'systemd::config::journald'
 
-  ## Input from journal
-
-  class { 'fluentd::config::source_journald': }
-
-  ## Filters
-
-  class { ['fluentd::config::filter_add_hostname', 'fluentd::config::filter_streamline_levels']: }
 
   # Dump everything  for test verification
 
@@ -23,7 +18,7 @@ node default {
 </match>
   | END
 
-  @fluentd::config { 'dump_to_file':
+  fluentd::config { 'dump_to_file':
     priority => 85,
     content  => inline_template($output_config),
   }
