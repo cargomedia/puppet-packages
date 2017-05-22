@@ -7,6 +7,6 @@ class jenkins::service {
   service { 'jenkins':
     enable => true,
   }
-  
+
   @systemd::critical_unit { 'jenkins.service': }
 }
