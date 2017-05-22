@@ -5,7 +5,7 @@ define fluentd::config::match (
   $priority = 80,
 ) {
 
-  fluentd::config { "match-${title}":
+  @fluentd::config { "match-${title}":
     content  => template( 'fluentd/config/match.conf.erb' ),
     priority => $priority,
   }

@@ -11,7 +11,7 @@ define fluentd::config::source_tail (
     type     => 'tail',
     config   => {
       path        => $path,
-      pos_file    => '/var/lib/fluentd/tail_pos',
+      pos_file    => "/var/lib/fluentd/tail_${title}_pos",
       format      => $format,
       time_key    => $time_key,
       time_format => $time_format,
