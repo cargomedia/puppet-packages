@@ -23,4 +23,11 @@ node default {
     content  => inline_template($output_config),
   }
 
+  exec { 'log error foo':
+    provider => shell,
+    command  => 'logger -p local0.error foo',
+    path     => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    require  => Service['fluentd'],
+  }
+
 }
