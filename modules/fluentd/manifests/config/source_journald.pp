@@ -23,7 +23,7 @@ define fluentd::config::source_journald (
     <filter <%= @fluentd_tag %>.**>
       @type record_transformer
       renew_record true
-      keep_keys MESSAGE,PRIORITY,_TRANSPORT,_UID,_GID,_PID,_SYSTEMD_UNIT
+      keep_keys level,MESSAGE,PRIORITY,_TRANSPORT,_UID,_GID,_PID,_SYSTEMD_UNIT
     </filter>
     |- EOT
 
