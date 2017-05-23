@@ -23,7 +23,13 @@ define fluentd::config::source_journald (
     <filter <%= @fluentd_tag %>.**>
       @type record_transformer
       renew_record true
-      keep_keys level,MESSAGE,PRIORITY,_TRANSPORT,_UID,_GID,_PID,_SYSTEMD_UNIT
+      enable_ruby true
+      keep_keys message,timestamp,journal
+      <record>
+        message ${record["MESSAGE"]}
+        timestamp ${time.iso8601(3)}
+        journal ${r=record;{'transport' => r["_TRANSPORT"], 'unit' => r["_SYSTEMD_UNIT"], 'pid' => r["_PID"], 'uid' => r["_UID"]}}
+      </record>
     </filter>
     |- EOT
 
