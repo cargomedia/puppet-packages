@@ -29,8 +29,6 @@ node default {
 
   ## Filters
 
-  class { ['fluentd::config::filter_add_hostname', 'fluentd::config::filter_streamline_levels']: }
-
   fluentd::config::filter { 'my-filter-1':
     pattern => 'filter1.**',
     type    => 'grep',
