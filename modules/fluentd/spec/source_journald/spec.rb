@@ -19,7 +19,7 @@ describe 'fluentd:source-journald' do
     its(:exit_status) { should eq 0 }
   end
 
-  describe command('timeout --signal=9 3 bash -c "while ! (grep -e message...foo /tmp/dump/*.log | grep -v grep); do sleep 0.5; done"') do
+  describe command('timeout --signal=9 10 bash -c "while ! (grep -e message...foo /tmp/dump/*.log | grep -v grep); do sleep 0.5; done"') do
     its(:exit_status) { should eq 0 }
     its(:stdout) do
       is_expected.to include_json(
