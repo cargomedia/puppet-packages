@@ -10,20 +10,16 @@ describe 'fluentd:source-journald' do
     it { should be_directory }
   end
 
-  describe file('/tmp/dump') do
-    it { should be_directory }
-  end
-
-  describe command('grep \'level":"error","MESSAGE":"foo"\' /tmp/dump/*.log') do
+  describe command('grep foo /tmp/dump/*.log | tail -1') do
     its(:exit_status) { should eq 0 }
+    its(:stdout) do
+      is_expected.to include_json(
+                       message: 'foo',
+                       journal: {
+                         transport: 'syslog',
+                         unit: 'ssh.service',
+                         uid: '0',
+                       })
+    end
   end
-
-  describe command('journalctl -u fluentd | grep "fluentd worker is now running"') do
-    its(:exit_status) { should eq 0 }
-  end
-
-  describe command('grep "fluentd worker is now running" /tmp/dump/*') do
-    its(:exit_status) { should eq 0 }
-  end
-
 end
