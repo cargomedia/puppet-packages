@@ -1,9 +1,9 @@
 node default {
 
   include 'fluentd'
-  ## source from journal via including systemd journald customization
-  include 'systemd::config::journald'
-
+  class { 'systemd::config::journald':
+    fluentd_output => true,
+  }
 
   # Dump everything  for test verification
 
