@@ -36,7 +36,7 @@ class systemd::config::journald (
 
   #TODO: Remove if and its variable
   if $fluentd_output {
-    @fluentd::config::source_journald { $module_name:
+    class { 'fluentd::config::source_journald':
       path => $journal_path,
     }
   }

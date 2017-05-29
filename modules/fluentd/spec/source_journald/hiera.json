@@ -1,0 +1,3 @@
+{
+  "fluentd::config::source_journald::read_from_head": true
+}

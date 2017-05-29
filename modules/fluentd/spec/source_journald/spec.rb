@@ -6,8 +6,12 @@ describe 'fluentd:source-journald' do
     it { should be_running }
   end
 
-  describe file('/var/lib/fluentd/journald_pos_systemd') do
+  describe file('/var/lib/fluentd/journald_pos') do
     it { should be_directory }
+  end
+
+  describe file('/etc/fluentd/config.d/10-source-journald.conf') do
+    its(:content) { should match /read_from_head true/ }
   end
 
   describe command('logger -p local0.error foo') do
