@@ -17,13 +17,13 @@ describe 'systemd::journald_config' do
   describe file('/var/log/journal') do
     it { should be_directory }
     it { should be_grouped_into 'systemd-journal' }
-    it { should be_mode '2755' }
+    it { should be_mode '2750' }
   end
 
   describe file('/var/log/journal/boo') do
     it { should be_directory }
     it { should be_grouped_into 'systemd-journal' }
-    it { should be_mode '2755' }
+    it { should be_mode '2750' }
   end
 
 end
