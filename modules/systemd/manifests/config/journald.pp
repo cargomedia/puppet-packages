@@ -25,7 +25,7 @@ class systemd::config::journald (
   file { $journal_path:
     ensure  => directory,
     group   => 'systemd-journal',
-    mode    => '2644',
+    mode    => '2640',
     recurse => true,
   }
 
