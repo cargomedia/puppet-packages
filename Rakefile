@@ -17,6 +17,7 @@ PuppetLint.configuration.send('disable_class_inherits_from_params_class')
 PuppetLint.configuration.send('disable_parameter_order')
 PuppetLint.configuration.send('disable_variable_is_lowercase')
 PuppetLint.configuration.send('disable_arrow_on_right_operand_line')
+PuppetLint.configuration.send('disable_single_quote_string_with_variables')
 PuppetLint.configuration.ignore_paths = %w(**/templates/**/*.pp vendor/**/*.pp)
 
 PuppetSyntax.exclude_paths = %w(**/templates/**/*.pp vendor/**/*.pp)
