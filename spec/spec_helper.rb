@@ -1,4 +1,5 @@
 require 'serverspec'
+require 'rspec/json_expectations'
 require 'lib/vagrant'
 require 'lib/puppet'
 
