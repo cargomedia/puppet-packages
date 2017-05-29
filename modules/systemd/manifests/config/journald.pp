@@ -23,9 +23,10 @@ class systemd::config::journald (
   }
 
   file { $journal_path:
-    ensure => directory,
-    group  => 'systemd-journal',
-    mode   => '2644',
+    ensure  => directory,
+    group   => 'systemd-journal',
+    mode    => '2644',
+    recurse => true,
   }
 
   exec { 'restart systemd-journald due to config change':
