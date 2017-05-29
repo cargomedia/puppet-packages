@@ -1,7 +1,7 @@
 node default {
 
   exec { 'create dummy journald log dir':
-    command => 'mkdir -p /var/log/journal/boo && chmod -R 0400 /var/log/journal',
+    command => 'mkdir -p /var/log/journal/boo && chmod 0400 /var/log/journal/boo',
     path    => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
   }
   ->
