@@ -11,9 +11,12 @@ require './spec/lib/spec_runner'
 PuppetLint.configuration.fail_on_warnings = true
 PuppetLint.configuration.send('disable_arrow_alignment')
 PuppetLint.configuration.send('disable_80chars')
+PuppetLint.configuration.send('disable_140chars')
 PuppetLint.configuration.send('disable_documentation')
 PuppetLint.configuration.send('disable_class_inherits_from_params_class')
 PuppetLint.configuration.send('disable_parameter_order')
+PuppetLint.configuration.send('disable_variable_is_lowercase')
+PuppetLint.configuration.send('disable_arrow_on_right_operand_line')
 PuppetLint.configuration.ignore_paths = %w(**/templates/**/*.pp vendor/**/*.pp)
 
 PuppetSyntax.exclude_paths = %w(**/templates/**/*.pp vendor/**/*.pp)
