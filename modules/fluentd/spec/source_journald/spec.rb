@@ -29,7 +29,6 @@ describe 'fluentd:source-journald' do
       is_expected.to include_json(
                        level: 'error',
                        message: 'foo',
-                       timestamp: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}[+-]\d{2}:\d{2}$/,
                        journal: {
                          transport: 'syslog',
                          unit: /.+/,
