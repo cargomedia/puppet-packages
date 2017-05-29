@@ -22,7 +22,7 @@ class fluentd::config::source_journald (
     </source>
     |- EOT
 
-    fluentd::config { "source-journald":
+    fluentd::config { 'source-journald':
       priority => $priority,
       content  => inline_template($config_template),
     }
@@ -41,7 +41,7 @@ class fluentd::config::source_journald (
     </filter>
     |- EOT
 
-    fluentd::config { "tranformer-journald":
+    fluentd::config { 'tranformer-journald':
       priority => 60,
       content  => inline_template($tranformer_config)
     }
