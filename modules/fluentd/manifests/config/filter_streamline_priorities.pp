@@ -16,8 +16,11 @@ class fluentd::config::filter_streamline_priorities (
   }
   $level_filter = inline_template('priority = record["PRIORITY"]; <%= @replacements.inspect %>[priority] || "info"')
 
-  fluentd::config::filter_record_modifier { 'streamline_priorities':
+  fluentd::config::filter_record_transformer { 'streamline_priorities':
     pattern  => '**',
+    config   => {
+      enable_ruby => true,
+    },
     record   => {
       level => "\${${level_filter}}",
     },
