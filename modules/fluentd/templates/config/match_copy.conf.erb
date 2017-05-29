@@ -1,0 +1,18 @@
+<match <%= @pattern %>>
+  @type copy
+<% @config.reject {|_,v| v == :undef}.each do |key, val| -%>
+  <%= key %> <%= val %>
+<% end -%>
+
+<% @stores.each do |store| -%>
+  <store>
+<% store.reject {|_,v| v == :undef}.each do |key, val| -%>
+<% if 'type' == key -%>
+    @type <%= val %>
+<% else -%>
+    <%= key %> <%= val %>
+<% end -%>
+<% end -%>
+  </store>
+<% end -%>
+</match>
