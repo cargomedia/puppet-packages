@@ -27,22 +27,18 @@ class fluentd::config::source_journald (
       content  => inline_template($config_template),
     }
 
-    $tranformer_config = @(EOT)
-    <filter <%= @fluentd_tag %>.**>
-      @type record_transformer
-      renew_record true
-      enable_ruby true
-      keep_keys level,hostname,message,journal
-      <record>
-        message ${record["MESSAGE"]}
-        journal ${r=record;{'transport' => r["_TRANSPORT"], 'unit' => r["_SYSTEMD_UNIT"], 'pid' => r["_PID"], 'uid' => r["_UID"]}}
-      </record>
-    </filter>
-    |- EOT
-
-    fluentd::config { 'tranformer-journald':
+    fluentd::config::filter_record_transformer { 'transformer-journald':
+      pattern  => "${fluentd_tag}.**",
       priority => 60,
-      content  => inline_template($tranformer_config)
+      config   => {
+        renew_record => true,
+        enable_ruby  => true,
+        keep_keys    => 'level,hostname,message,journal',
+      },
+      record   => {
+        message => '${record["MESSAGE"]}',
+        journal => '${r=record;{"transport" => r["_TRANSPORT"], "unit" => r["_SYSTEMD_UNIT"], "pid" => r["_PID"], "uid" => r["_UID"]}}'
+      },
     }
 
     class { 'fluentd::config::filter_streamline_priorities':
