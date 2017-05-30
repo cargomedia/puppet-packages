@@ -14,18 +14,19 @@ describe 'fluentd:source-journald' do
     its(:content) { should match /read_from_head true/ }
   end
 
-  describe command('grep -hE "message...bar.*hostname" /tmp/dump/*.log') do
+  describe command('grep -rhE "message+.+bar+.+foo+.+:+.+bar" /tmp/dump*') do
     its(:exit_status) { should eq 0 }
     its(:stdout) do
       is_expected.to include_json(
                        level: 'warning',
                        message: 'bar',
-                       hostname: /.+/
+                       hostname: /.+/,
+                       foo: 'bar',
                      )
     end
   end
 
-  describe command('grep -hE "hostname.*message...foo" /tmp/dump/*.log"') do
+  describe command('grep -rhE "hostname+.+message+.+foo+.+transport+.+syslog" /tmp/dump*') do
     its(:exit_status) { should eq 0 }
     its(:stdout) do
       is_expected.to include_json(

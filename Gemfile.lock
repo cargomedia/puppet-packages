@@ -11,7 +11,7 @@ GEM
     hiera (3.3.1)
     indentation (0.1.1)
     json_pure (1.8.6)
-    komenda (0.1.7)
+    komenda (0.1.8)
       events (~> 0.9.8)
     multi_json (1.12.1)
     net-scp (1.2.1)
@@ -44,13 +44,13 @@ GEM
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.6.0)
     rspec-support (3.6.0)
-    serverspec (2.38.1)
+    serverspec (2.39.1)
       multi_json
       rspec (~> 3.0)
       rspec-its
-      specinfra (~> 2.53)
+      specinfra (~> 2.68)
     sfl (2.3)
-    specinfra (2.67.9)
+    specinfra (2.68.0)
       net-scp
       net-ssh (>= 2.7, < 5.0)
       net-telnet
