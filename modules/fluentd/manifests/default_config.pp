@@ -4,10 +4,6 @@ class fluentd::default_config {
     pattern  => '**',
   }
 
-  class { 'fluentd::config::filter_streamline_priorities':
-    pattern => '**',
-  }
-
   class {'fluentd::config::filter_streamline_levels':
     pattern => '**',
   }
