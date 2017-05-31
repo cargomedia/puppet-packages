@@ -14,22 +14,24 @@ describe 'fluentd:source-journald' do
     its(:content) { should match /read_from_head true/ }
   end
 
-  describe command('logger -p local0.error foo') do
+  describe command('grep -rhE "message+.+bar+.+foo+.+:+.+bar" /tmp/dump*') do
     its(:exit_status) { should eq 0 }
+    its(:stdout) do
+      is_expected.to include_json(
+                       level: 'warning',
+                       message: 'bar',
+                       hostname: /.+/,
+                       foo: 'bar',
+                     )
+    end
   end
 
-  # see http://docs.fluentd.org/v0.14/articles/signals#sigusr1
-  describe command('sudo pkill -SIGUSR1 fluentd') do
-    its(:exit_status) { should eq 0 }
-  end
-
-  describe command('timeout --signal=9 10 bash -c "while ! (grep -e message...foo /tmp/dump/*.log | grep -v grep); do sleep 0.5; done"') do
+  describe command('grep -rhE "hostname+.+message+.+foo+.+transport+.+syslog" /tmp/dump*') do
     its(:exit_status) { should eq 0 }
     its(:stdout) do
       is_expected.to include_json(
                        level: 'error',
                        message: 'foo',
-                       timestamp: /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{3}[+-]\d{2}:\d{2}$/,
                        journal: {
                          transport: 'syslog',
                          unit: /.+/,
