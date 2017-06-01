@@ -16,8 +16,11 @@ class fluentd::config::filter_streamline_levels (
   }
   $level_filter = inline_template('level = record["level"].to_s.downcase; <%= @replacements.inspect %>[level] || level')
 
-  fluentd::config::filter_record_modifier{ 'streamline_level':
+  fluentd::config::filter_record_transformer { 'streamline_level':
     pattern  => '**',
+    config   => {
+      enable_ruby => true,
+    },
     record   => {
       level => "\${${level_filter}}",
     },

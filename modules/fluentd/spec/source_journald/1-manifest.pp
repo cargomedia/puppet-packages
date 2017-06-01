@@ -1,6 +1,7 @@
 node default {
 
   include 'fluentd'
+
   class { 'systemd::config::journald':
     fluentd_output => true,
   }

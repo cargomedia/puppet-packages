@@ -14,14 +14,17 @@ class fluentd::config::filter_streamline_priorities (
     '1' => 'fatal',
     '0' => 'fatal',
   }
-  $level_filter = inline_template('priority = record["PRIORITY"]; <%= @replacements.inspect %>[priority] || "info"')
+  $level_filter = inline_template('priority = record["PRIORITY"]; <%= @replacements.inspect %>[priority] || record["level"] || "info"')
 
-  fluentd::config::filter_record_modifier { 'streamline_priorities':
-    pattern  => '**',
+  fluentd::config::filter_record_transformer { 'streamline_priorities':
+    pattern  => $pattern,
+    priority => $priority,
+    config   => {
+      enable_ruby => true,
+    },
     record   => {
       level => "\${${level_filter}}",
     },
-    priority => $priority,
   }
 
 }
