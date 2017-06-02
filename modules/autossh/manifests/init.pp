@@ -1,10 +1,8 @@
-class autossh (
-  $local_port,
-  $remote_port      = nil,
-  $remote_port      = nil,
-  $remote           = { },
-  $local_forwarding = false,
-  $local_host       = '127.0.0.1',
+define autossh (
+  $user,
+  $connection,
+  $forwards,
+  $options = { }
 ) {
 
   require 'apt'
@@ -14,4 +12,17 @@ class autossh (
     provider => 'apt',
   }
 
+  $argOptions = autossh_options($options, {
+    'ServerAliveInterval'   => 30,
+    'ServerAliveCountMax'   => 3,
+    'StrictHostKeyChecking' => 'no',
+  })
+  $argForwards = autossh_forwards($forwards)
+
+  daemon { "autossh-${name}":
+    user    => $user,
+    binary  => '/usr/bin/autossh',
+    args    => "-N -M 0 $argOptions $argForwards $connection",
+    require => Package['autossh'],
+  }
 }
