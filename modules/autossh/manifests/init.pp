@@ -22,7 +22,7 @@ define autossh (
   daemon { "autossh-${name}":
     user    => $user,
     binary  => '/usr/bin/autossh',
-    args    => "-N -M 0 $argOptions $argForwards $connection",
+    args    => "-N -M 0 ${argOptions} ${argForwards} ${connection}",
     require => Package['autossh'],
   }
 }
