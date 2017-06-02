@@ -22,6 +22,10 @@ describe 'fluentd' do
     it { should be_file }
   end
 
+  describe file('/etc/fluentd/config.d/80-match-drop-fluent-log.conf') do
+    it { should be_file }
+  end
+
   describe command('grep -rh debug-1 /tmp/dump*') do
     its(:exit_status) { should eq 0 }
     its(:stdout) do
@@ -50,6 +54,17 @@ describe 'fluentd' do
       is_expected.to include_json(
                        level: 'custom',
                        message: 'debug-3',
+                       hostname: /.+/,
+                     )
+    end
+  end
+
+  describe command('grep -rh tail-1 /tmp/dump*') do
+    its(:exit_status) { should eq 0 }
+    its(:stdout) do
+      is_expected.to include_json(
+                       level: 'info',
+                       message: 'tail-1',
                        hostname: /.+/,
                      )
     end

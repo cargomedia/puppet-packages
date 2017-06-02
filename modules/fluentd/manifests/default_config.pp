@@ -8,4 +8,8 @@ class fluentd::default_config {
     pattern => '**',
   }
 
+  fluentd::config::match { 'drop-fluent-log':
+    pattern => 'fluent.*',
+    type    => 'null',
+  }
 }
