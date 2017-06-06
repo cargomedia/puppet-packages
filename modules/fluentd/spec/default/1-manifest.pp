@@ -1,9 +1,6 @@
 node default {
 
-  include 'fluentd'
-
-  class { 'systemd::config::journald':
-    fluentd_output => true,
+  class { 'fluentd':
   }
 
   file { '/tmp/my-source':
@@ -20,13 +17,13 @@ node default {
     require     => File['/tmp/my-source'],
   }
 
-  fluentd::config::match_copy { 'dump_to_file':
+  fluentd::config::match { 'my-dump':
+    type     => 'file',
     pattern  => '**',
-    priority => 85,
-    stores   => [{
-      'type'   => 'file',
-      'path'   => '/tmp/dump',
-      'format' => 'json',
-    }]
+    priority => 99,
+    config   => {
+      path   => '/tmp/dump',
+      format => 'json',
+    },
   }
 }

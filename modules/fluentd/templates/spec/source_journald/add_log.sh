@@ -4,3 +4,5 @@ set -e
 
 echo '{"message":"bar","level":"notice","foo":"bar"}' | fluent-cat debug.test
 logger -p local0.error foo
+
+echo 'wrong-message' >> /tmp/my-source

@@ -40,4 +40,19 @@ describe 'fluentd:source-journald' do
                        })
     end
   end
+
+  describe command('grep -rhE "hostname+.+message+.+pattern not match" /tmp/dump*') do
+    its(:exit_status) { should eq 0 }
+    its(:stdout) do
+      is_expected.to include_json(
+                       level: 'info',
+                       message: /pattern not match.+wrong-message/,
+                       journal: {
+                         transport: 'stdout',
+                         unit: 'fluentd.service',
+                         uid: /\d+/,
+                         pid: /\d+/,
+                       })
+    end
+  end
 end
