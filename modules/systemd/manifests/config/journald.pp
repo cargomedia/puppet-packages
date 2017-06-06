@@ -3,7 +3,6 @@ class systemd::config::journald (
   $rate_limit_interval = '5s',
   $rate_limit_burst    = 500,
   $max_retention_sec   = '6month',
-  $fluentd_output      = false,
 ) {
 
   require 'systemd'
@@ -35,10 +34,7 @@ class systemd::config::journald (
     refreshonly => true,
   }
 
-  #TODO: Remove if and its variable
-  if $fluentd_output {
-    class { 'fluentd::config::source_journald':
-      path => $journal_path,
-    }
+  class { 'fluentd::config::source_journald':
+    path => $journal_path,
   }
 }
