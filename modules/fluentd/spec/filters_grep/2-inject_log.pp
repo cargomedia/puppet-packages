@@ -1,7 +1,7 @@
 node default {
 
   helper::script { 'add log entries':
-    content => template('fluentd/spec/source_journald/add_log.sh'),
+    content => template('fluentd/spec/filters_grep/add_log.sh'),
     unless  => false,
   }
 

@@ -36,16 +36,6 @@ node default {
     require     => File['/tmp/my-source-2']
   }
 
-  ## Filters
-
-  fluentd::config::filter { 'my-filter-1':
-    pattern => 'filter1.**',
-    type    => 'grep',
-    config  => {
-      regexp1 => 'message cool',
-    },
-  }
-
   ## Matches
 
   fluentd::config::match { 'my-match-1':
