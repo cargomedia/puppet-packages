@@ -87,7 +87,7 @@ define cm::vhost (
   }
 
   nginx::resource::location { "${name}-origin-upstream":
-    location            => '~* ^/(resources|vendor-css|vendor-js|library-css|library-js|layout)/',
+    location            => '~* /(resources|vendor-css|vendor-js|library-css|library-js|layout)/',
     vhost               => $cdn_origin_vhost,
     ssl                 => true,
     ssl_only            => true,
