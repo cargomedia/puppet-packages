@@ -4,18 +4,13 @@ node default {
     ip => '127.1.1.1',
   }
 
-  user { 'foo':
+  user { ['foo', 'bar']:
     ensure     => 'present',
     managehome => true,
-    home       => '/home/foo',
-  }
-  user { 'bar':
-    ensure     => 'present',
-    managehome => true,
-    home       => '/home/bar',
   }
 
   $keys = generate_sshkey('foo@local.source')
+
   ssh::key { 'id_rsa':
     user    => 'foo',
     content => $keys['private'],
@@ -23,6 +18,7 @@ node default {
     fqdn    => 'local.source',
     require => User['foo'],
   }
+
   ssh::authorized_key { 'foo@local.source':
     user    => 'bar',
     content => $keys['public'],
@@ -34,6 +30,7 @@ node default {
     user     => 'root',
     provider => shell,
   }
+
   exec { 'nc 127.1.1.1:8001':
     command  => '/bin/nc -lvnp 8001 -s 127.1.1.1 -c "echo nc2" &',
     user     => 'root',
@@ -47,6 +44,6 @@ node default {
       '8000'              => '9000',
       'local.source:8001' => '9001',
     },
-    require    => [Exec['nc 127.0.0.1:8000'], Exec['nc 127.1.1.1:8001']],
+    require    => Exec['nc 127.0.0.1:8000', 'nc 127.1.1.1:8001'],
   }
 }

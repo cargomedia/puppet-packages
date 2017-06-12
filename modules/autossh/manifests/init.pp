@@ -17,6 +17,7 @@ define autossh (
     'ServerAliveCountMax'   => 3,
     'StrictHostKeyChecking' => 'no',
   })
+
   $argForwards = autossh_forwards($forwards)
 
   daemon { "autossh-${name}":

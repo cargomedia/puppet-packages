@@ -11,12 +11,11 @@ describe 'autossh' do
     it { should be_running }
   end
 
-  describe command('netstat -tupln | grep -e ":[8|9]00[0|1]"') do
-    its(:exit_status) { should eq 0 }
-    its(:stdout) { should match /127.0.0.1:8000.+\/nc/ }
-    its(:stdout) { should match /127.1.1.1:8001.+\/nc/ }
-    its(:stdout) { should match /127.0.0.1:9000.+\/sshd/ }
-    its(:stdout) { should match /127.0.0.1:9001.+\/sshd/ }
+  describe command('netstat -tupln') do
+    its(:stdout) { should match /127.0.0.1:8000 .+\/nc/ }
+    its(:stdout) { should match /127.1.1.1:8001 .+\/nc/ }
+    its(:stdout) { should match /127.0.0.1:9000 .+\/sshd/ }
+    its(:stdout) { should match /127.0.0.1:9001 .+\/sshd/ }
   end
 
   describe command('nc 127.0.0.1 9000') do
