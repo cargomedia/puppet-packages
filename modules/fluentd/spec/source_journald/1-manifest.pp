@@ -2,9 +2,7 @@ node default {
 
   include 'fluentd'
 
-  class { 'systemd::config::journald':
-    fluentd_output => true,
-  }
+  class { 'systemd::config::journald': }
 
   file { '/tmp/my-source':
     ensure => file,
