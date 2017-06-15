@@ -4,7 +4,8 @@ class mms::agent::monitoring (
   $auth_username = undef,
   $auth_password = undef,
   $concurrency = 4,
-  $mms_server = 'https://mms.mongodb.com'
+  $mms_server = 'https://mms.mongodb.com',
+  $mms_group_settings,
 ){
 
 # Docu: https://docs.mms.mongodb.com/tutorial/install-monitoring-agent-with-deb-package/
