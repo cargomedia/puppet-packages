@@ -9,6 +9,7 @@ describe 'mms::monitoring' do
 
   describe file ('/etc/mongodb-mms/monitoring-agent.config') do
     its(:content) { should match /mmsApiKey=test-key/ }
+    its(:content) { should match /mmsGroupId=test-group/ }
     its(:content) { should match /globalAuthUsername=mms/ }
     its(:content) { should match /globalAuthPassword=mms/ }
   end

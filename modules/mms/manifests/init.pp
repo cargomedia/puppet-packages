@@ -1,5 +1,6 @@
 class mms (
-  $api_key = undef
+  $api_key = undef,
+  $mms_group_settings = undef,
 ) {
 
   user { 'mongodb-mms-agent':
@@ -14,13 +15,15 @@ class mms (
     mode   => '0644',
   }
 
-  if $api_key {
+  if $api_key and $mms_group_settings {
     class { 'mms::agent::backup':
-      api_key => $api_key
+      api_key => $api_key,
+      mms_group_settings => $mms_group_settings,
     }
 
     class { 'mms::agent::monitoring':
-      api_key => $api_key
+      api_key => $api_key,
+      mms_group_settings => $mms_group_settings,
     }
   }
 }

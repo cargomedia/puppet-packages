@@ -9,5 +9,6 @@ describe 'mms::backup' do
 
   describe file ('/etc/mongodb-mms/backup-agent.config') do
     its(:content) { should match /mmsApiKey=test-key/ }
+    its(:content) { should match /mmsGroupId=test-group/ }
   end
 end

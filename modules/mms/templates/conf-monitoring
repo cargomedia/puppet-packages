@@ -9,6 +9,8 @@ mmsApiKey=<%=@api_key%>
 #
 mmsBaseUrl=<%=@mms_server%>
 
+mmsGroupId=<%=@mms_group_settings%>
+
 #
 # The global authentication credentials to be used by the agent.
 #
