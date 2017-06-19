@@ -1,13 +1,13 @@
-class gearman::server(
-  $persistence = 'sqlite3',
-  $mysql_host = '127.0.0.1',
-  $mysql_port = '3306',
-  $mysql_user = 'gearman',
+class gearman::server (
+  $persistence    = 'sqlite3',
+  $mysql_host     = '127.0.0.1',
+  $mysql_port     = '3306',
+  $mysql_user     = 'gearman',
   $mysql_password = 'gearman',
-  $mysql_db = 'gearman',
-  $mysql_table = 'gearman_queue',
-  $bind_ip = undef,
-  $jobretries = 25,
+  $mysql_db       = 'gearman',
+  $mysql_table    = 'gearman_queue',
+  $bind_ip        = undef,
+  $jobretries     = 25,
 ) {
 
   require 'apt'
@@ -60,8 +60,9 @@ class gearman::server(
   ->
 
   daemon { $fullname:
-    binary => '/usr/sbin/gearmand',
-    args   => $daemon_args,
-    user   => 'gearman',
+    binary       => '/usr/sbin/gearmand',
+    args         => $daemon_args,
+    user         => 'gearman',
+    limit_nofile => 16384,
   }
 }
