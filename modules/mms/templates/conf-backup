@@ -3,6 +3,8 @@
 #
 mmsApiKey=<%=@api_key%>
 
+mmsGroupId=<%=@mms_group_settings%>
+
 #
 # Hostname of the MMS Backup web server.
 #
