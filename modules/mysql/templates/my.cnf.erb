@@ -29,8 +29,8 @@ query_cache_size = 0
 query_cache_type = 0
 
 # Logging
-log_error = /var/log/mysql.err
-slow_query_log_file = /var/log/mysql/mysql-slow.log
+log_error = <%= @error_log %>
+slow_query_log_file = <%= @slow_query_log %>
 slow_query_log = 1
 long_query_time = 1
 

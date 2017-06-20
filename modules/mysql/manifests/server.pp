@@ -9,6 +9,7 @@ class mysql::server (
   require 'apt'
 
   $error_log = '/var/log/mysql.err'
+  $slow_query_log = '/var/log/mysql-slow-query.log'
 
   file { '/root/.my.cnf':
     ensure  => file,
@@ -97,6 +98,14 @@ class mysql::server (
     require => User['mysql'],
   }
 
+  file { $slow_query_log:
+    ensure  => file,
+    owner   => 'mysql',
+    mode    => '0644',
+    before  => Package['mysql-server'],
+    require => User['mysql'],
+  }
+
   mysql::user { 'debian-sys-maint@localhost':
     password => $debian_sys_maint_password,
   }
@@ -136,6 +145,12 @@ class mysql::server (
     stop_timeout           => 600,
     limit_nofile           => 16384,
     require                => [ User['mysql'], File['/usr/share/mysql/mysql-systemd-start'] ],
+  }
+
+  logrotate::entry { 'mysql-slow-query':
+    path               => $slow_query_log,
+    rotation_newfile   => 'create 0644 mysql root',
+    before             => Package['mysql-server'],
   }
 
   logrotate::entry { 'mysql-server-error':
