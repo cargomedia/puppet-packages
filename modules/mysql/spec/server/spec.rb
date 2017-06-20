@@ -25,4 +25,20 @@ describe 'mysql::server' do
     its(:stdout) { should match /thread_cache_size+.+20$/ }
     its(:stdout) { should match /max_connections+.+10$/ }
   end
+
+  describe file('/var/log/mysql.err') do
+    it "owned by user mysql" do
+      expect(subject).to be_owned_by('mysql')
+    end
+  end
+
+  describe file('/var/log/mysql-slow-query.log') do
+    it "owned by user mysql" do
+      expect(subject).to be_owned_by('mysql')
+    end
+  end
+
+  describe command('mysql -e "select sleep (1.1);" && cat /var/log/mysql-slow-query.log' ) do
+    its(:stdout) { should match /select sleep/ }
+  end
 end
