@@ -14,9 +14,25 @@ class php5::extension::newrelic(
     provider => 'apt',
     require  => Class['apt::source::newrelic'],
   }
-  ->
 
   php5::config_extension { 'newrelic':
     content => template("${module_name}/extension/newrelic/conf.ini"),
+    require => Package['newrelic-php5'],
+  }
+
+  @fluentd::config::source_tail{ 'newrelic-php-agent':
+    path        => '/var/log/newrelic/php_agent.log',
+    fluentd_tag => 'newrelic',
+    format      => 'json',
+    time_key    => 'time',
+    time_format => '%FT%T.%L%:z',
+  }
+
+  @fluentd::config::source_tail{ 'newrelic-daemon':
+    path        => '/var/log/newrelic/newrelic-daemon.log',
+    fluentd_tag => 'newrelic',
+    format      => 'json',
+    time_key    => 'time',
+    time_format => '%FT%T.%L%:z',
   }
 }

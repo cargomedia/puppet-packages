@@ -1,5 +1,7 @@
 node default {
 
+  include 'fluentd'
+
   class { 'php5::extension::newrelic':
     license_key                => 'xxxxx',
     appname                    => 'bar',

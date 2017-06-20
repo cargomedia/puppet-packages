@@ -15,4 +15,8 @@ describe 'php5::extension::newrelic' do
     its(:stdout) { should match /enabled => no/ }
     its(:stdout) { should match /browser_monitoring\.auto_instrument => enabled/ }
   end
+
+  describe service('fluentd') do
+    it { should be_running }
+  end
 end
