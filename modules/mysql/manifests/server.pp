@@ -93,6 +93,7 @@ class mysql::server (
   file { $error_log:
     ensure  => file,
     owner   => 'mysql',
+    group   => 'root',
     mode    => '0644',
     before  => Package['mysql-server'],
     require => User['mysql'],
@@ -101,6 +102,7 @@ class mysql::server (
   file { $slow_query_log:
     ensure  => file,
     owner   => 'mysql',
+    group   => 'root',
     mode    => '0644',
     before  => Package['mysql-server'],
     require => User['mysql'],
