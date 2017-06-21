@@ -41,7 +41,7 @@ define mongodb::core::mongos (
 
   daemon { $instance_name:
     binary          => "/usr/bin/${daemon}",
-    args            => "--config /etc/mongodb/${instance_name}.conf",
+    args            => "--config /etc/mongodb/${instance_name}.conf --syslog",
     user            => 'mongodb',
     limit_nofile    => 64000,
     limit_fsize     => 'unlimited',
@@ -72,9 +72,4 @@ define mongodb::core::mongos (
     }
   }
 
-  logrotate::entry { $instance_name:
-    path              => "/var/log/mongodb/${instance_name}.log",
-    rotation_newfile  => 'create',
-    postrotate_script => "kill -USR1 $(cat /var/run/${instance_name}.pid)",
-  }
 }

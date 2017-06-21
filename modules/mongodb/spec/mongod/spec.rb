@@ -36,12 +36,8 @@ describe 'mongodb::mongod' do
     it { should be_listening.with('tcp') }
   end
 
-  describe file('/etc/logrotate.d/mongod_server') do
-    it { should be_file }
-    it { should contain 'cat /var/run/mongod_server.pid' }
-  end
-
-  describe command('logrotate -d /etc/logrotate.d/mongod_server') do
-    its(:exit_status) { should eq 0 }
+  describe command('journalctl -u mongod_server --no-pager') do
+    its(:stdout) { should match /\[initandlisten\] db version v3\.2/ }
+    its(:stdout) { should match /\[initandlisten\] waiting for connections on port 28017/ }
   end
 end
