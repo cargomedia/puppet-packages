@@ -10,9 +10,11 @@ define fluentd::config::source_logfile (
   $read_from_head   = false,
 ) {
 
+  $internal_tag = "logfile.${title}"
+
   $default_config = {
     path           => $path,
-    tag            => $fluentd_tag,
+    tag            => $internal_tag,
     pos_file       => "/var/lib/fluentd/logfile-${title}_pos",
     path_key       => 'path',
     time_format    => $time_format,
@@ -28,16 +30,24 @@ define fluentd::config::source_logfile (
   }
 
   fluentd::config::filter_record_transformer { "logfile-${title}":
-    pattern  => $fluentd_tag,
-    priority => 60,
+    pattern  => $internal_tag,
+    priority => 11,
     config   => {
       renew_record => true,
       enable_ruby  => true,
-      keep_keys    => 'level,hostname,message',
+      keep_keys    => 'level,message',
     },
     record   => {
       journal => inline_template('${{"transport" => "logfile", "unit" => "<%= @unit %>", "logfile" => record["path"]}}'),
-      extra   => inline_template('${record.reject {|key,value| ["level","hostname","message","path"].include? key}}'),
+      extra   => inline_template('${record.reject {|key,value| ["level","message","path"].include? key}}'),
     },
+  }
+
+  fluentd::config::match_retag { "logfile-${title}":
+    pattern  => $internal_tag,
+    priority => 12,
+    config   => {
+      rewriterule1 => "journal .+ ${fluentd_tag}"
+    }
   }
 }

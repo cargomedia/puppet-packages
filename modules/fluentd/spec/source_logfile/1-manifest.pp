@@ -10,6 +10,14 @@ node default {
     read_from_head => true,
   }
 
+  fluentd::config::filter_record_transformer { "add-tag":
+    pattern  => '**',
+    priority => 84,
+    record   => {
+      tag => '${tag}',
+    },
+  }
+
   fluentd::config::match_copy { 'dump_to_file':
     pattern  => '**',
     priority => 85,

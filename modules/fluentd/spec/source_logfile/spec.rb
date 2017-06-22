@@ -24,7 +24,8 @@ describe 'fluentd:source-logfile' do
                        },
                        extra: {
                          custom: '42'
-                       }
+                       },
+                       tag: 'journal'
                      )
     end
   end
