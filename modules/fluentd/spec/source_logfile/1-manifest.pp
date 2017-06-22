@@ -10,6 +10,22 @@ node default {
     read_from_head => true,
   }
 
+
+  fluentd::config::source_logfile { 'multiline':
+    path             => '/tmp/multiline.log',
+    unit             => 'multiline.test',
+    fluentd_tag      => 'custom_tag',
+    format           => 'multiline',
+    format_firstline => '/Multiline/',
+    formats          => [
+      '/Multiline: (?<time>.+)\n/',
+      '/- message: (?<message>.+)\n/',
+      '/- key: (?<custom>.+)/',
+    ],
+    time_format      => '%Y-%m-%d %H:%M:%S',
+    read_from_head   => true,
+  }
+
   fluentd::config::filter_record_transformer { "add-tag":
     pattern  => '**',
     priority => 84,

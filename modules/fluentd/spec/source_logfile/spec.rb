@@ -29,4 +29,24 @@ describe 'fluentd:source-logfile' do
                      )
     end
   end
+
+  describe command('grep -rhE "message+.+multifoo" /tmp/dump*') do
+    its(:exit_status) { should eq 0 }
+    its(:stdout) do
+      is_expected.to include_json(
+                       level: 'info',
+                       message: 'multifoo',
+                       hostname: /.+/,
+                       journal: {
+                         unit: 'multiline.test',
+                         logfile: '/tmp/multiline.log',
+                         transport: 'logfile'
+                       },
+                       extra: {
+                         custom: 'val1'
+                       },
+                       tag: 'custom_tag'
+                     )
+    end
+  end
 end

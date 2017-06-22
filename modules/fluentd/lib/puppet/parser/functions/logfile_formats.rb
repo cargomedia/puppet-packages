@@ -8,15 +8,15 @@ module Puppet::Parser::Functions
     formats = args[2] || []
 
     if format.eql? 'multiline'
-      {
+      Hash[
         :format => 'multiline',
         :format_firstline => format_firstline,
-      } + Hash[
-        formats.map do |index, val|
+      ].merge(Hash[
+        formats.each_with_index.map do |val, index|
           count = index + 1
           ["format#{count}", val]
         end
-      ]
+      ])
     else
       Hash[
         :format => format,

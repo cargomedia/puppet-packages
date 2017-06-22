@@ -1,0 +1,6 @@
+Multiline: 2017-02-13 20:01:00
+- message: multifoo
+- key: val1
+Multiline: 2017-02-13 20:02:00
+- message: multibar
+- key: val2
