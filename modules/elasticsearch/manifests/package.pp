@@ -1,5 +1,5 @@
 class elasticsearch::package (
-  $repository_version = '1.3',
+  $repository_version = '1.4',
 ){
 
   apt::source { 'elasticsearch':
