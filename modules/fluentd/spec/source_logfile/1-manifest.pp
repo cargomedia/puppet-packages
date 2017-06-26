@@ -26,7 +26,7 @@ node default {
     read_from_head   => true,
   }
 
-  fluentd::config::filter_record_transformer { "add-tag":
+  fluentd::config::filter_record_transformer { 'add-tag':
     pattern  => '**',
     priority => 84,
     record   => {
