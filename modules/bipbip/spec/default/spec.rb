@@ -20,7 +20,7 @@ describe 'bipbip' do
     it { should be_directory }
   end
 
-  yaml_files = ['/etc/bipbip/config.yml', '/etc/bipbip/services.d/memcache.yml', '/etc/bipbip/services.d/logparser.yml']
+  yaml_files = ['/etc/bipbip/config.yml', '/etc/bipbip/services.d/memcache.yml']
 
   yaml_files.each do |file|
     describe command("ruby -e \"require 'psych';Psych.load_file('#{file}')\"") do
@@ -37,11 +37,6 @@ describe 'bipbip' do
     its(:content) { should match /plugin:.*memcached/ }
     its(:content) { should match /hostname:.*localhost/ }
     its(:content) { should match /port:.*6379/ }
-  end
-
-  describe file(yaml_files.shift) do
-    its(:content) { should match /plugin:.*log-parser/ }
-    its(:content) { should match /name:.*oom_killer/ }
   end
 
   describe command('logrotate -d /etc/logrotate.d/bipbip') do
