@@ -51,12 +51,6 @@ class mongodb (
       owner   => 'mongodb',
       group   => 'mongodb';
 
-    '/var/log/mongodb':
-      ensure  => directory,
-      mode    => '0755',
-      owner   => 'mongodb',
-      group   => 'mongodb';
-
     '/etc/mongodb':
       ensure  => directory,
       mode    => '0755',

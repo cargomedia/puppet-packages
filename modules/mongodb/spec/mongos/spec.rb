@@ -36,21 +36,13 @@ describe 'mongodb::mongos' do
     it { should be_listening.with('tcp') }
   end
 
-  describe file('/etc/logrotate.d/mongos_router') do
-    it { should be_file }
-    it { should contain 'cat /var/run/mongos_router.pid' }
+  describe command('journalctl -u mongos_router --no-pager') do
+    its(:stdout) { should match /\[mongosMain\] db version v2\.6/ }
+    its(:stdout) { should match /\[Balancer\] config servers and shards contacted successfully/ }
   end
 
-  describe command('logrotate -d /etc/logrotate.d/mongos_router') do
-    its(:exit_status) { should eq 0 }
-  end
-
-  describe file('/etc/logrotate.d/mongod_config') do
-    it { should be_file }
-    it { should contain 'cat /var/run/mongod_config.pid' }
-  end
-
-  describe command('logrotate -d /etc/logrotate.d/mongod_config') do
-    its(:exit_status) { should eq 0 }
+  describe command('journalctl -u mongod_config --no-pager') do
+    its(:stdout) { should match /\[initandlisten\] db version v2\.6/ }
+    its(:stdout) { should match /\[initandlisten\] waiting for connections on port 27019/ }
   end
 end

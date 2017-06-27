@@ -1,9 +1,5 @@
 # mongos.conf
 
-logpath=/var/log/mongodb/<%= @instance_name %>.log
-
-logappend=true
-
 fork = <%= @fork %>
 
 <% if @bind_ip and !@bind_ip.empty? -%>

@@ -11,11 +11,6 @@ dbpath=/var/lib/mongodb/<%= @instance_name %>
 storageEngine=<%= @storage_engine %>
 <% end -%>
 
-#where to log
-logpath=/var/log/mongodb/<%= @instance_name %>.log
-
-logappend=true
-
 rest=<%= @rest %>
 
 fork=<%= @fork %>
