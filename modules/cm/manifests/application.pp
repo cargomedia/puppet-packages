@@ -12,7 +12,6 @@ class cm::application (
   require 'php5::extension::imagick'
   require 'php5::extension::curl'
   require 'php5::extension::runkit'
-  require 'php5::extension::timecop'
   require 'php5::extension::stats'
   require 'php5::extension::mcrypt'
   require 'php5::extension::gearman'
@@ -31,6 +30,7 @@ class cm::application (
   }
 
   if $development {
+    require 'php5::extension::timecop'
     require 'php5::extension::xdebug'
     require 'phantomjs'
   }
