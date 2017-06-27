@@ -20,19 +20,19 @@ class php5::extension::newrelic(
     require => Package['newrelic-php5'],
   }
 
-  @fluentd::config::source_tail{ 'newrelic-php-agent':
+  @fluentd::config::source_logfile { 'newrelic-php-agent':
     path        => '/var/log/newrelic/php_agent.log',
-    fluentd_tag => 'newrelic',
-    format      => 'json',
-    time_key    => 'time',
-    time_format => '%FT%T.%L%:z',
+    unit           => 'newrelic-php-agent',
+    format         => '/(?<time>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}\.\d{3} \+\d{4}) \(\S+ \S+\) (?<level>\S+): (?<message>.*)/',
+    time_format    => '%Y-%m-%d %H:%M:%S.%L %z',
+    read_from_head => true,
   }
 
-  @fluentd::config::source_tail{ 'newrelic-daemon':
+  @fluentd::config::source_logfile { 'newrelic-daemon':
     path        => '/var/log/newrelic/newrelic-daemon.log',
-    fluentd_tag => 'newrelic',
-    format      => 'json',
-    time_key    => 'time',
-    time_format => '%FT%T.%L%:z',
+    unit           => 'newrelic-daemon',
+    format         => '/(?<time>\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}:\d{2}\.\d{6}) \((?<pid>\d*)\) (?<level>\S+): (?<message>.*)/',
+    time_format    => '%Y/%m/%d %H:%M:%S.%N',
+    read_from_head => true,
   }
 }
