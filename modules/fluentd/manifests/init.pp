@@ -57,4 +57,5 @@ class fluentd {
   Fluentd::Config::Match <||>
   Fluentd::Config::Source <||>
   Fluentd::Config::Source_tail <||>
+  Fluentd::Config::Source_logfile <||>
 }
