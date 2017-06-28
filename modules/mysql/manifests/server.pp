@@ -1,9 +1,9 @@
 class mysql::server (
-  $root_password = '',
+  $root_password             = '',
   $debian_sys_maint_password = '',
-  $max_connections = 500,
-  $thread_cache_size = 500,
-  $key_buffer_size = '512M',
+  $max_connections           = 500,
+  $thread_cache_size         = 500,
+  $key_buffer_size           = '512M',
 ) {
 
   require 'apt'
@@ -28,7 +28,7 @@ class mysql::server (
     before => Package['mysql-server'],
   }
 
-  file { ['/etc/mysql','/etc/mysql/conf.d', '/var/run/mysqld']:
+  file { ['/etc/mysql', '/etc/mysql/conf.d', '/var/run/mysqld']:
     ensure  => directory,
     owner   => 'mysql',
     group   => 'mysql',
@@ -87,13 +87,13 @@ class mysql::server (
     group   => 'root',
     mode    => '0644',
     require => User['mysql'],
-    before  => [Package['mysql-server'],Service['mysql']],
+    before  => [Package['mysql-server'], Service['mysql']],
   }
 
   file { $error_log:
     ensure  => file,
     owner   => 'mysql',
-    group   => 'root',
+    group   => 'fluentd',
     mode    => '0644',
     before  => Package['mysql-server'],
     require => User['mysql'],
@@ -140,25 +140,25 @@ class mysql::server (
   }
 
   daemon { 'mysql':
-    binary                 => '/usr/sbin/mysqld',
-    pre_command            => '/usr/share/mysql/mysql-systemd-start pre',
-    post_command           => '/usr/share/mysql/mysql-systemd-start post',
-    user                   => 'mysql',
-    stop_timeout           => 600,
-    limit_nofile           => 16384,
-    require                => [ User['mysql'], File['/usr/share/mysql/mysql-systemd-start'] ],
+    binary       => '/usr/sbin/mysqld',
+    pre_command  => '/usr/share/mysql/mysql-systemd-start pre',
+    post_command => '/usr/share/mysql/mysql-systemd-start post',
+    user         => 'mysql',
+    stop_timeout => 600,
+    limit_nofile => 16384,
+    require      => [ User['mysql'], File['/usr/share/mysql/mysql-systemd-start'] ],
   }
 
   logrotate::entry { 'mysql-slow-query':
-    path               => $slow_query_log,
-    rotation_newfile   => 'create 0644 mysql root',
-    before             => Package['mysql-server'],
+    path             => $slow_query_log,
+    rotation_newfile => 'create 0644 mysql root',
+    before           => Package['mysql-server'],
   }
 
   logrotate::entry { 'mysql-server-error':
-    path               => $error_log,
-    rotation_newfile   => 'create 0644 mysql root',
-    before             => Package['mysql-server'],
+    path             => $error_log,
+    rotation_newfile => 'create 0644 mysql root',
+    before           => Package['mysql-server'],
   }
 
   @bipbip::entry { 'mysql':
@@ -181,5 +181,27 @@ class mysql::server (
           'regexp' => 'is marked as crashed' },
       ]
     },
+  }
+
+  @fluentd::config::source_logfile { 'mysql-errors':
+    path        => $error_log,
+    unit        => 'mysql-error-log',
+    format      => '/((?<time>\d{2}\d{2}\d{2} \d{2}:\d{2}:\d{2})\s)?(?<message>.*)/',
+    time_format => '%y%m%d %H:%M:%S',
+  }
+
+  @fluentd::config::source_logfile { 'mysql-slow-queries':
+    path             => $slow_query_log,
+    unit             => 'mysql-slow-query-log',
+    format           => 'multiline',
+    format_firstline => '/# Time:/',
+    formats          => [
+      '/# Time:.*\n/',
+      '/# User@Host: (?<dbuser>.+)\[(?<dbname>.+)\]\s*@\s*(?<client_host>\S*)\s*\[((?<client_ip>\d+\.\d+\.\d+\.\d+))?\]\n/',
+      '/# Query_time: (?<seconds_query>\d+\.\d+)  Lock_time: (?<seconds_lock>\d+\.\d+) Rows_sent: (?<rows_sent>\d+)  Rows_examined: (?<rows_examined>\d+)\n/',
+      '/SET timestamp=(?<time>\d+);\n/',
+      '/(?<query>.*)/'
+    ],
+    time_format      => '%s',
   }
 }
