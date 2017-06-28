@@ -30,6 +30,7 @@ class cm::application (
   }
 
   if $development {
+    require 'php5::extension::timecop'
     require 'php5::extension::xdebug'
     require 'phantomjs'
   }
