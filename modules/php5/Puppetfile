@@ -33,3 +33,7 @@ mod 'cargomedia/git',
 mod 'cargomedia/openssl',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/openssl'
+
+mod 'cargomedia/fluentd',
+  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :path => 'modules/fluentd'
