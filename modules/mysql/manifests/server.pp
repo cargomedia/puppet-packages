@@ -93,7 +93,7 @@ class mysql::server (
   file { $error_log:
     ensure  => file,
     owner   => 'mysql',
-    group   => 'fluentd',
+    group   => 'mysql',
     mode    => '0644',
     before  => Package['mysql-server'],
     require => User['mysql'],
