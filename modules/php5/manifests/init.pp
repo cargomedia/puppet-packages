@@ -23,17 +23,6 @@ class php5 {
     mode   => '0755',
   }
 
-  file { '/var/log/php':
-    ensure => directory,
-    owner  => '0',
-    group  => '0',
-    mode   => '0755',
-  }
-
-  logrotate::entry { $module_name:
-    path    => '/var/log/php/error.log',
-  }
-
   php5::config { '/etc/php5/cli/php.ini':
     memory_limit   => '8G',
     display_errors => true,

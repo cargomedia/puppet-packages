@@ -9,8 +9,4 @@ describe 'php5::extension::xdebug' do
     its(:stdout) { should match /xdebug.remote_autostart => On/ }
     its(:stdout) { should match /xdebug.remote_connect_back => Off/ }
   end
-
-  describe file('/var/log/php/error.log') do
-    its(:content) { should_not match /Warning.*xdebug.*already loaded/ }
-  end
 end
