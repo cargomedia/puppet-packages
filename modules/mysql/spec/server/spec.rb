@@ -26,19 +26,19 @@ describe 'mysql::server' do
     its(:stdout) { should match /max_connections+.+10$/ }
   end
 
-  describe file('/var/log/mysql.err') do
-    it "owned by user mysql" do
-      expect(subject).to be_owned_by('mysql')
-    end
-  end
-
   describe file('/var/log/mysql-slow-query.log') do
     it "owned by user mysql" do
       expect(subject).to be_owned_by('mysql')
     end
   end
 
-  describe command('mysql -e "select sleep (1.1);" && cat /var/log/mysql-slow-query.log' ) do
-    its(:stdout) { should match /select sleep/ }
+  describe command('grep -h slow /tmp/dump/*') do
+    its(:exit_status) { should eq 0 }
+    its(:stdout) { should match /"seconds_query":"1.100/ }
+  end
+
+  describe command('grep -h "\"level\":\"info" /tmp/dump/*') do
+    its(:exit_status) { should eq 0 }
+    its(:stdout) { should match /"message":"InnoDB:+.+started/ }
   end
 end
