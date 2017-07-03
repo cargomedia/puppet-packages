@@ -23,7 +23,7 @@ describe 'fluentd:source-logfile' do
                        hostname: /.+/,
                        journal: {
                          transport: "syslog",
-                         unit: "ssh.service",
+                         unit: /.+/,
                          pid: /\d+/,
                          uid: /\d+/
                        },
