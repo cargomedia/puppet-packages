@@ -4,7 +4,7 @@ define fluentd::config::source_logfile (
   $format,
   $format_firstline = '',
   $formats          = [],
-  $fluentd_tag      = 'journal',
+  $fluentd_tag      = 'logfile',
   $time_format      = undef,
   $time_key         = 'time',
   $read_from_head   = false,
