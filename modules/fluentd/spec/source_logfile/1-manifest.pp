@@ -2,6 +2,8 @@ node default {
 
   include 'fluentd'
 
+  class { 'systemd::config::journald': }
+
   fluentd::config::source_logfile { 'simple':
     path           => '/tmp/simple.log',
     unit           => 'simple.test',
@@ -9,7 +11,6 @@ node default {
     time_format    => '%Y-%m-%d %H:%M:%S',
     read_from_head => true,
   }
-
 
   fluentd::config::source_logfile { 'multiline':
     path             => '/tmp/multiline.log',

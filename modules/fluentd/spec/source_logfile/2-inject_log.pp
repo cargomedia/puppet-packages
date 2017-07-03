@@ -11,4 +11,10 @@ node default {
     content => template('fluentd/spec/source_logfile/multiline.log'),
     mode    => '0644',
   }
+
+  exec { 'add-journald-log':
+    provider => shell,
+    command  => 'logger -p local0.warning hey',
+    path     => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+  }
 }
