@@ -20,8 +20,8 @@ node default {
     }]
   }
 
-  exec { 'Execute a slow query':
-    command  => 'mysql -e "select sleep (1.1);" -pfoo',
+  exec { 'Execute two slow queries':
+    command  => 'mysql -e "select sleep (1.1);" -pfoo;mysql -e "select sleep (1.1);" -pfoo',
     user     => 'root',
     path     => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     provider => shell,

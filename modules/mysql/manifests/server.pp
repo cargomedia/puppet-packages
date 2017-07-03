@@ -8,7 +8,7 @@ class mysql::server (
 
   require 'apt'
 
-  $error_log = '/var/log/mysql.err'
+  $error_log = '/var/log/my.err'
   $slow_query_log = '/var/log/mysql-slow-query.log'
 
   file { '/root/.my.cnf':
