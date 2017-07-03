@@ -171,18 +171,6 @@ class mysql::server (
     }
   }
 
-  @bipbip::entry { 'logparser-mysql-errors':
-    plugin  => 'log-parser',
-    options => {
-      'metric_group' => 'mysql',
-      'path'         => $error_log,
-      'matchers'     => [
-        { 'name'   => 'crashed_tables',
-          'regexp' => 'is marked as crashed' },
-      ]
-    },
-  }
-
   @fluentd::config::source_logfile { 'mysql-errors':
     path        => $error_log,
     unit        => 'mysql-error-log',
