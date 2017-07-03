@@ -3,11 +3,8 @@ class bipbip (
   $version = 'latest',
   $frequency = 15,
   $tags = $::facts['copperegg_tags'],
-  $log_file = '/var/log/bipbip/bipbip.log',
   $log_level = 'INFO',
 ){
-
-  include 'logrotate'
 
   class { 'bipbip::gem':
     version => $version,
@@ -46,29 +43,12 @@ class bipbip (
     notify  => Daemon['bipbip'],
   }
 
-  file {
-    '/var/log/bipbip':
-      ensure => directory,
-      owner  => 'bipbip',
-      group  => 'bipbip',
-      mode   => '0644';
-    '/var/log/bipbip/bipbip.log':
-      ensure => file,
-      owner  => 'bipbip',
-      group  => 'bipbip',
-      mode   => '0644',
-  }
-
-  logrotate::entry { $module_name:
-    path    => '/var/log/bipbip/*.log',
-  }
-
   daemon { 'bipbip':
     binary           => '/usr/local/bin/bipbip',
     args             => '-c /etc/bipbip/config.yml',
     user             => 'bipbip',
     oom_score_adjust => -1000,
-    require          => [Class['bipbip::gem'], File['/etc/bipbip/config.yml', '/var/log/bipbip/bipbip.log']],
+    require          => [Class['bipbip::gem'], File['/etc/bipbip/config.yml']],
   }
 
   Bipbip::Entry <||>
