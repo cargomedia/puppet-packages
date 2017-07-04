@@ -1,5 +1,5 @@
 class php5::extension::timecop (
-  $version = '1.2.3'
+  $version = '1.2.6'
 ) {
 
   require 'build'
