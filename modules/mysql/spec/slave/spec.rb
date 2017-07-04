@@ -7,10 +7,7 @@ describe 'mysql::slave' do
   end
 
   describe command('/usr/local/bin/mysql-replication-check root foofoo') do
-    its(:stdout) { should match /\{"mysql slave replication failure": "true"\}/ }
+    its(:stdout) { should match /\{"mysql slave replication failure": true\}/ }
   end
 
-  describe command('QUERY_RESULT_SPEC="foo bar Slave_running   ON" /usr/local/bin/mysql-replication-check root foofoo') do
-    its(:stdout) { should match /\{"mysql slave replication failure": "false"\}/ }
-  end
 end
