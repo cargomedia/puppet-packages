@@ -21,8 +21,14 @@ node default {
     formats          => [
       '/Multiline: (?<time>.+)\n/',
       '/- message: (?<message>.+)\n/',
-      '/- key: (?<custom>.+)/',
+      '/- key: (?<custom>[^\n]+)\n/',
+      '/- bool: (?<foo>true|false)\n/',
+      '/- int: (?<bar>\d+)\n/',
+      '/- float: (?<baz>\d+\.\d+)/',
     ],
+    config           => {
+      types => 'foo:bool,bar:integer,baz:float'
+    },
     time_format      => '%Y-%m-%d %H:%M:%S',
     read_from_head   => true,
   }
