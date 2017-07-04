@@ -7,7 +7,8 @@ class sudo {
     provider => 'apt',
   }
 
-  sudo::config { 'mail-no-user-off':
-    content => 'mail_no_user off'
+  file { '/etc/sudoers.d/mail-no-user-off':
+    ensure => absent,
   }
+
 }
