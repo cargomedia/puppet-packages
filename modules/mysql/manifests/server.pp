@@ -174,7 +174,7 @@ class mysql::server (
   @fluentd::config::source_logfile { 'mysql-errors':
     path        => $error_log,
     unit        => 'mysql-error-log',
-    format      => '/((?<time>\d{2}\d{2}\d{2} \d{2}:\d{2}:\d{2})\s)?(?<message>.*)/',
+    format      => '/((?<time>\d{2}\d{2}\d{2}\s+\d{1,2}:\d{2}:\d{2})\s)?(?<message>.*)/',
     time_format => '%y%m%d %H:%M:%S',
   }
 
@@ -190,6 +190,9 @@ class mysql::server (
       '/SET timestamp=(?<time>\d+);\n/',
       '/(?<query>.*)/'
     ],
+    config           => {
+      types => 'rows_examined:integer,rows_sent:integer,seconds_lock:float,seconds_query:float'
+    },
     time_format      => '%s',
   }
 }
