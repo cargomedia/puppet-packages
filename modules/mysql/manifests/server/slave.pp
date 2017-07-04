@@ -1,4 +1,7 @@
-class mysql::server::slave ($replication_id, $server_id) {
+class mysql::server::slave (
+  $replication_id,
+  $server_id
+) {
 
   Mysql::Server::Instance <<| title == $replication_id |>>
   ->
@@ -23,11 +26,13 @@ class mysql::server::slave ($replication_id, $server_id) {
     mode    => '0755',
     require => Service['mysql'],
   }
-  ->
 
-  cron { 'check-mysql':
-    command => '/usr/local/bin/mysql-replication-check',
-    user    => 'root',
+  @bipbip::entry { 'is-replication-running':
+    plugin  => 'command',
+    options => {
+      'command'      => "/usr/local/bin/mysql-replication-check root ${::mysql::server::root_password}",
+      'metric_group' => 'mysql',
+    },
+    require => File['/usr/local/bin/mysql-replication-check'],
   }
-
 }
