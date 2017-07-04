@@ -65,7 +65,10 @@ describe 'fluentd:source-logfile' do
                          transport: 'logfile'
                        },
                        extra: {
-                         custom: 'val1'
+                         custom: 'val1',
+                         foo: true,
+                         bar: 42,
+                         baz: 0.42,
                        },
                        tag: 'custom_tag'
                      )

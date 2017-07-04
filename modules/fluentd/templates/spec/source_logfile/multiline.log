@@ -1,6 +1,12 @@
 Multiline: 2017-02-13 20:01:00
 - message: multifoo
 - key: val1
+- bool: true
+- int: 42
+- float: 0.42
 Multiline: 2017-02-13 20:02:00
 - message: multibar
 - key: val2
+- bool: false
+- int: 43
+- float: 0.43
