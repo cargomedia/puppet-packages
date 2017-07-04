@@ -8,6 +8,7 @@ class mysql::server (
 
   require 'apt'
 
+  # Do not use /var/log/mysql.err for the error log as it gets chmod'ded by mysql
   $error_log = '/var/log/my.err'
   $slow_query_log = '/var/log/mysql-slow-query.log'
 
