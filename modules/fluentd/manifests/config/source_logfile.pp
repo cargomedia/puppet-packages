@@ -4,10 +4,11 @@ define fluentd::config::source_logfile (
   $format,
   $format_firstline = '',
   $formats          = [],
-  $fluentd_tag      = 'journal',
+  $fluentd_tag      = 'logfile',
   $time_format      = undef,
   $time_key         = 'time',
   $read_from_head   = false,
+  $config          = { },
 ) {
 
   $internal_tag = "logfile.${title}"
@@ -25,7 +26,7 @@ define fluentd::config::source_logfile (
 
   fluentd::config::source { "logfile-${title}":
     type     => 'tail',
-    config   => $default_config + $format_config,
+    config   => $default_config + $config + $format_config,
     priority => 10,
   }
 

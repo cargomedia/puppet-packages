@@ -4,7 +4,7 @@ class php5::extension::opcache (
   $enable = true,
   $enable_cli = false,
   $memory_consumption = 256, # in Mbytes
-  $interned_strings_buffer = 8, # in Mbytes
+  $interned_strings_buffer = 128, # in Mbytes
   $max_accelerated_files = 4000,
   $fast_shutdown = true,
   $validate_timestamps = false

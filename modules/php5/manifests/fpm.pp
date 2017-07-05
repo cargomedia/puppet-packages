@@ -28,15 +28,6 @@ class php5::fpm {
     notify  => Daemon['php5-fpm'],
   }
 
-  file { '/var/log/php5-fpm/php5-fpm.log':
-    ensure => file,
-    owner  => '0',
-    group  => '0',
-    mode   => '0644',
-    before => Package['php5-fpm'],
-    notify => Daemon['php5-fpm'],
-  }
-
   file { '/etc/php5/fpm/pool.d/www.conf':
     ensure  => file,
     content => template("${module_name}/fpm/www.conf"),
@@ -50,13 +41,6 @@ class php5::fpm {
   php5::config { '/etc/php5/fpm/php.ini':
     before => Package['php5-fpm'],
     notify => Daemon['php5-fpm'],
-  }
-
-  logrotate::entry { 'php5-fpm':
-    path              => '/var/log/php5-fpm/php5-fpm.log',
-    rotation_newfile  => 'create 0644',
-    postrotate_script => 'invoke-rc.d php5-fpm reopen-logs > /dev/null',
-    before            => Package['php5-fpm'],
   }
 
   package { 'php5-fpm':
@@ -82,18 +66,6 @@ class php5::fpm {
       'port' => 9000,
       'path' => '/fpm-status',
     }
-  }
-
-  @bipbip::entry { 'logparser-php5-fpm':
-    plugin  => 'log-parser',
-    options => {
-      'metric_group' => 'logparser-php5-fpm',
-      'path'         => '/var/log/php5-fpm/php5-fpm.log',
-      'matchers'     => [
-        { 'name'   => 'segfaults',
-          'regexp' => 'SIGSEGV' }
-      ]
-    },
   }
 
   @php5::fpm::with_apc { 'php5-fpm':

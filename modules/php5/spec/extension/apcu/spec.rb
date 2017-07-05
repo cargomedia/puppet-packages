@@ -11,8 +11,4 @@ describe 'php5::extension::apcu' do
   describe command('php -r "apc_store(\"foo\", 12); echo apc_fetch(\"foo\");"') do
     its(:stdout) { should eq('12') }
   end
-
-  describe file('/var/log/php/error.log') do
-    its(:content) { should_not match /Warning.*apcu.*already loaded/ }
-  end
 end

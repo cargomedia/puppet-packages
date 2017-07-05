@@ -6,4 +6,6 @@ class sudo {
     ensure   => present,
     provider => 'apt',
   }
+
+  Sudo::Config <||>
 }

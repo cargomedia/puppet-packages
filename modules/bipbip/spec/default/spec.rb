@@ -39,12 +39,8 @@ describe 'bipbip' do
     its(:content) { should match /port:.*6379/ }
   end
 
-  describe command('logrotate -d /etc/logrotate.d/bipbip') do
+  describe command('sudo systemctl show bipbip | grep OOMScoreAdjust') do
     its(:exit_status) { should eq 0 }
-  end
-
-  describe command('cat /proc/$(pgrep -f "^/usr/bin/ruby([0-9.]*) /usr/local/bin/bipbip")/oom_score_adj') do
-    its(:exit_status) { should eq 0 }
-    its(:stdout) { should match '-1000' }
+    its(:stdout) { should match /-1000$/ }
   end
 end
