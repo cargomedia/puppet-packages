@@ -32,4 +32,5 @@ class mysql::server::master (
     privileges => ['repl_slave_priv'],
     provider   => 'mysql',
   }
+
 }

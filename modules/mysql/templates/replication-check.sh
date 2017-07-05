@@ -1,8 +1,10 @@
 #!/bin/bash -e
+
+STATUS=true
 if ! (systemctl is-active mysql >/dev/null); then
-	exit 0
+	STATUS=false
 fi
-if ! (mysql -e "show global status like 'Slave_running';"  | grep -q ON ); then
-	echo "Replication not running" 1>&2
-	exit 1
+if ! (mysql --execute="show global status like 'Slave_running';" --user="${1}" --password="${2}"  | grep -q ON ); then
+	STATUS=true
 fi
+echo "{\"mysql slave replication failure\": ${STATUS}}"
