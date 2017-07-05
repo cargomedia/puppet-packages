@@ -24,15 +24,19 @@ class mysql::server::slave (
     owner   => '0',
     group   => '0',
     mode    => '0755',
-    require => Service['mysql'],
+    require => [Service['mysql'], Bipbip::Entry['is-replication-running']],
+  }
+
+  mysql::user { 'bipbip@localhost':
+    password => '',
+    require => Bipbip::Entry['is-replication-running'],
   }
 
   @bipbip::entry { 'is-replication-running':
     plugin  => 'command',
     options => {
-      'command'      => "/usr/local/bin/mysql-replication-check root ${::mysql::server::root_password}",
+      'command'      => '/usr/local/bin/mysql-replication-check bipbip',
       'metric_group' => 'mysql',
     },
-    require => File['/usr/local/bin/mysql-replication-check'],
   }
 }
