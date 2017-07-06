@@ -1,8 +1,5 @@
 node default {
 
-  require 'monit'
-
-  class { 'blackmagic::desktopvideo':
-  }
+  class { 'blackmagic::desktopvideo': }
 
 }
