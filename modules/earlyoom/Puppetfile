@@ -1,0 +1,7 @@
+mod 'cargomedia/helper',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/helper'
+
+mod 'cargomedia/git',
+   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :path => 'modules/git'
