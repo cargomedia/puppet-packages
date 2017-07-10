@@ -22,20 +22,4 @@ class blackmagic::desktopvideo {
       Package['libgl1-mesa-glx'],
     ]
   }
-
-  file { 'blackmagic-firmware-status':
-    ensure  => file,
-    path    => '/usr/local/bin/blackmagic-firmware-status',
-    content => template("${module_name}/desktopvideo/firmware-status.sh"),
-    owner   => '0',
-    group   => '0',
-    mode    => '0755',
-    require => Helper::Script['install blackmagic desktopvideo'],
-  }
-
-  @monit::entry { 'blackmagic-firmware-status':
-    content => template("${module_name}/desktopvideo/firmware-status-monit.conf"),
-    require => File['blackmagic-firmware-status'],
-  }
-
 }

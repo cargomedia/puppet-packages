@@ -13,9 +13,4 @@ describe 'blackmagic::desktopvideo' do
   describe kernel_module('blackmagic_io') do
     it { should be_loaded }
   end
-
-  describe command('monit summary') do
-    its(:stdout) { should match /'blackmagic-firmware-status'.*Status ok/ }
-  end
-
 end
