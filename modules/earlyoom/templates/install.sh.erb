@@ -1,0 +1,7 @@
+#!/usr/bin/env bash
+
+git clone https://github.com/rfjakob/earlyoom.git
+cd earlyoom
+make
+mkdir -p <%= @install_dir %>
+mv earlyoom <%= @install_dir %>

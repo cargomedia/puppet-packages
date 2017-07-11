@@ -1,0 +1,16 @@
+{
+  "name": "cargomedia-earlyoom",
+  "version": "0.0.1",
+  "author": "Cargo Media",
+  "license": "MIT",
+  "summary": "earlyoom",
+  "source": "https://github.com/cargomedia/puppet-packages",
+  "operatingsystem_support": [
+    {
+      "operatingsystem": "Debian",
+      "operatingsystemrelease": ["8"]
+    }
+  ],
+  "dependencies": [
+  ]
+}
