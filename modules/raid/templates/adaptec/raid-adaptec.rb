@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 
-command = ARGV[0] || 'status'
+command = ARGV[0] || 'usage'
 
 def get_controller_id ()
   controllers = `/usr/sbin/arcconf GETVERSION`
@@ -9,6 +9,10 @@ def get_controller_id ()
     raise 'No controller found'
   end
   matches['controller_id']
+end
+
+def usage ()
+  puts 'Usage: raid-adaptec [status|list_devices_with_cache]'
 end
 
 def status ()
