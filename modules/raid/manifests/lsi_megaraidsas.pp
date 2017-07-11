@@ -17,8 +17,9 @@ class raid::lsi_megaraidsas {
     require => Package['storcli'],
   }
 
-  @monit::entry { 'raid-lsi':
-    content => template("${module_name}/lsi_megaraidsas/monit"),
+  @bipbip::entry { 'raid-lsi':
+    plugin  => 'command_status',
+    command => '/usr/local/sbin/megaraidsas-status',
     require => File['/usr/local/sbin/megaraidsas-status'],
   }
 }

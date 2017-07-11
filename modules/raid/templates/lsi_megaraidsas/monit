@@ -1,2 +1,0 @@
-check program raid-lsi path /usr/local/sbin/megaraidsas-status
-    if status != 0 then alert
