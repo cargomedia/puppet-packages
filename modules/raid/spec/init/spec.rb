@@ -10,12 +10,8 @@ describe 'raid' do
     its(:exit_status) { should eq 0 }
   end
 
-  describe command('aacraid-status') do
+  describe command('sudo -u bipbip sudo raid-adaptec') do
     its(:exit_status) { should eq 0 }
-  end
-
-  describe command('monit summary') do
-    its(:stdout) { should match /Program 'raid-adaptec'/ }
   end
 
   describe package('sas2ircu') do
@@ -24,10 +20,6 @@ describe 'raid' do
 
   describe package('mdadm') do
     it { should be_installed }
-  end
-
-  describe command('monit summary') do
-    its(:stdout) { should match /Program 'raid-sas'/ }
   end
 
 end

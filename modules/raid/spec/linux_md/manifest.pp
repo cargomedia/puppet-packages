@@ -1,5 +1,8 @@
 node default {
 
   require 'raid::linux_md'
-  require 'monit'
+  class { 'bipbip':
+    frequency => 0.1,
+    log_level => 'DEBUG',
+  }
 }

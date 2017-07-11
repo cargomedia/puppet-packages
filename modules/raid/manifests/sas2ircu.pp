@@ -18,8 +18,10 @@ class raid::sas2ircu {
   }
 
   @bipbip::entry { 'raid-sas':
-    plugin  => 'command_status',
-    command => '/usr/local/sbin/sas2ircu-status 1>/dev/null',
+    plugin  => 'command-status',
+    options => {
+      command => '/usr/local/sbin/sas2ircu-status 1>/dev/null',
+    },
     require => File['/usr/local/sbin/sas2ircu-status'],
   }
 }
