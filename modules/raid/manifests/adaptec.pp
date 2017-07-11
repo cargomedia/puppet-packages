@@ -21,7 +21,7 @@ class raid::adaptec {
 
   @bipbip::entry { 'raid-adaptec':
     plugin  => 'command_status',
-    command => '/usr/local/sbin/raid-adpatec status',
+    command => '/usr/local/sbin/raid-adpatec status 1>/dev/null',
     require => File['/usr/local/sbin/raid-adpatec'],
   }
 
