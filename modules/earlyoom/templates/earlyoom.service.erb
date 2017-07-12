@@ -1,0 +1,17 @@
+[Unit]
+Description=earlyoom
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=<%= @install_dir %>/earlyoom -m <%= @percent_memory %> -s <%= @percent_swap %>
+User=root
+PermissionsStartOnly=true
+TimeoutStopSec=20
+KillMode=mixed
+Restart=always
+StandardOutput=null
+StandardError=syslog
+
+[Install]
+WantedBy=multi-user.target
