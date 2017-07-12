@@ -1,7 +1,0 @@
-mod 'cargomedia/daemon',
-    :git => 'git@github.com:cargomedia/puppet-packages.git',
-    :path => 'modules/daemon'
-
-mod 'cargomedia/apt',
-    :git => 'git@github.com:cargomedia/puppet-packages.git',
-    :path => 'modules/apt'
