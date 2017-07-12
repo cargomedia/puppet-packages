@@ -13,7 +13,7 @@ class earlyoom(
   }
 
   daemon { 'earlyoom':
-    binary => "${install_dir}/earlyoom -m ${percent_memory} -s ${percent_swap}",
+    binary => "${install_dir}/earlyoom -m ${percent_memory} -s ${percent_swap} >/dev/null",
     require => Helper::Script['install earlyoom'],
   }
 
