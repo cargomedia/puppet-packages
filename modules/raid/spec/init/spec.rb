@@ -10,7 +10,7 @@ describe 'raid' do
     its(:exit_status) { should eq 0 }
   end
 
-  describe command('sudo -u bipbip sudo raid-adaptec') do
+  describe command('/usr/local/sbin/raid-adaptec') do
     its(:exit_status) { should eq 0 }
   end
 

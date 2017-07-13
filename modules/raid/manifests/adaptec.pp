@@ -3,7 +3,7 @@ class raid::adaptec {
   require 'apt'
   require 'unzip'
   require 'apt::source::cargomedia'
-  require 'python'
+  require 'ruby'
 
   package { 'arcconf':
     ensure   => present,
