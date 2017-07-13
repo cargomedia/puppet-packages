@@ -77,4 +77,13 @@ cdkZXDUaRCf+la4m4eoccL85NmYIzGVkpLlO466sjnRQO5oSqHC2gSUFwLwQu2v9
       "repositories": [{"type": "composer", "url": "https://packagist.org"}]
     }',
   }
+
+  satis::repo{ 'baz':
+    content => '{
+      "name": "baz",
+      "homepage": "https://example.local/baz",
+      "require": {"wrong/lib": "v42.42.42"},
+      "repositories": [{"type": "composer", "url": "https://packagist.org"}]
+    }',
+  }
 }

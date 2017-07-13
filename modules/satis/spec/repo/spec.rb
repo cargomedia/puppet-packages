@@ -59,4 +59,12 @@ describe 'satis::repo' do
   describe file('/tmp/satis-repo-foo.err') do
     it { should be_file }
   end
+
+  describe file('/tmp/satis-repo-baz.err') do
+    it { should be_file }
+  end
+
+  describe command('systemctl restart satis-repo-baz && journalctl -u satis-repo-baz --no-pager') do
+    its(:stdout) { should match /\[satis-repo-baz\] failure on .*, see \/tmp\/satis-repo-baz.err.\d+/ }
+  end
 end
