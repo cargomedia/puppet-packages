@@ -1,2 +1,0 @@
-check program raid-hpssacli path /usr/local/sbin/hpssacli-status
-    if status != 0 then alert

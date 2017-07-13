@@ -16,8 +16,11 @@ class raid::hpssacli {
     require => Package['hpssacli'],
   }
 
-  @monit::entry { 'raid-hpssacli':
-    content => template("${module_name}/hpssacli/monit"),
+  @bipbip::entry { 'raid-hpssacli':
+    plugin  => 'command-status',
+    options => {
+      command => '/usr/local/sbin/hpssacli-status 1>/dev/null',
+    },
     require => File['/usr/local/sbin/hpssacli-status'],
   }
 }

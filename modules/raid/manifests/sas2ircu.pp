@@ -17,8 +17,11 @@ class raid::sas2ircu {
     require => Package['sas2ircu'],
   }
 
-  @monit::entry { 'raid-sas':
-    content => template("${module_name}/sas2ircu/monit"),
+  @bipbip::entry { 'raid-sas':
+    plugin  => 'command-status',
+    options => {
+      command => '/usr/local/sbin/sas2ircu-status 1>/dev/null',
+    },
     require => File['/usr/local/sbin/sas2ircu-status'],
   }
 }

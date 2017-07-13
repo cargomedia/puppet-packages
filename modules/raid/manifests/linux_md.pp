@@ -34,18 +34,21 @@ class raid::linux_md {
   package { 'mdadm':
     ensure       => present,
     provider     => 'apt',
-    responsefile =>  '/tmp/mdadm.preseed',
+    responsefile => '/tmp/mdadm.preseed',
     require      => File['/tmp/mdadm.preseed'],
   }
-  ->
 
   service { $mdadm_service_name:
     hasstatus => false,
     enable    => true,
+    require   => Package['mdadm'],
   }
 
-  @monit::entry { 'mdadm-status':
-    content => template("${module_name}/linux_md/monit.erb"),
+  @bipbip::entry { "raid-${mdadm_service_name}":
+    plugin  => 'command-status',
+    options => {
+      command => "/bin/systemctl is-active ${mdadm_service_name} 1>/dev/null",
+    },
     require => Service[$mdadm_service_name],
   }
 }

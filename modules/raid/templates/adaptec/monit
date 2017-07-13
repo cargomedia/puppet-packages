@@ -1,2 +1,0 @@
-check program raid-adaptec path /usr/local/sbin/aacraid-status
-    if status != 0 then alert
