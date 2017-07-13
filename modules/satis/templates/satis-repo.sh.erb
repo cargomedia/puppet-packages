@@ -3,7 +3,7 @@
 satis_ok='yes'
 output_file="/tmp/satis-repo-$3.err"
 
-trap "cat ${output_file} | mail -s '[satis-daemon] satis-$3 failure on <%= @facts['fqdn'] %>' root " ERR EXIT
+trap "echo '[satis-daemon] satis-$3 failure on <%= @facts['fqdn'] %>, see /tmp/satis-repo-$3.err' > /dev/stderr" ERR EXIT
 
 while [ $satis_ok == 'yes' ]; do
   if ! $(/var/lib/satis/satis/bin/satis --no-interaction build $1 $2 >${output_file} 2>&1); then
