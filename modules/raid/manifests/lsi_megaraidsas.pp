@@ -20,7 +20,8 @@ class raid::lsi_megaraidsas {
   @bipbip::entry { 'raid-lsi':
     plugin  => 'command-status',
     options => {
-      command => '/usr/local/sbin/megaraidsas-status 1>/dev/null',
+      command      => '/usr/local/sbin/megaraidsas-status 1>/dev/null',
+      metric_group => 'raid',
     },
     require => File['/usr/local/sbin/megaraidsas-status'],
   }

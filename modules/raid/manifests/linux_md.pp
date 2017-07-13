@@ -47,7 +47,8 @@ class raid::linux_md {
   @bipbip::entry { "raid-${mdadm_service_name}":
     plugin  => 'command-status',
     options => {
-      command => "/bin/systemctl is-active ${mdadm_service_name} 1>/dev/null",
+      command      => "/bin/systemctl is-active ${mdadm_service_name} 1>/dev/null",
+      metric_group => 'raid',
     },
     require => Service[$mdadm_service_name],
   }

@@ -19,7 +19,7 @@ describe 'raid::adaptec' do
   end
 
   describe command('journalctl -u bipbip --no-pager') do
-    its(:stdout) { should match(/command-status::.+raid_adaptec.+Data: {:status=>1}/) }
+    its(:stdout) { should match(/raid::.+raid_adaptec.+Data: {:status=>1}/) }
   end
 
 end

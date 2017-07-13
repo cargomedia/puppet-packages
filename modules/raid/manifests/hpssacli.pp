@@ -19,7 +19,8 @@ class raid::hpssacli {
   @bipbip::entry { 'raid-hpssacli':
     plugin  => 'command-status',
     options => {
-      command => '/usr/local/sbin/hpssacli-status 1>/dev/null',
+      command      => '/usr/local/sbin/hpssacli-status 1>/dev/null',
+      metric_group => 'raid',
     },
     require => File['/usr/local/sbin/hpssacli-status'],
   }

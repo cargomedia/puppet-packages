@@ -29,7 +29,8 @@ class raid::adaptec {
   @bipbip::entry { 'raid-adaptec':
     plugin  => 'command-status',
     options => {
-      command => 'sudo /usr/local/sbin/raid-adaptec status 1>/dev/null',
+      command      => 'sudo /usr/local/sbin/raid-adaptec status 1>/dev/null',
+      metric_group => 'raid',
     },
     require => File['/usr/local/sbin/raid-adaptec'],
   }
