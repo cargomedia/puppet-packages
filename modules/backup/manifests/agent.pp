@@ -22,14 +22,14 @@ define backup::agent (
   }
 
   cron { "backup-${name}":
-    command => "/usr/local/bin/backup-create.sh -h '${host}' -s '${source}' -d '${destination}' -o '${options}' -t '${sourceType}' -r '${remove_after}'",
+    command => "/usr/local/bin/backup-run.sh create -h '${host}' -s '${source}' -d '${destination}' -o '${options}' -t '${sourceType}' -r '${remove_after}'",
     user    => 'root',
     minute  => $cronTimeMinute,
     hour    => $cronTimeHour,
   }
 
   cron { "backup-check-${name}":
-    command => "/usr/local/bin/backup-check.sh -h '${host}' -d '${destination}'",
+    command => "/usr/local/bin/backup-run.sh check -h '${host}' -d '${destination}'",
     user    => 'root',
     minute  => 10,
     hour    => 3,
