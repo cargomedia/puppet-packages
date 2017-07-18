@@ -20,8 +20,8 @@ describe 'jetbrains-youtrack' do
   end
 
   describe file('/usr/local/jetbrains-youtrack/conf/internal/bundle.properties') do
-    its(:content) { should match /^hub-url=https:\/\/localhost:8081\/hub$/ }
-    its(:content) { should match /^disable.hub=true$/ }
+    its(:content) { should_not match /hub-url=/ }
+    its(:content) { should match /^disable.hub=false$/ }
   end
 
 end
