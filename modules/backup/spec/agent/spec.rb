@@ -22,7 +22,7 @@ describe 'backup::agent' do
     it { should be_file }
   end
 
-  describe command("/usr/local/bin/backup-run.sh foo bar") do
+  describe command("/usr/local/bin/backup-run.sh foo cmd") do
     its(:stdout) { should be_empty }
     its(:stderr) { should be_empty }
   end
@@ -32,16 +32,16 @@ describe 'backup::agent' do
     its(:stderr) { should be_empty }
   end
 
-  describe command('journalctl --no-pager') do
-    its(:stdout) { should match /backup.foo failed with exit code 127, see \/var\/log\/backups\/foo.bar\.\d+\.out/ }
-    its(:stdout) { should match /backup.check failed with exit code 1, see \/var\/log\/backups\/foo.check\.\d+\.out/ }
+  describe command('journalctl --no-pager | grep "exit code"') do
+    its(:stdout) { should match /backup cmd:foo failed with exit code 127, see \/var\/log\/backups\/cmd\.foo\.\d+\.out/ }
+    its(:stdout) { should match /backup check:foo failed with exit code 1, see \/var\/log\/backups\/check\.foo\.\d+\.out/ }
   end
 
-  describe command('cat /var/log/backups/foo.bar.*.out') do
-    its(:stdout) { should match /\/usr\/local\/bin\/backup-bar\.sh: No such file or directory/ }
+  describe command('cat /var/log/backups/cmd.foo.*.out') do
+    its(:stdout) { should match /\/usr\/local\/bin\/backup-cmd\.sh: No such file or directory/ }
   end
 
-  describe command('cat /var/log/backups/foo.check.*.out') do
+  describe command('cat /var/log/backups/check.foo.*.out') do
     its(:stdout) { should match /Couldn\'t start up the remote connection by executing/ }
   end
 

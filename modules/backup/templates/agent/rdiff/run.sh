@@ -15,10 +15,10 @@ log_error () {
 catch_error () {
   EXIT_CODE="${?}"
   if (test ${EXIT_CODE} -gt 0); then
-    message="backup ${TYPE}:${ACTION} failed with exit code ${EXIT_CODE}"
+    message="backup ${ACTION}:${TYPE} failed with exit code ${EXIT_CODE}"
 
     if [ "${OUTPUT}" != "" ]; then
-      OUTPUT_FILE="/var/log/backups/${TYPE}.${ACTION}.$(date '+%s').out"
+      OUTPUT_FILE="/var/log/backups/${ACTION}.${TYPE}.$(date '+%s').out"
       echo "$OUTPUT" > "${OUTPUT_FILE}"
       message="${message}, see ${OUTPUT_FILE}"
     fi
@@ -29,5 +29,5 @@ catch_error () {
 trap catch_error ERR
 
 OUTPUT=$(/usr/local/bin/backup-${ACTION}.sh "$@" 2>&1)
-log_info "backup ${TYPE}:${ACTION} done successfully"
+log_info "backup ${ACTION}:${TYPE} done successfully"
 exit 0
