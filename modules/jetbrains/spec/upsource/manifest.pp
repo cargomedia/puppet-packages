@@ -55,6 +55,7 @@ eX+RzJyQxtZbvtQiHGFqYuHLmtPWteyadxj+y6w6hpbcQzbWkskAtFwSHILI0hx3
 0GMie3CQ2ud3klexfzuRdKuWxq/14bjfjY5pbmnOdDEZbQH0zo9z
 -----END RSA PRIVATE KEY-----
 ',
+    hub_url => 'https://localhost:8081/hub',
   }
   ->
 
