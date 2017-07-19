@@ -14,7 +14,7 @@ log_error () {
 
 catch_error () {
   EXIT_CODE="${?}"
-  if (test ${EXIT_CODE} -gt 0); then
+  if [ ${EXIT_CODE} -gt 0 ]; then
     message="backup ${ACTION}:${TYPE} failed with exit code ${EXIT_CODE}"
 
     if [ "${OUTPUT}" != "" ]; then
