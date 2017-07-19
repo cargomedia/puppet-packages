@@ -5,7 +5,7 @@ ACTION="${1}" ; shift
 OUTPUT=""
 
 log_info () {
-logger -p 6 "$1"
+  logger -p 6 "$1"
 }
 
 log_error () {
@@ -16,7 +16,6 @@ catch_error () {
   EXIT_CODE="${?}"
   if [ ${EXIT_CODE} -gt 0 ]; then
     message="backup ${ACTION}:${TYPE} failed with exit code ${EXIT_CODE}"
-
     if [ "${OUTPUT}" != "" ]; then
       OUTPUT_FILE="/var/log/backups/${ACTION}.${TYPE}.$(date '+%s').out"
       echo "$OUTPUT" > "${OUTPUT_FILE}"
