@@ -56,9 +56,9 @@ define jetbrains::application (
 
   exec { "configure ${service_name}":
     provider => shell,
-    command  => "$config_command configure $config_arguments",
+    command  => "${config_command} configure ${config_arguments}",
     path     => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    unless   => "test -f $config_file",
+    unless   => "test -f ${config_file}",
     require  => Helper::Script["install jetbrains-${name}"],
     before   => Daemon[$service_name],
   }
