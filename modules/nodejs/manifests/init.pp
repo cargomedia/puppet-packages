@@ -4,8 +4,8 @@ class nodejs {
 
   apt::source { 'nodesource':
     entries => [
-      "deb https://deb.nodesource.com/node_5.x ${::facts['lsbdistcodename']} main",
-      "deb-src https://deb.nodesource.com/node_5.x ${::facts['lsbdistcodename']} main",
+      "deb https://deb.nodesource.com/node_6.x ${::facts['lsbdistcodename']} main",
+      "deb-src https://deb.nodesource.com/node_6.x ${::facts['lsbdistcodename']} main",
     ],
     keys    => {
       'nodesource' => {
@@ -14,12 +14,13 @@ class nodejs {
       }
     },
     require => Class['apt::transport_https'],
+    notify  => Package['nodejs'],
   }
-  ->
 
   package { 'nodejs':
-    ensure   => present,
+    ensure   => 'latest',
     provider => 'apt',
+    require  => Apt::Source['nodesource'],
   }
 
 }
