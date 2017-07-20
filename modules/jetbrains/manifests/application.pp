@@ -23,6 +23,10 @@ define jetbrains::application (
   $config_path = "${home_path}/conf"
   $var_path = "/var/lib/${service_name}"
 
+  $config_file = "${config_path}/internal/bundle.properties"
+  $config_command = "/usr/local/${service_name}/bin/${name}.sh"
+  $config_arguments = jetbrains_configure_arguments(inline_template($config))
+
   $installation_uuid = fqdn_uuid("${name}.${host}")
 
   group { $group:
@@ -50,12 +54,13 @@ define jetbrains::application (
     require => File[$home_path],
   }
 
-  file { "${config_path}/internal/bundle.properties":
-    ensure  => file,
-    content => inline_template($config),
-    before  => Daemon[$service_name],
-    require => Helper::Script["install jetbrains-${name}"],
-    notify  => Service[$service_name],
+  exec { "configure ${service_name}":
+    provider => shell,
+    command  => "$config_command configure $config_arguments",
+    path     => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    unless   => "test -f $config_file",
+    require  => Helper::Script["install jetbrains-${name}"],
+    before   => Daemon[$service_name],
   }
 
   daemon { $service_name:

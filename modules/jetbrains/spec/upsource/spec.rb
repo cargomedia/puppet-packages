@@ -20,7 +20,7 @@ describe 'jetbrains-upsource' do
   end
 
   describe file('/usr/local/jetbrains-upsource/conf/internal/bundle.properties') do
-    its(:content) { should match /^hub-url=https\\:\/\/localhost:8081\/hub$/ }
+    its(:content) { should match /^hub-url=https\\:\/\/localhost\\:8081\/hub$/ }
     its(:content) { should match /^disable.hub=true$/ }
   end
 
