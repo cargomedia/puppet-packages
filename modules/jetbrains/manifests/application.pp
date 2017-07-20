@@ -7,7 +7,8 @@ define jetbrains::application (
   $port,
   $download_url,
   $config,
-  $hub_url = undef,
+  $hub_url      = undef,
+  $limit_nofile = 1024,
 ) {
 
   require 'nginx'
@@ -58,12 +59,13 @@ define jetbrains::application (
   }
 
   daemon { $service_name:
-    binary  => "${home_path}/bin/${name}.sh",
-    args    => 'run',
-    env     => {
+    binary       => "${home_path}/bin/${name}.sh",
+    args         => 'run',
+    limit_nofile => $limit_nofile,
+    env          => {
       'HOME' => $var_path
     },
-    require => File[$var_path],
+    require      => File[$var_path],
   }
 
   nginx::resource::vhost { "${service_name}-https-redirect":
