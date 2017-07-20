@@ -8,7 +8,7 @@ define jetbrains::application (
   $download_url,
   $config,
   $hub_url      = undef,
-  $limit_nofile = 1024,
+  $limit_nofile = undef,
 ) {
 
   require 'nginx'
