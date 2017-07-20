@@ -14,11 +14,10 @@ class nodejs {
       }
     },
     require => Class['apt::transport_https'],
-    notify  => Package['nodejs'],
   }
 
   package { 'nodejs':
-    ensure   => 'latest',
+    ensure   => 'present',
     provider => 'apt',
     require  => Apt::Source['nodesource'],
   }
