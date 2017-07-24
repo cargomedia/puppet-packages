@@ -11,6 +11,6 @@ describe 'squid_deb_proxy::default' do
   end
 
   describe file('/var/log/squid-deb-proxy/access.log') do
-    its(:content) { should match /TCP+_MEM?_HIT+.+htop_+.+\.deb/ }
+    its(:content) { should match /TCP+_MEM?_HIT+.+fontconfig_+.+\.deb/ }
   end
 end

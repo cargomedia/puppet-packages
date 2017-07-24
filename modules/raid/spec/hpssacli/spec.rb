@@ -10,7 +10,7 @@ describe 'raid::hpssacli' do
     its(:exit_status) { should eq 0 }
   end
 
-  describe command('monit summary') do
-    its(:stdout) { should match /Program 'raid-hpssacli'/ }
+  describe service('bipbip') do
+    it { should be_running }
   end
 end

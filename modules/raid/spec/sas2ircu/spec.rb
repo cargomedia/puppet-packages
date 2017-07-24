@@ -10,7 +10,7 @@ describe 'raid::sas2ircu' do
     its(:exit_status) { should eq 0 }
   end
 
-  describe command('monit summary') do
-    its(:stdout) { should match /Program 'raid-sas'/ }
+  describe service('bipbip') do
+    it { should be_running }
   end
 end

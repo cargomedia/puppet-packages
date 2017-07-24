@@ -8,14 +8,16 @@ describe 'nodejs' do
 
   describe command('nodejs -v') do
     its(:exit_status) { should eq 0 }
-    its(:stdout) { should match /v5\./}
+    its(:stdout) { should match /v6\./}
   end
 
   describe command('node -v') do
     its(:exit_status) { should eq 0 }
+    its(:stdout) { should match /v6\./}
   end
 
   describe command('npm -v') do
     its(:exit_status) { should eq 0 }
+    its(:stdout) { should match /3\.10\./}
   end
 end

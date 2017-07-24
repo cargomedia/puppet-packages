@@ -14,7 +14,7 @@ describe 'raid::linux_md' do
     it { should be_readable }
   end
 
-  describe command("monit summary | grep -E 'Pro.+raid-md.+[Running|ok]'") do
-    its(:exit_status) { should eq 0 }
+  describe service('bipbip') do
+    it { should be_running }
   end
 end

@@ -10,11 +10,16 @@ describe 'raid::adaptec' do
     its(:exit_status) { should eq 0 }
   end
 
-  describe command('aacraid-status') do
+  describe command('sudo -u bipbip sudo raid-adaptec') do
     its(:exit_status) { should eq 0 }
   end
 
-  describe command('monit summary') do
-    its(:stdout) { should match /Program 'raid-adaptec'/ }
+  describe service('bipbip') do
+    it { should be_running }
   end
+
+  describe command('journalctl -u bipbip --no-pager') do
+    its(:stdout) { should match(/raid::.+raid_adaptec.+Data: {:status=>1}/) }
+  end
+
 end

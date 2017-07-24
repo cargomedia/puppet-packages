@@ -7,7 +7,8 @@ define jetbrains::application (
   $port,
   $download_url,
   $config,
-  $hub_url = undef,
+  $hub_url      = undef,
+  $limit_nofile = undef,
 ) {
 
   require 'nginx'
@@ -21,6 +22,10 @@ define jetbrains::application (
   $home_path = "/usr/local/${service_name}"
   $config_path = "${home_path}/conf"
   $var_path = "/var/lib/${service_name}"
+
+  $config_file = "${config_path}/internal/bundle.properties"
+  $config_command = "/usr/local/${service_name}/bin/${name}.sh"
+  $config_arguments = jetbrains_configure_arguments(inline_template($config))
 
   $installation_uuid = fqdn_uuid("${name}.${host}")
 
@@ -49,21 +54,23 @@ define jetbrains::application (
     require => File[$home_path],
   }
 
-  file { "${config_path}/internal/bundle.properties":
-    ensure  => file,
-    content => inline_template($config),
-    before  => Daemon[$service_name],
-    require => Helper::Script["install jetbrains-${name}"],
-    notify  => Service[$service_name],
+  exec { "configure ${service_name}":
+    provider => shell,
+    command  => "${config_command} configure ${config_arguments}",
+    path     => ['/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    unless   => "test -f ${config_file}",
+    require  => Helper::Script["install jetbrains-${name}"],
+    before   => Daemon[$service_name],
   }
 
   daemon { $service_name:
-    binary  => "${home_path}/bin/${name}.sh",
-    args    => 'run',
-    env     => {
+    binary       => "${home_path}/bin/${name}.sh",
+    args         => 'run',
+    limit_nofile => $limit_nofile,
+    env          => {
       'HOME' => $var_path
     },
-    require => File[$var_path],
+    require      => File[$var_path],
   }
 
   nginx::resource::vhost { "${service_name}-https-redirect":
