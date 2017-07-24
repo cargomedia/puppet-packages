@@ -5,7 +5,7 @@ define mongodb::core::mongos (
   $fork = false,
   $options = { },
   $auth_key = undef,
-  $monitoring_credentials = { },
+  $monitoring_credentials = undef,
 ) {
 
   require 'mongodb'
@@ -62,14 +62,15 @@ define mongodb::core::mongos (
 
   $hostName = $bind_ip? { undef => 'localhost', default => $bind_ip }
 
-  @bipbip::entry { $instance_name:
-    plugin  => 'mongodb',
-    options => {
-      'hostname' => $hostName,
-      'port'     => $port,
-      'user'     => $monitoring_credentials['user'],
-      'password' => $monitoring_credentials['password'],
+  if monitoring_credentials != undef {
+    @bipbip::entry { $instance_name:
+      plugin  => 'mongodb',
+      options => {
+        'hostname' => $hostName,
+        'port'     => $port,
+        'user'     => $monitoring_credentials['user'],
+        'password' => $monitoring_credentials['password'],
+      }
     }
   }
-
 }

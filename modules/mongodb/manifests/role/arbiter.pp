@@ -6,7 +6,6 @@ class mongodb::role::arbiter (
   $repl_members,
   $options                = { },
   $auth_key               = undef,
-  $monitoring_credentials = { },
   $version                = undef,
 ) {
 
@@ -23,7 +22,6 @@ class mongodb::role::arbiter (
     repl_set               => $repl_set,
     options                => merge($defaults, $options),
     auth_key               => $auth_key,
-    monitoring_credentials => $monitoring_credentials,
     version                => $version,
   }
 
