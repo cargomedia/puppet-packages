@@ -22,6 +22,8 @@ catch_error () {
       message="${message}, see ${OUTPUT_FILE}"
     fi
     log_error "${message}"
+    echo "${message}" 1>&2
+    cat "${OUTPUT_FILE}" 1>&2
   fi
 }
 
