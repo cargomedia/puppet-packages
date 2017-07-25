@@ -9,7 +9,7 @@ define mongodb::core::mongod (
   $auth                   = false,
   $options                = { },
   $auth_key               = undef,
-  $monitoring_credentials = undef,
+  $monitoring_credentials = { },
   $version                = undef,
   $storage_engine         = undef,
 ) {
@@ -86,7 +86,7 @@ define mongodb::core::mongod (
     default => $bind_ip
   }
 
-  if monitoring_credentials != undef {
+  if has_key($monitoring_credentials, 'user') and has_key($monitoring_credentials, 'password') {
     @bipbip::entry { $instance_name:
       plugin  => 'mongodb',
       options => {
