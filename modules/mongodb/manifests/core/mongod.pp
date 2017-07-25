@@ -9,7 +9,7 @@ define mongodb::core::mongod (
   $auth                   = false,
   $options                = { },
   $auth_key               = undef,
-  $monitoring_credentials = { },
+  $monitoring_credentials = undef,
   $version                = undef,
   $storage_engine         = undef,
 ) {
@@ -86,13 +86,15 @@ define mongodb::core::mongod (
     default => $bind_ip
   }
 
-  @bipbip::entry { $instance_name:
-    plugin  => 'mongodb',
-    options => {
-      'hostname' => $hostName,
-      'port'     => $port,
-      'user'     => $monitoring_credentials['user'],
-      'password' => $monitoring_credentials['password'],
+  if monitoring_credentials != undef {
+    @bipbip::entry { $instance_name:
+      plugin  => 'mongodb',
+      options => {
+        'hostname' => $hostName,
+        'port'     => $port,
+        'user'     => $monitoring_credentials['user'],
+        'password' => $monitoring_credentials['password'],
+      }
     }
   }
 }
