@@ -40,6 +40,9 @@ LimitRSS=<%= @limit_rss == 'unlimited' ? 'infinity' : @limit_rss * 1024 %>
 <% if @limit_nproc -%>
 LimitNPROC=<%= @limit_nproc == 'unlimited' ? 'infinity' : @limit_nproc %>
 <% end -%>
+<% if @limit_memlock -%>
+LimitMEMLOCK=<%= @limit_memlock == 'unlimited' ? 'infinity' : @limit_memlock %>
+<% end -%>
 <% if @core_dump -%>
 LimitCORE=infinity
 <% end -%>
