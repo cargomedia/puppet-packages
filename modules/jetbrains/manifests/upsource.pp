@@ -9,16 +9,19 @@ class jetbrains::upsource (
 ) {
 
   jetbrains::application { 'upsource':
-    host         => $host,
-    ssl_cert     => $ssl_cert,
-    ssl_key      => $ssl_key,
-    version      => $version,
-    build        => $build,
-    port         => $port,
-    download_url => "https://download.jetbrains.com/upsource/upsource-${version}.${build}.zip",
-    config       => file("${module_name}/upsource.config"),
-    hub_url      => $hub_url,
-    limit_nofile => 32768,
+    host          => $host,
+    ssl_cert      => $ssl_cert,
+    ssl_key       => $ssl_key,
+    version       => $version,
+    build         => $build,
+    port          => $port,
+    download_url  => "https://download.jetbrains.com/upsource/upsource-${version}.${build}.zip",
+    config        => file("${module_name}/upsource.config"),
+    hub_url       => $hub_url,
+    limit_memlock => 'unlimited',
+    limit_nofile  => 65536,
+    limit_nproc   => 32768,
+    limit_as      => 'unlimited',
   }
 
   ensure_packages(['libxrender1', 'libxext6'], { provider => 'apt' })
