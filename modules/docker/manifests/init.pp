@@ -10,7 +10,7 @@ class docker {
     keys    => {
       'docker' => {
         'key'        => '2C52609D',
-        'key_server' => 'hkp://p80.pool.sks-keyservers.net:80',
+        'key_server' => 'hkp://ha.pool.sks-keyservers.net',
       }
     },
     require => Class['apt::transport_https'],
