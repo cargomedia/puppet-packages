@@ -13,13 +13,9 @@ mod 'cargomedia/phpunit',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/phpunit'
 
-mod 'cargomedia/uglify',
+mod 'cargomedia/cm_bundler',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/uglify'
-
-mod 'cargomedia/browserify',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/browserify'
+  :path => 'modules/cm_bundler'
 
 mod 'cargomedia/autoprefixer',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
