@@ -1,5 +1,5 @@
 class mms::agent::backup (
-  $version = '5.6.0.624',
+  $version = '5.7.0.641',
   $api_key,
   $mms_server = 'api-backup.mongodb.com',
   $mms_group_settings,
