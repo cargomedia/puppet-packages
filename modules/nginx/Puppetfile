@@ -2,10 +2,6 @@ mod 'cargomedia/apt',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/apt'
 
-mod 'cargomedia/monit',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/monit'
-
 mod 'cargomedia/bipbip',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/bipbip'
