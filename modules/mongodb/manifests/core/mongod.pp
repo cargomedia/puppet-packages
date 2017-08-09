@@ -86,13 +86,15 @@ define mongodb::core::mongod (
     default => $bind_ip
   }
 
-  @bipbip::entry { $instance_name:
-    plugin  => 'mongodb',
-    options => {
-      'hostname' => $hostName,
-      'port'     => $port,
-      'user'     => $monitoring_credentials['user'],
-      'password' => $monitoring_credentials['password'],
+  if has_key($monitoring_credentials, 'user') and has_key($monitoring_credentials, 'password') {
+    @bipbip::entry { $instance_name:
+      plugin  => 'mongodb',
+      options => {
+        'hostname' => $hostName,
+        'port'     => $port,
+        'user'     => $monitoring_credentials['user'],
+        'password' => $monitoring_credentials['password'],
+      }
     }
   }
 }

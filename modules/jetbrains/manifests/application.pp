@@ -7,8 +7,11 @@ define jetbrains::application (
   $port,
   $download_url,
   $config,
-  $hub_url      = undef,
-  $limit_nofile = undef,
+  $hub_url       = undef,
+  $limit_memlock = undef,
+  $limit_nofile  = undef,
+  $limit_nproc   = undef,
+  $limit_as      = undef,
 ) {
 
   require 'nginx'
@@ -64,41 +67,44 @@ define jetbrains::application (
   }
 
   daemon { $service_name:
-    binary       => "${home_path}/bin/${name}.sh",
-    args         => 'run',
-    limit_nofile => $limit_nofile,
-    env          => {
-      'HOME' => $var_path
-    },
-    require      => File[$var_path],
-  }
+    binary        => "${home_path}/bin/${name}.sh",
+    args          => 'run',
+    limit_memlock => $limit_memlock,
+    limit_nofile  => $limit_nofile,
+    limit_nproc   => $limit_nproc,
+    limit_as      => $limit_as,
+    env => {
+    'HOME' => $var_path
+  },
+  require => File[$var_path],
+}
 
-  nginx::resource::vhost { "${service_name}-https-redirect":
-    listen_port         => 80,
-    ssl                 => false,
-    server_name         => [$host],
-    location_cfg_append => [
-      'return 301 https://$host$request_uri;',
-    ],
-  }
+nginx::resource::vhost { "${service_name}-https-redirect":
+  listen_port         => 80,
+  ssl                 => false,
+  server_name         => [$host],
+  location_cfg_append => [
+    'return 301 https://$host$request_uri;',
+  ],
+}
 
-  nginx::resource::vhost { $service_name:
-    server_name         => [$host],
-    listen_port         => 443,
-    ssl                 => true,
-    ssl_cert            => $ssl_cert,
-    ssl_key             => $ssl_key,
-    ssl_port            => 443,
-    location_cfg_append => [
-      'proxy_set_header Host $http_host;',
-      'proxy_set_header X-Forwarded-Proto https;',
-      'proxy_set_header Upgrade $http_upgrade;',
-      'proxy_set_header Connection "upgrade";',
-      "proxy_pass http://localhost:${port};",
-    ],
-  }
+nginx::resource::vhost { $service_name:
+  server_name         => [$host],
+  listen_port         => 443,
+  ssl                 => true,
+  ssl_cert            => $ssl_cert,
+  ssl_key             => $ssl_key,
+  ssl_port            => 443,
+  location_cfg_append => [
+    'proxy_set_header Host $http_host;',
+    'proxy_set_header X-Forwarded-Proto https;',
+    'proxy_set_header Upgrade $http_upgrade;',
+    'proxy_set_header Connection "upgrade";',
+    "proxy_pass http://localhost:${port};",
+  ],
+}
 
-  @ufw::application { $service_name:
-    app_ports => '80,443/tcp',
-  }
+@ufw::application { $service_name:
+  app_ports => '80,443/tcp',
+}
 }

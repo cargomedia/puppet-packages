@@ -1,7 +1,5 @@
 node default {
 
-  require 'monit'
-
   class { 'bipbip':
     frequency => 5,
     tags      => ['foo', 'bar'],

@@ -24,12 +24,14 @@ describe 'backup::agent' do
 
   describe command("/usr/local/bin/backup-run.sh foo cmd") do
     its(:stdout) { should be_empty }
-    its(:stderr) { should be_empty }
+    its(:stderr) { should match /backup cmd:foo failed with exit code 127, see \/var\/log\/backups\/cmd\.foo\.\d+\.out/ }
+    its(:stderr) { should match /\/usr\/local\/bin\/backup-cmd\.sh: No such file or directory/ }
   end
 
   describe command("/usr/local/bin/backup-run.sh foo check -h foo -d /bar") do
     its(:stdout) { should be_empty }
-    its(:stderr) { should be_empty }
+    its(:stderr) { should match /backup check:foo failed with exit code 1, see \/var\/log\/backups\/check\.foo\.\d+\.out/ }
+    its(:stderr) { should match /Couldn\'t start up the remote connection by executing/ }
   end
 
   describe command('journalctl --no-pager | grep "exit code"') do

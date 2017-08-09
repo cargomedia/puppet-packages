@@ -13,8 +13,3 @@ mod 'cargomedia/cgi_fcgi',
 mod 'cargomedia/ruby',
   :git => 'git@github.com:cargomedia/puppet-packages.git',
   :path => 'modules/ruby'
-
-mod 'cargomedia/monit',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
-  :path => 'modules/monit'
-
