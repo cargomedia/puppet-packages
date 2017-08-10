@@ -9,10 +9,6 @@
     {
       "operatingsystem": "Debian",
       "operatingsystemrelease": ["8"]
-    },
-    {
-      "operatingsystem": "Ubuntu",
-      "operatingsystemrelease": ["15.04"]
     }
   ],
   "dependencies": [

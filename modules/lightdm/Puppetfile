@@ -1,7 +1,0 @@
-mod 'cargomedia/apt',
-   :git => 'git@github.com:cargomedia/puppet-packages.git',
-   :path => 'modules/apt'
-
-mod 'cargomedia/xorg',
-   :git => 'git@github.com:cargomedia/puppet-packages.git',
-   :path => 'modules/xorg'
