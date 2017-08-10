@@ -1,7 +1,0 @@
-<% require 'shellwords' -%>
-#!/usr/bin/env bash
-
-while true; do
-  sleep 10
-  curl -X POST -H "Content-Type:application/json" -d <%= Shellwords.escape(JSON.dump(@register_data)) %> <%= @cluster_manager_url %>/register
-done

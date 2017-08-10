@@ -1,4 +1,0 @@
-<policy user="<%= @user %>">
-  <allow send_destination="org.bluez"/>
-  <allow send_interface="org.bluez.Manager"/>
-</policy>
