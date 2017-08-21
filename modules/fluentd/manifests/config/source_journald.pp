@@ -52,6 +52,7 @@ class fluentd::config::source_journald (
       owner    => '0',
       group    => '0',
       mode     => '0755',
+      notify   => Daemon[$heartbeat_service],
     }
 
     daemon { $heartbeat_service:
