@@ -28,6 +28,14 @@ class php5::extension::newrelic(
     read_from_head => true,
   }
 
+  @fluentd::config::source_logfile { 'newrelic-php-agent-segfaults':
+    path        => '/var/log/newrelic/php_agent.log',
+    unit           => 'newrelic-php-agent',
+    format         => '/(?<message>^Process.*)/',
+    fluentd_tag => 'php-segfault',
+    read_from_head => true,
+  }
+
   @fluentd::config::source_logfile { 'newrelic-daemon':
     path        => '/var/log/newrelic/newrelic-daemon.log',
     unit           => 'newrelic-daemon',
