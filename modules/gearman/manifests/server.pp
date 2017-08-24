@@ -7,7 +7,7 @@ class gearman::server (
   $mysql_db       = 'gearman',
   $mysql_table    = 'gearman_queue',
   $bind_ip        = undef,
-  $jobretries     = 25,
+  $jobretries     = 5,
 ) {
 
   require 'apt'
