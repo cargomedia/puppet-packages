@@ -16,7 +16,7 @@ class systemd::critical_units {
     options => {
       'unit_name'    => 'critical-units.target',
       'metric_group' => 'critical-units-failing',
-      'command' => 'for s in `sudo systemctl --plain list-dependencies critical-units.target | cut -d" " -f 2`;do sudo systemctl is-failed $s;if [ ${?} -eq 0 ];then exit 1;fi;done;',
+      'command' => 'for s in `sudo systemctl --plain list-dependencies critical-units.target | cut -d" " -f 2`;do if (sudo systemctl is-failed $s -q);then exit 1;fi;done;',
     },
   }
 
@@ -25,7 +25,7 @@ class systemd::critical_units {
     options => {
       'unit_name'    => 'critical-units.target',
       'metric_group' => 'critical-units-stopped',
-      'command' => 'for s in `sudo systemctl --plain list-dependencies critical-units.target | cut -d" " -f 2`;do sudo systemctl is-active $s;if ! [ ${?} -eq 0 ];then exit 1;fi;done;',
+      'command' => 'for s in `sudo systemctl --plain list-dependencies critical-units.target | cut -d" " -f 2`;do if ! ((sudo systemctl is-active $s -q) || (sudo systemctl is-failed $s -q));then exit 1;fi;done;',
     },
   }
 }
