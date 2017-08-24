@@ -28,4 +28,8 @@ class systemd::critical_units {
       'command' => 'for s in `sudo systemctl --plain list-dependencies critical-units.target | cut -d" " -f 2`;do if ! ((sudo systemctl is-active $s -q) || (sudo systemctl is-failed $s -q));then exit 1;fi;done;',
     },
   }
+
+  @sudo::config { 'systemctl-for-bipbip':
+    content => 'bipbip ALL=NOPASSWD: /bin/systemctl',
+  }
 }
