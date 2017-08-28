@@ -1,0 +1,13 @@
+[Unit]
+Description=One-shot Test daemon
+After=network.target
+
+[Service]
+Type=simple
+TimeoutSec=5
+KillMode=process
+ExecStart=/bin/echo foo
+LimitCORE=infinity
+
+[Install]
+WantedBy=multiuser.target
