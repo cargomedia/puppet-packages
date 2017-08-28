@@ -8,28 +8,22 @@ class systemd::critical_units {
 
   systemd::target { 'critical-units':
     critical => false,
-    purge => true,
+    purge    => true,
   }
 
-  @bipbip::entry { 'critical-units-failing':
-    plugin  => 'command-status',
-    options => {
-      'unit_name'    => 'critical-units.target',
-      'metric_group' => 'critical-units-failing',
-      'command' => 'for s in `sudo systemctl --plain list-dependencies critical-units.target | cut -d" " -f 2`;do if (sudo systemctl is-failed $s -q);then exit 1;fi;done;',
-    },
+  $check_daemon_name = 'critical-units-check'
+
+  file { "/usr/local/bin/${check_daemon_name}":
+    ensure   => file,
+    content  => template("${module_name}/monitoring/${check_daemon_name}.sh"),
+    owner    => '0',
+    group    => '0',
+    mode     => '0755',
+    notify   => Daemon[$check_daemon_name],
   }
 
-  @bipbip::entry { 'critical-units-stopped':
-    plugin  => 'command-status',
-    options => {
-      'unit_name'    => 'critical-units.target',
-      'metric_group' => 'critical-units-stopped',
-      'command' => 'for s in `sudo systemctl --plain list-dependencies critical-units.target | cut -d" " -f 2`;do if ! ((sudo systemctl is-active $s -q) || (sudo systemctl is-failed $s -q));then exit 1;fi;done;',
-    },
-  }
-
-  @sudo::config { 'systemctl-for-bipbip':
-    content => 'bipbip ALL=NOPASSWD: /bin/systemctl',
+  daemon { $check_daemon_name:
+    binary  => "/usr/local/bin/${check_daemon_name}",
+    require => File["/usr/local/bin/${check_daemon_name}"],
   }
 }
