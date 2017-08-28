@@ -28,4 +28,14 @@ describe 'php5::extension::newrelic' do
     its(:exit_status) { should eq 0 }
   end
 
+  describe command('grep -hE segmentation /tmp/dump/buffer*') do
+    its(:exit_status) { should eq 0 }
+    its(:stdout) do
+      is_expected.to include_json(
+                       level: /.+/,
+                       message: /signal 11: segmentation/,
+                       hostname: /.+/,
+                     )
+    end
+  end
 end
