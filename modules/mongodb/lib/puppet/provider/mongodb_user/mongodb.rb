@@ -28,11 +28,12 @@ Puppet::Type.type(:mongodb_user).provide :mongodb, :parent => Puppet::Provider::
 
   def password
     password_hash_should = create_password_hash('puppet-mongodb', @resource[:password])
-    password_hash_is = db_find_user['customData']['puppetPasswordHash']
+    user_custom_data = db_find_user['customData']
+    password_hash_is = user_custom_data ? user_custom_data['puppetPasswordHash'] : 'unknown'
     if password_hash_is == password_hash_should
       @resource[:password]
     else
-      @resource[:password] + 'change_me'
+      'change_me'
     end
   end
 
