@@ -6,10 +6,6 @@ describe 'fluentd:source-journald' do
     it { should be_running }
   end
 
-  describe service('journald-heartbeatd') do
-    it { should be_running }
-  end
-
   describe file('/var/lib/fluentd/journald_pos') do
     it { should be_directory }
   end
@@ -54,21 +50,6 @@ describe 'fluentd:source-journald' do
                        journal: {
                          transport: 'stdout',
                          unit: 'fluentd.service',
-                         uid: /\d+/,
-                         pid: /\d+/,
-                       })
-    end
-  end
-
-  describe command('grep -rhE "\"message\":\"ping\"" /tmp/dump* | head -1') do
-    its(:exit_status) { should eq 0 }
-    its(:stdout) do
-      is_expected.to include_json(
-                       level: 'info',
-                       message: 'ping',
-                       journal: {
-                         transport: 'stdout',
-                         unit: 'journald-heartbeatd.service',
                          uid: /\d+/,
                          pid: /\d+/,
                        })
