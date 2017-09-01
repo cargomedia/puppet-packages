@@ -1,0 +1,13 @@
+[Unit]
+Description=Run Goreplay to collect http traffic
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/usr/local/bin/gor -input-<%= @input %> -output-<%= @output %> --exit-after <%= @duration %>
+Type=simple
+RemainAfterExit=yes
+WorkingDirectory=/var/local/
+
+[Install]
+WantedBy=multi-user.target
