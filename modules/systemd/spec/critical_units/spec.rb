@@ -24,8 +24,8 @@ describe 'systemd::critical_units' do
   end
 
   describe command('journalctl -u critical-units-check --no-pager') do
-    its(:stdout) { should match /.*Critical unit failed: failed\.service$.*/ }
-    its(:stdout) { should match /.*Critical unit stopped: stopped\.service$.*/ }
+    its(:stdout) { should match /Critical unit failed: failed\.service/ }
+    its(:stdout) { should match /Critical unit stopped: stopped\.service/ }
   end
 
 end
