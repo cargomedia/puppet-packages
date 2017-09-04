@@ -16,6 +16,7 @@ define autossh (
     'ServerAliveInterval'   => 30,
     'ServerAliveCountMax'   => 3,
     'StrictHostKeyChecking' => 'no',
+    'ExitOnForwardFailure'  => 'yes',
   })
 
   $argForwards = autossh_forwards($forwards)
