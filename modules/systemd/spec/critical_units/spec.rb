@@ -6,11 +6,11 @@ describe 'systemd::critical_units' do
     it { should be_file }
   end
 
-  describe command('systemctl list-dependencies --plain critical-units.target | grep stopped.service') do
+  describe command('systemctl list-dependencies --plain critical-units.target | grep foo.service') do
     its(:exit_status) { should eq 0 }
   end
 
-  describe command('systemctl list-dependencies --plain critical-units.target | grep failed.service') do
+  describe command('systemctl list-dependencies --plain critical-units.target | grep bar.service') do
     its(:exit_status) { should eq 0 }
   end
 
@@ -23,9 +23,17 @@ describe 'systemd::critical_units' do
     it { should be_running }
   end
 
+  describe command('timeout --signal=9 30 bash -c "while ! (systemctl is-failed bar.service); do sleep 0.1; done"') do
+    its(:exit_status) { should eq 0 }
+  end
+
+  describe command('systemctl restart critical-units-check && sleep 0.1') do
+    its(:exit_status) { should eq 0 }
+  end
+
   describe command('journalctl -u critical-units-check --no-pager') do
-    its(:stdout) { should match /Critical unit failed: failed\.service/ }
-    its(:stdout) { should match /Critical unit stopped: stopped\.service/ }
+    its(:stdout) { should match /Critical unit stopped: foo\.service/ }
+    its(:stdout) { should match /Critical unit failed: bar\.service/ }
   end
 
 end
