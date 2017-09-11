@@ -1,10 +1,12 @@
 node default {
 
-  systemd::service { 'stopped':
-    content  => template('systemd/spec/stopped.service'),
+  # stopped service
+  systemd::service { 'foo':
+    content  => template('systemd/spec/foo.service'),
   }
 
-  systemd::service { 'failed':
-    content  => template('systemd/spec/failed.service'),
+  # failing service
+  systemd::service { 'bar':
+    content  => template('systemd/spec/bar.service'),
   }
 }
