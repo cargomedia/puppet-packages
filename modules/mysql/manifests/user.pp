@@ -1,4 +1,4 @@
-define mysql::user ($password) {
+define mysql::user ($password=undef) {
 
   require 'mysql::client'
 
