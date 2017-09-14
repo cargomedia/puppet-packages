@@ -7,6 +7,5 @@ node default {
   }
 
   mysql::user { 'bar@localhost':
-    password => 'mypass',
   }
 }
