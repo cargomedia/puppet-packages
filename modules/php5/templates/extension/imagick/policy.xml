@@ -23,7 +23,4 @@
 	<policy domain="coder" rights="none" pattern="WIN" />
 	<policy domain="coder" rights="none" pattern="PLT" />
 	<policy domain="path" rights="none" pattern="@*" />
-	<policy domain="resource" name="memory" value="500MiB"/>
-	<policy domain="resource" name="map" value="750MiB"/>
-	<policy domain="resource" name="disk" value="1GiB"/>
 </policymap>
