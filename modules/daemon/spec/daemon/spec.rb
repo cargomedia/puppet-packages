@@ -52,10 +52,4 @@ describe 'daemon:default' do
   describe file('/tmp/copied_by_post') do
     it {should be_file}
   end
-
-  describe 'No critical units should be defined except the critical units check script' do
-    describe command('ls -1 /etc/systemd/system/critical-units.target.d/ |wc -l') do
-      its(:stdout) {should match /^1$/}
-    end
-  end
 end
