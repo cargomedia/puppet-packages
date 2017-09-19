@@ -19,7 +19,7 @@ class jetbrains::upsource (
     config        => file("${module_name}/upsource.config"),
     hub_url       => $hub_url,
     limit_memlock => 'unlimited',
-    limit_nofile  => 65536,
+    limit_nofile  => 500000,
     limit_nproc   => 32768,
     limit_as      => 'unlimited',
   }
