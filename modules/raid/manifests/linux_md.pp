@@ -41,7 +41,7 @@ class raid::linux_md {
   @bipbip::entry { 'raid-mdadm-raid':
     plugin  => 'command-status',
     options => {
-      command      => '/bin/systemctl is-active mdadm-raid 1>/dev/null',
+      command      => '! grep "\[U*_U*\]" /proc/mdstat',
       metric_group => 'raid',
     },
     require => Service['mdadm-raid'],
