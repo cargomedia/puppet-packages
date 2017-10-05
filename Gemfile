@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 gem 'rake', '~> 11.3'
 gem 'puppet-lint', '~> 2.2'
-gem 'puppet', '~> 4.7.0'
+gem 'puppet', '~> 5.3.1'
 gem 'rspec-core', '~> 3.5'
 gem 'serverspec', '~> 2.8'
 gem 'specinfra', '~> 2.12'

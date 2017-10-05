@@ -38,10 +38,10 @@ class raid::linux_md {
     require   => Package['mdadm'],
   }
 
-  @bipbip::entry { "raid-mdadm-raid":
+  @bipbip::entry { 'raid-mdadm-raid':
     plugin  => 'command-status',
     options => {
-      command      => "/bin/systemctl is-active mdadm-raid 1>/dev/null",
+      command      => '/bin/systemctl is-active mdadm-raid 1>/dev/null',
       metric_group => 'raid',
     },
     require => Service['mdadm-raid'],
