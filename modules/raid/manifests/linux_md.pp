@@ -2,12 +2,6 @@ class raid::linux_md {
 
   require 'apt'
 
-  if ($::facts['lsbdistcodename'] == 'vivid') {
-    $mdadm_service_name = 'mdadm'
-  } else {
-    $mdadm_service_name = 'mdadm-raid'
-  }
-
   file { '/etc/mdadm':
     ensure => directory,
     group  => '0',
@@ -21,7 +15,7 @@ class raid::linux_md {
     group   => '0',
     owner   => '0',
     mode    => '0644',
-    notify  => Service[$mdadm_service_name],
+    notify  => Service['mdadm-raid'],
     before  => Package['mdadm'],
   }
 
@@ -38,18 +32,18 @@ class raid::linux_md {
     require      => File['/tmp/mdadm.preseed'],
   }
 
-  service { $mdadm_service_name:
+  service { 'mdadm-raid':
     hasstatus => false,
     enable    => true,
     require   => Package['mdadm'],
   }
 
-  @bipbip::entry { "raid-${mdadm_service_name}":
+  @bipbip::entry { 'raid-mdadm-raid':
     plugin  => 'command-status',
     options => {
-      command      => "/bin/systemctl is-active ${mdadm_service_name} 1>/dev/null",
+      command      => '! grep "\[U*_U*\]" /proc/mdstat',
       metric_group => 'raid',
     },
-    require => Service[$mdadm_service_name],
+    require => Service['mdadm-raid'],
   }
 }
