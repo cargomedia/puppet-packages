@@ -2,9 +2,9 @@ loglevel: <%= @log_level %>
 frequency: <%= @frequency %>
 include: services.d/
 
-<% if @tags and not @tags.empty? %>
+<% if @server_tag_list and not @server_tag_list.empty? %>
 tags:
-<%= @tags.map { |t| "  - #{t}" }.join("\n") %>
+<%= @server_tag_list.map { |t| "  - " + t if t != '' }.join("\n") %>
 <% end %>
 
 storages:

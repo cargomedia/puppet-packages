@@ -1,0 +1,6 @@
+{
+  "tags": [ "foo", "bar" ],
+
+  "copperegg_revealcloud::api_key": "foo",
+  "copperegg_revealcloud::enable_node": false
+}

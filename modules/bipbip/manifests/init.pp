@@ -2,9 +2,13 @@ class bipbip (
   $api_key = undef,
   $version = 'latest',
   $frequency = 15,
-  $tags = $::facts['copperegg_tags'],
+  $tags = [],
   $log_level = 'INFO',
 ){
+
+  $hiera_tag_list = lookup('tags', Array, 'unique', [])
+  $facts_tag_list = $::facts['copperegg_tags']
+  $server_tag_list = concat($tags, $hiera_tag_list, $facts_tag_list)
 
   class { 'bipbip::gem':
     version => $version,
