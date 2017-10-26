@@ -2,8 +2,8 @@ class jetbrains::hub (
   $host,
   $ssl_cert,
   $ssl_key,
-  $version = '2017.2',
-  $build   = '6307',
+  $version = '2017.3',
+  $build   = '7636',
   $port    = 8080,
 ) {
 
