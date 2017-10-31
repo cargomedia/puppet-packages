@@ -1,4 +1,4 @@
-class nginx::config(
+class nginx::config (
   $daemon_user                   = $nginx::params::nx_daemon_user,
   $worker_processes              = $nginx::params::nx_worker_processes,
   $worker_connections            = $nginx::params::nx_worker_connections,
@@ -14,6 +14,7 @@ class nginx::config(
   $access_log                    = $nginx::params::nx_access_log,
   $confd_purge                   = $nginx::params::nx_confd_purge,
   $server_names_hash_bucket_size = $nginx::params::nx_server_names_hash_bucket_size
+  $server_names_hash_max_size    = $nginx::params::nx_server_names_hash_max_size
 ) inherits nginx::params {
   File {
     owner => 'root',

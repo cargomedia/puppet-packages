@@ -14,6 +14,7 @@ class nginx (
   $access_log                    = $nginx::params::nx_access_log,
   $confd_purge                   = $nginx::params::nx_confd_purge,
   $server_names_hash_bucket_size = $nginx::params::nx_server_names_hash_bucket_size
+  $server_names_hash_max_size    = $nginx::params::nx_server_names_hash_max_size
 ) inherits nginx::params {
 
   include 'nginx::bipbip_entry'
@@ -38,6 +39,7 @@ class nginx (
     log_format                    => $log_format,
     access_log                    => $access_log,
     server_names_hash_bucket_size => $server_names_hash_bucket_size,
+    server_names_hash_max_size    => $server_names_hash_max_size,
     require                       => Class['nginx::package'],
     notify                        => Class['nginx::service'],
   }
