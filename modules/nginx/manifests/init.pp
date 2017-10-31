@@ -13,7 +13,7 @@ class nginx (
   $log_format                    = $nginx::params::nx_log_format,
   $access_log                    = $nginx::params::nx_access_log,
   $confd_purge                   = $nginx::params::nx_confd_purge,
-  $server_names_hash_bucket_size = $nginx::params::nx_server_names_hash_bucket_size
+  $server_names_hash_bucket_size = $nginx::params::nx_server_names_hash_bucket_size,
   $server_names_hash_max_size    = $nginx::params::nx_server_names_hash_max_size
 ) inherits nginx::params {
 
