@@ -75,7 +75,6 @@ define cm::reverse_proxy (
       'proxy_set_header X-Real-IP $remote_addr;',
       "proxy_pass ${upstream_protocol}://${backend_name};",
       'proxy_next_upstream error timeout http_502 http_503 invalid_header;',
-      'proxy_next_upstream_timeout 5;'
     ]
   }
 }
