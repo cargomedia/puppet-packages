@@ -8,5 +8,6 @@ describe 'nginx::config_nginx_servernames_hash' do
 
   describe file('/etc/nginx/nginx.conf') do
     its(:content) { should match /server_names_hash_bucket_size 64;/}
+    its(:content) { should match /server_names_hash_max_size 1024;/}
   end
 end

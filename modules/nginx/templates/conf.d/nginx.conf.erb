@@ -38,6 +38,9 @@ http {
   <% if @server_names_hash_bucket_size %>
   server_names_hash_bucket_size <%= @server_names_hash_bucket_size %>;
   <% end -%>
+  <% if @server_names_hash_max_size %>
+  server_names_hash_max_size <%= @server_names_hash_max_size %>;
+  <% end -%>
 
   ssl_protocols               TLSv1 TLSv1.1 TLSv1.2;
   ssl_session_timeout         10m;
