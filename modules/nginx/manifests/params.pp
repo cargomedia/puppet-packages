@@ -17,6 +17,7 @@ class nginx::params {
   $nx_gzip                          = 'on'
   $nx_send_timeout                  = '10'
   $nx_server_names_hash_bucket_size = undef
+  $nx_server_names_hash_max_size    = undef
 
   $nx_client_body_timeout           = '10'
   $nx_client_header_timeout         = '10'
