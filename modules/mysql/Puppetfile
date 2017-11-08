@@ -1,27 +1,27 @@
 mod 'cargomedia/sysctl',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/sysctl'
 
 mod 'cargomedia/bipbip',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/bipbip'
 
 mod 'cargomedia/database',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/database'
 
 mod 'cargomedia/logrotate',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/logrotate'
 
 mod 'cargomedia/apt',
-   :git => 'git@github.com:cargomedia/puppet-packages.git',
+   :git => 'git://github.com/cargomedia/puppet-packages.git',
    :path => 'modules/apt'
 
 mod 'cargomedia/daemon',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/daemon'
 
 mod 'cargomedia/fluentd',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/fluentd'

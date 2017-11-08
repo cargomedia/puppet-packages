@@ -1,15 +1,15 @@
 mod 'cargomedia/capistrano',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/capistrano'
 
 mod 'cargomedia/git',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/git'
 
 mod 'cargomedia/ruby',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/ruby'
 
 mod 'cargomedia/env',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/env'

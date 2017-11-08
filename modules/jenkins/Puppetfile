@@ -1,19 +1,19 @@
 mod 'cargomedia/apt',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/apt'
 
 mod 'cargomedia/ntp',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/ntp'
 
 mod 'cargomedia/ssh',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/ssh'
 
 mod 'cargomedia/unzip',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/unzip'
 
 mod 'cargomedia/ufw',
-    :git => 'git@github.com:cargomedia/puppet-packages.git',
+    :git => 'git://github.com/cargomedia/puppet-packages.git',
     :path => 'modules/ufw'

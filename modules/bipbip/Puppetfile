@@ -1,15 +1,15 @@
 mod 'cargomedia/apt',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/apt'
 
 mod 'cargomedia/build',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/build'
 
 mod 'cargomedia/cgi_fcgi',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/cgi_fcgi'
 
 mod 'cargomedia/ruby',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/ruby'
