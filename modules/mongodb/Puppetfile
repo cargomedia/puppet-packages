@@ -2,21 +2,21 @@ mod 'puppetlabs/stdlib',
   :git => 'git://github.com/puppetlabs/puppetlabs-stdlib.git'
 
 mod 'cargomedia/apt',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/apt'
 
 mod 'cargomedia/ntp',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/ntp'
 
 mod 'cargomedia/bipbip',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/bipbip'
 
 mod 'cargomedia/logrotate',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/logrotate'
 
 mod 'cargomedia/daemon',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/daemon'

@@ -1,15 +1,15 @@
 mod 'cargomedia/composer',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/composer'
 
 mod 'cargomedia/git',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/git'
 
 mod 'cargomedia/nginx',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/nginx'
 
 mod 'cargomedia/ufw',
-    :git => 'git@github.com:cargomedia/puppet-packages.git',
+    :git => 'git://github.com/cargomedia/puppet-packages.git',
     :path => 'modules/ufw'
