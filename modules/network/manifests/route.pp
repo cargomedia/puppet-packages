@@ -14,9 +14,10 @@ define network::route (
 
   exec { "[${title}] Set route to ${destination} via ${via}":
     provider => shell,
-    command  => "ip route add ${destination} via ${via}",
+    command  => "/etc/network/if-up.d/99-${title}",
     unless   => "ip ro sh | grep -q '${destination} via ${via}'",
     path     => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
     user     => 'root',
+    require  => File["/etc/network/if-up.d/99-${title}"]
   }
 }
