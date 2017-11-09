@@ -1,5 +1,5 @@
 define network::route (
-  $destination = 'default gw',
+  $destination = 'default',
   $via,
 ) {
   # This file is only executed at boot time
