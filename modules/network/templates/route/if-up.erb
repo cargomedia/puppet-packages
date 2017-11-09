@@ -1,6 +1,8 @@
 #!/bin/sh
 
-if ! /sbin/ip route list | grep -v -q '${destination} via ${via}'
-then
+if ! /sbin/ip route list | grep -q "<%= @destination %> via <%= @via %>"; then
+  if /sbin/ip route list | grep -q -E "^<%= @destination %>"; then
+    /sbin/ip route del "<%= @destination %>"
+  fi
   /sbin/ip route add <%= @destination %> via <%= @via %>
 fi
