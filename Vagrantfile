@@ -31,7 +31,5 @@ Vagrant.configure('2') do |config|
   config.vm.define 'Debian-8' do |jessie|
     jessie.vm.box = 'cargomedia/debian-8-amd64-plain'
     jessie.vm.network :forwarded_port, guest: 22, host: 22202, id: 'ssh'
-    # Additional network card to test module network (resource type network::interface)
-    jessie.vm.network :private_network, ip: '10.10.20.4', auto_config: false
   end
 end

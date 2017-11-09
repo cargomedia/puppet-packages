@@ -1,23 +1,5 @@
 {
-  "_comment": "Interface eth1 has static values for nic and routing that depend on the Vagrantfile's settings!",
-  "network::interfaces": {
-    "eth0": {
-      "method": "dhcp"
-    },
-    "eth1": {
-      "method": "static",
-      "ipaddr": "10.10.20.122",
-      "netmask": "255.255.255.0"
-    },
-    "lo:0": {
-      "method": "manual",
-      "ipaddr": "192.168.20.122",
-      "netmask": "255.255.255.0"
-    }
-  },
-
-  "network::nat::ifname_private": "eth0",
-  "network::nat::ifname_public": "lo",
+  "network::nat::ifname_private": "eth5",
+  "network::nat::ifname_public": "eth0",
   "network::nat::to_source": "192.168.20.122"
-
 }
