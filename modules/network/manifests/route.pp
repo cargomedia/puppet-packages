@@ -1,8 +1,7 @@
 define network::route (
-  $destination = 'default gw',
+  $destination = 'default',
   $via,
-)
-{
+) {
   # This file is only executed at boot time
   file { "/etc/network/if-up.d/99-${title}":
     ensure  => file,
@@ -13,10 +12,11 @@ define network::route (
   }
 
   exec { "[${title}] Set route to ${destination} via ${via}":
-    provider => shell,
-    command  => "ip route add ${destination} via ${via}",
-    unless   => "ip ro sh | grep -q '${destination} via ${via}'",
-    path     => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
-    user     => 'root',
+    provider    => shell,
+    command     => "/etc/network/if-up.d/99-${title}",
+    refreshonly => true,
+    path        => ['/usr/local/sbin', '/usr/local/bin', '/usr/sbin', '/usr/bin', '/sbin', '/bin'],
+    user        => 'root',
+    subscribe   => File["/etc/network/if-up.d/99-${title}"],
   }
 }

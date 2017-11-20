@@ -1,27 +1,27 @@
 mod 'cargomedia/pulsar',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/pulsar'
 
 mod 'cargomedia/nodejs',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/nodejs'
 
 mod 'cargomedia/mongodb',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/mongodb'
 
 mod 'cargomedia/logrotate',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/logrotate'
 
 mod 'cargomedia/helper',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/helper'
 
 mod 'cargomedia/bower',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/bower'
 
 mod 'cargomedia/daemon',
-  :git => 'git@github.com:cargomedia/puppet-packages.git',
+  :git => 'git://github.com/cargomedia/puppet-packages.git',
   :path => 'modules/daemon'
