@@ -20,7 +20,7 @@ Nice=<%= @nice %>
 OOMScoreAdjust=<%= @oom_score_adjust %>
 <% end -%>
 TimeoutStopSec=<%= @stop_timeout %>
-KillMode=mixed
+KillMode=<%= @kill_mode %>
 Restart=always
 <% if @limit_nofile -%>
 LimitNOFILE=<%= @limit_nofile == 'unlimited' ? 'infinity' : @limit_nofile %>
