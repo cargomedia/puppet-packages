@@ -16,6 +16,10 @@ describe 'mysql::server' do
     its(:content) { should match('password = bar') }
   end
 
+  describe command('mysql --version') do
+    its(:stdout) { should match /\s5\.6\.[0-9]+/ }
+  end
+
   describe command('mysql -e "show status"') do
     its(:stdout) { should match('Uptime') }
   end
