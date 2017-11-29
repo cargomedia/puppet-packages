@@ -44,8 +44,8 @@ class mysql::server (
     owner   => 'root',
     group   => 'mysql',
     mode    => '0640',
-    require => User['mysql'],
-    before  => Package['mysql-server'],
+    before  => Service['mysql'],
+    require => [User['mysql'], Package['mysql-server']],
     notify  => Service['mysql'],
   }
 
@@ -55,8 +55,8 @@ class mysql::server (
     owner   => 'root',
     group   => 'mysql',
     mode    => '0640',
-    require => User['mysql'],
-    before  => Package['mysql-server'],
+    before  => Service['mysql'],
+    require => [User['mysql'], Package['mysql-server']],
     notify  => Service['mysql'],
   }
 
@@ -66,8 +66,8 @@ class mysql::server (
     owner   => 'root',
     group   => 'mysql',
     mode    => '0640',
-    require => User['mysql'],
-    before  => Package['mysql-server'],
+    before  => Service['mysql'],
+    require => [User['mysql'], Package['mysql-server']],
     notify  => Service['mysql'],
   }
 
@@ -77,8 +77,8 @@ class mysql::server (
     owner   => 'root',
     group   => 'root',
     mode    => '0600',
-    require => User['mysql'],
-    before  => Package['mysql-server'],
+    before  => Service['mysql'],
+    require => [User['mysql'], Package['mysql-server']],
     notify  => Service['mysql'],
   }
 
@@ -88,8 +88,8 @@ class mysql::server (
     owner   => 'root',
     group   => 'root',
     mode    => '0644',
-    require => User['mysql'],
-    before  => [Package['mysql-server'], Service['mysql']],
+    before  => Service['mysql'],
+    require => [User['mysql'], Package['mysql-server']],
   }
 
   file { $error_log:
@@ -97,8 +97,8 @@ class mysql::server (
     owner   => 'mysql',
     group   => 'mysql',
     mode    => '0644',
-    before  => Package['mysql-server'],
-    require => User['mysql'],
+    before  => Service['mysql'],
+    require => [User['mysql'], Package['mysql-server']],
   }
 
   file { $slow_query_log:
@@ -106,8 +106,8 @@ class mysql::server (
     owner   => 'mysql',
     group   => 'root',
     mode    => '0644',
-    before  => Package['mysql-server'],
-    require => User['mysql'],
+    before  => Service['mysql'],
+    require => [User['mysql'], Package['mysql-server']],
   }
 
   mysql::user { 'debian-sys-maint@localhost':
@@ -149,6 +149,7 @@ class mysql::server (
     user         => 'mysql',
     stop_timeout => 600,
     limit_nofile => 16384,
+    kill_mode    => 'control-group',
     require      => [ User['mysql'], File['/usr/share/mysql/mysql-systemd-start'] ],
   }
 
