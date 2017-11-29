@@ -7,6 +7,7 @@ class mysql::server (
 ) {
 
   require 'apt'
+  require 'apt::source::mysql'
 
   # Do not use /var/log/mysql.err for the error log as it gets chmod'ded by mysql
   $error_log = '/var/log/my.err'
@@ -121,6 +122,7 @@ class mysql::server (
     ensure   => present,
     provider => 'apt',
     before   => Service['mysql'],
+    require  => Class['apt::source::mysql'],
   }
 
   sysctl::entry { 'mysql':
