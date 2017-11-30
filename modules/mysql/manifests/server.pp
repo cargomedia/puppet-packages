@@ -174,29 +174,4 @@ class mysql::server (
       'password' => $debian_sys_maint_password,
     }
   }
-
-  @fluentd::config::source_logfile { 'mysql-errors':
-    path        => $error_log,
-    unit        => 'mysql-error-log',
-    format      => '/((?<time>\d{2}\d{2}\d{2}\s+\d{1,2}:\d{2}:\d{2})\s)?(?<message>.*)/',
-    time_format => '%y%m%d %H:%M:%S',
-  }
-
-  @fluentd::config::source_logfile { 'mysql-slow-queries':
-    path             => $slow_query_log,
-    unit             => 'mysql-slow-query-log',
-    format           => 'multiline',
-    format_firstline => '/# Time:/',
-    formats          => [
-      '/# Time:.*\n/',
-      '/# User@Host: (?<dbuser>.+)\[(?<dbname>.+)\]\s*@\s*(?<client_host>\S*)\s*\[((?<client_ip>\d+\.\d+\.\d+\.\d+))?\]\n/',
-      '/# Query_time: (?<seconds_query>\d+\.\d+)  Lock_time: (?<seconds_lock>\d+\.\d+) Rows_sent: (?<rows_sent>\d+)  Rows_examined: (?<rows_examined>\d+)\n/',
-      '/SET timestamp=(?<time>\d+);\n/',
-      '/(?<query>.*)/'
-    ],
-    config           => {
-      types => 'rows_examined:integer,rows_sent:integer,seconds_lock:float,seconds_query:float'
-    },
-    time_format      => '%s',
-  }
 }
