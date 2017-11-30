@@ -8,7 +8,7 @@ describe 'mysql::server' do
 
   describe file('/etc/mysql/init.sql') do
     it { should be_file }
-    its(:content) { should match /^UPDATE mysql.user SET Password=PASSWORD\('foo'\) WHERE User='root'/ }
+    its(:content) { should match /^UPDATE mysql.user SET authentication_string=PASSWORD\('foo'\), password_expired = 'N' WHERE User='root'/ }
   end
 
   describe file('/etc/mysql/debian.cnf') do
@@ -17,7 +17,7 @@ describe 'mysql::server' do
   end
 
   describe command('mysql --version') do
-    its(:stdout) { should match /\s5\.6\.[0-9]+/ }
+    its(:stdout) { should match /\s5\.7\.[0-9]+/ }
   end
 
   describe command('mysql -e "show status"') do

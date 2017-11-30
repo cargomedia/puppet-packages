@@ -33,11 +33,11 @@ Puppet::Type.type(:database_user).provide(:mysql) do
   end
 
   def password_hash
-    mysql([defaults_file, 'mysql', '-NBe', "select password from mysql.user where CONCAT(user, '@', host) = '#{@resource[:name]}'"].compact).chomp
+    mysql([defaults_file, 'mysql', '-NBe', "select authentication_string from mysql.user where CONCAT(user, '@', host) = '#{@resource[:name]}'"].compact).chomp
   end
 
   def password_hash=(string)
-    mysql([defaults_file, 'mysql', '-e', "SET PASSWORD FOR '%s' = '%s'" % [@resource[:name].sub('@', "'@'"), string]].compact)
+    mysql([defaults_file, 'mysql', '-e', "ALTER USER '%s' IDENTIFIED BY '%s'" % [@resource[:name].sub('@', "'@'"), string]].compact)
 
     password_hash == string ? (return true) : (return false)
   end
