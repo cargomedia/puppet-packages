@@ -15,27 +15,4 @@ describe 'php5::extension::newrelic' do
     its(:stdout) { should match /enabled => yes/ }
     its(:stdout) { should match /browser_monitoring\.auto_instrument => enabled/ }
   end
-
-  describe service('fluentd') do
-    it { should be_running }
-  end
-
-  describe command('grep -hE \'"message":"A global default license has not been set\' /tmp/dump/buffer*') do
-    its(:exit_status) { should eq 0 }
-  end
-
-  describe command('grep -hE \'"unit":"newrelic-daemon"\' /tmp/dump/buffer*') do
-    its(:exit_status) { should eq 0 }
-  end
-
-  describe command('grep -hE segmentation /tmp/dump/buffer*') do
-    its(:exit_status) { should eq 0 }
-    its(:stdout) do
-      is_expected.to include_json(
-                       level: /.+/,
-                       message: /signal 11: segmentation/,
-                       hostname: /.+/,
-                     )
-    end
-  end
 end

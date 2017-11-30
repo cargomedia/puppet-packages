@@ -16,6 +16,10 @@ describe 'mysql::server' do
     its(:content) { should match('password = bar') }
   end
 
+  describe command('mysql --version') do
+    its(:stdout) { should match /\s5\.6\.[0-9]+/ }
+  end
+
   describe command('mysql -e "show status"') do
     its(:stdout) { should match('Uptime') }
   end
@@ -32,13 +36,4 @@ describe 'mysql::server' do
     end
   end
 
-  describe command('grep -h slow /tmp/dump/*') do
-    its(:exit_status) { should eq 0 }
-    its(:stdout) { should match /"seconds_query":1.100/ }
-  end
-
-  describe command('grep -h "\"level\":\"info" /tmp/dump/*') do
-    its(:exit_status) { should eq 0 }
-    its(:stdout) { should match /"message":"InnoDB:.+started/ }
-  end
 end

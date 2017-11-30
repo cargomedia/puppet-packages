@@ -19,6 +19,7 @@ define daemon (
   $runtime_directory      = undef,
   $runtime_directory_mode = undef,
   $critical               = true,
+  $kill_mode              = 'mixed',
 ) {
 
   $virtual = $::facts['virtual']
