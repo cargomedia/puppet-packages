@@ -37,7 +37,7 @@ Puppet::Type.type(:database_user).provide(:mysql) do
   end
 
   def password_hash=(string)
-    mysql([defaults_file, 'mysql', '-e', "ALTER USER '%s' IDENTIFIED BY '%s'" % [@resource[:name].sub('@', "'@'"), string]].compact)
+    mysql([defaults_file, 'mysql', '-e', "ALTER USER '%s' IDENTIFIED WITH mysql_native_password AS '%s'" % [@resource[:name].sub('@', "'@'"), string]].compact)
 
     password_hash == string ? (return true) : (return false)
   end
