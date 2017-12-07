@@ -76,11 +76,4 @@ class revive (
       'fastcgi_pass localhost:9000;',
     ],
   }
-
-  cron { "cron revive maintenance ${host}":
-    command => "php /var/revive/scripts/maintenance/maintenance.php ${host}",
-    user    => 'root',
-    minute  => 10,
-  }
-
 }
