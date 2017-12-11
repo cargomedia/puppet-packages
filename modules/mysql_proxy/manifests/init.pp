@@ -19,7 +19,7 @@ class mysql_proxy ($host = '127.0.0.1', $port = 4040, $backend_addresses) {
       notify  => Service['mysql-proxy'];
     '/etc/mysql-proxy/failover.lua':
       ensure  => file,
-      content => template("${module_name}/failover.lua"),
+      content => template("${module_name}/failover.lua.erb"),
       owner   => '0',
       group   => '0',
       mode    => '0644',
