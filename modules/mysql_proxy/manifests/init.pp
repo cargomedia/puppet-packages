@@ -1,4 +1,9 @@
-class mysql_proxy ($host = '127.0.0.1', $port = 4040, $backend_addresses) {
+class mysql_proxy (
+  $host     = '127.0.0.1',
+  $port     = 4040,
+  $backend_addresses,
+  $failover = true
+) {
 
   require 'apt'
   require 'apt::source::cargomedia'
@@ -37,6 +42,9 @@ class mysql_proxy ($host = '127.0.0.1', $port = 4040, $backend_addresses) {
     binary  => '/usr/bin/mysql-proxy',
     args    => '--defaults-file=/etc/mysql-proxy/config',
     env     => { 'LUA_PATH' => '/usr/share/mysql-proxy/?.lua' },
-    require => [ Package['mysql-proxy'], File['/etc/mysql-proxy/failover.lua', '/etc/mysql-proxy/config'] ],
+    require => [
+      Package['mysql-proxy'],
+      File['/etc/mysql-proxy/failover.lua', '/etc/mysql-proxy/config']
+    ],
   }
 }
