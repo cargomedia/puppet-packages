@@ -20,7 +20,7 @@ class php5::extension::apcu (
     content => template("${module_name}/extension/apcu/conf.ini"),
   }
 
-  file { "/opt/php5/apc-status.php":
+  file { '/opt/php5/apc-status.php':
     ensure  => file,
     content => template("${module_name}/extension/apcu/apc-status.php"),
     owner   => '0',

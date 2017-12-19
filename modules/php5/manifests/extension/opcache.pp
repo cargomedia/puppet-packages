@@ -24,7 +24,7 @@ class php5::extension::opcache (
     content => template("${module_name}/extension/opcache/conf.ini"),
   }
 
-  file { "/opt/php5/opcache-status.php":
+  file { '/opt/php5/opcache-status.php':
     ensure  => file,
     content => template("${module_name}/extension/opcache/opcache-status.php"),
     owner   => '0',
