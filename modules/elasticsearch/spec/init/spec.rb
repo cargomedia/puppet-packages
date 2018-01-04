@@ -25,4 +25,8 @@ describe 'elasticsearch' do
     its(:stdout) { should match '"node":{"local":"true"}'}
     its(:stdout) { should match '"publish_address":"127.0.0.1:9200"'}
   end
+
+  describe command('sudo netstat -anlp') do
+    its(:stdout) { should match ' :::9200 .+/java' }
+  end
 end
