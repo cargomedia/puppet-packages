@@ -38,7 +38,8 @@ class elasticsearch (
 
   daemon { 'elasticsearch':
     binary  => '/usr/share/elasticsearch/bin/elasticsearch',
-    args => "-Des.default.config=${config_file} -Des.default.path.home=/usr/share/elasticsearch -Des.default.path.logs=/var/log/elasticsearch -Des.default.path.data=/var/lib/elasticsearch -Des.default.path.work=/tmp/elasticsearch -Des.default.path.conf=${config_dir}",
+    args => "-Des.default.path.home=/usr/share/elasticsearch -Des.default.path.logs=/var/log/elasticsearch -Des.default.path.data=/var/lib/elasticsearch -Des.default.path.work=/tmp/elasticsearch -Des.default.path.conf=${config_dir}",
+    user => 'elasticsearch',
     env     => {
       'ES_HEAP_SIZE' => $heap_size,
       'ES_USER' => 'elasticsearch',
