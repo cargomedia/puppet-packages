@@ -2,6 +2,11 @@ require 'spec_helper'
 
 describe 'elasticsearch' do
 
+  # Wait for elasticsearch to start up
+  describe command('timeout --signal=9 30 bash -c "while ! (curl -s http://localhost:9200/); do sleep 0.5; done"') do
+    its(:exit_status) { should eq 0 }
+  end
+
   describe package('elasticsearch') do
     it { should be_installed }
   end
