@@ -1,10 +1,10 @@
 class elasticsearch::package (
-  $repository_version = '2.x',
+  $repository_version = '5.x',
 ){
 
   apt::source { 'elasticsearch':
     entries => [
-      "deb http://packages.elastic.co/elasticsearch/${repository_version}/debian stable main",
+      "deb https://artifacts.elastic.co/packages/${repository_version}/apt stable main",
     ],
     keys    => {
       elasticsearch => {

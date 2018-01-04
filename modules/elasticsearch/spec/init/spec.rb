@@ -21,8 +21,8 @@ describe 'elasticsearch' do
   end
 
   describe command('curl localhost:9200/_nodes/_local') do
-    its(:stdout) { should match '{"cluster_name":"foo"'}
-    its(:stdout) { should match '"node":{"local":"true"}'}
+    its(:stdout) { should match '"cluster_name":"foo"'}
+    its(:stdout) { should match '"transport":{"type":"local"}'}
     its(:stdout) { should match '"publish_address":"127.0.0.1:9200"'}
   end
 end
