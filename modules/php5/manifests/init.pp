@@ -23,6 +23,13 @@ class php5 {
     mode   => '0755',
   }
 
+  file { '/opt/php5':
+    ensure => directory,
+    owner  => '0',
+    group  => '0',
+    mode   => '0755',
+  }
+
   php5::config { '/etc/php5/cli/php.ini':
     memory_limit   => '8G',
     display_errors => true,
