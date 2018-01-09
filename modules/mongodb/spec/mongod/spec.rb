@@ -37,7 +37,7 @@ describe 'mongodb::mongod' do
   end
 
   describe command('journalctl -u mongod_server --no-pager') do
-    its(:stdout) { should match /\[initandlisten\] db version v3\.2/ }
-    its(:stdout) { should match /\[initandlisten\] waiting for connections on port 28017/ }
+    its(:stdout) { should match /\[initandlisten\] db version v3\.4/ }
+    its(:stdout) { should match /\] waiting for connections on port 28017/ }
   end
 end

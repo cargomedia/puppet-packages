@@ -22,6 +22,11 @@ class mongodb (
       $apt_key = 'EA312927'
     }
 
+    '3.4': {
+      $apt_repo = 'deb http://repo.mongodb.org/apt/debian jessie/mongodb-org/3.4 main'
+      $apt_key = 'BC711F9BA15703C6'
+    }
+
     default: {
       fail ("Unsupported mongodb version ${version}!")
     }
