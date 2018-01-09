@@ -1,4 +1,4 @@
 <%= 'cluster.name: ' + @cluster_name if @cluster_name %>
 <%= 'network.publish_host: ' + @publish_host if @publish_host %>
 network.bind_host: 0.0.0.0
-node.local: true
+transport.type: local

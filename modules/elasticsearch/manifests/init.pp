@@ -1,6 +1,6 @@
 class elasticsearch (
   $publish_host = undef,
-  $heap_size = '1g',
+  $heap_size    = '1g',
   $cluster_name = undef
 ) {
 
@@ -27,6 +27,15 @@ class elasticsearch (
     notify  => Service['elasticsearch'],
   }
 
+  file { "${config_dir}/jvm.options":
+    ensure  => file,
+    content => template("${module_name}/jvm.options.erb"),
+    owner   => '0',
+    group   => '0',
+    mode    => '0644',
+    notify  => Service['elasticsearch'],
+  }
+
   file { '/etc/default/elasticsearch':
     ensure  => file,
     content => template("${module_name}/default"),
@@ -37,23 +46,23 @@ class elasticsearch (
   }
 
   daemon { 'elasticsearch':
-    binary  => '/usr/share/elasticsearch/bin/elasticsearch',
-    args => "-Des.default.path.home=/usr/share/elasticsearch -Des.default.path.logs=/var/log/elasticsearch -Des.default.path.data=/var/lib/elasticsearch -Des.default.path.work=/tmp/elasticsearch -Des.default.path.conf=${config_dir}",
-    user => 'elasticsearch',
-    env     => {
-      'ES_HEAP_SIZE' => $heap_size,
-      'ES_USER' => 'elasticsearch',
-      'ES_GROUP' => 'elasticsearch',
+    binary       => '/usr/share/elasticsearch/bin/elasticsearch',
+    args         => "-Edefault.path.logs=/var/log/elasticsearch -Edefault.path.data=/var/lib/elasticsearch -Edefault.path.conf=${config_dir}",
+    user         => 'elasticsearch',
+    env          => {
+      'ES_USER'       => 'elasticsearch',
+      'ES_GROUP'      => 'elasticsearch',
       'MAX_MAP_COUNT' => '262144',
     },
-    require => File[$config_file],
+    require      => File[$config_file],
+    limit_nofile => 100000,
   }
 
   @bipbip::entry { 'elasticsearch':
     plugin  => 'elasticsearch',
     options => {
       'hostname' => 'localhost',
-      'port' => '9200',
+      'port'     => '9200',
     },
   }
 }
