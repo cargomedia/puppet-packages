@@ -1,4 +1,9 @@
-puppet-packages [![Build Status](http://ci.cargomedia.ch:8080/buildStatus/icon?job=cargomedia-puppet-packages)](http://ci.cargomedia.ch:8080/job/cargomedia-puppet-packages/)
+UNMAINTAINED
+============
+This project is not maintained anymore.
+If you want to take over contact us at tech@cargomedia.ch.
+
+puppet-packages
 ===============
 Reusable puppet modules for Debian Wheezy.
 
